@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/argparse/v2/argparse"
-	"github.com/sam-caldwell/argparse/v2/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
 	"log"
 )
 
