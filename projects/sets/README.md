@@ -5,5 +5,5 @@ Sets
 For those mad because golang doesn't have sets, here ya go!
 
 ## Projects
-* [Ordered Set](./orderedset/README.md)
-* [Simple Set](./simpleset/README.md)
+* [Ordered Set](ordered/README.md)
+* [Simple Set](simple/README.md)

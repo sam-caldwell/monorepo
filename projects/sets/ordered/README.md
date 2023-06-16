@@ -6,12 +6,6 @@ orderedSet
 A simple golang ordered set because who wants to reinvent wheels all the time
 when you really just want to solve problems?
 
-## Supported Versions
-
-- 1.18
-- 1.19
-- 1.20
-
 ## Methods
 
 ### `.Add(item any) error`
