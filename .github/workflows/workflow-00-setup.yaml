@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   config:
-    name: configure the pipeline
+    name: configure-pipeline
     runs-on: ubuntu-latest
     env:
       LINT_ENABLED: true   # Set this to 'true' to enable linting
@@ -18,9 +18,42 @@ jobs:
       lint-enabled: ${{ env.LINT_ENABLED }} # pass to the next step
       test-enabled: ${{ env.TEST_ENABLED }} # pass to the next step
       build-enabled: ${{ env.BUILD_ENABLED }} # pass to the next step
-      done: ${{ steps.done.outputs.success }}
     steps:
       - name: done
         id: done
         run: |
-          echo "done"
+          echo ${{ env.LINT_ENABLED }} >> GIT_ENV
+          echo ${{ env.LINT_ENABLED }} >> GIT_ENV
+          echo ${{ env.LINT_ENABLED }} >> GIT_ENV
+  lint:
+    name: Run the Linter
+    needs:
+      - config
+    if: ${{ jobs.config.env.LINT_ENABLED }} == "true"
+    runs-on: ubuntu-latest
+    outputs:
+      lint-successful: ${{ steps.lint-successful.outputs.success }}
+    env:
+      LINT_ENABLED: ${{ needs.config.outputs.lint-enabled }}   # Set this to 'true' to enable linting
+      TEST_ENABLED: ${{ needs.config.outputs.test-enabled }}   # Set this to 'true' to enable testing
+      BUILD_ENABLED: ${{ needs.config.outputs.build-enabled }}  # Set this to 'true' to enable building
+    strategy:
+      fail-fast: true
+      matrix:
+        go-version:
+          - '1.20'
+          - '1.19'
+          - '1.18'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run linter ${{ matrix.go-version }}
+        id: lint-successful
+        run: |
+            make lint
