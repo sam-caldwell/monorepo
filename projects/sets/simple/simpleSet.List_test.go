@@ -1,7 +1,6 @@
-package simpleset
+package simple
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -9,9 +8,8 @@ func TestSet_List(t *testing.T) {
 	var set Set
 
 	for i := 1; i <= 10; i++ {
-		t.Log(i)
 		if err := set.Add(i); err != nil {
-			t.Fatal(fmt.Sprintf("error %d", i))
+			t.Fatalf("error %d", i)
 		}
 	}
 	if set.Count() < 10 {

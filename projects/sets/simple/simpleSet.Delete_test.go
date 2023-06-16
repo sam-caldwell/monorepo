@@ -1,4 +1,4 @@
-package simpleset
+package simple
 
 import (
 	"fmt"

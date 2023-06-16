@@ -1,1 +1,1 @@
-package simpleset
+package simple

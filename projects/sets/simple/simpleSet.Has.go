@@ -1,4 +1,4 @@
-package simpleset
+package simple
 
 // Has - return true if row exists
 func (set *Set) Has(item any) bool {

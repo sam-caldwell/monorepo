@@ -1,4 +1,4 @@
-package simpleset
+package simple
 
 // List - return a list of items
 func (set *Set) List() (result []any) {
