@@ -18,6 +18,7 @@ jobs:
       lint-enabled: ${{ env.LINT_ENABLED }} # pass to the next step
       test-enabled: ${{ env.TEST_ENABLED }} # pass to the next step
       build-enabled: ${{ env.BUILD_ENABLED }} # pass to the next step
+      done: ${{ steps.done.outputs.success }}
     steps:
       - name: done
         id: done
