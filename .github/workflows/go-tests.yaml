@@ -1,0 +1,64 @@
+---
+name: Go Tests
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Run the Linter
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version:
+          - '1.18'
+          - '1.19'
+          - '1.20'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests ${{ matrix.go-version }}
+        run: make lint
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version:
+          - '1.18'
+          - '1.19'
+          - '1.20'
+        go-arch: [ 'amd64', 'arm64' ]
+        go-opsys: [ 'linux', 'windows','darwin' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests ${{ matrix.go-version }}
+        run: make test/simple
+
+      - name: Run tests ${{ matrix.go-version }}
+        run: |
+          rm -rf build &> /dev/null || true
+          mkdir -p build &> /dev/null || true
+          GOOS=${{ matrix.go-opsys }} GOARCH=${{ matrix.go-arch }} go build -o build/$(uuidgen)main example/main.go
