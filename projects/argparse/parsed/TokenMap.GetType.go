@@ -2,7 +2,7 @@ package parsed
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/argparse/v2/argparse/types"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
 )
 
 // GetType - Lookup and return the token's type

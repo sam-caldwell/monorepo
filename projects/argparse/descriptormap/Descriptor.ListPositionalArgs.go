@@ -2,7 +2,6 @@ package descriptormap
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/utilities/v2"
 	"sort"
 )
 
@@ -16,5 +15,5 @@ func (m *Map) ListPositionalArgs(format string) (result []any) {
 		}
 	}
 	sort.Strings(list)
-	return utilities.StringListToAnyList(&list)
+	return misc.StringListToAnyList(&list)
 }

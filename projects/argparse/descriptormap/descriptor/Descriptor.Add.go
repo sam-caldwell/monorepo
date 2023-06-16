@@ -2,7 +2,6 @@ package descriptor
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/argparse/v2/argparse/types"
 	"github.com/sam-caldwell/counters/v2"
 )
 

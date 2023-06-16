@@ -1,7 +1,7 @@
 package parsed
 
 import (
-	"github.com/sam-caldwell/argparse/v2/argparse/parsed/token"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/parsed/token"
 )
 
 // Lookup - return object if found or nil of not found

@@ -1,6 +1,8 @@
 package main
 
-import ansi "github.com/sam-caldwell/ansi/v2"
+import (
+	ansi "github.com/sam-caldwell/go/v2/projects/ansi"
+)
 
 func main() {
 	//ansi.Clear()

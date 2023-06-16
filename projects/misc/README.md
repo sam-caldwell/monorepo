@@ -3,7 +3,7 @@ Simple Utilities in Go
 
 ## Description
 
-Just a general collection of utilities.
+Just a general collection of misc.
 
 ## Status
 

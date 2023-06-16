@@ -1,6 +1,6 @@
 package descriptor
 
-import "github.com/sam-caldwell/argparse/v2/argparse/types"
+import "github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
 
 // GetType - Return current type
 func (arg *Descriptor) GetType() types.ArgTypes {

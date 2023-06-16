@@ -2,7 +2,8 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/argparse/v2/argparse/types"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go/v2/projects/misc"
 	"sort"
 	"strings"
 )
@@ -18,7 +19,7 @@ func (arg *Arguments) Help() (text string) {
 
 	//post text to our lines buffer
 	post := func(indentSz int, line string) {
-		lines = append(lines, utilities.LeftPad(space, line, len(line)+indentSz))
+		lines = append(lines, misc.LeftPad(space, line, len(line)+indentSz))
 	}
 	newLine := func() {
 		post(0, empty)
@@ -135,15 +136,15 @@ func (arg *Arguments) Help() (text string) {
 			if thisNotEmpty != "" {
 				return showThis
 			}
-			return utilities.RepeatChars(string(space), len(showThis))
+			return misc.RepeatChars(string(space), len(showThis))
 		}
 		post(4, fmt.Sprintf("%s %s %s %s %s - %s",
-			utilities.RightPad(space, row.short, columnSizes.short),
-			utilities.RightPad(space, showIfNotEmpty(row.typ, row.short), columnSizes.typ),
-			utilities.RightPad(space, row.long, columnSizes.long),
-			utilities.RightPad(space, showIfNotEmpty(row.typ, row.long), columnSizes.typ),
-			utilities.RightPad(space, row.dValue, columnSizes.dValue),
-			utilities.RightPad(space, row.help, columnSizes.help)))
+			misc.RightPad(space, row.short, columnSizes.short),
+			misc.RightPad(space, showIfNotEmpty(row.typ, row.short), columnSizes.typ),
+			misc.RightPad(space, row.long, columnSizes.long),
+			misc.RightPad(space, showIfNotEmpty(row.typ, row.long), columnSizes.typ),
+			misc.RightPad(space, row.dValue, columnSizes.dValue),
+			misc.RightPad(space, row.help, columnSizes.help)))
 	}
 	newLine()
 

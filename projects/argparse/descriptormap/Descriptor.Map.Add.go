@@ -1,10 +1,9 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/argparse/v2/argparse/descriptormap/descriptor"
-	"github.com/sam-caldwell/argparse/v2/argparse/types"
-	"github.com/sam-caldwell/argparse/v2/argparse/valid"
-	"github.com/sam-caldwell/counters/v2"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/valid"
 	"strings"
 )
 

@@ -1,6 +1,6 @@
 package token
 
-import "github.com/sam-caldwell/argparse/v2/argparse/types"
+import "github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
 
 // SetType  - Set the types.ArgTypes for the current Token
 func (arg *Token) SetType(t types.ArgTypes) (err error) {

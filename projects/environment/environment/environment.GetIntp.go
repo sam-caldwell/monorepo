@@ -2,7 +2,6 @@ package environment
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/utilities/v2"
 	"os"
 	"strconv"
 )
@@ -14,5 +13,5 @@ func GetIntp(name *string) (result int, err error) {
 	if err != nil {
 		err = fmt.Errorf(errReadingValue, err)
 	}
-	return utilities.Int64ToIntSafe(value)
+	return misc.Int64ToIntSafe(value)
 }

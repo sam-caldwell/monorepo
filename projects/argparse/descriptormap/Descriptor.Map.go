@@ -1,6 +1,6 @@
 package descriptormap
 
-import "github.com/sam-caldwell/argparse/v2/argparse/descriptormap/descriptor"
+import "github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap/descriptor"
 
 // Map - map of descriptors (name:descriptor)
 type Map struct {

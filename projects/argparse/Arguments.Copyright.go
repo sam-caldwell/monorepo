@@ -2,7 +2,7 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/argparse/v2/argparse/valid"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/valid"
 	"strings"
 )
 

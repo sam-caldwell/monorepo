@@ -1,7 +1,7 @@
 package argparse
 
 import (
-	"github.com/sam-caldwell/argparse/v2/argparse/types"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
 )
 
 // Add - append the given Argument object to the list of Arguments.

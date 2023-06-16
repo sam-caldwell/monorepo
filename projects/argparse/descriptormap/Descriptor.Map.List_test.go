@@ -1,7 +1,7 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/argparse/v2/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap/descriptor"
 	"testing"
 )
 

@@ -2,7 +2,6 @@ package environment
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/utilities/v2"
 	"os"
 	"strconv"
 	"strings"
@@ -18,5 +17,5 @@ func RequireIntp(name *string) (r int, e error) {
 	if e != nil {
 		return 0, e
 	}
-	return utilities.Int64ToIntSafe(i)
+	return misc.Int64ToIntSafe(i)
 }

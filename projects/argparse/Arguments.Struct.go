@@ -1,9 +1,8 @@
 package argparse
 
 import (
-	"github.com/sam-caldwell/argparse/v2/argparse/descriptormap"
-	"github.com/sam-caldwell/argparse/v2/argparse/parsed"
-	"github.com/sam-caldwell/counters/v2"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap"
+	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/parsed"
 	ordered "github.com/sam-caldwell/orderedset/v2"
 )
 
