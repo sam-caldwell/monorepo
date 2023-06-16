@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/v2/ansi"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/ansi"
 	"os"
 	"strings"
 )

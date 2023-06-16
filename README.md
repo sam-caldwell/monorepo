@@ -9,7 +9,7 @@ or work project.
 
 ## Status
 
-[![Go](https://github.com/sam-caldwell/go/actions/workflows/go.yml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/go.yml)
+[![Go](https://github.com/sam-caldwell/go-monorepo/actions/workflows/go.yml/badge.svg)](https://github.com/sam-caldwell/go-monorepo/actions/workflows/go.yml)
 
 ## Structure
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/net/subnetting/CalculateSubnets"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/net/subnetting/CalculateSubnets"
 	"os"
 	"strconv"
 )
