@@ -1,4 +1,4 @@
-package orderedset
+package ordered
 
 func (set *Set) Pop() any {
 	//popping item from set

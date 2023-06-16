@@ -1,11 +1,11 @@
-package orderedset
+package ordered
 
 import (
 	"fmt"
 	"testing"
 )
 
-func TestOrderedSet_Delete(t *testing.T) {
+func TestOrderedSet_Pop(t *testing.T) {
 	// Create a new set
 	set := Set{}
 
@@ -16,14 +16,13 @@ func TestOrderedSet_Delete(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
+
 	if set.Count() != numberRows {
 		t.Errorf("Expected count %d, got: %d", numberRows, set.Count())
 	}
 
 	// Delete an existing item
-	if err := set.Delete(0); err != nil {
-		t.Errorf("Expected no error, got: %v", err)
-	}
+	_ = set.Pop()
 
 	// Verify that the set remains unchanged
 	if set.Count() != (numberRows - 1) {

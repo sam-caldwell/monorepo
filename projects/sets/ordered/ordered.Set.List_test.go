@@ -1,7 +1,6 @@
-package orderedset
+package ordered
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -10,7 +9,10 @@ func TestOrderedSet_List(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		if err := set.Add(i); err != nil {
-			t.Fatal(fmt.Sprintf("error %d", i))
+			t.Fatalf("error %d", i)
+		}
+		if set.Count() != i+1 {
+			t.Fatalf("Adding failed.  count does not track.")
 		}
 	}
 
@@ -21,7 +23,7 @@ func TestOrderedSet_List(t *testing.T) {
 	thisList := set.List()
 
 	if len(thisList) < 10 {
-		t.Fatal("Expected count is wrong (after list)")
+		t.Fatalf("Expected count is wrong (after list): (count:%d):%v", len(thisList), thisList)
 	}
 
 	for i := 0; i < 10; i++ {

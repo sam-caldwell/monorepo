@@ -1,4 +1,4 @@
-package orderedset
+package ordered
 
 import (
 	"reflect"
