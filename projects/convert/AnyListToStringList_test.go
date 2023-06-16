@@ -1,6 +1,8 @@
-package misc
+package convert
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestAnyListToStringList(t *testing.T) {
 	input := []any{

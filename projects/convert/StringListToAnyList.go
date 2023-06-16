@@ -1,4 +1,4 @@
-package misc
+package convert
 
 // StringListToAnyList - Convert a list of strings to an []any list
 func StringListToAnyList(list *[]string) []any {
