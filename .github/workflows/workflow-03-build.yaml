@@ -19,6 +19,12 @@ on:
       - main
 
 jobs:
+  noop:
+    name: noop
+    runs-on: ubuntu-latest
+    steps:
+      - name: useless-task
+        run: echo "good enough to be government work...or AT&T"
   test:
     name: Run Builder
     needs: lint.outputs.test-successful

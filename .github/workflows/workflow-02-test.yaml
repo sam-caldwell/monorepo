@@ -4,20 +4,30 @@ name: workflow-02-test
 on:
   workflow_run:
     workflows:
+      - foo
       - "workflow-00-setup"
       - "workflow-01-lint"
     types:
       - completed
   push:
     branches:
-      - main
+      - foo
+#      - main
     tags:
-      - v*
+      - foo
+#      - v*
   pull_request:
     branches:
-      - main
+      - foo
+#      - main
 
 jobs:
+  noop:
+    name: noop
+    runs-on: ubuntu-latest
+    steps:
+      - name: useless-task
+        run: echo "good enough to be government work...or AT&T"
   test:
     name: Run Tests
     needs: lint.outputs.lint-successful
