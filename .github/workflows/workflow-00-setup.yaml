@@ -29,7 +29,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ jobs.config.env.LINT_ENABLED }} == "true"
+#    if: ${{ jobs.config.env.LINT_ENABLED }} == "true"
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}
