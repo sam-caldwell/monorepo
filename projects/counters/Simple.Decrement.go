@@ -1,7 +1,7 @@
 package counters
 
 // Decrement - return the current value then decrement
-func (counter *SimpleCounter) Decrement() int {
+func (counter *Simple) Decrement() int {
 	defer func() {
 		counter.value--
 	}()

@@ -2,8 +2,8 @@ package counters
 
 import "testing"
 
-func TestConditionalCounter_Increment(t *testing.T) {
-	var count ConditionalCounter
+func TestConditional_Increment(t *testing.T) {
+	var count Conditional
 	if count.value != 0 {
 		t.Fail()
 	}

@@ -1,6 +1,6 @@
 package counters
 
-// SimpleCounter - Track the counter state
-type SimpleCounter struct {
+// Simple - Track the counter state
+type Simple struct {
 	value int
 }

@@ -1,6 +1,6 @@
 package counters
 
-// ConditionalCounter - tracks the conditional count.
-type ConditionalCounter struct {
+// Conditional - tracks the conditional count.
+type Conditional struct {
 	value uint
 }
