@@ -59,6 +59,8 @@ jobs:
 
       - name: Run tests ${{ matrix.go-version }}
         run: |
-          rm -rf build &> /dev/null || true
-          mkdir -p build &> /dev/null || true
-          GOOS=${{ matrix.go-opsys }} GOARCH=${{ matrix.go-arch }} go build -o build/$(uuidgen)main example/main.go
+          make test
+
+      - name: Build Projects ${{ matrix.go-version }}
+        run: |
+          make build
