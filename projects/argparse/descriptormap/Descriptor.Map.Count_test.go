@@ -2,7 +2,7 @@ package descriptormap
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/go/v2/projects/argparse/descriptormap/descriptor"
 	"testing"
 )
 

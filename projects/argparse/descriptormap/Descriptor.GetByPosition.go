@@ -1,7 +1,7 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/go/v2/projects/argparse/descriptormap/descriptor"
 )
 
 // GetByPosition - given a position, return the descriptor name and object

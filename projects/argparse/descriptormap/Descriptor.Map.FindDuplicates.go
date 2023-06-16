@@ -2,7 +2,7 @@ package descriptormap
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go-monorepo/v2/projects/sets/simple"
+	"github.com/sam-caldwell/go/v2/projects/sets/simple"
 )
 
 // FindDuplicates - find any duplicate arguments and throw and error

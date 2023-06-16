@@ -1,8 +1,8 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
-	"github.com/sam-caldwell/go-monorepo/v2/projects/counters"
+	"github.com/sam-caldwell/go/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go/v2/projects/counters"
 	"testing"
 )
 

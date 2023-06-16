@@ -1,5 +1,5 @@
-module github.com/sam-caldwell/go-monorepo/v2
+module github.com/sam-caldwell/go/v2
 
 go 1.18
 
-replace github.com/sam-caldwell/go-monorepo/v2 => ./
+replace github.com/sam-caldwell/go/v2 => ./
