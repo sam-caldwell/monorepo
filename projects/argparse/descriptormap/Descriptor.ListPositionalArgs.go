@@ -2,6 +2,7 @@ package descriptormap
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/convert"
 	"sort"
 )
 
@@ -15,5 +16,5 @@ func (m *Map) ListPositionalArgs(format string) (result []any) {
 		}
 	}
 	sort.Strings(list)
-	return misc.StringListToAnyList(&list)
+	return convert.StringListToAnyList(&list)
 }

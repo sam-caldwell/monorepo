@@ -1,13 +1,14 @@
 package descriptor
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/counters"
 	"testing"
 )
 
 func TestDescriptor_Add(t *testing.T) {
 
-	test := func(pos *counters.ConditionalCounter, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
+	test := func(pos *counters.Conditional, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
 		var argDesc Descriptor
 
 		if err := argDesc.Add(pos, short, long, typ, required, dValue, help); err != nil {
@@ -21,7 +22,7 @@ func TestDescriptor_Add(t *testing.T) {
 	}
 
 	//Expect no issue
-	var pos counters.ConditionalCounter
+	var pos counters.Conditional
 	test(&pos, "", "", types.Boolean, true, true, "test help0")
 	test(&pos, "", "", types.Boolean, true, true, "test help1")
 	test(&pos, "", "", types.Boolean, true, true, "test help2")

@@ -2,8 +2,8 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
-	"github.com/sam-caldwell/go/v2/projects/misc"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/misc"
 	"sort"
 	"strings"
 )
@@ -59,7 +59,6 @@ func (arg *Arguments) Help() (text string) {
 		short  string
 		long   string
 		typ    string
-		name   string
 		dValue string
 		help   string
 	}

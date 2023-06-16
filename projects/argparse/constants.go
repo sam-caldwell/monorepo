@@ -5,7 +5,7 @@ const (
 	exitArgParseError = 1
 
 	// Error messages
-	errParsingCliArgs = "error parsing command-line arguments at %s"
+	//errParsingCliArgs = "error parsing command-line arguments at %s"
 
 	errArgParseError = "Error parsing command-line arguments"
 

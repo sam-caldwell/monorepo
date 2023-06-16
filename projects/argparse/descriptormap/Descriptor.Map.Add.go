@@ -1,14 +1,15 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap/descriptor"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/valid"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/valid"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/counters"
 	"strings"
 )
 
 // Add - Add the new descriptor to the descriptor map
-func (m *Map) Add(pos *counters.ConditionalCounter, name, short, long string, typ types.ArgTypes,
+func (m *Map) Add(pos *counters.Conditional, name, short, long string, typ types.ArgTypes,
 	required bool, dValue any, help string) error {
 
 	// Make sure our map is initialized

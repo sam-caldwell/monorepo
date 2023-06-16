@@ -2,14 +2,14 @@ package descriptormap
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/simpleset/v2"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/sets/simple"
 )
 
 // FindDuplicates - find any duplicate arguments and throw and error
 func (m *Map) FindDuplicates() error {
-	var argSet simpleset.Set
-	var shortSet simpleset.Set
-	var longSet simpleset.Set
+	var argSet simple.Set
+	var shortSet simple.Set
+	var longSet simple.Set
 
 	for name, argument := range m.data {
 		if err := shortSet.Add(argument.GetShort()); err != nil {

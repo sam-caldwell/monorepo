@@ -2,7 +2,7 @@ package descriptor
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/valid"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/valid"
 	"strings"
 )
 

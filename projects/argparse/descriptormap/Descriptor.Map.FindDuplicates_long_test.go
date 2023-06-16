@@ -2,13 +2,14 @@ package descriptormap
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	counters "github.com/sam-caldwell/go-monorepo/v2/projects/counters"
 	"testing"
 )
 
 func TestMap_FindDuplicates_long(t *testing.T) {
 	var m Map
-	test := func(pos *counters.ConditionalCounter, name, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
+	test := func(pos *counters.Conditional, name, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
 		err := m.Add(pos, name, short, long, typ, required, dValue, help)
 		if err != nil {
 			t.Fatal(err)
@@ -77,7 +78,7 @@ func TestMap_FindDuplicates_long(t *testing.T) {
 		},
 	}
 
-	var pos counters.ConditionalCounter
+	var pos counters.Conditional
 	for name, level1 := range testList {
 		for short, level2 := range level1 {
 			for long, level3 := range level2 {

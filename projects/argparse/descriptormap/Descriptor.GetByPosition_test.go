@@ -1,15 +1,16 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/counters"
 	"testing"
 )
 
 func TestMap_GetByPosition(t *testing.T) {
 	var m Map
-	var pos counters.ConditionalCounter
+	var pos counters.Conditional
 
-	addRow := func(pos *counters.ConditionalCounter, name, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
+	addRow := func(pos *counters.Conditional, name, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
 		if err := m.Add(pos, name, short, long, typ, required, dValue, help); err != nil {
 			t.Fatalf("%v", err)
 		}

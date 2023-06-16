@@ -2,7 +2,7 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
 	"testing"
 )
 
@@ -17,8 +17,8 @@ func TestArguments_Count(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		for n, required := range []bool{true, false} {
 			name := fmt.Sprintf("name%d%d", i, n)
-			short := fmt.Sprintf("")
-			long := fmt.Sprintf("")
+			short := ""
+			long := ""
 			typ := types.Boolean
 			value := required
 			help := fmt.Sprintf("help string %d%d", i, n)

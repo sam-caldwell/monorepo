@@ -2,9 +2,9 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap/descriptor"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/valid"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/valid"
 	"log"
 	"os"
 	"strings"
@@ -93,7 +93,6 @@ func (arg *Arguments) Parse() *Arguments {
 
 		//Otherwise look up our expected argument by position.
 		thisName, thisDescriptor = arg.descriptors.GetByPosition(position)
-		log.Printf("GetByPosition(%d) %v %d", position, *thisName, thisDescriptor.GetPosition())
 		//But if the result (thisName) is nil, we weren't expecting an arg at this position.  bail.
 		if thisName == nil {
 			log.Printf("No argument found at position %d", position)

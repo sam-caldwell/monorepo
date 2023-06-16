@@ -1,6 +1,6 @@
 package descriptormap
 
-import "github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap/descriptor"
+import "github.com/sam-caldwell/go-monorepo/v2/projects/argparse/descriptormap/descriptor"
 
 // List - return the descriptor map
 func (m *Map) List() map[string]descriptor.Descriptor {

@@ -2,11 +2,12 @@ package descriptor
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/counters/v2"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/counters"
 )
 
 // Add - Sanitize and set the descriptor parameters.
-func (arg *Descriptor) Add(pos *counters.ConditionalCounter, short string, long string,
+func (arg *Descriptor) Add(pos *counters.Conditional, short string, long string,
 	argType types.ArgTypes, required bool, argDefault any, help string) (err error) {
 
 	const optionalArgumentIndicator = -1

@@ -1,9 +1,10 @@
 package argparse
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/descriptormap"
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/parsed"
-	ordered "github.com/sam-caldwell/orderedset/v2"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/descriptormap"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/parsed"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/counters"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/sets/ordered"
 )
 
 /*
@@ -12,7 +13,7 @@ import (
 
 // Arguments - Top-Level ArgParse struct
 type Arguments struct {
-	pos            counters.ConditionalCounter
+	pos            counters.Conditional
 	descriptors    descriptormap.Map
 	programName    string
 	preambleText   ordered.Set

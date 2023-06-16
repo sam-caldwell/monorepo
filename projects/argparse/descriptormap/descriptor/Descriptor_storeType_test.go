@@ -1,7 +1,7 @@
 package descriptor
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/argparse/argparse/types"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/argparse/types"
 	"testing"
 )
 
