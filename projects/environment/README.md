@@ -5,16 +5,6 @@ environment
 
 A reusable library of code for working with environment variables safely.
 
-## Status
-
-[![Go Tests](https://github.com/sam-caldwell/environment/actions/workflows/go-tests.yaml/badge.svg)](https://github.com/sam-caldwell/simpleSet/actions/workflows/go-tests.yaml)
-
-## Supported Versions
-
-- 1.18
-- 1.19
-- 1.20
-
 ## Usage
 
 > We create methods which will fetch a given environment variable

@@ -2,6 +2,7 @@ package environment
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/convert"
 	"os"
 	"strconv"
 )
@@ -11,7 +12,7 @@ func GetIntp(name *string) (result int, err error) {
 	var value int64
 	value, err = strconv.ParseInt(os.Getenv(*name), intBase, intVarSize)
 	if err != nil {
-		err = fmt.Errorf(errReadingValue, err)
+		return defaultIntValue, fmt.Errorf(errReadingValue, err)
 	}
-	return misc.Int64ToIntSafe(value)
+	return convert.Int64ToIntSafe(value)
 }

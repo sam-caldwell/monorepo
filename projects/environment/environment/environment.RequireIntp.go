@@ -2,6 +2,7 @@ package environment
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go-monorepo/v2/projects/convert"
 	"os"
 	"strconv"
 	"strings"
@@ -17,5 +18,5 @@ func RequireIntp(name *string) (r int, e error) {
 	if e != nil {
 		return 0, e
 	}
-	return misc.Int64ToIntSafe(i)
+	return convert.Int64ToIntSafe(i)
 }
