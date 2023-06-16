@@ -12,15 +12,9 @@ on:
     branches:
       - main
 jobs:
-  noop:
-    name: noop
-    runs-on: ubuntu-latest
-    steps:
-      - name: useless-task
-        run: echo "good enough to be government work...or AT&T"
   lint:
     name: Run the Linter
-    needs: lint.outputs.config-successful
+    needs: config.outputs.done
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}

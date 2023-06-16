@@ -19,7 +19,7 @@ jobs:
       test-enabled: ${{ env.TEST_ENABLED }} # pass to the next step
       build-enabled: ${{ env.BUILD_ENABLED }} # pass to the next step
     steps:
-      - name: config-successful
-        id: config-successful
+      - name: done
+        id: done
         run: |
           echo "done"
