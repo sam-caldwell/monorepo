@@ -48,8 +48,8 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go-version }}
+
       - name: Run linter ${{ matrix.go-version }}
         id: lint-successful
         run: |
-#             make lint
-            echo "disabled"
+            make lint
