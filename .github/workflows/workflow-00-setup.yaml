@@ -22,9 +22,7 @@ jobs:
       - name: done
         id: done
         run: |
-          echo ${{ env.LINT_ENABLED }} >> "$GITHUB_ENV"
-          echo ${{ env.LINT_ENABLED }} >> "$GITHUB_ENV"
-          echo ${{ env.LINT_ENABLED }} >> "$GITHUB_ENV"
+          echo "done"
   lint:
     name: Run the Linter
     needs:
