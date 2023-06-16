@@ -1,20 +1,8 @@
-Simple Utilities in Go
-======================
+Misc Utilities
+==============
 
 ## Description
 
-Just a general collection of misc.
-
-## Status
-
-[![Go Tests](https://github.com/sam-caldwell/utilities/actions/workflows/go-tests.yaml/badge.svg)](https://github.com/sam-caldwell/simpleSet/actions/workflows/go-tests.yaml)
-
-## Usage
-
-### Installation
-
-`go get "github.com/sam-caldwell/utilities/v2"`
-
-### Tests
-
-`make test`
+Just a general collection of misc. functions and tools.  If it can't be solved
+in one .go file, it shouldn't be here.  This is just simple stuff that doesn't
+justify its own project.
