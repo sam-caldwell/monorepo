@@ -1,0 +1,60 @@
+---
+name: workflow-02-test
+
+on:
+  workflow_run:
+    workflows:
+      - "workflow-00-setup"
+      - "workflow-01-lint"
+    types:
+      - completed
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    needs: lint.outputs.lint-successful
+    runs-on: ubuntu-latest
+    outputs:
+      lint-enabled: ${{ needs.lint.outputs.lint-enabled }} # pass to the next step
+      test-enabled: ${{ needs.lint.outputs.test-enabled }} # pass to the next step
+      build-enabled: ${{ needs.lint.outputs.build-enabled }} # pass to the next step
+      test-successful: ${{ steps.test-successful.outputs.success }}
+    env:
+      LINT_ENABLED: ${{ needs.lint.outputs.lint-enabled }}   # Set this to 'true' to enable linting
+      TEST_ENABLED: ${{ needs.lint.outputs.test-enabled }}   # Set this to 'true' to enable testing
+      BUILD_ENABLED: ${{ needs.lint.outputs.build-enabled }}  # Set this to 'true' to enable building
+    strategy:
+      fail-fast: true
+      matrix:
+        go-version:
+          - '1.20'
+          - '1.19'
+          - '1.18'
+        go-arch: [ 'amd64', 'arm64' ]
+        go-opsys: [ 'linux', 'darwin', 'windows' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests ${{ matrix.go-version }}
+        id: test-successful
+        run: |
+          if [ "${{ needs.lint.outputs.lint-enabled }}" = "true" ]; then
+            make test/simple
+          else
+            echo "Tests disabled"
+          fi

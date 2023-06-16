@@ -1,0 +1,26 @@
+---
+name: workflow-00-setup
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+jobs:
+  configure:
+    name: configure the pipeline
+    runs-on: ubuntu-latest
+    env:
+      LINT_ENABLED: true   # Set this to 'true' to enable linting
+      TEST_ENABLED: true   # Set this to 'true' to enable testing
+      BUILD_ENABLED: true  # Set this to 'true' to enable building
+    outputs:
+      lint-enabled: ${{ env.LINT_ENABLED }} # pass to the next step
+      test-enabled: ${{ env.TEST_ENABLED }} # pass to the next step
+      build-enabled: ${{ env.BUILD_ENABLED }} # pass to the next step
+      config-successful: ${{ steps.config-successful.outputs.success }}
+    steps:
+      - name: config-successful
+        id: config-successful
+        run: |
+          echo "done"
