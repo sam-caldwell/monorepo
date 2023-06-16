@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  configure:
+  config:
     name: configure the pipeline
     runs-on: ubuntu-latest
     env:

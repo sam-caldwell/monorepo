@@ -23,14 +23,11 @@ jobs:
     needs: lint.outputs.lint-successful
     runs-on: ubuntu-latest
     outputs:
-      lint-enabled: ${{ needs.lint.outputs.lint-enabled }} # pass to the next step
-      test-enabled: ${{ needs.lint.outputs.test-enabled }} # pass to the next step
-      build-enabled: ${{ needs.lint.outputs.build-enabled }} # pass to the next step
       test-successful: ${{ steps.test-successful.outputs.success }}
     env:
-      LINT_ENABLED: ${{ needs.lint.outputs.lint-enabled }}   # Set this to 'true' to enable linting
-      TEST_ENABLED: ${{ needs.lint.outputs.test-enabled }}   # Set this to 'true' to enable testing
-      BUILD_ENABLED: ${{ needs.lint.outputs.build-enabled }}  # Set this to 'true' to enable building
+      LINT_ENABLED: ${{ needs.config.outputs.lint-enabled }}   # Set this to 'true' to enable linting
+      TEST_ENABLED: ${{ needs.config.outputs.test-enabled }}   # Set this to 'true' to enable testing
+      BUILD_ENABLED: ${{ needs.config.outputs.build-enabled }}  # Set this to 'true' to enable building
     strategy:
       fail-fast: true
       matrix:
