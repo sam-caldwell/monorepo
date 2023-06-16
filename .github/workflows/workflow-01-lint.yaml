@@ -21,7 +21,6 @@ jobs:
 
   lint:
     name: Run the Linter
-    needs: lint.outputs.config-successful
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}

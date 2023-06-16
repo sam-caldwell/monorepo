@@ -18,7 +18,6 @@ jobs:
       lint-enabled: ${{ env.LINT_ENABLED }} # pass to the next step
       test-enabled: ${{ env.TEST_ENABLED }} # pass to the next step
       build-enabled: ${{ env.BUILD_ENABLED }} # pass to the next step
-      config-successful: ${{ steps.config-successful.outputs.success }}
     steps:
       - name: config-successful
         id: config-successful
