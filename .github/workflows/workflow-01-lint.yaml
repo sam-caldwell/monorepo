@@ -12,6 +12,11 @@ on:
     branches:
       - main
 jobs:
+  noop:
+    name: noop
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "A task so useless, it could be AT&T"
   lint:
     name: Run the Linter
     needs: config.outputs.done
