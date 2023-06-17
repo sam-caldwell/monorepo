@@ -22,7 +22,19 @@ jobs:
       - name: done
         id: done
         run: |
-          echo "done"
+          echo "LINT_ENABLED: ${{ env.LINT_ENABLED }}"
+          echo "TEST_ENABLED: ${{ env.TEST_ENABLED }}"
+          echo "BUILD_ENABLED: ${{ env.BUILD_ENABLED }}"
+  debug:
+    name: debug-step
+    runs-on: ubuntu-latest
+    steps:
+      - name: show config
+        run: |
+          echo "LINT_ENABLED: ${{ needs.config.lint-enabled }}"
+          echo "TEST_ENABLED: ${{ needs.config.test-enabled }}"
+          echo "BUILD_ENABLED: ${{ needs.config.build-enabled }}"
+
   lint:
     name: Run the Linter
     needs:
