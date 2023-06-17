@@ -41,12 +41,16 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: success() && ${{ needs.config.outputs.lint-enabled }} == "true"
+    if: success() && [ "${{ needs.config.outputs.lint-enabled }}"  == "true" ]
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}
     strategy:
       fail-fast: true
+      max-parallel: 1
       matrix:
         go-version:
           - '1.20'
@@ -64,7 +68,7 @@ jobs:
         id: lint-successful
         if: success()
         run: |
-          if [ ${{ needs.config.outputs.lint-enabled }} == "true" ]; then
+          if [ "${{ needs.config.outputs.lint-enabled }}" == "true" ]; then
             make lint
           else
             echo "linting disabled"
@@ -76,6 +80,9 @@ jobs:
 #      - config
 #      - lint
 #    if: ${{ needs.config.outputs.test-enabled }} == "true"
+#    concurrency:
+#      cancel-in-progress: true
+#      group: ${{ github.workflow }}
 #    runs-on: ubuntu-latest
 #    outputs:
 #      test-successful: ${{ steps.test-successful.outputs.success }}
