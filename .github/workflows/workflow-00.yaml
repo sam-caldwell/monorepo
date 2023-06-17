@@ -10,14 +10,17 @@ jobs:
   config:
     name: configure-pipeline
     runs-on: ubuntu-latest
-    env:
-      LINT_ENABLED: false   # Set this to 'true' to enable linting
-      TEST_ENABLED: false   # Set this to 'true' to enable testing
-      BUILD_ENABLED: false  # Set this to 'true' to enable building
+#    env:
+#      LINT_ENABLED: false   # Set this to 'true' to enable linting
+#      TEST_ENABLED: false   # Set this to 'true' to enable testing
+#      BUILD_ENABLED: false  # Set this to 'true' to enable building
     outputs:
-      lint-enabled: ${{ env.LINT_ENABLED }}
-      test-enabled: ${{ env.TEST_ENABLED }}
-      build-enabled: ${{ env.BUILD_ENABLED }}
+      lint-enabled: false
+      test-enabled: false
+      build-enabled: false
+#      lint-enabled: ${{ env.LINT_ENABLED }}
+#      test-enabled: ${{ env.TEST_ENABLED }}
+#      build-enabled: ${{ env.BUILD_ENABLED }}
     steps:
       - name: done
         id: done
