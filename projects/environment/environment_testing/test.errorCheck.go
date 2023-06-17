@@ -1,4 +1,4 @@
-package environment
+package environment_testing
 
 import "testing"
 
