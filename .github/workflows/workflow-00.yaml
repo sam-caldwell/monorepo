@@ -91,33 +91,38 @@ jobs:
       - name: Run tests ${{ matrix.go-version }}
         run: |
           make test/simple
-#  build:
-#    name: Run Builder
-#    needs:
-#      - config
-#      - lint
-#      - test
-#    if: ${{ needs.config.outputs.build-enabled }} == "true"
-#    runs-on: ubuntu-latest
-#    outputs:
-#      build-successful: ${{ steps.build-successful.outputs.success }}
-#    strategy:
-#      fail-fast: true
-#      matrix:
-#        go-version:
-#          - '1.20'
-#        go-arch: [ 'amd64' ]
-#        go-opsys: [ 'linux' ]
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Set up Go
-#        uses: actions/setup-go@v3
-#        with:
-#          go-version: ${{ matrix.go-version }}
-#
-#      - name: Run artifact build ${{ matrix.go-version }}
-#        run: |
-#          make build
+
+  build:
+    name: Run Builder
+    needs:
+      - config
+      - lint
+      - test
+    if: ${{ needs.config.outputs.build-enabled == true }}
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+    outputs:
+      build-successful: ${{ steps.build-successful.outputs.success }}
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        go-version:
+          - '1.20'
+        go-arch: [ 'amd64' ]
+        go-opsys: [ 'linux' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run artifact build ${{ matrix.go-version }}
+        run: |
+          make build
