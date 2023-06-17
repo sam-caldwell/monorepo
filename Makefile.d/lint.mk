@@ -1,14 +1,7 @@
-lint/setup:
-	@go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
-	@go install honnef.co/go/tools/cmd/staticcheck@latest
+# ToDo: Lint Makefile
+# ToDo: Lint Markdown files
+# ToDo: Lint Yaml files
 
-lint/vet:
-	@go vet ./...
-
-lint/staticcheck:
-	@staticcheck ./...
-
-lint: lint/setup \
-      lint/vet \
-      lint/staticcheck
+lint: lint/go \
+      lint/yaml
 	@echo "$@ done"
