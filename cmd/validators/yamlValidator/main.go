@@ -61,5 +61,5 @@ func main() {
 		}
 		return nil
 	})
-	exit.OnCondition(err != nil, exit.GeneralError, err.Error(), "")
+	exit.OnError(err, exit.GeneralError, "")
 }
