@@ -25,7 +25,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ needs.config.outputs.test-enabled == true }}
+    if: ${{ needs.config.outputs.lint-enabled == true }}
     concurrency:
       cancel-in-progress: true
       group: ${{ github.workflow }}
@@ -58,38 +58,39 @@ jobs:
             echo "linting disabled"
           fi
 
-#  test:
-#    name: Run Tests
-#    needs:
-#      - config
-#      - lint
-#    if: ${{ success() }} && ${{ needs.config.outputs.test-enabled }} == "true"
-#    concurrency:
-#      cancel-in-progress: true
-#      group: ${{ github.workflow }}
-#    runs-on: ubuntu-latest
-#    outputs:
-#      test-successful: ${{ steps.test-successful.outputs.success }}
-#    strategy:
-#      fail-fast: true
-#      matrix:
-#        go-version:
-#          - '1.20'
-#          - '1.19'
-#        go-arch: [ 'amd64', 'arm64' ]
-#        go-opsys: [ 'linux', 'darwin', 'windows' ]
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Set up Go
-#        uses: actions/setup-go@v3
-#        with:
-#          go-version: ${{ matrix.go-version }}
-#
-#      - name: Run tests ${{ matrix.go-version }}
-#        run: |
-#          make test/simple
+  test:
+    name: Run Tests
+    needs:
+      - config
+      - lint
+    if: ${{ needs.config.outputs.test-enabled == true }}
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+    outputs:
+      test-successful: ${{ steps.test-successful.outputs.success }}
+    strategy:
+      fail-fast: true
+      max-parallel: 3
+      matrix:
+        go-version:
+          - '1.20'
+          - '1.19'
+        go-arch: [ 'amd64', 'arm64' ]
+        go-opsys: [ 'linux', 'darwin', 'windows' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests ${{ matrix.go-version }}
+        run: |
+          make test/simple
 #  build:
 #    name: Run Builder
 #    needs:
