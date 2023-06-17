@@ -41,7 +41,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ needs.config.outputs.test-enabled }} == "true"
+    if: ${{ success() }} && ${{ needs.config.outputs.test-enabled }} == "true"
     concurrency:
       cancel-in-progress: true
       group: ${{ github.workflow }}
@@ -79,7 +79,7 @@ jobs:
 #    needs:
 #      - config
 #      - lint
-#    if: ${{ needs.config.outputs.test-enabled }} == "true"
+#    if: ${{ success() }} && ${{ needs.config.outputs.test-enabled }} == "true"
 #    concurrency:
 #      cancel-in-progress: true
 #      group: ${{ github.workflow }}
