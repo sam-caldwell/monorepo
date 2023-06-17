@@ -2,8 +2,8 @@ package environment_testing
 
 import "testing"
 
-// errorCheck compare two errors
-func errorCheck(t *testing.T, name *string, actualError, expectedError error) {
+// checkError compare two errors
+func checkError(t *testing.T, name *string, actualError, expectedError error) {
 	fatalError := func() {
 		t.Fatalf("Error mismatch on %s\n"+
 			"  actual:%v\n"+

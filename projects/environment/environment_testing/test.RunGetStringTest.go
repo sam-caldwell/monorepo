@@ -6,8 +6,8 @@ import "testing"
 func RunGetStringTest(t *testing.T, name string, f TestStringFunc, value string, err error, expectedValue string) {
 	Setup(t, name, value)
 	if actualValue, actualError := f(name); actualError != nil {
-		errorCheck(t, &name, actualError, err)
+		checkError(t, &name, actualError, err)
 	} else if actualValue != expectedValue {
-		valueCheck(t, &name, actualValue, expectedValue)
+		checkValue(t, &name, actualValue, expectedValue)
 	}
 }
