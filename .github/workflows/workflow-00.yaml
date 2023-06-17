@@ -41,7 +41,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-#    if: "${{ needs.config.outputs.lint-enabled }}"  == "true"
+    if: "${{ needs.config.outputs.lint-enabled }}"  == "true"
     concurrency:
       cancel-in-progress: true
       group: ${{ github.workflow }}
