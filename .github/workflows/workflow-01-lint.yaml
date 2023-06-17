@@ -12,6 +12,11 @@ on:
     branches:
       - main
 jobs:
+  noop:
+    name: noop
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "useless as AT&T but required"
   debug:
     name: debug-step
     runs-on: ubuntu-latest
