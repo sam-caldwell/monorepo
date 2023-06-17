@@ -52,18 +52,14 @@ jobs:
         id: lint-successful
         if: success()
         run: |
-          if [ "${{ needs.config.outputs.lint-enabled }}" == "true" ]; then
-            make lint
-          else
-            echo "linting disabled"
-          fi
+          make lint
 
   test:
     name: Run Tests
     needs:
       - config
       - lint
-    if: ${{ needs.config.outputs.test-enabled == true }}
+    if: needs.config.outputs.test-enabled == 'true'
     concurrency:
       cancel-in-progress: true
       group: ${{ github.workflow }}
@@ -98,7 +94,7 @@ jobs:
       - config
       - lint
       - test
-    if: ${{ needs.config.outputs.build-enabled == true }}
+    if: needs.config.outputs.build-enabled == 'true'
     concurrency:
       cancel-in-progress: true
       group: ${{ github.workflow }}
