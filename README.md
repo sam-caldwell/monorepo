@@ -35,3 +35,15 @@ or work project.
 
 * [Networking Stuff](./projects/net/README.md)
     * [Subnetting Tools](./projects/net/subnetting/README.md)
+
+## Other Documentation and Stuff
+
+### Build, Test, etc...
+
+* [Build Automation](docs/builds/README.md)
+* [Test Automation](docs/tests/README.md)
+
+### Makefile Tooling
+
+* [Makefiles](Makefile.d)
+* [Determine Operating System Using Make](Makefile.d/check-os.mk)
