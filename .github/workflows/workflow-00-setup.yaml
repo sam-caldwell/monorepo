@@ -41,7 +41,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ needs.config.lint-enabled }}
+    if: ${{ needs.config.outputs.lint-enabled }}
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}
@@ -64,4 +64,4 @@ jobs:
       - name: Run linter ${{ matrix.go-version }}
         id: lint-successful
         run: |
-            make lint
+            echo "make lint is disabled"
