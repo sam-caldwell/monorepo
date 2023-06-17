@@ -15,9 +15,9 @@ jobs:
       TEST_ENABLED: false   # Set this to 'true' to enable testing
       BUILD_ENABLED: true  # Set this to 'true' to enable building
     outputs:
-      lint-enabled: ${{ env.LINT_ENABLED }} # pass to the next step
-      test-enabled: ${{ env.TEST_ENABLED }} # pass to the next step
-      build-enabled: ${{ env.BUILD_ENABLED }} # pass to the next step
+      lint-enabled: ${{ env.LINT_ENABLED }}
+      test-enabled: ${{ env.TEST_ENABLED }}
+      build-enabled: ${{ env.BUILD_ENABLED }}
     steps:
       - name: done
         id: done
@@ -41,7 +41,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ needs.config.outputs.lint-enabled }}
+    if: ${{ needs.config.outputs.lint-enabled }} == "true"
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}
@@ -63,14 +63,14 @@ jobs:
       - name: Run linter ${{ matrix.go-version }}
         id: lint-successful
         run: |
-            make lint
+          make lint
 
   test:
     name: Run Tests
     needs:
       - config
       - lint
-    if: ${{ needs.config.outputs.test-enabled }}
+    if: ${{ needs.config.outputs.test-enabled }} == "true"
     runs-on: ubuntu-latest
     outputs:
       test-successful: ${{ steps.test-successful.outputs.success }}
@@ -92,10 +92,35 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Run tests ${{ matrix.go-version }}
-        id: test-successful
         run: |
-          if [ "${{ needs.lint.outputs.lint-enabled }}" = "true" ]; then
-            make test/simple
-          else
-            echo "Tests disabled"
-          fi
+          make test/simple
+  build:
+    name: Run Builder
+    needs:
+      - config
+      - lint
+      - test
+    if: ${{ needs.config.outputs.build-enabled }} == "true"
+    runs-on: ubuntu-latest
+    outputs:
+      build-successful: ${{ steps.build-successful.outputs.success }}
+    strategy:
+      fail-fast: true
+      matrix:
+        go-version:
+          - '1.20'
+        go-arch: [ 'amd64' ]
+        go-opsys: [ 'linux' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run artifact build ${{ matrix.go-version }}
+        run: |
+          make build
