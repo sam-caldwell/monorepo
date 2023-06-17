@@ -1,18 +1,30 @@
-PROJECTS := $(shell find cmd -mindepth 1 -maxdepth 1 -type d)
-GOOS_LIST := windows linux darwin
-GOARCH_LIST := amd64 arm64
-
-build: $(patsubst cmd/%,build/%,$(PROJECTS))
-
-.PHONY: build/$(PROJECTS)
-
-build/%:
-	@echo "Building $(subst cmd/,,$@)"
-	@$(foreach GOOS,$(GOOS_LIST),\
-		$(foreach GOARCH,$(GOARCH_LIST),\
-			$(foreach COMMAND,$(shell find ./cmd/$(subst build/,,$@) -type d -mindepth 1 -maxdepth 1),\
-				echo "Building $(GOOS)/$(GOARCH)/$(shell basename ${COMMAND})$(if $(findstring windows,$(GOOS)),.exe,)"; \
-				GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ./build/$(GOOS)/$(GOARCH)/$(shell basename ${COMMAND})$(if $(findstring windows,$(GOOS)),.exe,) ./$(COMMAND)/main.go; \
-			) \
-		) \
+#
+# For build automation docs, see docs/builds/README.md
+#
+.PHONY: build
+build:
+	@echo "Building projects..."
+	@(\
+		for TARGET in $(BUILD_PROJECTS); do \
+		    echo "  - Process TARGET: $${TARGET}"; \
+			export PROGRAM="$$( basename $${TARGET})"; \
+			echo "  - Process PROGRAM: $${PROGRAM}"; \
+			export PROJECT="$$(basename $$( dirname $${TARGET} ))";\
+			echo "  - Process PROJECT: $${PROJECT}"; \
+			SOURCE="$${TARGET}/main.go"; \
+			echo "  - Process SOURCE: $${SOURCE}"; \
+			for GOOS in $(GOOS_LIST); do \
+				for GOARCH in $(GOARCH_LIST); do \
+					if [ "$${GOOS}_" == "windows_" ]; then \
+					  export EXTENSION=".exe";\
+					else \
+					  export EXTENSION=""; \
+					fi;\
+				    export BINARY_ARTIFACT="$(BUILD_DIR)/$${GOOS}/$${GOARCH}/$${PROGRAM}$${EXTENSION}";\
+					echo "  BUILD: $${BINARY_ARTIFACT} (source: $${SOURCE})"; \
+					mkdir -p "$(BUILD_DIR)/$${GOOS}/$${GOARCH}"; \
+					go build -o $${BINARY_ARTIFACT} "$${SOURCE}"; \
+				done; \
+			done; \
+		done; \
 	)
