@@ -1,0 +1,1 @@
+GOARCH_LIST := amd64 arm64

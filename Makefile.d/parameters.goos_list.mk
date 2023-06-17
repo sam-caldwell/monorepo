@@ -1,0 +1,1 @@
+GOOS_LIST := windows linux darwin
