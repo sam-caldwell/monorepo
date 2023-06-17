@@ -16,11 +16,11 @@ build:
 			for GOOS in $(GOOS_LIST); do \
 				for GOARCH in $(GOARCH_LIST); do \
 					if [ "$${GOOS}_" == "windows_" ]; then \
-					  export EXTENSION=".exe";\
+					  export BUILD_EXTENSION=".exe";\
 					else \
-					  export EXTENSION=""; \
+					  export BUILD_EXTENSION=""; \
 					fi;\
-				    export BINARY_ARTIFACT="$(BUILD_DIR)/$${GOOS}/$${GOARCH}/$${PROGRAM}$${EXTENSION}";\
+				    export BINARY_ARTIFACT="$(BUILD_DIR)/$${GOOS}/$${GOARCH}/$${PROGRAM}$${BUILD_EXTENSION}";\
 					echo "  BUILD: $${BINARY_ARTIFACT} (source: $${SOURCE})"; \
 					mkdir -p "$(BUILD_DIR)/$${GOOS}/$${GOARCH}"; \
 					go build -o $${BINARY_ARTIFACT} "$${SOURCE}"; \
