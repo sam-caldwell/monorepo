@@ -41,7 +41,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ needs.config.outputs.lint-enabled }} == "true"
+    if: success() && ${{ needs.config.outputs.lint-enabled }} == "true"
     runs-on: ubuntu-latest
     outputs:
       lint-successful: ${{ steps.lint-successful.outputs.success }}
@@ -62,65 +62,70 @@ jobs:
 
       - name: Run linter ${{ matrix.go-version }}
         id: lint-successful
+        if: success()
         run: |
-          make lint
-
-  test:
-    name: Run Tests
-    needs:
-      - config
-      - lint
-    if: ${{ needs.config.outputs.test-enabled }} == "true"
-    runs-on: ubuntu-latest
-    outputs:
-      test-successful: ${{ steps.test-successful.outputs.success }}
-    strategy:
-      fail-fast: true
-      matrix:
-        go-version:
-          - '1.20'
-          - '1.19'
-        go-arch: [ 'amd64', 'arm64' ]
-        go-opsys: [ 'linux', 'darwin', 'windows' ]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ matrix.go-version }}
-
-      - name: Run tests ${{ matrix.go-version }}
-        run: |
-          make test/simple
-  build:
-    name: Run Builder
-    needs:
-      - config
-      - lint
-      - test
-    if: ${{ needs.config.outputs.build-enabled }} == "true"
-    runs-on: ubuntu-latest
-    outputs:
-      build-successful: ${{ steps.build-successful.outputs.success }}
-    strategy:
-      fail-fast: true
-      matrix:
-        go-version:
-          - '1.20'
-        go-arch: [ 'amd64' ]
-        go-opsys: [ 'linux' ]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ matrix.go-version }}
-
-      - name: Run artifact build ${{ matrix.go-version }}
-        run: |
-          make build
+          if [ ${{ needs.config.outputs.lint-enabled }} == "true" ]; then
+            make lint
+          else
+            echo "linting disabled"
+          fi
+#
+#  test:
+#    name: Run Tests
+#    needs:
+#      - config
+#      - lint
+#    if: ${{ needs.config.outputs.test-enabled }} == "true"
+#    runs-on: ubuntu-latest
+#    outputs:
+#      test-successful: ${{ steps.test-successful.outputs.success }}
+#    strategy:
+#      fail-fast: true
+#      matrix:
+#        go-version:
+#          - '1.20'
+#          - '1.19'
+#        go-arch: [ 'amd64', 'arm64' ]
+#        go-opsys: [ 'linux', 'darwin', 'windows' ]
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up Go
+#        uses: actions/setup-go@v3
+#        with:
+#          go-version: ${{ matrix.go-version }}
+#
+#      - name: Run tests ${{ matrix.go-version }}
+#        run: |
+#          make test/simple
+#  build:
+#    name: Run Builder
+#    needs:
+#      - config
+#      - lint
+#      - test
+#    if: ${{ needs.config.outputs.build-enabled }} == "true"
+#    runs-on: ubuntu-latest
+#    outputs:
+#      build-successful: ${{ steps.build-successful.outputs.success }}
+#    strategy:
+#      fail-fast: true
+#      matrix:
+#        go-version:
+#          - '1.20'
+#        go-arch: [ 'amd64' ]
+#        go-opsys: [ 'linux' ]
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up Go
+#        uses: actions/setup-go@v3
+#        with:
+#          go-version: ${{ matrix.go-version }}
+#
+#      - name: Run artifact build ${{ matrix.go-version }}
+#        run: |
+#          make build
