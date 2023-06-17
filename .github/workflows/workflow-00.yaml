@@ -12,9 +12,9 @@ jobs:
     name: configure-pipeline
     runs-on: ubuntu-latest
     outputs:
-      lint-enabled: true
-      test-enabled: false
-      build-enabled: false
+      lint-enabled: "true"
+      test-enabled: "false"
+      build-enabled: "false"
     steps:
       - name: done
         id: done
@@ -25,7 +25,7 @@ jobs:
     name: Run the Linter
     needs:
       - config
-    if: ${{ needs.config.outputs.lint-enabled == true }}
+    if: needs.config.outputs.lint-enabled == "true"
     concurrency:
       cancel-in-progress: true
       group: ${{ github.workflow }}
