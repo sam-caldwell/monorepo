@@ -3,7 +3,7 @@
 # For build autoamation docs, see docs/builds/README.md
 #
 list/build/projects:
-ifeq ($(OPSYS),windows)
+ifeq ($$(OPSYS),windows)
 	@$(NOT_SUPPORTED)
 	exit 1
 endif
