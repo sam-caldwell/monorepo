@@ -58,7 +58,7 @@ func main() {
 	colorFunc()
 	if len(os.Args) > 2 {
 		text := strings.Join(os.Args[2:], words.Space)
-		fmt.Print(text)
+		fmt.Println(text)
 	}
 	defer ansi.Reset()
 }
