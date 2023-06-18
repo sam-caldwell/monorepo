@@ -9,15 +9,15 @@ ifeq ($(OPSYS),windows)
 		echo "current binary projects (enabled):"; \
 		for /d %%I in ($(BUILD_PROJECTS)) do echo " - %%I"; \
 		echo "";
-else
-	# Unix-like systems
-	UNIX_LIST_PROJECTS = \
-		echo ""; \
-		echo "current binary projects (enabled):"; \
-		for PROJECT in $(BUILD_PROJECTS); do \
-			echo " - $$PROJECT"; \
-		done; \
-		echo "";
+#else
+#	# Unix-like systems
+#	UNIX_LIST_PROJECTS = \
+#		echo ""; \
+#		echo "current binary projects (enabled):"; \
+#		for PROJECT in $(BUILD_PROJECTS); do \
+#			echo " - $$PROJECT"; \
+#		done; \
+#		echo "";
 endif
 
 
@@ -26,10 +26,10 @@ list/build/projects:
 	@$(PRINT_START)
 	@$(WINDOWS_LIST_PROJECTS)
 	@$(PRINT_DONE)
-else
-list/build/projects:
-	@$(PRINT_START)
-	@$(UNIX_LIST_PROJECTS)
-	@$(PRINT_DONE)
+#else
+#list/build/projects:
+#	@$(PRINT_START)
+#	@$(UNIX_LIST_PROJECTS)
+#	@$(PRINT_DONE)
 endif
 
