@@ -6,10 +6,10 @@ ifeq ($(OPSYS),windows)
     RM = del /Q /F
     MKDIR = mkdir
 
-    ANSI_RED="^[[31m"
-    ANSI_GREEN="^[[32m"
-    ANSI_BLUE="^[[34m"
-    ANSI_RESET="^[[0m"
+    ANSI_RED=^[[31m
+    ANSI_GREEN=^[[32m
+    ANSI_BLUE=^[[34m
+    ANSI_RESET=^[[0m
 else
     # Linux or other Unix-like systems
     RM = rm -f
