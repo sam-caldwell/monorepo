@@ -2,8 +2,8 @@ package ansi
 
 import "fmt"
 
-// Space - print a space character
+// Space - print a Space character
 func (c *Color) Space() *Color {
-	fmt.Print(space)
+	fmt.Print(Space)
 	return c
 }

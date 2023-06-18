@@ -1,9 +1,9 @@
 package ansi
 
 const (
-	lineFeed = "\n"
-	space    = " "
-	tab      = "\t"
+	LineFeed = "\n"
+	Space    = " "
+	Tab      = "\t"
 
 	//General
 	reset = "\033[0m"

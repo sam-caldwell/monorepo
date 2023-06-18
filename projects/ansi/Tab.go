@@ -2,8 +2,8 @@ package ansi
 
 import "fmt"
 
-// Tab - print a tab char
+// Tab - print a Tab char
 func (c *Color) Tab() *Color {
-	fmt.Print(tab)
+	fmt.Print(Tab)
 	return c
 }

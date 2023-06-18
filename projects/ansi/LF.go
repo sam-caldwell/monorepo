@@ -4,6 +4,6 @@ import "fmt"
 
 // LF - print a line feed char
 func (c *Color) LF() *Color {
-	fmt.Print(lineFeed)
+	fmt.Print(LineFeed)
 	return c
 }
