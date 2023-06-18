@@ -13,11 +13,12 @@ func main() {
 	const (
 		colorArgPosition = 1
 		errUsage         = "\n" +
-			"  color <command> [text:string]\n\n" +
+			"  color <command> [-n] [text:string]\n\n" +
 			"  colors:\n" +
 			"\t%s\n\n" +
 			"  misc:\n" +
-			"\t%s\n"
+			"\t%s\n" +
+			"\n-n [no new line after print, similar to bash echo]\n"
 	)
 
 	colorMap := map[string]func() *ansi.Color{
@@ -56,9 +57,17 @@ func main() {
 	colorFunc, ok := colorMap[color]
 	exit.OnCondition(!ok, exit.UnknownCommand, exit.ErrUnknownCommand, usage())
 	colorFunc()
-	if len(os.Args) > 2 {
-		text := strings.Join(os.Args[2:], words.Space)
-		fmt.Println(text)
+
+	textPos := 2
+	if len(os.Args) > textPos {
+		printFunc := fmt.Println
+		if os.Args[textPos] == "-n" {
+			printFunc = fmt.Print
+			textPos++
+		}
+		if len(os.Args) > textPos {
+			_, _ = printFunc(strings.Join(os.Args[textPos:], words.Space))
+		}
 	}
 	defer ansi.Reset()
 }
