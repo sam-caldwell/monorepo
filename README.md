@@ -46,4 +46,4 @@ or work project.
 ### Makefile Tooling
 
 * [Makefiles](Makefile.d)
-* [Determine Operating System Using Make](Makefile.d/check.os.mk)
+* [Determine Operating System Using Make](Makefile.d/check/check.os.mk)
