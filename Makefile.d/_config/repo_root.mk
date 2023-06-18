@@ -6,4 +6,8 @@
 # perspective, which should always be the root of our
 # repo.
 #
-REPO_ROOT:=$${PWD}
+ifeq ($(OPSYS),windows)
+REPO_ROOT:=$(shell cd && echo %cd%)
+else
+REPO_ROOT:=$(shell pwd)
+endif
