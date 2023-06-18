@@ -1,5 +1,5 @@
 #
-# parameters.opsys.mk
+# _config.opsys.mk
 # (c) 2023 Sam Caldwell.  MIT License.
 #
 # This Makefile is included in 'Makefile' in the root of the repo.

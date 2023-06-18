@@ -1,5 +1,5 @@
 #
-# parameters.go.mk
+# _config.go.mk
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 #
 # This file sets GO_BINARY so we can accommodate
