@@ -1,14 +1,5 @@
 #
-# PACKAGE MANAGERS
-#
-
-
-
-
-
-
-#
-# POSIX OPERATING SYSTEMS
+# Identify detected packet managers.
 #
 check/package-managers:
 	[[ "$${HAS_BREW}_" =="yes_" ]] && {echo "brew" && exit 0;}; \
