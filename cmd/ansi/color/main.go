@@ -18,7 +18,7 @@ func main() {
 			"\t%s\n\n" +
 			"  misc:\n" +
 			"\t%s\n" +
-			"\n-n [no new line after print, similar to bash echo]\n"
+			"\t-n [no new line after print, similar to bash echo]\n"
 	)
 
 	colorMap := map[string]func() *ansi.Color{
