@@ -5,6 +5,7 @@
 
 # The directory where we build artifacts...
 build/
+bin/
 # ---
 
 # Used by Makefile.d/self-tests
