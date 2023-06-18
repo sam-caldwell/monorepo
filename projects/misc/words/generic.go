@@ -5,6 +5,8 @@ package words
  */
 const (
 	Comma       = ","
+	Space       = " "
+	Tab         = "\t"
 	EmptyString = ""
 	Yes         = "yes"
 	No          = "no"

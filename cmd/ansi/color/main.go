@@ -42,10 +42,10 @@ func main() {
 		return fmt.Sprintf(errUsage, strings.Join([]string{
 			words.Black, words.Blue, words.Cyan, words.Green,
 			words.Magenta, words.Red, words.White, words.Yellow,
-		}, words.Comma), strings.Join([]string{
+		}, words.Comma+words.Space), strings.Join([]string{
 			words.Bold, words.Dim, words.Hidden,
 			words.Strikethrough, words.Underline, words.Reset,
-		}, words.Comma))
+		}, words.Comma+words.Space))
 	}
 
 	ansi.Reset()
@@ -57,7 +57,7 @@ func main() {
 	exit.OnCondition(!ok, exit.UnknownCommand, exit.ErrUnknownCommand, usage())
 	colorFunc()
 	if len(os.Args) > 2 {
-		text := strings.Join(os.Args[2:], " ")
+		text := strings.Join(os.Args[2:], words.Space)
 		fmt.Print(text)
 	}
 }
