@@ -3,16 +3,16 @@
 #
 .PHONY: build
 build:
-	@echo "Building projects..."
+	@echo "\033[32m>starting $@\033[0m"
 	@(\
 		for TARGET in $(BUILD_PROJECTS); do \
-		    echo "  - Process TARGET: $${TARGET}"; \
+		    echo "\033[32m  - Process TARGET: $${TARGET}"; \
 			export PROGRAM="$$( basename $${TARGET})"; \
-			echo "  - Process PROGRAM: $${PROGRAM}"; \
+			echo "\033[32m  - Process PROGRAM: $${PROGRAM}"; \
 			export PROJECT="$$(basename $$( dirname $${TARGET} ))";\
-			echo "  - Process PROJECT: $${PROJECT}"; \
+			echo "\033[32m  - Process PROJECT: $${PROJECT}"; \
 			SOURCE="$${TARGET}/main.go"; \
-			echo "  - Process SOURCE: $${SOURCE}"; \
+			echo "\033[32m  - Process SOURCE: $${SOURCE}"; \
 			for GOOS in $(GOOS_LIST); do \
 				for GOARCH in $(GOARCH_LIST); do \
 					if [ "$${GOOS}_" == "windows_" ]; then \
@@ -21,10 +21,11 @@ build:
 					  export BUILD_EXTENSION=""; \
 					fi;\
 				    export BINARY_ARTIFACT="$(BUILD_DIR)/$${GOOS}/$${GOARCH}/$${PROGRAM}$${BUILD_EXTENSION}";\
-					echo "  BUILD: $${BINARY_ARTIFACT} (source: $${SOURCE})"; \
+					echo "\033[32m  BUILD: $${BINARY_ARTIFACT} (source: $${SOURCE})"; \
 					mkdir -p "$(BUILD_DIR)/$${GOOS}/$${GOARCH}"; \
 					go build -o $${BINARY_ARTIFACT} "$${SOURCE}"; \
 				done; \
 			done; \
 		done; \
+		echo "\033[32m>clean...done\033[0m"
 	)
