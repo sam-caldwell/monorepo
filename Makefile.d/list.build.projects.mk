@@ -20,11 +20,16 @@ else
 		echo "";
 endif
 
+
+ifeq ($(OPSYS),windows)
 list/build/projects:
 	@$(PRINT_START)
-ifeq ($(OPSYS),windows)
 	@$(WINDOWS_LIST_PROJECTS)
-else
-	@$(UNIX_LIST_PROJECTS)
-endif
 	@$(PRINT_DONE)
+else
+list/build/projects:
+	@$(PRINT_START)
+	@$(UNIX_LIST_PROJECTS)
+	@$(PRINT_DONE)
+endif
+
