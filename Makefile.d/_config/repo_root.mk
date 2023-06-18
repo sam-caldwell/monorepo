@@ -7,7 +7,7 @@
 # repo.
 #
 ifeq ($(OPSYS),windows)
-REPO_ROOT:=$(shell cd && echo %cd%)
+REPO_ROOT:=$(shell echo %cd%)
 else
 REPO_ROOT:=$(shell pwd)
 endif
