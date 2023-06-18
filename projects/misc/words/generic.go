@@ -8,9 +8,17 @@ const (
 	Space       = " "
 	Tab         = "\t"
 	EmptyString = ""
-	Yes         = "yes"
-	No          = "no"
+)
+const (
+	Yes = "yes"
+	No  = "no"
+)
+const (
+	True  = "true"
+	False = "false"
+)
 
+const (
 	Command = "command"
 	Create  = "create"
 	Check   = "check"
