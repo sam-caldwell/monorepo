@@ -17,12 +17,6 @@ const (
 		"\tmisc:\n" +
 		"\t\t%s\n"
 
-	errMissingColor   = "Missing color"
-	errUnknownCommand = "Unknown command"
-
-	exitMissingColor   = 1
-	exitUnknownCommand = 2
-
 	commandBold          = "bold"
 	commandDim           = "dim"
 	commandHidden        = "hidden"
@@ -66,7 +60,7 @@ func main() {
 
 	ansi.Reset()
 
-	terminateOnError(len(os.Args) < 2, exitMissingColor, errMissingColor)
+	terminateOnError(len(os.Args) < 2, exit.MissingColor, exit.ErrMissingColor)
 
 	switch strings.ToLower(strings.TrimSpace(os.Args[1])) {
 	case commandBold:
@@ -100,6 +94,6 @@ func main() {
 		ansi.Yellow()
 
 	default:
-		terminateOnError(true, exitUnknownCommand, errUnknownCommand)
+		terminateOnError(true, exit.UnknownCommand, exit.ErrUnknownCommand)
 	}
 }
