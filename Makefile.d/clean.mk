@@ -6,3 +6,6 @@ clean:
 	@$(RM_RF) ./build || { echo -e "$(ANSI_RED)>>FAILED:$(ANSI_RESET)";exit 1; }
 	@$(MKDIR) ./build || { echo -e "$(ANSI_RED)>>FAILED:$(ANSI_RESET)";exit 1; }
 	@echo "$(ANSI_GREEN)>clean...done$(ANSI_RESET)"
+
+this:
+	@$(ECHO) $(ANSI_GREEN)"test"$(ANSI_RESET)
