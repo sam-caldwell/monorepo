@@ -9,7 +9,8 @@ ifeq ($(OPSYS),windows)
 
     IGNORE_ERROR=
     TERMINATE_ON_ERROR=
-    PRINT_START=echo start: $@ [OPSYS: $(OPSYS)]
+    PRINT_START=@echo start: $@ [OPSYS: $(OPSYS)]
+    PRINT_DONE=@echo done: $@
 
     ANSI_RED=^[[31m
     ANSI_GREEN=^[[32m
@@ -24,7 +25,8 @@ else
 
 	IGNORE_ERROR=&> /dev/null || true
 	TERMINATE_ON_ERROR=|| { echo "FAILED:$@";exit 1; }
-	PRINT_START=echo "$(ANSI_GREEN)start: $@ [OPSYS: $(OPSYS)]$(ANSI_RESET)"
+	PRINT_START=@echo "$(ANSI_GREEN)start: $@ [OPSYS: $(OPSYS)]$(ANSI_RESET)"
+	PRINT_DONE=@echo "$(ANSI_GREEN)done: $@$(ANSI_RESET)"
 
 	ANSI_RED="\\033[31m"
 	ANSI_GREEN="\\033[32m"
