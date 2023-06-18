@@ -9,7 +9,7 @@ ifeq ($(OPSYS),windows)
 
     IGNORE_ERROR=
     TERMINATE_ON_ERROR=
-    PRINT_START=echo "start: $@ [OPSYS: $(OPSYS)]"
+    PRINT_START=echo start: $@ [OPSYS: $(OPSYS)]
 
     ANSI_RED=^[[31m
     ANSI_GREEN=^[[32m
