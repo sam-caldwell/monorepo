@@ -20,9 +20,8 @@ ifeq ($(OPSYS),windows)
 #		echo "";
 endif
 
-
-ifeq ($(OPSYS),windows)
 list/build/projects:
+ifeq ($(OPSYS),windows)
 	@$(PRINT_START)
 	@$(WINDOWS_LIST_PROJECTS)
 	@$(PRINT_DONE)
