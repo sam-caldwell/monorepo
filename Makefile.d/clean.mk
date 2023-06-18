@@ -1,8 +1,8 @@
 clean:
-	@echo "\033[32m>starting $@\033[0m"
+	@echo "$(ANSI_GREEN)>starting$(ANSI_RESET)"
 	@make test/Makefile/teardown.fakeProject &> /dev/null
-	@rm -rf ./bin || { echo -e "\033[31m>>FAILED:$@\033[0m";exit 1; }
-	@mkdir -p ./bin || { echo -e "\033[31m>>FAILED:$@\033[0m";exit 1; }
-	@rm -rf ./build || { echo -e "\033[31m>>FAILED:$@\033[0m";exit 1; }
-	@mkdir -p ./build || { echo -e "\033[31m>>FAILED:$@\033[0m";exit 1; }
-	@echo "\033[32m>clean...done\033[0m"
+	@$(RM_RF) ./bin || { echo -e "$(ANSI_RED)>>FAILED:$(ANSI_RESET)";exit 1; }
+	@$(MKDIR) ./bin || { echo -e "$(ANSI_RED)>>FAILED:$(ANSI_RESET)";exit 1; }
+	@$(RM_RF) ./build || { echo -e "$(ANSI_RED)>>FAILED:$(ANSI_RESET)";exit 1; }
+	@$(MKDIR) ./build || { echo -e "$(ANSI_RED)>>FAILED:$(ANSI_RESET)";exit 1; }
+	@echo "$(ANSI_GREEN)>clean...done$(ANSI_RESET)"
