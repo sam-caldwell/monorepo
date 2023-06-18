@@ -1,6 +1,6 @@
 COLOR:=./bin/color
 
-
+WINDOWS_NOT_SUPPORTED:=@echo windows is not supported
 ifeq ($(OPSYS),windows)
     # Windows
     RM = del /Q /F
@@ -16,6 +16,7 @@ ifeq ($(OPSYS),windows)
     ANSI_GREEN=^[[32m
     ANSI_BLUE=^[[34m
     ANSI_RESET=^[[0m
+
 else
     # Linux or other Unix-like systems
     RM = rm -f

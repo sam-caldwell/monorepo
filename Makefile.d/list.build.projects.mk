@@ -3,10 +3,9 @@
 # For build autoamation docs, see docs/builds/README.md
 #
 list/build/projects:
+	@$(PRINT_START)
 ifeq ($(OPSYS),windows)
-	@echo off
-	@echo "Windows fucking sucks.  If you are reading this, you've bought into the line that it's better.  It's not."
-	@echo "I might fix this when I have time.  But...well...that would be enabling your dumb ass."
+	$(WINDOWS_NOT_SUPPORTED)
 else
 	@(\
 		echo ""; \
@@ -17,3 +16,4 @@ else
 		echo ""; \
 	)
 endif
+	@$(PRINT_DONE)
