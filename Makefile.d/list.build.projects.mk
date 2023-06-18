@@ -7,7 +7,7 @@ ifeq ($(OPSYS),windows)
 	WINDOWS_LIST_PROJECTS = \
 		echo ""; \
 		echo "current binary projects (enabled):"; \
-		for %%I in ($(BUILD_PROJECTS)) do echo " - %%~I"; \
+		for /d %%I in ($(BUILD_PROJECTS)) do echo " - %%I"; \
 		echo "";
 else
 	# Unix-like systems
