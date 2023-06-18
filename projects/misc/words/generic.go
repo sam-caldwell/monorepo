@@ -4,8 +4,14 @@ package words
  * Generic Words
  */
 const (
-	Yes = "yes"
-	No  = "no"
+	Comma       = ","
+	EmptyString = ""
+	Yes         = "yes"
+	No          = "no"
 
 	Command = "command"
+	Create  = "create"
+	Check   = "check"
+
+	Free = "free"
 )
