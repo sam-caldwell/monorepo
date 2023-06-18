@@ -21,7 +21,7 @@ else
     # Linux or other Unix-like systems
     RM = rm -f
     RM_RF = rm -rf
-    MKDIR = mkdir -p
+    MKDIR = mkdir
     ECHO=echo
 
 	IGNORE_ERROR=&> /dev/null || true

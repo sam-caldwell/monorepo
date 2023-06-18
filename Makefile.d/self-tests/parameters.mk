@@ -1,5 +1,5 @@
 #
-# Makefile.d/self-tests/parameters.mk
+# Makefile.d/self-tests/_config.mk
 # (c) 2023 Sam Caldwell.  See License.txt
 #
 FAKE_COMMAND_DIR:=cmd/fakeProject

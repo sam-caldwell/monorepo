@@ -5,12 +5,27 @@
 # This is the root of our Makefile system.  It includes our Makefiles from Makefiles.d/
 # and our Makefile tests in Makefiles.d/self-tests
 
+#
+# _config contains variable settings,
+# some of which are opsys-specific
+#
+include Makefile.d/_config
+
 include Makefile.d/*.mk
 #
 # To run the self-tests, we execute
 # make test/self-tests/run
 #
 include Makefile.d/self-tests/*.mk
+
+#
+# Checks are make targets that tell
+# us about the initialized make environment
+# we are running in.
+#
+include Makefile.d/check/*.mk
+
+
 #
 # To build or run our tools, we have
 # these makefiles
