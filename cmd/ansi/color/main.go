@@ -60,5 +60,5 @@ func main() {
 		text := strings.Join(os.Args[2:], words.Space)
 		fmt.Print(text)
 	}
-	ansi.Reset()
+	defer ansi.Reset()
 }
