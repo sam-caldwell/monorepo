@@ -17,6 +17,8 @@ ifeq ($(OPSYS),windows)
     ANSI_BLUE=^[[34m
     ANSI_RESET=^[[0m
 
+    WINDOWS_NOT_SUPPORTED=echo Windows is not supported for $@; exit 1
+
 else
     # Linux or other Unix-like systems
     RM = rm -f
