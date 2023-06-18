@@ -9,7 +9,7 @@
 # _config contains variable settings,
 # some of which are opsys-specific
 #
-include Makefile.d/_config
+include Makefile.d/_config/*.mk
 
 include Makefile.d/*.mk
 #
