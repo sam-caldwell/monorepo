@@ -11,3 +11,8 @@ include Makefile.d/*.mk
 # make test/self-tests/run
 #
 include Makefile.d/self-tests/*.mk
+#
+# To build or run our tools, we have
+# these makefiles
+#
+include Makefile.d/tools/*.mk
