@@ -3,21 +3,20 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
+	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"os"
 	"strings"
 )
 
 const (
-	comma = ","
-
-	errUsage = "\n" +
-		"Usage:\n" +
-		"\t\tcolor <command>\n" +
+	errUsage = "\t\tcolor <command>\n" +
 		"\t\tcolor reset\n\n" +
 		"\tcolors:\n" +
+		"\t\t%s\n\n" +
+		"\tmisc:\n" +
 		"\t\t%s\n"
 
-	errMessage        = "Error: %s%s"
 	errMissingColor   = "Missing color"
 	errUnknownCommand = "Unknown command"
 
@@ -44,26 +43,25 @@ const (
 
 func main() {
 	terminateOnError := func(condition bool, code int, err string) {
-		commandList := strings.Join([]string{
-			commandBold,
-			commandDim,
-			commandHidden,
-			commandStrikethrough,
-			commandUnderline,
-			commandReset,
-			commandColorBlack,
-			commandColorBlue,
-			commandColorCyan,
-			commandColorGreen,
-			commandColorMagenta,
-			commandColorRed,
-			commandColorWhite,
-			commandColorYellow,
-		}, comma)
-		if condition {
-			fmt.Printf(errMessage, err, fmt.Sprintf(errUsage, commandList))
-			os.Exit(code)
-		}
+		exit.OnCondition(
+			condition,
+			code, err,
+			fmt.Sprintf(errUsage, strings.Join([]string{
+				commandColorBlack,
+				commandColorBlue,
+				commandColorCyan,
+				commandColorGreen,
+				commandColorMagenta,
+				commandColorRed,
+				commandColorWhite,
+				commandColorYellow,
+			}, words.Comma), strings.Join([]string{
+				commandBold,
+				commandDim,
+				commandHidden,
+				commandStrikethrough,
+				commandUnderline,
+			}, words.Comma)))
 	}
 
 	ansi.Reset()
