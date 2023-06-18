@@ -1,5 +1,13 @@
+# Jetbrains files...
 .idea/
 *.iml
-src/
-pkg
+# ---
+
+# The directory where we build artifacts...
 build/
+# ---
+
+# Used by Makefile.d/self-tests
+cmd/fakeProject/
+projects/fakeProject/
+# ---
