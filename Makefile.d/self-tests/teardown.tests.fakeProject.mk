@@ -4,6 +4,6 @@
 #
 test/Makefile/teardown.fakeProject:
 	@echo "starting $@"
-	@$(RM_RF) cmd/fakeProject &> /dev/null || true
-	@$(RM_RF)projects/fakeProject &> /dev/null || true
+	@$(RM_RF) cmd/fakeProject $(IGNORE_ERROR)
+	@$(RM_RF)projects/fakeProject $(IGNORE_ERROR)
 	@echo "done: $@"

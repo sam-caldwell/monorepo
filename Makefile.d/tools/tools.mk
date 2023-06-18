@@ -7,6 +7,8 @@ ifeq ($(OPSYS),windows)
     MKDIR = mkdir
     ECHO = $(cmd /V:ON /C echo)
 
+    IGNORE_ERROR=
+
     ANSI_RED=^[[31m
     ANSI_GREEN=^[[32m
     ANSI_BLUE=^[[34m
@@ -17,6 +19,9 @@ else
     RM_RF = rm -rf
     MKDIR = mkdir -p
     ECHO=echo
+
+	IGNORE_ERROR=&> /dev/null || true
+
 
 	ANSI_RED="\\033[31m"
 	ANSI_GREEN="\\033[32m"
