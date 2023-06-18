@@ -16,8 +16,7 @@ ifeq ($(OPSYS),windows)
     ANSI_BLUE=^[[34m
     ANSI_RESET=^[[0m
 
-    NOT_SUPPORTED=echo Windows is not supported for $@; exit 1
-
+    NOT_SUPPORTED=echo Windows is not supported for $@
 else
     # Linux or other Unix-like systems
     RM = rm -f
@@ -34,7 +33,5 @@ else
 	ANSI_GREEN="\\033[32m"
 	ANSI_BLUE="\\033[34m"
 	ANSI_RESET="\\033[0m"
-
-	NOT_SUPPORTED=
 endif
 
