@@ -5,14 +5,14 @@
 list/build/projects:
 	@$(PRINT_START)
 ifeq ($(OPSYS),windows)
-	$(WINDOWS_NOT_SUPPORTED)
+	@powershell -NoProfile -Command "Write-Host 'current binary projects (enabled):'; $(foreach PROJECT,$(BUILD_PROJECTS), Write-Host ' - $(PROJECT)')"
 else
-	@(\
+	@( \
 		echo ""; \
 		echo "current binary projects (enabled):"; \
 		for PROJECT in $(BUILD_PROJECTS); do \
-		  echo " - $${PROJECT}"; \
-	    done; \
+			echo " - $$PROJECT"; \
+		done; \
 		echo ""; \
 	)
 endif
