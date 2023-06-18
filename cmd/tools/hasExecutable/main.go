@@ -25,13 +25,14 @@ var supportedExecutables = []string{
 	words.Zshell, words.Ftp, words.Scp, words.Ssh,
 }
 
-func runCommand(shell, c, args string) string {
+func runCommand(shell, c, args string) (response string) {
+	response = words.No
 	cmd := exec.Command(shell, c, args)
 	_, err := cmd.Output()
-	if err != nil {
-		return words.No
+	if err == nil {
+		response = words.Yes
 	}
-	return words.Yes
+	return response
 }
 
 func hasCommand(targetCommand string) string {
