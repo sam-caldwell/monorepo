@@ -1,3 +1,4 @@
 clean:
-	rm -rf ./build
-	mkdir -p ./build
+	@make test/Makefile/teardown.fakeProject
+	@rm -rf ./build
+	@mkdir -p ./build
