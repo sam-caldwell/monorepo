@@ -5,7 +5,6 @@ ifeq ($(OPSYS),windows)
     RM = del /Q /F
     MKDIR = mkdir
     ECHO = $(cmd /V:ON /C echo)
-    PWD = $(shell cd && echo %cd%)
 
     IGNORE_ERROR=
     TERMINATE_ON_ERROR=
@@ -24,7 +23,6 @@ else
     RM_RF = rm -rf
     MKDIR = mkdir
     ECHO=echo
-    PWD= $(shell pwd)
 
 	IGNORE_ERROR=&> /dev/null || true
 	TERMINATE_ON_ERROR=|| { echo "FAILED:$@";exit 1; }
