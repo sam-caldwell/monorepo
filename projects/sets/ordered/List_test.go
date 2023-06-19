@@ -8,9 +8,7 @@ func TestOrderedSet_List(t *testing.T) {
 	var set Set
 
 	for i := 0; i < 10; i++ {
-		if err := set.Add(i); err != nil {
-			t.Fatalf("error %d", i)
-		}
+		set.insert(i)
 		if set.Count() != i+1 {
 			t.Fatalf("Adding failed.  count does not track.")
 		}

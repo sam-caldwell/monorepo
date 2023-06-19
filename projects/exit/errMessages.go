@@ -1,7 +1,10 @@
 package exit
 
 const (
+	ErrDuplicateEntry    = "duplicate entry"
 	ErrMissingArgCommand = "missing argument (%s)"
+	ErrIndexOutOfRange   = "index out of range"
+	ErrInternalError     = "internal error"
 	ErrInvalidCommand    = "unknown command (%s)"
 	ErrInvalidContextId  = "invalid contextId (%s)"
 	ErrInvalidInput      = "invalid input"

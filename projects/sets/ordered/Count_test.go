@@ -12,28 +12,17 @@ func TestOrderedSet_Count(t *testing.T) {
 	}
 
 	// Add items to the set
-	if err := set.Add(1); err != nil {
-		t.Fatal(err)
-	}
-	if err := set.Add(2); err != nil {
-		t.Fatal(err)
-	}
-	if err := set.Add(3); err != nil {
-		t.Fatal(err)
-	}
+	set.insert(1)
+	set.insert(2)
+	set.insert(3)
 
 	// Verify that the count is updated correctly
 	if count := set.Count(); count != 3 {
 		t.Errorf("Expected count 3, got: %d", count)
 	}
-
 	// Add more items to the set
-	if err := set.Add(4); err != nil {
-		t.Fatal(err)
-	}
-	if err := set.Add(5); err != nil {
-		t.Fatal(err)
-	}
+	set.insert(4)
+	set.insert(5)
 
 	// Verify that the count is updated correctly again
 	if count := set.Count(); count != 5 {

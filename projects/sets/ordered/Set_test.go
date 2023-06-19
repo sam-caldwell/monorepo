@@ -7,7 +7,4 @@ func TestSet_Struct(t *testing.T) {
 	if s.data != nil {
 		t.Fail()
 	}
-	if s.typ != nil {
-		t.Fail()
-	}
 }

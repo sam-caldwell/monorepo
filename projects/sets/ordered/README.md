@@ -3,8 +3,15 @@ orderedSet
 
 ## Description
 
-A simple golang ordered set because who wants to reinvent wheels all the time
-when you really just want to solve problems?
+An ordered set of any type. Given a set of n elements, where
+all n elements are of the same type, this structure will ensure
+the ordering is unchanged and represents the order in which the
+elements were received.
+
+* Elements are stored in order of storage
+* Elements are addressable by index.
+* Elements are guaranteed unique
+* Elements are of the same type
 
 ## Methods
 

@@ -1,5 +1,10 @@
 package ordered
 
+import (
+	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
+)
+
 // Add - add item to set if the item is the same type as the set
 func (set *Set) Add(item any) (err error) {
 	//Bail on nil inputs.  not worth the time.
@@ -10,11 +15,19 @@ func (set *Set) Add(item any) (err error) {
 	set.lock.Lock()
 	defer set.lock.Unlock()
 
-	// Type check the item and add it if unique
-	if err = set.TypeCheck(item); err == nil {
-		if !set.seenBefore(item) {
-			set.data = append(set.data, item)
+	if len(set.data) > 0 {
+		if err := set.typeCheck(&item); err != nil {
+			return err
 		}
 	}
+	if set.seenBefore(&item) {
+		return fmt.Errorf(exit.ErrDuplicateEntry)
+	}
+
+	set.data = append(set.data, item)
 	return err
+}
+
+func (set *Set) insert(item any) {
+	set.data = append(set.data, item)
 }

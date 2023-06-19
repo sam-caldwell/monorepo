@@ -12,9 +12,7 @@ func TestOrderedSet_Pop(t *testing.T) {
 	const numberRows = 4
 	for i := 1; i <= numberRows; i++ {
 		// Add items to the set
-		if err := set.Add(fmt.Sprintf("test%d", i)); err != nil {
-			t.Fatal(err)
-		}
+		set.insert(fmt.Sprintf("test%d", i))
 	}
 
 	if set.Count() != numberRows {

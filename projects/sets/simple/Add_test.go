@@ -11,18 +11,19 @@ func TestSet_Add(t *testing.T) {
 		//Simple test
 		var set Set
 		if err := set.Add(1); err != nil {
-			t.Fatal(err)
+			t.Fatalf("simple test: %v", err)
 		}
 		if err := set.Add(2); err != nil {
-			t.Fatal(err)
+			t.Fatalf("simple test: %v", err)
 		}
 	}()
 	func() {
 		//Complex test
 		set := Set{}
 
-		test := func(value any, expectedError error) {
+		complexTest := func(value any, expectedError error) {
 			// Add the first item (type int)
+			t.Logf("Value: %v [expected:%v]", value, expectedError)
 			if err := set.Add(value); (err != nil) && (err.Error() != expectedError.Error()) {
 				t.Fatalf("Expected error mismatch.\n"+
 					"\t   value: '%v'\n"+
@@ -33,15 +34,15 @@ func TestSet_Add(t *testing.T) {
 		}
 
 		for i := 42; i > -42; i-- {
-			test(42, nil)
+			complexTest(42, nil)
 		}
 
-		test(true, fmt.Errorf(exit.ErrTypeMismatch))
-		test(false, fmt.Errorf(exit.ErrTypeMismatch))
-		test(3.1415, fmt.Errorf(exit.ErrTypeMismatch))
-		test(0.0, fmt.Errorf(exit.ErrTypeMismatch))
-		test("", fmt.Errorf(exit.ErrTypeMismatch))
-		test("badString", fmt.Errorf(exit.ErrTypeMismatch))
-		test(nil, nil)
+		complexTest(true, fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest(false, fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest(3.1415, fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest(0.0, fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest("", fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest("badString", fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest(nil, nil)
 	}()
 }
