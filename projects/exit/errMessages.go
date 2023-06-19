@@ -2,10 +2,14 @@ package exit
 
 const (
 	ErrMissingArgCommand = "missing argument (%s)"
-	ErrMissingColor      = "Missing color"
 	ErrInvalidCommand    = "unknown command (%s)"
-	ErrUnknownCommand    = "Unknown command"
-	ErrMissingContextId  = "missing contextId (uuid)"
 	ErrInvalidContextId  = "invalid contextId (%s)"
+	ErrInvalidInput      = "invalid input"
 	ErrLockCheckFailed   = "lock check failed"
+	ErrMissingColor      = "Missing color"
+	ErrMissingContextId  = "missing contextId (uuid)"
+	ErrNotFound          = "not found"
+	ErrNotInitialized    = "not initialized"
+	ErrTypeMismatch      = "type mismatch"
+	ErrUnknownCommand    = "Unknown command"
 )

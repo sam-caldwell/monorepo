@@ -1,7 +1,8 @@
 package simple
 
 import (
-	"reflect"
+	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"testing"
 )
 
@@ -9,41 +10,25 @@ func TestSet_Add(t *testing.T) {
 	// Create a new set
 	set := Set{}
 
-	// Add the first item (type int)
-	err := set.Add(42)
-	if err != nil {
-		t.Errorf("Expected no error, got: %v", err)
+	test := func(value any, expectedError error) {
+		// Add the first item (type int)
+		if err := set.Add(value); (err != nil) && (err.Error() != expectedError.Error()) {
+			t.Fatalf("Expected error mismatch.\n"+
+				"\t   value: '%v'\n"+
+				"\tExpected: '%v'\n"+
+				"\t     Got: '%v'\n",
+				value, expectedError, err)
+		}
 	}
 
-	// Verify that the set's type is int
-	expectedType := reflect.TypeOf(42)
-	if set.typ != expectedType {
-		t.Errorf("Expected type %v, got: %v", expectedType, set.typ)
+	for i := 42; i > -42; i-- {
+		test(42, nil)
 	}
-
-	// Add a second item (type string), which should trigger an error
-	err = set.Add("hello")
-	if err == nil {
-		t.Error("Expected an error, got nil")
-	}
-
-	// Verify that the set's type remains int
-	if set.typ != expectedType {
-		t.Errorf("Expected type %v, got: %v", expectedType, set.typ)
-	}
-
-	// Add a third item (type int), which should be added successfully
-	err = set.Add(24)
-	if err != nil {
-		t.Errorf("Expected no error, got: %v", err)
-	}
-
-	// Verify that the set contains the added items
-	expectedData := map[interface{}]bool{
-		42: true,
-		24: true,
-	}
-	if !reflect.DeepEqual(set.data, expectedData) {
-		t.Errorf("Expected data %v, got: %v", expectedData, set.data)
-	}
+	test(true, fmt.Errorf(exit.ErrTypeMismatch))
+	test(false, fmt.Errorf(exit.ErrTypeMismatch))
+	test(3.1415, fmt.Errorf(exit.ErrTypeMismatch))
+	test(0.0, fmt.Errorf(exit.ErrTypeMismatch))
+	test("", fmt.Errorf(exit.ErrTypeMismatch))
+	test("badString", fmt.Errorf(exit.ErrTypeMismatch))
+	test(nil, nil)
 }

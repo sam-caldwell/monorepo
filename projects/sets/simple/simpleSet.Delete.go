@@ -1,15 +1,18 @@
 package simple
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
+)
 
 // Delete - delete an item from the set
 func (set *Set) Delete(item interface{}) error {
 	if set.data == nil {
-		return fmt.Errorf("set is not initialized")
+		return fmt.Errorf(exit.ErrNotInitialized)
 	}
 
 	if !set.Has(item) {
-		return fmt.Errorf("item does not exist in the set")
+		return fmt.Errorf(exit.ErrNotFound)
 	}
 
 	delete(set.data, item)
