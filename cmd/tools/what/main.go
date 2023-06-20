@@ -18,7 +18,9 @@ const (
 what <option> [--printError]
 
 options:
+  --help          : display usage information
   --printError    : indicates whether error messages are printed to stdout.
+
   --arch          : Return cpu architecture (e.g. arm64, amd64)
   --cpus          : Return number of CPU cores
   --cpuinfo       : Return CPU specifications
