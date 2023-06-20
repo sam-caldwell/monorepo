@@ -12,7 +12,6 @@ import (
 // GetFamily - Return the Operating System family
 func GetFamily() (family string, err error) {
 	var version semver.SemanticVersion
-
 	{
 		rawVersion, err := GetVersion()
 		if err != nil {

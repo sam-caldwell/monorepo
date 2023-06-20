@@ -5,45 +5,60 @@ package systemrecon
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
+	"github.com/sam-caldwell/go/v2/projects/misc/words"
+	"github.com/sam-caldwell/go/v2/projects/semver"
 )
 
-func GetFamily(major, minor int) (version string, err error) {
-	if major == 10 {
-		version = "Windows 10"
+func GetFamily() (result string, err error) {
+	var version semver.SemanticVersion
+	{
+		rawVersion, err := GetVersion()
+		if err != nil {
+			return rawVersion, err
+		}
+		if err = version.ParseP(&rawVersion); err != nil {
+			fmt.Println("raw:", rawVersion, ":", err.Error())
+			return version.String(), err
+		}
+	}
+	switch version.Major() {
+	case 10:
+		result = words.Windows10
 		if minor != 0 {
-			version = fmt.Sprintf("%s.%s", version, minor), nil
+			result = fmt.Sprintf("%s.%s", version, minor)
 		}
-		return version, err
-	} else if major == 6 {
-		switch minor {
+		return result, err
+	case 6:
+		switch version.Minor() {
 		case 0:
-			version = "Windows Vista"
+			result = words.WindowsVista
 		case 1:
-			version = "Windows 7"
+			result = words.Windows7
 		case 2:
-			version = "Windows 8"
+			result = words.Windows8
 		case 3:
-			version = "Windows 8.1"
+			result = words.Windows81
 		default:
-			version = fmt.Sprintf("%d.%d", major, minor)
-			err = fmt.Errorf("unsupported minor version")
+			result = fmt.Sprintf("%d.%d", major, minor)
+			err = fmt.Errorf(errors.UnsupportedVersion)
 		}
-		return version, err
-	} else if major == 5 {
-		switch minor {
+		return result, err
+	case 5:
+		switch version.Minor() {
 		case 0:
-			return "Windows 2000", nil
+			result = words.Windows2K
 		case 1:
-			return "Windows XP", nil
+			result = words.WindowsXp
 		case 2:
-			return "Windows Server 2003", nil
+			result = words.WindowsServer2K3
 		default:
-			version = fmt.Sprintf("%d.%d", major, minor)
-			err = fmt.Errorf("unsupported minor version")
+			result = fmt.Sprintf("%d.%d", major, minor)
+			err = fmt.Errorf(errors.UnsupportedVersion)
 		}
-	} else {
+	default:
 		version = fmt.Sprintf("%d.%d", major, minor)
-		err = fmt.Errorf("unsupported major version")
+		err = fmt.Errorf(errors.UnsupportedVersion)
 	}
 	return version, err
 }

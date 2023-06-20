@@ -2,7 +2,7 @@ package simple
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"testing"
 )
 
@@ -37,12 +37,12 @@ func TestSet_Add(t *testing.T) {
 			complexTest(42, nil)
 		}
 
-		complexTest(true, fmt.Errorf(exit.ErrTypeMismatch))
-		complexTest(false, fmt.Errorf(exit.ErrTypeMismatch))
-		complexTest(3.1415, fmt.Errorf(exit.ErrTypeMismatch))
-		complexTest(0.0, fmt.Errorf(exit.ErrTypeMismatch))
-		complexTest("", fmt.Errorf(exit.ErrTypeMismatch))
-		complexTest("badString", fmt.Errorf(exit.ErrTypeMismatch))
+		complexTest(true, fmt.Errorf(errors.TypeMismatch))
+		complexTest(false, fmt.Errorf(errors.TypeMismatch))
+		complexTest(3.1415, fmt.Errorf(errors.TypeMismatch))
+		complexTest(0.0, fmt.Errorf(errors.TypeMismatch))
+		complexTest("", fmt.Errorf(errors.TypeMismatch))
+		complexTest("badString", fmt.Errorf(errors.TypeMismatch))
 		complexTest(nil, nil)
 	}()
 }

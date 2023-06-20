@@ -2,7 +2,7 @@ package simple
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc"
 )
 
@@ -16,7 +16,7 @@ func (set *Set) Add(item any) error {
 	}
 	// A set must have all items of the same type as the first.
 	if !set.TypeCheck(item) {
-		return fmt.Errorf(exit.ErrTypeMismatch)
+		return fmt.Errorf(errors.TypeMismatch)
 	}
 
 	// Add the item to the set's data

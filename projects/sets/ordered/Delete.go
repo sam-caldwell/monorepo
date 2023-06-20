@@ -2,7 +2,7 @@ package ordered
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
 func (set *Set) Delete(pos int) error {
@@ -12,5 +12,5 @@ func (set *Set) Delete(pos int) error {
 		set.data = append(set.data[:pos], set.data[pos+1:]...)
 		return nil
 	}
-	return fmt.Errorf(exit.ErrIndexOutOfRange)
+	return fmt.Errorf(errors.IndexOutOfRange)
 }

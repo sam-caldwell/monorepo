@@ -2,7 +2,7 @@ package ordered
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
 // Add - add item to set if the item is the same type as the set
@@ -21,7 +21,7 @@ func (set *Set) Add(item any) (err error) {
 		}
 	}
 	if set.seenBefore(&item) {
-		return fmt.Errorf(exit.ErrDuplicateEntry)
+		return fmt.Errorf(errors.DuplicateEntry)
 	}
 
 	set.data = append(set.data, item)

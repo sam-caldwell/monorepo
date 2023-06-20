@@ -5,7 +5,7 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
 /*
@@ -18,5 +18,5 @@ import (
 
 // MemInfo - Return nil,nil because this system is not specifically implemented.
 func MemInfo() (map[string]string, error) {
-	return nil, fmt.Errorf(exit.ErrUnsupportedOpsys)
+	return nil, fmt.Errorf(errors.UnsupportedOpsys)
 }

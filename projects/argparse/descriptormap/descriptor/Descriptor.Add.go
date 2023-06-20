@@ -6,7 +6,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/counters"
 )
 
-// Add - Sanitize and set the descriptor parameters.
+// Add - Sanitize and set the descriptor _config.
 func (arg *Descriptor) Add(pos *counters.Conditional, short string, long string,
 	argType types.ArgTypes, required bool, argDefault any, help string) (err error) {
 

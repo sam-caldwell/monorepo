@@ -3,10 +3,17 @@
 
 package systemrecon
 
-func GetFamily() (string, error) {
-	file, err := os.Open("/etc/os-release")
-	if err != nil {
-		return "", err
+import (
+	"bufio"
+	"errors"
+	"os"
+	"strings"
+)
+
+func GetFamily() (output string, err error) {
+	var file *os.File
+	if file, err = os.Open("/etc/os-release"); err != nil {
+		return output, err
 	}
 	defer file.Close()
 
@@ -20,8 +27,8 @@ func GetFamily() (string, error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		return "", err
+		return output, err
 	}
 
-	return "", errors.New("unable to detect Linux distribution")
+	return output, errors.New("unable to detect Linux distribution")
 }

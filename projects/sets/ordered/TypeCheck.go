@@ -2,7 +2,7 @@ package ordered
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"reflect"
 )
 
@@ -21,5 +21,5 @@ func (set *Set) typeCheck(data *any) (err error) {
 	if reflect.TypeOf(set.data[0]).Kind() == reflect.TypeOf(data).Kind() {
 		return nil
 	}
-	return fmt.Errorf(exit.ErrTypeMismatch)
+	return fmt.Errorf(errors.TypeMismatch)
 }

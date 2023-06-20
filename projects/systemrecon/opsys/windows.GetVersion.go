@@ -5,7 +5,7 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"golang.org/x/sys/windows/registry"
 	"runtime"
@@ -13,7 +13,7 @@ import (
 
 func GetVersion() (version string, err error) {
 	if runtime.GOOS != words.Windows {
-		return words.EmptyString, fmt.Error(exit.ErrUnsupportedOpsys)
+		return words.EmptyString, fmt.Error(errors.UnsupportedOpsys)
 	}
 	k, err := registry.OpenKey(
 		registry.LOCAL_MACHINE,

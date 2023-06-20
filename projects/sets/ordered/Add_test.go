@@ -2,7 +2,7 @@ package ordered
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"testing"
 )
 
@@ -52,10 +52,10 @@ func TestOrderedSet_Add(t *testing.T) {
 			}
 		}
 		test(1, 1, nil)
-		test(1, "hi", fmt.Errorf(exit.ErrTypeMismatch))
-		test(1, true, fmt.Errorf(exit.ErrTypeMismatch))
-		test(1, false, fmt.Errorf(exit.ErrTypeMismatch))
-		test(1, 1.0, fmt.Errorf(exit.ErrTypeMismatch))
+		test(1, "hi", fmt.Errorf(errors.TypeMismatch))
+		test(1, true, fmt.Errorf(errors.TypeMismatch))
+		test(1, false, fmt.Errorf(errors.TypeMismatch))
+		test(1, 1.0, fmt.Errorf(errors.TypeMismatch))
 		test(2, -1, nil)
 		//test(3, 0, nil)
 	}()

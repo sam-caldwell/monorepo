@@ -2,7 +2,7 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"runtime"
 )
@@ -17,6 +17,6 @@ func OpSysFamily() (family string, err error) {
 	case words.Darwin:
 		return GetFamily()
 	default:
-		return opsys, fmt.Errorf(exit.ErrUnsupportedOpsys)
+		return opsys, fmt.Errorf(errors.UnsupportedOpsys)
 	}
 }

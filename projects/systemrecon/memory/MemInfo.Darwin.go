@@ -21,6 +21,7 @@ func MemInfo() (info map[string]string, err error) {
 	const (
 		keyColumn   = 0
 		valueColumn = 1
+		sortContent = true
 	)
 
 	var output []byte
@@ -31,5 +32,5 @@ func MemInfo() (info map[string]string, err error) {
 		return nil, err
 	}
 
-	return misc.TextToKeyValueMap(&output, words.NewLine, words.Colon), nil
+	return misc.TextToKeyValueMap(&output, words.NewLine, words.Colon, sortContent), nil
 }

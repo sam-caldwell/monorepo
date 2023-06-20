@@ -2,7 +2,7 @@ package list
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"reflect"
 )
 
@@ -10,7 +10,7 @@ import (
 func (list *SmartList) TypeCheck(data any) (err error) {
 	if len(*list) > 0 {
 		if reflect.TypeOf((*list)[0]).Kind() != reflect.TypeOf(data).Kind() {
-			err = fmt.Errorf(exit.ErrTypeMismatch)
+			err = fmt.Errorf(errors.TypeMismatch)
 		}
 	}
 	return err

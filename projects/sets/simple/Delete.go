@@ -2,17 +2,17 @@ package simple
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
 // Delete - delete an item from the set
 func (set *Set) Delete(item interface{}) error {
 	if set.data == nil {
-		return fmt.Errorf(exit.ErrNotInitialized)
+		return fmt.Errorf(errors.NotInitialized)
 	}
 
 	if !set.Has(item) {
-		return fmt.Errorf(exit.ErrNotFound)
+		return fmt.Errorf(errors.NotFound)
 	}
 
 	delete(set.data, item)

@@ -1,7 +1,7 @@
 package systemrecon
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"runtime"
 )
@@ -17,5 +17,5 @@ func OpSysVersion() (string, error) {
 		return GetVersion()
 
 	}
-	return exit.ErrUnsupportedOpsys, nil
+	return errors.UnsupportedOpsys, nil
 }

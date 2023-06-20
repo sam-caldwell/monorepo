@@ -20,6 +20,7 @@ func MemInfo() (map[string]string, error) {
 	const (
 		keyColumn   = 0
 		valueColumn = 1
+		sortContent = true
 		filePath    = "/proc/meminfo"
 	)
 	var output []byte
@@ -28,6 +29,6 @@ func MemInfo() (map[string]string, error) {
 		return nil, err
 	}
 
-	return misc.TextToKeyValueMap(&output, words.NewLine, words.Colon), nil
+	return misc.TextToKeyValueMap(&output, words.NewLine, words.Colon, sortContent), nil
 
 }
