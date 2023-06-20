@@ -22,6 +22,7 @@ const (
 	NotFound                     = "not found"
 	NotInitialized               = "not initialized"
 	TypeMismatch                 = "type mismatch"
+	UnableToDetectFamily         = "unable to detect operating system family"
 	UnknownCommand               = "Unknown command"
 	UnsupportedOpsys             = "unsupported operating system"
 	UnsupportedOpsysWithDetail   = UnsupportedOpsys + Details

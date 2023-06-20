@@ -3,6 +3,15 @@
 
 package systemrecon
 
+/*
+ * GetFamily ()
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * GetFamily() for Windows
+ *
+ * 	Return the operating system family string
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"

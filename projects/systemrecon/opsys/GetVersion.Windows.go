@@ -3,6 +3,15 @@
 
 package systemrecon
 
+/*
+ * GetVersion ()
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * GetVersion() for Windows
+ *
+ * 	Return the operating system version string
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
@@ -11,6 +20,7 @@ import (
 	"runtime"
 )
 
+// GetVersion - return operating system version
 func GetVersion() (version string, err error) {
 	if runtime.GOOS != words.Windows {
 		return words.EmptyString, fmt.Error(errors.UnsupportedOpsys)

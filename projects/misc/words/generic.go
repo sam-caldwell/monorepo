@@ -5,6 +5,7 @@ package words
  */
 const (
 	EmptyString = ""
+	EqualSign   = "="
 	Colon       = ":"
 	Comma       = ","
 	Hyphen      = "-"
