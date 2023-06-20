@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"os"
 	"strings"
@@ -51,11 +52,11 @@ func main() {
 
 	ansi.Reset()
 
-	exit.OnCondition(len(os.Args) < 2, exit.MissingColor, exit.ErrMissingColor, usage())
+	exit.OnCondition(len(os.Args) < 2, exit.MissingColor, errors.MissingColor, usage())
 
 	color := strings.ToLower(strings.TrimSpace(os.Args[colorArgPosition]))
 	colorFunc, ok := colorMap[color]
-	exit.OnCondition(!ok, exit.UnknownCommand, exit.ErrUnknownCommand, usage())
+	exit.OnCondition(!ok, exit.UnknownCommand, errors.UnknownCommand, usage())
 	colorFunc()
 
 	textPos := 2

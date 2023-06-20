@@ -26,6 +26,7 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/fs/file"
 	"github.com/sam-caldwell/go/v2/projects/lock"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
@@ -54,21 +55,21 @@ func main() {
 	exit.OnCondition(
 		len(os.Args) < osArgCommand+1,
 		exit.MissingArg,
-		fmt.Sprintf(exit.ErrMissingArgWithDetail, words.Command),
+		fmt.Sprintf(errors.MissingArgWithDetail, words.Command),
 		fmt.Sprintf(cmdUsage, words.Create, words.Check, words.Free))
 
 	getCheckContext := func() (string, error) {
 		exit.OnCondition(
 			len(os.Args) < osArgContextId+1,
 			exit.MissingArg,
-			exit.ErrMissingContextId,
+			errors.MissingContextId,
 			fmt.Sprintf(cmdUsage, words.Create, words.Check, words.Free))
 		contextId := strings.ToLower(strings.TrimSpace(os.Args[osArgContextId]))
 		// Sanitize our contextId
 		if regexp.MustCompile(contextIdRegex).MatchString(contextId) {
 			return contextId, nil
 		}
-		return contextId, fmt.Errorf(exit.ErrInvalidContextId, contextId)
+		return contextId, fmt.Errorf(errors.InvalidContextIdWithDetail, contextId)
 	}
 
 	var lock lock.File
@@ -86,7 +87,7 @@ func main() {
 			exit.OnError(err, exit.InvalidInput, cmdUsage)
 		}
 		if err := lock.Check(contextId); err != nil {
-			if err.Error() == exit.ErrLockCheckFailed {
+			if err.Error() == errors.LockCheckFailed {
 				exit.OnError(err, exit.GeneralError, cmdUsage)
 			}
 			os.Exit(lockExists)
@@ -102,7 +103,7 @@ func main() {
 		}
 
 	default:
-		exit.OnError(fmt.Errorf(exit.ErrInvalidCommandWithDetail, command), exit.InvalidCommand, cmdUsage)
+		exit.OnError(fmt.Errorf(errors.InvalidCommandWithDetail, command), exit.InvalidCommand, cmdUsage)
 	}
 
 	tempFilePath, err := file.CreateTempFile()

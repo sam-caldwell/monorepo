@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/formatting"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	cpu "github.com/sam-caldwell/go/v2/projects/systemrecon/cpu"
@@ -46,7 +47,7 @@ func main() {
 		return misc.FlattenStringMap(data), err
 	}
 
-	exit.OnCondition(len(os.Args) < 2, exit.GeneralError, exit.ErrMissingArguments, usage)
+	exit.OnCondition(len(os.Args) < 2, exit.GeneralError, errors.MissingArguments, usage)
 	switch command := strings.TrimLeft(strings.ToLower(strings.TrimSpace(os.Args[1])), words.Hyphen); command {
 
 	case "arch":
@@ -78,7 +79,7 @@ func main() {
 
 	default:
 		output = ""
-		err = fmt.Errorf(exit.ErrMissingArgWithDetail, command)
+		err = fmt.Errorf(errors.MissingArgWithDetail, command)
 	}
 
 	if err != nil {

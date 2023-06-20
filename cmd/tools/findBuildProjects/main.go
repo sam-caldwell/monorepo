@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	list "github.com/sam-caldwell/go/v2/projects/Lists/SmartList"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/fs/file"
 	"os"
 	"path/filepath"
@@ -81,7 +81,7 @@ func main() {
 				case argProjects:
 					return projects.Add(filepath.Join(pathParts[2:]...))
 				default:
-					return fmt.Errorf(exit.ErrInvalidInput)
+					return fmt.Errorf(errors.InvalidInput)
 				}
 			}
 			return nil
@@ -152,8 +152,8 @@ func parseArgs() (rootDirectory string, disabledSignalFile []string, prettyPrint
 				fallthrough
 			case "--test":
 				disabledSignalFile = append(disabledSignalFile, testDisabled)
-			case cmd:
-			case projects:
+			case "cmd":
+			case "projects":
 				rootDirectory = arg
 			default:
 				err = fmt.Errorf("unexpected input: '%s'", arg)
