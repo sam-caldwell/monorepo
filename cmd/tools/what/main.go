@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/misc"
+	"github.com/sam-caldwell/go/v2/projects/misc/formatting"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	cpu "github.com/sam-caldwell/go/v2/projects/systemrecon/cpu"
 	memory "github.com/sam-caldwell/go/v2/projects/systemrecon/memory"
