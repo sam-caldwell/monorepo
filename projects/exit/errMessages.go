@@ -15,4 +15,7 @@ const (
 	ErrNotInitialized    = "not initialized"
 	ErrTypeMismatch      = "type mismatch"
 	ErrUnknownCommand    = "Unknown command"
+
+	ErrUnsupportedOpsys           = "unsupported operating system"
+	ErrUnsupportedOpsysWithDetail = "unsupported operating system: %s"
 )

@@ -7,6 +7,7 @@ import (
 type Number int
 
 func (n *Number) String() string { return strconv.Itoa(int(*n)) }
+func (n *Number) Byte() byte     { return byte(*n) }
 func (n *Number) Int() int       { return int(*n) }
 func (n *Number) Int8() int8     { return int8(*n) }
 func (n *Number) Int16() int16   { return int16(*n) }
