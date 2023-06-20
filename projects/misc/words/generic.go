@@ -4,10 +4,13 @@ package words
  * Generic Words
  */
 const (
+	EmptyString = ""
 	Comma       = ","
+	Hyphen      = "-"
+	Period      = "."
 	Space       = " "
 	Tab         = "\t"
-	EmptyString = ""
+	Underscore  = "_"
 )
 const (
 	Yes = "yes"
@@ -24,4 +27,6 @@ const (
 	Check   = "check"
 
 	Free = "free"
+
+	Help = "help"
 )
