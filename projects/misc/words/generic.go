@@ -8,11 +8,11 @@ const (
 	Colon       = ":"
 	Comma       = ","
 	Hyphen      = "-"
-	NewLine     = "\n"
-	Period      = "."
-	Space       = " "
-	Tab         = "\t"
-	Underscore  = "_"
+
+	Period     = "."
+	Space      = " "
+	Tab        = "\t"
+	Underscore = "_"
 )
 const (
 	Yes = "yes"
