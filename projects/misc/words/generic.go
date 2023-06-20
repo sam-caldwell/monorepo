@@ -5,8 +5,10 @@ package words
  */
 const (
 	EmptyString = ""
+	Colon       = ":"
 	Comma       = ","
 	Hyphen      = "-"
+	NewLine     = "\n"
 	Period      = "."
 	Space       = " "
 	Tab         = "\t"
