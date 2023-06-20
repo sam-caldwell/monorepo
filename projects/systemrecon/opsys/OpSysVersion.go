@@ -1,16 +1,29 @@
 package systemrecon
 
+/*
+ * OpSysVersion ()
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * OpSysFamily()
+ *
+ * 	Return the current operating system version.
+ */
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
-	"runtime"
 )
 
 // OpSysVersion - Return the operating system version
 func OpSysVersion() (version string, err error) {
 
-	switch runtime.GOOS {
+	var opsys string
+
+	if opsys, err = OpSys(); err != nil {
+		return version, err
+	}
+
+	switch opsys {
 
 	case words.Darwin:
 		version, err = GetVersion()
