@@ -9,7 +9,8 @@ import (
 )
 
 /*
- * MemInfo (Other)
+ * MemInfo ()
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * MemInfo() for Other systems
  *

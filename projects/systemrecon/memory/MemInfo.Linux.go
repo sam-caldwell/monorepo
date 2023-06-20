@@ -5,6 +5,7 @@ package systemrecon
 
 /*
  * MemInfo (Linux)
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * MemInfo() for Linux.
  *

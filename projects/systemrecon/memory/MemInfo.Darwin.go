@@ -5,6 +5,7 @@ package systemrecon
 
 /*
  * MemInfo (MacOS / Darwin)
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * MemInfo() for windows.
  *
