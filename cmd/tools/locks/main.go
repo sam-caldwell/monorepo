@@ -54,7 +54,7 @@ func main() {
 	exit.OnCondition(
 		len(os.Args) < osArgCommand+1,
 		exit.MissingArg,
-		fmt.Sprintf(exit.ErrMissingArgCommand, words.Command),
+		fmt.Sprintf(exit.ErrMissingArgWithDetail, words.Command),
 		fmt.Sprintf(cmdUsage, words.Create, words.Check, words.Free))
 
 	getCheckContext := func() (string, error) {
@@ -102,7 +102,7 @@ func main() {
 		}
 
 	default:
-		exit.OnError(fmt.Errorf(exit.ErrInvalidCommand, command), exit.InvalidCommand, cmdUsage)
+		exit.OnError(fmt.Errorf(exit.ErrInvalidCommandWithDetail, command), exit.InvalidCommand, cmdUsage)
 	}
 
 	tempFilePath, err := file.CreateTempFile()
