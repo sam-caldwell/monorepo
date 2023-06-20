@@ -1,5 +1,5 @@
-//go:build !windows && !linux && !darwin
-// +build !windows,!linux,!darwin
+//go:build windows
+// +build windows
 
 package systemrecon
 
