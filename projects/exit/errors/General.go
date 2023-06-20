@@ -5,29 +5,26 @@ const (
 	Details = "(%v)"
 
 	// DuplicateEntry - indicates that an operation failed because a duplicate was created.
-	DuplicateEntry = "duplicate entry"
-
+	DuplicateEntry             = "duplicate entry"
+	IndexOutOfRange            = "index out of range"
+	InternalError              = "internal error"
+	InvalidCommand             = "unknown command"
+	InvalidCommandWithDetail   = InvalidCommand + Details
+	InvalidContextId           = "Invalid contextId"
+	InvalidContextIdWithDetail = InvalidContextId + Details
+	InvalidInput               = "invalid input"
+	LockCheckFailed            = "lock check failed"
 	//MissingArguments - One or more expected inputs are missing
-	MissingArguments        = "missing argument"
-	ErrMissingArgWithDetail = MissingArguments + Details
-
-	ErrIndexOutOfRange            = "index out of range"
-	ErrInternalError              = "internal error"
-	ErrInvalidCommand             = "unknown command"
-	ErrInvalidCommandWithDetail   = ErrInvalidCommand + Details
-	ErrInvalidContextId           = "Invalid contextId"
-	ErrInvalidContextIdWithDetail = ErrInvalidContextId + Details
-	ErrInvalidInput               = "invalid input"
-	ErrLockCheckFailed            = "lock check failed"
-	ErrMissingColor               = "Missing color"
-	ErrMissingContextId           = "missing contextId (uuid)"
-	ErrNotFound                   = "not found"
-	ErrNotInitialized             = "not initialized"
-	ErrTypeMismatch               = "type mismatch"
-	ErrUnknownCommand             = "Unknown command"
-
-	ErrUnsupportedOpsys             = "unsupported operating system"
-	ErrUnsupportedOpsysWithDetail   = ErrUnsupportedOpsys + Details
-	ErrUnsupportedVersion           = "unsupported version"
-	ErrUnsupportedVersionWithDetail = ErrUnsupportedVersion + Details
+	MissingArguments             = "missing argument"
+	MissingArgWithDetail         = MissingArguments + Details
+	MissingColor                 = "Missing color"
+	MissingContextId             = "missing contextId (uuid)"
+	NotFound                     = "not found"
+	NotInitialized               = "not initialized"
+	TypeMismatch                 = "type mismatch"
+	UnknownCommand               = "Unknown command"
+	UnsupportedOpsys             = "unsupported operating system"
+	UnsupportedOpsysWithDetail   = UnsupportedOpsys + Details
+	UnsupportedVersion           = "unsupported version"
+	UnsupportedVersionWithDetail = UnsupportedVersion + Details
 )
