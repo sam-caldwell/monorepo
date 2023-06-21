@@ -32,12 +32,12 @@ func TestIntToString(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := IntToString(tt.fn)
+			got, err := IntToStringFuncWrapper(tt.fn)
 			if got != tt.want {
-				t.Errorf("IntToString() = %v, want %v", got, tt.want)
+				t.Errorf("IntToStringFuncWrapper() = %v, want %v", got, tt.want)
 			}
 			if (err != nil && tt.err == nil) || (err == nil && tt.err != nil) || (err != nil && tt.err != nil && err.Error() != tt.err.Error()) {
-				t.Errorf("IntToString() error = %v, wantErr %v", err, tt.err)
+				t.Errorf("IntToStringFuncWrapper() error = %v, wantErr %v", err, tt.err)
 			}
 		})
 	}
