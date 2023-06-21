@@ -17,8 +17,6 @@ const (
 
 	versionNumberBase = 10
 
-	errMalformed = "malformed version"
-
 	errVersionOverflow = "version overflow"
 
 	errNilPointer       = "nil pointer"
