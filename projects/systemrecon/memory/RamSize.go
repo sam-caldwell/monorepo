@@ -4,8 +4,12 @@
 package systemrecon
 
 /*
- * RamSize()
+ * SystemInfo ()
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
+ * SystemInfo() for Other systems
+ *
+ * 	Return a zero value and error for an unsupported system
  */
 import (
 	"fmt"
@@ -14,6 +18,5 @@ import (
 
 // RamSize - Return the ram size in KB
 func RamSize() (int, error) {
-	//ToDo: return RamSize in KB
 	return 0, fmt.Errorf(errors.UnsupportedOpsys)
 }

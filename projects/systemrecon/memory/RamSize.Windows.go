@@ -4,16 +4,16 @@
 package systemrecon
 
 /*
- * RamSize()
+ * SystemInfo ()
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
+ * SystemInfo() for Windows
+ *
+ * 	Return the amount of RAM in the system (in KB)
  */
-import (
-	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit/errors"
-)
 
 // RamSize - Return the ram size in KB
-func RamSize() (int, error) {
+func RamSize() (value int, err error) {
 	//ToDo: return RamSize in KB
-	return 0, fmt.Errorf(errors.UnsupportedOpsys)
+	return value, err
 }
