@@ -5,6 +5,9 @@ package words
  */
 const (
 	//
-	MacSysCtl          = "sysctl"
-	MacSysCtlHwMemSize = "hw.memsize"
+	MacSysCtl            = "sysctl"
+	MacSysCtlHwMemSize   = "hw.memsize"
+	MacSysCtlVmSwapUsage = "vm.swapusage"
+
+	MacVmStat = "vm_stat"
 )

@@ -4,7 +4,7 @@ package words
  * standardized (linux) memory-related fields (see systemrecon/memory)
  */
 const (
-	// MemTotal - Standard Total Memory fieldname (Linux)
+	// MemTotal - Standard Total Memory field name (Linux)
 	MemTotal = "MemTotal"
 )
 

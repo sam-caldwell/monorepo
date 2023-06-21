@@ -38,3 +38,9 @@ const (
 	Eight Number = 8
 	Nine  Number = 9
 )
+
+const (
+	Float32zero = float32(0.0)
+	Float64zero = 0.0
+	IntZero     = 0
+)
