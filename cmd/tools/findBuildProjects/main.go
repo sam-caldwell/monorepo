@@ -46,8 +46,8 @@ func main() {
 	var projects list.SmartList
 
 	rootDirectory, filters, prettyPrint, err := parseArgs()
-	exitOnError(err)
 
+	exitOnError(err)
 	exitOnError(
 		filepath.Walk(rootDirectory, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -61,31 +61,44 @@ func main() {
 					return nil //Bail! it's a filtered record
 				}
 
-				pathParts := filepath.SplitList(path)
+				pathParts := strings.Split(path, string(os.PathSeparator))
 
 				depth := len(pathParts)
-				if depth < 2 {
-					return nil //we're too close to root directory
+				if depth < 3 {
+					return nil //we're too close to root directory (2 is the project, 3 is the program)
 				}
+
 				switch rootDirectory {
 
 				case argCmd:
-					//We need three parts <root0>/<project1>/<program2>
-					if depth < 3 {
-						return nil
+					if pathParts[0] == argCmd {
+						//We need three parts <root0>/<project1>/<program2>
+						if depth < 3 {
+							return nil
+						}
+						project = pathParts[1]
+						program := pathParts[2]
+						if prettyPrint {
+							exitOnError(projects.Add(fmt.Sprintf("%s/%s/%s", rootDirectory, project, program)))
+						} else {
+							exitOnError(projects.Add(fmt.Sprintf("%s/%s/%s", rootDirectory, project, program)))
+						}
 					}
-					project = pathParts[2]
-					program := pathParts[3]
-					return projects.Add(fmt.Sprintf("%s/%s/%s", rootDirectory, project, program))
-
 				case argProjects:
-					return projects.Add(filepath.Join(pathParts[2:]...))
+					if pathParts[0] == argProjects {
+						exitOnError(projects.Add(filepath.Join(pathParts[1:]...)))
+					}
 				default:
 					return fmt.Errorf(errors.InvalidInput)
 				}
 			}
 			return nil
 		}))
+
+	fmt.Println("output:")
+	for _, row := range projects.String() {
+		fmt.Println(row)
+	}
 }
 
 // filtered - evaluate thisFile against filenames indicating we should filter thisFile
@@ -101,25 +114,25 @@ func filtered(thisFile string, filters []string) (disabled bool) {
 }
 
 // printBanner - Print a banner if -pretty was used.
-func printBanner(pretty, filtered bool) {
-	modifier := "unfiltered"
-	if filtered {
-		modifier = "filtered"
-	}
-	if pretty {
-		fmt.Printf(prettyPrintBanner, modifier)
-	}
-}
+//func printBanner(pretty, filtered bool) {
+//	modifier := "unfiltered"
+//	if filtered {
+//		modifier = "filtered"
+//	}
+//	if pretty {
+//		fmt.Printf(prettyPrintBanner, modifier)
+//	}
+//}
 
 // printLine - print a line (one project record)
-func printLine(pretty bool, rootDirectory, project, program string) {
-	if pretty {
-		fmt.Printf(prettyPrintFormat, rootDirectory, project, program)
-	} else {
-		fmt.Printf(simplePrintFormat, rootDirectory, project, program)
-	}
-
-}
+//func printLine(pretty bool, rootDirectory, project, program string) {
+//	if pretty {
+//		fmt.Printf(prettyPrintFormat, rootDirectory, project, program)
+//	} else {
+//		fmt.Printf(simplePrintFormat, rootDirectory, project, program)
+//	}
+//
+//}
 
 // exitOnError - on err != nil, exit with error
 func exitOnError(err error) {
@@ -140,26 +153,21 @@ func parseArgs() (rootDirectory string, disabledSignalFile []string, prettyPrint
 	if len(os.Args) >= 2 {
 		for _, arg := range os.Args[1:] {
 			switch strings.ToLower(strings.TrimSpace(arg)) {
-			case "-pretty":
-				fallthrough
 			case "--pretty":
 				prettyPrint = true
-			case "-build":
-				fallthrough
 			case "--build":
 				disabledSignalFile = append(disabledSignalFile, buildDisabled)
-			case "-test":
-				fallthrough
 			case "--test":
 				disabledSignalFile = append(disabledSignalFile, testDisabled)
 			case "cmd":
+				fallthrough
 			case "projects":
 				rootDirectory = arg
 			default:
 				err = fmt.Errorf("unexpected input: '%s'", arg)
-				break
+				return
 			}
 		}
 	}
-	return
+	return rootDirectory, disabledSignalFile, prettyPrint, err
 }
