@@ -10,7 +10,7 @@ const (
 	InternalError              = "internal error"
 	InvalidCommand             = "unknown command"
 	InvalidCommandWithDetail   = InvalidCommand + Details
-	InvalidContextId           = "Invalid contextId"
+	InvalidContextId           = "invalid contextId"
 	InvalidContextIdWithDetail = InvalidContextId + Details
 	InvalidInput               = "invalid input"
 	LockCheckFailed            = "lock check failed"
