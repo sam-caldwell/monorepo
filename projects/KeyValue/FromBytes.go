@@ -23,7 +23,9 @@ func (kv *KeyValue) FromBytes(data *[]byte, lineEnding, columnDelimiter string) 
 	kv.Initialize(len(lines), overwrite)
 
 	for _, line := range lines {
-		fields := strings.SplitN(line, columnDelimiter, columnCount)
+		fields := strings.SplitN(strings.TrimSpace(line), columnDelimiter, columnCount)
+
+		//Note: we only keep things with 2 columns
 		if len(fields) == columnCount {
 			kv.data[strings.TrimSpace(fields[keyColumn])] =
 				strings.TrimRight(strings.TrimSpace(fields[valueColumn]), words.Period)
