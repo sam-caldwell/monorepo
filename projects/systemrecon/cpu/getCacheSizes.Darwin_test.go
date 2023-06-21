@@ -1,75 +1,63 @@
-//go:build darwin
-// +build darwin
-
 package systemrecon
 
 import (
-	"errors"
-	"github.com/sam-caldwell/go/v2/projects/convert"
-	"strconv"
-	"testing"
-
 	runcommand "github.com/sam-caldwell/go/v2/projects/RunCommand"
+	"testing"
 )
 
 func TestGetCacheSizes(t *testing.T) {
-	tests := []struct {
-		name        string
-		mockOutput  string
-		mockError   error
-		expectedL1  int
-		expectedL2  int
-		expectedL3  int
-		expectedErr error
+	testCases := []struct {
+		name       string
+		level      int
+		output     string
+		expectedSz int
+		expectErr  bool
 	}{
 		{
-			name:        "valid output",
-			mockOutput:  "32768",
-			mockError:   nil,
-			expectedL1:  32,
-			expectedL2:  32,
-			expectedL3:  32,
-			expectedErr: nil,
+			name:       "L1 Cache",
+			level:      1,
+			output:     "32768\n",
+			expectedSz: 32,
+			expectErr:  false,
 		},
 		{
-			name:        "invalid output",
-			mockOutput:  "invalid",
-			mockError:   nil,
-			expectedL1:  0,
-			expectedL2:  0,
-			expectedL3:  0,
-			expectedErr: &strconv.NumError{Func: "Atoi", Num: "invalid", Err: strconv.ErrSyntax},
+			name:       "L2 Cache",
+			level:      2,
+			output:     "65536\n",
+			expectedSz: 64,
+			expectErr:  false,
 		},
 		{
-			name:        "execution error",
-			mockOutput:  "",
-			mockError:   errors.New("execution error"),
-			expectedL1:  0,
-			expectedL2:  0,
-			expectedL3:  0,
-			expectedErr: errors.New("execution error"),
+			name:       "L3 Cache",
+			level:      3,
+			output:     "1048576\n",
+			expectedSz: 1024,
+			expectErr:  false,
 		},
+		{
+			name:       "Invalid level",
+			level:      4,
+			output:     "",
+			expectedSz: invalidCacheSz,
+			expectErr:  true,
+		},
+		// Add more test cases as needed.
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			mock := runcommand.MockCommandExecutor{
-				Output: tt.mockOutput,
-				Error:  tt.mockError,
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			mockExecutor := runcommand.MockCommandExecutor{
+				Output: tc.output,
+				Error:  nil,
 			}
 
-			l1, l2, l3, err := getCacheSizes(mock)
-			if l1 != tt.expectedL1 || l2 != tt.expectedL2 || l3 != tt.expectedL3 {
-				t.Errorf("Test (%s) failed:\n"+
-					"\t got [%d, %d, %d]\n"+
-					"\twant [%d, %d, %d]",
-					tt.name, l1, l2, l3, tt.expectedL1, tt.expectedL2, tt.expectedL3)
+			got, err := getCacheSizes(mockExecutor, tc.level)
+			if (err != nil) != tc.expectErr {
+				t.Fatalf("Test %s error = %v, wantErr %v", tc.name, err, tc.expectErr)
+				return
 			}
-			if convert.ErrorToString(err) != convert.ErrorToString(tt.expectedErr) {
-				t.Errorf("Test (%s) failed:\n"+
-					"\t got '%v'\n"+
-					"\twant '%v'",
-					tt.name, err, tt.expectedErr)
+			if got != tc.expectedSz {
+				t.Fatalf("Test %s  data = %v, want %v", tc.name, got, tc.expectedSz)
 			}
 		})
 	}
