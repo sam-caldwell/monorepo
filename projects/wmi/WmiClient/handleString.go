@@ -1,6 +1,3 @@
-//go:build windows
-// +build windows
-
 package wmiclient
 
 import (
@@ -9,13 +6,20 @@ import (
 	"reflect"
 )
 
-// handleInt - Cast int64 into the given field
-func handleInt(field reflect.Value, value int64) (err error) {
+// handleString - Given a string value, cast it into a compatible field
+func handleString(field reflect.Value, value string) (err error) {
 	switch field.Kind() {
+	case reflect.String:
+		field.SetString(value)
+
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		field.SetInt(value)
+		err = strToInt64(field, value)
+
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		field.SetUint(uint64(value))
+		err = strToUint64(field, value)
+
+	case reflect.Struct:
+		err = strToTime(field, value)
 	default:
 		err = fmt.Errorf(errors.TypeMismatchWithDetail, field.Kind().String())
 	}

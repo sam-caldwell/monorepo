@@ -4,7 +4,7 @@
 package wmiclient
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/Wmi/swbemservices"
+	"github.com/sam-caldwell/go/v2/projects/wmi/swbemservices"
 	"sync"
 )
 

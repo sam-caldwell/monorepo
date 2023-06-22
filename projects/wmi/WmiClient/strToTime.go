@@ -1,7 +1,12 @@
-//go:build windows
-// +build windows
-
 package wmiclient
+
+/*
+ * strToTime.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This Go function, strToTime, is designed to parse a string representing a time
+ * and assign it to a provided reflect.Value of type time.Time.
+ */
 
 import (
 	"fmt"
@@ -10,7 +15,7 @@ import (
 	"time"
 )
 
-// strToTime - Given a 25-char string, cast it into a time.Time struct
+// strToTime -  parse a string representing a time and assign it to a provided reflect.Value of type time.Time.
 func strToTime(field reflect.Value, val string) (err error) {
 	if field.Type().Name() == "Time" {
 		if len(val) == 25 {
