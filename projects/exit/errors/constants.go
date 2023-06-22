@@ -19,11 +19,12 @@ const (
 	MissingArgWithDetail         = MissingArguments + Details
 	MissingColor                 = "Missing color"
 	MissingContextId             = "missing contextId (uuid)"
+	MissingField                 = "missing field"
 	NotFound                     = "not found"
 	NotInitialized               = "not initialized"
 	ReadOnly                     = "read only"
 	TypeMismatch                 = "type mismatch"
-	TypeMismatchWithDetail       = "type mismatch(%s)"
+	TypeMismatchWithDetail       = TypeMismatch + Details
 	UnableToDetectFamily         = "unable to detect operating system family"
 	UnknownCommand               = "Unknown command"
 	UnsupportedOpsys             = "unsupported operating system"
