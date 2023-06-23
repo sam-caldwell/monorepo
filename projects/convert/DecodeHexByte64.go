@@ -1,7 +1,7 @@
 package convert
 
 // DecodeHexByte64 -  decodes two sets of hexadecimal bytes and returns the resulting byte values
-func DecodeHexByte64(src []byte) (value [8]byte, ok bool) {
+func DecodeHexByte64(value *[8]byte, src []byte) (ok bool) {
 	if len(src) == 16 {
 		/*
 		 *   decodeHexByte()
