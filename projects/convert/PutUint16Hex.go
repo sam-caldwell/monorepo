@@ -1,7 +1,7 @@
 package convert
 
-// Write uint16 to a byte array as hex
-func putUint16Hex(b []byte, v uint16) {
+// PutUint16Hex - Write uint16 to a byte array as hex
+func PutUint16Hex(b []byte, v uint16) {
 	/*
 	 * To convert an Uint16 to a byte slice in hexadecimal
 	 * we perform a series of mask-and-shift operations.

@@ -29,7 +29,7 @@ func TestDecodeHexByte64(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		result, ok := decodeHexByte64(test.input)
+		result, ok := DecodeHexByte64(test.input)
 
 		if test.shouldError {
 			if ok {

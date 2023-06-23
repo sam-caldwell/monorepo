@@ -1,7 +1,7 @@
 package convert
 
-// putByteHex - store a byte array as a hex byte array
-func putByteHex(hexOutput, byteSource *[]byte) {
+// PutByteHex - store a byte array as a hex byte array
+func PutByteHex(hexOutput, byteSource *[]byte) {
 
 	/*
 	 * To express a byte in hexadecimal, we need two bytes.

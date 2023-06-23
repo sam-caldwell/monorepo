@@ -1,7 +1,7 @@
 package convert
 
-// putUint64Hex - write a 64-bit value into a hexadecimal byte array
-func putUint64Hex(b []byte, v uint64) {
+// PutUint64Hex - write a 64-bit value into a hexadecimal byte array
+func PutUint64Hex(b []byte, v uint64) {
 	/*
 	 * To convert an Uint64 to a byte slice in hexadecimal
 	 * we perform a series of mask-and-shift operations.

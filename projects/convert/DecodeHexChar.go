@@ -1,7 +1,7 @@
 package convert
 
-// decodeHexChar - decode a single byte representing a hexadecimal digit and return the numeric equivalent as a byte
-func decodeHexChar(value *byte, c byte) (ok bool) {
+// DecodeHexChar - decode a single byte representing a hexadecimal digit and return the numeric equivalent as a byte
+func DecodeHexChar(value *byte, c byte) (ok bool) {
 	if value == nil {
 		return false
 	}

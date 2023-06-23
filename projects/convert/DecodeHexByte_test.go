@@ -20,7 +20,7 @@ func TestDecodeHexByte(t *testing.T) {
 
 	for _, test := range tests {
 		var result byte
-		ok := decodeHexByte(&result, test.c1, test.c2)
+		ok := DecodeHexByte(&result, test.c1, test.c2)
 		if test.ok {
 			if !ok {
 				t.Fatalf("Expected Ok but got failure on '%c%c'", test.c1, test.c2)

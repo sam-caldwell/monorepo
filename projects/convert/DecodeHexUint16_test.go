@@ -19,7 +19,7 @@ func TestDecodeHexUint16(t *testing.T) {
 
 	for _, test := range tests {
 		var result uint16
-		ok := decodeHexUint16(&result, test.src)
+		ok := DecodeHexUint16(&result, test.src)
 
 		if test.shouldError {
 			if ok {

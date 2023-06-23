@@ -10,7 +10,7 @@ func TestPutUint64Hex(t *testing.T) {
 	expected := []byte{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F'}
 
 	b := make([]byte, 16)
-	putUint64Hex(b, v)
+	PutUint64Hex(b, v)
 
 	if !reflect.DeepEqual(b, expected) {
 		t.Errorf("Unexpected result. Expected: %v, Got: %v", expected, b)

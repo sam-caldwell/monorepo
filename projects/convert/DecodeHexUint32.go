@@ -1,7 +1,7 @@
 package convert
 
-// decodeHexUint32 - decode a 32-bit hexidecimal byte string as uint32
-func decodeHexUint32(value *uint32, src []byte) (ok bool) {
+// DecodeHexUint32 - decode a 32-bit hexidecimal byte string as uint32
+func DecodeHexUint32(value *uint32, src []byte) (ok bool) {
 	/*
 	 * decodeHexUint32()
 	 *      - Assumptions:
@@ -21,10 +21,10 @@ func decodeHexUint32(value *uint32, src []byte) (ok bool) {
 	}
 	var b1, b2, b3, b4 byte
 	var temp uint64
-	ok = decodeHexByte(&b1, src[0], src[1]) &&
-		decodeHexByte(&b2, src[2], src[3]) &&
-		decodeHexByte(&b3, src[4], src[5]) &&
-		decodeHexByte(&b4, src[6], src[7])
+	ok = DecodeHexByte(&b1, src[0], src[1]) &&
+		DecodeHexByte(&b2, src[2], src[3]) &&
+		DecodeHexByte(&b3, src[4], src[5]) &&
+		DecodeHexByte(&b4, src[6], src[7])
 
 	temp = (uint64(b1) << 24) | (uint64(b2) << 16) | (uint64(b3) << 8) | uint64(b4)
 	*value = uint32(temp)

@@ -20,7 +20,7 @@ func TestDecodeHexChar(t *testing.T) {
 
 	for _, test := range tests {
 		var result byte
-		ok := decodeHexChar(&result, test.hexByte)
+		ok := DecodeHexChar(&result, test.hexByte)
 
 		if test.shouldError {
 			if ok {

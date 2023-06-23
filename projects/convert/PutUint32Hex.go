@@ -1,7 +1,7 @@
 package convert
 
-// putUint32Hex - write a 32-bit value into a hexidecimal byte array
-func putUint32Hex(b []byte, v uint32) {
+// PutUint32Hex - write a 32-bit value into a hexidecimal byte array
+func PutUint32Hex(b []byte, v uint32) {
 	/*
 	 * To convert an Uint32 to a byte slice in hexadecimal
 	 * we perform a series of mask-and-shift operations.
