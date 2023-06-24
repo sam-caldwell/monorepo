@@ -1,0 +1,1 @@
+PACKAGE_MANAGER:=$(shell make check/package-managers)
