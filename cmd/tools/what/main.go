@@ -44,13 +44,13 @@ func main() {
 		output, err = cpu.CpuArch()
 
 	case "cpus":
-		output, err = convert.IntToString(cpu.CpuCores)
+		output, err = convert.IntToStringFuncWrapper(cpu.CpuCores)
 
 	case "cpuinfo":
 		output, err = keyvalue.Interceptor(cpu.CpuInfo)
 
 	case "ram":
-		output, err = convert.IntToString(memory.RamSize)
+		output, err = convert.IntToStringFuncWrapper(memory.RamSize)
 
 	case "os":
 		output, err = opsys.OpSys()
