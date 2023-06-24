@@ -14,6 +14,7 @@ const (
 	InvalidContextIdWithDetail = InvalidContextId + Details
 	InvalidInput               = "invalid input"
 	LockCheckFailed            = "lock check failed"
+	MalformedGuid              = "malformed GUID"
 	//MissingArguments - One or more expected inputs are missing
 	MissingArguments             = "missing argument"
 	MissingArgWithDetail         = MissingArguments + Details
