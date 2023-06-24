@@ -6,9 +6,7 @@ replace github.com/sam-caldwell/go/v2 => ./
 
 require (
 	github.com/go-git/go-git/v5 v5.7.0
-	github.com/go-ole/go-ole v1.2.6
 	github.com/google/uuid v1.3.0
-	github.com/sam-caldwell/wmi v0.0.0-20230621190952-a0e9989b0c89
 	golang.org/x/sys v0.9.0
 	gopkg.in/yaml.v2 v2.4.0
 )
