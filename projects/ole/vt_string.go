@@ -30,7 +30,7 @@ var (
 
 func (i VT) String() string {
 	switch {
-	case 0 <= i && i <= 14:
+	case /* 0 <= i && */ i <= 14:
 		return _VT_name_0[_VT_index_0[i]:_VT_index_0[i+1]]
 	case 16 <= i && i <= 31:
 		i -= 16

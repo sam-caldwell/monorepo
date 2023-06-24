@@ -83,7 +83,7 @@ func lpOleStrLen(p *uint16) (length int64) {
 	ptr := unsafe.Pointer(p)
 
 	for i := 0; ; i++ {
-		if 0 == *(*uint16)(ptr) {
+		if *(*uint16)(ptr) == 0 {
 			length = int64(i)
 			break
 		}
@@ -93,9 +93,9 @@ func lpOleStrLen(p *uint16) (length int64) {
 }
 
 // convertHresultToError converts syscall to error, if call is unsuccessful.
-func convertHresultToError(hr uintptr, r2 uintptr, ignore error) (err error) {
-	if hr != 0 {
-		err = NewError(hr)
-	}
-	return
-}
+//func convertHresultToError(hr uintptr, r2 uintptr, ignore error) (err error) {
+//	if hr != 0 {
+//		err = NewError(hr)
+//	}
+//	return
+//}

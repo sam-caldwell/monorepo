@@ -1,3 +1,7 @@
+# Version 2.x.x (sam-caldwell/go)
+* original project forked.
+* original project merged into sam-caldwell/go/v2 module.
+
 # Version 1.x.x
 
 * **Add more test cases and reference new test COM server project.** (Placeholder for future additions)
