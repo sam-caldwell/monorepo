@@ -16,7 +16,7 @@ ifeq ($(OPSYS),windows)
 GO_BINARY:="c:\Program Files\Go\bin\go.exe"
 else
 # We assume all other systems are rational posix systems
-# who just call 'go' what it is...'go' because otherwise
+# who just call 'go' systemrecon it is...'go' because otherwise
 # it is a group of sadistic, greedy, insecure people who
 # probably work for Microsoft.
 GO_BINARY:="go"

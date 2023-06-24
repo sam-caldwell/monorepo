@@ -2,7 +2,7 @@
 # Makefile.d/_config/executable_extension.mk
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 #
-# This parameter determines what (if any) binary
+# This parameter determines systemrecon (if any) binary
 # extension we will append to the end of executables
 #
 ifeq ($(OS),Windows_NT)
