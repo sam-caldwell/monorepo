@@ -4,5 +4,6 @@
 #
 # BUILD_PROJECTS is the list of projects in cmd/
 #
-BUILD_PROJECTS := $(shell go run cmd/tools/findBuildProjects/main.go)
+BUILD_PROJECTS := $(shell go run cmd/tools/findBuildProjects/main.go cmd)
+
 
