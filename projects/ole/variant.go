@@ -12,16 +12,30 @@ func (v *VARIANT) ToIUnknown() *IUnknown {
 	if v.VT != VT_UNKNOWN {
 		return nil
 	}
-	return (*IUnknown)(unsafe.Pointer(uintptr(v.Val)))
+	return (*IUnknown)(unsafe.Pointer(&v.Val))
 }
+
+//func (v *VARIANT) ToIUnknown() *IUnknown {
+//	if v.VT != VT_UNKNOWN {
+//		return nil
+//	}
+//	return (*IUnknown)(unsafe.Pointer(uintptr(v.Val)))
+//}
 
 // ToIDispatch converts variant to dispatch object.
 func (v *VARIANT) ToIDispatch() *IDispatch {
 	if v.VT != VT_DISPATCH {
 		return nil
 	}
-	return (*IDispatch)(unsafe.Pointer(uintptr(v.Val)))
+	return (*IDispatch)(unsafe.Pointer(&v.Val))
 }
+
+//func (v *VARIANT) ToIDispatch() *IDispatch {
+//	if v.VT != VT_DISPATCH {
+//		return nil
+//	}
+//	return (*IDispatch)(unsafe.Pointer(uintptr(v.Val)))
+//}
 
 // ToArray converts variant to SafeArray helper.
 func (v *VARIANT) ToArray() *SafeArrayConversion {
@@ -30,9 +44,19 @@ func (v *VARIANT) ToArray() *SafeArrayConversion {
 			return nil
 		}
 	}
-	var safeArray *SafeArray = (*SafeArray)(unsafe.Pointer(uintptr(v.Val)))
+	var safeArray *SafeArray = (*SafeArray)(unsafe.Pointer(&v.Val))
 	return &SafeArrayConversion{safeArray}
 }
+
+//func (v *VARIANT) ToArray() *SafeArrayConversion {
+//	if v.VT != VT_SAFEARRAY {
+//		if v.VT&VT_ARRAY == 0 {
+//			return nil
+//		}
+//	}
+//	var safeArray *SafeArray = (*SafeArray)(unsafe.Pointer(uintptr(v.Val)))
+//	return &SafeArrayConversion{safeArray}
+//}
 
 // ToString converts variant to Go string.
 func (v *VARIANT) ToString() string {
