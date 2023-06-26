@@ -12,10 +12,6 @@ import (
 	"strings"
 )
 
-const (
-	invalidCacheSz = -1
-)
-
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
 func getCacheSizes(executor runcommand.CommandExecutor, level int) (size int, err error) {
 	cacheLevels := []string{"hw.l1icachesize", "hw.l2cachesize", "hw.l3cachesize"}
