@@ -5,16 +5,22 @@ package systemrecon
 
 import (
 	"fmt"
-	runcommand "github.com/sam-caldwell/go/v2/projects/RunCommand"
 	"github.com/sam-caldwell/go/v2/projects/convert"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
+	runcommand "github.com/sam-caldwell/go/v2/projects/runcommand"
 	"strconv"
 	"strings"
 )
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
 func getCacheSizes(executor runcommand.CommandExecutor, level int) (size int, err error) {
-	cacheLevels := []string{"hw.l1icachesize", "hw.l2cachesize", "hw.l3cachesize"}
+
+	cacheLevels := []string{
+		"hw.l1icachesize",
+		"hw.l2cachesize",
+		"hw.l3cachesize",
+	}
+
 	if level >= 0 && level <= len(cacheLevels) {
 		var raw []byte
 		if raw, err = executor.Execute("sysctl", "-n", cacheLevels[level-1]); err == nil {

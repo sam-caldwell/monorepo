@@ -4,7 +4,7 @@
 package systemrecon
 
 import (
-	runcommand "github.com/sam-caldwell/go/v2/projects/RunCommand"
+	runcommand "github.com/sam-caldwell/go/v2/projects/runcommand"
 )
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)

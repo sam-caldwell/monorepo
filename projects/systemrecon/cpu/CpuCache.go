@@ -2,8 +2,8 @@ package systemrecon
 
 import (
 	"fmt"
-	runcommand "github.com/sam-caldwell/go/v2/projects/RunCommand"
 	"github.com/sam-caldwell/go/v2/projects/convert"
+	runcommand "github.com/sam-caldwell/go/v2/projects/runcommand"
 )
 
 // CpuCache - Return the CPU cache (in KB)
