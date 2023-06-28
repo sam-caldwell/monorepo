@@ -7,6 +7,12 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 echo "\033[34m>starting $0\033[0m"
+
+make security || {
+  echo "\033[31m>Lint/security check failed $0\033[0m"
+  exit 1
+}
+
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
         against=HEAD
