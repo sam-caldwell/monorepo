@@ -3,32 +3,10 @@
 remote="$1"
 url="$2"
 
-zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
-
-while read local_ref local_oid remote_ref remote_oid
-do
-        if test "$local_oid" = "$zero"
-        then
-                # Handle delete
-                :
-        else
-                if test "$remote_oid" = "$zero"
-                then
-                        # New branch, examine all commits
-                        range="$local_oid"
-                else
-                        # Update to existing branch, examine new commits
-                        range="$remote_oid..$local_oid"
-                fi
-
-                # Check for WIP commit
-                commit=$(git rev-list -n 1 --grep '^WIP' "$range")
-                if test -n "$commit"
-                then
-                        echo >&2 "Found WIP commit in $local_ref, not pushing"
-                        exit 1
-                fi
-        fi
-done
-
+echo "\033[34m>starting $0\033[0m"
+make security || {
+  echo "\033[31m>Lint/security check failed $0\033[0m"
+  exit 1
+}
+echo "\033[32m>ok $0\033[0m"
 exit 0
