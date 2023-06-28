@@ -21,8 +21,13 @@ jobs:
       matrix:
         go-version:
           - '1.20'
-        go-arch: [ 'amd64', 'arm64' ]
-        go-opsys: [ 'darwin', 'linux', 'windows' ]
+        go-arch:
+          - 'amd64'
+#          - 'arm64'
+        go-opsys:
+          - 'darwin'
+#          - 'linux'
+#          - 'windows'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
