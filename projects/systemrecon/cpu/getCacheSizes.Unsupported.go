@@ -3,11 +3,7 @@
 
 package systemrecon
 
-import (
-	runcommand "github.com/sam-caldwell/go/v2/projects/runcommand"
-)
-
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
-func getCacheSizes(executor runcommand.CommandExecutor, level int) (size int, err error) {
+func getCacheSizes(level int) (size int, err error) {
 	return 0, nil
 }

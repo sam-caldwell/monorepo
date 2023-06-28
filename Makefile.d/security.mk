@@ -45,7 +45,6 @@ security/snyk: security/snyk/install
 	@echo "\033[34m>starting $@\033[0m"
 	#snyk ignore --file-path='projects/argparse/Arguments.Copyright_test.go'
 	@snyk code test
-	@git add .dccache && git commit -m "update snyk cache"
 	@echo "\033[32m>ok $@\033[0m"
 
 security: lint \

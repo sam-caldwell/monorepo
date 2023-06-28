@@ -5,14 +5,13 @@ package systemrecon
 
 import (
 	"fmt"
-	runcommand "github.com/sam-caldwell/go/v2/projects/RunCommand"
 	"github.com/sam-caldwell/go/v2/projects/convert"
 	"strconv"
 	"strings"
 )
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
-func getCacheSizes(executor runcommand.CommandExecutor, level int) (size int, err error) {
+func getCacheSizes(level int) (size int, err error) {
 	cacheLevels := map[int]string{1: "L1 Cache", 2: "L2 Cache", 3: "L3 Cache"}
 	cachePurpose, ok := cacheLevels[level]
 	if !ok {
