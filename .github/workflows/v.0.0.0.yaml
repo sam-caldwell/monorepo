@@ -1,0 +1,127 @@
+---
+name: workflow-00-setup
+
+on:
+  push:
+    tags:
+      - v*
+  pull_request:
+    tags:
+      - v*
+jobs:
+
+  config:
+    name: configure-pipeline
+    runs-on: ubuntu-latest
+    outputs:
+      lint-enabled: "false"
+      test-enabled: "false"
+      build-enabled: "false"
+    steps:
+      - name: done
+        id: done
+        run: |
+          echo "done"
+
+  lint:
+    name: Run the Linter
+    needs:
+      - config
+    if: needs.config.outputs.lint-enabled == 'true'
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+    outputs:
+      lint-successful: ${{ steps.lint-successful.outputs.success }}
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        go-version:
+          - '1.20'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run linter ${{ matrix.go-version }}
+        id: lint-successful
+        if: success()
+        run: |
+          make security
+
+  test:
+    name: Run Tests
+    needs:
+      - config
+      - lint
+    if: needs.config.outputs.test-enabled == 'true'
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+    outputs:
+      test-successful: ${{ steps.test-successful.outputs.success }}
+    strategy:
+      fail-fast: true
+      max-parallel: 3
+      matrix:
+        go-version:
+          - '1.20'
+          - '1.19'
+        go-arch: [ 'amd64', 'arm64' ]
+        go-opsys: [ 'linux', 'darwin', 'windows' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests ${{ matrix.go-version }}
+        run: |
+          make test/simple
+
+  build:
+    name: Run Builder
+    needs:
+      - config
+      - lint
+      - test
+    if: needs.config.outputs.build-enabled == 'true'
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.workflow }}
+    runs-on: ubuntu-latest
+    outputs:
+      build-successful: ${{ steps.build-successful.outputs.success }}
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        go-version:
+          - '1.20'
+        go-arch: [ 'amd64' ]
+        go-opsys: [ 'linux' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run artifact build ${{ matrix.go-version }}
+        run: |
+          make build
+
+  # ToDo: release and sign
