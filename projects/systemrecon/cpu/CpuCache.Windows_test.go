@@ -7,6 +7,6 @@ import (
 	"testing"
 )
 
-func TestGetCacheSizes(t *testing.T) {
-	//testCases := []struct {
+func TestCpuCache(t *testing.T) {
+	t.Fatal("test not implemented")
 }
