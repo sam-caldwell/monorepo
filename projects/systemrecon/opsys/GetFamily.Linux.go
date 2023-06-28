@@ -14,19 +14,20 @@ package systemrecon
 
 import (
 	"fmt"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
 // GetFamily2 - return the operating system family
 func GetFamily() (output string, err error) {
 
-	var info map[string]string
+	var info keyvalue.KeyValue
 
 	if info, err = GetLinuxOsReleaseMap(); err != nil {
 		return output, fmt.Errorf(errors.UnsupportedOpsys)
 	}
 
-	if family, ok := info["ID"]; ok {
+	if family, err := info.GetString("ID"); err == nil {
 		return family, nil
 	}
 

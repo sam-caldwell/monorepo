@@ -5,6 +5,7 @@ package systemrecon
 
 import (
 	"fmt"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
@@ -20,13 +21,13 @@ import (
 // GetVersion - return operating system version
 func GetVersion() (output string, err error) {
 
-	var info map[string]string
+	var info keyvalue.KeyValue
 
 	if info, err = GetLinuxOsReleaseMap(); err != nil {
 		return output, fmt.Errorf(errors.UnsupportedOpsys)
 	}
 
-	if version, ok := info["VERSION_ID"]; ok {
+	if version, err := info.GetString("VERSION_ID"); err == nil {
 		return version, nil
 	}
 

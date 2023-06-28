@@ -1,5 +1,5 @@
-//go:build windows
-// +build windows
+//go:build !windows && !linux && !darwin
+// +build !windows,!linux,!darwin
 
 package ole
 
@@ -8,35 +8,35 @@ import (
 )
 
 var (
-	procSafeArrayAccessData        = modoleaut32.NewProc("SafeArrayAccessData")
-	procSafeArrayAllocData         = modoleaut32.NewProc("SafeArrayAllocData")
-	procSafeArrayAllocDescriptor   = modoleaut32.NewProc("SafeArrayAllocDescriptor")
-	procSafeArrayAllocDescriptorEx = modoleaut32.NewProc("SafeArrayAllocDescriptorEx")
-	procSafeArrayCopy              = modoleaut32.NewProc("SafeArrayCopy")
-	procSafeArrayCopyData          = modoleaut32.NewProc("SafeArrayCopyData")
-	procSafeArrayCreate            = modoleaut32.NewProc("SafeArrayCreate")
-	procSafeArrayCreateEx          = modoleaut32.NewProc("SafeArrayCreateEx")
-	procSafeArrayCreateVector      = modoleaut32.NewProc("SafeArrayCreateVector")
-	procSafeArrayCreateVectorEx    = modoleaut32.NewProc("SafeArrayCreateVectorEx")
-	procSafeArrayDestroy           = modoleaut32.NewProc("SafeArrayDestroy")
-	procSafeArrayDestroyData       = modoleaut32.NewProc("SafeArrayDestroyData")
-	procSafeArrayDestroyDescriptor = modoleaut32.NewProc("SafeArrayDestroyDescriptor")
-	procSafeArrayGetDim            = modoleaut32.NewProc("SafeArrayGetDim")
-	procSafeArrayGetElement        = modoleaut32.NewProc("SafeArrayGetElement")
-	procSafeArrayGetElemsize       = modoleaut32.NewProc("SafeArrayGetElemsize")
-	procSafeArrayGetIID            = modoleaut32.NewProc("SafeArrayGetIID")
-	procSafeArrayGetLBound         = modoleaut32.NewProc("SafeArrayGetLBound")
-	procSafeArrayGetUBound         = modoleaut32.NewProc("SafeArrayGetUBound")
-	procSafeArrayGetVartype        = modoleaut32.NewProc("SafeArrayGetVartype")
-	procSafeArrayLock              = modoleaut32.NewProc("SafeArrayLock")
-	procSafeArrayPtrOfIndex        = modoleaut32.NewProc("SafeArrayPtrOfIndex")
-	procSafeArrayUnaccessData      = modoleaut32.NewProc("SafeArrayUnaccessData")
-	procSafeArrayUnlock            = modoleaut32.NewProc("SafeArrayUnlock")
-	procSafeArrayPutElement        = modoleaut32.NewProc("SafeArrayPutElement")
-	//procSafeArrayRedim             = modoleaut32.NewProc("SafeArrayRedim") // TODO
-	//procSafeArraySetIID            = modoleaut32.NewProc("SafeArraySetIID") // TODO
-	procSafeArrayGetRecordInfo = modoleaut32.NewProc("SafeArrayGetRecordInfo")
-	procSafeArraySetRecordInfo = modoleaut32.NewProc("SafeArraySetRecordInfo")
+	procSafeArrayAccessData        = nil
+	procSafeArrayAllocData         = nil
+	procSafeArrayAllocDescriptor   = nil
+	procSafeArrayAllocDescriptorEx = nil
+	procSafeArrayCopy              = nil
+	procSafeArrayCopyData          = nil
+	procSafeArrayCreate            = nil
+	procSafeArrayCreateEx          = nil
+	procSafeArrayCreateVector      = nil
+	procSafeArrayCreateVectorEx    = nil
+	procSafeArrayDestroy           = nil
+	procSafeArrayDestroyData       = nil
+	procSafeArrayDestroyDescriptor = nil
+	procSafeArrayGetDim            = nil
+	procSafeArrayGetElement        = nil
+	procSafeArrayGetElemsize       = nil
+	procSafeArrayGetIID            = nil
+	procSafeArrayGetLBound         = nil
+	procSafeArrayGetUBound         = nil
+	procSafeArrayGetVartype        = nil
+	procSafeArrayLock              = nil
+	procSafeArrayPtrOfIndex        = nil
+	procSafeArrayUnaccessData      = nil
+	procSafeArrayUnlock            = nil
+	procSafeArrayPutElement        = nil
+	procSafeArrayRedim             = nil
+	procSafeArraySetIID            = nil
+	procSafeArrayGetRecordInfo     = nil
+	procSafeArraySetRecordInfo     = nil
 )
 
 // safeArrayAccessData returns raw array pointer.

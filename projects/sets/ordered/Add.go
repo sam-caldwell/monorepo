@@ -16,7 +16,7 @@ func (set *Set) Add(item any) (err error) {
 	defer set.lock.Unlock()
 
 	if len(set.data) > 0 {
-		if err := set.typeCheck(&item); err != nil {
+		if err = set.typeCheck(&item); err != nil {
 			return err
 		}
 	}

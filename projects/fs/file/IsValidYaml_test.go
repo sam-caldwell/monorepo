@@ -19,7 +19,7 @@ key2: value2
 		}
 		defer func() {
 			// Clean up the temporary file after the test
-			if err := os.Remove(tempFile.Name()); err != nil {
+			if err = os.Remove(tempFile.Name()); err != nil {
 				t.Errorf("Failed to remove the temporary file: %v", err)
 			}
 		}()
@@ -49,7 +49,7 @@ key2
 		}
 		defer func() {
 			// Clean up the temporary file after the test
-			if err := os.Remove(tempFile.Name()); err != nil {
+			if err = os.Remove(tempFile.Name()); err != nil {
 				t.Errorf("Failed to remove the temporary file: %v", err)
 			}
 		}()

@@ -23,7 +23,7 @@ import (
 // GetVersion - return operating system version
 func GetVersion() (version string, err error) {
 	if runtime.GOOS != words.Windows {
-		return words.EmptyString, fmt.Error(errors.UnsupportedOpsys)
+		return words.EmptyString, fmt.Errorf(errors.UnsupportedOpsys)
 	}
 	k, err := registry.OpenKey(
 		registry.LOCAL_MACHINE,
@@ -31,19 +31,19 @@ func GetVersion() (version string, err error) {
 		registry.QUERY_VALUE)
 
 	if err != nil {
-		return "", err
+		return words.EmptyString, err
 	}
 
 	defer func() { _ = k.Close() }()
 
 	majVersion, _, err := k.GetIntegerValue("CurrentMajorVersionNumber")
 	if err != nil {
-		return "", err
+		return words.EmptyString, err
 	}
 
 	minVersion, _, err := k.GetIntegerValue("CurrentMinorVersionNumber")
 	if err != nil {
-		return "", err
+		return words.EmptyString, err
 	}
 
 	return fmt.Sprintf("%d.%d", majVersion, minVersion), nil

@@ -22,7 +22,8 @@ import (
 func GetFamily() (family string, err error) {
 	var version semver.SemanticVersion
 	{
-		rawVersion, err := GetVersion()
+		var rawVersion string
+		rawVersion, err = GetVersion()
 		if err != nil {
 			return rawVersion, err
 		}

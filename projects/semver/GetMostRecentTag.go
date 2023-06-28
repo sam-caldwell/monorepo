@@ -3,6 +3,7 @@ package semver
 import (
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
+	"github.com/go-git/go-git/v5/plumbing/storer"
 	"regexp"
 	"sort"
 	"strings"
@@ -12,7 +13,7 @@ import (
 func (ver *SemanticVersion) GetMostRecentTag() (err error) {
 	var tag string
 	//Get the most recent tag (string)
-	if err := func() error {
+	if err = func() error {
 		var repo *git.Repository
 		var tagNames []string
 		// Open the repository
@@ -20,7 +21,8 @@ func (ver *SemanticVersion) GetMostRecentTag() (err error) {
 			return err
 		}
 		// Get the list of tags
-		if tagRefs, err := repo.Tags(); err != nil {
+		var tagRefs storer.ReferenceIter
+		if tagRefs, err = repo.Tags(); err != nil {
 			return err
 		} else {
 			// Iterate over the tags and get their names

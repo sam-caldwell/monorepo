@@ -1,3 +1,4 @@
+//go:build windows
 // +build windows
 
 package ole
@@ -252,9 +253,10 @@ func VariantClear(v *VARIANT) (err error) {
 	return
 }
 
-// SysAllocString allocates memory for string and copies string into memory.
+// SysAllocString allocates memory for a string and copies the string into the allocated memory.
 func SysAllocString(v string) (ss *int16) {
 	pss, _, _ := procSysAllocString.Call(uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(v))))
+	//nolint:go vet
 	ss = (*int16)(unsafe.Pointer(pss))
 	return
 }
@@ -263,8 +265,8 @@ func SysAllocString(v string) (ss *int16) {
 func SysAllocStringLen(v string) (ss *int16) {
 	utf16 := utf16.Encode([]rune(v + "\x00"))
 	ptr := &utf16[0]
-
 	pss, _, _ := procSysAllocStringLen.Call(uintptr(unsafe.Pointer(ptr)), uintptr(len(utf16)-1))
+	//nolint:govet
 	ss = (*int16)(unsafe.Pointer(pss))
 	return
 }

@@ -34,8 +34,8 @@ func GetFamily() (result string, err error) {
 	switch version.Major() {
 	case 10:
 		result = words.Windows10
-		if minor != 0 {
-			result = fmt.Sprintf("%s.%s", version, minor)
+		if version.Minor() != 0 {
+			result = fmt.Sprintf("%d.%d", version.Major(), version.Minor())
 		}
 		return result, err
 	case 6:
@@ -49,7 +49,7 @@ func GetFamily() (result string, err error) {
 		case 3:
 			result = words.Windows81
 		default:
-			result = fmt.Sprintf("%d.%d", major, minor)
+			result = fmt.Sprintf("%d.%d", version.Major(), version.Minor())
 			err = fmt.Errorf(errors.UnsupportedVersion)
 		}
 		return result, err
@@ -62,12 +62,12 @@ func GetFamily() (result string, err error) {
 		case 2:
 			result = words.WindowsServer2K3
 		default:
-			result = fmt.Sprintf("%d.%d", major, minor)
+			result = fmt.Sprintf("%d.%d", version.Major(), version.Minor())
 			err = fmt.Errorf(errors.UnsupportedVersion)
 		}
 	default:
-		version = fmt.Sprintf("%d.%d", major, minor)
+		result = fmt.Sprintf("%d.%d", version.Major(), version.Minor())
 		err = fmt.Errorf(errors.UnsupportedVersion)
 	}
-	return version, err
+	return result, err
 }
