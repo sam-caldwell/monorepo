@@ -37,6 +37,16 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
+      - name: install staticcheck
+        shell: bash
+        run: make lint/install/staticcheck
+
+      - name: Print Go paths
+        shell: bash
+        run: |
+          echo "GOPATH: $(go env GOPATH)"
+          ls $(go env GOPATH)/bin
+
       - name: Run linter ${{ matrix.go-version }}
         shell: bash
         run: |
