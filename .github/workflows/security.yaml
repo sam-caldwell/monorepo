@@ -29,15 +29,16 @@ jobs:
 
       - name: Test Token
         env:
+
           TEST_ME: ${{ secrets.TEST_TOKEN }}
         run: |
-          echo "TEST_ME: ${TEST_ME}"
-          echo "TEST_TOKEN: ${{ secrets.TEST_TOKEN }}"
+          echo "TEST_ME: '${{TEST_ME}}'"
+          echo "TEST_TOKEN: '${{ secrets.TEST_TOKEN }}'"
 
-      - name: Authenticate with Snyk
+      - name: Run Snyk
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
-
-      - name: Run Snyk to check for vulnerabilities
-        run: snyk test
+        run: |
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk test
