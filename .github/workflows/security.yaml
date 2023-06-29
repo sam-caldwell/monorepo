@@ -6,6 +6,8 @@ on:
   pull_request:
 
 jobs:
+
+jobs:
   security:
     name: Run Security Scan
     runs-on: ubuntu-latest
@@ -20,19 +22,14 @@ jobs:
         go-opsys:
           - 'darwin'
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-      - name: Install Snyk CLI
-        run: npm install -g snyk
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Run Snyk
+      - name: go mod tidy
+        shell: bash
+        run: go mod tidy
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/golang@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          echo "${{ secrets.SNYK_TOKEN }}"
-          snyk auth -d ${{ secrets.SNYK_TOKEN }}
-          snyk test -d
