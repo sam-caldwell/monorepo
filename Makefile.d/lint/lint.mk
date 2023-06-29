@@ -4,4 +4,4 @@
 
 lint: lint/go \
       lint/yaml
-	@echo "$@ done"
+	@echo "\033[32m>ok $@\033[0m"

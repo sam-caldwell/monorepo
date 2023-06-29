@@ -31,8 +31,5 @@ PACKAGE_MANAGER:=$(shell /bin/bash -c '\
 	  		echo "choco"; \
 		  	exit 0;\
 		};\
+		echo "none";\
 		exit 0')
-
-check/package-managers:
-	@echo $(PACKAGE_MANAGER)
-
