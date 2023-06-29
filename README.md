@@ -8,13 +8,15 @@ gets real old, real quick whether here or when I just want to reuse some of my c
 or work project.
 
 ## Status
+* Version: ![Version](https://github.com/sam-caldwell/VERSION.svg)           |
+
 |          |                                                                         |
 |----------|-------------------------------------------------------------------------|
 | Linter   | ![Linter](https://github.com/sam-caldwell/badges/LINT.svg?branch=main)  |
 | Security | ![Linter](https://github.com/sam-caldwell/badges/SNYK.svg?branch=main)  |
 | Test     | ![Linter](https://github.com/sam-caldwell/badges/TEST.svg?branch=main)  |
 | Build    | ![Linter](https://github.com/sam-caldwell/badges/BUILD.svg?branch=main) |
-| Version  | ![Linter](https://github.com/sam-caldwell/badges/VERSION.svg)           |
+
 
 
 
