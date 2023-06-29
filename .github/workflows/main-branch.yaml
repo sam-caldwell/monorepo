@@ -42,7 +42,7 @@ jobs:
       - name: go mod tidy
         shell: bash
         run: |
-          make lint/install/staticcheck
+          go get honnef.co/go/tools/cmd/staticcheck
           command -v staticcheck || {
             echo 'install failed.'
             exit 1
