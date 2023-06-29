@@ -44,11 +44,11 @@ jobs:
         run: |
           echo "GOPATH: $(go env GOPATH)"
           echo "list GOPATH"
-          ls $(go env GOPATH)
+          ls -la $(go env GOPATH)
           echo "list GOPATH/bin"
-          ls $(go env GOPATH)/bin
+          ls -la $(go env GOPATH)/bin
           echo "list GOPATH/bin/"
-          ls $(go env GOPATH)/bin/
+          ls -la $(go env GOPATH)/bin/
           echo "find staticcheck"
           command -v staticcheck
 
