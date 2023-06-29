@@ -28,10 +28,7 @@ jobs:
         run: npm install -g snyk
 
       - name: Test Token
-        env:
-          TEST_ME: ${{ secrets.TEST_TOKEN }}
         run: |
-          echo "TEST_ME: '${{TEST_ME}}'"
           echo "TEST_TOKEN: '${{ secrets.TEST_TOKEN }}'"
 
       - name: Run Snyk
