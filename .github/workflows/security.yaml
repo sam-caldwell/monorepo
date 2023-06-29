@@ -27,12 +27,17 @@ jobs:
       - name: Install Snyk CLI
         run: npm install -g snyk
 
+      - name: Test Token
+        env:
+          TEST_ME: ${{ secrets.TEST_TOKEN }}
+        run: |
+          echo "TEST_ME: ${TEST_ME}"
+          echo "TEST_TOKEN: ${{ secrets.TEST_TOKEN }}"
+
       - name: Authenticate with Snyk
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk test
