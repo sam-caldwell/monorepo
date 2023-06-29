@@ -1,16 +1,16 @@
 #!/bin/bash -e
 
-remote="$1"
-url="$2"
+#remote="$1"
+#url="$2"
 
 
 
-echo "\033[34m>starting $0\033[0m"
+printf "\033[34m>starting %s\033[0m" "$0"
 #
 #make test || {
-#  echo "\033[31m>test failed $0\033[0m"
+#  printf "\033[31m>ok %s\033[0m" "$0"
 #  exit 1
 #}
 
-echo "\033[32m>ok $0\033[0m"
+printf "\033[32m>ok %s\033[0m" "$0"
 exit 0

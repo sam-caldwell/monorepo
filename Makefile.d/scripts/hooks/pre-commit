@@ -5,14 +5,14 @@
 # exit with non-zero status after issuing an appropriate message if
 # it wants to stop the commit.
 #
-echo "\033[34m>starting $0\033[0m"
+printf "\033[34m>starting %s\033[0m" "$0"
 
 make security || {
-  echo "\033[31m>Lint/security check failed $0\033[0m"
+  printf "\033[31m>Lint/security check failed %s\033[0m" "$0"
   exit 1
 }
 
-echo "\033[32m>Linter/Security check: ok $0\033[0m"
+printf "\033[32m>Linter/Security check: ok %s\033[0m" "$0"
 
-echo "\033[32m>ok $0\033[0m"
+printf "\033[32m>ok %s\033[0m" "$0"
 
