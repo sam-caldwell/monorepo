@@ -9,7 +9,7 @@ test/Makefile/enable.test:
 	@( \
 		export PROJECT_DIR="./cmd/fakeProject/build.disabled"; \
 		export CMD_FLAG_FILE="./cmd/fakeProject/build.disabled"; \
-		if [[ -f "$${CMD_FLAG_FILE}" ]]; then \
+		if [ -f "$${CMD_FLAG_FILE}" ]; then \
 			@echo "\033[31m>Error: Enable operation should have removed $${CMD_FLAG_FILE}:$@\033[0m"
 	  	fi; \
 	)

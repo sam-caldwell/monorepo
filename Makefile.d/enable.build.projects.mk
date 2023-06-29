@@ -11,11 +11,11 @@ enable/build/%:
 		export PROJECT="$(shell basename $@)"; \
 		export CMD_FLAG_FILE="./cmd/$${PROJECT}/build.disabled";\
 		@echo "\033[34m enable project: '$${PROJECT}' $@\033[0m";\
-		if [[ ! -d "$(shell dirname \\"$${CMD_FLAG_FILE}\\")" ]]; then \
+		if [ ! -d "$(shell dirname \\"$${CMD_FLAG_FILE}\\")" ]; then \
 			echo "\033[31m>invalid project ($${PROJECT}) $@\033[0m"; \
 			exit 1; \
 		else \
-			if [[ -f "./cmd/$${PROJECT}/build.disabled" ]]; then \
+			if [ -f "./cmd/$${PROJECT}/build.disabled" ]; then \
 				rm "./cmd/$${PROJECT}/build.disabled"; \
 			else \
 				echo "\033[31m>project $${PROJECT} is already enabled $@\033[0m"; \

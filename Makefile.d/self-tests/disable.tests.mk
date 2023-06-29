@@ -10,7 +10,7 @@ test/Makefile/disable.test:
 	@( \
 		export PROJECT_DIR="$${FAKE_PROJECT_DIR}/test.disabled"; \
 		export CMD_FLAG_FILE="$${FAKE_COMMAND_DIR}/test.disabled"; \
-		if [[ !-f "$${CMD_FLAG_FILE}" ]]; then \
+		if [ !-f "$${CMD_FLAG_FILE}" ]; then \
 			@echo "\033[31m>Error: Enable operation should have created $${CMD_FLAG_FILE}:$@\033[0m"
 	  	fi; \
 	)

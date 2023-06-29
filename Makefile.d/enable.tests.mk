@@ -15,8 +15,8 @@ enable/tests/%:
 		export CMD_FLAG_FILE="./cmd/$${PROJECT}/test.disabled";\
 		export PROJECTS_FLAG_FILE="./projects/$${PROJECT}/test.disabled";\
 		\
-		if [[ -d $(shell dirname "$${CMD_FLAG_FILE}") ]]; then \
-			if [[ -f "$${CMD_FLAG_FILE}" ]]; then \
+		if [ -d $(shell dirname "$${CMD_FLAG_FILE}") ]; then \
+			if [ -f "$${CMD_FLAG_FILE}" ]; then \
 				rm "$${CMD_FLAG_FILE}"; \
 				echo "project enabled";\
 			else \
@@ -24,8 +24,8 @@ enable/tests/%:
 			fi; \
 		fi; \
 		\
-		if [[ -d $(shell dirname "$${CMD_FLAG_FILE}") ]]; then \
-			if [[ -f "$${PROJECTS_FLAG_FILE}" ]]; then \
+		if [ -d $(shell dirname "$${CMD_FLAG_FILE}") ]; then \
+			if [ -f "$${PROJECTS_FLAG_FILE}" ]; then \
 				rm "$${PROJECTS_FLAG_FILE}"; \
 				echo "project enabled";\
 			else \

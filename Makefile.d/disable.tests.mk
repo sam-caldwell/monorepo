@@ -15,9 +15,9 @@ disable/tests/%:
 		export CMD_FLAG_FILE="./cmd/$${PROJECT}/test.disabled";\
 		echo "CMD_FLAG_FILE:      $${CMD_FLAG_FILE}"; \
 		\
-		if [[ -d $(shell dirname "$${CMD_FLAG_FILE}") ]]; then \
+		if [ -d $(shell dirname "$${CMD_FLAG_FILE}") ]; then \
 			echo "disabling in cmd"; \
-			if [[ -f "$${CMD_FLAG_FILE}" ]]; then \
+			if [ -f "$${CMD_FLAG_FILE}" ]; then \
 				echo "project ($${PROJECT}) is already disabled in (cmd)"; \
 			else \
 				echo "$(shell whoami)@$(shell hostname) : $(shell date)" >> "$${CMD_FLAG_FILE}"; \
@@ -25,9 +25,9 @@ disable/tests/%:
 			fi; \
 		fi; \
 		\
-		if [[ -d $(shell dirname "$${PROJECTS_FLAG_FILE}") ]]; then \
+		if [ -d $(shell dirname "$${PROJECTS_FLAG_FILE}") ]; then \
 			echo "disabling in projects"; \
-			if [[ -f "$${PROJECTS_FLAG_FILE}" ]]; then \
+			if [ -f "$${PROJECTS_FLAG_FILE}" ]; then \
 				echo "project ($${PROJECT}) is already disabled in (projects)"; \
 			else \
 				echo "$(shell whoami)@$(shell hostname) : $(shell date)" >> "$${PROJECTS_FLAG_FILE}"; \

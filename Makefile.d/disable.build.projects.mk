@@ -11,11 +11,11 @@ disable/build/%:
 		export PROJECT="$(shell basename $@)"; \
 		export CMD_FLAG_FILE="./cmd/$${PROJECT}/build.disabled";\
 		@echo "\033[34m disable project: '$${PROJECT}' $@\033[0m";\
-		if [[ ! -d "$(shell dirname \\"$${CMD_FLAG_FILE}\\")" ]]; then \
+		if [ ! -d "$(shell dirname \\"$${CMD_FLAG_FILE}\\")" ]; then \
 			echo "\033[31m invalid project ($${PROJECT}) $@\033[0m"; \
 			exit 1; \
 		else \
-			if [[ -f "$${CMD_FLAG_FILE}" ]]; then \
+			if [ -f "$${CMD_FLAG_FILE}" ]; then \
 				echo "\033[31m project ($${PROJECT}) is already disabled $@\033[0m"; \
 			else \
 				echo "$(shell whoami)@$(shell hostname) : $(shell date)" >> "$${CMD_FLAG_FILE}"; \
