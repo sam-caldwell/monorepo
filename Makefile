@@ -20,6 +20,12 @@ include Makefile.d/*.mk
 include Makefile.d/lint/*.mk
 
 #
+# To run security scanners (and linters), we execute
+# make security
+#
+include Makefile.d/security/*.mk
+
+#
 # To run the self-tests, we execute
 # make test/self-tests/run
 #
