@@ -4,10 +4,10 @@ name: main-branch
 on:
   push:
     branches:
-      - main
+      - *
   pull_request:
     branches:
-      - main
+      - *
 jobs:
   lint:
     name: Run Linters and Security Scans
