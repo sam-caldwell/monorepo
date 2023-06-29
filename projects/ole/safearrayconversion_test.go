@@ -1,14 +1,16 @@
+//go:build windows
 // +build windows
+
+//lint:file-ignore SA1019 skipping because of deprecated syscall
 
 package ole
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
 
-// This tests more than one function. It tests all of the functions needed in order to retrieve an
+// This tests more than one function. It tests all the functions needed in order to retrieve an
 // SafeArray populated with Strings.
 func TestSafeArrayConversionString(t *testing.T) {
 	CoInitialize(0)
@@ -81,13 +83,13 @@ func TestSafeArrayConversionString(t *testing.T) {
 
 	totalElements, _ := conversion.TotalElements(0)
 	if totalElements != 13 {
-		t.Log(fmt.Sprintf("%d total elements does not equal 13\n", totalElements))
+		t.Logf("%d total elements does not equal 13\n", totalElements)
 		t.Fail()
 	}
 
 	versions := conversion.ToStringArray()
 	if len(versions) != 13 {
-		t.Log(fmt.Sprintf("%s\n", strings.Join(versions, ", ")))
+		t.Logf("%s\n", strings.Join(versions, ", "))
 		t.Fail()
 	}
 

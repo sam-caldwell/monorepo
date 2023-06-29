@@ -1,6 +1,7 @@
 //go:build windows
 // +build windows
 
+//lint:file-ignore SA1019 skipping because of deprecated syscall
 package ole
 
 import (

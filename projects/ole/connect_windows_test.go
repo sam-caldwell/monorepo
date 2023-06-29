@@ -1,9 +1,9 @@
+//go:build windows
 // +build windows
 
 package ole
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
@@ -147,7 +147,7 @@ func TestConnectHelperDispatchProperty_QuickBooks(t *testing.T) {
 
 	totalElements, _ := conversion.TotalElements(0)
 	if totalElements != 13 {
-		t.Log(fmt.Sprintf("%d total elements does not equal 13\n", totalElements))
+		t.Logf("%d total elements does not equal 13\n", totalElements)
 		t.Fail()
 	}
 
@@ -156,12 +156,12 @@ func TestConnectHelperDispatchProperty_QuickBooks(t *testing.T) {
 	versionString := strings.Join(versions, ", ")
 
 	if len(versions) != 13 {
-		t.Log(fmt.Sprintf("%s\n", versionString))
+		t.Logf("%s\n", versionString)
 		t.Fail()
 	}
 
 	if expectedVersionString != versionString {
-		t.Log(fmt.Sprintf("Expected: %s\nActual: %s", expectedVersionString, versionString))
+		t.Logf("Expected: %s\nActual: %s", expectedVersionString, versionString)
 		t.Fail()
 	}
 

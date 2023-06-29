@@ -1,7 +1,7 @@
 package convert
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 )
 
@@ -23,10 +23,10 @@ func TestIntToString(t *testing.T) {
 		{
 			name: "With error",
 			fn: func() (int, error) {
-				return 0, errors.New("test error")
+				return 0, fmt.Errorf("test error")
 			},
 			want: "0",
-			err:  errors.New("test error"),
+			err:  fmt.Errorf("test error"),
 		},
 	}
 

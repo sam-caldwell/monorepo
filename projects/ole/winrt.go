@@ -1,3 +1,4 @@
+//go:build windows
 // +build windows
 
 package ole
@@ -64,7 +65,10 @@ type HString uintptr
 
 // NewHString returns a new HString for Go string.
 func NewHString(s string) (hstring HString, err error) {
-	u16 := syscall.StringToUTF16Ptr(s)
+	u16, err := syscall.UTF16PtrFromString(s)
+	if err != nil {
+		return
+	}
 	len := uint32(utf8.RuneCountInString(s))
 	hr, _, _ := procWindowsCreateString.Call(
 		uintptr(unsafe.Pointer(u16)),

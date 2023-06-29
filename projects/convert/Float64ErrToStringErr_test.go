@@ -1,7 +1,7 @@
 package convert
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 )
 
@@ -23,9 +23,9 @@ func TestFloat64ErrToStringErr(t *testing.T) {
 		{
 			name:    "With error",
 			n:       45.6,
-			err:     errors.New("some error"),
+			err:     fmt.Errorf("some error"),
 			wantStr: "45.600000",
-			wantErr: errors.New("some error"),
+			wantErr: fmt.Errorf("some error"),
 		},
 	}
 

@@ -5,40 +5,33 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/convert"
+	"os/exec"
 	"strconv"
 	"strings"
 )
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
 func getCacheSizes(level int) (size int, err error) {
-	cacheLevels := map[int]string{1: "L1 Cache", 2: "L2 Cache", 3: "L3 Cache"}
-	cachePurpose, ok := cacheLevels[level]
-	if !ok {
-		return invalidCacheSz, fmt.Errorf("Invalid cache level: %d", level)
+	if level < 1 || level > 3 {
+		return 0, fmt.Errorf("invalid cache level. Must be 1, 2, or 3")
 	}
 
-	command := fmt.Sprintf("wmic CacheMemory where Purpose='%s' get BlockSize,NumberOfBlocks /value", cachePurpose)
-	raw, err := executor.Execute("cmd", "/C", command)
+	cmd := exec.Command("wmic", "cpu", "get", fmt.Sprintf("L%dCacheSize", level), "/value")
+	output, err := cmd.Output()
 	if err != nil {
-		return invalidCacheSz, err
+		return 0, err
 	}
 
-	lines := strings.Split(strings.TrimSpace(string(raw)), "\n")
-	if len(lines) != 2 {
-		return invalidCacheSz, fmt.Errorf("Unexpected output from wmic command")
+	result := strings.Split(string(output), "=")
+	if len(result) != 2 {
+		return 0, fmt.Errorf("failed to retrieve cache size")
 	}
 
-	blockSize, err := strconv.Atoi(strings.Split(lines[0], "=")[1])
+	cacheSizeStr := strings.TrimSpace(result[1])
+	cacheSize, err := strconv.Atoi(cacheSizeStr)
 	if err != nil {
-		return invalidCacheSz, err
+		return 0, err
 	}
 
-	numberOfBlocks, err := strconv.Atoi(strings.Split(lines[1], "=")[1])
-	if err != nil {
-		return invalidCacheSz, err
-	}
-
-	cacheSizeBytes := blockSize * numberOfBlocks
-	return convert.BytesToKilobytes(cacheSizeBytes), nil
+	return cacheSize, nil
 }

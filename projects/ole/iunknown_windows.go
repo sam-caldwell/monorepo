@@ -1,8 +1,12 @@
+//go:build windows
 // +build windows
+
+//lint:file-ignore SA1019 skipping because of deprecated syscall
 
 package ole
 
 import (
+	"fmt"
 	"reflect"
 	"syscall"
 	"unsafe"
@@ -48,11 +52,19 @@ func addRef(unk *IUnknown) int32 {
 }
 
 func release(unk *IUnknown) int32 {
-	ret, _, _ := syscall.Syscall(
+	if unk == nil {
+		// Return an appropriate error code, or handle the error as required.
+		return 0
+	}
+	ret, _, err := syscall.Syscall(
 		unk.VTable().Release,
 		1,
 		uintptr(unsafe.Pointer(unk)),
-		0,
-		0)
+		0, 0)
+
+	if err != 0 {
+		panic(fmt.Sprintf("Error: %v", err))
+	}
+
 	return int32(ret)
 }

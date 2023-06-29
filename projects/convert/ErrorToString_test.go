@@ -1,7 +1,7 @@
 package convert
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
@@ -15,7 +15,7 @@ func TestErrorToString(t *testing.T) {
 	}{
 		{
 			name: "With error",
-			err:  errors.New("test error"),
+			err:  fmt.Errorf("test error"),
 			want: "test error",
 		},
 		{

@@ -1,6 +1,7 @@
 //go:build windows
 // +build windows
 
+//lint:file-ignore SA1019 skipping because of deprecated syscall
 package ole
 
 import (
@@ -81,14 +82,14 @@ func coInitializeEx(coinit uint32) (err error) {
 func CoInitialize(p uintptr) (err error) {
 	// p is ignored and won't be used.
 	// Avoid any variable not used errors.
-	p = uintptr(0)
+	//p = uintptr(0)
 	return coInitialize()
 }
 
 // CoInitializeEx initializes COM library with concurrency model.
 func CoInitializeEx(p uintptr, coinit uint32) (err error) {
 	// Avoid any variable not used errors.
-	p = uintptr(0)
+	//p = uintptr(0)
 	return coInitializeEx(coinit)
 }
 

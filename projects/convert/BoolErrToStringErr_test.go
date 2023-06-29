@@ -1,7 +1,7 @@
 package convert
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 )
 
@@ -23,9 +23,9 @@ func TestBoolErrToStringErr(t *testing.T) {
 		{
 			name:    "With error",
 			n:       false,
-			err:     errors.New("some error"),
+			err:     fmt.Errorf("some error"),
 			wantStr: "false",
-			wantErr: errors.New("some error"),
+			wantErr: fmt.Errorf("some error"),
 		},
 	}
 

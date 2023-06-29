@@ -27,7 +27,7 @@ func getCacheSizes(level int) (size int, err error) {
 			}
 		}
 	} else {
-		err = fmt.Errorf("Invalid cache level: %d", level)
+		err = fmt.Errorf("invalid cache level: %d", level)
 	}
 	return invalidCacheSz, err
 }

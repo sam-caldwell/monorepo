@@ -24,7 +24,7 @@ func getCacheSizes(level int) (size int, err error) {
 	if level >= 0 && level <= len(cacheLevels) {
 		var raw []byte
 		if raw, err = exec.Command("sysctl", "-n", cacheLevels[level-1]).Output(); err == nil {
-			if size, err := strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
+			if size, err = strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
 				return convert.BytesToKilobytes(size), err
 			}
 		}

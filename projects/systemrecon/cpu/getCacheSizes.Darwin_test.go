@@ -18,7 +18,7 @@ func TestGetCacheSizes(t *testing.T) {
 		var raw []byte
 		var err error
 		if raw, err = exec.Command("sysctl", "-n", lvl).Output(); err == nil {
-			if size, err := strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
+			if size, err = strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
 				return convert.BytesToKilobytes(size)
 			}
 		}

@@ -1,3 +1,6 @@
+lint/install/staticcheck:
+	@go get honnef.co/go/tools/cmd/staticcheck
+
 lint/staticcheck/%:
 	@echo "\033[34m>starting $@\033[0m"
 	@GOOS=$(shell basename $@) staticcheck ./... || { \
@@ -6,7 +9,8 @@ lint/staticcheck/%:
 	}; \
 	echo "\033[32m>ok $@\033[0m"
 
-lint/staticcheck: lint/staticcheck/darwin \
-				  lint/staticcheck/linux # \
-#				  lint/staticcheck/windows
+lint/staticcheck: lint/install/staticcheck \
+				  lint/staticcheck/darwin \
+				  lint/staticcheck/linux \
+				  lint/staticcheck/windows
 	echo "\033[32m>ok $@\033[0m"
