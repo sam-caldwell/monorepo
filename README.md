@@ -10,12 +10,12 @@ or work project.
 ## Status
 ![Version](https://raw.githubusercontent.com/sam-caldwell/go/main/VERSION.svg)          
 
-|          |                                                                         |
-|----------|-------------------------------------------------------------------------|
-| Linter   | ![Linter](https://github.com/sam-caldwell/badges/LINT.svg?branch=main)  |
-| Security | ![Linter](https://github.com/sam-caldwell/badges/SNYK.svg?branch=main)  |
-| Test     | ![Linter](https://github.com/sam-caldwell/badges/TEST.svg?branch=main)  |
-| Build    | ![Linter](https://github.com/sam-caldwell/badges/BUILD.svg?branch=main) |
+|          |                                                                                               |
+|----------|-----------------------------------------------------------------------------------------------|
+| Linter   | ![Linter](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/LINT.svg?branch=main) |
+| Security | ![Snyk](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/SNYK.svg?branch=main)   |
+| Test     | ![Test](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/TEST.svg?branch=main)   |
+| Build    | ![Build](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/BUILD.svg?branch=main) |
 
 
 
