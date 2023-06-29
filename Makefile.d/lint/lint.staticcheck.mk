@@ -6,7 +6,7 @@ lint/staticcheck/%:
 	}; \
 	echo "\033[32m>ok $@\033[0m"
 
-lint/staticcheck: lint/staticcheck/windows \
+lint/staticcheck: lint/staticcheck/darwin # \
 #				  lint/staticcheck/linux \
-#				  lint/staticcheck/darwin
+#				  lint/staticcheck/windows
 	echo "\033[32m>ok $@\033[0m"
