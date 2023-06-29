@@ -8,7 +8,7 @@ lint/vet/%:
 	}; \
 	echo "\033[32m>ok $@\033[0m"
 
-lint/vet: lint/vet/darwin # \
-#          lint/vet/linux \
+lint/vet: lint/vet/darwin \
+          lint/vet/linux #\
 #          lint/vet/windows
 	@echo "\033[32m>ok $@\033[0m"
