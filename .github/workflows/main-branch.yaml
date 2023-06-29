@@ -55,4 +55,4 @@ jobs:
       - name: Run linter ${{ matrix.go-version }}
         shell: bash
         run: |
-          PATH=$(go env GOPATH):${PATH} make security
+          PATH=$(go env GOPATH):${PATH} make lint
