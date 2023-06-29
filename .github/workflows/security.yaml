@@ -28,15 +28,11 @@ jobs:
       - name: Install Snyk CLI
         run: npm install -g snyk
 
-      - name: Test Token
-        run: |
-          echo "TEST_TOKEN: '${{ secrets.TEST_TOKEN }}'"
-
       - name: Run Snyk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
           echo "${{ secrets.SNYK_TOKEN }}"
-          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk auth -d ${{ secrets.SNYK_TOKEN }}
           snyk test -d
