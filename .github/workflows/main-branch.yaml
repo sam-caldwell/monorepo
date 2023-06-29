@@ -40,4 +40,6 @@ jobs:
       - name: Run linter ${{ matrix.go-version }}
         shell: bash
         run: |
-          make security
+          echo "GOPATH: ${GOPATH}"
+          echo "  PATH: ${PATH}"
+          PATH=${GOPATH}:${PATH} make security
