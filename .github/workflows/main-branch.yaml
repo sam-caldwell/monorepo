@@ -43,6 +43,8 @@ jobs:
         shell: bash
         run: |
           export STATICCHECK_CACHE="${{ runner.temp }}/staticcheck"
+          go get -u honnef.co/go/tools
+          go get honnef.co/go/tools/cmd/staticcheck
           go install "honnef.co/go/tools/cmd/staticcheck"
           echo "::add-matcher::$GITHUB_ACTION_PATH/matchers.json"
           echo "Verify install..."
