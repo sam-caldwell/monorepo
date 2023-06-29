@@ -8,7 +8,7 @@ gets real old, real quick whether here or when I just want to reuse some of my c
 or work project.
 
 ## Status
-* Version: ![Version](https://github.com/sam-caldwell/VERSION.svg)           |
+* Version: ![Version](https://raw.githubusercontent.com/sam-caldwell/go/main/VERSION.svg)           |
 
 |          |                                                                         |
 |----------|-------------------------------------------------------------------------|
