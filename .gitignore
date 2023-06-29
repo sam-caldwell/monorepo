@@ -11,4 +11,6 @@ bin/
 # Used by Makefile.d/self-tests
 cmd/fakeProject/
 projects/fakeProject/
-# ---
+
+# ---.DS_Store
+.DS_Store

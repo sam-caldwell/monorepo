@@ -31,3 +31,47 @@ jobs:
         uses: snyk/actions/golang@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Generate Badge
+        id: badge
+        run: |
+          EXIT_CODE=${{ steps.snyk.outcome }}
+          if [ "$EXIT_CODE" == "success" ]
+          then
+            COLOR="green"
+            STATUS="passing"
+          else
+            COLOR="red"
+            STATUS="failing"
+          fi
+          cat > badges/security-badge.svg << EOF
+          echo '<?xml version="1.0"?>
+          <svg xmlns="http://www.w3.org/2000/svg" width="85" height="20">
+            <linearGradient id="b" x2="0" y2="100%">
+              <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+              <stop offset="1" stop-opacity=".1"/>
+            </linearGradient>
+            <mask id="a">
+              <rect width="85" height="20" rx="3" fill="#fff"/>
+            </mask>
+            <g mask="url(#a)">
+              <path fill="#555" d="M0 0h37v20H0z"/>
+              <path fill="'$COLOR'" d="M37 0h48v20H37z"/>
+              <path fill="url(#b)" d="M0 0h85v20H0z"/>
+            </g>
+            <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+              <text x="18.5" y="15" fill="#010101" fill-opacity=".3">security</text>
+              <text x="18.5" y="14">security</text>
+              <text x="60" y="15" fill="#010101" fill-opacity=".3">'$STATUS'</text>
+              <text x="60" y="14">'$STATUS'</text>
+            </g>
+          </svg>
+          EOF
+
+- name: Commit files
+  run: |
+    git config --local user.email "github@samcaldwell.net"
+    git config --local user.name "GitHub Action"
+    git add badges/security-badge.svg
+    git commit -m "update security badge" -a || echo "No changes to commit"
+    git push
