@@ -9,7 +9,8 @@ or work project.
 
 ## Status
 
-[![Linter (main)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml)
+[![Main Branch (Lint)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml)
+[![Main Branch (Security)](https://github.com/sam-caldwell/go/actions/workflows/security-on-main.branch.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/security-on-main.branch.yaml)
 
 ## Structure
 
