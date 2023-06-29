@@ -1,6 +1,6 @@
 # ToDo: Lint Makefile
 # ToDo: Lint Markdown files
-# ToDo: Lint Yaml files
+# ToDo: Lint Shell files
 
 lint: lint/go \
       lint/yaml

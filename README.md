@@ -40,6 +40,7 @@ or work project.
 
 ### Build, Test, etc...
 
+* [Install Local Git Hooks](docs/git/hooks.md)
 * [Build Automation](docs/builds/README.md)
 * [Test Automation](docs/tests/README.md)
 
