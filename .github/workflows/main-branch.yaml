@@ -26,8 +26,6 @@ jobs:
 #          - 'arm64'
         go-opsys:
           - 'darwin'
-#          - 'linux'
-#          - 'windows'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -45,7 +43,10 @@ jobs:
         shell: bash
         run: |
           echo "GOPATH: $(go env GOPATH)"
+          echo "lists..."
+          ls $(go env GOPATH)
           ls $(go env GOPATH)/bin
+          ls $(go env GOPATH)/bin/
 
       - name: Run linter ${{ matrix.go-version }}
         shell: bash
