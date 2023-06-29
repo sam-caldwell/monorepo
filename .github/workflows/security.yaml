@@ -29,12 +29,12 @@ jobs:
 
       - name: Test Token
         run: |
-          echo "TEST_TOKEN: '${{ secrets.TEST_TOKEN }}'"
+          echo "TEST_TOKEN: '${ secrets.TEST_TOKEN }'"
 
       - name: Run Snyk
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }
+          SNYK_TOKEN: ${ secrets.SNYK_TOKEN }
         run: |
-          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk auth ${ secrets.SNYK_TOKEN }
           snyk test
