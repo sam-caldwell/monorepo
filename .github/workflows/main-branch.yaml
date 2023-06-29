@@ -39,14 +39,12 @@ jobs:
         shell: bash
         run: go mod tidy
 
-      - name: go mod tidy
+      - name: install staticcheck
         shell: bash
         run: |
-          go get honnef.co/go/tools/cmd/staticcheck
-          echo "GOPATH/bin"
-          ls -la ${GOPATH}/bin/
-          echo "GOROOT/bin"
-          ls -la ${GOROOT}/bin/
+          export STATICCHECK_CACHE="${{ runner.temp }}/staticcheck"
+          go install "honnef.co/go/tools/cmd/staticcheck"
+          echo "::add-matcher::$GITHUB_ACTION_PATH/matchers.json"
           echo "Verify install..."
           command -v staticcheck || {
             echo 'install failed.'
