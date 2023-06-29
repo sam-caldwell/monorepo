@@ -1,4 +1,3 @@
----
 name: main-branch
 
 on:
@@ -23,9 +22,14 @@ jobs:
         go-opsys:
           - 'darwin'
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+      - name: Authenticate with Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        uses: snyk/actions/node@master
-
+        run: snyk test
