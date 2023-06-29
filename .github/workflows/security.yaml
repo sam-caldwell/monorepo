@@ -6,8 +6,6 @@ on:
   pull_request:
 
 jobs:
-
-jobs:
   security:
     name: Run Security Scan
     runs-on: ubuntu-latest
