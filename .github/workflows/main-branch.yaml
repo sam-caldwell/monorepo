@@ -43,7 +43,10 @@ jobs:
         shell: bash
         run: |
           make lint/install/staticcheck
-          command -v staticcheck || echo 'install failed.'
+          command -v staticcheck || {
+            echo 'install failed.'
+            exit 1
+          }
 
 #      - name: Run linter ${{ matrix.go-version }}
 #        shell: bash
