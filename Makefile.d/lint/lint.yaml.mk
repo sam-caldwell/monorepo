@@ -9,7 +9,11 @@
 YAML_VALIDATOR:=build/yamlValidator$(EXTENSION)
 
 lint/yaml/setup:
-	@go build -o $(YAML_VALIDATOR) ./cmd/validators/yamlValidator/main.go
+	@go build -o $(YAML_VALIDATOR) ./cmd/validators/yamlValidator/main.go && > /dev/null || {\
+		echo "\033[31m>failed $@\033[0m";\
+		exit 1;\
+	}; \
+	echo "\033[32m>ok $@\033[0m"
 
 lint/yaml: lint/yaml/setup
-	./$(YAML_VALIDATOR) .
+	@./$(YAML_VALIDATOR) .

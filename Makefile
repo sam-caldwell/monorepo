@@ -12,6 +12,13 @@
 include Makefile.d/_config/*.mk
 
 include Makefile.d/*.mk
+
+#
+# To run linters, we execute
+# make lint
+#
+include Makefile.d/lint/*.mk
+
 #
 # To run the self-tests, we execute
 # make test/self-tests/run
