@@ -3,31 +3,31 @@
 #
 
 PACKAGE_MANAGER:=$(shell \
-		[[ "$(HAS_BREW)_" == "yes_" ]] && { \
+		[ "$(HAS_BREW)_" == "yes_" ] && { \
 			echo "brew"; \
 			exit 0;\
 		}; \
-		[[ "$(HAS_APT)_" == "yes_" ]] && { \
+		[ "$(HAS_APT)_" == "yes_" ] && { \
 			echo "apt"; \
 		  	exit 0;\
 		}; \
-		[[ "$(HAS_YUM)_" == "yes_" ]] && { \
+		[ "$(HAS_YUM)_" == "yes_" ] && { \
 			echo "yum"; \
 		  	exit 0;\
 		}; \
-		[[ "$(HAS_DPKG)_" == "yes_" ]] && { \
+		[ "$(HAS_DPKG)_" == "yes_" ] && { \
 	  		echo "dpkg"; \
 		  	exit 0;\
 		}; \
-		[[ "$(HAS_RPM)_" == "yes_" ]] && { \
+		[ "$(HAS_RPM)_" == "yes_" ] && { \
 	  		echo "rpm"; \
 		  	exit 0;\
 		}; \
-		[[ "$(HAS_WINGET)_" == "yes_" ]] && { \
+		[ "$(HAS_WINGET)_" == "yes_" ] && { \
 	  		echo "winget"; \
 		  	exit 0;\
 		}; \
-		[[ "$(HAS_CHOCO)_" == "yes_" ]] && { \
+		[ "$(HAS_CHOCO)_" == "yes_" ] && { \
 	  		echo "choco"; \
 		  	exit 0;\
 		};\
