@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           go get honnef.co/go/tools/cmd/staticcheck
-          command -v staticcheck || {
+          command -v $(GOROOT)/bin/staticcheck || {
             echo 'install failed.'
             exit 1
           }
