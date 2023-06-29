@@ -9,7 +9,7 @@ or work project.
 
 ## Status
 
-[![Go](https://github.com/sam-caldwell/go/actions/workflows/go.yml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/go.yml)
+[![Linter (main)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml)
 
 ## Structure
 
