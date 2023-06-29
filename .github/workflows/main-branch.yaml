@@ -43,10 +43,14 @@ jobs:
         shell: bash
         run: |
           echo "GOPATH: $(go env GOPATH)"
-          echo "lists..."
+          echo "list GOPATH"
           ls $(go env GOPATH)
+          echo "list GOPATH/bin"
           ls $(go env GOPATH)/bin
+          echo "list GOPATH/bin/"
           ls $(go env GOPATH)/bin/
+          echo "find staticcheck"
+          command -v staticcheck
 
       - name: Run linter ${{ matrix.go-version }}
         shell: bash
