@@ -13,4 +13,4 @@ lint/staticcheck: lint/install/staticcheck \
 				  lint/staticcheck/darwin \
 				  lint/staticcheck/linux \
 				  lint/staticcheck/windows
-	echo "\033[32m>ok $@\033[0m"
+	@echo "\033[32m>ok $@\033[0m"
