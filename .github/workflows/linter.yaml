@@ -7,14 +7,11 @@ on:
 
 jobs:
   lint:
-    name: Run Linters and Security Scans
-    concurrency:
-      cancel-in-progress: true
-      group: ${{ github.workflow }}
+    name: Run Linters
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         go-version:
           - '1.20'

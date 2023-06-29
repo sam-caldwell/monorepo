@@ -7,13 +7,10 @@ on:
 jobs:
   security:
     name: Run Security Scan
-    concurrency:
-      cancel-in-progress: true
-      group: ${{ github.workflow }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         go-version:
           - '1.20'
@@ -29,7 +26,13 @@ jobs:
           node-version: 14
       - name: Install Snyk CLI
         run: npm install -g snyk
+
       - name: Authenticate with Snyk
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
       - name: Run Snyk to check for vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk test

@@ -8,9 +8,10 @@ gets real old, real quick whether here or when I just want to reuse some of my c
 or work project.
 
 ## Status
-
-[![Main Branch (Lint)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/lint-main-branch.yaml)
-[![Main Branch (Security)](https://github.com/sam-caldwell/go/actions/workflows/security-on-main.branch.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/security-on-main.branch.yaml)
+|          |                                                                                                                                                                       |
+|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Linter   | [![main-branch Linter](https://github.com/sam-caldwell/go/actions/workflows/linter.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/linter.yaml) |
+| Security | [![main-branch](https://github.com/sam-caldwell/go/actions/workflows/security.yaml/badge.svg)](https://github.com/sam-caldwell/go/actions/workflows/security.yaml)    |
 
 ## Structure
 
