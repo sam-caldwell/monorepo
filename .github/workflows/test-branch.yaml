@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: done
         id: done
+        shell: bash
         run: |
           echo "done"
 
@@ -51,6 +52,7 @@ jobs:
       - name: Run linter ${{ matrix.go-version }}
         id: lint-successful
         if: success()
+        shell: bash
         run: |
           make security
 
@@ -85,6 +87,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Run tests ${{ matrix.go-version }}
+        shell: bash
         run: |
           make test/simple
 
@@ -120,5 +123,6 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Run artifact build ${{ matrix.go-version }}
+        shell: bash
         run: |
           make build
