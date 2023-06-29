@@ -29,7 +29,6 @@ jobs:
 
       - name: Test Token
         env:
-
           TEST_ME: ${{ secrets.TEST_TOKEN }}
         run: |
           echo "TEST_ME: '${{TEST_ME}}'"
