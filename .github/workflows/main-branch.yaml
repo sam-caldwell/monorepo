@@ -23,7 +23,6 @@ jobs:
           - '1.20'
         go-arch:
           - 'amd64'
-#          - 'arm64'
         go-opsys:
           - 'darwin'
     steps:
