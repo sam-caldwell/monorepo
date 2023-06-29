@@ -52,7 +52,7 @@ jobs:
             exit 1
           }
 
-#      - name: Run linter ${{ matrix.go-version }}
-#        shell: bash
-#        run: |
-#          PATH=$(go env GOPATH):${PATH} make security
+      - name: Run linter ${{ matrix.go-version }}
+        shell: bash
+        run: |
+          PATH=$(go env GOPATH):${PATH} make security
