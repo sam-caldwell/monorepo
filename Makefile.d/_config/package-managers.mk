@@ -2,7 +2,7 @@
 # Identify detected packet managers.
 #
 
-PACKAGE_MANAGER:=$(shell \
+PACKAGE_MANAGER:=$(shell /bin/bash -c '\
 		[ "$(HAS_BREW)_" == "yes_" ] && { \
 			echo "brew"; \
 			exit 0;\
@@ -31,7 +31,7 @@ PACKAGE_MANAGER:=$(shell \
 	  		echo "choco"; \
 		  	exit 0;\
 		};\
-		exit 0)
+		exit 0')
 
 check/package-managers:
 	@echo $(PACKAGE_MANAGER)
