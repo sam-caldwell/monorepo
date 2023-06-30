@@ -8,5 +8,5 @@ import (
 )
 
 func TestGetCacheSizes(t *testing.T) {
-
+	t.Fatal("test not implemented")
 }
