@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.TOKEN }}
 
       - name: go mod tidy
         shell: bash
@@ -37,6 +39,7 @@ jobs:
         run: |
           git config --local user.email "github@samcaldwell.net"
           git config --local user.name "GitHub Action"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 
           EXIT_CODE=${{ steps.snyk.outcome }}
           if [ "$EXIT_CODE" == "success" ]
