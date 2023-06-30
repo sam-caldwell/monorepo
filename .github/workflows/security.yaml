@@ -33,6 +33,7 @@ jobs:
         run: go mod tidy
 
       - name: Run Snyk to check for vulnerabilities
+        id: snyk
         uses: snyk/actions/golang@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -47,12 +48,9 @@ jobs:
       - name: Generate Badge
         id: badge
         run: |
-          #BRANCH="update_badges_$(git log -n1 | grep commit | cut -d ' ' -f 2)_$(date +%s)"
-          #git checkout -b "${BRANCH}"
-
           EXIT_CODE=${{ steps.snyk.outcome }}
-          echo "EXIT_CODE: ${EXIT_CODE}"
-          if [ "$EXIT_CODE" == "success" ]; then
+          echo "EXIT_CODE: ${{ steps.snyk.outcome }}"
+          if [ "${{ steps.snyk.outcome }}" == "success" ]; then
             go run cmd/tools/badge-maker/main.go -name "SNYK" -status "passing" -color "green" 
           else
             go run cmd/tools/badge-maker/main.go -name "SNYK" -status "failing" -color "red"
