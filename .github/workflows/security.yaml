@@ -47,8 +47,8 @@ jobs:
       - name: Generate Badge
         id: badge
         run: |
-#          BRANCH="update_badges_$(git log -n1 | grep commit | cut -d ' ' -f 2)_$(date +%s)"
-#          git checkout -b "${BRANCH}"
+          #BRANCH="update_badges_$(git log -n1 | grep commit | cut -d ' ' -f 2)_$(date +%s)"
+          #git checkout -b "${BRANCH}"
 
           EXIT_CODE=${{ steps.snyk.outcome }}
           if [ "$EXIT_CODE" == "success" ]
