@@ -52,3 +52,30 @@ jobs:
         shell: bash
         run: |
           PATH=$(go env GOPATH):${PATH} make lint
+
+      - name: Setup Git
+        shell: bash
+        run: |
+          git config --local user.email "github@samcaldwell.net"
+          git config --local user.name "GitHub Action"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+
+      - name: Generate Badge
+        id: badge
+        run: |
+          #BRANCH="update_badges_$(git log -n1 | grep commit | cut -d ' ' -f 2)_$(date +%s)"
+          #git checkout -b "${BRANCH}"
+
+          EXIT_CODE=${{ steps.snyk.outcome }}
+          echo "EXIT_CODE: ${EXIT_CODE}"
+          if [ "$EXIT_CODE" == "success" ]; then
+            go run cmd/tools/badge-maker/main.go -name "LINT" -status "passing" -color "green" 
+          else
+            go run cmd/tools/badge-maker/main.go -name "LINT" -status "failing" -color "red"
+          fi
+          git add badges/SNYK.svg
+          git commit -m "update security badge" -a || {
+             echo "No changes to commit"
+             exit 0
+          }
+          git push origin "$(git branch --show-current)"
