@@ -51,6 +51,7 @@ jobs:
           #git checkout -b "${BRANCH}"
 
           EXIT_CODE=${{ steps.snyk.outcome }}
+          echo "EXIT_CODE: ${EXIT_CODE}"
           if [ "$EXIT_CODE" == "success" ]; then
             go run cmd/tools/badge-maker/main.go -name "SNYK" -status "passing" -color "green" 
           else
