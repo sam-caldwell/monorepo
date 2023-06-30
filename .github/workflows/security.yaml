@@ -3,7 +3,10 @@ name: main-branch
 
 on:
   push:
-  pull_request:
+    branches:
+      - '**'
+    tags:
+      - '**'
 
 jobs:
   security:
@@ -34,20 +37,28 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Generate Badge
-        id: badge
+      - name: Setup Git
+        shell: bash
         run: |
           git config --local user.email "github@samcaldwell.net"
           git config --local user.name "GitHub Action"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 
+      - name: Generate Badge
+        id: badge
+        run: |
+          #BRANCH="update_badges_$(git log -n1 | grep commit | cut -d ' ' -f 2)_$(date +%s)"
+          #git checkout -b "${BRANCH}"
+
           EXIT_CODE=${{ steps.snyk.outcome }}
-          if [ "$EXIT_CODE" == "success" ]
-          then
+          if [ "$EXIT_CODE" == "success" ]; then
             go run cmd/tools/badge-maker/main.go -name "SNYK" -status "passing" -color "green" 
           else
             go run cmd/tools/badge-maker/main.go -name "SNYK" -status "failing" -color "red"
           fi
           git add badges/SNYK.svg
-          git commit -m "update security badge" -a || echo "No changes to commit"
-          git push
+          git commit -m "update security badge" -a || {
+             echo "No changes to commit"
+             exit 0
+          }
+          git push origin "$(git branch --show-current)"

@@ -22,9 +22,9 @@ options:
   --help          : display usage information
   --printError    : indicates whether error messages are printed to stdout.
 
-  --arch          : Return cpu architecture (e.g. arm64, amd64)
   --cpus          : Return number of CPU cores
-  --cpuinfo       : Return CPU specifications
+  --cpu-arch      : Return cpu architecture (e.g. arm64, amd64)
+  --cpu-info      : Return CPU specifications
   --os            : Return the operating system (e.g. darwin, linux, windows)
   --os-family     : Return an operating system family (e.g. Windows 10)
   --os-version    : Return the operating system version
@@ -40,7 +40,7 @@ func main() {
 	exit.OnCondition(len(os.Args) < 2, exit.GeneralError, errors.MissingArguments, usage)
 	switch command := strings.TrimLeft(strings.ToLower(strings.TrimSpace(os.Args[1])), words.Hyphen); command {
 
-	case "arch":
+	case "cpu-arch":
 		output, err = cpu.CpuArch()
 
 	case "cpus":
