@@ -1,5 +1,13 @@
 package systemrecon
 
+/*
+ * CpuCache
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * This file will call the system-specific getCacheSizes() function
+ * to query the system for the L1, L2 and L3 CPU Cache size (in KB)
+ * and this function will return the same as a colon-delimited string.
+ */
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/convert"
