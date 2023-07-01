@@ -1,5 +1,12 @@
 package systemrecon
 
+/*
+ * CpuCores
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * This file returns the number of CPU cores
+ */
+
 import (
 	"runtime"
 )
