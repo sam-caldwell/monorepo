@@ -27,7 +27,7 @@ func getCacheSizes(level int) (size int, err error) {
 	)
 	var raw []byte
 
-	if (level >= minCacheLevel) && (level <= maxCacheLevel) {
+	if err = boundsCheck(level); err == nil {
 		if raw, err = os.ReadFile(fmt.Sprintf(cacheFile, level)); err == nil {
 			if size, err = strconv.Atoi(strings.TrimSuffix(string(raw), "K")); err == nil {
 				return size, err

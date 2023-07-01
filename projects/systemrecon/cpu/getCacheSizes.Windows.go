@@ -3,6 +3,16 @@
 
 package systemrecon
 
+/*
+ * getCacheSizes() - Windows
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * Gather the cache size information for a given cache level (1-3)
+ * in KB by calling powershell
+ *
+ * See CpuCache.md
+ */
+
 import (
 	"fmt"
 	"os/exec"
@@ -12,26 +22,15 @@ import (
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
 func getCacheSizes(level int) (size int, err error) {
-	if level < 1 || level > 3 {
-		return 0, fmt.Errorf("invalid cache level. Must be 1, 2, or 3")
-	}
+	const ps = `Get-WmiObject -Query \"SELECT * FROM Win32_Processor\" | Select-Object -ExpandProperty L%dCacheSize`
+	var raw []byte
 
-	cmd := exec.Command("wmic", "cpu", "get", fmt.Sprintf("L%dCacheSize", level), "/value")
-	output, err := cmd.Output()
-	if err != nil {
-		return 0, err
+	if err = boundsCheck(level); err == nil {
+		if raw, err = exec.Command("powershell", "/c", fmt.Sprintf(ps, level)).Output(); err == nil {
+			if size, err = strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
+				return size, nil
+			}
+		}
 	}
-
-	result := strings.Split(string(output), "=")
-	if len(result) != 2 {
-		return 0, fmt.Errorf("failed to retrieve cache size")
-	}
-
-	cacheSizeStr := strings.TrimSpace(result[1])
-	cacheSize, err := strconv.Atoi(cacheSizeStr)
-	if err != nil {
-		return 0, err
-	}
-
-	return cacheSize, nil
+	return invalidCacheSz, err
 }

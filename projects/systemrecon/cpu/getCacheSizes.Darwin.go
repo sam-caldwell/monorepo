@@ -13,9 +13,7 @@ package systemrecon
  * See CpuCache.md
  */
 import (
-	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/convert"
-	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -23,20 +21,17 @@ import (
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)
 func getCacheSizes(level int) (size int, err error) {
-
+	var raw []byte
 	cacheLevels := []string{
 		"hw.l1icachesize",
 		"hw.l2cachesize",
 		"hw.l3cachesize",
 	}
-	if (level < minCacheLevel) || (level > maxCacheLevel) {
-		return invalidCacheSz, fmt.Errorf(errors.IndexOutOfRange)
-	}
-
-	var raw []byte
-	if raw, err = exec.Command("sysctl", "-n", cacheLevels[level-1]).Output(); err == nil {
-		if size, err = strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
-			return convert.BytesToKilobytes(size), err
+	if err = boundsCheck(level); err == nil {
+		if raw, err = exec.Command("sysctl", "-n", cacheLevels[level-1]).Output(); err == nil {
+			if size, err = strconv.Atoi(strings.TrimSpace(string(raw))); err == nil {
+				return convert.BytesToKilobytes(size), err
+			}
 		}
 	}
 	return invalidCacheSz, err
