@@ -1,8 +1,12 @@
 package systemrecon
 
-import keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
+import (
+	"fmt"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
+)
 
 // CpuInfo - Returns a map of CPU characteristics
 func CpuInfo() (info keyvalue.KeyValue, err error) {
-	return info, err
+	//ToDo: This needs functionality
+	return info, fmt.Errorf("not implemented")
 }
