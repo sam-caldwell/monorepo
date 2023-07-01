@@ -12,6 +12,7 @@ package systemrecon
  *
  * See CpuCache.md
  */
+
 import (
 	"fmt"
 	"os"
@@ -26,14 +27,12 @@ func getCacheSizes(level int) (size int, err error) {
 	)
 	var raw []byte
 
-	if (level < minCacheLevel) || (level > maxCacheLevel) {
-		return invalidCacheSz, err
+	if (level >= minCacheLevel) && (level <= maxCacheLevel) {
+		if raw, err = os.ReadFile(fmt.Sprintf(cacheFile, level)); err == nil {
+			if size, err = strconv.Atoi(strings.TrimSuffix(string(raw), "K")); err == nil {
+				return size, err
+			}
+		}
 	}
-	if raw, err = os.ReadFile(fmt.Sprintf(cacheFile, level)); err != nil {
-		return invalidCacheSz, err
-	}
-	if size, err = strconv.Atoi(strings.TrimSuffix(string(raw), "K")); err != nil {
-		return invalidCacheSz, err
-	}
-	return size, err
+	return invalidCacheSz, err
 }
