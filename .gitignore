@@ -14,3 +14,6 @@ projects/fakeProject/
 
 # ---.DS_Store
 .DS_Store
+
+# Snyk cache
+.dccache
