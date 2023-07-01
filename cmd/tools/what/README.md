@@ -17,14 +17,13 @@ options:
   --help          : display usage information
   --printError    : indicates whether error messages are printed to stdout.
 
-  --arch          : Return cpu architecture (e.g. arm64, amd64)
   --cpus          : Return number of CPU cores
-  --cpuinfo       : Return CPU specifications
-  --meminfo       : Return detailed memory information
+  --cpu-arch      : Return cpu architecture (e.g. arm64, amd64)
+  --cpu-info      : Return CPU specifications
   --os            : Return the operating system (e.g. darwin, linux, windows)
   --os-family     : Return an operating system family (e.g. Windows 10)
   --os-version    : Return the operating system version
-  --ram           : Return the amount of memory (in KB)
+  --ram           : Return the amount of memory (in KB)qq
   --software-list : Return a list of software installed on the system
 
 ```

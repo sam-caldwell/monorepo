@@ -29,6 +29,16 @@ or work project.
 4. Binaries we produce are [here in build/](./build)
 5. Documentation is [here in docs/](./docs) (this includes example code for our projects)
 
+## Commands
+This section covers the commands in the go monorepo:
+* [Command: Ansi/Color](./cmd/ansi/color/README.md)
+* [Command: subnetting/calculateSubnets](./cmd/subnetting/calculateSubnets/README.md)
+* [Command: Tools/badge-maker](./cmd/tools/badge-maker/README.md)
+* [Command: Tools/findBuildProjects](./cmd/tools/findBuildProjects/README.md)
+* [Command: Tools/hasExecutable](./cmd/tools/hasExecutable/README.md)
+* [Command: Tools/Locks](./cmd/tools/locks/README.md)
+* [Command: What](./cmd/tools/what/README.md)
+
 ## Projects
 
 * [Ansi Color Printing](./projects/ansi/README.md)
