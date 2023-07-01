@@ -97,4 +97,9 @@ always-present tool to get our information from one of three system properties:
 * hw.l3cachesize
 
 ### In Windows (Windows 10+)
-# Todo: see WHAT-19
+
+Currently, we can only do this by calling powershell or wmic.  These are horrible 
+options (especially in a pentest against a hardened system).  The alternative will
+require C-Go and C++ code.  However, doing this will require a better test/dev
+harness for working with Windows systems...something I need to do anyway then come
+back to this.
