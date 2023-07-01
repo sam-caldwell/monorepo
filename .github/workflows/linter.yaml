@@ -73,7 +73,7 @@ jobs:
             go run cmd/tools/badge-maker/main.go -name "LINT" -status "failing" -color "red"
           fi
           git add badges/SNYK.svg
-          git commit -m "update security badge" -a || {
+          git commit -m "update security badge [skip ci]" -a || {
              echo "No changes to commit"
              exit 0
           }
