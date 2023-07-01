@@ -7,6 +7,14 @@ package systemrecon
  * This file will call the system-specific getCacheSizes() function
  * to query the system for the L1, L2 and L3 CPU Cache size (in KB)
  * and this function will return the same as a colon-delimited string.
+ *
+ *   L1 cache – fastest, but smallest, data and instructions
+ *              This is actually two caches (data, instructions) represented as
+ *              l1d and l1i respectively.
+ *   L2 cache – slower, but bigger, data-only
+ *   L3 cache – slowest, but biggest, data-only
+ *
+ * But how do we get this information?  See CpuCache.md
  */
 import (
 	"fmt"

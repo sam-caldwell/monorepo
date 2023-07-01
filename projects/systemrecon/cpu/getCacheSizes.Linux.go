@@ -3,31 +3,37 @@
 
 package systemrecon
 
+/*
+ * getCacheSizes() - Linux
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * Gather the cache size information for a given cache level (1-3)
+ * in KB by reading from /sys/devices/system/cpu/cpu0/cache/index{0,1,2,3}/size
+ *
+ * See CpuCache.md
+ */
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/convert"
-	"os/exec"
+	"os"
 	"strconv"
 	"strings"
 )
 
-// getCacheSizes - Return a given CPU cache (L1, L2, L3)
+// getCacheSizes - Return a given CPU cache (0:0:<cache_size>)
 func getCacheSizes(level int) (size int, err error) {
-	cacheLevels := []string{"cache size", "cache size", "cache size"} // Linux does not distinguish between L1, L2, L3 cache sizes
-	if level >= 0 && level <= len(cacheLevels) {
-		var raw []byte
-		if raw, err = exec.Command("grep", cacheLevels[level-1], "/proc/cpuinfo").Output(); err == nil {
-			lines := strings.Split(strings.TrimSpace(string(raw)), "\n")
-			lastLine := lines[len(lines)-1] // The last line contains the L3 cache size
-			parts := strings.Fields(lastLine)
-			if len(parts) > 0 {
-				if size, err = strconv.Atoi(parts[0]); err == nil {
-					return convert.BytesToKilobytes(size), nil
-				}
-			}
-		}
-	} else {
-		err = fmt.Errorf("invalid cache level: %d", level)
+	const (
+		cacheFile = "/sys/devices/system/cpu/cpu0/cache/index%d/size"
+	)
+	var raw []byte
+
+	if (level < minCacheLevel) || (level > maxCacheLevel) {
+		return invalidCacheSz, err
 	}
-	return invalidCacheSz, err
+	if raw, err = os.ReadFile(fmt.Sprintf(cacheFile, level)); err != nil {
+		return invalidCacheSz, err
+	}
+	if size, err = strconv.Atoi(strings.TrimSuffix(string(raw), "K")); err != nil {
+		return invalidCacheSz, err
+	}
+	return size, err
 }
