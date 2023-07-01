@@ -24,6 +24,7 @@ options:
 
   --cpus          : Return number of CPU cores
   --cpu-arch      : Return cpu architecture (e.g. arm64, amd64)
+  --cpu-cache     : Return the L1,L2,L3 CPU cache size in KB (e.g. 32:128:256 for 32 L1, 128 L2 and 256 L3)
   --cpu-info      : Return CPU specifications
   --os            : Return the operating system (e.g. darwin, linux, windows)
   --os-family     : Return an operating system family (e.g. Windows 10)
@@ -39,19 +40,23 @@ func main() {
 
 	exit.OnCondition(len(os.Args) < 2, exit.GeneralError, errors.MissingArguments, usage)
 	switch command := strings.TrimLeft(strings.ToLower(strings.TrimSpace(os.Args[1])), words.Hyphen); command {
+	/*
+	 * CPU-related commands
+	 */
+	case "cpus":
+		output, err = convert.IntToStringFuncWrapper(cpu.CpuCores)
 
 	case "cpu-arch":
 		output, err = cpu.CpuArch()
 
-	case "cpus":
-		output, err = convert.IntToStringFuncWrapper(cpu.CpuCores)
+	case "cpu-cache":
+		output, err = cpu.CpuCache()
 
-	case "cpuinfo":
+	case "cpu-info":
 		output, err = keyvalue.Interceptor(cpu.CpuInfo)
-
-	case "ram":
-		output, err = convert.IntToStringFuncWrapper(memory.RamSize)
-
+	/*
+	 * operating system stuff
+	 */
 	case "os":
 		output, err = opsys.OpSys()
 
@@ -60,7 +65,14 @@ func main() {
 
 	case "os-version":
 		output, err = opsys.OpSysVersion()
-
+	/*
+	 * Memory related
+	 */
+	case "ram":
+		output, err = convert.IntToStringFuncWrapper(memory.RamSize)
+	/*
+	 * General user stuff (help, version, etc)
+	 */
 	case "help":
 		fmt.Printf("Error: %s\n\n%s", err, usage)
 

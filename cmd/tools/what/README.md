@@ -19,6 +19,7 @@ options:
 
   --cpus          : Return number of CPU cores
   --cpu-arch      : Return cpu architecture (e.g. arm64, amd64)
+  --cpu-cache     : Return the L1,L2,L3 CPU cache size in KB (e.g. 32:128:256 for 32 L1, 128 L2 and 256 L3)
   --cpu-info      : Return CPU specifications
   --os            : Return the operating system (e.g. darwin, linux, windows)
   --os-family     : Return an operating system family (e.g. Windows 10)
