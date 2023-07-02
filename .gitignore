@@ -19,3 +19,4 @@ projects/fakeProject/
 .dccache
 
 systems/iso/
+*.iso
