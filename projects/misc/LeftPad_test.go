@@ -1,8 +1,14 @@
 package misc
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestLeftPad(t *testing.T) {
+	/*
+	 * Assumptions:
+	 * 1. Given a string, we expect that we can pad to the left of this string a number of white space characters.
+	 */
 	const (
 		space      = ' '
 		underscore = '_'
@@ -10,18 +16,32 @@ func TestLeftPad(t *testing.T) {
 	)
 
 	var expectedPadding [2]string
-	pad := [2]rune{space, underscore}
+	paddingCharacter := [2]rune{space, underscore}
 
-	for i := len(root) + 1; i <= 10*len(root); i++ {
+	//Loop through various padding sizes from size of 'root' string to 10x the size of 'root' string
+	for expectedSize := len(root) + 1; expectedSize <= 10*len(root); expectedSize++ {
+		// each pass where we increment 'i' we will append padding to our expected padding
+		// starting from an empty padding string.
 		expectedPadding[0] += string(space)
 		expectedPadding[1] += string(underscore)
 
-		for n := 0; n < 2; n++ {
-			expected := expectedPadding[n] + root
+		// test both expected padding 0 and 1 each time.
+		for whichPadIndex := 0; whichPadIndex < len(expectedPadding); whichPadIndex++ {
+			expected := expectedPadding[whichPadIndex] + root
 
-			if output := LeftPad(pad[n], root, i); (output != expected) || (len(output) != i) {
-				t.Fatalf("output[%d]: '%s'(%d) != '%s'(%d)", i, output, len(output), expected, len(expected))
+			output := LeftPad(paddingCharacter[whichPadIndex], root, expectedSize)
+
+			if actualSize := len(output); actualSize != expectedSize {
+				t.Fatalf("output length (%d) does not match expected length (%d)", actualSize, expectedSize)
 			}
+
+			if output != expected {
+				t.Fatalf("output does not match expected output.\n"+
+					"  output: '%s'\n"+
+					"expected: '%s' (sz:%d)\n",
+					output, expected, expectedSize)
+			}
+
 		}
 	}
 	if output := LeftPad(space, root, len(root)); output != root {
