@@ -17,13 +17,14 @@ func TestSet_Add(t *testing.T) {
 			t.Fatalf("simple test: %v", err)
 		}
 	}()
+
 	func() {
 		//Complex test
 		set := Set{}
 
 		complexTest := func(value any, expectedError error) {
 			// Add the first item (type int)
-			t.Logf("Value: %v [expected:%v]", value, expectedError)
+			//t.Logf("Value: %v [expected:%v]", value, expectedError)
 			if err := set.Add(value); (err != nil) && (err.Error() != expectedError.Error()) {
 				t.Fatalf("Expected error mismatch.\n"+
 					"\t   value: '%v'\n"+
