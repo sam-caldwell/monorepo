@@ -1,5 +1,15 @@
 package ordered
 
+/*
+ * projects/sets/ordered/Add.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file adds an arbitrary-typed object to the
+ * ordered set and enforces type-checking.
+ *
+ * See README.md
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
@@ -28,6 +38,7 @@ func (set *Set) Add(item any) (err error) {
 	return err
 }
 
+// insert - a simple (unexported insert method)
 func (set *Set) insert(item any) {
 	set.data = append(set.data, item)
 }
