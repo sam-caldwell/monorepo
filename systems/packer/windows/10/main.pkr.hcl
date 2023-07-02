@@ -1,9 +1,13 @@
+#
+# systems/packer/windows10/main.pkr.hcl
+# (c) Sam Caldwell.  See LICENSE.txt
+#
 build {
   sources = [
-#    "sources.virtualbox-iso.windows10",
-#    "sources.vmware-iso.windows10",
+    #    "sources.virtualbox-iso.windows10",
+    #    "sources.vmware-iso.windows10",
     "sources.parallels-iso.windows10",
-#    "sources.qemu.windows10"
+    #    "sources.qemu.windows10"
   ]
 
   provisioner "powershell" {

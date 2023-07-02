@@ -1,5 +1,5 @@
 check/package-managers/list:
-	$(PRINT_START)
+	@echo "\033[34m>starting $@\033[0m"
 	@echo "$(ANSI_BLUE) detected package managers: $(ANSI_RESET)"
 	@echo "$(ANSI_BLUE)   macos/linux: $(ANSI_RESET)"
 	@echo "$(ANSI_BLUE)\t     HAS_BREW: $(HAS_BREW) $(ANSI_RESET)"
@@ -13,4 +13,4 @@ check/package-managers/list:
 	@echo "$(ANSI_BLUE)   windows: $(ANSI_RESET)"
 	@echo "$(ANSI_BLUE)\t   HAS_WINGET: $(HAS_WINGET) $(ANSI_RESET)"
 	@echo "$(ANSI_BLUE)\t    HAS_CHOCO: $(HAS_CHOCO) $(ANSI_RESET)"
-	$(PRINT_DONE)
+	echo "\033[32m>ok $@\033[0m"

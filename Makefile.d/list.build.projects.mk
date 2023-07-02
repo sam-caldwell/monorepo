@@ -3,7 +3,7 @@
 # For build autoamation docs, see docs/builds/README.md
 #
 list/build/projects:
-	@$(PRINT_START)
+	@@echo "\033[34m>starting $@\033[0m"
 ifeq ($$(OPSYS),windows)
 	@echo $(NOT_SUPPORTED)
 	exit 1
@@ -15,5 +15,5 @@ else
 	done; \
 	echo "";
 endif
-	@$(PRINT_DONE)
+	@echo "\033[32m>ok $@\033[0m"
 
