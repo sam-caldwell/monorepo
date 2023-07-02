@@ -1,16 +1,23 @@
 package counters
 
-import "testing"
+import (
+	ansi "github.com/sam-caldwell/go/v2/projects/ansi/Tester"
+	"testing"
+)
 
 func TestConditional_Value(t *testing.T) {
+	test := ansi.Test(t)
+	defer test.Stats()
 	var count Conditional
 	if count.Value() != 0 {
-		t.Fail()
+		test.Fail("initial state")
 	}
 	if v, _ := count.Increment(); v != 0 {
-		t.Fail()
+		test.Fail("step 1")
 	}
+	test.Pass("step 1")
 	if count.Value() != 1 {
-		t.Fail()
+		test.Fail("step 2")
 	}
+	test.Pass("step 2")
 }
