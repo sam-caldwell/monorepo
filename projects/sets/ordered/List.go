@@ -1,5 +1,12 @@
 package ordered
 
+/*
+ * projects/sets/ordered/List.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * See README.md
+ */
+
 // List - return a list of items
 func (set *Set) List() (result []any) {
 	set.lock.RLock()
