@@ -1,19 +1,24 @@
 package counters
 
-import "testing"
+import (
+	ansi "github.com/sam-caldwell/go/v2/projects/ansi/Tester"
+	"testing"
+)
 
 func TestSimpleCounter_Increment(t *testing.T) {
+	test := ansi.Test(t)
+	defer test.Stats()
 	var count Simple
 	if count.value != 0 {
-		t.Fail()
+		test.Fail("initial state")
 	}
 	if count.Increment() != 0 {
-		t.Fatal("expect 0")
+		test.Fatal("expect 0")
 	}
 	if count.Increment() != 1 {
-		t.Fatal("expect 1")
+		test.Fatal("expect 1")
 	}
 	if count.Increment() != 2 {
-		t.Fatal("expect 2")
+		test.Fatal("expect 2")
 	}
 }

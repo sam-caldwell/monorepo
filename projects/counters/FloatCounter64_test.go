@@ -1,8 +1,13 @@
 package counters
 
-import "testing"
+import (
+	ansi "github.com/sam-caldwell/go/v2/projects/ansi/Tester"
+	"testing"
+)
 
 func TestFloatCounter64(t *testing.T) {
+	test := ansi.Test(t)
+	defer test.Stats()
 	increments := []float64{-1.0, -0.5, -0.25, -0.1, -0.01, 0.01, 0.1, 0.25, 0.5, 1.0}
 
 	for _, increment := range increments {
@@ -14,9 +19,10 @@ func TestFloatCounter64(t *testing.T) {
 			result := counter()
 
 			if result != expected {
-				t.Errorf("Counter value after %d increments with increment %f is %f, expected %f",
+				test.Fatalf("Counter value after %d increments with increment %f is %f, expected %f\n",
 					i, increment, result, expected)
 			}
+			test.Passf("Counter at %d (%v)\n", i, increment)
 		}
 	}
 }
