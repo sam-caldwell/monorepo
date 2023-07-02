@@ -17,3 +17,5 @@ projects/fakeProject/
 
 # Snyk cache
 .dccache
+
+systems/iso/
