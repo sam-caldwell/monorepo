@@ -1,6 +1,7 @@
 package misc
 
 import (
+	ansi "github.com/sam-caldwell/go/v2/projects/ansi/Tester"
 	"testing"
 )
 
@@ -14,6 +15,8 @@ func TestLeftPad(t *testing.T) {
 		underscore = '_'
 		root       = "test"
 	)
+	test := ansi.Test(t)
+	defer test.Stats()
 
 	var expectedPadding [2]string
 	paddingCharacter := [2]rune{space, underscore}
@@ -32,28 +35,33 @@ func TestLeftPad(t *testing.T) {
 			output := LeftPad(paddingCharacter[whichPadIndex], root, expectedSize)
 
 			if actualSize := len(output); actualSize != expectedSize {
-				t.Fatalf("output length (%d) does not match expected length (%d)", actualSize, expectedSize)
+				test.Fatalf("output length (%d) does not match expected length (%d)", actualSize, expectedSize)
 			}
 
 			if output != expected {
-				t.Fatalf("output does not match expected output.\n"+
+				test.Fatalf("output does not match expected output.\n"+
 					"  output: '%s'\n"+
 					"expected: '%s' (sz:%d)\n",
 					output, expected, expectedSize)
 			}
-
 		}
 	}
+	test.Pass("Incrementing padding-size test")
+
 	if output := LeftPad(space, root, len(root)); output != root {
-		t.Fatal("same length test failed")
+		test.Fatal("same-length test")
 	}
+	test.Pass("same-length test")
+
 	if output := LeftPad(space, root, 0); output != root {
-		t.Fatal("0 length test failed")
+		test.Fatal("zero-length test")
 	}
+	test.Pass("zero-length test")
 
 	for i := 0; i < 2*len(root); i++ {
 		if output := LeftPad(space, root, len(root)-i); output != root {
-			t.Fatal("negative length test failed")
+			test.Fatal("negative-length test")
 		}
 	}
+	test.Pass("negative-length test")
 }
