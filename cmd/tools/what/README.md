@@ -15,6 +15,7 @@ what <option> [--printError]
 
 options:
   --help          : display usage information
+  --version       : display the current version
   --printError    : indicates whether error messages are printed to stdout.
 
   --cpus          : Return number of CPU cores

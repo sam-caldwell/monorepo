@@ -11,7 +11,7 @@ const (
 	versionData = `package version
 
 const (
-	version = "%s"
+	Version = "%s"
 )`
 )
 
