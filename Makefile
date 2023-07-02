@@ -49,3 +49,8 @@ include Makefile.d/version/*.mk
 # these makefiles
 #
 include Makefile.d/tools/*.mk
+
+#
+# Packer Automation
+#
+include Makefile.d/packer/*.mk
