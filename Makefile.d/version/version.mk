@@ -5,8 +5,11 @@
 # as well as the SVG image file and push the result to the current branch
 # as a tagged new release candidate.
 #
+# This will not run outside github actions.
+#
 
-version: version/bump \
+version: require-github-action \
+         version/bump \
 		 version/badge \
 		 version/commit \
 		 version/push
