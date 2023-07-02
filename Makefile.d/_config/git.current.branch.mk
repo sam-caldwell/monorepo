@@ -1,0 +1,1 @@
+GIT_CURRENT_BRANCH:=$(shell git branch --show-current)
