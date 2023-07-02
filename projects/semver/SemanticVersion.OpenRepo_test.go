@@ -3,5 +3,5 @@ package semver
 import "testing"
 
 func TestSemanticVersion_OpenRepo(t *testing.T) {
-	t.Skip()
+	t.Skip("not implemented")
 }

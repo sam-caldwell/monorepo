@@ -3,5 +3,5 @@ package semver
 import "testing"
 
 func TestSemanticVersionUpdateTag(t *testing.T) {
-	t.Skip()
+	t.Skip("not implemented")
 }
