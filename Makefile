@@ -38,6 +38,11 @@ include Makefile.d/self-tests/*.mk
 #
 include Makefile.d/check/*.mk
 
+#
+# Add versioning make features
+# to bump/set our version tags
+#
+include Makefile.d/version/*.mk
 
 #
 # To build or run our tools, we have

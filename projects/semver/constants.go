@@ -8,7 +8,7 @@ const (
 
 	tagPattern = `^[vV][0-9]+.[0-9]+.[0-9]+$`
 
-	tagFormat = "v%02d.%03d.%03d"
+	tagFormat = "v%d.%d.%d"
 
 	dotDelimiter = "."
 

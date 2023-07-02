@@ -1,5 +1,5 @@
 ---
-name: workflow-00-setup
+name: releases (Tagged)
 
 on:
   push:

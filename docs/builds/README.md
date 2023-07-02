@@ -5,61 +5,29 @@ Build Automation
 
 This document details the build automation for our repo.
 
-## A quick summary
+## A Quick Summary
+This repository has two types of projects:
+* `projects/` - reusable source code that can be imported into other projects using our go module.
+* `cmd/` - binaries produced from this repo as finished products/releases.
 
-* We only build projects in `cmd/<project>/<program>` which have `main.go`.
-  These programs are the only binaries we produce in this repo though you
-  may create other stuff by importing this repo as a Go module and have fun.
+The build automation discussed here, covers that second set of `cmd` projects and how they are 
+all built.
 
-* You can **enable/disable/list builds for specific projects** See "Build Enable/Disable"
-  (below).
 
 ## Controls and Tools
 
 These are things you can do on your laptop...
+ 
+* [Build Local Binaries](build-the-projects.md)
 
-### List the enabled projects
+* [List the Enabled Projects](list-enabled-build-projects.md)
 
-It's easy to find out what projects are in the `cmd` directory that are **ENABLED**:
+* [Disable a Build project](disable-a-build-project.md)
 
-```bash
-make list/build/projects
-```
+* [Enable a Build Project](enable-a-build-project.md)
 
-This will exclude disabled projects, and the output will look like this:
+* [Show the Current Repo Version](show-current-repo-version.md)
 
-```bash
-(venv) samcaldwell@mbp go % make list/build/projects
+There are some things that can only happen in GitHub Actions, such as--
 
-current binary projects (enabled):
- - cmd/subnetting/calculateSubnets
-
-(venv) samcaldwell@mbp go % 
-```
-
-### Disable a Build Project
-
-You can disable builds for a project using the following:
-
-```bash 
-make disable/build/program/${YOUR_PROJECT_NAME}
-```
-
-* This will create `cmd/<project>/build.disabled` in your local repo.
-* You **can** check in a `build.disabled` file and GitHub actions will respect it.
-* The `build.disabled` contains the user, host and timestamp of the operation.
-  For example:
-  ```text
-    samcaldwell@mbp.local : Fri Jun 16 21:56:57 CDT 2023
-  ```
-
-### Enable a Build Project
-
-Build projects can be enabled (if disabled using the above process) by running
-this command:
-
-```bash
-make enable/build/program/${YOUR_PROJECT_NAME}
-```
-
-(This simply deletes the `build.disabled` file.)
+* Bumping and setting the version.  `make version` will not run locally.
