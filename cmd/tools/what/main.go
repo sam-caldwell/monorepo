@@ -10,6 +10,7 @@ import (
 	cpu "github.com/sam-caldwell/go/v2/projects/systemrecon/cpu"
 	memory "github.com/sam-caldwell/go/v2/projects/systemrecon/memory"
 	opsys "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
+	"github.com/sam-caldwell/go/v2/projects/version"
 	"os"
 	"strings"
 )
@@ -20,6 +21,7 @@ what <option> [--printError]
 
 options:
   --help          : display usage information
+  --version       : display the current version
   --printError    : indicates whether error messages are printed to stdout.
 
   --cpus          : Return number of CPU cores
@@ -74,7 +76,10 @@ func main() {
 	 * General user stuff (help, version, etc)
 	 */
 	case "help":
-		fmt.Printf("Error: %s\n\n%s", err, usage)
+		fmt.Printf("\n%s", usage)
+
+	case "version":
+		fmt.Printf("%s", version.Version)
 
 	default:
 		output = ""
