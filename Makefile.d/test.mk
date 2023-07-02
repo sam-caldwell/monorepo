@@ -8,3 +8,8 @@ test/simple: # test/Makefile.d/self-tests/run
   		exit 1; \
   	}; \
 	echo "\033[32m>done:$@\033[0m"
+
+
+tests:
+	@echo "\033[31m>Did you mean 'make test'?\033[0m"
+	@exit 1
