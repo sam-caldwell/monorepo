@@ -1,5 +1,12 @@
 package ordered
 
+/*
+ * projects/sets/ordered/Set.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * See README.md
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
@@ -18,8 +25,8 @@ func (set *Set) TypeCheck(data any) (err error) {
 
 // typeCheck - the unexported / unsafe type checker
 func (set *Set) typeCheck(data *any) (err error) {
-	if reflect.TypeOf(set.data[0]).Kind() == reflect.TypeOf(data).Kind() {
-		return nil
+	if reflect.TypeOf(set.data[0]).Kind().String() != reflect.TypeOf(*data).Kind().String() {
+		return fmt.Errorf(errors.TypeMismatch)
 	}
-	return fmt.Errorf(errors.TypeMismatch)
+	return nil
 }

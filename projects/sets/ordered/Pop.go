@@ -1,5 +1,13 @@
 package ordered
 
+/*
+ * projects/sets/ordered/Pop.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * See README.md
+ */
+
+// Pop - return the item at the head of the set.
 func (set *Set) Pop() any {
 	if len(set.data) > 0 {
 		set.lock.Lock()

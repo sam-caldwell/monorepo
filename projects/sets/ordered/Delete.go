@@ -1,5 +1,12 @@
 package ordered
 
+/*
+ * projects/sets/ordered/Delete.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * See README.md
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"

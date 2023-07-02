@@ -10,7 +10,7 @@ func TestVersionNumber_Type(t *testing.T) {
 
 	//Get the maximum value of Version number using bitwise math...much faster.
 	maxValue := VersionNumber(2<<(versionNumberSize-1) - 1)
-	t.Log(maxValue)
+	//t.Log(maxValue)
 
 	var v VersionNumber
 	v = maxValue - 1

@@ -3,9 +3,9 @@ package ansi
 import "testing"
 
 func TestColor_White(t *testing.T) {
-	t.Skip()
+	t.Skip("not implemented")
 }
 
 func TestWhite(t *testing.T) {
-	t.Skip()
+	t.Skip("not implemented")
 }
