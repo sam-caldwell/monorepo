@@ -18,6 +18,6 @@ build {
   }
 
   post-processor "vagrant" {
-    output = "build/windows_10_{{.Provider}}.box"
+    output = join("", ["build/", "{{.Provider}}", ".", var.opsys, ".", var.os_version, ".box"])
   }
 }

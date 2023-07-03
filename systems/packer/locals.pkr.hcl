@@ -50,6 +50,13 @@ locals {
     }
   }
   windows = {
+    setup = {
+      language="powershell"
+      script=[
+        /* do things */
+        "Restart-Computer -Force"
+      ]
+    }
     10 = {
       boot_command=[]
       is_windows    = true
