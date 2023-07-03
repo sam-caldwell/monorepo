@@ -19,46 +19,44 @@ build {
    * *Nix shell scripts (anything but Windows...cause Redmond is special)
    */
   provisioner "shell" {
-    environment_vars = local[var.os_family][var.opsys][var.os_version].environment_vars
+    environment_vars  = local[var.os_family][var.opsys][var.os_version].environment_vars
     execute_command   = local[var.os_family][var.opsys][var.os_version].execute_command
     expect_disconnect = true
     scripts           = local.scripts
     except            = local.except_windows
   }
-#
-#  # Windows Updates and scripts
-#  provisioner "powershell" {
-#    elevated_password = "vagrant"
-#    elevated_user     = "vagrant"
-#    scripts           = local.scripts
-#    except            = local.only_windows
-#  }
-#  provisioner "windows-restart" {
-#    except = local.only_windows
-#  }
-#  provisioner "windows-update" {
-#    search_criteria = "IsInstalled=0"
-#    except          = local.only_windows
-#  }
-#  provisioner "windows-restart" {
-#    except = local.only_windows
-#  }
-#  provisioner "powershell" {
-#    elevated_password = "vagrant"
-#    elevated_user     = "vagrant"
-#    scripts           = [
-#      "${path.root}/scripts/windows/cleanup.ps1",
-#      "${path.root}/scripts/windows/optimize.ps1"
-#    ]
-#    except = local.only_windows
-#  }
-#  # Convert machines to vagrant boxes
-#  post-processor "vagrant" {
-#    compression_level   = 9
-#    keep_input_artifact = local.fact.is_windows
-#    output              = join("", [
-#      "build/vagrant/boxes/", "{{.Provider}}", ".", var.opsys, ".", var.os_version, ".box"
-#    ])
-#    vagrantfile_template = local.fact.is_windows ? (var.hyperv_generation == 1 ? "${path.root}/vagrantfile-windows.template" : "${path.root}/vagrantfile-windows-gen2.template") : null
-#  }
+
+  # Windows Updates and scripts
+  provisioner "powershell" {
+    elevated_password = local.fact.user.password
+    elevated_user     = local.fact.user.username
+    scripts           = local.scripts
+    except            = local.only_windows
+  }
+  provisioner "windows-restart" {
+    except = local.only_windows
+  }
+  provisioner "windows-update" {
+    search_criteria = "IsInstalled=0"
+    except          = local.only_windows
+  }
+  provisioner "windows-restart" {
+    except = local.only_windows
+  }
+  provisioner "powershell" {
+    elevated_password = local.fact.user.password
+    elevated_user     = local.fact.user.username
+    scripts = [
+      "${path.root}/scripts/windows/cleanup.ps1",
+      "${path.root}/scripts/windows/optimize.ps1"
+    ]
+    except = local.only_windows
+  }
+  # Convert machines to vagrant boxes
+  post-processor "vagrant" {
+    compression_level    = local.vagrant_compression_level
+    keep_input_artifact  = local.fact.is_windows
+    output               = local.vagrant_output
+    vagrantfile_template = local.vagrant_template
+  }
 }

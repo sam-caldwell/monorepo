@@ -5,7 +5,7 @@
  * This file calculates our build sources.
  */
 
-locals{
+locals {
   source = {
     list = compact([
       local.fact.source.enabled.hyperv,
@@ -31,5 +31,5 @@ locals {
    * Create a list of pruned sources (above) and return this list if we are dealing
    * with any operating system other than Windows..
    */
-  only_windows   = local.fact.is_windows ? null : local.source_names
+  only_windows = local.fact.is_windows ? null : local.source_names
 }
