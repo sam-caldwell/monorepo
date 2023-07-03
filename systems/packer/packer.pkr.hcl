@@ -6,7 +6,7 @@ packer {
   required_plugins {
     amazon = {
       version = ">= 1.2.6"
-      source = "github.com/hashicorp/amazon"
+      source  = "github.com/hashicorp/amazon"
     }
     digitalocean = {
       version = ">= 1.0.4"
@@ -26,11 +26,11 @@ packer {
     }
     virtualbox = {
       version = ">= 0.0.1"
-      source = "github.com/hashicorp/virtualbox"
+      source  = "github.com/hashicorp/virtualbox"
     }
     vmware = {
       version = ">= 1.0.0"
-      source = "github.com/hashicorp/vmware"
+      source  = "github.com/hashicorp/vmware"
     }
   }
 }

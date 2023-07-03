@@ -5,7 +5,7 @@
 
 source "parallels-iso" "vm" {
 
-  vm_name = join("",[var.prefix, var.opsys, var.os_version])
+  vm_name = join("", [var.prefix, var.opsys, var.os_version])
 
   parallels_tools_flavor = "win" #local[var.os_family][var.os_version][var.guest_os_type].parallels
 

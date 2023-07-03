@@ -3,9 +3,9 @@
 # (c) Sam Caldwell.  See LICENSE.txt
 #
 
-variable "os_family"{
+variable "os_family" {
   description = "Operating system family"
-  type = string
+  type        = string
   //Windows, linux, darwin
 }
 

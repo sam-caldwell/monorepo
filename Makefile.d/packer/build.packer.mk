@@ -3,7 +3,9 @@
 # (c) Sam Caldwell.  See LICENSE.txt
 #
 
-build/packer: build/packer/setup
+build/packer: build/packer/setup \
+			  packer/init
+
 	@echo "\033[34m>starting $@\033[0m"
 	@while read -r opsys os_version os_family disabled; do \
 		if [ "$${disabled}_" == "_" ]; then \
