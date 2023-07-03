@@ -1,0 +1,7 @@
+windows 10 windows
+windows 11 windows disabled
+ubuntu 20.04 linux disabled
+ubuntu 22.04 linux disabled
+ubuntu 23.04 linux disabled
+centos 8 linux disabled
+centos 9 linux disabled
