@@ -11,14 +11,14 @@ locals {
     cd_files = local.hyperv.generation == 2 && (var.os_family == "windows") ? [
       "${path.root}/win_answer_files/${var.os_version}/gen2_Autounattend.xml"
     ] : null
-    floppy_files = local.hyperv.generation == 1 && (var.os_family == "windows") ? [
-        "${path.root}/win_answer_files/${var.opsys}/${var.os_version}/Autounattend.xml",
-        "${path.root}/scripts/${var.opsys}/base_setup.ps1"
-      ] : null
     cpus = 4
     disk = {
       size = 20000 // disk space in MB
     }
+    floppy_files = (local.hyperv.generation == 1) && (var.os_family == "windows") ? [
+      "${path.root}/win_answer_files/${var.opsys}/${var.os_version}/Autounattend.xml",
+      "${path.root}/scripts/${var.opsys}/base_setup.ps1"
+    ] : null
     http_directory    = "${path.root}/http"
     http_proxy        = ""
     https_proxy       = ""

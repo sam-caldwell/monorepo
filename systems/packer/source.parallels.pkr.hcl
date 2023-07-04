@@ -1,11 +1,12 @@
-#
-# systems/packer/source.parallels.pkr.hcl
-# (c) Sam Caldwell.  See LICENSE.txt
-#
+/*
+ * systems/packer/source.parallels.pkr.hcl
+ * (c) Sam Caldwell.  See LICENSE.txt
+ */
 
 source "parallels-iso" "vm" {
   boot_wait      = local[var.os_family][var.opsys][var.os_version].boot_wait
   boot_command   = local[var.os_family][var.opsys][var.os_version].boot_command
+  #  cd_files       = local[var.os_family][var.opsys][var.os_version].cd_files
   cpus           = local.fact.cpus
   communicator   = local[var.os_family][var.opsys][var.os_version].communicator
   disk_size      = local.fact.disk.size
@@ -31,8 +32,4 @@ source "parallels-iso" "vm" {
   winrm_password         = local.fact.user.password
   winrm_timeout          = local.fact.winrm.timeout
   winrm_username         = local.fact.user.username
-
-
-  # Source block common options
-
 }

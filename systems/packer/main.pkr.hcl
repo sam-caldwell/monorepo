@@ -19,8 +19,8 @@ build {
    * *Nix shell scripts (anything but Windows...cause Redmond is special)
    */
   provisioner "shell" {
-    environment_vars  = local[var.os_family][var.opsys][var.os_version].environment_vars
-    execute_command   = local[var.os_family][var.opsys][var.os_version].execute_command
+    environment_vars  = local.fact.is_windows?null:local[var.os_family][var.opsys][var.os_version].environment_vars
+    execute_command   = local.fact.is_windows?null:local[var.os_family][var.opsys][var.os_version].execute_command
     expect_disconnect = true
     scripts           = local.scripts
     except            = local.except_windows

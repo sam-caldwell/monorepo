@@ -1,7 +1,10 @@
+/*
+ * systems/packer/config.windows.pkr.hcl
+ * (c) Sam Caldwell.  See LICENSE.txt
+ *
+ * Windows-specific configuration for windows 10.
+ */
 locals {
-  /*
-   * Windows-specific configuration for windows 10.
-   */
   //os_family
   windows = {
     //opsys
@@ -11,10 +14,9 @@ locals {
         arch             = "x86_64"
         boot_command     = []
         boot_wait        = "60s"
+        cd_files         = local.fact.cd_files
         communicator     = "winrm"
-        environment_vars = null
-        execute_command  = null
-        floppy_files     = null
+        floppy_files     = local.fact.floppy_files
         guest_os_type    = {
           parallels = "win-10"
           vbox      = "Windows10_64"

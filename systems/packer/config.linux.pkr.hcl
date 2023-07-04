@@ -1,3 +1,9 @@
+/*
+ * systems/packer/config.linux.pkr.hcl
+ * (c) Sam Caldwell.  See LICENSE.txt
+ *
+ * Windows-specific configuration for windows 10.
+ */
 locals {
   linux_execute_command = "echo 'vagrant' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
 }
