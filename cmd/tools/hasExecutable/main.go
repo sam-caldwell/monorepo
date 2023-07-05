@@ -1,10 +1,5 @@
 package main
 
-/*
- * This utility program can run on multiple operating systems and answer the question
- * "Is this 'executable' installed?" and it will only return a 'yes' or 'no' response.
- * If any error occurs, it replies 'no'
- */
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
@@ -15,14 +10,32 @@ import (
 )
 
 const (
-	powershellCode = "if (Get-Command -Name %s -ErrorAction SilentlyContinue) { 'yes' }"
+	/*
+	 * Shell code for Windows
+	 */
+	powershellCode = `if (Get-Command -Name '%s' -ErrorAction SilentlyContinue) { '0' } else { '1' }`
+	/*
+	 * Shell code for the rest of the world
+	 */
+	shellCode = "command -v %s >/dev/null 2>&1; echo $?"
 )
 
-func runCommand(shell, command string, args []string) (exitCode int, response string) {
-	response = words.No
-	arguments := append([]string{command}, args...)
-	cmd := exec.Command(shell, arguments...)
-	if _, err := cmd.Output(); err == nil {
+func hasCommand(targetCommand string) (exitCode int, answer string) {
+	response := words.No
+	fmt.Printf("targetCommand: %s\n", targetCommand)
+
+	var cmd *exec.Cmd
+	switch goos := runtime.GOOS; goos {
+	case "windows":
+		cmd = exec.Command("powershell", "-Command", fmt.Sprintf(powershellCode, targetCommand))
+	case "darwin", "linux":
+		cmd = exec.Command("sh", "-c", fmt.Sprintf(shellCode, targetCommand))
+	default:
+		return 2, response // unsupported operating system
+	}
+
+	out, err := cmd.Output()
+	if err == nil && strings.TrimSpace(string(out)) == "0" {
 		exitCode = 0
 		response = words.Yes
 	} else {
@@ -32,39 +45,20 @@ func runCommand(shell, command string, args []string) (exitCode int, response st
 	return exitCode, response
 }
 
-func hasCommand(targetCommand string) (exitCode int, answer string) {
-	var shell string
-	var commandString string
-	var arguments []string
-	switch goos := runtime.GOOS; goos {
-	case "windows":
-		shell = "powershell"
-		commandString = "-Command"
-		arguments = []string{fmt.Sprintf(powershellCode, targetCommand)}
-	case "darwin":
-		fallthrough
-	case "linux":
-		shell = "/bin/bash"
-		commandString = "command"
-		arguments = []string{"-v", targetCommand}
-	default:
-		//unsupported operating system
-		return 2, words.No
-	}
-	return runCommand(shell, commandString, arguments)
-}
-
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("no")
 		os.Exit(0)
 	}
-	exitCode, answer := hasCommand(strings.TrimSpace(os.Args[1]))
+
+	targetCommand := strings.TrimSpace(os.Args[1])
+	exitCode, answer := hasCommand(targetCommand)
 	fmt.Println(answer)
+
 	if len(os.Args) == 3 {
 		if strings.TrimSpace(strings.ToLower(os.Args[2])) == "--exitcode" {
+			fmt.Println("exit_code:", exitCode)
 			os.Exit(exitCode)
 		}
 	}
-
 }
