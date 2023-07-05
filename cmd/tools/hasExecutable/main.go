@@ -59,10 +59,13 @@ func main() {
 		fmt.Println("no")
 		os.Exit(0)
 	}
-	exitCode, answer := hasCommand(strings.TrimSpace(os.Args[1]))
+	targetCommand := strings.TrimSpace(os.Args[1])
+	fmt.Println("Checking ", targetCommand)
+	exitCode, answer := hasCommand(targetCommand)
 	fmt.Println(answer)
 	if len(os.Args) == 3 {
 		if strings.TrimSpace(strings.ToLower(os.Args[2])) == "--exitcode" {
+			fmt.Println("exit_code:", exitCode)
 			os.Exit(exitCode)
 		}
 	}
