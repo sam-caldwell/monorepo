@@ -1,7 +1,9 @@
 #
+# Makefile.d/_config/200.package-manager.mk
+# (c) Sam Caldwell.  See LICENSE.txt
+#
 # Identify detected packet managers.
 #
-
 PACKAGE_MANAGER:=$(shell /bin/bash -c '\
 		[ "$(HAS_BREW)_" == "yes_" ] && { \
 			echo "brew"; \

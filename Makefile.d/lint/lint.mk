@@ -1,6 +1,10 @@
-# ToDo: Lint Makefile
-# ToDo: Lint Markdown files
-
+#
+# Makefile.d/lint/lint.mk
+# (c) 2023 Sam Caldwell.  See LICENSE.txt
+#
+# Run all the linters for the project against
+# the entire repo.
+#
 lint: lint/go \
       lint/yaml \
       lint/shell

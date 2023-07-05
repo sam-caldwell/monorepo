@@ -1,5 +1,5 @@
 #
-# Makefile.d/_config/executable_extension.mk
+# Makefile.d/_config/000.executable_extension.mk
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 #
 # This parameter determines systemrecon (if any) binary
