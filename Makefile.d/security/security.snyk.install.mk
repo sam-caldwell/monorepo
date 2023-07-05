@@ -41,7 +41,7 @@ security/snyk/install/linux:
 security/snyk/install:
 	@command -v snyk &>/dev/null || {\
 		echo "\033[34m>starting $@\033[0m";\
-		make security/snyk/install/$(OPSYS);\
+		make -s security/snyk/install/$(OPSYS);\
 		echo "\033[32m>ok $@\033[0m";\
 	}
 

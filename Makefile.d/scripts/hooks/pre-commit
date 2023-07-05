@@ -7,7 +7,7 @@
 #
 printf "\033[34m>starting %s\033[0m" "$0"
 
-make security || {
+make -s security || {
   printf "\033[31m>Lint/security check failed %s\033[0m" "$0"
   exit 1
 }
