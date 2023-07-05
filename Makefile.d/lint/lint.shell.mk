@@ -1,4 +1,4 @@
-lint/shell:
+lint/shell: lint/install/shellcheck
 	@echo "\033[34m>starting $@\033[0m"
 	@shellcheck Makefile.d/scripts/*/*
 	@find . -type f -name "*.sh" -print0 | while IFS= read -r -d $$'\0' file; do \
