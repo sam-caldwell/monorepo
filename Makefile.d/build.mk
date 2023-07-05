@@ -23,7 +23,7 @@ build:
 				    export BINARY_ARTIFACT="$(BUILD_DIR)/$${GOOS}/$${GOARCH}/$${PROGRAM}$${EXECUTABLE_EXTENSION}";\
 					echo "\033[32m  BUILD: $${BINARY_ARTIFACT} (source: $${SOURCE})"; \
 					mkdir -p "$(BUILD_DIR)/$${GOOS}/$${GOARCH}"; \
-					go build -o $${BINARY_ARTIFACT} "$${SOURCE}"; \
+					GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO_BINARY) build -o $${BINARY_ARTIFACT} "$${SOURCE}"; \
 				done; \
 			done; \
 		done; \
