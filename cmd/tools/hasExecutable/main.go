@@ -16,13 +16,13 @@ import (
 
 const (
 	powershellCode = "if (Get-Command -Name %s -ErrorAction SilentlyContinue) { 'yes' }"
+	shellCode      = "%s"
 )
 
-func runCommand(shell, command string, args []string) (exitCode int, response string) {
+func runCommand(shell string, command []string) (exitCode int, response string) {
 	response = words.No
-	arguments := append([]string{command}, args...)
-	fmt.Printf("shell: %s command: %s args: %v\n", shell, command, args)
-	cmd := exec.Command(shell, arguments...)
+	fmt.Printf("shell: %s command: %v\n", shell, command)
+	cmd := exec.Command(shell, command...)
 	if out, err := cmd.Output(); err == nil {
 		fmt.Printf("out: '%s'\n", string(out))
 		exitCode = 0
@@ -36,25 +36,16 @@ func runCommand(shell, command string, args []string) (exitCode int, response st
 }
 
 func hasCommand(targetCommand string) (exitCode int, answer string) {
-	var shell string
-	var commandString string
-	var arguments []string
 	switch goos := runtime.GOOS; goos {
 	case "windows":
-		shell = "powershell"
-		commandString = "-Command"
-		arguments = []string{fmt.Sprintf(powershellCode, targetCommand)}
+		return runCommand("powershell", []string{"-Command", fmt.Sprintf(powershellCode, targetCommand)})
 	case "darwin":
-		fallthrough
+		return runCommand("command", []string{"-v", fmt.Sprintf(shellCode, targetCommand)})
 	case "linux":
-		shell = "/bin/bash"
-		commandString = "command"
-		arguments = []string{"-v", targetCommand}
-	default:
-		//unsupported operating system
-		return 2, words.No
+		return runCommand("command", []string{"-v", fmt.Sprintf(shellCode, targetCommand)})
 	}
-	return runCommand(shell, commandString, arguments)
+	//unsupported operating system
+	return 2, words.No
 }
 
 func main() {
@@ -63,7 +54,6 @@ func main() {
 		os.Exit(0)
 	}
 	targetCommand := strings.TrimSpace(os.Args[1])
-	fmt.Println("Checking ", targetCommand)
 	exitCode, answer := hasCommand(targetCommand)
 	fmt.Println(answer)
 	if len(os.Args) == 3 {
