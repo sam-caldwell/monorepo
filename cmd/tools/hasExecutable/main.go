@@ -11,7 +11,6 @@ import (
 
 const (
 	powershellCode = "if (Get-Command -Name %s -ErrorAction SilentlyContinue) { 'yes' }"
-	shellCode      = "%s"
 )
 
 func hasCommand(targetCommand string) (exitCode int, answer string) {
@@ -36,8 +35,6 @@ func hasCommand(targetCommand string) (exitCode int, answer string) {
 		exitCode = 1
 		response = words.No
 	}
-
-	fmt.Printf("out: '%s'\n", string(out))
 	return exitCode, response
 }
 
