@@ -4,11 +4,6 @@
 #
 # linux: redhat/centos/fedora yum
 #
-HAS_YUM=$(shell if command -v yum &>/dev/null; then \
-          echo 'yes';\
-        else \
-          echo 'no'; \
-        fi;\
-        )
+HAS_YUM=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go yum)
 has_yum:
 	@echo "$(HAS_YUM)"

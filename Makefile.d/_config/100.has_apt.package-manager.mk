@@ -2,12 +2,7 @@
 # PACKAGE MANAGERS
 #
 # linux: debian/ubuntu
-HAS_APT=$(shell if command -v apt-get; then \
-  echo 'yes';\
-else \
-  echo 'no'; \
-fi;\
-)
+HAS_APT=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go apt-get)
 
 has_apt:
 	@echo "$(HAS_APT)"

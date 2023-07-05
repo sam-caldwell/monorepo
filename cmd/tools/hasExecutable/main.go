@@ -18,34 +18,40 @@ const (
 	powershellCode = "if (Get-Command -Name %s -ErrorAction SilentlyContinue) { 'yes' }"
 )
 
-// supportedExecutables - A string list
-var supportedExecutables = []string{
-	words.AptGet, words.Brew, words.Chocolatey, words.Dpkg, words.Rpm, words.Winget, words.Yum, words.Bash,
-	words.CommandCom, words.Cshell, words.NodeJs, words.Perl, words.Powershell, words.Python, words.Sh,
-	words.Zshell, words.Ftp, words.Scp, words.Ssh,
-}
-
-func runCommand(shell, c, args string) (response string) {
+func runCommand(shell, command string, args []string) (exitCode int, response string) {
 	response = words.No
-	cmd := exec.Command(shell, c, args)
-	_, err := cmd.Output()
-	if err == nil {
+	arguments := append([]string{command}, args...)
+	cmd := exec.Command(shell, arguments...)
+	if _, err := cmd.Output(); err == nil {
+		exitCode = 0
 		response = words.Yes
+	} else {
+		exitCode = 1
+		response = words.No
 	}
-	return response
+	return exitCode, response
 }
 
-func hasCommand(targetCommand string) string {
+func hasCommand(targetCommand string) (exitCode int, answer string) {
+	var shell string
+	var commandString string
+	var arguments []string
 	switch goos := runtime.GOOS; goos {
 	case "windows":
-		return runCommand(words.Powershell, "-Command", fmt.Sprintf(powershellCode, targetCommand))
+		shell = "powershell"
+		commandString = "-Command"
+		arguments = []string{fmt.Sprintf(powershellCode, targetCommand)}
 	case "darwin":
 		fallthrough
 	case "linux":
-		return runCommand(words.Command, "-v", targetCommand)
+		shell = "/bin/bash"
+		commandString = "command"
+		arguments = []string{"-v", targetCommand}
 	default:
-		return words.No
+		//unsupported operating system
+		return 2, words.No
 	}
+	return runCommand(shell, commandString, arguments)
 }
 
 func main() {
@@ -53,10 +59,12 @@ func main() {
 		fmt.Println("no")
 		os.Exit(0)
 	}
-	for _, command := range supportedExecutables {
-		if command == strings.TrimSpace(os.Args[1]) {
-			fmt.Println(hasCommand(command))
-			os.Exit(0)
+	exitCode, answer := hasCommand(strings.TrimSpace(os.Args[1]))
+	fmt.Println(answer)
+	if len(os.Args) == 3 {
+		if strings.TrimSpace(strings.ToLower(os.Args[2])) == "--exitcode" {
+			os.Exit(exitCode)
 		}
 	}
+
 }
