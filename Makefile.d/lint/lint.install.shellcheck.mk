@@ -6,12 +6,12 @@
 #
 lint/install/shellcheck/darwin:
 	@echo "\033[34m>starting $@\033[0m"
-	command -v shellcheck &> /dev/null || brew install shellcheck
+	brew install shellcheck
 	@echo "\033[32m>ok $@\033[0m"
 
 lint/install/shellcheck/linux:
 	@echo "\033[34m>starting $@\033[0m"
-	command -v shellcheck &> /dev/null || sudo apt-get install shellcheck -y
+	sudo apt-get install shellcheck -y
 	@echo "\033[32m>ok $@\033[0m"
 
 lint/install/shellcheck/windows:
