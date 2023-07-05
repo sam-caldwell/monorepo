@@ -18,24 +18,23 @@ const (
 	powershellCode = "if (Get-Command -Name %s -ErrorAction SilentlyContinue) { 'yes' }"
 )
 
-// supportedExecutables - A string list
-var supportedExecutables = []string{
-	words.AptGet, words.Brew, words.Chocolatey, words.Dpkg, words.Rpm, words.Winget, words.Yum, words.Bash,
-	words.CommandCom, words.Cshell, words.NodeJs, words.Perl, words.Powershell, words.Python, words.Sh,
-	words.Zshell, words.Ftp, words.Scp, words.Ssh,
-}
-
-func runCommand(shell, c, args string) (response string) {
+func runCommand(shell, c, args string) (exitCode int, response string) {
 	response = words.No
 	cmd := exec.Command(shell, c, args)
 	_, err := cmd.Output()
+
 	if err == nil {
+		exitCode = 0
 		response = words.Yes
+	} else {
+		fmt.Printf("Error: %v\n", err)
+		exitCode = 1
+		response = words.No
 	}
-	return response
+	return exitCode, response
 }
 
-func hasCommand(targetCommand string) string {
+func hasCommand(targetCommand string) (exitCode int, answer string) {
 	switch goos := runtime.GOOS; goos {
 	case "windows":
 		return runCommand(words.Powershell, "-Command", fmt.Sprintf(powershellCode, targetCommand))
@@ -44,7 +43,8 @@ func hasCommand(targetCommand string) string {
 	case "linux":
 		return runCommand(words.Command, "-v", targetCommand)
 	default:
-		return words.No
+		//unsupported operating system
+		return 2, words.No
 	}
 }
 
@@ -53,10 +53,7 @@ func main() {
 		fmt.Println("no")
 		os.Exit(0)
 	}
-	for _, command := range supportedExecutables {
-		if command == strings.TrimSpace(os.Args[1]) {
-			fmt.Println(hasCommand(command))
-			os.Exit(0)
-		}
-	}
+	exitCode, answer := hasCommand(strings.TrimSpace(os.Args[1]))
+	fmt.Println(answer)
+	os.Exit(exitCode)
 }
