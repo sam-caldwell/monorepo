@@ -4,6 +4,11 @@
 #
 # linux: redhat/centos/fedora/sles rpm package manager
 #
-HAS_RPM=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go rpm)
+HAS_RPM=$(shell if command -v rpm &>/dev/null; then \
+                  echo 'yes';\
+                else \
+                  echo 'no'; \
+                fi;\
+                )
 has_rpm:
 	@echo "$(HAS_RPM)"
