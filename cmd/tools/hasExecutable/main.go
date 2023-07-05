@@ -21,11 +21,14 @@ const (
 func runCommand(shell, command string, args []string) (exitCode int, response string) {
 	response = words.No
 	arguments := append([]string{command}, args...)
+	fmt.Printf("shell: %s command: %s args: %v\n", shell, command, args)
 	cmd := exec.Command(shell, arguments...)
-	if _, err := cmd.Output(); err == nil {
+	if out, err := cmd.Output(); err == nil {
+		fmt.Printf("out: '%s'\n", string(out))
 		exitCode = 0
 		response = words.Yes
 	} else {
+		fmt.Printf("out: '%s'\n", string(out))
 		exitCode = 1
 		response = words.No
 	}
