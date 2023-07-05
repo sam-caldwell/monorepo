@@ -28,10 +28,10 @@ lint/install/staticcheck/install:
 lint/install/staticcheck:
 	@echo "\033[34m>starting $@\033[0m"; \
 	command -v staticcheck &>/dev/null || { \
-		make lint/install/staticcheck/tools;\
-		make lint/install/staticcheck/get;\
+		make -s lint/install/staticcheck/tools;\
+		make -s lint/install/staticcheck/get;\
 	};\
-	make lint/install/staticcheck/install; \
+	make -s lint/install/staticcheck/install; \
 	command -v staticcheck &>/dev/null || {\
 		echo "\033[31m>install failed.  $@\033[0m"; \
 		exit 1; \

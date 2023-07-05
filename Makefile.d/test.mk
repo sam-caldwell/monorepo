@@ -11,5 +11,5 @@ test/simple: # test/Makefile.d/self-tests/run
 
 
 tests:
-	@echo "\033[31m>Did you mean 'make test'?\033[0m"
+	@echo "\033[31m>Did you mean 'make -s test'?\033[0m"
 	@exit 1

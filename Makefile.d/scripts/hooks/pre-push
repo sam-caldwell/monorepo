@@ -7,7 +7,7 @@
 
 printf "\033[34m>starting %s\033[0m" "$0"
 
-make test || {
+make -s test || {
   printf "\033[31m>ok %s\033[0m" "$0"
   exit 1
 }
