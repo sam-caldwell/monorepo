@@ -13,7 +13,7 @@ const (
 	/*
 	 * Shell code for Windows
 	 */
-	powershellCode = "if(Get-Command -Name %s -ErrorAction SilentlyContinue) {'yes'}"
+	powershellCode = `powershell -Command "& {if (Get-Command -Name '%s' -ErrorAction SilentlyContinue) { 'yes' } else { 'no' }}"`
 	/*
 	 * Shell code for the rest of the world
 	 */
@@ -27,7 +27,7 @@ func hasCommand(targetCommand string) (exitCode int, answer string) {
 	var cmd *exec.Cmd
 	switch goos := runtime.GOOS; goos {
 	case "windows":
-		cmd = exec.Command("powershell", "-Command", fmt.Sprintf(powershellCode, targetCommand))
+		cmd = exec.Command("cmd", "/C", fmt.Sprintf(powershellCode, targetCommand))
 	case "darwin", "linux":
 		cmd = exec.Command("sh", "-c", fmt.Sprintf(shellCode, targetCommand))
 	default:
