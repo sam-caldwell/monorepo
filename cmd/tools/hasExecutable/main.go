@@ -22,8 +22,6 @@ const (
 
 func hasCommand(targetCommand string) (exitCode int, answer string) {
 	response := words.No
-	fmt.Printf("targetCommand: %s\n", targetCommand)
-
 	var cmd *exec.Cmd
 	switch goos := runtime.GOOS; goos {
 	case "windows":
@@ -54,10 +52,8 @@ func main() {
 	targetCommand := strings.TrimSpace(os.Args[1])
 	exitCode, answer := hasCommand(targetCommand)
 	fmt.Println(answer)
-
 	if len(os.Args) == 3 {
 		if strings.TrimSpace(strings.ToLower(os.Args[2])) == "--exitcode" {
-			fmt.Println("exit_code:", exitCode)
 			os.Exit(exitCode)
 		}
 	}
