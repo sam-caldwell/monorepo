@@ -13,7 +13,7 @@ const (
 	/*
 	 * Shell code for Windows
 	 */
-	powershellCode = "'if(Get-Command -Name %s -ErrorAction SilentlyContinue) {''yes''}'"
+	powershellCode = "if(Get-Command -Name %s -ErrorAction SilentlyContinue) {'yes'}"
 	/*
 	 * Shell code for the rest of the world
 	 */
