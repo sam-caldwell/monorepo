@@ -18,8 +18,13 @@ func runCommand(shell string, command string, args []string) (exitCode int, resp
 	response = words.No
 	fmt.Printf("shell: %s command: %s args: %v\n", shell, command, args)
 
-	args = append([]string{command}, args...)
-	cmd := exec.Command(shell, args...)
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		args = append([]string{"-Command", fmt.Sprintf(powershellCode, command)}, args...)
+		cmd = exec.Command(shell, args...)
+	} else {
+		cmd = exec.Command(shell, append([]string{fmt.Sprintf(shellCode, command)}, args...)...)
+	}
 
 	if out, err := cmd.Output(); err == nil {
 		fmt.Printf("out: '%s'\n", string(out))
@@ -37,11 +42,11 @@ func runCommand(shell string, command string, args []string) (exitCode int, resp
 func hasCommand(targetCommand string) (exitCode int, answer string) {
 	switch goos := runtime.GOOS; goos {
 	case "windows":
-		return runCommand("powershell", "-Command", []string{fmt.Sprintf(powershellCode, targetCommand)})
+		return runCommand("powershell", targetCommand, nil)
 	case "darwin":
-		return runCommand("command", "-v", []string{fmt.Sprintf(shellCode, targetCommand)})
+		return runCommand("command", "-v", []string{targetCommand})
 	case "linux":
-		return runCommand("command", "-v", []string{fmt.Sprintf(shellCode, targetCommand)})
+		return runCommand("command", "-v", []string{targetCommand})
 	}
 	//unsupported operating system
 	return 2, words.No
