@@ -10,7 +10,14 @@ import (
 )
 
 const (
-	powershellCode = "if (Get-Command -Name %s -ErrorAction SilentlyContinue) { 'yes' }"
+	/*
+	 * Shell code for Windows
+	 */
+	powershellCode = "'if(Get-Command -Name %s -ErrorAction SilentlyContinue) {''yes''}'"
+	/*
+	 * Shell code for the rest of the world
+	 */
+	shellCode = "command -v %s >/dev/null 2>&1; echo $?"
 )
 
 func hasCommand(targetCommand string) (exitCode int, answer string) {
@@ -22,7 +29,7 @@ func hasCommand(targetCommand string) (exitCode int, answer string) {
 	case "windows":
 		cmd = exec.Command("powershell", "-Command", fmt.Sprintf(powershellCode, targetCommand))
 	case "darwin", "linux":
-		cmd = exec.Command("sh", "-c", fmt.Sprintf("command -v %s >/dev/null 2>&1; echo $?", targetCommand))
+		cmd = exec.Command("sh", "-c", fmt.Sprintf(shellCode, targetCommand))
 	default:
 		return 2, response // unsupported operating system
 	}
