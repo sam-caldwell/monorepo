@@ -1,17 +1,17 @@
 locals {
-  #  scripts = var.os_name == "solaris" ? [
-  #    "${path.root}/scripts/solaris/update_solaris.sh",
-  #    "${path.root}/scripts/_common/vagrant.sh",
-  #    "${path.root}/scripts/solaris/vmtools_solaris.sh",
-  #    "${path.root}/scripts/solaris/minimize_solaris.sh"
+  #  scripts = var.opsys == "solaris" ? [
+  #    "${local.script_dir}/solaris/update_solaris.sh",
+  #    "${local.script_dir}/_common/vagrant.sh",
+  #    "${local.script_dir}/solaris/vmtools_solaris.sh",
+  #    "${local.script_dir}/solaris/minimize_solaris.sh"
   #  ] : (
-  #  var.os_name == "freebsd" ? [
-  #    "${path.root}/scripts/freebsd/update_freebsd.sh",
-  #    "${path.root}/scripts/freebsd/postinstall_freebsd.sh",
-  #    "${path.root}/scripts/freebsd/sudoers_freebsd.sh",
-  #    "${path.root}/scripts/_common/vagrant.sh",
-  #    "${path.root}/scripts/freebsd/vmtools_freebsd.sh",
-  #    "${path.root}/scripts/freebsd/cleanup_freebsd.sh",
-  #    "${path.root}/scripts/freebsd/minimize_freebsd.sh"
+  #  var.opsys == "freebsd" ? [
+  #    "${local.script_dir}/freebsd/update_freebsd.sh",
+  #    "${local.script_dir}/freebsd/postinstall_freebsd.sh",
+  #    "${local.script_dir}/freebsd/sudoers_freebsd.sh",
+  #    "${local.script_dir}/_common/vagrant.sh",
+  #    "${local.script_dir}/freebsd/vmtools_freebsd.sh",
+  #    "${local.script_dir}/freebsd/cleanup_freebsd.sh",
+  #    "${local.script_dir}/freebsd/minimize_freebsd.sh"
   #  ]
 }

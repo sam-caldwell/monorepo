@@ -7,17 +7,31 @@
  * packer builds will work.
  */
 locals {
+  script_dir = "${path.root}scripts"
+}
+locals {
+  answer_files = join("/", [
+    "${local.script_dir}",
+    "answer_files",
+    "${var.os_family}",
+    "${var.opsys}",
+    "${var.os_version}"
+  ])
+}
+locals {
+
   fact = {
+
     cd_files = local.hyperv.generation == 2 && (var.os_family == "windows") ? [
-      "${path.root}/win_answer_files/${var.os_version}/gen2_Autounattend.xml"
+      "${local.answer_files}/gen2_Autounattend.xml"
     ] : null
     cpus = 4
     disk = {
       size = 20000 // disk space in MB
     }
-    floppy_files = (local.hyperv.generation == 1) && (var.os_family == "windows") ? [
-      "${path.root}/win_answer_files/${var.opsys}/${var.os_version}/Autounattend.xml",
-      "${path.root}/scripts/${var.opsys}/base_setup.ps1"
+    floppy_files = (local.hyperv.generation == 1)&& (var.os_family == "windows") ? [
+      "${local.answer_files}/Autounattend.xml",
+      "${local.answer_files}/base_setup.ps1"
     ] : null
     http_directory    = "${path.root}/http"
     http_proxy        = ""
@@ -28,7 +42,7 @@ locals {
     iso_checksum_type = "sha256"
     memory            = 4096 // memory in MB
     output_directory  = "build/packer/{{.Provider}}/"
-    source = {
+    source            = {
       enabled = {
         hyperv     = (var.source == "hyperv") ? "sources.hyperv-iso.vm" : ""
         parallels  = (var.source == "parallels") ? "sources.parallels-iso.vm" : ""

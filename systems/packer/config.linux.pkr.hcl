@@ -52,19 +52,19 @@ locals {
           "initrd=/install/initrd.gz -- <enter>"
         ]
         scripts = [
-          "${path.root}/scripts/${var.os_name}/update_${var.os_name}.sh",
-          "${path.root}/scripts/_common/motd.sh",
-          "${path.root}/scripts/_common/sshd.sh",
-          "${path.root}/scripts/${var.os_name}/networking_${var.os_name}.sh",
-          "${path.root}/scripts/${var.os_name}/sudoers_${var.os_name}.sh",
-          "${path.root}/scripts/_common/vagrant.sh",
-          "${path.root}/scripts/${var.os_name}/systemd_${var.os_name}.sh",
-          "${path.root}/scripts/_common/virtualbox.sh",
-          "${path.root}/scripts/_common/vmware_debian_ubuntu.sh",
-          "${path.root}/scripts/_common/parallels.sh",
-          "${path.root}/scripts/${var.os_name}/hyperv_${var.os_name}.sh",
-          "${path.root}/scripts/${var.os_name}/cleanup_${var.os_name}.sh",
-          "${path.root}/scripts/_common/minimize.sh"
+          "${local.script_dir}/${var.opsys}/update_${var.opsys}.sh",
+          "${local.script_dir}/_common/motd.sh",
+          "${local.script_dir}/_common/sshd.sh",
+          "${local.script_dir}/${var.opsys}/networking_${var.opsys}.sh",
+          "${local.script_dir}/${var.opsys}/sudoers_${var.opsys}.sh",
+          "${local.script_dir}/_common/vagrant.sh",
+          "${local.script_dir}/${var.opsys}/systemd_${var.opsys}.sh",
+          "${local.script_dir}/_common/virtualbox.sh",
+          "${local.script_dir}/_common/vmware_debian_ubuntu.sh",
+          "${local.script_dir}/_common/parallels.sh",
+          "${local.script_dir}/${var.opsys}/hyperv_${var.opsys}.sh",
+          "${local.script_dir}/${var.opsys}/cleanup_${var.opsys}.sh",
+          "${local.script_dir}/_common/minimize.sh"
         ]
       }
     }

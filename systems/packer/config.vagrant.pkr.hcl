@@ -15,7 +15,7 @@ locals {
    */
   vagrant_template = local.fact.is_windows ? (
     local.hyperv.generation == 1 ?
-    "${path.root}/scripts/vagrantfile-windows.template" :
-    "${path.root}/scripts/vagrantfile-windows-gen2.template"
+    "${local.script_dir}/vagrantfile-windows.template" :
+    "${local.script_dir}/vagrantfile-windows-gen2.template"
   ) : null
 }

@@ -19,10 +19,10 @@ build {
    * *Nix shell scripts (anything but Windows...cause Redmond is special)
    */
   provisioner "shell" {
-    environment_vars  = local.fact.is_windows?null:local[var.os_family][var.opsys][var.os_version].environment_vars
-    execute_command   = local.fact.is_windows?null:local[var.os_family][var.opsys][var.os_version].execute_command
+    environment_vars  = local.fact.is_windows ? null : local[var.os_family][var.opsys][var.os_version].environment_vars
+    execute_command   = local.fact.is_windows ? null : local[var.os_family][var.opsys][var.os_version].execute_command
     expect_disconnect = true
-    scripts           = local.scripts
+    scripts           = local[var.os_family][var.opsys][var.os_version].scripts
     except            = local.except_windows
   }
 
@@ -30,7 +30,7 @@ build {
   provisioner "powershell" {
     elevated_password = local.fact.user.password
     elevated_user     = local.fact.user.username
-    scripts           = local.scripts
+    scripts           = local[var.os_family][var.opsys][var.os_version].scripts
     except            = local.only_windows
   }
   provisioner "windows-restart" {
@@ -47,8 +47,8 @@ build {
     elevated_password = local.fact.user.password
     elevated_user     = local.fact.user.username
     scripts = [
-      "${path.root}/scripts/windows/cleanup.ps1",
-      "${path.root}/scripts/windows/optimize.ps1"
+      "${local.script_dir}/windows/cleanup.ps1",
+      "${local.script_dir}/windows/optimize.ps1"
     ]
     except = local.only_windows
   }

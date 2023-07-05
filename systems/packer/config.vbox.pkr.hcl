@@ -25,7 +25,7 @@ locals {
   #   */
   #    # virtualbox-ovf
   #    vbox_source = var.vbox_source == null ? (
-  #    var.os_name == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
+  #    var.opsys == "amazonlinux" ? "${path.root}/amz_working_files/amazon2.ovf" : null
   #    ) : var.vbox_source
   #  }
 }

@@ -4,16 +4,19 @@
  */
 
 source "parallels-iso" "vm" {
-  boot_wait      = local[var.os_family][var.opsys][var.os_version].boot_wait
-  boot_command   = local[var.os_family][var.opsys][var.os_version].boot_command
+  boot_wait    = local[var.os_family][var.opsys][var.os_version].boot_wait
+  boot_command = local[var.os_family][var.opsys][var.os_version].boot_command
   #  cd_files       = local[var.os_family][var.opsys][var.os_version].cd_files
-  cpus           = local.fact.cpus
-  communicator   = local[var.os_family][var.opsys][var.os_version].communicator
-  disk_size      = local.fact.disk.size
-  floppy_files   = local[var.os_family][var.opsys][var.os_version].floppy_files
-  guest_os_type  = local[var.os_family][var.opsys][var.os_version].guest_os_type.parallels
-  http_directory = local.fact.http_directory
-  iso_checksum   = local[var.os_family][var.opsys][var.os_version].iso_checksum
+  cpus         = local.fact.cpus
+  communicator = local[var.os_family][var.opsys][var.os_version].communicator
+  disk_size    = local.fact.disk.size
+  #floppy_files   = local[var.os_family][var.opsys][var.os_version].floppy_files
+  floppy_files = local.fact.is_windows? [
+    "${local.answer_files}/Autounattend.xml"
+  ] : local[var.os_family][var.opsys][var.os_version].floppy_files
+  guest_os_type          = local[var.os_family][var.opsys][var.os_version].guest_os_type.parallels
+  http_directory         = local.fact.http_directory
+  iso_checksum           = local[var.os_family][var.opsys][var.os_version].iso_checksum
   #  iso_checksum_type = local.fact.iso_checksum_type
   iso_urls               = [local[var.os_family][var.opsys][var.os_version].iso]
   memory                 = local.fact.memory

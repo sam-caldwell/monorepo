@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    systems/packer/scripts/answer_files/windows/windows/10.Autounattend.xml
+    (c) Sam Caldwell.  See License.txt.  Derived from original work.
+
+    This is the unattended installation script for windows 10.  This
+    replaces the chef/bento Autounattend.xml we started with to make
+    the result more consistent with our project goals.
+-->
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <settings pass="windowsPE">
-        <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64"
+        <component name="Microsoft-Windows-PnpCustomizationsWinPE"
+                   publicKeyToken="31bf3856ad364e35"
+                   language="neutral"
+                   versionScope="nonSxS"
+                   processorArchitecture="amd64"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
             <!--
-            This makes the VirtIO drivers available to Windows, assuming that
-            the VirtIO driver disk at https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
-            (see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads)
-            is available as drive E:
-       -->
+                VirtIO drivers:
+                  Only used in limited use cases...
+                  See https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads
+                 Download from:
+                   https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+                 Can we pull this out of most installs and leave it only for QEMU/KVM?
+           -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
                     <Path>F:\viostor\w10\amd64</Path>
@@ -66,8 +80,11 @@
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
             <DiskConfiguration>
+
                 <Disk wcm:action="add">
+
                     <CreatePartitions>
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
@@ -90,6 +107,7 @@
                             <Type>Primary</Type>
                         </CreatePartition>
                     </CreatePartitions>
+
                     <ModifyPartitions>
                         <ModifyPartition wcm:action="add">
                             <Order>1</Order>
@@ -115,12 +133,18 @@
                             <Format>NTFS</Format>
                         </ModifyPartition>
                     </ModifyPartitions>
+
                     <DiskID>0</DiskID>
+
                     <WillWipeDisk>true</WillWipeDisk>
+
                 </Disk>
+
                 <WillShowUI>OnError</WillShowUI>
+
             </DiskConfiguration>
             <ImageInstall>
+
                 <OSImage>
                     <InstallFrom>
                         <MetaData wcm:action="add">
@@ -133,24 +157,35 @@
                         <PartitionID>4</PartitionID>
                     </InstallTo>
                 </OSImage>
+
             </ImageInstall>
+
             <UserData>
                 <ProductKey>
                     <WillShowUI>OnError</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
                 <FullName>Vagrant</FullName>
-                <Organization>Bento by Chef Software, Inc.</Organization>
+                <Organization>Asymmetric Effort, LLC</Organization>
             </UserData>
+
         </component>
     </settings>
+
     <settings pass="generalize">
-        <component name="Microsoft-Windows-Security-SPP" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
-            xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <component name="Microsoft-Windows-Security-SPP"
+                   processorArchitecture="amd64"
+                   publicKeyToken="31bf3856ad364e35"
+                   language="neutral" versionScope="nonSxS"
+                   xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <SkipRearm>1</SkipRearm>
         </component>
-        <component name="Microsoft-Windows-PnpSysprep" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
+        <component name="Microsoft-Windows-PnpSysprep"
+                   processorArchitecture="amd64"
+                   publicKeyToken="31bf3856ad364e35"
+                   language="neutral"
+                   versionScope="nonSxS"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <PersistAllDeviceInstalls>false</PersistAllDeviceInstalls>
@@ -158,7 +193,9 @@
         </component>
     </settings>
     <settings pass="oobeSystem">
-        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
+        <component name="Microsoft-Windows-International-Core"
+                   processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" l
+                   anguage="neutral" versionScope="nonSxS"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <InputLocale>en-US</InputLocale>
@@ -166,7 +203,11 @@
             <UILanguage>en-US</UILanguage>
             <UserLocale>en-US</UserLocale>
         </component>
-        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"
+        <component name="Microsoft-Windows-Shell-Setup"
+                   processorArchitecture="amd64"
+                   publicKeyToken="31bf3856ad364e35"
+                   language="neutral"
+                   versionScope="nonSxS"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <OOBE>
