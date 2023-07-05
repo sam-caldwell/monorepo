@@ -1,5 +1,5 @@
 #
-# Makefile.d/_config/gotmpdir.mk
+# Makefile.d/_config/000.gotmpdir.mk
 # (c) Sam Caldwell.  See LICENSE.txt
 #
 # This is the temp directory which Go will use for it's operations (go run, go build, go test, etc).
