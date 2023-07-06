@@ -1,5 +1,20 @@
 package packageManager
 
+/*
+ * projects/packageManager/InstallDependencies.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file is the package manager package top-level
+ * function for installing arbitrary dependencies given
+ * a list of DependencyDescriptor records. Each record
+ * defines the dependency, how it is to be installed
+ * and other characteristics.
+ *
+ * This function will install the dependency and then
+ * log the result of the operation to the UI for the
+ * user via simpleLogger.
+ */
+
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/simpleLogger"

@@ -1,5 +1,14 @@
 package packageManager
 
+/*
+ * projects/packageManager/Detect.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file defines a function which will detect any installed and
+ * supported package manager using a map of package managers and
+ * their supported operating systems.
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
