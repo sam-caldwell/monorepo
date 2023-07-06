@@ -1,5 +1,16 @@
 package packageManager
 
+/*
+ * projects/packageManager/findSupportedPackageManager.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file creates a function which checks the system to see
+ * if a given package manager is installed and accessible given
+ * a map of package managers supported on the system.  It will
+ * return a function pointer referencing the package manager's
+ * wrapper function.
+ */
+
 import (
 	"fmt"
 	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
