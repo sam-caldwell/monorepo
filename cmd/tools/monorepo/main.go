@@ -57,7 +57,7 @@ func main() {
 
 		Logf(ansi.Blue(), "Listing projects (enabled:%v)", filter.String())
 		Log(ansi.Blue(), strings.Repeat("-", displayWidth))
-		projectList, err := repotools.ListProjects(, filter)
+		projectList, err := repotools.ListProjects(filter)
 		if err != nil {
 			Error(err, exit.GeneralError)
 		}
