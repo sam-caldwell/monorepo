@@ -1,5 +1,13 @@
 package repoBuilder
 
+/*
+ * projects/repotools/repoBuilder/Setup.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file installs repoBuilder dependencies and
+ * any system configuration needed by them.
+ */
+
 import (
 	"github.com/sam-caldwell/go/v2/projects/packageManager"
 	"github.com/sam-caldwell/go/v2/projects/simpleLogger"
