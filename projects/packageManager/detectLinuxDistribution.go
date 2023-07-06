@@ -1,5 +1,13 @@
 package packageManager
 
+/*
+ * projects/packageManager/detectLinuxDistribution.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file will use /etc/os-release to detect the
+ * Linux distribution.
+ */
+
 import (
 	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
