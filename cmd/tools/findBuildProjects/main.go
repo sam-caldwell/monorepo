@@ -35,7 +35,7 @@ const (
 //  e.g.
 //
 //  - executables -
-//       <rootDirectory>/cmd/<project>/<program>/main.go
+//       <rootDirectory>/cmd/<project>/<program>/Build.go
 //  - or code modules -
 //       <rootDirectory>/cmd/<project[0]>/.../<project[n]>/*.go
 //       where the project name is strings.Join(project...)
