@@ -14,6 +14,7 @@ import (
 	"os"
 )
 
+// detectLinuxDistribution - detect linux distribution
 func detectLinuxDistribution() (opsys string) {
 	var err error
 	var info keyvalue.KeyValue
