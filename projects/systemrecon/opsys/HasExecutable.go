@@ -1,5 +1,16 @@
 package systemrecon
 
+/*
+ * projects/systemrecon/HasExecutable.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This cross-platform function will check to see if a given
+ * executable exists on the target host and return an exit code
+ * and string answer, where exitCode 0 and answer 'yes' indicate
+ * the executable has been found, and where exitCode != 0 or
+ * answer 'no' indicates the executable does not exist.
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
