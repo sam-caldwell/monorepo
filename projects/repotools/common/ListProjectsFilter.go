@@ -1,14 +1,14 @@
 package repotools
 
-type GetProjectsFilter byte
+type ListProjectsFilter byte
 
 const (
-	Enabled GetProjectsFilter = iota
+	Enabled ListProjectsFilter = iota
 	Disabled
 	All
 )
 
-func (o *GetProjectsFilter) String() string {
+func (o *ListProjectsFilter) String() string {
 	switch *o {
 	case Enabled:
 		return "Enabled"

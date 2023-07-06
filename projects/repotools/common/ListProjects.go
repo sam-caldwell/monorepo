@@ -1,7 +1,7 @@
 package repotools
 
-// GetProjects - List the enabled or disabled projects in the repo
-func GetProjects(directory string, enabled bool) ([]string, error) {
+// ListProjects - List the enabled or disabled projects in the repo
+func ListProjects(directory string, enabled bool) ([]string, error) {
 	if enabled {
 		return []string{"test", "me", "now"}, nil
 	} else {
