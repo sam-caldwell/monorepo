@@ -9,27 +9,8 @@ import (
 	"path/filepath"
 )
 
-type projectType byte
-const(
-	CommandProject projectType = iota
-	PackageProject
-)
-
-const (
-	Command = "cmd"
-	Package = "projects"
-)
-
-type Project struct {
-	projectType projectType
-	project    string
-	program    string
-	pathToMain string
-}
-
-
 // ListProjects - List the enabled or disabled projects in the repo
-func ListProjects(filter projectFilter.Filter) (list []Project, err error) {
+func ListProjects(filter projectFilter.Filter) (list map[string]Project, err error) {
 
 	rootDirectory, err := findRepoRoot()
 	if err != nil {
@@ -41,6 +22,7 @@ func ListProjects(filter projectFilter.Filter) (list []Project, err error) {
 		return list, fmt.Errorf(fs.ErrDoesNotExist, fs.Directory, rootDirectory)
 	}
 
+	list = make(map[string]Project)
 
 	for _, codeDirectory := range []string{Command, Package} {
 		// Walk the directory structure and find all the projects.
@@ -64,28 +46,32 @@ func ListProjects(filter projectFilter.Filter) (list []Project, err error) {
 							//We are filtering this path...nothing else to see here.  Move along people.
 							return nil
 						}
-						list = append(list, Project{
-							project:    pathParts[1],
-							program:    pathParts[2],
-							pathToMain: path,
-						})
+						projectName := fmt.Sprintf("%s::%s/%s", Command, pathParts[1], pathParts[2])
+						list[projectName] = Project{
+							projectType: CommandProject,
+							project:     pathParts[1],
+							program:     pathParts[2],
+							pathToMain:  path,
+						}
 					}
-					return nil
 				}
 			case Package:
 				if filter.HasFilter(projectFilter.Package) {
-					if projectFilter.FilterThisPath(filepath.Dir(path)) {
+					if projectFilter.FilterThisPath(filter, filepath.Dir(path)) {
 						//We are filtering this path...nothing else to see here.  Move along people.
 						return nil
 					}
-					list = append(list, Project{
-						project:    pathParts[1],
-						program:    pathParts[2],
-						pathToMain: path,
-					})
+					projectName := fmt.Sprintf("%s::%s", Package, pathParts[1])
+					list[projectName] = Project{
+						projectType: PackageProject,
+						project:     pathParts[1],
+						program:     pathParts[2],
+						pathToMain:  path,
+					}
 				}
-				return nil
 			}
-		}
-	})
+			return nil
+		})
+	}
+	return list, err
 }
