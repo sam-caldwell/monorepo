@@ -31,11 +31,21 @@ This command will build either every enabled project or a specific enabled proje
 
 > * ***Options***
 >   * Build a specific project `--project <name>`
->       * Will only build if the project is enabled
+>     * Will only build if the project is enabled
 >   * Will only build projects in the `cmd` directory as build implies producing an executable or library.
 >   * Noop `--noop` will simply show what project(s) would have been built.
 >   * Verbose Logging `--verbose` will enable ANSI colored logging on stdout.
 
+---
+#### Initialize Projects
+This command will install the monorepo dependencies.
+> ```text
+>    monorepo init [options]
+> ```
+
+> * ***Options***
+>   * Noop `--noop` will simply show what project(s) would have been built.
+>   * Verbose Logging `--verbose` will enable ANSI colored logging on stdout.
 ---
 #### Lint The Repo
 This command will run every linter against the entire repository.
