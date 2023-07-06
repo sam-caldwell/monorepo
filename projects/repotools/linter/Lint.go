@@ -6,7 +6,3 @@ func Lint(noop bool, projectPath string) error {
 	}
 	return nil
 }
-
-func Setup(noop bool) error {
-	return nil
-}
