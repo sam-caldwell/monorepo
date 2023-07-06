@@ -40,7 +40,7 @@ func main() {
 	build := flag.Bool("build", false, "build project(s)")
 	disabled := flag.Bool("disabled", false, "disabled projects only")
 	enabled := flag.Bool("enabled", false, "enabled projects only")
-	init := flag.Bool("init", false, "initialize this repo and install all dependencies")
+	init := flag.Bool("init", false, "initialize this monorepo and install all dependencies")
 	lint := flag.Bool("lint", false, "lint project(s)")
 	list := flag.Bool("list", false, "list projects")
 	noop := flag.Bool("noop", false, "do nothing, but print messages about what you would have done.")
@@ -127,7 +127,7 @@ func main() {
 		 * initialize the program's dependencies.
 		 */
 		if *init {
-			Log(ansi.Blue(), "Initializing the repo")
+			Log(ansi.Blue(), "Initializing the monorepo")
 			if err := repotools.Setup(Logf, *noop); err != nil {
 				Error(err, exit.GeneralError)
 			}
