@@ -4,7 +4,7 @@ type projectType byte
 
 const (
 	CommandProject projectType = 0
-	PackageProject             = 1
+	PackageProject projectType = 1
 )
 
 func (o projectType) String() string {
