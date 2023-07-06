@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	repotools "github.com/sam-caldwell/go/v2/projects/repotools/common"
+	"github.com/sam-caldwell/go/v2/projects/repotools/common/projectFilter"
 	"github.com/sam-caldwell/go/v2/projects/runcommand"
 	"github.com/sam-caldwell/go/v2/projects/simpleLogger"
 )
@@ -13,7 +14,7 @@ func Build(logf simpleLogger.Logf, noop bool) (err error) {
 	const buildCommand = "go build %s"
 
 	var projectList []string
-	if projectList, err = repotools.ListProjects("cmd", repotools.Enabled); err != nil {
+	if projectList, err = repotools.ListProjects("cmd", projectFilter.Enabled); err != nil {
 		return err
 	}
 
