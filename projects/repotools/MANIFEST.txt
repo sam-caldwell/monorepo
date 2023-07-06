@@ -1,0 +1,5 @@
+language: go
+# windows.disabled: need a comment here because it's ignored
+# linux.disabled: the fact that this line is commented out should make it inert
+# darwin.disabled: but if we were to remove the # comment, then this line's existence would disable something
+# project.disabled: for example 'project.disabled' would disable the entire project.
