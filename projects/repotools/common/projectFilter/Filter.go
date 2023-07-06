@@ -18,13 +18,13 @@ type Filter uint32
  */
 const (
 	None             Filter = 0x00     //No filter
-	Enabled          Filter = 0x01     //    filter flag indicating enabled projects should be shown
-	Disabled         Filter = 0x02     //   filter flag indicating disabled projects should be shown
-	Windows          Filter = 0x04     //    filter flag indicating Windows support
-	Linux            Filter = 0x08     //    filter flag indicating Linux support
-	Darwin           Filter = 0x10     //    filter flag indicating macOS support
-	Command          Filter = 0x20     //    filter flag indicating projects which compile to executables
-	Package          Filter = 0x40     //    filter flag indicating reusable code projects w/ produce no executable
+	HideEnabled      Filter = 0x01     // filter flag indicating enabled projects should be filtered
+	HideDisabled     Filter = 0x02     // filter flag indicating disabled projects should be filtered
+	Windows          Filter = 0x04     // filter flag indicating Windows support
+	Linux            Filter = 0x08     // filter flag indicating Linux support
+	Darwin           Filter = 0x10     // filter flag indicating macOS support
+	Command          Filter = 0x20     // filter flag indicating projects which compile to executables
+	Package          Filter = 0x40     // filter flag indicating reusable code projects w/ produce no executable
 	LanguageGo       Filter = 0x10000  // Indicates project is primarily Golang
 	LanguageC        Filter = 0x20000  // Indicates project is primarily C
 	LanguageCpp      Filter = 0x40000  // Indicates project is primarily C++
