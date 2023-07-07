@@ -1,3 +1,6 @@
+//go:build linux
+// +build linux
+
 package packageManager
 
 import (
@@ -15,5 +18,4 @@ func aptGet(pkg DependencyDescriptor) (output string, err error) {
 		}
 	}
 	return runcommand.ShellExecute(fmt.Sprintf(pattern, pkg.Detail))
-
 }
