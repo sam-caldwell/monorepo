@@ -1,12 +1,7 @@
-//go:build darwin
-// +build darwin
+//go:build linux
+// +build linux
 
 package packageManager
-
-import (
-	"reflect"
-	"testing"
-)
 
 func TestDetect(t *testing.T) {
 	pkg, err := Detect()
