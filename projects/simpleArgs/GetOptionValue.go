@@ -7,24 +7,34 @@ import (
 	"strings"
 )
 
-// GetOptionValue - Return the value (next arg) if the named option exists.
+// GetOptionValue returns the value (next arg) if the named option exists.
 func GetOptionValue(name string) (value string, err error) {
-	if len(os.Args) < 4 {
-		return words.EmptyString, err
-	}
-	argList := os.Args[2:]
-	for pos, option := range argList {
-		if option == strings.TrimSpace(strings.ToLower(name)) {
-			if pos >= len(argList)-2 {
-				err = fmt.Errorf("insufficient arguments for %s", name)
-				break
+	const (
+		doubleHyphen     = "--"
+		optionHasNoValue = "option has no value"
+		optionNotFound   = "option not found"
+	)
+
+	args := os.Args[1:]
+
+	for i := 0; i < len(args); i++ {
+
+		option := args[i]
+
+		if option == name {
+
+			if i+1 >= len(args) || strings.HasPrefix(args[i+1], doubleHyphen) {
+
+				return words.EmptyString, fmt.Errorf(optionHasNoValue)
+
 			}
-			value = argList[pos+1]
-			if strings.HasPrefix(value, "--") {
-				err = fmt.Errorf("option has no value")
-				break
-			}
+
+			return args[i+1], nil
+
 		}
+
 	}
-	return value, err
+
+	return "", fmt.Errorf(optionNotFound)
+
 }
