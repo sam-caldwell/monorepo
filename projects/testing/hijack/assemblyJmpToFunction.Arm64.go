@@ -3,6 +3,10 @@
 
 package hijack
 
+import (
+	"encoding/binary"
+)
+
 // Assembles a jump to a function value
 func assemblyJmpToFunction(destination uintptr) []byte {
 	/*
@@ -20,14 +24,20 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 *     ldr x17, [destination]
 	 *     br x17
 	 */
-	instructions := make([]byte, 12)
+	instructions := make([]byte, 16)
 
 	// ldr x17, [destination]
 	instructions[0] = 0xF8
-	binary.LittleEndian.PutUint64(instructions[1:], uint64(destination))
+	instructions[1] = 0x1F
+	instructions[2] = 0xFF
+	instructions[3] = 0x10
+	binary.LittleEndian.PutUint64(instructions[4:], uint64(destination))
 
 	// br x17
-	copy(instructions[9:], []byte{0xE0, 0x03, 0x3F, 0xD6})
+	instructions[12] = 0xE0
+	instructions[13] = 0x03
+	instructions[14] = 0x3F
+	instructions[15] = 0xD6
 
 	return instructions
 }
