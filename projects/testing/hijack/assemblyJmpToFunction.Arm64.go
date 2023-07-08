@@ -3,6 +3,8 @@
 
 package hijack
 
+import "github.com/sam-caldwell/go/v2/projects/convert"
+
 // Assembles a jump to a function value
 func assemblyJmpToFunction(destination uintptr) []byte {
 	/*
@@ -24,11 +26,13 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 * instructionSize is 16 bytes (128 bits) constant...efficient, eh?
 	 * we calculate that as...
 	 *
-	 *  	'lsr x17' instruction + 4 bytes (32 bits from 0-3)
+	 *  	'ldr x17' instruction + 4 bytes (32 bits from 0-3)
 	 *      <address> bytes       + 8 bytes (64 bits from 4-11) a constant in ARM64
 	 *      'br x17'              + 4 bytes (32 bits from 12-15)
 	 *                          -----------
 	 *                             16 bytes total
+	 *
+	 * A note on endian-ness...  Arm64 only supports littleEndian.
 	 */
 	const instructionSize = 16
 
