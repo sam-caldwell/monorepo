@@ -50,7 +50,7 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	destBytes := peek(destination, int(size))
 
 	/*
-	 * Then let's allocate memory for our instructions.  It needs to be two bytes longer than the size of uintptr.
+	 * Then let's allocate memory for our instructions.  It needs to be three bytes longer than the size of uintptr.
 	 * Why three bytes? Let's visualize it...
 	 *
 	 *  | pos | contents
@@ -61,7 +61,7 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 *  | n+2 | RDX register
 	 */
 
-	instructions := make([]byte, size+2)
+	instructions := make([]byte, size+3)
 
 	/*
 	 * Our first Assembly instruction (MOV) starts it all off
