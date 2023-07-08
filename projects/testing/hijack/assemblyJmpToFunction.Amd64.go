@@ -4,7 +4,7 @@
 package hijack
 
 import (
-	"unsafe"
+	"github.com/sam-caldwell/go/v2/projects/convert"
 )
 
 // assemblyJmpToFunction - Create a byte slice containing our Assembly Language to Jump to a function entrypoint.
@@ -27,27 +27,19 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 *     jmp DWORD PTR [edx]
 	 */
 
-	const MOV = 0xBA // Assembly instruction MOV
-	const JMP = 0xFF // Assembly instruction JMP
-	const RDX = 0x22 // CPU RDX Register
+	const (
+		MOV = 0xBA // Assembly instruction MOV
+		JMP = 0xFF // Assembly instruction JMP
+		RDX = 0x22 // CPU RDX Register
+	)
 
 	/*
-	 * In golang uintptr could vary in size depending on the system.  It could be a 32-bit
-	 * system with 32-bit addresses or a 64-bit system with 64-bit addresses.  We cannot
-	 * make an assumption here.  We need to determine the appropriate size then both
-	 * create our final byte slice and encode 'destination' (uintptr) into that resulting
-	 * byte slice.
-	 *
-	 * How big is destination?  ("Size does matter...ask a programmer" --Monica <redacted>)
+	 * Convert our destination uintptr address to a []byte slice
+	 * then determine the size from the slice length.
 	 */
 
-	size := unsafe.Sizeof(destination)
-
-	/*
-	 * Let's go grab our section of memory like a California gold miner in 1849...
-	 */
-
-	destBytes := peek(destination, int(size))
+	var destBytes = convert.UintPtrToByteSlice(destination)
+	size := len(destBytes)
 
 	/*
 	 * Then let's allocate memory for our instructions.  It needs to be three (3) bytes longer than the size
