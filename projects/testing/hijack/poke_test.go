@@ -1,30 +1,62 @@
-//go:build darwin && linux && windows
-// +build darwin,linux,windows
+//go:build darwin || linux || windows
+// +build darwin linux windows
 
 package hijack
 
 import (
+	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"testing"
+	"unsafe"
 )
 
 func TestPoke(t *testing.T) {
-	// Test case: Write data to memory
-	memoryAddress := uintptr(0x1000)
-	sourceData := []byte{0x12, 0x34, 0x56, 0x78}
-	err := poke(memoryAddress, sourceData)
+	var err error
+	func() {
+		/*
+		 * Set up the test
+		 */
+		const (
+			initialValue = "initial state"
+			alteredValue = "altered state"
+		)
 
-	// Verify that no error occurred
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
+		var actualValue = words.EmptyString
+		// Test case: Write data to memory with no error
+		targetFunc := func() { actualValue = initialValue }
+		alteredFunc := func() { actualValue = alteredValue }
 
-	// Test case: Write empty data to memory
-	emptyMemoryAddress := uintptr(0x2000)
-	emptySourceData := []byte{}
-	err = poke(emptyMemoryAddress, emptySourceData)
+		targetFuncPtr := uintptr(unsafe.Pointer(&targetFunc))
+		alteredFuncPtr := uintptr(unsafe.Pointer(&alteredFunc))
 
-	// Verify that no error occurred
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
+		// Execute the original targetFunc()
+		targetFunc()
+		if actualValue != initialValue {
+			t.Fatal("expected initialValue")
+		}
+		// Save the altered state
+		alteredBytes := peek(alteredFuncPtr, 16)
+		/*
+		 * overwrite targetFuncPtr
+		 */
+		//Overwrite targetFunc with alteredFunc
+		if err = poke(targetFuncPtr, alteredBytes); err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
+		targetFunc()
+		if actualValue != alteredValue {
+			t.Fatal("expected alteredValue")
+		}
+	}()
+
+	func() {
+		// Test case: Write empty data to memory with no error
+		emptyMemoryAddress := uintptr(0x2000)
+		var emptySourceData []byte
+		err = poke(emptyMemoryAddress, emptySourceData)
+
+		// Verify that no error occurred
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
+	}()
 }

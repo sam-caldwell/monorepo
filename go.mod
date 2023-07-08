@@ -8,7 +8,7 @@ require (
 	github.com/go-git/go-git/v5 v5.7.0
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.8.4
-	golang.org/x/sys v0.9.0
+	golang.org/x/sys v0.10.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 

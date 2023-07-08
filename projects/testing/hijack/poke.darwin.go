@@ -27,7 +27,6 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	 * 2. Then we will copy our 'sourceData' byte slice to our destinationMemory area.
 	 * 3. If we haven't crashed shit by now, we will reset our memory protections to allow READ and EXECUTE only.
 	 */
-
 	// make memory read,write,executable
 	err = changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_WRITE|syscall.PROT_EXEC)
 	if err != nil {
@@ -35,6 +34,7 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	}
 	// copy memory
 	copy(destinationMemory, sourceData[:])
-	// make memory read, executable and return the final error state.
-	return changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_EXEC)
+	//make memory read, executable and return the final error state.
+	return changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_WRITE)
+	return nil
 }
