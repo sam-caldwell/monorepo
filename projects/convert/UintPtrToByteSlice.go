@@ -18,6 +18,7 @@ package convert
 import (
 	"encoding/binary"
 	"fmt"
+	endianness "github.com/sam-caldwell/go/v2/projects/convert/Endianness"
 	"unsafe"
 )
 
@@ -44,10 +45,18 @@ func UintPtrToByteSlice(addr uintptr) (result []byte) {
 	switch size {
 
 	case uintptr32Sz:
-		binary.LittleEndian.PutUint32(result, uint32(addr))
+		if endianness.LittleEndian {
+			binary.LittleEndian.PutUint32(result, uint32(addr))
+		} else {
+			binary.BigEndian.PutUint32(result, uint32(addr))
+		}
 
 	case uintptr64Sz:
-		binary.LittleEndian.PutUint64(result, uint64(addr))
+		if endianness.LittleEndian {
+			binary.LittleEndian.PutUint64(result, uint64(addr))
+		} else {
+			binary.BigEndian.PutUint64(result, uint64(addr))
+		}
 
 	default:
 		panic(fmt.Sprintf("assemblyJmpToFunction does not support size %d", size))
