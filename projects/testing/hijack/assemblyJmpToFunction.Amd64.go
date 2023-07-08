@@ -50,8 +50,8 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	destBytes := peek(destination, int(size))
 
 	/*
-	 * Then let's allocate memory for our instructions.  It needs to be three bytes longer than the size of uintptr.
-	 * Why three bytes? Let's visualize it...
+	 * Then let's allocate memory for our instructions.  It needs to be three (3) bytes longer than the size
+	 * of uintptr.  Why three bytes? Let's visualize it...
 	 *
 	 *  | pos | contents
 	 *  |-----|------------------ - - - -
@@ -59,6 +59,9 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 *  | 1-n | Destination value (uintptr) in []byte
 	 *  | n+1 | JMP instruction
 	 *  | n+2 | RDX register
+	 *
+	 * In the above table we see that the size of our destination value plus three instructions at 0,n+1 and n+2.
+	 * so the size of destination + 3 is our total instruction[] size.
 	 */
 
 	instructions := make([]byte, size+3)
