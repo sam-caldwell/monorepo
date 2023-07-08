@@ -16,8 +16,9 @@ func TestAssemblyJmpToFunction(t *testing.T) {
 	const RDX = 0x22 // CPU RDX Register
 	// Create our fake target and its address (destination)
 	targetFunc := func() {}
-	destination := reflect.ValueOf(targetFunc).Pointer()
 	// Determine the address of our destination address (32/64-bit)
+	destination := reflect.ValueOf(targetFunc).Pointer()
+	// Get the size of our destination
 	sz := unsafe.Sizeof(destination)
 	// Convert destination to a []byte slice
 	byteAddress := make([]byte, sz)
