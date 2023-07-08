@@ -3,7 +3,10 @@
 
 package hijack
 
-import "syscall"
+import (
+	"fmt"
+	"syscall"
+)
 
 // changeMemoryProtectionFlags - Change our memory protection flags (Darwin/MacOS version)
 func changeMemoryProtectionFlags(memoryAddress uintptr, length int, memoryProtectionFlags int) error {
@@ -28,8 +31,11 @@ func changeMemoryProtectionFlags(memoryAddress uintptr, length int, memoryProtec
 
 	for p := pageStart(memoryAddress); p < memoryAddress+uintptr(length); p += uintptr(pageSize) {
 		page := peek(p, pageSize)
+		if len(page) == 0 {
+			return fmt.Errorf("cannot operate on zero-length memory block")
+		}
 		if err := syscall.Mprotect(page, memoryProtectionFlags); err != nil {
-			return err
+			return fmt.Errorf("failed to change memory protection flags. %v", err)
 		}
 	}
 	return nil
