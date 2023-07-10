@@ -3,7 +3,13 @@
 
 package hijack
 
-import "syscall"
+import (
+	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/convert"
+	"reflect"
+	"syscall"
+	"unsafe"
+)
 
 // poke - Write data (byte slice) to memory at location (HORRIBLY UNSAFE). (Darwin/MacOS Version)
 func poke(memoryAddress uintptr, sourceData []byte) (err error) {
@@ -19,7 +25,13 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	 * application because it turned out the memory he wanted was a pissed off tiger.
 	 */
 	size := len(sourceData)
-	destinationMemory := peek(memoryAddress, size)
+	fmt.Printf("poke() calling peek() with ptr:%v [sz:%v]\n", memoryAddress, size)
+	//destinationMemory := peek(memoryAddress, size)
+	destinationMemory := *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: memoryAddress,
+		Len:  size,
+		Cap:  size,
+	}))
 	/*
 	 * Now comes the fun part...
 	 * 1. We will turn off the memory protections (probably piss off endpoint protection) and maybe
@@ -33,8 +45,11 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 		return err
 	}
 	// copy memory
+	fmt.Printf("poke(): destinationMemory: [sz:%0d]: %0x\n", len(destinationMemory), destinationMemory)
+	fmt.Printf("poke(): SourceData: %s\n", convert.ByteToHexString(sourceData))
+
 	copy(destinationMemory, sourceData[:])
-	//make memory read, executable and return the final error state.
-	return changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_WRITE)
+	// Note: do not reset permissions in darwin...bad things will happen
+	//return changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_EXEC)
 	return nil
 }

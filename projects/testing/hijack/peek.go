@@ -1,12 +1,14 @@
 package hijack
 
 import (
+	"fmt"
 	"reflect"
 	"unsafe"
 )
 
 // peek - It's raw memory access golang style
 func peek(p uintptr, length int) []byte {
+	fmt.Print("peek(): ", p, length, "\n")
 	/*
 	 * Remember GW-BASIC?  No.  Oh, you're too young then
 	 * BASIC had a command called peek() and poke() which
