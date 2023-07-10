@@ -1,12 +1,14 @@
 //go:build windows
 // +build windows
 
-package hijack
+package systemrecon
 
-import "unsafe"
+import (
+	"unsafe"
+)
 
-// poke - Write data (byte slice) to memory at location (HORRIBLY UNSAFE). (Micro$oft Windows Version)
-func poke(memoryAddress uintptr, sourceData []byte) (err error) {
+// Poke - Write data (byte slice) to memory at location (HORRIBLY UNSAFE). (Micro$oft Windows Version)
+func Poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	/*
 	 * Warning:
 	 * This is about as unsafe as you can get.  We're playing with memory here.
@@ -28,7 +30,7 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	destinationMemory := peek(memoryAddress, size)
 
 	// make memory read,write,executable and capture the originalPermissions
-	err = changeMemoryProtectionFlags(memoryAddress, size, PageExecuteReadwrite, unsafe.Pointer(&originalPermissions))
+	err = ChangeFlags(memoryAddress, size, PageExecuteReadwrite, unsafe.Pointer(&originalPermissions))
 	if err != nil {
 		return err
 	}
@@ -37,5 +39,5 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	copy(destinationMemory, sourceData[:])
 
 	// Revert our permissions (Note: we have to pass over an object to capture the permissions)
-	return changeMemoryProtectionFlags(memoryAddress, size, originalPermissions, unsafe.Pointer(&waste))
+	return ChangeFlags(memoryAddress, size, originalPermissions, unsafe.Pointer(&waste))
 }

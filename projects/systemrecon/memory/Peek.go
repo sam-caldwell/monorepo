@@ -1,4 +1,14 @@
-package hijack
+package systemrecon
+
+/*
+ * projects/systemrecon/memory/Peek.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * Peek() will capture a given number (length) of bytes starting at
+ * a specified address (p) and return the result as a []byte slice.
+ * Note, we do this in a way that we return the actual section of
+ * memory.
+ */
 
 import (
 	"fmt"
@@ -6,8 +16,8 @@ import (
 	"unsafe"
 )
 
-// peek - It's raw memory access golang style
-func peek(p uintptr, length int) []byte {
+// Peek - It's raw memory access golang style
+func Peek(p uintptr, length int) *[]byte {
 	fmt.Print("peek(): ", p, length, "\n")
 	/*
 	 * Remember GW-BASIC?  No.  Oh, you're too young then
@@ -22,11 +32,12 @@ func peek(p uintptr, length int) []byte {
 	 *    with direct access to that memory.
 	 * 3. finally, it returns a pointer to this newly defined object.
 	 */
-	return *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+	memory := *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
 		Data: p,
 		Len:  length,
 		Cap:  length,
 	}))
+	return &memory
 	/*
 	 * Note: This is YOLO land.  There is no error handling because at this level, you're in the wild west
 	 *       and any errors are just BOHICA time.

@@ -1,18 +1,14 @@
-//go:build darwin
-// +build darwin
+//go:build linux
+// +build linux
 
-package hijack
+package systemrecon
 
 import (
-	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/convert"
-	"reflect"
 	"syscall"
-	"unsafe"
 )
 
-// poke - Write data (byte slice) to memory at location (HORRIBLY UNSAFE). (Darwin/MacOS Version)
-func poke(memoryAddress uintptr, sourceData []byte) (err error) {
+// Poke - Write data (byte slice) to memory at location (HORRIBLY UNSAFE). (Linux Version)
+func Poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	/*
 	 * Warning:
 	 * This is about as unsafe as you can get.  We're playing with memory here.
@@ -25,13 +21,7 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	 * application because it turned out the memory he wanted was a pissed off tiger.
 	 */
 	size := len(sourceData)
-	fmt.Printf("poke() calling peek() with ptr:%v [sz:%v]\n", memoryAddress, size)
-	//destinationMemory := peek(memoryAddress, size)
-	destinationMemory := *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
-		Data: memoryAddress,
-		Len:  size,
-		Cap:  size,
-	}))
+	destinationMemory := peek(memoryAddress, size)
 	/*
 	 * Now comes the fun part...
 	 * 1. We will turn off the memory protections (probably piss off endpoint protection) and maybe
@@ -39,17 +29,14 @@ func poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	 * 2. Then we will copy our 'sourceData' byte slice to our destinationMemory area.
 	 * 3. If we haven't crashed shit by now, we will reset our memory protections to allow READ and EXECUTE only.
 	 */
+
 	// make memory read,write,executable
-	err = changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_WRITE|syscall.PROT_EXEC)
+	err = ChangeFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_WRITE|syscall.PROT_EXEC)
 	if err != nil {
 		return err
 	}
 	// copy memory
-	fmt.Printf("poke(): destinationMemory: [sz:%0d]: %0x\n", len(destinationMemory), destinationMemory)
-	fmt.Printf("poke(): SourceData: %s\n", convert.ByteToHexString(sourceData))
-
 	copy(destinationMemory, sourceData[:])
-	// Note: do not reset permissions in darwin...bad things will happen
-	//return changeMemoryProtectionFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_EXEC)
-	return nil
+	// make memory read, executable and return the final error state.
+	return ChangeFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_EXEC)
 }

@@ -1,15 +1,15 @@
 //go:build darwin
 // +build darwin
 
-package hijack
+package systemrecon
 
 import (
 	"fmt"
 	"syscall"
 )
 
-// changeMemoryProtectionFlags - Change our memory protection flags (Darwin/MacOS version)
-func changeMemoryProtectionFlags(memoryAddress uintptr, length int, memoryProtectionFlags int) error {
+// ChangeFlags - Change our memory protection flags (Darwin/MacOS version)
+func ChangeFlags(memoryAddress uintptr, length int, memoryProtectionFlags int) error {
 	/*
 	 * Starting at 'memoryAddress', traverse the RAM memory for 'length' pages
 	 * and edit the memory protection flags for each page using syscall()
@@ -29,12 +29,12 @@ func changeMemoryProtectionFlags(memoryAddress uintptr, length int, memoryProtec
 	 */
 	pageSize := syscall.Getpagesize()
 
-	for p := pageStart(memoryAddress); p < memoryAddress+uintptr(length); p += uintptr(pageSize) {
-		page := peek(p, pageSize)
-		if len(page) == 0 {
+	for p := PageStart(memoryAddress); p < memoryAddress+uintptr(length); p += uintptr(pageSize) {
+		page := Peek(p, pageSize)
+		if len(*page) == 0 {
 			return fmt.Errorf("cannot operate on zero-length memory block")
 		}
-		if err := syscall.Mprotect(page, memoryProtectionFlags); err != nil {
+		if err := syscall.Mprotect(*page, memoryProtectionFlags); err != nil {
 			return fmt.Errorf("failed to change memory protection flags. %v", err)
 		}
 	}

@@ -1,7 +1,7 @@
 //go:build linux
 // +build linux
 
-package hijack
+package systemrecon
 
 //func TestChangeMemoryProtectionFlags(t *testing.T) {
 //	// Test case: Change memory protection flags
@@ -9,7 +9,7 @@ package hijack
 //	length := 4096 // 4 KB
 //	memoryProtectionFlags := syscall.PROT_READ | syscall.PROT_WRITE | syscall.PROT_EXEC
 //
-//	err := changeMemoryProtectionFlags(memoryAddress, length, memoryProtectionFlags)
+//	err := ChangeFlags(memoryAddress, length, memoryProtectionFlags)
 //
 //	// Verify that no error occurred
 //	if err != nil {
@@ -18,7 +18,7 @@ package hijack
 //
 //	// Test case: Change memory protection flags for invalid memory address
 //	invalidMemoryAddress := uintptr(0x0)
-//	err = changeMemoryProtectionFlags(invalidMemoryAddress, length, memoryProtectionFlags)
+//	err = ChangeFlags(invalidMemoryAddress, length, memoryProtectionFlags)
 //
 //	// Verify that an error occurred
 //	if err == nil {

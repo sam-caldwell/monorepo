@@ -1,7 +1,7 @@
 //go:build darwin
 // +build darwin
 
-package hijack
+package systemrecon
 
 import (
 	"syscall"
@@ -18,7 +18,7 @@ func TestChangeMemoryProtectionFlags(t *testing.T) {
 	length := len(testObject)
 	// try setting our flags
 	memoryProtectionFlags := syscall.PROT_READ | syscall.PROT_WRITE | syscall.PROT_EXEC
-	err := changeMemoryProtectionFlags(memoryAddress, length, memoryProtectionFlags)
+	err := ChangeFlags(memoryAddress, length, memoryProtectionFlags)
 	// Verify that no error occurred
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -26,7 +26,7 @@ func TestChangeMemoryProtectionFlags(t *testing.T) {
 
 	// Test case: Change memory protection flags for invalid memory address
 	invalidMemoryAddress := uintptr(0x0)
-	err = changeMemoryProtectionFlags(invalidMemoryAddress, length, memoryProtectionFlags)
+	err = ChangeFlags(invalidMemoryAddress, length, memoryProtectionFlags)
 	// Verify that an error occurred
 	if err == nil {
 		t.Errorf("Expected an error, but got nil")

@@ -1,4 +1,4 @@
-package hijack
+package systemrecon
 
 import (
 	"testing"
@@ -17,9 +17,9 @@ func TestPeek(t *testing.T) {
 		data := []byte(expectedValue)
 		addr := uintptr(unsafe.Pointer(&data[0]))
 		length := len(data)
-		actualValue := peek(addr, length)
+		actualValue := Peek(addr, length)
 		// Verify that the peeked data matches the original data
-		if string(actualValue) != expectedValue {
+		if string(*actualValue) != expectedValue {
 			t.Errorf("Peeked data does not match the original data")
 		}
 	}()
@@ -29,10 +29,10 @@ func TestPeek(t *testing.T) {
 		var emptyData []byte
 		emptyAddr := uintptr(unsafe.Pointer(&emptyData))
 		emptyLength := len(emptyData)
-		actualValue := peek(emptyAddr, emptyLength)
+		actualValue := Peek(emptyAddr, emptyLength)
 
 		// Verify that peeking into an empty memory address returns an empty slice
-		if len(actualValue) != emptyLength {
+		if len(*actualValue) != emptyLength {
 			t.Errorf("Peeked data is not empty for an empty memory address")
 		}
 	}()
@@ -41,13 +41,13 @@ func TestPeek(t *testing.T) {
 		// Test case: send in a null pointer and zero length
 		emptyAddr := uintptr(NULL)
 		emptyLength := 10
-		actualValue := peek(emptyAddr, emptyLength)
+		actualValue := Peek(emptyAddr, emptyLength)
 
 		// Verify that peeking into an empty memory address returns an empty slice
-		if len(actualValue) != emptyLength {
+		if len(*actualValue) != emptyLength {
 			t.Errorf("Peeked data is not empty for an empty memory address\n"+
 				"actualValue size:  %d\n"+
-				"     actualValue: '%0x'", len(actualValue), actualValue)
+				"     actualValue: '%0x'", len(*actualValue), actualValue)
 		}
 	}()
 }

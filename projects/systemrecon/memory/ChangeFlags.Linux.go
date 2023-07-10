@@ -1,12 +1,14 @@
 //go:build linux
 // +build linux
 
-package hijack
+package systemrecon
 
-import "syscall"
+import (
+	"syscall"
+)
 
-// changeMemoryProtectionFlags - Change our memory protection flags (Darwin/MacOS version)
-func changeMemoryProtectionFlags(memoryAddress uintptr, length int, memoryProtectionFlags int) error {
+// ChangeFlags - Change our memory protection flags (Darwin/MacOS version)
+func ChangeFlags(memoryAddress uintptr, length int, memoryProtectionFlags int) error {
 	/*
 	 * Starting at 'memoryAddress', traverse the RAM memory for 'length' pages
 	 * and edit the memory protection flags for each page using syscall()
@@ -26,8 +28,8 @@ func changeMemoryProtectionFlags(memoryAddress uintptr, length int, memoryProtec
 	 */
 	pageSize := syscall.Getpagesize()
 
-	for p := pageStart(memoryAddress); p < memoryAddress+uintptr(length); p += uintptr(pageSize) {
-		page := peek(p, pageSize)
+	for p := systemrecon.PageStart(memoryAddress); p < memoryAddress+uintptr(length); p += uintptr(pageSize) {
+		page := systemrecon.Peek(p, pageSize)
 		if err := syscall.Mprotect(page, memoryProtectionFlags); err != nil {
 			return err
 		}

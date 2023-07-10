@@ -1,15 +1,15 @@
 //go:build windows
 // +build windows
 
-package hijack
+package systemrecon
 
 import (
 	"syscall"
 	"unsafe"
 )
 
-// changeMemoryProtectionFlags - Change our memory protection flags (Darwin/MacOS version)
-func changeMemoryProtectionFlags(address uintptr, length int, newFlags uint32, oldFlags unsafe.Pointer) (err error) {
+// ChangeFlags - Change our memory protection flags (Darwin/MacOS version)
+func ChangeFlags(address uintptr, length int, newFlags uint32, oldFlags unsafe.Pointer) (err error) {
 	/*
 	 * Warning:
 	 * This is about as unsafe as you can get.  We're playing with memory here (and I intentionally avoid Windows

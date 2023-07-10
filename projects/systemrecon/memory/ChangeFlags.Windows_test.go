@@ -1,7 +1,7 @@
 //go:build windows
 // +build windows
 
-package hijack
+package systemrecon
 
 //func TestChangeMemoryProtectionFlags(t *testing.T) {
 //	// Test case: Change memory protection flags
@@ -10,7 +10,7 @@ package hijack
 //	newFlags := uint32(PAGE_EXECUTE_READWRITE)
 //	var oldFlags uint32
 //
-//	err := changeMemoryProtectionFlags(address, length, newFlags, unsafe.Pointer(&oldFlags))
+//	err := ChangeFlags(address, length, newFlags, unsafe.Pointer(&oldFlags))
 //
 //	// Verify that no error occurred
 //	if err != nil {
@@ -19,7 +19,7 @@ package hijack
 //
 //	// Test case: Change memory protection flags for invalid address
 //	invalidAddress := uintptr(0x0)
-//	err = changeMemoryProtectionFlags(invalidAddress, length, newFlags, unsafe.Pointer(&oldFlags))
+//	err = ChangeFlags(invalidAddress, length, newFlags, unsafe.Pointer(&oldFlags))
 //
 //	// Verify that an error occurred
 //	if err == nil {
