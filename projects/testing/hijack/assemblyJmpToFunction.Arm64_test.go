@@ -53,7 +53,7 @@ func TestAssemblyJmpToFunction(t *testing.T) {
 	copy(expectedInstructions[12:], []byte{0xE0, 0x03, 0x3F, 0xD6}) //               | --------------
 	//                                                                               | 16-bytes total
 
-	instructions := assemblyJmpToFunction(destination)
+	instructions := AssemblyJmpToFunction(destination)
 
 	// Verify that the generated instructions match the expected instructions
 	if !reflect.DeepEqual(instructions, expectedInstructions) {
@@ -66,7 +66,7 @@ func TestAssemblyJmpToFunction(t *testing.T) {
 		0xF8, 0x1F, 0xFF, 0x10,
 		0x00, 0x00, 0x00, 0x00,
 		0xE0, 0x03, 0x3F, 0xD6}
-	instructions = assemblyJmpToFunction(destination)
+	instructions = AssemblyJmpToFunction(destination)
 
 	// Verify that the generated instructions match the expected instructions
 	if !reflect.DeepEqual(instructions, expectedInstructions) {

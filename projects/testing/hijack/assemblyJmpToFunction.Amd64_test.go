@@ -57,7 +57,7 @@ func TestAssemblyJmpToFunction(t *testing.T) {
 
 	expectedInstructions[AddressSize+2] = RDX
 
-	actualInstructions := assemblyJmpToFunction(destination)
+	actualInstructions := AssemblyJmpToFunction(destination)
 
 	// Verify that the generated instructions match the expected instructions
 	if !reflect.DeepEqual(actualInstructions, expectedInstructions) {

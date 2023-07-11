@@ -1,5 +1,7 @@
 package hijack
 
+import systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/memory"
+
 // rollback overwrite the target memory with the original content
 func rollback(target uintptr, ap AppliedPatch) error {
 	/*
@@ -8,5 +10,5 @@ func rollback(target uintptr, ap AppliedPatch) error {
 	 * this, Dan Duley, you're missed friend.  May you
 	 * have continued your quest to write amazing code.
 	 */
-	return poke(target, ap.originalBytes)
+	return systemrecon.Poke(target, ap.originalBytes)
 }

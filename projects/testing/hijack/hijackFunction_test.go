@@ -8,6 +8,13 @@ import (
 	"testing"
 )
 
+//func init() {
+//	runtime.GOMAXPROCS(1)
+//	debug.SetGCPercent(-1)
+//	debug.SetMemoryLimit(math.MaxInt64)
+//	debug.SetMaxThreads(6)
+//}
+
 func TestHijackFunction(t *testing.T) {
 	/*
 	* The test plan...
@@ -26,10 +33,6 @@ func TestHijackFunction(t *testing.T) {
 	* 5. Perform the same test we ran at pre-test and expect evidence
 	*    of our hijacking.
 	 */
-	TestPeek(t)
-	TestPoke(t)
-	TestChangeMemoryProtectionFlags(t)
-	TestAssemblyJmpToFunction(t)
 
 	const (
 		initialValue = "original"
@@ -109,8 +112,10 @@ func TestHijackFunction(t *testing.T) {
 		Yellow().Printf("> targetFuncPtr:  %00x", targetFuncPtr).LF().
 		Yellow().Printf("> imposterFuncPtr:%00x", imposterFuncPtr).LF().Reset()
 
-	//originalMemory, err := assemblyJmpToFunction(targetFuncPtr), error(nil)
+	//originalMemory, err := AssemblyJmpToFunction(targetFuncPtr), error(nil)
+
 	originalMemory, err := hijackFunction(targetFuncPtr, imposterFuncPtr)
+
 	ansi.Blue().Println("hijack completed").
 		Yellow().Printf("> targetFuncPtr:  %00x", targetFuncPtr).LF().
 		Yellow().Printf("> imposterFuncPtr:%00x", imposterFuncPtr).LF().Reset()
@@ -127,7 +132,7 @@ func TestHijackFunction(t *testing.T) {
 	* Make sure we didn't get too greedy.  Our hijack operation should only copy out
 	* a specific memory area (the jump code) so we are fast, light and sweet.
 	 */
-	if len(originalMemory) != len(assemblyJmpToFunction(imposterFuncPtr)) {
+	if len(originalMemory) != len(AssemblyJmpToFunction(imposterFuncPtr)) {
 		ansi.Red()
 		defer ansi.Reset()
 		t.Fatalf("we expected the original memory to only be the size of the jump code")

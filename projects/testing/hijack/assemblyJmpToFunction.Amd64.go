@@ -7,8 +7,8 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/convert"
 )
 
-// assemblyJmpToFunction - Create a byte slice containing our Assembly Language to Jump to a function entrypoint.
-func assemblyJmpToFunction(destination uintptr) []byte {
+// AssemblyJmpToFunction - Create a byte slice containing our Assembly Language to Jump to a function entrypoint.
+func AssemblyJmpToFunction(destination uintptr) []byte {
 	/*
 	 * Theory:
 	 * If we know the entrypoint of a function, then we can jump to that
@@ -28,9 +28,10 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 */
 
 	const (
-		MOV = 0xBA // Assembly instruction MOV
-		JMP = 0xFF // Assembly instruction JMP
-		RDX = 0x22 // CPU RDX Register
+		MOVRDX = 0x48 // Target Register (RDX)
+		MOV    = 0xBA // Assembly instruction MOV
+		JMP    = 0xFF // Assembly instruction JMP
+		RDX    = 0x22 // Destination Register (RDX)
 	)
 
 	/*
@@ -56,13 +57,13 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 * so the size of destination + 3 is our total instruction[] size.
 	 */
 
-	instructions := make([]byte, size+3)
+	instructions := make([]byte, size+4)
 
 	/*
 	 * Our first Assembly instruction (MOV) starts it all off
 	 */
-
 	instructions[0] = MOV
+	instructions[1] = MOVRDX
 
 	/*
 	 * Next we copy in our slice of bytes from the destination value starting at instruction[1] since we already
@@ -70,15 +71,13 @@ func assemblyJmpToFunction(destination uintptr) []byte {
 	 *
 	 * When copy() is done, we will have 'MOV [destination]' in memory
 	 */
-	//
-	copy(instructions[1:], destBytes)
+	copy(instructions[2:], destBytes)
 
 	/*
 	 * Now we add 'JMP RDX' to the end of our byte slice and return the result.
 	 */
-
-	instructions[size+1] = JMP
-	instructions[size+2] = RDX
+	instructions[size+2] = JMP
+	instructions[size+3] = RDX
 
 	return instructions
 }
