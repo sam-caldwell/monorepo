@@ -9,7 +9,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/repotools/common/projectFilter"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
 	"github.com/sam-caldwell/go/v2/projects/simpleLogger"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"strings"
 )
 
