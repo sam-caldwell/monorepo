@@ -1,7 +1,7 @@
 package packageManager
 
 import (
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

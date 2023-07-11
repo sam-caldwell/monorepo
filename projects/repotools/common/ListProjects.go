@@ -5,7 +5,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/fs"
 	"github.com/sam-caldwell/go/v2/projects/fs/directory"
 	"github.com/sam-caldwell/go/v2/projects/repotools/common/projectFilter"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"path/filepath"
 )
 

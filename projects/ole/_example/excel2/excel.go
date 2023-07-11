@@ -5,8 +5,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"log"
-	"os"
 
 	ole "github.com/sam-caldwell/go/v2/projects/ole"
 	"github.com/sam-caldwell/go/v2/projects/ole/oleutil"

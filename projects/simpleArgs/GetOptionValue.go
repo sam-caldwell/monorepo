@@ -3,7 +3,7 @@ package simpleArgs
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"strings"
 )
 

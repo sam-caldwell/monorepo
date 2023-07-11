@@ -58,7 +58,7 @@ package main
 import (
    "fmt"
    "github.com/sam-caldwell/go/v2/projects/testing/hijack"
-   "os"
+   "github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )
 
 func main() {

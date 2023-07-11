@@ -2,7 +2,7 @@ package exit
 
 import (
 	"fmt"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )
 
 // OnCondition - A standard way to quickly terminate a program.

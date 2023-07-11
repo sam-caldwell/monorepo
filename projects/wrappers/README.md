@@ -27,7 +27,7 @@ repo's wrapper of `os.Exit()` (found in `projects/wrappers/os`) we see this--
 package os
 
 import (
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )
 
 var Exit = os.Exit

@@ -11,7 +11,7 @@ package packageManager
 import (
 	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )
 
 // detectLinuxDistribution - detect linux distribution

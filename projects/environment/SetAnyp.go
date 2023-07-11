@@ -2,7 +2,7 @@ package environment
 
 import (
 	"fmt"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )
 
 // SetAnyp - Set an environment variable of any type

@@ -5,7 +5,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/fs/directory"
 	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"path/filepath"
 )
 
