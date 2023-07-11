@@ -5,10 +5,9 @@ import (
 )
 
 // ExpandEnv - Abstract os.ExpandEnv
-var ExpandEnv = ResetOsExpandEnvWrapper()
+var ExpandEnv = os.ExpandEnv
 
 // ResetOsExpandEnvWrapper - Reset our os.ExpandEnv wrapper to its original native state
-func ResetOsExpandEnvWrapper() func(s string) string {
+func ResetOsExpandEnvWrapper() {
 	ExpandEnv = os.ExpandEnv
-	return ExpandEnv
 }

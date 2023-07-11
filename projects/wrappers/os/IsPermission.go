@@ -5,10 +5,9 @@ import (
 )
 
 // IsPermission - Abstract os.IsPermission
-var IsPermission = ResetOsIsPermissionWrapper()
+var IsPermission = os.IsPermission
 
 // ResetOsIsPermissionWrapper - Reset our os.IsPermission wrapper to its original native state
-func ResetOsIsPermissionWrapper() func(err error) bool {
+func ResetOsIsPermissionWrapper() {
 	IsPermission = os.IsPermission
-	return IsPermission
 }

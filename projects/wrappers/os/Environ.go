@@ -5,10 +5,9 @@ import (
 )
 
 // Environ - Abstract os.Environ
-var Environ = ResetOsEnvironWrapper()
+var Environ = os.Environ
 
 // ResetOsEnvironWrapper - Reset our os.Environ wrapper to its original native state
-func ResetOsEnvironWrapper() func() []string {
+func ResetOsEnvironWrapper() {
 	Environ = os.Environ
-	return Environ
 }

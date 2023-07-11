@@ -5,10 +5,9 @@ import (
 )
 
 // Geteuid - Abstract os.Geteuid
-var Geteuid = ResetOsGeteuidWrapper()
+var Geteuid = os.Geteuid
 
 // ResetOsGeteuidWrapper - Reset our os.Geteuid wrapper to its original native state
-func ResetOsGeteuidWrapper() func() int {
+func ResetOsGeteuidWrapper() {
 	Geteuid = os.Geteuid
-	return Geteuid
 }

@@ -1,7 +1,7 @@
 package simpleArgs
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
+	"os"
 	"testing"
 )
 

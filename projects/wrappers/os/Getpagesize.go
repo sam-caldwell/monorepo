@@ -5,10 +5,9 @@ import (
 )
 
 // Getpagesize - Abstract os.Getpagesize
-var Getpagesize = ResetOsGetpagesizeWrapper()
+var Getpagesize = os.Getpagesize
 
 // ResetOsGetpagesizeWrapper - Reset our os.Getpagesize wrapper to its original native state
-func ResetOsGetpagesizeWrapper() func() int {
+func ResetOsGetpagesizeWrapper() {
 	Getpagesize = os.Getpagesize
-	return Getpagesize
 }

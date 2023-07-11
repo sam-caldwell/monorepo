@@ -5,7 +5,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/version"
-	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
+	"os"
 )
 
 // GetCommand - Given commandline args (os.Args) return the parsed command or handle --help and --version

@@ -5,10 +5,9 @@ import (
 )
 
 // Getgid - Abstract os.Getgid
-var Getgid = ResetOsGetgidWrapper()
+var Getgid = os.Getgid
 
 // ResetOsGetgidWrapper - Reset our os.Getgid wrapper to its original native state
-func ResetOsGetgidWrapper() func() int {
+func ResetOsGetgidWrapper() {
 	Geteuid = os.Getgid
-	return Getgid
 }

@@ -5,10 +5,9 @@ import (
 )
 
 // Open - Abstract os.Open
-var Open = ResetOsOpenWrapper()
+var Open = os.Open
 
 // ResetOsOpenWrapper - Reset our os.Open wrapper to its original native state
-func ResetOsOpenWrapper() func(name string) (*os.File, error) {
+func ResetOsOpenWrapper() {
 	Open = os.Open
-	return Open
 }

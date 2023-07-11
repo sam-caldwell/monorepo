@@ -5,10 +5,9 @@ import (
 )
 
 // Chdir - Abstract os.Chdir
-var Chdir = ResetOsChdirWrapper()
+var Chdir = os.Chdir
 
 // ResetOsChdirWrapper - Reset our os.Chdir wrapper to its original native state
-func ResetOsChdirWrapper() func(dir string) error {
+func ResetOsChdirWrapper() {
 	Chdir = os.Chdir
-	return Chdir
 }

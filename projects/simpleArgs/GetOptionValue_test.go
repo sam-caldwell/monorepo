@@ -2,7 +2,7 @@ package simpleArgs
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
+	"os"
 	"testing"
 )
 

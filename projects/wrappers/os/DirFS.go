@@ -1,15 +1,13 @@
 package os
 
 import (
-	"io/fs"
 	"os"
 )
 
 // DirFS - Abstract os.DirFS
-var DirFS = ResetOsDirFSWrapper()
+var DirFS = os.DirFS
 
 // ResetOsDirFSWrapper - Reset our os.DirFS wrapper to its original native state
-func ResetOsDirFSWrapper() func(dir string) fs.FS {
+func ResetOsDirFSWrapper() {
 	DirFS = os.DirFS
-	return DirFS
 }

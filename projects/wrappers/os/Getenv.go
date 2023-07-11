@@ -5,10 +5,9 @@ import (
 )
 
 // Getenv - Abstract os.Getenv
-var Getenv = ResetOsGetenvWrapper()
+var Getenv = os.Getenv
 
 // ResetOsGetenvWrapper - Reset our os.Getenv wrapper to its original native state
-func ResetOsGetenvWrapper() func(key string) string {
+func ResetOsGetenvWrapper() {
 	Getenv = os.Getenv
-	return Getenv
 }

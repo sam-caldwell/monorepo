@@ -5,10 +5,9 @@ import (
 )
 
 // Getwd - Abstract os.Getwd
-var Getwd = ResetOsGetwdWrapper()
+var Getwd = os.Getwd
 
 // ResetOsGetwdWrapper - Reset our os.Getwd wrapper to its original native state
-func ResetOsGetwdWrapper() func() (dir string, err error) {
+func ResetOsGetwdWrapper() {
 	Getwd = os.Getwd
-	return Getwd
 }

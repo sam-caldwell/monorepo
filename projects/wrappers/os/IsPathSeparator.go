@@ -5,10 +5,9 @@ import (
 )
 
 // IsPathSeparator - Abstract os.IsPathSeparator
-var IsPathSeparator = ResetOsIsPathSeparatorWrapper()
+var IsPathSeparator = os.IsPathSeparator
 
 // ResetOsIsPathSeparatorWrapper - Reset our os.IsPathSeparator wrapper to its original native state
-func ResetOsIsPathSeparatorWrapper() func(c uint8) bool {
+func ResetOsIsPathSeparatorWrapper() {
 	IsPathSeparator = os.IsPathSeparator
-	return IsPathSeparator
 }

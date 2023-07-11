@@ -5,10 +5,9 @@ import (
 )
 
 // Hostname - Abstract os.Hostname
-var Hostname = ResetOsHostnameWrapper()
+var Hostname = os.Hostname
 
 // ResetOsHostnameWrapper - Reset our os.Hostname wrapper to its original native state
-func ResetOsHostnameWrapper() func() (name string, err error) {
+func ResetOsHostnameWrapper() {
 	Hostname = os.Hostname
-	return Hostname
 }
