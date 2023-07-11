@@ -1,8 +1,6 @@
 package os
 
-import (
-	"os"
-)
+import "os"
 
 // CreateTemp - Abstract os.CreateTemp
 var CreateTemp = os.CreateTemp

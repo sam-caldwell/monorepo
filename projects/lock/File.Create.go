@@ -3,14 +3,13 @@ package lock
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
-	"path/filepath"
+	"os"
 	"time"
 )
 
 // Create - create a lock file for the contextId
 func (lock *File) Create() (contextId string, err error) {
+	const GenerateTempDir = ""
 
 	var handle *os.File = nil
 	defer func() {
@@ -20,16 +19,9 @@ func (lock *File) Create() (contextId string, err error) {
 	}()
 
 	for i := 0; i < createRetry; i++ {
-
 		contextId = uuid.New().String()
-
-		fileName := filepath.Join(os.TempDir(), fmt.Sprintf("lock-%s", contextId))
-		if file.Exists(fileName) {
-			time.Sleep(createRetryWait)
-			continue // Try again
-		}
-
-		if handle, err = os.CreateTemp(os.TempDir(), fileName); err != nil {
+		handle, err = os.CreateTemp(GenerateTempDir, fmt.Sprintf("lock-%s", contextId))
+		if err != nil {
 			if handle != nil {
 				_ = handle.Close() //make sure we are closed
 			}
