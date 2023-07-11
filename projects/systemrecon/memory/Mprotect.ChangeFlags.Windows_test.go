@@ -3,7 +3,7 @@
 
 package systemrecon
 
-//func TestChangeMemoryProtectionFlags(t *testing.T) {
+//func TestChangeMemoryProtectionFlags(t *wrappers.T) {
 //	// Test case: Change memory protection flags
 //	address := uintptr(0x1000)
 //	length := 4096 // 4 KB

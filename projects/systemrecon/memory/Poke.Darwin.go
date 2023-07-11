@@ -4,8 +4,6 @@
 package systemrecon
 
 import (
-	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/convert"
 	"reflect"
 	"syscall"
 	"unsafe"
@@ -25,7 +23,6 @@ func Poke(memoryAddress uintptr, sourceData []byte) (err error) {
 	 * application because it turned out the memory he wanted was a pissed off tiger.
 	 */
 	size := len(sourceData)
-	fmt.Printf("poke() calling peek() with ptr:%v [sz:%v]\n", memoryAddress, size)
 	//destinationMemory := peek(memoryAddress, size)
 	destinationMemory := *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
 		Data: memoryAddress,
@@ -45,9 +42,6 @@ func Poke(memoryAddress uintptr, sourceData []byte) (err error) {
 		return err
 	}
 	// copy memory
-	fmt.Printf("poke(): destinationMemory: [sz:%0d]: %0x\n", len(destinationMemory), destinationMemory)
-	fmt.Printf("poke(): SourceData: %s\n", convert.ByteToHexString(sourceData))
-
 	copy(destinationMemory, sourceData[:])
 	// Note: do not reset permissions in darwin...bad things will happen
 	return ChangeFlags(memoryAddress, size, syscall.PROT_READ|syscall.PROT_EXEC)
