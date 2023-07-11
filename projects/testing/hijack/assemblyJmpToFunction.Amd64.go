@@ -8,7 +8,7 @@ import (
 )
 
 // AssemblyJmpToFunction - Create a byte slice containing our Assembly Language to Jump to a function entrypoint.
-func AssemblyJmpToFunction(destination uintptr) []byte {
+func AssemblyJmpToFunction(destination uintptr) (jumpCode []byte) {
 	/*
 	 * Theory:
 	 * If we know the entrypoint of a function, then we can jump to that
@@ -57,13 +57,13 @@ func AssemblyJmpToFunction(destination uintptr) []byte {
 	 * so the size of destination + 3 is our total instruction[] size.
 	 */
 
-	instructions := make([]byte, size+4)
+	jumpCode = make([]byte, size+4)
 
 	/*
 	 * Our first Assembly instruction (MOV) starts it all off
 	 */
-	instructions[0] = MOV
-	instructions[1] = MOVRDX
+	jumpCode[0] = MOV
+	jumpCode[1] = MOVRDX
 
 	/*
 	 * Next we copy in our slice of bytes from the destination value starting at instruction[1] since we already
@@ -71,13 +71,13 @@ func AssemblyJmpToFunction(destination uintptr) []byte {
 	 *
 	 * When copy() is done, we will have 'MOV [destination]' in memory
 	 */
-	copy(instructions[2:], destBytes)
+	copy(jumpCode[2:], destBytes)
 
 	/*
 	 * Now we add 'JMP RDX' to the end of our byte slice and return the result.
 	 */
-	instructions[size+2] = JMP
-	instructions[size+3] = RDX
+	jumpCode[size+2] = JMP
+	jumpCode[size+3] = RDX
 
-	return instructions
+	return jumpCode
 }
