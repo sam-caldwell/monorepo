@@ -5,10 +5,9 @@ import (
 )
 
 // IsNotExist - Abstract os.IsNotExist
-var IsNotExist = ResetOsIsNotExistWrapper()
+var IsNotExist = os.IsNotExist
 
 // ResetOsIsNotExistWrapper - Reset our os.IsNotExist wrapper to its original native state
-func ResetOsIsNotExistWrapper() func(err error) bool {
+func ResetOsIsNotExistWrapper() {
 	IsNotExist = os.IsNotExist
-	return IsNotExist
 }

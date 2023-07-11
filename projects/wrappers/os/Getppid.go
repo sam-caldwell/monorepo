@@ -5,10 +5,9 @@ import (
 )
 
 // Getppid - Abstract os.Getppid
-var Getppid = ResetOsGetppidWrapper()
+var Getppid = os.Getppid
 
 // ResetOsGetppidWrapper - Reset our os.Getppid wrapper to its original native state
-func ResetOsGetppidWrapper() func() int {
+func ResetOsGetppidWrapper() {
 	Getppid = os.Getppid
-	return Getppid
 }

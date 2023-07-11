@@ -5,10 +5,9 @@ import (
 )
 
 // Getgroups - Abstract os.Getgroups
-var Getgroups = ResetOsGetgroupsWrapper()
+var Getgroups = os.Getgroups
 
 // ResetOsGetgroupsWrapper - Reset our os.Getgroups wrapper to its original native state
-func ResetOsGetgroupsWrapper() func() ([]int, error) {
+func ResetOsGetgroupsWrapper() {
 	Getgroups = os.Getgroups
-	return Getgroups
 }

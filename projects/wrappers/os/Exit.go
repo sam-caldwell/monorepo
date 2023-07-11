@@ -5,10 +5,9 @@ import (
 )
 
 // Exit - Abstract os.Exit
-var Exit = ResetOsExitWrapper()
+var Exit = os.Exit
 
 // ResetOsExitWrapper - Reset our os.Exit wrapper to its original native state
-func ResetOsExitWrapper() func(n int) {
+func ResetOsExitWrapper() {
 	Exit = os.Exit
-	return Exit
 }

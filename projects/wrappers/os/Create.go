@@ -3,10 +3,9 @@ package os
 import "os"
 
 // Create - Abstract os.Create
-var Create = ResetOsCreate()
+var Create = os.Create
 
 // ResetOsCreate - Reset our os.Create wrapper to its native state
-func ResetOsCreate() func(name string) (*os.File, error) {
+func ResetOsCreate() {
 	Create = os.Create
-	return Create
 }

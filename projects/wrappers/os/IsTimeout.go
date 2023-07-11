@@ -5,10 +5,9 @@ import (
 )
 
 // IsTimeout - Abstract os.IsTimeout
-var IsTimeout = ResetOsIsTimeoutWrapper()
+var IsTimeout = os.IsTimeout
 
 // ResetOsIsTimeoutWrapper - Reset our os.IsTimeout wrapper to its original native state
-func ResetOsIsTimeoutWrapper() func(err error) bool {
+func ResetOsIsTimeoutWrapper() {
 	IsTimeout = os.IsTimeout
-	return IsTimeout
 }

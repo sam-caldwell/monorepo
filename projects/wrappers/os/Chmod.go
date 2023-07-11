@@ -5,10 +5,9 @@ import (
 )
 
 // Chmod - Abstract os.Chmod
-var Chmod = ResetOsChmodWrapper()
+var Chmod = os.Chmod
 
 // ResetOsChmodWrapper - Reset our os.Chmod wrapper to its original native state
-func ResetOsChmodWrapper() func(name string, mode os.FileMode) error {
+func ResetOsChmodWrapper() {
 	Chmod = os.Chmod
-	return Chmod
 }

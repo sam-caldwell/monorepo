@@ -5,10 +5,9 @@ import (
 )
 
 // Getegid - Abstract os.Getegid
-var Getegid = ResetOsGetegidWrapper()
+var Getegid = os.Getegid
 
 // ResetOsGetegidWrapper - Reset our os.Getegid wrapper to its original native state
-func ResetOsGetegidWrapper() func() int {
+func ResetOsGetegidWrapper() {
 	Getegid = os.Getegid
-	return Getegid
 }

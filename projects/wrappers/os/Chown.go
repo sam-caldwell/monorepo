@@ -5,10 +5,9 @@ import (
 )
 
 // Chown - Abstract os.Chown
-var Chown = ResetOsChownWrapper()
+var Chown = os.Chown
 
 // ResetOsChownWrapper - Reset our os.Chown wrapper to its original native state
-func ResetOsChownWrapper() func(name string, uid, gid int) error {
+func ResetOsChownWrapper() {
 	Chown = os.Chown
-	return Chown
 }

@@ -5,10 +5,9 @@ import (
 )
 
 // Executable - Abstract os.Executable
-var Executable = ResetOsExecutableWrapper()
+var Executable = os.Executable
 
 // ResetOsExecutableWrapper - Reset our os.Executable wrapper to its original native state
-func ResetOsExecutableWrapper() func() (string, error) {
+func ResetOsExecutableWrapper() {
 	Executable = os.Executable
-	return Executable
 }
