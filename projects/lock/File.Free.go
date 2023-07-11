@@ -3,7 +3,7 @@ package lock
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"path/filepath"
 )
 

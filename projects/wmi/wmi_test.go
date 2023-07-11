@@ -6,7 +6,7 @@ package wmi
 import (
 	"encoding/json"
 	"fmt"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"reflect"
 	"runtime"
 	"runtime/debug"

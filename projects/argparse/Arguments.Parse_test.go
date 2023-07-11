@@ -2,7 +2,7 @@ package argparse
 
 import (
 	"github.com/sam-caldwell/go/v2/projects/argparse/types"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"testing"
 )
 

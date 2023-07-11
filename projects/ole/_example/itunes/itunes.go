@@ -4,8 +4,8 @@
 package main
 
 import (
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/go-ole/go-ole/oleutil"

@@ -2,8 +2,8 @@ package file
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"gopkg.in/yaml.v2"
-	"os"
 )
 
 // IsValidYaml - Return boolean if YAML can be opened and unmarshalled without error

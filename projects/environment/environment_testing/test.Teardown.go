@@ -1,7 +1,7 @@
 package environment_testing
 
 import (
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"testing"
 )
 

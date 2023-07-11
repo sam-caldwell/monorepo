@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/go/v2/projects/fs"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )
 
 // CreateTempFile - Create a temporary file in a temporary directory (uses uuid for the context)

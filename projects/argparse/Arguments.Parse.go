@@ -5,8 +5,8 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/argparse/descriptormap/descriptor"
 	"github.com/sam-caldwell/go/v2/projects/argparse/types"
 	"github.com/sam-caldwell/go/v2/projects/argparse/valid"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"log"
-	"os"
 	"strings"
 )
 

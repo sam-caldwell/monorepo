@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
+	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
 	"os"
-	"os/exec"
-	"runtime"
 	"strings"
 )
 
@@ -50,7 +48,7 @@ func main() {
 	}
 
 	targetCommand := strings.TrimSpace(os.Args[1])
-	exitCode, answer := hasCommand(targetCommand)
+	exitCode, answer := systemrecon.HasExecutable(targetCommand)
 	fmt.Println(answer)
 	if len(os.Args) == 3 {
 		if strings.TrimSpace(strings.ToLower(os.Args[2])) == "--exitcode" {
