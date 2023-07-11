@@ -7,11 +7,6 @@ import (
 func TestNewTrackerTable(t *testing.T) {
 	table := NewTrackerTable()
 
-	// Check if the table is not nil
-	if table == nil {
-		t.Errorf("NewTrackerTable() returned nil")
-	}
-
 	// Check if the patches map is initialized
 	if table.patches == nil {
 		t.Errorf("Patches map is not initialized")
