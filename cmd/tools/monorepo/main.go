@@ -19,6 +19,9 @@ const (
 	cmdLint  = "lint"
 	cmdList  = "list"
 	cmdScan  = "scan"
+
+	flagVerbose = "--verbose"
+	flagNoop    = "--noop"
 )
 const (
 	displayWidth = 40
@@ -32,12 +35,12 @@ func main() {
 	var noop bool
 
 	command = simpleArgs.GetCommand(helpText)
-	verbose = simpleArgs.HasFlag("--verbose")
-	noop = simpleArgs.HasFlag("--noop")
+	verbose = simpleArgs.HasFlag(flagVerbose)
+	noop = simpleArgs.HasFlag(flagNoop)
 
 	Log, Logf, Error := simpleLogger.Logger(!verbose)
-	Log(ansi.Blue(), "Starting")
 
+	Log(ansi.Blue(), "Starting")
 	switch command {
 	case cmdBuild:
 		var projectName string
@@ -55,8 +58,9 @@ func main() {
 			Error(err, exit.GeneralError)
 		}
 
-		Logf(ansi.Blue(), "Listing projects (enabled:%v)", filter.String())
+		Logf(ansi.Blue(), "Listing projects (enabled:%v)\n", filter.String())
 		Log(ansi.Blue(), strings.Repeat("-", displayWidth))
+
 		projectList, err := repotools.ListProjects(filter)
 		if err != nil {
 			Error(err, exit.GeneralError)
@@ -67,7 +71,7 @@ func main() {
 			count++
 		}
 		Log(ansi.Green(), strings.Repeat("-", displayWidth))
-		Logf(ansi.Green(), "count: %d", count)
+		Logf(ansi.Green(), "count: %d\n", count)
 		Log(ansi.Green(), strings.Repeat("-", displayWidth))
 		return
 	case cmdLint:
