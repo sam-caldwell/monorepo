@@ -76,7 +76,6 @@ func main() {
 			Fatal(exit.GeneralError)
 	}
 
-	// Set the toolchain properties
 	err := projectmanifest.
 		CreateManifest(manifestFileName).
 		SetName(projectName).
