@@ -27,7 +27,7 @@ func TestHasFlag(t *testing.T) {
 		}
 	}
 
-	for expectedKey, _ := range data {
+	for expectedKey := range data {
 		if !HasFlag(expectedKey) {
 			t.Fatalf("expected key not found")
 		}

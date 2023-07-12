@@ -16,20 +16,19 @@ const (
 	LockCheckFailed            = "lock check failed"
 	MalformedGuid              = "malformed GUID"
 	//MissingArguments - One or more expected inputs are missing
-	MissingArguments             = "missing argument"
-	MissingArgWithDetail         = MissingArguments + Details
-	MissingColor                 = "Missing color"
-	MissingContextId             = "missing contextId (uuid)"
-	MissingField                 = "missing field"
-	NotFound                     = "not found"
-	NotInitialized               = "not initialized"
-	ReadOnly                     = "read only"
-	TypeMismatch                 = "type mismatch"
-	TypeMismatchWithDetail       = TypeMismatch + Details
-	UnableToDetectFamily         = "unable to detect operating system family"
-	UnknownCommand               = "Unknown command"
-	UnsupportedOpsys             = "unsupported operating system"
-	UnsupportedOpsysWithDetail   = UnsupportedOpsys + Details
-	UnsupportedVersion           = "unsupported version"
-	UnsupportedVersionWithDetail = UnsupportedVersion + Details
+	MissingArguments           = "missing argument"
+	MissingArgWithDetail       = MissingArguments + Details
+	MissingColor               = "Missing color"
+	MissingContextId           = "missing contextId (uuid)"
+	MissingField               = "missing field"
+	NotFound                   = "not found"
+	NotInitialized             = "not initialized"
+	ReadOnly                   = "read only"
+	TypeMismatch               = "type mismatch"
+	UnableToDetectFamily       = "unable to detect operating system family"
+	UnknownCommand             = "Unknown command"
+	UnsupportedOpsys           = "unsupported operating system"
+	UnsupportedCpuArchitecture = "unsupported cpu architecture"
+	UnsupportedLanguage        = "unsupported language"
+	UnsupportedVersion         = "unsupported version"
 )
