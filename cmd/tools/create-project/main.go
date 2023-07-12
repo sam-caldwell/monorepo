@@ -23,6 +23,7 @@ import (
 	"strings"
 )
 
+// main - create-project main function
 func main() {
 
 	const (
