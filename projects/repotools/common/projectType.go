@@ -1,13 +1,13 @@
 package repotools
 
-type projectType byte
+type ProjectType byte
 
 const (
-	CommandProject projectType = 0
-	PackageProject projectType = 1
+	CommandProject ProjectType = 0
+	PackageProject ProjectType = 1
 )
 
-func (o projectType) String() string {
+func (o ProjectType) String() string {
 	switch o {
 	case CommandProject:
 		return "Command"
