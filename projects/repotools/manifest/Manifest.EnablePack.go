@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/EnablePack.go
+ * projects/repotool/manifest/Manifest.EnablePack.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the EnablePack() method

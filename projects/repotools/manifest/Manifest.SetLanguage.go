@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/SetLanguage.go
+ * projects/repotool/manifest/Manifest.SetLanguage.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines SetLanguage() will set the project

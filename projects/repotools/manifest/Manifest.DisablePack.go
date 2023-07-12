@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/DisablePack.go
+ * projects/repotool/manifest/Manifest.DisablePack.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the DisablePack() method

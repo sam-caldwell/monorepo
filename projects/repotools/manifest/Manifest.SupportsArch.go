@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/SupportsArch.go
+ * projects/repotool/manifest/Manifest.SupportsArch.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file searches the Manifest SupportedPlatforms

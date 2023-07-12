@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/IsSignEnabled.go
+ * projects/repotool/manifest/Manifest.IsSignEnabled.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines IsSignEnabled() will return the

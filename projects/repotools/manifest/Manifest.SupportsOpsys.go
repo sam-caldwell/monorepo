@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/SupportsOpsys.go
+ * projects/repotool/manifest/Manifest.SupportsOpsys.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file searches the Manifest SupportedPlatforms

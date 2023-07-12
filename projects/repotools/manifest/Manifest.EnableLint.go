@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/EnableLint.go
+ * projects/repotool/manifest/Manifest.EnableLint.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the EnableLint() method

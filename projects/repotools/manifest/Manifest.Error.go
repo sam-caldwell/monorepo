@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/Error.go
+ * projects/repotool/manifest/Manifest.Error.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines Error() which returns the
