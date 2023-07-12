@@ -1,5 +1,14 @@
 package main
 
+/*
+ * create-project
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This program creates a new project within the monorepo
+ * as a directory under projects/<project_name> and adds
+ * the minimum skeleton (MANIFEST.yaml and README.md).
+ */
+
 import (
 	"flag"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
