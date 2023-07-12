@@ -8,7 +8,7 @@ package projectmanifest
  * which will set the LintEnabled option to true.
  */
 
-// EnableLint - Set Options.LintEnabled to false
+// EnableLint - Set Options.LintEnabled to true
 func (manifest *Manifest) EnableLint() *Manifest {
 	manifest.Options.LintEnabled = true
 	return manifest

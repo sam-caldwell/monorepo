@@ -1,14 +1,14 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/EnableSign.go
+ * projects/repotool/manifest/IsSignEnabled.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * This file defines the EnableSign() method
- * which will set the SignEnabled option to true.
+ * This file defines IsSignEnabled() will return the
+ * internal state of Options.SignEnabled
  */
 
-// EnableSign - Set Options.SignEnabled to false
+// EnableSign - Set Options.SignEnabled to true
 func (manifest *Manifest) EnableSign() *Manifest {
 	manifest.Options.SignEnabled = true
 	return manifest

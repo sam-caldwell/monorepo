@@ -1,11 +1,21 @@
 package projectmanifest
 
+/*
+ * projects/repotool/manifest/WriteFile.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file defines WriteFile() which will write the internal state
+ * of a Manifest to the filename identified by the internal filename
+ * property.
+ */
+
 import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
 )
 
+// WriteFile - Write the manifest file
 func (manifest *Manifest) WriteFile() *Manifest {
 	if manifest.err != nil {
 		return manifest

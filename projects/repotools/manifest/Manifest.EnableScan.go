@@ -8,7 +8,7 @@ package projectmanifest
  * which will set the ScanEnabled option to true.
  */
 
-// EnableScan - Set Options.ScanEnabled to false
+// EnableScan - Set Options.ScanEnabled to true
 func (manifest *Manifest) EnableScan() *Manifest {
 	manifest.Options.ScanEnabled = true
 	return manifest

@@ -8,7 +8,7 @@ package projectmanifest
  * which will set the BuildEnabled option to true.
  */
 
-// EnableBuild - Set Options.BuildEnabled to false
+// EnableBuild - Set Options.BuildEnabled to true
 func (manifest *Manifest) EnableBuild() *Manifest {
 	manifest.Options.BuildEnabled = true
 	return manifest

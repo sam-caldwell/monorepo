@@ -8,7 +8,7 @@ package projectmanifest
  * which will set the PackEnabled option to true.
  */
 
-// EnablePack - Set Options.PackEnabled to false
+// EnablePack - Set Options.PackEnabled to true
 func (manifest *Manifest) EnablePack() *Manifest {
 	manifest.Options.PackEnabled = true
 	return manifest
