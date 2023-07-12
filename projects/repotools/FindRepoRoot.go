@@ -1,5 +1,13 @@
 package repotools
 
+/*
+ * projects/repotool/FindRepoRoot.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file defines LoadFile() which find the root
+ * of the repository from anywhere in the repository.
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
@@ -9,8 +17,8 @@ import (
 	"path/filepath"
 )
 
-// findRepoRoot - From a given directory walk back to the parent directories until we find .git/
-func findRepoRoot() (rootDirectory string, err error) {
+// FindRepoRoot - From a given directory in the repo walk back to the parent directories until we find .git/
+func FindRepoRoot() (rootDirectory string, err error) {
 	const gitDirectory = ".git"
 	var homeDir string
 
