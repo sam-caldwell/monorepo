@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/EnableScan.go
+ * projects/repotool/manifest/Manifest.EnableScan.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the EnableScan() method

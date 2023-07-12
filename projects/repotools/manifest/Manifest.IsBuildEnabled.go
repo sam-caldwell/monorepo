@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/IsBuildEnabled.go
+ * projects/repotool/manifest/Manifest.IsBuildEnabled.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines IsBuildEnabled() will return the

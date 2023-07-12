@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/GetAuthor.go
+ * projects/repotool/manifest/Manifest.GetAuthor.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines GetLanguage() which will

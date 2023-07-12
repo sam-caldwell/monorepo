@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/AddPlatform.go
+ * projects/repotool/manifest/Manifest.AddPlatform.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file contains defines AddPlatform() which will set an operating system-

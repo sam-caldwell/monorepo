@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/DisableLint()
+ * projects/repotool/manifest/Manifest.DisableLint()
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the DisableLint() method

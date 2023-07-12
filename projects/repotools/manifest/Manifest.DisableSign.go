@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/DisableSign.go
+ * projects/repotool/manifest/Manifest.DisableSign.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the DisableSign() method

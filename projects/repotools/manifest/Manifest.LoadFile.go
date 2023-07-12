@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/LoadFile.go
+ * projects/repotool/manifest/Manifest.LoadFile.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines LoadFile() which load

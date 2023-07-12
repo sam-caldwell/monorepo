@@ -1,12 +1,11 @@
-package lister
+package listprojects
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/repotools/common"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 )
 
 // ListProjects - List the enabled or disabled projects in the repo
-func ListProjects(filter filters.Filter) (list map[string]repotools.Project, err error) {
+func ListProjects(filter filters.Filter) (list map[string]any, err error) {
 	//
 	//rootDirectory, err := repotools.findRepoRoot()
 	//if err != nil {

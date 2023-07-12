@@ -1,10 +1,10 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/IsSignEnabled.go
+ * projects/repotool/manifest/Manifest.IsPackEnabled.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * This file defines IsSignEnabled() will return the
+ * This file defines IsPackEnabled() will return the
  * internal state of Options.SignEnabled
  */
 

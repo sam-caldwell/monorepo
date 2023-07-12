@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/DisableBuild.go
+ * projects/repotool/manifest/Manifest.DisableBuild.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the DisableBuild() method

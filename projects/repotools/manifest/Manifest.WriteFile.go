@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/WriteFile.go
+ * projects/repotool/manifest/Manifest.WriteFile.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines WriteFile() which will write the internal state

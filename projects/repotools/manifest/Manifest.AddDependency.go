@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/AddDependency.go
+ * projects/repotool/manifest/Manifest.AddDependency.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file contains a function called AddDependency

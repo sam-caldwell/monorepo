@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/SetAuthor.go
+ * projects/repotool/manifest/Manifest.SetAuthor.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines SetAuthor() will set the project

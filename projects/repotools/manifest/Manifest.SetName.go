@@ -1,7 +1,7 @@
 package projectmanifest
 
 /*
- * projects/repotool/manifest/SetName.go
+ * projects/repotool/manifest/Manifest.SetName.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines SetName() set the project name
