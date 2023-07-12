@@ -1,20 +1,31 @@
 package projectmanifest
 
+/*
+ * projects/repotool/manifest/SetLanguage.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file defines SetLanguage() will set the project
+ * language in the internal state
+ */
+
 import (
 	"fmt"
+	monorepo "github.com/sam-caldwell/go/v2/projects/__system__"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
-	"strings"
 )
 
+// SetLanguage - set project programming language
 func (manifest *Manifest) SetLanguage(language string) *Manifest {
 	if manifest.err != nil {
 		return manifest
 	}
-	switch thisLanguage := strings.TrimSpace(strings.ToLower(language)); thisLanguage {
-	case "amd64Asm", "arm64Asm", "c", "cpp", "go", "node", "python", "rust", "typescript":
-		manifest.Options.Language = language
-	default:
-		manifest.err = fmt.Errorf(errors.UnsupportedLanguage)
+
+	for _, supported := range monorepo.GetSupportedLanguages() {
+		if language == supported {
+			manifest.Options.Language = language
+			return manifest
+		}
 	}
+	manifest.err = fmt.Errorf(errors.UnsupportedLanguage)
 	return manifest
 }

@@ -9,7 +9,7 @@ func Build(logf simpleLogger.Logf, noop bool) (err error) {
 	//const buildCommand = "go build %s"
 	//
 	//var projectList []string
-	//if projectList, err = repotools.ListProjects("cmd", projectFilter.Enabled); err != nil {
+	//if projectList, err = repotools.ListProjects("cmd", projectfilter.Enabled); err != nil {
 	//	return err
 	//}
 	//
