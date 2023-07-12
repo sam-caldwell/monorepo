@@ -34,3 +34,15 @@ the record-pairs return true, the record is shown.
 
 This method scans the `os.Args` list for any filter flags and when found, validates them and
 stores their value in the `Filter` internal state for use by other features of the `Filter`.
+
+#### filter flags:
+```
+  -commands
+  -buildEnabled
+  -lintEnabled
+  -scanEnabled
+  -signEnabled
+  -packEnabled
+  -os <opsys>
+  -arch <arch>
+```

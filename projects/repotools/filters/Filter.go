@@ -11,6 +11,7 @@ package filters
 
 // Filter - A project filter's state
 type Filter struct {
+	Commands     bool //Indicates a projects in cmd/<project>/<program> should be shown...only
 	BuildEnabled bool
 	LintEnabled  bool
 	PackEnabled  bool

@@ -19,6 +19,8 @@ import (
 // Apply - Apply the internal filter state to a project manifest and return a boolean answer
 func (filter *Filter) Apply(manifest projectmanifest.Manifest) (filtered bool) {
 
+	//Note: -commands (filter.Commands) is not used in this filter stage.
+	//      it will be applied to the path of the file at a higher level.
 	return (manifest.IsLintEnabled() == filter.LintEnabled) ||
 		(manifest.IsScanEnabled() == filter.ScanEnabled) ||
 		(manifest.IsBuildEnabled() == filter.BuildEnabled) ||
