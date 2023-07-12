@@ -57,6 +57,7 @@ func (skeleton *RepoSkeleton) ReadMeFile(content ...string) *RepoSkeleton {
 	if skeleton.err == nil {
 		skeleton.readMeContent = append(skeleton.readMeContent, content...)
 	}
+
 	return skeleton
 }
 
