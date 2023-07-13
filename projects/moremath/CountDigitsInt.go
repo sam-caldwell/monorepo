@@ -1,5 +1,17 @@
 package moremath
 
+/*
+ * projects/moremath/CountDigitsInt.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file provides a CountDigitsInt() function
+ * which will return the number of digits in a given
+ * number (n).
+ *
+ * See README.md
+ */
+
+// CountDigitsInt - return number of digits in integer (n)
 func CountDigitsInt(n int) int {
 	count := 0
 
