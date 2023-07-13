@@ -51,7 +51,7 @@ list-projects [display flags] [filter flags]
 func main() {
 	var err error
 	var filter filters.Filter
-	var projects keyvalue.KeyValue
+	var projects []keyvalue.OrderedPair
 	var printer, color = selectPrinter()
 	var banner = useHeadersAndFooters()
 	var leftColumnWidth int
@@ -63,25 +63,28 @@ func main() {
 	err = filter.FromCliArgs()
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
-	projects, err = listrepoprojects.ListProjects(filter)
+	projects, err = func() ([]keyvalue.OrderedPair, error) {
+		raw, e := listrepoprojects.ListProjects(filter)
+		return raw.ToOrderedList(false), e
+	}()
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
 	/*
 	 * count our records (for the optional banner)
 	 * and calculate our column widths (left and right)
 	 */
-	err = projects.Walk(func(key string, value interface{}) error {
-		manifest := value.(projectmanifest.Manifest)
+	for _, project := range projects {
+		name := project.Key
+		manifest := project.Value.(projectmanifest.Manifest)
 		if width := len(manifest.GetName()); width > leftColumnWidth {
 			leftColumnWidth = width
 		}
-		if width := len(key); width > rightColumnWidth {
+		if width := len(name); width > rightColumnWidth {
 			rightColumnWidth = width
 		}
 		recordCount++
-		return nil
-	})
-	exit.OnError(err, exit.GeneralError, commandUsage)
+	}
+
 	/*
 	 * Display banner if -banner is used.
 	 */
@@ -108,12 +111,11 @@ func main() {
 	/*
 	 * Walk through our project list and display each line
 	 */
-	err = projects.Walk(func(key string, value interface{}) error {
-		manifest := value.(projectmanifest.Manifest)
-		printer(leftColumnWidth, manifest.GetName(), key)
-		return nil
-	})
-	exit.OnError(err, exit.GeneralError, commandUsage)
+	for _, project := range projects {
+		name := project.Key
+		manifest := project.Value.(projectmanifest.Manifest)
+		printer(leftColumnWidth, manifest.GetName(), name)
+	}
 	/*
 	 * Display footer if -banner is used.
 	 */
