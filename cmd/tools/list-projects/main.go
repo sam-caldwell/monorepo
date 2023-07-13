@@ -7,6 +7,10 @@ package main
  * This program creates will list the projects in the
  * monorepo with certain filtered characteristics.
  *
+ * Warning: Because the project list is a key-value
+ * store and because KeyValue is based on a map order
+ * is **NOT** guaranteed.
+ *
  * See README.md
  */
 
@@ -18,6 +22,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	listrepoprojects "github.com/sam-caldwell/go/v2/projects/repotools/listrepoprojects"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
+	"github.com/sam-caldwell/go/v2/projects/version"
 	"os"
 )
 
@@ -60,6 +65,10 @@ func main() {
 	projects, err = listrepoprojects.ListProjects(filter)
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
+	/*
+	 * count our records (for the optional banner)
+	 * and calculate our column widths (left and right)
+	 */
 	err = projects.Walk(func(key string, value interface{}) error {
 		manifest := value.(projectmanifest.Manifest)
 		if width := len(manifest.GetName()); width > leftColumnWidth {
@@ -72,28 +81,34 @@ func main() {
 		return nil
 	})
 	exit.OnError(err, exit.GeneralError, commandUsage)
-
+	/*
+	 * Display banner if -banner is used.
+	 */
 	displayWidth := leftColumnWidth + rightColumnWidth + 10
 	if banner {
 		if color {
 			ansi.Blue().
 				Line("-", displayWidth).
-				Space().Println("Project Listing").
+				Space().Printf("Project Listing (version:%s)", version.Version).LF().
 				Line("-", displayWidth).
 				Reset()
 		} else {
-			fmt.Println("Project Listing")
+			fmt.Printf("Project Listing (version:%s)", version.Version)
 			fmt.Println("------------------")
 		}
 	}
-
+	/*
+	 * Walk through our project list and display each line
+	 */
 	err = projects.Walk(func(key string, value interface{}) error {
 		manifest := value.(projectmanifest.Manifest)
 		printer(leftColumnWidth, manifest.GetName(), key)
 		return nil
 	})
 	exit.OnError(err, exit.GeneralError, commandUsage)
-
+	/*
+	 * Display footer if -banner is used.
+	 */
 	if banner {
 		if color {
 			ansi.Blue().
