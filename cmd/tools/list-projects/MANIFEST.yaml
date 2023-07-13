@@ -1,10 +1,10 @@
-name: wmi
+name: tools/list-projects
 author: Sam Caldwell
 options:
-    buildEnabled: false
+    buildEnabled: true
     lintEnabled: true
     packEnabled: false
-    scanEnabled: false
+    scanEnabled: true
     signEnabled: false
     language: go
 supportedPlatforms:
@@ -16,5 +16,6 @@ supportedPlatforms:
       arch: amd64
 dependencies:
     - ansi
+    - repotools
     - exit
     - misc
