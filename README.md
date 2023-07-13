@@ -14,12 +14,12 @@ chain to start projects fast and get things done.
 
 ![Version](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/VERSION.svg)
 
-|          |                                                                                               |
-|----------|-----------------------------------------------------------------------------------------------|
-| Linter   | ![Linter](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/LINT.svg?branch=main) |
-| Security | ![Snyk](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/SNYK.svg?branch=main)   |
-| Test     | ![Test](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/TEST.svg?branch=main)   |
-| Build    | ![Build](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/BUILD.svg?branch=main) |
+|          |                                          |
+|----------|------------------------------------------|
+| Linter   | ![Linter](./badges/LINT.svg?branch=main) |
+| Security | ![Snyk](./badges/SNYK.svg?branch=main)   |
+| Test     | ![Test](./badges/TEST.svg?branch=main)   |
+| Build    | ![Build](./badges/BUILD.svg?branch=main) |
 
 ---
 
@@ -77,20 +77,14 @@ the [cmd/](./cmd/) directory.
 
 ## Reusable-Code Projects
 
-* [Ansi Color Printing](./projects/ansi/README.md)
-
-* [Cli Argument Parser](./projects/argparse/README.md)
-
-* [Counter](./projects/counter/README.md)
-
-* [Environment Variable Tools](./projects/environment/README.md)
-
-* [Sets](./projects/sets/README.md)
-    * [Ordered Set](./projects/sets/orderedset/README.md)
-    * [Simple Set](./projects/sets/simpleset/README.md)
-
-* [Networking Stuff](./projects/net/README.md)
-    * [Subnetting Tools](./projects/net/subnetting/README.md)
+| Project                                                        | Description                               | 
+|----------------------------------------------------------------|-------------------------------------------| 
+| [Ansi Color Printing](./projects/ansi/README.md)               | Color printing with less effort           |
+| [Cli Argument Parser](./projects/argparse/README.md)           | Easy-to-implement argument parser for CLI | 
+| [Counter](./projects/counter/README.md)                        | Simple counters                           |
+| [Environment Variable Tools](./projects/environment/README.md) | type-aware environment variable handling  |
+| [Sets](./projects/sets/README.md)                              | Set types for golang                      |
+| [Networking Projects](./projects/net/README.md)                | Network interactions made easy            |
 
 ## Other Documentation and Stuff
 
