@@ -24,6 +24,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	listrepoprojects "github.com/sam-caldwell/go/v2/projects/repotools/listprojects"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
+	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
 	"github.com/sam-caldwell/go/v2/projects/version"
 	"os"
 )
@@ -59,7 +60,7 @@ func main() {
 	var rightColumnWidth int
 	var recordCount int
 
-	exitIfHelpRequested()
+	simpleArgs.ExitIfHelpRequested(commandUsage)
 
 	err = filter.FromCliArgs()
 	exit.OnError(err, exit.GeneralError, commandUsage)
@@ -138,13 +139,6 @@ func main() {
 
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
-}
-
-// exitIfHelpRequested - intercept a request for help information
-func exitIfHelpRequested() {
-	for _, arg := range os.Args {
-		exit.OnCondition(arg == "-h" || arg == "--help", 0, "", commandUsage)
-	}
 }
 
 // printerFunction - a simple function pattern for our Printers
