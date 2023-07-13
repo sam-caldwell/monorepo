@@ -10,16 +10,17 @@ import (
 func TestDetermineProjectDirectory(t *testing.T) {
 	const rootDirectory = "/fake/path/to/root"
 
-	testFunc := func(testName string, showCommands bool, expectedProjectType string, expectedNumberOfParts int) {
+	testFunc := func(testName string, showCommands bool, expectedProjectDir string, expectedNumberOfParts int) {
 
-		actualProjectType, actualNumberOfParts := determineProjectDirectory(rootDirectory, showCommands)
+		actualProjectDir, actualNumberOfParts := determineProjectDirectory(rootDirectory, showCommands)
 
-		assert.True(t, actualProjectType == expectedProjectType,
-			fmt.Sprintf("%s: Expect projectType %s got %s", testName, expectedProjectType, actualProjectType))
+		assert.True(t, actualProjectDir == expectedProjectDir,
+			fmt.Sprintf("%s: Expect projectType %s got %s",
+				testName, expectedProjectDir, actualProjectDir))
 
-		if actualNumberOfParts != expectedNumberOfParts {
-			t.Fatalf("%s Expected numberOfParts to be %d, but got %d", testName, expectedNumberOfParts, actualNumberOfParts)
-		}
+		assert.True(t, actualNumberOfParts == expectedNumberOfParts,
+			fmt.Sprintf("%s Expected numberOfParts to be %d, but got %d",
+				testName, expectedNumberOfParts, actualNumberOfParts))
 	}
 
 	testFunc("cmdHappy",
