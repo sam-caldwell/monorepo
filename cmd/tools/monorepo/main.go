@@ -50,7 +50,7 @@ func main() {
 	//case cmdList:
 	//	Logf(ansi.Blue(), "Listing projects (flags:%s)\n", strings.Join(filter.String(), ", "))
 	//	Log(ansi.Blue(), strings.Repeat("-", displayWidth))
-	//	projectList, err := listprojects.ListProjects(filter)
+	//	projectList, err := listrepoprojects.ListProjects(filter)
 	//	if err != nil {
 	//		Error(err, exit.GeneralError)
 	//	}
