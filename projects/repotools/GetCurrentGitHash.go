@@ -1,6 +1,7 @@
 package repotools
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -27,12 +28,20 @@ func GetCurrentGitHash() (hash string, err error) {
 	 * Parse the reference to get the commit hash
 	 */
 	ref := strings.TrimSpace(string(refBytes))
-	if strings.HasPrefix(ref, "ref:") {
-		refBytes, err = os.ReadFile(filepath.Join(repoRoot, ".git", strings.TrimPrefix(ref, "ref:")))
-		if err != nil {
-			return "", err
-		}
-		hash = strings.TrimSpace(string(refBytes))
+	if !strings.HasPrefix(ref, "ref:") {
+		return hash, fmt.Errorf(".git/HEAD should contain ref: refs/<path> but does not")
 	}
-	return hash, err
+	refBytes, err = os.ReadFile(
+		filepath.Join(
+			repoRoot,
+			".git",
+			strings.TrimSpace(
+				strings.TrimPrefix(
+					ref,
+					"ref:"))))
+
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(refBytes)), err
 }

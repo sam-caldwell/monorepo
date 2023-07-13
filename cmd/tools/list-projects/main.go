@@ -19,6 +19,7 @@ import (
 	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/repotools"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	listrepoprojects "github.com/sam-caldwell/go/v2/projects/repotools/listrepoprojects"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
@@ -84,16 +85,23 @@ func main() {
 	/*
 	 * Display banner if -banner is used.
 	 */
-	displayWidth := leftColumnWidth + rightColumnWidth + 10
+	const displayWidthMargin = 2
+	displayWidth := leftColumnWidth + rightColumnWidth + displayWidthMargin
 	if banner {
+		gitHash, err := repotools.GetCurrentGitHash()
+		exit.OnError(err, exit.GeneralError, commandUsage)
+		bannerText := fmt.Sprintf("Project Listing (version:%s git:%s)", version.Version, gitHash)
+		if width := len(bannerText); width > displayWidth {
+			displayWidth = width + displayWidthMargin
+		}
 		if color {
 			ansi.Blue().
 				Line("-", displayWidth).
-				Space().Printf("Project Listing (version:%s)", version.Version).LF().
+				Space().Print(bannerText).LF().
 				Line("-", displayWidth).
 				Reset()
 		} else {
-			fmt.Printf("Project Listing (version:%s)", version.Version)
+			fmt.Println(bannerText)
 			fmt.Println("------------------")
 		}
 	}
