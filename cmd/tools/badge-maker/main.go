@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"os"
 	"strings"
 )
@@ -35,7 +36,7 @@ func main() {
 	flag.Parse()
 
 	if name == "" || status == "" {
-		fmt.Println("Both 'name' and 'status' flags are required.")
+		ansi.Red().Println("Both 'name' and 'status' flags are required.").Reset()
 		os.Exit(1)
 	}
 
@@ -71,5 +72,5 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("SVG badge created at %s\n", fileName)
+	ansi.Green().Printf("SVG badge created at %s\n", fileName).Reset()
 }
