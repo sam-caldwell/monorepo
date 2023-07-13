@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	list "github.com/sam-caldwell/go/v2/projects/Lists/SmartList"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/fs/file"
+	list "github.com/sam-caldwell/go/v2/projects/lists/SmartList"
 	"os"
 	"path/filepath"
 	"strings"

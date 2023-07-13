@@ -1,0 +1,20 @@
+name: keyvalue
+author: Sam Caldwell
+options:
+    buildEnabled: false
+    lintEnabled: true
+    packEnabled: false
+    scanEnabled: false
+    signEnabled: false
+    language: go
+supportedPlatforms:
+    - opsys: darwin
+      arch: amd64
+    - opsys: linux
+      arch: amd64
+    - opsys: windows
+      arch: amd64
+dependencies:
+    - ansi/color
+    - exit
+    - misc

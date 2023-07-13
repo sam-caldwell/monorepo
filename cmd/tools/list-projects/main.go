@@ -8,7 +8,7 @@ package main
  * monorepo with certain filtered characteristics.
  *
  * Warning: Because the project list is a key-value
- * store and because KeyValue is based on a map order
+ * store and because keyvalue is based on a map order
  * is **NOT** guaranteed.
  *
  * See README.md
@@ -16,9 +16,9 @@ package main
 
 import (
 	"fmt"
-	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
 	"github.com/sam-caldwell/go/v2/projects/moremath"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
@@ -66,7 +66,7 @@ func main() {
 
 	projects, err = func() ([]keyvalue.OrderedPair, error) {
 		raw, e := listrepoprojects.ListProjects(filter)
-		return raw.ToOrderedList(false), e
+		return raw.ToOrderedList(true), e
 	}()
 	exit.OnError(err, exit.GeneralError, commandUsage)
 

@@ -13,8 +13,8 @@ package listrepoprojects
 
 import (
 	"fmt"
-	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/fs/directory"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"

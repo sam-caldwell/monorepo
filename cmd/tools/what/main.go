@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/convert"
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	cpu "github.com/sam-caldwell/go/v2/projects/systemrecon/cpu"
 	memory "github.com/sam-caldwell/go/v2/projects/systemrecon/memory"
