@@ -14,6 +14,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/semver"
 )
 
@@ -43,7 +44,7 @@ func main() {
 
 	var version semver.SemanticVersion
 	if err := version.GetMostRecentTag(); err != nil {
-		fmt.Printf(errString, err)
+		ansi.Red().Printf(errString, err).Reset()
 	}
 
 	if *v || *verbose {
@@ -52,25 +53,25 @@ func main() {
 
 	if *major {
 		if err := version.BumpMajor(); err != nil {
-			fmt.Printf(errString, err)
+			ansi.Red().Printf(errString, err).Reset()
 		}
 	}
 
 	if *minor {
 		if err := version.BumpMinor(); err != nil {
-			fmt.Printf(errString, err)
+			ansi.Red().Printf(errString, err).Reset()
 		}
 	}
 
 	if *patch {
 		if err := version.BumpPatch(); err != nil {
-			fmt.Printf(errString, err)
+			ansi.Red().Printf(errString, err).Reset()
 		}
 	}
 
 	if *updateTag {
 		if err := version.UpdateTag(); err != nil {
-			fmt.Printf(errString, err)
+			ansi.Red().Printf(errString, err).Reset()
 		}
 	}
 	fmt.Printf("%s\n", version.String())
