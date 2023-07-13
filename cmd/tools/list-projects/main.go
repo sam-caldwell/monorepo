@@ -64,10 +64,7 @@ func main() {
 	err = filter.FromCliArgs()
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
-	projects, err = func() ([]keyvalue.OrderedPair, error) {
-		raw, e := listrepoprojects.ListProjects(filter)
-		return raw.ToOrderedList(true), e
-	}()
+	projects, err = listrepoprojects.ListAsOrderedPair(filter)
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
 	/*
