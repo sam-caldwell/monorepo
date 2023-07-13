@@ -1,0 +1,23 @@
+name: what
+author: Sam Caldwell, TrashPuppy
+options:
+  buildEnabled: true
+  lintEnabled: true
+  packEnabled: false
+  scanEnabled: true
+  signEnabled: false
+  language: go
+supportedPlatforms:
+  - opsys: darwin
+    arch: amd64
+  - opsys: linux
+    arch: amd64
+  - opsys: windows
+    arch: amd64
+dependencies:
+  - convert
+  - exit
+  - keyvalue
+  - misc
+  - systemrecon
+  - version
