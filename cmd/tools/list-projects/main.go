@@ -157,7 +157,7 @@ func selectPrinter() (printerFunction, bool) {
 			return func(indexWidth, pos, width int, name, key string) {
 				ansi.Blue().
 					Space().
-					Printf("%04d %*s", pos, width, name).
+					Printf("%0*d %*s", indexWidth, pos, width, name).
 					Space().
 					Yellow().
 					Printf("%s", key).LF().
