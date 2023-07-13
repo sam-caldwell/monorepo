@@ -19,6 +19,7 @@ import (
 	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/moremath"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	listrepoprojects "github.com/sam-caldwell/go/v2/projects/repotools/listrepoprojects"
@@ -88,8 +89,9 @@ func main() {
 	/*
 	 * Display banner if -banner is used.
 	 */
-	const displayWidthMargin = 2
-	displayWidth := leftColumnWidth + rightColumnWidth + displayWidthMargin
+	const displayWidthMargin = 3
+	indexWidth := moremath.CountDigitsInt(recordCount)
+	displayWidth := leftColumnWidth + rightColumnWidth + indexWidth + displayWidthMargin
 	if banner {
 		gitHash, err := repotools.GetCurrentGitHash()
 		exit.OnError(err, exit.GeneralError, commandUsage)
@@ -111,10 +113,10 @@ func main() {
 	/*
 	 * Walk through our project list and display each line
 	 */
-	for _, project := range projects {
+	for pos, project := range projects {
 		name := project.Key
 		manifest := project.Value.(projectmanifest.Manifest)
-		printer(leftColumnWidth, manifest.GetName(), name)
+		printer(indexWidth, pos, leftColumnWidth, manifest.GetName(), name)
 	}
 	/*
 	 * Display footer if -banner is used.
@@ -146,15 +148,16 @@ func exitIfHelpRequested() {
 }
 
 // printerFunction - a simple function pattern for our Printers
-type printerFunction func(width int, name, key string)
+type printerFunction func(indexWidth, pos, width int, name, key string)
 
 // SelectPrinter - select a color or non-color printer
 func selectPrinter() (printerFunction, bool) {
 	for _, arg := range os.Args {
 		if arg == "-color" {
-			return func(width int, name, key string) {
+			return func(indexWidth, pos, width int, name, key string) {
 				ansi.Blue().
-					Printf("%*s", width, name).
+					Space().
+					Printf("%04d %*s", pos, width, name).
 					Space().
 					Yellow().
 					Printf("%s", key).LF().
@@ -162,8 +165,8 @@ func selectPrinter() (printerFunction, bool) {
 			}, true
 		}
 	}
-	return func(width int, name, key string) {
-		fmt.Printf("%*s %s\n", width, name, key)
+	return func(indexWidth, pos, width int, name, key string) {
+		fmt.Printf(" %0*d %*s %s\n", indexWidth, pos, width, name, key)
 	}, false
 }
 
