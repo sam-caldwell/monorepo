@@ -9,7 +9,7 @@ func TestCountDigitsInt(t *testing.T) {
 	}{
 		{input: 0, expected: 1},
 		{input: 123, expected: 3},
-		{input: -4567, expected: 4},
+		{input: -4567, expected: 5},
 		{input: 9876543210, expected: 10},
 	}
 
