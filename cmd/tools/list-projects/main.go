@@ -22,7 +22,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/moremath"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
-	listrepoprojects "github.com/sam-caldwell/go/v2/projects/repotools/listrepoprojects"
+	listrepoprojects "github.com/sam-caldwell/go/v2/projects/repotools/listprojects"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
 	"github.com/sam-caldwell/go/v2/projects/version"
 	"os"

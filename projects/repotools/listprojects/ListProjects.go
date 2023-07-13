@@ -1,7 +1,7 @@
-package listrepoprojects
+package listprojects
 
 /*
- * projects/repotools/listrepoprojects/ListProjects.go
+ * projects/repotools/listprojects/ListProjects.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the ListProjects() function which will
