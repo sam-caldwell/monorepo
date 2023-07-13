@@ -19,17 +19,21 @@ to display only the matching projects. This project relies heavily on the
 ## Usage
 
 ```text
-list-projects [filter flags]
+list-projects [display flags] [filter flags]
+
+    display flags:
+        -color   // Show the output in color
+        -banner  // Pretty print the output with a banner. 
 
     filter flags:
-        -commands
-        -buildEnabled
-        -lintEnabled
-        -scanEnabled
-        -signEnabled
-        -packEnabled
-        -os <opsys>
-        -arch <arch>
+        -commands      // Show only command projects
+        -buildEnabled  // Show only build-enabled projects
+        -lintEnabled  // Show only lint-enabled projects
+        -scanEnabled  // Show only scan-enabled projects (e.g. security scanners)
+        -signEnabled  // Show only sign-enabled projects (e.g. projects ready to code-sign)
+        -packEnabled  // Show only packaging-enabled projects (e.g. projects ready for packaging)
+        -os <opsys>  // Show only projects which support the given operating system
+        -arch <arch>  // Show only projects which support the given CPU Architecture 
 ```
 
 | filter flag... | ...if present                                    | ...if not present                       |
