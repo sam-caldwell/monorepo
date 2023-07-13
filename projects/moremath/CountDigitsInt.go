@@ -10,6 +10,9 @@ func CountDigitsInt(n int) int {
 		n /= 10
 		count++
 	}
+	if n < 0 {
+		count++
+	}
 
 	return count
 }
