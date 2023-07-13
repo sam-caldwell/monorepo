@@ -16,6 +16,8 @@ supportedPlatforms:
       arch: amd64
 dependencies:
     - ansi
-    - repotools
     - exit
+    - fs
+    - keyvalue
     - misc
+    - repotools
