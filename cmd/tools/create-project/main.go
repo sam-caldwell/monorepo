@@ -27,7 +27,6 @@ import (
 func main() {
 
 	const (
-		ManifestFile         = "MANIFEST.yaml"
 		projectRootDirectory = "projects"
 	)
 
@@ -78,7 +77,7 @@ func main() {
 				Fatal(exit.GeneralError)
 		}
 	}
-	manifestFileName := filepath.Join(projectDirectory, ManifestFile)
+	manifestFileName := filepath.Join(projectDirectory, projectmanifest.ManifestYaml)
 	if file.Exists(manifestFileName) {
 		ansi.Red().
 			Printf("manifest file exists: %s", manifestFileName).
