@@ -13,8 +13,8 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/cmd/tools/list-projects/ui"
-	"github.com/sam-caldwell/go/v2/projects/KeyValue/pair"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/keyvalue/pair"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	"github.com/sam-caldwell/go/v2/projects/repotools/listprojects"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"

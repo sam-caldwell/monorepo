@@ -9,7 +9,7 @@ package packageManager
  */
 
 import (
-	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 )

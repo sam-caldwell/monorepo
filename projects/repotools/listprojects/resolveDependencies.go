@@ -2,8 +2,8 @@ package listprojects
 
 import (
 	"fmt"
-	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
-	"github.com/sam-caldwell/go/v2/projects/KeyValue/pair"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
+	"github.com/sam-caldwell/go/v2/projects/keyvalue/pair"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
 )
 
