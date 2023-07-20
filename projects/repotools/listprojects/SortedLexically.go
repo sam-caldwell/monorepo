@@ -1,73 +1,37 @@
 package listprojects
 
 /*
- * projects/repotools/listrepoprojects/ListProjects.go
+ * projects/repotools/listprojects/SortedLexically.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * This file defines the ListProjects() function which will
- * apply our filters and manifests to list a set of projects
- * as a map of file paths and project attributes.
+ * This file defines the SortedLexically() function which will
+ * return a list of projects, sorted lexically.
  *
  * See README.md
  */
 
 import (
-	"fmt"
 	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
-	"github.com/sam-caldwell/go/v2/projects/fs/directory"
-	"github.com/sam-caldwell/go/v2/projects/repotools"
+	"github.com/sam-caldwell/go/v2/projects/KeyValue/pair"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
-	"os"
-	"path/filepath"
 )
 
-// ListProjects - List the enabled or disabled projects in the repo
-func ListProjects(filter filters.Filter) (list keyvalue.KeyValue, err error) {
-	var rootDirectory string //This is the root of the monorepo
-	if rootDirectory, err = repotools.FindRepoRoot(); err != nil {
+// SortedLexically - return a list of projects, sorted lexically
+func SortedLexically(filter filters.Filter) (list pair.OrderedPair, err error) {
+	var projects keyvalue.KeyValue
+
+	projects, err = UnsortedProjects(filter)
+	if err != nil {
 		return list, err
 	}
-	projectDirectory, minNumberOfParts := determineProjectDirectory(rootDirectory, filter.Commands)
-	list.Initialize(0, true)
 
-	err = filepath.Walk(projectDirectory, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			return nil //Bail on the directories...we want projects.  We bail here to bail fast.
-		}
-		fileName := filepath.Base(path)
-		if fileName != projectmanifest.ManifestYaml {
-			return nil // Filter off the irrelevant
-		}
-
-		pathParts := directory.SplitToList(path)
-		if len(pathParts) < minNumberOfParts {
-			return fmt.Errorf("a path with a %s file should have at least %d parts (%s)",
-				projectmanifest.ManifestYaml, minNumberOfParts, path)
-		}
-
-		var manifest projectmanifest.Manifest
-		if err = manifest.LoadFile(path); err != nil {
-			return err
-		}
-		if !filter.Apply(manifest) {
-			return nil //skip filtered project
-		}
-		list.SetInterface(filepath.Dir(path), manifest)
+	err = projects.Walk(func(thisProject string, raw interface{}) error {
+		list.Add(thisProject, raw.(projectmanifest.Manifest))
 		return nil
 	})
-	return list, err
-}
-
-// determineProjectDirectory - if determine which types of projects we will list.
-func determineProjectDirectory(rootDirectory string, showCommands bool) (projectType string, numberOfParts int) {
-	if showCommands {
-		projectType, numberOfParts = "cmd", 4
-	} else {
-		projectType, numberOfParts = "projects", 3
+	if err == nil {
+		list.SortByKey()
 	}
-	return filepath.Join(rootDirectory, projectType), numberOfParts
+	return list, err
 }

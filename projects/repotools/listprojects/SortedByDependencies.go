@@ -1,68 +1,35 @@
-package repotools
+package listprojects
+
+/*
+ * projects/repotools/listprojects/SortedByDependencies.go
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ *
+ * This file defines the SortedByDependencies() function which will
+ * provide a filtered list of projects sorted by dependency.
+ *
+ * See README.md
+ */
 
 import (
+	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
+	"github.com/sam-caldwell/go/v2/projects/KeyValue/pair"
+	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
-	"gopkg.in/yaml.v2"
-	"os"
-	"path/filepath"
 )
 
-func ListDependencies(directory string) ([]string, error) {
-	projects := make(map[string][]string)
+// SortedByDependencies - List projects, in dependency order.
+func SortedByDependencies(filter filters.Filter) (list pair.OrderedPair, err error) {
+	var projects keyvalue.KeyValue
 
-	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if info.IsDir() && info.Name() != directory {
-			manifestPath := filepath.Join(path, "MANIFEST.yaml")
-			manifestData, err := os.ReadFile(manifestPath)
-			if err != nil {
-				return err
-			}
-
-			var manifest projectmanifest.Manifest
-			err = yaml.Unmarshal(manifestData, &manifest)
-			if err != nil {
-				return err
-			}
-
-			projects[manifest.Name] = manifest.Dependencies
-		}
-
-		return nil
-	})
-
+	projects, err = UnsortedProjects(filter)
 	if err != nil {
-		return nil, err
+		return list, err
 	}
 
-	sortedProjects := make([]string, 0, len(projects))
-	visited := make(map[string]bool)
-
-	var visit func(string)
-	visit = func(project string) {
-		if visited[project] {
-			return
-		}
-
-		visited[project] = true
-		for _, dependency := range projects[project] {
-			visit(dependency)
-		}
-
-		sortedProjects = append(sortedProjects, project)
-	}
-
-	for project := range projects {
-		visit(project)
-	}
-
-	// Reverse the sorted projects
-	for i, j := 0, len(sortedProjects)-1; i < j; i, j = i+1, j-1 {
-		sortedProjects[i], sortedProjects[j] = sortedProjects[j], sortedProjects[i]
-	}
-
-	return sortedProjects, nil
+	err = projects.Walk(func(thisProject string, raw interface{}) error {
+		manifest := raw.(projectmanifest.Manifest)
+		err := resolveDependencies(&projects, &list, &thisProject, &manifest)
+		return err
+	})
+	return list, err
 }
