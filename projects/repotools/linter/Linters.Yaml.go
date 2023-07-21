@@ -9,6 +9,11 @@ import (
 func Yaml(filename string) (err error) {
 	var out string
 	out, err = runcommand.ShellExecute(fmt.Sprintf("yamllint %s", filename))
-	fmt.Printf("Lint %s: %s\n", filename, out)
-	return err
+	if err != nil {
+		return err
+	}
+	if out != "" {
+		return fmt.Errorf("\nerror:\n\t'%s'", out)
+	}
+	return nil
 }

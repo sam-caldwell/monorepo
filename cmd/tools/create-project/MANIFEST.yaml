@@ -1,3 +1,4 @@
+---
 name: create-project
 author: Sam Caldwell
 options:
@@ -21,4 +22,3 @@ dependencies:
   - file
   - repotools
   - systemrecon
-
