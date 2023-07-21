@@ -8,7 +8,7 @@ import (
 func ShowStats(useColor bool, header, footer string, data map[string]int) {
 	var content string
 	keyWidth := 0
-	for key, _ := range data {
+	for key := range data {
 		if w := len(key); w > keyWidth {
 			keyWidth = w
 		}
