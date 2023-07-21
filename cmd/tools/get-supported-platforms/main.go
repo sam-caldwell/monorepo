@@ -13,11 +13,13 @@ import (
 	"fmt"
 	monorepo "github.com/sam-caldwell/go/v2/projects/__system__"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"os"
 	"strings"
 )
 
 func main() {
+	exit.IfVersionRequested()
 	var mode string
 	if len(os.Args) >= 2 {
 		mode = os.Args[1]

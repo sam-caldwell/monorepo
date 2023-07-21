@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	exit.IfVersionRequested()
 	if len(os.Args) < 2 {
 		ansi.Red().Println("Missing message string").Fatal(exit.MissingArg)
 	}

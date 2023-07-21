@@ -1,5 +1,7 @@
 package main
 
+import "github.com/sam-caldwell/go/v2/projects/exit"
+
 const (
 	cmdBuild = "build"
 	cmdInit  = "init"
@@ -17,6 +19,7 @@ const (
 )
 
 func main() {
+	exit.IfVersionRequested()
 	//var command string
 	//var verbose bool
 	//var noop bool

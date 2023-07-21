@@ -29,6 +29,7 @@ func main() {
 	const (
 		projectRootDirectory = "projects"
 	)
+	exit.IfVersionRequested()
 
 	whoami, _ := systemrecon.GetCurrentUserName()
 	author := flag.String("author", whoami, "Project owner/author")

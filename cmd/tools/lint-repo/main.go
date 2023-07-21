@@ -26,5 +26,6 @@ lint-repo [-color]
 func main() {
 
 	exit.IfHelpRequested(commandUsage)
+	exit.IfVersionRequested()
 
 }

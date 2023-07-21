@@ -52,6 +52,7 @@ const (
 )
 
 func main() {
+	exit.IfVersionRequested()
 	exit.OnCondition(
 		len(os.Args) < osArgCommand+1,
 		exit.MissingArg,

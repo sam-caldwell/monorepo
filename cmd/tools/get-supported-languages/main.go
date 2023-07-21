@@ -11,9 +11,11 @@ package main
 import (
 	"fmt"
 	monorepo "github.com/sam-caldwell/go/v2/projects/__system__"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"strings"
 )
 
 func main() {
+	exit.IfVersionRequested()
 	fmt.Printf("%s\n", strings.Join(monorepo.GetSupportedLanguages(), ", "))
 }

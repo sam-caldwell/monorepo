@@ -1,4 +1,4 @@
-package main
+vpackage main
 
 import (
 	"fmt"
@@ -40,7 +40,9 @@ func main() {
 	var output string
 	var err error
 
+	exit.IfVersionRequested()
 	exit.OnCondition(len(os.Args) < 2, exit.GeneralError, errors.MissingArguments, usage)
+
 	switch command := strings.TrimLeft(strings.ToLower(strings.TrimSpace(os.Args[1])), words.Hyphen); command {
 	/*
 	 * CPU-related commands

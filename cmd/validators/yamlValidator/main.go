@@ -28,6 +28,7 @@ const (
 )
 
 func main() {
+	exit.IfVersionRequested()
 	// Check if the directory path is provided as an argument
 	exit.OnCondition(
 		len(os.Args) < 2,

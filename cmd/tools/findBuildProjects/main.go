@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/fs/file"
 	"github.com/sam-caldwell/go/v2/projects/lists/SmartList"
@@ -44,6 +45,7 @@ const (
 
 func main() {
 	var projects list.SmartList
+	exit.IfVersionRequested()
 
 	rootDirectory, filters, prettyPrint, err := parseArgs()
 

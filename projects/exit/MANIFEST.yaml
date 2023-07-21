@@ -15,3 +15,4 @@ supportedPlatforms:
     - opsys: windows
       arch: amd64
 dependencies:
+  - version

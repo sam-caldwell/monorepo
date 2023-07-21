@@ -55,6 +55,7 @@ func main() {
 	var recordCount int
 
 	exit.IfHelpRequested(commandUsage)
+	exit.IfVersionRequested()
 
 	err = filter.FromCliArgs()
 	exit.OnError(err, exit.GeneralError, commandUsage)

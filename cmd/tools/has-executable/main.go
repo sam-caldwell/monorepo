@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
 	"os"
@@ -45,6 +46,7 @@ func hasCommand(targetCommand string) (exitCode int, answer string) {
 }
 
 func main() {
+	exit.IfVersionRequested()
 	if len(os.Args) < 2 {
 		fmt.Println("no")
 		os.Exit(0)

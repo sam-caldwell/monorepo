@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	subnetting "github.com/sam-caldwell/go/v2/projects/net/subnetting/calculate-subnets"
 	"os"
 	"strconv"
 )
 
 func main() {
+	exit.IfVersionRequested()
 	if len(os.Args) < 3 {
 		fmt.Println(subnetting.ErrMissingArguments)
 		os.Exit(subnetting.ExitMissingArgs)
