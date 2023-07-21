@@ -1,4 +1,4 @@
-package repoLinter
+package repolinter
 
 /*
  * projects/repotools/repoLinter/Setup.go

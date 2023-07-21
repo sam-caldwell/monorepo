@@ -1,4 +1,4 @@
-package repoLinter
+package repolinter
 
 import (
 	"fmt"
