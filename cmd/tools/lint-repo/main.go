@@ -40,22 +40,34 @@ func main() {
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
-	fail := func(name string, err error) {
+	fail := func(name string, err error) error {
 		const format = "Linting on [FAIL](%s): %s"
 		if useColor {
-			ansi.Blue().Printf(format, name, err).LF().Reset()
+			ansi.Red().Printf(format, name, err).LF().Reset()
 		} else {
 			fmt.Printf(format, name, err)
 		}
+		return nil
 	}
 
-	pass := func(name string) {
+	skip := func(name, msg string) error {
+		const format = "Linting on [SKIP](%s): %s"
+		if useColor {
+			ansi.Yellow().Printf(format, name, msg).LF().Reset()
+		} else {
+			fmt.Printf(format, name, msg)
+		}
+		return nil
+	}
+
+	pass := func(name string) error {
 		const format = "Linting [PASS](%s)"
 		if useColor {
 			ansi.Blue().Printf(format, name).LF().Reset()
 		} else {
 			fmt.Printf(format, name)
 		}
+		return nil
 	}
 
 	if useColor {
@@ -64,7 +76,7 @@ func main() {
 		fmt.Printf("Running Linter\n")
 	}
 
-	if err := repolinter.LinterMaster(pass, fail); err != nil {
+	if err := repolinter.LinterMaster(pass, skip, fail); err != nil {
 		if useColor {
 			ansi.Red().Printf("Linter failed (%s)", err).LF().Reset()
 			os.Exit(exit.Success)

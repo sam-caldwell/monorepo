@@ -6,7 +6,9 @@ import (
 	"path/filepath"
 )
 
-func LinterMaster(pass func(name string), fail func(name string, err error)) (err error) {
+func LinterMaster(pass func(name string) error, skip func(name, msg string) error,
+	fail func(name string, err error) error) (err error) {
+
 	var rootDirectory string //This is the root of the monorepo
 	if rootDirectory, err = repotools.FindRepoRoot(); err != nil {
 		return err
@@ -17,16 +19,21 @@ func LinterMaster(pass func(name string), fail func(name string, err error)) (er
 		if err != nil {
 			return err
 		}
+		if skipIgnoredDirectories(path) {
+			return nil
+		}
 		if info.IsDir() {
 			//ToDo: validate the project directory names against a manifest.
 			//ToDo: make sure directory names follow convention
 			return nil
 		}
 		if err = linters.Run(path); err != nil {
-			fail(path, err)
-			return err
+			if err.Error() == noLinter {
+				return skip(path, noLinter)
+			} else {
+				return fail(path, err)
+			}
 		}
-		pass(path)
-		return nil
+		return pass(path)
 	})
 }
