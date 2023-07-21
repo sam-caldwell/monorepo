@@ -9,8 +9,8 @@ import (
 
 func (linter *Linters) Run(fileName string) error {
 	fileExtension := strings.TrimPrefix(filepath.Ext(fileName), words.Period)
-	if fn, ok := linter.runners[fileExtension]; ok {
-		return fn(fileName)
+	if entry, ok := linter.table[fileExtension]; ok {
+		return entry.runner(fileName)
 	}
 	return fmt.Errorf(noLinter)
 }
