@@ -16,3 +16,8 @@ supportedPlatforms:
     arch: amd64
 dependencies:
   - repotools
+  - ansi
+  - repotools
+  - simpleArgs
+  - exit
+  - version
