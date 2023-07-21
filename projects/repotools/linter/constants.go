@@ -1,7 +1,7 @@
 package repolinter
 
 const (
-	IgnoredDirectories = ".git,.idea,build,.DS_Store,.pyc,.snyk,.dccache,bin,go.mod,go.sum"
+	IgnoredDirectories = ".git,.idea,build,node_modules,.DS_Store,.pyc,.snyk,.dccache,bin,go.mod,go.sum"
 	extAsmAmd64        = "amd64"
 	extAsmArm64        = "arm64"
 	extCSource         = "c"
@@ -13,22 +13,11 @@ const (
 	extNode            = "js"
 	extPython          = "py"
 	extMarkdown        = "md"
+	extRust            = "rs"
 	extShell           = "sh"
 	extTypeScript      = "ts"
 	extYaml            = "yaml"
 	extYml             = "yml"
 
-	noLinter      = "has no linter"
-	cmdAsmAmd64   = ""
-	cmdAsmArm64   = ""
-	cmdC          = ""
-	cmdCpp        = ""
-	cmdGolang     = "staticcheck"
-	cmdJson       = "jsonlint"
-	cmdNodeJs     = "eslint"
-	cmdPython     = "flake8"
-	cmdMarkdown   = ""
-	cmdShell      = "shellcheck"
-	cmdTypeScript = "eslint"
-	cmdYaml       = "yamllint"
+	noLinter = "has no linter"
 )
