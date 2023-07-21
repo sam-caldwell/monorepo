@@ -49,6 +49,7 @@ func main() {
 	var projects pair.OrderedPair
 	var printer, color = ui.SelectPrinter()
 	var banner = ui.UseHeadersAndFooters()
+	var sortedBy string
 	var leftColumnWidth int
 	var rightColumnWidth int
 	var recordCount int
@@ -58,7 +59,13 @@ func main() {
 	err = filter.FromCliArgs()
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
-	projects, err = listprojects.SortedLexically(filter)
+	if order := ui.SortBy(); order == ui.SortByDependency {
+		sortedBy = "dependency"
+		projects, err = listprojects.SortedByDependencies(filter)
+	} else {
+		sortedBy = "name"
+		projects, err = listprojects.SortedLexically(filter)
+	}
 	exit.OnError(err, exit.GeneralError, commandUsage)
 
 	err = projects.Walk(func(key string, value interface{}) error {
@@ -76,7 +83,7 @@ func main() {
 
 	displayWidth := leftColumnWidth + rightColumnWidth + 10
 	if banner {
-		ui.PrintHeader(fmt.Sprintf("Project Listing (version: %s)", version.Version),
+		ui.PrintHeader(fmt.Sprintf("Project Listing (version: %s) (sort by: %s)", version.Version, sortedBy),
 			color, displayWidth)
 	}
 

@@ -11,10 +11,11 @@ package listprojects
  */
 
 import (
-	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
+	"github.com/sam-caldwell/go/v2/projects/keyvalue"
 	"github.com/sam-caldwell/go/v2/projects/keyvalue/pair"
 	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
+	"path/filepath"
 )
 
 // SortedByDependencies - List projects, in dependency order.
@@ -26,10 +27,29 @@ func SortedByDependencies(filter filters.Filter) (list pair.OrderedPair, err err
 		return list, err
 	}
 
-	err = projects.Walk(func(thisProject string, raw interface{}) error {
-		manifest := raw.(projectmanifest.Manifest)
-		err := resolveDependencies(&projects, &list, &thisProject, &manifest)
-		return err
+	err = projects.Walk(func(parentKey string, parentValue any) error {
+		projectRoot := filepath.Dir(parentKey)
+		manifest := parentValue.(projectmanifest.Manifest)
+		for _, dependency := range manifest.Dependencies {
+			if list.Has(filepath.Join(projectRoot, dependency)) {
+				continue
+			}
+			err = projects.Walk(func(depKey string, depValue any) error {
+				depManifest := depValue.(projectmanifest.Manifest)
+				if depKey != filepath.Join(projectRoot, dependency) {
+					return nil
+				}
+				list.Add(depKey, depManifest)
+				return nil
+			})
+		}
+		if !list.Has(parentKey) {
+			list.Add(parentKey, parentValue)
+		}
+		return nil
 	})
+	if err != nil {
+		return list, err
+	}
 	return list, err
 }
