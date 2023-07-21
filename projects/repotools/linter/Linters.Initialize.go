@@ -9,11 +9,13 @@ func (linter *Linters) Initialize() {
 		extCppSource:  Cpp,
 		extCppHeader:  Cpp,
 		extGolang:     Golang,
+		extJson:       Json,
 		extNode:       NodeJs,
 		extPython:     Python,
 		extMarkdown:   Markdown,
 		extShell:      Shell,
 		extTypeScript: TypeScript,
 		extYaml:       Yaml,
+		extYml:        Yaml,
 	}
 }

@@ -9,12 +9,14 @@ const (
 	extCppSource       = "cpp"
 	extCppHeader       = "hpp"
 	extGolang          = "go"
+	extJson            = "json"
 	extNode            = "js"
 	extPython          = "py"
 	extMarkdown        = "md"
 	extShell           = "sh"
 	extTypeScript      = "ts"
 	extYaml            = "yaml"
+	extYml             = "yml"
 
 	noLinter = "has no linter"
 )
