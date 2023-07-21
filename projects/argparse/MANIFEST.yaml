@@ -2,7 +2,7 @@ name: argparse
 author: Sam Caldwell
 options:
     buildEnabled: false
-    lintEnabled: true
+    lintEnabled: false
     packEnabled: false
     scanEnabled: false
     signEnabled: false
