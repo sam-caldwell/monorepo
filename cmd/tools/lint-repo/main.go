@@ -31,16 +31,22 @@ lint-repo [-color]
    Run linter and if -color is present show
    the output in ANSI color.
 `
+	displayWidth = 40
 )
 
 // main - lint-repo main function
 func main() {
 	var useColor = simpleArgs.UseColor()
+	var quietMode = simpleArgs.QuietMode()
+	var countSkip int
+	var countFail int
+	var countPass int
 
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
 	fail := func(name string, err error) error {
+		countFail++
 		const format = "Linting on [FAIL](%s): %s"
 		if useColor {
 			ansi.Red().Printf(format, name, err).LF().Reset()
@@ -50,17 +56,21 @@ func main() {
 		return nil
 	}
 
-	skip := func(name, msg string) error {
+	skip := func(quiet bool, name, msg string) error {
+		countSkip++
 		const format = "Linting on [SKIP](%s): %s"
-		if useColor {
-			ansi.Yellow().Printf(format, name, msg).LF().Reset()
-		} else {
-			fmt.Printf(format, name, msg)
+		if !quiet {
+			if useColor {
+				ansi.Yellow().Printf(format, name, msg).LF().Reset()
+			} else {
+				fmt.Printf(format, name, msg)
+			}
 		}
 		return nil
 	}
 
 	pass := func(name string) error {
+		countPass++
 		const format = "Linting [PASS](%s)"
 		if useColor {
 			ansi.Blue().Printf(format, name).LF().Reset()
@@ -70,19 +80,75 @@ func main() {
 		return nil
 	}
 
+	showStats := func() {
+		if useColor {
+			ansi.Blue().
+				Printf("\n"+
+					"------------------\n"+
+					" Linter Stats\n"+
+					"------------------\n"+
+					"  Pass: %6d\n"+
+					"  Fail: %6d\n"+
+					"  Skip: %6d\n"+
+					"------------------\n"+
+					" Total: %6d\n"+
+					"==================\n",
+					countPass, countFail, countSkip,
+					countPass+countFail+countSkip).
+				LF().
+				Reset()
+		} else {
+			fmt.Printf("\n"+
+				"------------------\n"+
+				" Linter Stats\n"+
+				"------------------\n"+
+				"  Pass: %6d\n"+
+				"  Fail: %6d\n"+
+				"  Skip: %6d\n"+
+				"------------------\n"+
+				" Total: %6d\n"+
+				"==================\n",
+				countPass, countFail, countSkip,
+				countPass+countFail+countSkip)
+		}
+	}
+
 	if useColor {
-		ansi.Blue().Printf("Running Linter").LF().Reset()
+		ansi.Blue().
+			Printf("Running Linter").
+			LF().
+			Reset()
 	} else {
 		fmt.Printf("Running Linter\n")
 	}
 
-	if err := repolinter.LinterMaster(pass, skip, fail); err != nil {
+	err := repolinter.LinterMaster(quietMode, pass, skip, fail)
+	showStats()
+	if err != nil {
 		if useColor {
-			ansi.Red().Printf("Linter failed (%s)", err).LF().Reset()
+			ansi.
+				Red().
+				Line("-", displayWidth).
+				Printf("Linter failed (%s)", err).
+				LF().
+				Line("-", displayWidth).
+				Reset()
 			os.Exit(exit.Success)
 		} else {
-			fmt.Printf("Linter failed (%s)\n", err)
+			fmt.Printf("\nLinter failed (%s)\n", err)
 			os.Exit(exit.GeneralError)
 		}
+	}
+	if useColor {
+		ansi.Green().
+			Line("-", displayWidth).
+			Printf("Linter passing").
+			LF().
+			Line("-", displayWidth).
+			Reset()
+		os.Exit(exit.Success)
+	} else {
+		fmt.Printf("\nLinter passing\n")
+		os.Exit(exit.GeneralError)
 	}
 }

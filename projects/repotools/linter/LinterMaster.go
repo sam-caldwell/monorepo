@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-func LinterMaster(pass func(name string) error, skip func(name, msg string) error,
+func LinterMaster(quiet bool, pass func(name string) error, skip func(quiet bool, name, msg string) error,
 	fail func(name string, err error) error) (err error) {
 
 	var rootDirectory string //This is the root of the monorepo
@@ -29,7 +29,7 @@ func LinterMaster(pass func(name string) error, skip func(name, msg string) erro
 		}
 		if err = linters.Run(path); err != nil {
 			if err.Error() == noLinter {
-				return skip(path, noLinter)
+				return skip(quiet, path, noLinter)
 			} else {
 				return fail(path, err)
 			}
