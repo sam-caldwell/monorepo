@@ -18,5 +18,17 @@ const (
 	extYaml            = "yaml"
 	extYml             = "yml"
 
-	noLinter = "has no linter"
+	noLinter      = "has no linter"
+	cmdAsmAmd64   = ""
+	cmdAsmArm64   = ""
+	cmdC          = ""
+	cmdCpp        = ""
+	cmdGolang     = "staticcheck"
+	cmdJson       = "jsonlint"
+	cmdNodeJs     = "eslint"
+	cmdPython     = "flake8"
+	cmdMarkdown   = ""
+	cmdShell      = "shellcheck"
+	cmdTypeScript = "eslint"
+	cmdYaml       = "yamllint"
 )

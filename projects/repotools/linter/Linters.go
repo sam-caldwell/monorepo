@@ -1,5 +1,6 @@
 package repolinter
 
 type Linters struct {
-	table map[string]LinterFunction
+	runners  map[string]LinterFunction
+	commands map[string]string
 }

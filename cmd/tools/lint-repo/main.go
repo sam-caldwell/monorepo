@@ -74,7 +74,7 @@ func main() {
 		countPass++
 		const format = "Linting [PASS](%s)"
 		if useColor {
-			ansi.Blue().Printf(format, name).LF().Reset()
+			ansi.Green().Printf(format, name).LF().Reset()
 		} else {
 			fmt.Printf(format, name)
 		}

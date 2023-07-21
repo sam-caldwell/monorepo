@@ -9,7 +9,7 @@ import (
 
 func (linter *Linters) Run(fileName string) error {
 	fileExtension := strings.TrimPrefix(filepath.Ext(fileName), words.Period)
-	if fn, ok := linter.table[fileExtension]; ok {
+	if fn, ok := linter.runners[fileExtension]; ok {
 		return fn(fileName)
 	}
 	return fmt.Errorf(noLinter)

@@ -3,11 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
 	"os"
-	"os/exec"
-	"runtime"
 	"strings"
 )
 
@@ -21,29 +18,6 @@ const (
 	 */
 	shellCode = "command -v %s >/dev/null 2>&1; echo $?"
 )
-
-func hasCommand(targetCommand string) (exitCode int, answer string) {
-	response := words.No
-	var cmd *exec.Cmd
-	switch goos := runtime.GOOS; goos {
-	case "windows":
-		cmd = exec.Command("powershell", "-Command", fmt.Sprintf(powershellCode, targetCommand))
-	case "darwin", "linux":
-		cmd = exec.Command("sh", "-c", fmt.Sprintf(shellCode, targetCommand))
-	default:
-		return 2, response // unsupported operating system
-	}
-
-	out, err := cmd.Output()
-	if err == nil && strings.TrimSpace(string(out)) == "0" {
-		exitCode = 0
-		response = words.Yes
-	} else {
-		exitCode = 1
-		response = words.No
-	}
-	return exitCode, response
-}
 
 func main() {
 	exit.IfVersionRequested()
