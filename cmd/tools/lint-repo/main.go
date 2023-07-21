@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/misc"
 	repolinter "github.com/sam-caldwell/go/v2/projects/repotools/linter"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
 )
@@ -80,39 +81,6 @@ func main() {
 		return nil
 	}
 
-	showStats := func() {
-		if useColor {
-			ansi.Blue().
-				Printf("\n"+
-					"------------------\n"+
-					" Linter Stats\n"+
-					"------------------\n"+
-					"  Pass: %6d\n"+
-					"  Fail: %6d\n"+
-					"  Skip: %6d\n"+
-					"------------------\n"+
-					" Total: %6d\n"+
-					"==================\n",
-					countPass, countFail, countSkip,
-					countPass+countFail+countSkip).
-				LF().
-				Reset()
-		} else {
-			fmt.Printf("\n"+
-				"------------------\n"+
-				" Linter Stats\n"+
-				"------------------\n"+
-				"  Pass: %6d\n"+
-				"  Fail: %6d\n"+
-				"  Skip: %6d\n"+
-				"------------------\n"+
-				" Total: %6d\n"+
-				"==================\n",
-				countPass, countFail, countSkip,
-				countPass+countFail+countSkip)
-		}
-	}
-
 	if useColor {
 		ansi.Blue().
 			Printf("Running Linter").
@@ -123,7 +91,14 @@ func main() {
 	}
 
 	err := repolinter.LinterMaster(quietMode, pass, skip, fail)
-	showStats()
+	misc.ShowStats(useColor,
+		"Linter Stats",
+		fmt.Sprintf("  Total:%6d", countPass+countSkip+countFail),
+		map[string]int{
+			"pass": countPass,
+			"fail": countFail,
+			"skip": countSkip,
+		})
 	if err != nil {
 		if useColor {
 			ansi.
