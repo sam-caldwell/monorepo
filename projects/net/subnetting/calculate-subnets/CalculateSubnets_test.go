@@ -1,4 +1,4 @@
-package CalculateSubnets
+package calculate_subnets
 
 import (
 	"reflect"

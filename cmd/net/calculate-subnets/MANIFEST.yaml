@@ -1,0 +1,21 @@
+name: calculate-subnets
+author: Sam Caldwell
+options:
+  buildEnabled: true
+  lintEnabled: true
+  packEnabled: false
+  scanEnabled: true
+  signEnabled: false
+  language: go
+supportedPlatforms:
+  - opsys: darwin
+    arch: amd64
+  - opsys: linux
+    arch: amd64
+  - opsys: windows
+    arch: amd64
+dependencies:
+  - net/subnetting
+  - exit
+  - errors
+  - misc
