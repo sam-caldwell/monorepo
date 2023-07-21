@@ -11,6 +11,7 @@ const (
 	extGolang          = "go"
 	extNode            = "js"
 	extPython          = "py"
+	extMarkdown        = "md"
 	extShell           = "sh"
 	extTypeScript      = "ts"
 	extYaml            = "yaml"

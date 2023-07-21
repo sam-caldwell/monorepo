@@ -11,6 +11,7 @@ func (linter *Linters) Initialize() {
 		extGolang:     Golang,
 		extNode:       NodeJs,
 		extPython:     Python,
+		extMarkdown:   Markdown,
 		extShell:      Shell,
 		extTypeScript: TypeScript,
 		extYaml:       Yaml,
