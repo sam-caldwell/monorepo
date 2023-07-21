@@ -4,6 +4,6 @@
 #
 # linux: windows winget package manager
 #
-HAS_WINGET=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go winget)
+HAS_WINGET=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/has-executable/main.go winget)
 has_winget:
 	@echo "$(HAS_WINGET)"

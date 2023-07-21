@@ -4,6 +4,6 @@
 #
 # windows chocolatey package manager
 #
-HAS_CHOCO=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go choco)
+HAS_CHOCO=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/has-executable/main.go choco)
 has_choco:
 	@echo "$(HAS_CHOCO)"

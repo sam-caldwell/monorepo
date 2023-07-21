@@ -4,6 +4,6 @@
 #
 # mac/linux package managers
 #
-HAS_BREW=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go brew)
+HAS_BREW=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/has-executable/main.go brew)
 has_brew:
 	@echo "$(HAS_BREW)"

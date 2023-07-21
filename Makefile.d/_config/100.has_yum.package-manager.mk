@@ -4,6 +4,6 @@
 #
 # linux: redhat/centos/fedora yum
 #
-HAS_YUM=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go yum)
+HAS_YUM=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/has-executable/main.go yum)
 has_yum:
 	@echo "$(HAS_YUM)"

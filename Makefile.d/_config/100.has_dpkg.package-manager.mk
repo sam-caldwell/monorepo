@@ -4,6 +4,6 @@
 #
 # linux: debian/ubuntu apt package manager
 #
-HAS_DPKG=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/hasExecutable/main.go dpkg)
+HAS_DPKG=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/has-executable/main.go dpkg)
 has_dpkg:
 	@echo "$(HAS_DPKG)"

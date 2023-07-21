@@ -35,7 +35,7 @@ This section covers the commands in the go monorepo:
 * [Command: subnetting/calculateSubnets](./cmd/subnetting/calculateSubnets/README.md)
 * [Command: Tools/badge-maker](./cmd/tools/badge-maker/README.md)
 * [Command: Tools/findBuildProjects](./cmd/tools/findBuildProjects/README.md)
-* [Command: Tools/hasExecutable](cmd/tools/has-executable/README.md)
+* [Command: Tools/has-executable](cmd/tools/has-executable/README.md)
 * [Command: Tools/Locks](./cmd/tools/locks/README.md)
 * [Command: What](./cmd/tools/what/README.md)
 
