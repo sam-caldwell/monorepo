@@ -5,6 +5,6 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
-func Cpp() (err error) {
+func Cpp(filename string) (err error) {
 	return fmt.Errorf(errors.NotImplemented)
 }

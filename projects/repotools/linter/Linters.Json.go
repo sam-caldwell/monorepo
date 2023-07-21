@@ -5,6 +5,6 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 )
 
-func Json() (err error) {
+func Json(filename string) (err error) {
 	return fmt.Errorf(errors.NotImplemented)
 }

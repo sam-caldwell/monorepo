@@ -2,13 +2,16 @@ package repolinter
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	"path/filepath"
+	"strings"
 )
 
 func (linter *Linters) Run(fileName string) error {
-	fileExtension := filepath.Ext(fileName)
+	fileExtension := strings.TrimPrefix(filepath.Ext(fileName), words.Period)
+	fmt.Printf("file [%s]: %s\n", fileExtension, fileName)
 	if fn, ok := linter.table[fileExtension]; ok {
-		return fn()
+		return fn(fileName)
 	}
 	return fmt.Errorf(noLinter)
 }
