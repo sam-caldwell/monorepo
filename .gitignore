@@ -17,3 +17,6 @@ projects/fakeProject/
 
 # Snyk cache
 .dccache
+
+# Node/Typescript stuff
+node_modules/
