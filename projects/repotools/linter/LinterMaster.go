@@ -2,7 +2,6 @@ package repolinter
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
@@ -42,7 +41,7 @@ func LinterMaster(
 		}
 		if linter.directoryLevel { //run these from root directory
 			source := filepath.Join(rootDirectory, "/...")
-			ansi.Blue().Printf("Source: %s", source).LF().Reset()
+			notice("Source: %s", source)
 			err = linters.Run(linter.runner, &source)
 			reportResults(err, linter.name, source)
 			if err != nil {
@@ -50,7 +49,7 @@ func LinterMaster(
 			}
 		} else { //glob files with the given extension and lint individually.
 			source := filepath.Join(rootDirectory, "**", "**", fmt.Sprintf("*.%s", extension))
-			ansi.Blue().Printf("Source: %s", source).LF().Reset()
+			notice("Source: %s", source)
 			files, err := filepath.Glob(source)
 			if err != nil {
 				return err
