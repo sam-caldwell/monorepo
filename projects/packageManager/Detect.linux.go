@@ -4,6 +4,7 @@
 package packageManager
 
 import (
+	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 )

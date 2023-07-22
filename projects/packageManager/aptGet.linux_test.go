@@ -4,8 +4,6 @@
 package packageManager
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/runcommand"
-	"github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
 	"testing"
 )
 
@@ -18,14 +16,14 @@ func TestAptGet(t *testing.T) {
 	}
 
 	// Mock runcommand.ShellExecute to return expected output and nil error
-	runcommand.ShellExecute = func(cmd string) (string, error) {
-		return "Package installed successfully", nil
-	}
+	//runcommand.ShellExecute = func(cmd string) (string, error) {
+	//	return "Package installed successfully", nil
+	//}
 
 	// Mock systemrecon.HasExecutable to return exit code 0
-	systemrecon.HasExecutable = func(name string) (int, error) {
-		return 0, nil
-	}
+	//systemrecon.HasExecutable = func(name string) (int, error) {
+	//	return 0, nil
+	//}
 
 	// Call aptGet function
 	output, err := aptGet(pkg)

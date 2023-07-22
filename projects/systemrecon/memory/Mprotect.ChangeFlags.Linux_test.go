@@ -3,7 +3,11 @@
 
 package systemrecon
 
-func TestChangeMemoryProtectionFlags(t *wrappers.T) {
+import (
+	"testing"
+)
+
+func TestChangeMemoryProtectionFlags(t *testing.T) {
 	t.Skip("not implemented")
 	//	// Test case: Change memory protection flags
 	//	memoryAddress := uintptr(0x1000)
