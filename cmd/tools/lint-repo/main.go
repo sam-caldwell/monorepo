@@ -47,6 +47,9 @@ func main() {
 	exit.IfVersionRequested()
 
 	notice := func(format string, args ...any) {
+		if quietMode {
+			return
+		}
 		if useColor {
 			ansi.Yellow().Printf(">>"+format, args...).LF().Reset()
 		} else {
