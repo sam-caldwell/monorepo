@@ -1,5 +1,5 @@
 package repolinter
 
 type Linters struct {
-	table map[string]LinterConfig
+	Table map[string]LinterConfig
 }

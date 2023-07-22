@@ -13,7 +13,9 @@ func Yaml(filename string) (err error) {
 		return err
 	}
 	if out != "" {
-		return fmt.Errorf("\nerror:\n\t'%s'", out)
+		return fmt.Errorf("\nerror:\n"+
+			"\t%s\n"+
+			"\t%s", out, err)
 	}
 	return nil
 }

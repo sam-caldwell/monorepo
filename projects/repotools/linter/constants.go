@@ -1,7 +1,7 @@
 package repolinter
 
 const (
-	IgnoredDirectories = ".git,.idea,build,node_modules,.DS_Store,.pyc,.snyk,.dccache,bin,go.mod,go.sum"
+	IgnoredDirectories = ".git/,.idea,build,node_modules,.DS_Store,.pyc,.snyk,.dccache,bin,go.mod,go.sum"
 	extAsmAmd64        = "amd64"
 	extAsmArm64        = "arm64"
 	extCSource         = "c"
