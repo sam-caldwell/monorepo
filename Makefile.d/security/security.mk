@@ -1,3 +1,2 @@
-security: lint #\
-		  #security/snyk
-	@echo "\033[32m>ok $@\033[0m"
+security:
+	@go run cmd/tools/run-scans/main.go
