@@ -37,13 +37,14 @@ jobs:
         uses: snyk/actions/golang@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#
+
 #      - name: Setup Git
 #        shell: bash
 #        run: |
 #          git config --local user.email "github@samcaldwell.net"
 #          git config --local user.name "GitHub Action"
-#          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+#          git remote set-url origin https://x-access-token:$
+#  {{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 #
 #      - name: Generate Badge
 #        id: badge
@@ -51,9 +52,11 @@ jobs:
 #          EXIT_CODE=${{ steps.snyk.outcome }}
 #          echo "EXIT_CODE: ${{ steps.snyk.outcome }}"
 #          if [ "${{ steps.snyk.outcome }}" == "success" ]; then
-#            go run cmd/tools/badge-maker/main.go -name "SNYK" -status "passing" -color "green"
+#            go run cmd/tools/badge-maker/main.go -name "SNYK" \
+#  -status "passing" -color "green"
 #          else
-#            go run cmd/tools/badge-maker/main.go -name "SNYK" -status "failing" -color "red"
+#            go run cmd/tools/badge-maker/main.go -name "SNYK" \
+#  -status "failing" -color "red"
 #          fi
 #          git add badges/SNYK.svg
 #          git commit -m "update security badge [skip ci]" -a || {
