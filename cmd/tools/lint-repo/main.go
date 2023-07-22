@@ -46,39 +46,44 @@ func main() {
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
-	fail := func(name string, err error) error {
-		countFail++
-		const format = "Linting on [FAIL](%s): %s"
+	notice := func(format string, args ...any) {
 		if useColor {
-			ansi.Red().Printf(format, name, err).LF().Reset()
+			ansi.Yellow().Printf(">>"+format, args...).LF().Reset()
 		} else {
-			fmt.Printf(format, name, err)
+			fmt.Printf(format+"\n", args...)
 		}
-		return nil
 	}
 
-	skip := func(quiet bool, name, msg string) error {
+	fail := func(name, linter string, err error) {
+		countFail++
+		const format = "Linting (%s) [FAIL](%s): %v"
+		if useColor {
+			ansi.Red().Printf(format, linter, name, err).LF().Reset()
+		} else {
+			fmt.Printf(format, linter, name, err)
+		}
+	}
+
+	skip := func(name, linter, msg string) {
 		countSkip++
-		const format = "Linting on [SKIP](%s): %s"
-		if !quiet {
+		const format = "Linting (%s) [SKIP](%s): %s"
+		if !quietMode {
 			if useColor {
-				ansi.Yellow().Printf(format, name, msg).LF().Reset()
+				ansi.Yellow().Printf(format, linter, name, msg).LF().Reset()
 			} else {
-				fmt.Printf(format, name, msg)
+				fmt.Printf(format, linter, name, msg)
 			}
 		}
-		return nil
 	}
 
-	pass := func(name string) error {
+	pass := func(name, linter string) {
 		countPass++
-		const format = "Linting [PASS](%s)"
+		const format = "Linting (%s) [PASS](%s)"
 		if useColor {
-			ansi.Green().Printf(format, name).LF().Reset()
+			ansi.Green().Printf(format, linter, name).LF().Reset()
 		} else {
-			fmt.Printf(format, name)
+			fmt.Printf(format, linter, name)
 		}
-		return nil
 	}
 
 	if useColor {
@@ -90,7 +95,7 @@ func main() {
 		fmt.Printf("Running Linter\n")
 	}
 
-	err := repolinter.LinterMaster(quietMode, pass, skip, fail)
+	err := repolinter.LinterMaster(notice, pass, skip, fail)
 	misc.ShowStats(useColor,
 		"Linter Stats",
 		fmt.Sprintf("  Total:%6d", countPass+countSkip+countFail),
