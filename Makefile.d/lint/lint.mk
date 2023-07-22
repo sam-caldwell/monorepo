@@ -5,7 +5,5 @@
 # Run all the linters for the project against
 # the entire repo.
 #
-lint: lint/go \
-      lint/yaml \
-      lint/shell
-	@echo "\033[32m>ok $@\033[0m"
+lint:
+	@go run cmd/tools/lint-repo/main.go -color -quiet
