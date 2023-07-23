@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	programName  = "lint-repo"
+	programName  = "run-linter"
 	displayWidth = 80
 	commandUsage = `
 run-tests -h|-help

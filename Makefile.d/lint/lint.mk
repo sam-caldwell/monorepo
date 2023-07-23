@@ -6,4 +6,4 @@
 # the entire repo.
 #
 lint:
-	@go run cmd/tools/lint-repo/main.go -color -quiet
+	@go run cmd/tools/run-linter/main.go -color -quiet

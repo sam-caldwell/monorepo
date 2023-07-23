@@ -9,16 +9,14 @@ import (
 type PassMessagePrintFunc func(subject, message string)
 
 // PassMessagePrinter - Show a "Pass" message
-func PassMessagePrinter(programName string, useColor, quietMode bool, counter *int) PassMessagePrintFunc {
+func PassMessagePrinter(programName string, useColor bool, counter *int) PassMessagePrintFunc {
 	return func(subject, message string) {
 		*counter++
 		const format = "%s (%s) [PASS](%s)"
-		if !quietMode {
-			if useColor {
-				ansi.Green().Printf(format, programName, subject, message).LF().Reset()
-			} else {
-				fmt.Printf(format, programName, subject, message)
-			}
+		if useColor {
+			ansi.Green().Printf(format, programName, subject, message).LF().Reset()
+		} else {
+			fmt.Printf(format, programName, subject, message)
 		}
 	}
 }

@@ -9,8 +9,8 @@ import (
 const preComment = `
 # git/hooks/pre-commit
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
-# This script will run the lint-repo golang command
-go run cmd/tools/lint-repo/main.go -color -quiet || exit 1
+# This script will run the run-linter golang command
+go run cmd/tools/run-linter/main.go -color -quiet || exit 1
 `
 
 const prePush = `

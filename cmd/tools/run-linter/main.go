@@ -9,7 +9,7 @@ import (
 )
 
 /*
- * lint-repo
+ * run-linter
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This program creates will lint our repository
@@ -23,19 +23,19 @@ import (
 )
 
 const (
-	programName  = "lint-repo"
+	programName  = "run-linter"
 	commandUsage = `
-lint-repo -h|--help 
+run-linter -h|--help 
    Show usage
    
-lint-repo [-color]
+run-linter [-color]
    Run linter and if -color is present show
    the output in ANSI color.
 `
 	displayWidth = 40
 )
 
-// main - lint-repo main function
+// main - run-linter main function
 func main() {
 	var useColor = simpleArgs.UseColor()
 	var quietMode = simpleArgs.QuietMode()
@@ -51,16 +51,16 @@ func main() {
 
 	notice := repocli.NoticeMessagePrinter(programName, useColor, quietMode)
 
-	fail := repocli.FailMessagePrinter(programName, useColor, quietMode, &countFail)
+	fail := repocli.FailMessagePrinter(programName, useColor, &countFail)
 
 	skip := repocli.SkipMessagePrinter(programName, useColor, quietMode, &countSkip)
 
-	pass := repocli.PassMessagePrinter(programName, useColor, quietMode, &countPass)
+	pass := repocli.PassMessagePrinter(programName, useColor, &countPass)
 
 	banner(ansi.Blue(), "start")
 
 	err := repolinter.LinterMaster(notice, pass, skip, fail)
-	repocli.ShowStats(programName, displayWidth, useColor, countSkip, countFail, countSkip)
+	repocli.ShowStats(programName, displayWidth, useColor, quietMode, countSkip, countFail, countSkip)
 	if err != nil {
 		banner(ansi.Red(), programName, "failed checks")
 	}

@@ -9,7 +9,7 @@ import (
 type FailMessagePrintFunc func(group, test string, err error)
 
 // FailMessagePrinter - Show a "Fail" message
-func FailMessagePrinter(programName string, useColor, quietMode bool, counter *int) FailMessagePrintFunc {
+func FailMessagePrinter(programName string, useColor bool, counter *int) FailMessagePrintFunc {
 	return func(group, test string, err error) {
 		if err == nil {
 			return

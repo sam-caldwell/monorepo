@@ -1,5 +1,5 @@
 ---
-name: lint-repo
+name: run-linter
 author: Sam Caldwell
 options:
   buildEnabled: true

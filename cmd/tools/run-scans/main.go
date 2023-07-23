@@ -8,10 +8,10 @@ import (
 
 const (
 	commandUsage = `
-lint-repo -h|--help 
+run-linter -h|--help 
    Show usage
    
-lint-repo [-color]
+run-linter [-color]
    Run linter and if -color is present show
    the output in ANSI color.
 `
