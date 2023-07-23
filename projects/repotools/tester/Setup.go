@@ -1,24 +1,52 @@
-package repoTester
-
-/*
- * projects/repotools/repoTester/Setup.go
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * This file installs repoTester dependencies and
- * any system configuration needed by them.
- */
+package repotester
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/packageManager"
-	"github.com/sam-caldwell/go/v2/projects/simpleLogger"
+	"github.com/sam-caldwell/go/v2/projects/repotools"
+	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
+	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
+	"io/fs"
+	"path/filepath"
 )
 
-// Setup - Install dependencies and configure repoTester
-func Setup(logf simpleLogger.Logf, noop bool) (err error) {
-	//on a noop, just return.  do nothing.  noop...no operation
-	if !noop {
-		var packageList []packageManager.DependencyDescriptor
-		err = packageManager.InstallDependencies(logf, packageList)
+const (
+	manifestFile = "MANIFEST.yaml"
+)
+
+func Setup(
+	notice repocli.NoticeMessagePrintFunc,
+	pass repocli.PassMessagePrintFunc,
+	skip repocli.SkipMessagePrintFunc,
+	fail repocli.FailMessagePrintFunc) func(projectType string) (err error) {
+
+	// Run - Run all tests for the repo or specific project
+	return func(projectType string) (err error) {
+
+		var rootDirectory string //This is the root of the monorepo
+		if rootDirectory, err = repotools.FindRepoRoot(); err != nil {
+			return err
+		}
+
+		err = filepath.Walk(rootDirectory, func(path string, info fs.FileInfo, thisError error) error {
+			if thisError != nil {
+				err = thisError
+				return err
+			}
+			if filepath.Base(path) != manifestFile {
+				return nil
+			}
+			var manifest projectmanifest.Manifest
+			err = manifest.LoadFile(manifestFile)
+			if err != nil {
+				return err
+			}
+			if !manifest.IsTestEnabled() {
+				return nil
+			}
+
+			//ToDo: Run test for the project
+
+			return nil
+		})
+		return err
 	}
-	return err
 }

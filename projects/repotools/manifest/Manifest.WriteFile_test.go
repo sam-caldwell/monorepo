@@ -48,6 +48,7 @@ func TestWriteFile(t *testing.T) {
 		"    packEnabled: false",
 		"    scanEnabled: true",
 		"    signEnabled: false",
+		"    testEnabled: true",
 		"    language: go",
 		"supportedPlatforms:",
 		"    - opsys: darwin",

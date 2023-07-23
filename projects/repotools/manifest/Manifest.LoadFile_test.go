@@ -21,6 +21,7 @@ options:
   packEnabled: false
   scanEnabled: true
   signEnabled: false
+  testEnabled: true
   language: go
 supportedPlatforms:
   - opsys: darwin

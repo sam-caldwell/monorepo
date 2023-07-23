@@ -15,5 +15,6 @@ type ManifestOptions struct {
 	PackEnabled  bool   `yaml:"packEnabled"`
 	ScanEnabled  bool   `yaml:"scanEnabled"`
 	SignEnabled  bool   `yaml:"signEnabled"`
+	TestEnabled  bool   `yaml:"testEnabled"`
 	Language     string `yaml:"language"`
 }

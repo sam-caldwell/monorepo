@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	repotester "github.com/sam-caldwell/go/v2/projects/repotools/tester"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
 	"os"
@@ -27,31 +28,36 @@ run-tests [-color]
 func main() {
 	var useColor = simpleArgs.UseColor()
 	var quietMode = simpleArgs.QuietMode()
-	//var countSkip int
-	//var countFail int
-	//var countPass int
+	var countSkip int
+	var countFail int
+	var countPass int
 
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
 	banner := repocli.
 		BannerMessagePrinter(programName, useColor, quietMode, displayWidth)
-	//notice := repocli.
-	//	NoticeMessagePrinter(programName, useColor, quietMode)
-	//
-	//fail := repocli.FailMessagePrinter(programName, useColor, quietMode, &countFail)
-	//
-	//skip := repocli.SkipMessagePrinter(programName, useColor, quietMode, &countSkip)
-	//
-	//pass := repocli.PassMessagePrinter(programName, useColor, quietMode, &countPass)
+
+	notice := repocli.NoticeMessagePrinter(programName, useColor, quietMode)
+
+	fail := repocli.FailMessagePrinter(programName, useColor, &countFail)
+
+	skip := repocli.SkipMessagePrinter(programName, useColor, quietMode, &countSkip)
+
+	pass := repocli.PassMessagePrinter(programName, useColor, &countPass)
 
 	banner(ansi.Blue(), "start")
 
-	//err := func() error { return nil } //toDo: add functionality.
-	//repocli.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
-	//if err != nil {
-	//	banner(ansi.Red(), programName, "failed checks")
-	//}
+	testRunner := repotester.Setup(notice, pass, skip, fail)
+
+	err := testRunner("projects")
+	if err == nil {
+		err = testRunner("cmd")
+	}
+	repocli.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
+	if err != nil {
+		banner(ansi.Red(), programName, "failed checks")
+	}
 	banner(ansi.Green(), programName, "passing all checks")
 	os.Exit(exit.Success)
 }
