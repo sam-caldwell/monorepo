@@ -20,6 +20,7 @@ func TestWriteFile(t *testing.T) {
 			PackEnabled:  false,
 			ScanEnabled:  true,
 			SignEnabled:  false,
+			TestEnabled:  true,
 			Language:     "go",
 		},
 		SupportedPlatforms: []ManifestPlatforms{

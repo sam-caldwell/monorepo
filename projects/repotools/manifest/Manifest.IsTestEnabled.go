@@ -9,5 +9,5 @@ package projectmanifest
  */
 
 func (manifest *Manifest) IsTestEnabled() bool {
-	return manifest.Options.BuildEnabled
+	return manifest.Options.TestEnabled
 }

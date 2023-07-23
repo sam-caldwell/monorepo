@@ -44,13 +44,13 @@ func Setup(
 				return err
 			}
 			if manifest.IsTestEnabled() {
-				projectDirectory := filepath.Dir(path)
-				command := fmt.Sprintf("go test -failfast -v -count=2 -vet=all %s/...", projectDirectory)
+				d := filepath.Dir(path)
+				command := fmt.Sprintf("go test -failfast -v -count=2 -vet=all %s/...", d)
 				out, err := runcommand.ShellExecute(command)
 				if err == nil {
 					pass(manifest.Name, path)
 				} else {
-					err = fmt.Errorf("out:%s\nerr:%s\n", out, err)
+					err = fmt.Errorf("out:%s\nerr:%s", out, err)
 					fail(manifest.Name, path, err)
 				}
 			} else {
