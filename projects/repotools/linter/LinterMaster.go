@@ -5,16 +5,17 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
+	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"os"
 	"path/filepath"
 )
 
 // LinterMaster - Walk through a directory and its contents and lint all objects.
 func LinterMaster(
-	notice func(format string, args ...any),
-	pass func(name, linter string),
-	skip func(name, linter, msg string),
-	fail func(name, linter string, err error)) (err error) {
+	notice repocli.NoticeMessagePrintFunc,
+	pass repocli.PassMessagePrintFunc,
+	skip repocli.SkipMessagePrintFunc,
+	fail repocli.FailMessagePrintFunc) (err error) {
 
 	var rootDirectory string //This is the root of the monorepo
 	if rootDirectory, err = repotools.FindRepoRoot(); err != nil {

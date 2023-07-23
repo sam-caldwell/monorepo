@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/misc"
 	repolinter "github.com/sam-caldwell/go/v2/projects/repotools/linter"
+	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
 )
 
@@ -19,11 +19,11 @@ import (
  */
 
 import (
-	"fmt"
 	"os"
 )
 
 const (
+	programName  = "lint-repo"
 	commandUsage = `
 lint-repo -h|--help 
    Show usage
@@ -46,92 +46,24 @@ func main() {
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
-	notice := func(format string, args ...any) {
-		if quietMode {
-			return
-		}
-		if useColor {
-			ansi.Yellow().Printf(">>"+format, args...).LF().Reset()
-		} else {
-			fmt.Printf(format+"\n", args...)
-		}
-	}
+	banner := repocli.
+		BannerMessagePrinter(programName, useColor, quietMode, displayWidth)
 
-	fail := func(name, linter string, err error) {
-		countFail++
-		const format = "Linting (%s) [FAIL](%s): %v"
-		if useColor {
-			ansi.Red().Printf(format, linter, name, err).LF().Reset()
-		} else {
-			fmt.Printf(format, linter, name, err)
-		}
-	}
+	notice := repocli.NoticeMessagePrinter(programName, useColor, quietMode)
 
-	skip := func(name, linter, msg string) {
-		countSkip++
-		const format = "Linting (%s) [SKIP](%s): %s"
-		if !quietMode {
-			if useColor {
-				ansi.Yellow().Printf(format, linter, name, msg).LF().Reset()
-			} else {
-				fmt.Printf(format, linter, name, msg)
-			}
-		}
-	}
+	fail := repocli.FailMessagePrinter(programName, useColor, quietMode, &countFail)
 
-	pass := func(name, linter string) {
-		countPass++
-		const format = "Linting (%s) [PASS](%s)"
-		if useColor {
-			ansi.Green().Printf(format, linter, name).LF().Reset()
-		} else {
-			fmt.Printf(format, linter, name)
-		}
-	}
+	skip := repocli.SkipMessagePrinter(programName, useColor, quietMode, &countSkip)
 
-	if useColor {
-		ansi.Blue().
-			Printf("Running Linter").
-			LF().
-			Reset()
-	} else {
-		fmt.Printf("Running Linter\n")
-	}
+	pass := repocli.PassMessagePrinter(programName, useColor, quietMode, &countPass)
+
+	banner(ansi.Blue(), "start")
 
 	err := repolinter.LinterMaster(notice, pass, skip, fail)
-	misc.ShowStats(useColor,
-		"Linter Stats",
-		fmt.Sprintf("  Total:%6d", countPass+countSkip+countFail),
-		map[string]int{
-			"pass": countPass,
-			"fail": countFail,
-			"skip": countSkip,
-		})
+	repocli.ShowStats(programName, displayWidth, useColor, countSkip, countFail, countSkip)
 	if err != nil {
-		if useColor {
-			ansi.
-				Red().
-				Line("-", displayWidth).
-				Printf("Linter failed (%s)", err).
-				LF().
-				Line("-", displayWidth).
-				Reset()
-			os.Exit(exit.Success)
-		} else {
-			fmt.Printf("\nLinter failed (%s)\n", err)
-			os.Exit(exit.GeneralError)
-		}
+		banner(ansi.Red(), programName, "failed checks")
 	}
-	if useColor {
-		ansi.Green().
-			Line("-", displayWidth).
-			Printf("Linter passing").
-			LF().
-			Line("-", displayWidth).
-			Reset()
-		os.Exit(exit.Success)
-	} else {
-		fmt.Printf("\nLinter passing\n")
-		os.Exit(exit.GeneralError)
-	}
+	banner(ansi.Green(), programName, "passing all checks")
+	os.Exit(exit.Success)
 }

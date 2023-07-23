@@ -3,9 +3,10 @@ package misc
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
+	"strings"
 )
 
-func ShowStats(useColor bool, header, footer string, data map[string]int) {
+func ShowStats(width int, useColor bool, header, footer string, data map[string]int) {
 	var content string
 	keyWidth := 0
 	for key := range data {
@@ -17,28 +18,30 @@ func ShowStats(useColor bool, header, footer string, data map[string]int) {
 	for key, value := range data {
 		content += fmt.Sprintf("  %*s: %6d\n", keyWidth, key, value)
 	}
+	singleLine := strings.Repeat("-", width) + "\n"
+	doubleLine := strings.Repeat("=", width) + "\n"
 	if useColor {
 		ansi.Blue().
 			Printf("\n"+
-				"------------------\n"+
+				singleLine+
 				" %s\n"+
-				"------------------\n"+
+				singleLine+
 				"%s"+
-				"------------------\n"+
+				singleLine+
 				" %s\n"+
-				"==================\n",
+				doubleLine,
 				header, content, footer).
 			LF().
 			Reset()
 	} else {
 		fmt.Printf("\n"+
-			"------------------\n"+
+			singleLine+
 			" %s\n"+
-			"------------------\n"+
+			singleLine+
 			"%s"+
-			"------------------\n"+
+			singleLine+
 			" %s"+
-			"==================\n",
+			doubleLine,
 			header, content, footer)
 	}
 }
