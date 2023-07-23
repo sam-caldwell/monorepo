@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	programName  = "run-linter"
+	programName  = "run-tests"
 	displayWidth = 80
 	commandUsage = `
 run-tests -h|-help
@@ -31,6 +31,7 @@ func main() {
 	var countSkip int
 	var countFail int
 	var countPass int
+	var err error
 
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
@@ -50,9 +51,12 @@ func main() {
 
 	testRunner := repotester.Setup(notice, pass, skip, fail)
 
-	err := testRunner("projects")
-	if err == nil {
-		err = testRunner("cmd")
+	for _, testGroup := range []string{"projects", "cmd"} {
+		err = testRunner(testGroup)
+		if err != nil {
+			fail("testType:"+testGroup, "outcome:failure", err)
+			break
+		}
 	}
 	repocli.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
 	if err != nil {

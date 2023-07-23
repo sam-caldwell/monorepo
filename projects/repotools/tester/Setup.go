@@ -35,7 +35,7 @@ func Setup(
 				return nil
 			}
 			var manifest projectmanifest.Manifest
-			err = manifest.LoadFile(manifestFile)
+			err = manifest.LoadFile(path)
 			if err != nil {
 				return err
 			}
