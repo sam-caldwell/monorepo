@@ -12,6 +12,7 @@ type BannerPrinterFunc func(color *ansi.Color, args ...any)
 func BannerMessagePrinter(programName string, useColor, quietMode bool, width int) BannerPrinterFunc {
 	return func(color *ansi.Color, args ...any) {
 		if quietMode {
+			ansi.Reset()
 			return
 		}
 		if useColor {
@@ -28,5 +29,6 @@ func BannerMessagePrinter(programName string, useColor, quietMode bool, width in
 				fmt.Printf("%v\n", line)
 			}
 		}
+		ansi.White().Reset()
 	}
 }
