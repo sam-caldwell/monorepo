@@ -1,9 +1,11 @@
 package repotester
 
 import (
+	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
+	"github.com/sam-caldwell/go/v2/projects/runcommand"
 	"io/fs"
 	"path/filepath"
 )
@@ -26,7 +28,9 @@ func Setup(
 			return err
 		}
 
-		err = filepath.Walk(rootDirectory, func(path string, info fs.FileInfo, thisError error) error {
+		projectDirectory := filepath.Join(rootDirectory, projectType)
+
+		err = filepath.Walk(projectDirectory, func(path string, info fs.FileInfo, thisError error) error {
 			if thisError != nil {
 				err = thisError
 				return err
@@ -39,13 +43,20 @@ func Setup(
 			if err != nil {
 				return err
 			}
-			if !manifest.IsTestEnabled() {
-				return nil
+			if manifest.IsTestEnabled() {
+				projectDirectory := filepath.Dir(path)
+				command := fmt.Sprintf("go test -failfast -v -count=2 -vet=all %s/...", projectDirectory)
+				out, err := runcommand.ShellExecute(command)
+				if err == nil {
+					pass(manifest.Name, path)
+				} else {
+					err = fmt.Errorf("out:%s\nerr:%s\n", out, err)
+					fail(manifest.Name, path, err)
+				}
+			} else {
+				skip(manifest.Name, path, "test not enabled")
 			}
-
-			//ToDo: Run test for the project
-
-			return nil
+			return err
 		})
 		return err
 	}

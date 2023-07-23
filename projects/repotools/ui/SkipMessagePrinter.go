@@ -12,12 +12,12 @@ type SkipMessagePrintFunc func(name, subject, msg string)
 func SkipMessagePrinter(programName string, useColor, quietMode bool, counter *int) SkipMessagePrintFunc {
 	return func(group, test, message string) {
 		*counter++
-		const format = "%s (%s) [SKIP](%s): %s"
+		const format = "%s (%s) [SKIP](%s): %s\n"
 		if !quietMode {
 			if useColor {
-				ansi.Yellow().Printf(format, programName, group, test, message).LF().Reset()
+				ansi.Yellow().Printf(format, programName, group, test, message).Reset()
 			} else {
-				fmt.Printf(format, programName, group, test, message)
+				fmt.Printf(format+"", programName, group, test, message)
 			}
 		}
 	}

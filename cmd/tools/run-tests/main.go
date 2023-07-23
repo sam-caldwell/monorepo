@@ -47,11 +47,12 @@ func main() {
 
 	pass := repocli.PassMessagePrinter(programName, useColor, &countPass)
 
-	banner(ansi.Blue(), "start")
+	banner(ansi.Blue(), programName+": start")
 
 	testRunner := repotester.Setup(notice, pass, skip, fail)
 
 	for _, testGroup := range []string{"projects", "cmd"} {
+		banner(ansi.Blue(), programName+": start "+testGroup)
 		err = testRunner(testGroup)
 		if err != nil {
 			fail("testType:"+testGroup, "outcome:failure", err)
