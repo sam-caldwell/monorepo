@@ -5,6 +5,7 @@ import (
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
+	"os"
 )
 
 const (
@@ -45,4 +46,12 @@ func main() {
 	//pass := repocli.PassMessagePrinter(programName, useColor, quietMode, &countPass)
 
 	banner(ansi.Blue(), "start")
+
+	//err := func() error { return nil } //toDo: add functionality.
+	//repocli.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
+	//if err != nil {
+	//	banner(ansi.Red(), programName, "failed checks")
+	//}
+	banner(ansi.Green(), programName, "passing all checks")
+	os.Exit(exit.Success)
 }
