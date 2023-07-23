@@ -1,1 +1,0 @@
-CURRENT_REPO_VERSION=$(shell GOTMPDIR=$(GOTMPDIR) $(GO_BINARY) run cmd/tools/bump-version/main.go)
