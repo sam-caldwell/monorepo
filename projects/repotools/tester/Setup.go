@@ -69,8 +69,12 @@ func Setup(
 			if err != nil {
 				return err
 			}
+			d := filepath.Dir(path)
 			if manifest.IsTestEnabled() {
-				d := filepath.Dir(path)
+				if err = isDependencyEnabled(&projectDirectory, &manifest); err != nil {
+					fail(manifest.Name, d, err)
+					return err
+				}
 				err = runTest(d, &manifest)
 			} else {
 				skip(manifest.Name, path, "test not enabled")
