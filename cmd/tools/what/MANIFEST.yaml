@@ -7,6 +7,7 @@ options:
   packEnabled: false
   scanEnabled: true
   signEnabled: false
+  testEnabled: true
   language: go
 supportedPlatforms:
   - opsys: darwin
@@ -16,3 +17,4 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
+  - systemrecon

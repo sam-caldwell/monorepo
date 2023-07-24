@@ -47,8 +47,6 @@ func main() {
 
 	pass := repocli.PassMessagePrinter(programName, useColor, &countPass)
 
-	banner(ansi.Blue(), programName+": start")
-
 	testRunner := repotester.Setup(notice, pass, skip, fail)
 
 	for _, testGroup := range []string{"projects", "cmd"} {

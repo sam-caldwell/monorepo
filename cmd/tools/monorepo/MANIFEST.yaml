@@ -7,6 +7,7 @@ options:
   packEnabled: false
   scanEnabled: false
   signEnabled: false
+  testEnabled: true
   language: go
 supportedPlatforms:
   - opsys: darwin
