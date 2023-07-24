@@ -7,7 +7,7 @@ command -v git ||{
   exit 1
 }
 
-apt-get update -y --fix-missing
+sudo apt-get update -y --fix-missing
 
 sudo apt-get update -y --fix-missing
 
