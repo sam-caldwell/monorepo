@@ -5,7 +5,10 @@ func (run *Runner) Run(command string) *Runner {
 	if run.err != nil {
 		return run
 	}
-	run.out, run.err = ShellExecute(command)
+	var stdout string
+	stdout, run.err = ShellExecute(command)
+	run.out = run.out + "{command:'" + command + "',\n" +
+		"output:'" + stdout + "'}\n"
 	return run
 }
 
