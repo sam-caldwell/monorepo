@@ -1,5 +1,5 @@
 ---
-name: run-clean
+name: init-repo
 author: Sam Caldwell
 options:
   buildEnabled: true
