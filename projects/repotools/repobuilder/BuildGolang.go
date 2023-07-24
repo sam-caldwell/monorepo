@@ -5,7 +5,6 @@ import (
 	monorepo "github.com/sam-caldwell/go/v2/projects/__system__"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"github.com/sam-caldwell/go/v2/projects/runcommand"
-	"os"
 	"path/filepath"
 )
 
@@ -18,10 +17,6 @@ func BuildGolang(
 	projectPath *string) (err error) {
 
 	var stdout string
-	err = os.RemoveAll(*outputDirectory)
-	if err != nil {
-		return fmt.Errorf("builder failed to clean output directory: %v", err)
-	}
 	for _, goos := range monorepo.GetSupportedOpsys() {
 		var extension string
 		if goos == "windows" {

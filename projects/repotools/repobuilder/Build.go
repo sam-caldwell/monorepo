@@ -18,7 +18,6 @@ func Build(notice repocli.NoticeMessagePrintFunc,
 	fail repocli.FailMessagePrintFunc) (err error) {
 
 	const (
-		buildCommand = "go build %s"
 		projectType  = "cmd"
 		manifestFile = "MANIFEST.yaml"
 	)
@@ -50,7 +49,10 @@ func Build(notice repocli.NoticeMessagePrintFunc,
 		}
 		return command(&manifest.Name, &outputDirectory, notice, pass, fail, &projectPath)
 	}
-
+	err = repotools.Clean()
+	if err != nil {
+		return fmt.Errorf("builder failed to clean: %v", err)
+	}
 	err = filepath.Walk(projectRoot, func(path string, info fs.FileInfo, thisError error) error {
 		if thisError != nil {
 			err = thisError
