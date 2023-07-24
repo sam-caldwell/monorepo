@@ -72,7 +72,7 @@ func Build(notice repocli.NoticeMessagePrintFunc,
 			}
 			err = runBuild(projectDirectory, &manifest)
 		} else {
-			skip(manifest.Name, path, "test not enabled")
+			skip(manifest.Name, path, "build not enabled")
 		}
 		return err
 	})

@@ -2,12 +2,12 @@
 name: argparse
 author: Sam Caldwell
 options:
-    buildEnabled: false
+    buildEnabled: true
     lintEnabled: false
     packEnabled: false
     scanEnabled: false
     signEnabled: false
-    testEnabled: true
+    testEnabled: false
     language: go
 supportedPlatforms:
     - opsys: darwin

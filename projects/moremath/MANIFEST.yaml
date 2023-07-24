@@ -2,7 +2,7 @@
 name: moremath
 author: Sam Caldwell
 options:
-    buildEnabled: false
+    buildEnabled: true
     lintEnabled: true
     packEnabled: false
     scanEnabled: false
