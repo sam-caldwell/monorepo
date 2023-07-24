@@ -29,38 +29,29 @@ func main() {
 
 	ansi.Blue().Println("init-repo: starting")
 
-	commands := []string{
-		"go mod tidy",
-		"go install honnef.co/go/tools/cmd/staticcheck@latest",
-		//repotools.InstallPython3(commandUsage),
-		//"pip3 install virtualenv",
-		//"python3 -m virtualenv .python-virtualenv",
-		//"source .python-virtualenv/bin/activate",
-		//"pip3 install -r requirements.txt",
-		//"source ./.python-virtualenv/bin/activate",
-		//repotools.InstallNodeJs(commandUsage),
-		//"npm install",
+	var run runcommand.Runner
+	err := run.Run("go mod tidy").
+		Run("go install honnef.co/go/tools/cmd/staticcheck@latest").
+		Run("pip3 install -r ./requirements.txt").
+		Run("npm install").
+		Error()
+
+	out := run.Output()
+	if strings.TrimSpace(out) == "" {
+		out = "<no output>"
 	}
 
-	for _, command := range commands {
-		ansi.Blue().Printf("Running %s", command).LF().Reset()
-		if out, err := runcommand.ShellExecute(command); err != nil {
-			ansi.
-				Red().
-				Printf("Error initializing repo (%s): %v", command, err).
-				LF().
-				Reset().
-				Fatal(exit.GeneralError)
-		} else {
-			if strings.TrimSpace(out) == "" {
-				out = "<no output>"
-			}
-			ansi.
-				Green().
-				Printf("Success: '%s'", out).
-				LF().
-				Reset()
-		}
+	if err != nil {
+		ansi.
+			Red().
+			Printf("Error initializing repo: %v\n%s", err, out).
+			LF().
+			Reset().
+			Fatal(exit.GeneralError)
 	}
-	ansi.Green().Println("init-repo: success").Reset()
+	ansi.
+		Green().
+		Printf("Success: '%s'", out).
+		LF().
+		Reset()
 }

@@ -11,5 +11,5 @@ func checkGoLangLint() error {
 	if response == words.Yes {
 		return nil
 	}
-	return fmt.Errorf("yamllint is not installed")
+	return fmt.Errorf("staticcheck is not installed")
 }
