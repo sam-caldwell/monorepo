@@ -56,7 +56,7 @@ func main() {
 
 	banner(ansi.Blue(), "start")
 
-	err := repolinter.LinterMaster(notice, pass, skip, fail)
+	err := repolinter.LinterMaster(useColor, notice, pass, skip, fail)
 	repocli.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
 	if err != nil {
 		banner(ansi.Red(), programName, "failed checks")

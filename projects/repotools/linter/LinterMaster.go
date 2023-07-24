@@ -12,6 +12,7 @@ import (
 
 // LinterMaster - Walk through a directory and its contents and lint all objects.
 func LinterMaster(
+	useColor bool,
 	notice repocli.NoticeMessagePrintFunc,
 	pass repocli.PassMessagePrintFunc,
 	skip repocli.SkipMessagePrintFunc,
@@ -21,7 +22,7 @@ func LinterMaster(
 	if rootDirectory, err = repotools.FindRepoRoot(); err != nil {
 		return err
 	}
-	var linters = SetupLinter()
+	var linters = SetupLinter(useColor)
 
 	reportResults := func(err error, linter, file string) {
 		if err != nil {

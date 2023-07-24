@@ -1,12 +1,14 @@
 package repolinter
 
 import (
+	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
+	"os"
 )
 
-func (linter *Linters) Initialize() {
+func (linter *Linters) Initialize(useColor bool) {
 	linter.Table = map[string]LinterConfig{
 		extAsmAmd64: {
 			enabled:        false,
@@ -124,26 +126,32 @@ func (linter *Linters) Initialize() {
 	for extension, config := range linter.Table {
 		if err := config.preCheck(); err != nil {
 			if err.Error() == errors.NotImplemented {
-				ansi.
-					Yellow().
-					Printf("Pre-check [SKIP]: %s for %s", config.name, extension).
-					LF().
-					Reset()
+				message := fmt.Sprintf("Pre-check [SKIP]: %s for %s\n", config.name, extension)
+				if useColor {
+					ansi.Yellow().Print(message).Reset()
+				} else {
+					fmt.Print(message)
+				}
 			} else {
-				ansi.
-					Red().
-					Printf("Pre-check [FAIL]: %s for %s", config.name, extension).
-					LF().
-					Reset().
-					Fatal(exit.GeneralError)
+				message := fmt.Sprintf("Pre-check [FAIL]: %s for %s\n", config.name, extension)
+				if useColor {
+					ansi.Red().Print(message).Reset().Fatal(exit.GeneralError)
+				} else {
+					fmt.Print(message)
+					os.Exit(exit.GeneralError)
+				}
 			}
 		} else {
-			ansi.
-				Green().
-				Printf("Pre-check [PASS]: %s for %s", config.name, extension).
-				LF().
-				Reset()
+			message := fmt.Sprintf("Pre-check [PASS]: %s for %s\n", config.name, extension)
+			if useColor {
+				ansi.Green().Printf(message).Reset()
+			} else {
+				fmt.Print(message)
+				os.Exit(exit.GeneralError)
+			}
 		}
 	}
-	ansi.Green().Println("Linters initialized").Reset()
+	if useColor {
+		ansi.Green().Println("Linters initialized").Reset()
+	}
 }
