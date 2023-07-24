@@ -5,27 +5,36 @@
 # This is the root of our Makefile system.  It includes our Makefiles from Makefiles.d/
 # and our Makefile tests in Makefiles.d/self-tests
 
-#
-# _config contains variable settings,
-# some of which are opsys-specific
-#
 include Makefile.d/*.mk
+build:
+	@go run cmd/tools/run-builds/main.go -color
 
-#
-# To run linters, we execute
-# make lint
-#
-include Makefile.d/lint/*.mk
+clean:
+	@go run cmd/tools/run-clean/main.go -color
 
-#
-# Checks are make targets that tell
-# us about the initialized make environment
-# we are running in.
-#
-include Makefile.d/check/*.mk
+hooks:
+	@go run cmd/tools/update-git-hooks/main.go
 
-#
-# To build or run our tools, we have
-# these makefiles
-#
-include Makefile.d/tools/*.mk
+lint:
+	@go run cmd/tools/run-linter/main.go -color -quiet
+
+security:
+	@go run cmd/tools/run-scans/main.go
+
+test:
+	@go run cmd/tools/run-tests/main.go -color
+
+version/bump:
+	@go run cmd/tools/bump-version/main.go -patch -updateTag
+
+version/commit:
+	@git add badges/VERSION.svg
+	@git add projects/version/version.go
+	@git commit -m "bump version to $(CURRENT_REPO_VERSION)" || { \
+  		echo "\033[32m>nothing to commit\033[0m"; \
+  		exit 1; \
+    }
+
+version/badge:
+	@go run cmd/tools/badge-maker/main.go -name VERSION -status "$(CURRENT_REPO_VERSION)" -color blue
+	@go run cmd/tools/set-version/main.go
