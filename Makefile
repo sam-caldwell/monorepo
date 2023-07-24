@@ -5,7 +5,6 @@
 # This is the root of our Makefile system.  It includes our Makefiles from Makefiles.d/
 # and our Makefile tests in Makefiles.d/self-tests
 
-include Makefile.d/*.mk
 build:
 	@go run cmd/tools/run-builds/main.go -color
 
