@@ -6,6 +6,7 @@ import (
 	repolinter "github.com/sam-caldwell/go/v2/projects/repotools/linter"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
+	"os"
 )
 
 /*
@@ -17,10 +18,6 @@ import (
  *
  * See README.md
  */
-
-import (
-	"os"
-)
 
 const (
 	programName  = "run-linter"

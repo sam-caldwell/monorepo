@@ -9,8 +9,11 @@ import (
 
 func isDependencyEnabled(rootDirectory *string, manifest *projectmanifest.Manifest) (err error) {
 	for _, dependency := range manifest.Dependencies {
-		searchPath := filepath.Join(*rootDirectory, dependency)
+		searchPath := filepath.Join(*rootDirectory, "projects", dependency)
 		err = filepath.Walk(searchPath, func(path string, info fs.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
 			var depManifest projectmanifest.Manifest
 			if filepath.Base(path) != "MANIFEST.yaml" {
 				return nil

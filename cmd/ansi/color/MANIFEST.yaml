@@ -19,5 +19,5 @@ supportedPlatforms:
 dependencies:
   - ansi
   - exit
-  - errors
+  - exit/errors
   - misc

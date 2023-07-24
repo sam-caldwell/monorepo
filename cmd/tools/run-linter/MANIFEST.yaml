@@ -22,4 +22,3 @@ dependencies:
   - repotools
   - simpleArgs
   - exit
-  - version

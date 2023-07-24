@@ -71,7 +71,7 @@ func Setup(
 			}
 			d := filepath.Dir(path)
 			if manifest.IsTestEnabled() {
-				if err = isDependencyEnabled(&projectDirectory, &manifest); err != nil {
+				if err = isDependencyEnabled(&rootDirectory, &manifest); err != nil {
 					fail(manifest.Name, d, err)
 					return err
 				}

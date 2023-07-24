@@ -1,5 +1,5 @@
 ---
-name: calculate-subnets
+name: run-tests
 author: Sam Caldwell
 options:
   buildEnabled: true
@@ -17,7 +17,7 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
-  - net/subnetting
+  - ansi
   - exit
-  - exit/errors
-  - misc
+  - repotools
+  - simpleArgs

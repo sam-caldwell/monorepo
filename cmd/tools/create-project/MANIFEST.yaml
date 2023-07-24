@@ -19,7 +19,7 @@ supportedPlatforms:
 dependencies:
   - ansi
   - exit
-  - directory
-  - file
+  - fs/directory
+  - fs/file
   - repotools
   - systemrecon
