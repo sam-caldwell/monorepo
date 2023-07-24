@@ -51,6 +51,7 @@ func main() {
 
 	if err != nil {
 		banner(ansi.Red(), programName, "failed checks")
+		os.Exit(exit.GeneralError)
 	}
 	banner(ansi.Green(), programName, "passing all checks")
 	os.Exit(exit.Success)

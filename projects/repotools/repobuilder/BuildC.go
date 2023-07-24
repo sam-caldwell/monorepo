@@ -12,7 +12,7 @@ func BuildC(
 	notice repocli.NoticeMessagePrintFunc,
 	pass repocli.PassMessagePrintFunc,
 	fail repocli.FailMessagePrintFunc,
-	projectPath *string) error {
+	projectPath *string) (err error) {
 
 	return fmt.Errorf(errors.NotImplemented)
 }
