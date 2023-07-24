@@ -145,4 +145,5 @@ func (linter *Linters) Initialize() {
 				Reset()
 		}
 	}
+	ansi.Green().Println("Linters initialized").Reset()
 }

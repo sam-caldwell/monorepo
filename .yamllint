@@ -1,8 +1,8 @@
 extends: default
 
 ignore:
-  - '*.yamllint'  # Exclude any file named ".yamllint"
-  - '.github/**/*.yaml'  # Exclude YAML files within any subdirectory of ".github"
+  - '*.yamllint'
+  - '.github/**/*.yaml'
 
 rules:
   truthy: disable

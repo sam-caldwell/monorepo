@@ -40,6 +40,7 @@ func LinterMaster(
 			notice("linter %s is disabled", linter.name)
 			continue //skip disabled linters
 		}
+		notice("linter %s starting...", linter.name)
 		if linter.directoryLevel { //run these from root directory
 			source := filepath.Join(rootDirectory, "/...")
 			notice("Source: %s", source)
@@ -71,6 +72,7 @@ func LinterMaster(
 				}
 			}
 		}
+		notice("linter %s completed...", linter.name)
 	}
 	return err
 }
