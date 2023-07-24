@@ -34,7 +34,7 @@ func main() {
 		"go mod tidy",
 		repotools.InstallPython3(commandUsage),
 		"pip3 install virtualenv",
-		"virtualenv .python-virtualenv",
+		"python3 -m virtualenv .python-virtualenv",
 		"source .python-virtualenv/bin/activate",
 		"pip3 install -r requirements.txt",
 		repotools.InstallNodeJs(commandUsage),
