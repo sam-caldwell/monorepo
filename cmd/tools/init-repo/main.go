@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
-	repotools "github.com/sam-caldwell/go/v2/projects/repotools/init-repo"
 	"github.com/sam-caldwell/go/v2/projects/runcommand"
 	"strings"
 )
@@ -32,14 +31,14 @@ func main() {
 
 	commands := []string{
 		"go mod tidy",
-		repotools.InstallPython3(commandUsage),
-		"pip3 install virtualenv",
-		"python3 -m virtualenv .python-virtualenv",
-		"source .python-virtualenv/bin/activate",
-		"pip3 install -r requirements.txt",
-		"source ./.python-virtualenv/bin/activate",
-		repotools.InstallNodeJs(commandUsage),
-		"npm install",
+		//repotools.InstallPython3(commandUsage),
+		//"pip3 install virtualenv",
+		//"python3 -m virtualenv .python-virtualenv",
+		//"source .python-virtualenv/bin/activate",
+		//"pip3 install -r requirements.txt",
+		//"source ./.python-virtualenv/bin/activate",
+		//repotools.InstallNodeJs(commandUsage),
+		//"npm install",
 	}
 
 	for _, command := range commands {
