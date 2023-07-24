@@ -34,6 +34,7 @@ func main() {
 		Run("go install honnef.co/go/tools/cmd/staticcheck@latest").
 		Run("pip3 install -r ./requirements.txt").
 		Run("npm install").
+		Run("node --version").
 		Error()
 	ansi.Blue().Println("Recovering")
 	out := run.Output()
