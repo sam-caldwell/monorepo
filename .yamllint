@@ -3,6 +3,7 @@ extends: default
 ignore:
   - '*.yamllint'
   - '.github/**/*.yaml'
+  - '.github/**/*.yml'
 
 rules:
   truthy: disable
