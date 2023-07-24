@@ -20,7 +20,7 @@ func InstallNodeJs(commandUsage string) string {
 		switch distro {
 
 		case words.Ubuntu:
-			return "sudo apt install nodejs npm -y"
+			return "command -v node || sudo apt install nodejs npm -y"
 
 		case words.Centos:
 			exit.OnError(fmt.Errorf(errors.NotImplemented), exit.GeneralError, commandUsage)

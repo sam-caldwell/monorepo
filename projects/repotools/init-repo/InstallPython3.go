@@ -20,7 +20,7 @@ func InstallPython3(commandUsage string) string {
 		switch distro {
 
 		case words.Ubuntu:
-			return "sudo apt-get install python3 python3-pip -y"
+			return "command -v python3 || sudo apt-get install python3 python3-pip -y"
 
 		case words.Centos:
 			exit.OnError(fmt.Errorf(errors.NotImplemented), exit.GeneralError, commandUsage)
