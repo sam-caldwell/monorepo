@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
-	repotester "github.com/sam-caldwell/go/v2/projects/repotools/tester"
+	repotester "github.com/sam-caldwell/go/v2/projects/repotools/repotester"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
 	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
 	"os"
@@ -15,9 +15,6 @@ const (
 	commandUsage = `
 run-tests -h|-help
 	show this screen
-
-run-tests [-color] -project <project_name>
-	Run the tests for a given project and its dependencies.
 
 run-tests [-color]
 	Run the tests for every project in the repo, then run tests
