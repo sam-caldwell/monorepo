@@ -27,7 +27,7 @@ func InstallNodeJs(commandUsage string) string {
 			return words.EmptyString
 
 		default:
-			exit.OnError(fmt.Errorf(errors.UnsupportedOpsys), exit.GeneralError, commandUsage)
+			exit.OnError(fmt.Errorf(errors.UnsupportedOpsys+errors.Details, distro), exit.GeneralError, commandUsage)
 		}
 
 	case words.Windows:
@@ -35,7 +35,7 @@ func InstallNodeJs(commandUsage string) string {
 		return words.EmptyString
 
 	default:
-		exit.OnError(fmt.Errorf(errors.UnsupportedOpsys), exit.GeneralError, commandUsage)
+		exit.OnError(fmt.Errorf(errors.UnsupportedOpsys+errors.Details, runtime.GOOS), exit.GeneralError, commandUsage)
 	}
 	return words.EmptyString
 }
