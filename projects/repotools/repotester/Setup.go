@@ -15,13 +15,6 @@ const (
 	manifestFile = "MANIFEST.yaml"
 )
 
-type TestRunner func(
-	name *string,
-	notice repocli.NoticeMessagePrintFunc,
-	pass repocli.PassMessagePrintFunc,
-	fail repocli.FailMessagePrintFunc,
-	projectPath *string) error
-
 func Setup(
 	notice repocli.NoticeMessagePrintFunc,
 	pass repocli.PassMessagePrintFunc,
@@ -31,7 +24,10 @@ func Setup(
 	// Run Tests - multi-language support
 	runTest := func(projectPath string, manifest *projectmanifest.Manifest) (localErr error) {
 		testCommands := map[string]TestRunner{
-			"go": TestGolang,
+			"c":      TestC,
+			"cpp":    TestCpp,
+			"go":     TestGolang,
+			"nodejs": TestNodeJs,
 		}
 		thisLanguage := strings.ToLower(strings.TrimSpace(manifest.GetLanguage()))
 		var command = func() TestRunner {
