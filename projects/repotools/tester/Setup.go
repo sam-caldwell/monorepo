@@ -2,17 +2,25 @@ package repotester
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit/errors"
 	"github.com/sam-caldwell/go/v2/projects/repotools"
 	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
 	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
-	"github.com/sam-caldwell/go/v2/projects/runcommand"
 	"io/fs"
 	"path/filepath"
+	"strings"
 )
 
 const (
 	manifestFile = "MANIFEST.yaml"
 )
+
+type TestRunner func(
+	name *string,
+	notice repocli.NoticeMessagePrintFunc,
+	pass repocli.PassMessagePrintFunc,
+	fail repocli.FailMessagePrintFunc,
+	projectPath *string) error
 
 func Setup(
 	notice repocli.NoticeMessagePrintFunc,
@@ -20,17 +28,22 @@ func Setup(
 	skip repocli.SkipMessagePrintFunc,
 	fail repocli.FailMessagePrintFunc) func(projectType string) (err error) {
 
-	runTest := func(projectPath string, manifest *projectmanifest.Manifest) error {
-		command := fmt.Sprintf("go test -failfast -v -count=2 -vet=all %s/...", projectPath)
-		out, err := runcommand.ShellExecute(command)
-		notice(out)
-		if err == nil {
-			pass(manifest.Name, projectPath)
-		} else {
-			err = fmt.Errorf("out:%s\nerr:%s", out, err)
-			fail(manifest.Name, projectPath, err)
+	// Run Tests - multi-language support
+	runTest := func(projectPath string, manifest *projectmanifest.Manifest) (localErr error) {
+		testCommands := map[string]TestRunner{
+			"go": TestGolang,
 		}
-		return err
+		thisLanguage := strings.ToLower(strings.TrimSpace(manifest.GetLanguage()))
+		var command = func() TestRunner {
+			if value, ok := testCommands[thisLanguage]; ok {
+				return value
+			}
+			return nil
+		}()
+		if command == nil {
+			return fmt.Errorf(errors.UnsupportedLanguage+errors.Details, thisLanguage)
+		}
+		return command(&manifest.Name, notice, pass, fail, &projectPath)
 	}
 
 	// Run - Run all tests for the repo or specific project

@@ -8,9 +8,9 @@ import (
 // Stats - Print the stats report
 func (test *T) Stats() {
 	const header = "---Test Statistics---"
-	ansi.Bold().Blue().Println(header).Reset().
-		Green().Printf("Pass: %d", test.pass).LF().Reset().
-		Red().Printf("Fail: %d", test.fail).LF().Reset().
-		Yellow().Printf("Skip: %d", test.skip).LF().Reset().
-		Bold().Blue().Println(strings.Repeat("-", len(header))).Reset()
+	ansi.Bold().Blue().Println(header).
+		Printf("Pass: %d", test.pass).LF().
+		Printf("Fail: %d", test.fail).LF().
+		Printf("Skip: %d", test.skip).LF().
+		Bold().Println(strings.Repeat("-", len(header))).LF().Reset()
 }
