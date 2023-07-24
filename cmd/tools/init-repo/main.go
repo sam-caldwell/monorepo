@@ -28,6 +28,8 @@ func main() {
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
+	ansi.Blue().Println("init-repo: starting")
+
 	commands := []string{
 		"go mod tidy",
 		repotools.InstallPython3(commandUsage),
@@ -38,8 +40,6 @@ func main() {
 		repotools.InstallNodeJs(commandUsage),
 		"npm install",
 	}
-
-	ansi.Blue().Println("init-repo: starting")
 
 	for _, command := range commands {
 		ansi.Blue().Printf("Running %s", command).LF().Reset()
