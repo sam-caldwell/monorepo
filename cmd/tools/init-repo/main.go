@@ -37,6 +37,7 @@ func main() {
 		"python3 -m virtualenv .python-virtualenv",
 		"source .python-virtualenv/bin/activate",
 		"pip3 install -r requirements.txt",
+		"source ./.python-virtualenv/bin/activate",
 		repotools.InstallNodeJs(commandUsage),
 		"npm install",
 	}
