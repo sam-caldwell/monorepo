@@ -12,9 +12,9 @@ type PassMessagePrintFunc func(subject, message string)
 func PassMessagePrinter(programName string, useColor bool, counter *int) PassMessagePrintFunc {
 	return func(subject, message string) {
 		*counter++
-		const format = "[PASS](%s)(%s) %s"
+		const format = "[PASS](%s)(%s) %s\n"
 		if useColor {
-			ansi.Green().Printf(format, programName, subject, message).LF().Reset()
+			ansi.Green().Printf(format, programName, subject, message).Reset()
 		} else {
 			fmt.Printf(format, programName, subject, message)
 		}

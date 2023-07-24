@@ -15,9 +15,9 @@ func FailMessagePrinter(programName string, useColor bool, counter *int) FailMes
 			return
 		}
 		*counter++
-		const format = "[FAIL](%s)(%s)(%s) %s"
+		const format = "[FAIL](%s)(%s)(%s) %s\n"
 		if useColor {
-			ansi.Red().Printf(format, programName, group, test, err).LF().Reset()
+			ansi.Red().Printf(format, programName, group, test, err).Reset()
 		} else {
 			fmt.Printf(format, programName, group, test, err)
 		}
