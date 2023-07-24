@@ -31,6 +31,7 @@ func main() {
 
 	commands := []string{
 		"go mod tidy",
+		"go install honnef.co/go/tools/cmd/staticcheck@latest",
 		//repotools.InstallPython3(commandUsage),
 		//"pip3 install virtualenv",
 		//"python3 -m virtualenv .python-virtualenv",
