@@ -14,7 +14,7 @@ func InstallPython3(commandUsage string) string {
 	case words.Darwin:
 		return words.EmptyString
 	case words.Linux:
-		distro, err := systemrecon.GetVersion()
+		distro, err := systemrecon.GetFamily()
 		exit.OnError(err, exit.GeneralError, commandUsage)
 
 		switch distro {

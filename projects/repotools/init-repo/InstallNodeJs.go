@@ -15,7 +15,7 @@ func InstallNodeJs(commandUsage string) string {
 	case words.Darwin:
 		return words.EmptyString
 	case words.Linux:
-		distro, err := systemrecon.GetVersion()
+		distro, err := systemrecon.GetFamily()
 		ansi.Blue().Printf("Linux distro: %s", distro).LF().Reset()
 		exit.OnError(err, exit.GeneralError, commandUsage)
 
