@@ -3,18 +3,39 @@ package main
 import (
 	"github.com/sam-caldwell/go/v2/projects/ansi"
 	"github.com/sam-caldwell/go/v2/projects/exit"
+	repotools "github.com/sam-caldwell/go/v2/projects/repotools/init-repo"
 	"github.com/sam-caldwell/go/v2/projects/runcommand"
 	"strings"
 )
 
+const (
+	commandUsage = `
+init-repo -h|-help
+	show this screen
+
+run-builds
+	Run the builds for every command project in the repo.
+
+ * Supported on--
+		* ubuntu linux
+		* windows
+		* macos
+`
+)
+
 func main() {
+
+	exit.IfHelpRequested(commandUsage)
+	exit.IfVersionRequested()
 
 	commands := []string{
 		"go mod tidy",
+		repotools.InstallPython3(commandUsage),
 		"pip3 install virtualenv",
 		"virtualenv .python-virtualenv",
 		"source .python-virtualenv/bin/activate",
 		"pip3 install -r requirements.txt",
+		repotools.InstallNodeJs(commandUsage),
 		"npm install",
 	}
 
