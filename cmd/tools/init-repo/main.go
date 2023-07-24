@@ -11,6 +11,9 @@ func main() {
 
 	commands := []string{
 		"go mod tidy",
+		"pip3 install virtualenv",
+		"virtualenv .python-virtualenv",
+		"source .python-virtualenv/bin/activate",
 		"pip3 install -r requirements.txt",
 		"npm install",
 	}
