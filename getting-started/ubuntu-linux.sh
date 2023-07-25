@@ -27,7 +27,7 @@ pip3 install virtualenv
 source "${HOME}/.bashrc"
 virtualenv --version
 
-npm install -g npm
+npm install
 
 # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
