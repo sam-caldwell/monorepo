@@ -54,7 +54,7 @@ jobs:
         id: linter
         shell: bash
         run: |
-          PATH=$(go env GOPATH):${PATH} make lint
+          go run cmd/tools/lint-repo/main.go -color
 #
 #      - name: Setup Git
 #        shell: bash
