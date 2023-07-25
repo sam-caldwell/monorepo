@@ -22,7 +22,7 @@ func TestFloatCounter32(t *testing.T) {
 				test.Fatalf("Counter value after %d increments with increment %f is %f, expected %f\n",
 					i, increment, result, expected)
 			}
-			test.Passf("Counter at %d (%v)\n", i, increment)
+			//test.Passf("Counter at %d (%v)\n", i, increment)
 		}
 	}
 }

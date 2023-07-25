@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"os"
 	"strings"
 )
@@ -29,6 +30,7 @@ const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="
 
 func main() {
 	var name, status, color string
+	exit.IfVersionRequested()
 	flag.StringVar(&name, "name", "", "Name of the badge")
 	flag.StringVar(&status, "status", "", "Status of the badge")
 	flag.StringVar(&color, "color", "red", "Color of the badge")

@@ -20,3 +20,9 @@ projects/fakeProject/
 
 systems/iso/
 *.iso
+
+# Node/Typescript stuff
+node_modules/
+
+# Python stuff
+.python-virtualenv/

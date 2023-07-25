@@ -21,6 +21,8 @@ func main() {
 			"\t%s\n" +
 			"\t-n [no new line after print, similar to bash echo]\n"
 	)
+	exit.IfHelpRequested(errUsage)
+	exit.IfVersionRequested()
 
 	colorMap := map[string]func() *ansi.Color{
 		words.Bold:          ansi.Bold,

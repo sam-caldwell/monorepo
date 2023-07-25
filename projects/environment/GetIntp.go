@@ -3,7 +3,7 @@ package environment
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/projects/convert"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"strconv"
 )
 

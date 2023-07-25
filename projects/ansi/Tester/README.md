@@ -7,7 +7,7 @@ stats tracking and color coded output.
 
 ## Usage
 ```go
-//initialize the tester...
+//initialize the repotester...
 test:=ansi.Test(t)
 //defer stats printout when all else is done.
 defer ansi.Test(t).Stats()

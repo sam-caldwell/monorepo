@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	keyvalue "github.com/sam-caldwell/go/v2/projects/KeyValue"
 	"github.com/sam-caldwell/go/v2/projects/convert"
 	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/exit/errors"
+	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
 	"github.com/sam-caldwell/go/v2/projects/misc/words"
 	cpu "github.com/sam-caldwell/go/v2/projects/systemrecon/cpu"
 	memory "github.com/sam-caldwell/go/v2/projects/systemrecon/memory"
@@ -40,7 +40,9 @@ func main() {
 	var output string
 	var err error
 
+	exit.IfVersionRequested()
 	exit.OnCondition(len(os.Args) < 2, exit.GeneralError, errors.MissingArguments, usage)
+
 	switch command := strings.TrimLeft(strings.ToLower(strings.TrimSpace(os.Args[1])), words.Hyphen); command {
 	/*
 	 * CPU-related commands

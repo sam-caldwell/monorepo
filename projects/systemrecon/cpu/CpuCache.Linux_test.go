@@ -5,7 +5,7 @@ package systemrecon
 
 import (
 	"fmt"
-	"os"
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"strconv"
 	"strings"
 	"testing"

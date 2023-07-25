@@ -15,11 +15,11 @@ start: list/build/projects [OPSYS: darwin]
 current binary projects (enabled):
  - output:
  - cmd/ansi/color
- - cmd/subnetting/calculateSubnets
+ - cmd/calculate-subnets/calculate-subnets
  - cmd/tools/badge-maker
  - cmd/tools/bump-version
  - cmd/tools/findBuildProjects
- - cmd/tools/hasExecutable
+ - cmd/tools/has-executable
  - cmd/tools/locks
  - cmd/tools/set-version
  - cmd/tools/what

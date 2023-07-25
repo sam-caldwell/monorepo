@@ -1,0 +1,22 @@
+---
+name: argparse
+author: Sam Caldwell
+options:
+    buildEnabled: true
+    lintEnabled: false
+    packEnabled: false
+    scanEnabled: false
+    signEnabled: false
+    testEnabled: false
+    language: go
+supportedPlatforms:
+    - opsys: darwin
+      arch: amd64
+    - opsys: linux
+      arch: amd64
+    - opsys: windows
+      arch: amd64
+dependencies:
+    - ansi
+    - exit
+    - misc

@@ -1,8 +1,8 @@
 package file
 
 import (
+	"github.com/sam-caldwell/go/v2/projects/wrappers/os"
 	"io/ioutil"
-	"os"
 	"testing"
 )
 

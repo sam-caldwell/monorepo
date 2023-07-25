@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/go/v2/projects/exit"
 	"github.com/sam-caldwell/go/v2/projects/semver"
 	"os"
 )
@@ -20,6 +21,7 @@ func Set(newVersion semver.SemanticVersion) (err error) {
 }
 
 func main() {
+	exit.IfVersionRequested()
 	var version semver.SemanticVersion
 	if err := version.GetMostRecentTag(); err != nil {
 		fmt.Printf("set-version failed to get current version. %s\n", err)
