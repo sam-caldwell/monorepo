@@ -37,9 +37,10 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # shellcheck disable=SC1090
 source "${HOME}/.bashrc"
 
-nvm install "$(nvm ls-remote | tail -n 1 | awk '{print $1}')"
+LATEST_NODE_VERSION="$(nvm ls-remote | tail -n 1 | awk '{print $1}')"
+nvm install "${LATEST_NODE_VERSION}"
 
-npm --version
-node --version
+# npm --version
+# node --version
 
-npm install snyk
+ #npm install snyk
