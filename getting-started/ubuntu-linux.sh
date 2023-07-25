@@ -13,6 +13,10 @@ sudo apt-get update -y --fix-missing
 
 sudo apt-get install build-essential curl nodejs npm python3 python3-pip shellcheck yamllint flake8 -y
 
+flake8 --version
+yamllint --version
+shellcheck --version
+
 # shellcheck disable=SC2016
 echo 'export PATH=${PATH}:${HOME}/.local/bin' > ${HOME}/.bashrc
 
@@ -20,8 +24,10 @@ echo 'export PATH=${PATH}:${HOME}/.local/bin' > ${HOME}/.bashrc
 source "${HOME}/.bashrc"
 
 pip3 install virtualenv
+source "${HOME}/.bashrc"
+virtualenv --version
 
-# npm install -g npm
+npm install -g npm
 
 # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
