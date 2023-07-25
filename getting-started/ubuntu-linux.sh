@@ -23,7 +23,7 @@ echo 'export PATH=${PATH}:${HOME}/.local/bin' > ${HOME}/.bashrc
 # shellcheck disable=SC1090
 source "${HOME}/.bashrc"
 
-pip3 install virtualenv
+command -v virtualenv || pip3 install virtualenv
 source "${HOME}/.bashrc"
 virtualenv --version
 
@@ -32,8 +32,9 @@ node --version
 
 npm install
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-
+command -v nvm || {
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+}
 # shellcheck disable=SC1090
 source "${HOME}/.bashrc"
 
@@ -43,4 +44,4 @@ nvm install "${LATEST_NODE_VERSION}"
 # npm --version
 # node --version
 
- #npm install snyk
+command -v snyk || npm install snyk
