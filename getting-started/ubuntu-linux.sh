@@ -53,11 +53,11 @@ npm install
 source "${HOME}/.bashrc"
 install_nvm
 # shellcheck disable=SC1090
-source "${HOME}/.bashrc"
-npm --version
-node --version
-command -v snyk || npm install snyk
-pip3 install -r ./requirements.txt
-go mod tidy
-go install honnef.co/go/tools/cmd/staticcheck@latest
+#source "${HOME}/.bashrc"
+#npm --version
+#node --version
+#command -v snyk || npm install snyk
+#pip3 install -r ./requirements.txt
+#go mod tidy
+#go install honnef.co/go/tools/cmd/staticcheck@latest
 
