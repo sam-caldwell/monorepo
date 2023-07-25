@@ -49,6 +49,9 @@ jobs:
             echo 'install failed.'
             exit 1
           }
+      - name: Install Python Flake8 Linter
+        shell: bash
+        run: pip3 install -r requirements.txt
 
       - name: Run linter ${{ matrix.go-version }}
         id: linter
