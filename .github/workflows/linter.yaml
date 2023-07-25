@@ -54,7 +54,7 @@ jobs:
         id: linter
         shell: bash
         run: |
-          go run cmd/tools/lint-repo/main.go -color
+          go run cmd/tools/run-linter/main.go -color
 #
 #      - name: Setup Git
 #        shell: bash
