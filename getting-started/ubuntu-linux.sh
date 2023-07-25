@@ -29,13 +29,13 @@ virtualenv --version
 
 npm install
 
-# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
 # shellcheck disable=SC1090
-# source "${HOME}/.bashrc"
-#
+source "${HOME}/.bashrc"
+
 # nvm install "$(nvm ls-remote | tail -n 1)"
-#
+
 # npm install npm
-#
+
 # npm install -g snyk
