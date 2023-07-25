@@ -39,9 +39,7 @@ source "${HOME}/.bashrc"
 
 nvm install "$(nvm ls-remote | tail -n 1 | awk '{print $1}')"
 
-npm install npm
-
 npm --version
 node --version
 
-npm install -g snyk
+npm install snyk
