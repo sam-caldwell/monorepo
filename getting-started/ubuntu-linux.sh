@@ -27,6 +27,9 @@ pip3 install virtualenv
 source "${HOME}/.bashrc"
 virtualenv --version
 
+npm --version
+node --version
+
 npm install
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
@@ -34,8 +37,11 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # shellcheck disable=SC1090
 source "${HOME}/.bashrc"
 
-# nvm install "$(nvm ls-remote | tail -n 1)"
+nvm install "$(nvm ls-remote | tail -n 1 | awk '{print $1}')"
 
-# npm install npm
+npm install npm
 
-# npm install -g snyk
+npm --version
+node --version
+
+npm install -g snyk
