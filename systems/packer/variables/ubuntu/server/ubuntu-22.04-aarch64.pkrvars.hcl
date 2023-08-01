@@ -1,4 +1,4 @@
-vm_name                 = "ubuntu-server"
+vm_name                 = "server"
 os_name                 = "ubuntu"
 os_version              = "22.04"
 os_arch                 = "aarch64"
@@ -8,8 +8,9 @@ hyperv_generation       = 2
 parallels_guest_os_type = "ubuntu"
 vbox_guest_os_type      = "Ubuntu_64"
 vmware_guest_os_type    = "arm-ubuntu-64"
+boot_timeout            = "1800s"
 boot_command            = [
   "<wait>e<wait>",
   "<down><down><down><end><wait>",
-  "autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/<f10><wait>"
+  "autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/server/<f10><wait>"
 ]

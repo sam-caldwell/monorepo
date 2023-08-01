@@ -42,7 +42,7 @@ build {
   post-processor "vagrant" {
     compression_level    = 9
     keep_input_artifact  = var.is_windows
-    output               = "${path.root}/../builds/${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
+    output               = "${path.root}/../builds/${var.vm_name}-${var.os_name}-${var.os_version}-${var.os_arch}.{{ .Provider }}.box"
     vagrantfile_template = var.is_windows ? "${path.root}/vagrant.template/windows-gen2.template" : null
   }
 }

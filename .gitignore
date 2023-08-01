@@ -5,7 +5,9 @@
 
 # The directory where we build artifacts...
 build/
+**/builds/
 bin/
+*.log
 # ---
 
 # Used by Makefile.d/self-tests
@@ -26,3 +28,19 @@ node_modules/
 
 # Python stuff
 .python-virtualenv/
+
+# Ruby stuff
+.bundle/
+*.gem
+Gemfile.lock
+
+# Packer stuff
+packer_cache/
+packer.log
+*.box
+*.ovf
+*.vmdk
+*.vdi
+virtualfloppy.vfd
+*.variables.json
+*.metadata.json

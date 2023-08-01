@@ -1,4 +1,4 @@
-vm_name                 = "ubuntu-server"
+vm_name                 = "server"
 os_name                 = "ubuntu"
 os_version              = "22.04"
 os_arch                 = "x86_64"
@@ -11,7 +11,7 @@ vmware_guest_os_type    = "ubuntu-64"
 boot_command            = [
   "<wait>c<wait>",
   "set gfxpayload=keep<enter><wait>",
-  "linux /casper/vmlinuz quiet autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/ ---<enter>",
+  "linux /casper/vmlinuz quiet autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/server/ ---<enter>",
   "<wait>",
   "initrd /casper/initrd<wait>",
   "<enter><wait>boot<enter>",

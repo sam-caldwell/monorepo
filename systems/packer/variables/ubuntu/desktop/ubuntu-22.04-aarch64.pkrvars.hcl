@@ -1,4 +1,4 @@
-vm_name                 = "ubuntu-server"
+vm_name                 = "ubuntu-desktop"
 os_name                 = "ubuntu"
 os_version              = "22.04"
 os_arch                 = "aarch64"
