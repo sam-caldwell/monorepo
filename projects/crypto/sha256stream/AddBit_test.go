@@ -4,56 +4,59 @@ import (
 	"testing"
 )
 
-func TestSha256StreamAddBit_fullBuffer(t *testing.T) {
-	// Create a new Sha256Stream instance
-	stream := Sha256Stream{}
-
-	// Add 64 bits to the buffer, which should trigger processing the message block
-	for i := 0; i < 64; i++ {
-		stream.AddBit(true)
+func TestSha256Stream_singleBit(t *testing.T) {
+	hash := NewSha256Stream()
+	hash.AddBit(true)
+	if hash.bitNdx != 1 {
+		t.Fatal("expected bitNdx 1")
 	}
-
-	// Calculate the expected bitNdx after adding 64 bits
-	expectedBitNdx := int8(64)
-
-	// Check if the buffer has been processed (i.e., byteNdx becomes 0) after adding 64 bits
-	if stream.byteNdx != int8(0) {
-		t.Errorf("AddBit() method didn't process the buffer into the hash state as expected.\n"+
-			"Expected byteNdx: %d\n"+
-			"Actual byteNdx: %d", int8(len(stream.buffer)), stream.byteNdx)
-	}
-
-	// Check if the bitNdx has been updated correctly after adding 64 bits
-	if stream.bitNdx != expectedBitNdx {
-		t.Errorf("AddBit() method didn't update the bitNdx as expected.\n"+
-			"Expected bitNdx: %d\n"+
-			"Actual bitNdx: %d", expectedBitNdx, stream.bitNdx)
+	hash.AddBit(true)
+	if hash.bitNdx != 2 {
+		t.Fatal("expected bitNdx 2")
 	}
 }
 
-func TestSha256StreamAddBit_HalfBuffer(t *testing.T) {
-	// Create a new Sha256Stream instance
-	stream := Sha256Stream{}
-
-	// Add 64 bits to the buffer, which should trigger processing the message block
-	for i := 0; i < 32; i++ {
-		stream.AddBit(true)
+func TestSha256Stream_AddBit_ByteFlushed(t *testing.T) {
+	hash := NewSha256Stream()
+	hash.AddBit(true) // 1
+	hash.AddBit(true) // 2
+	hash.AddBit(true) // 3
+	hash.AddBit(true) // 4
+	hash.AddBit(true) // 5
+	hash.AddBit(true) // 6
+	hash.AddBit(true) // 7
+	hash.AddBit(true) // 8
+	if hash.bitNdx != 0 {
+		t.Fatalf("expected bitNdx 0. Got: %d", hash.bitNdx)
 	}
-
-	// Calculate the expected bitNdx after adding 64 bits
-	expectedBitNdx := int8(32)
-
-	// Check if the buffer has been processed (i.e., byteNdx becomes 0) after adding 64 bits
-	if stream.byteNdx != int8(0) {
-		t.Errorf("AddBit() method didn't process the buffer into the hash state as expected.\n"+
-			"Expected byteNdx: %d\n"+
-			"Actual byteNdx: %d", int8(len(stream.buffer)), stream.byteNdx)
+	if hash.byteNdx != 1 {
+		t.Fatalf("expect byteNdx 1. Got: %d", hash.byteNdx)
 	}
+	hash.AddBit(true) // 1
+	if hash.bitNdx != 1 {
+		t.Fatalf("expected bitNdx 1. Got: %d", hash.bitNdx)
+	}
+	if hash.byteNdx != 1 {
+		t.Fatalf("expect byteNdx 1. Got: %d", hash.byteNdx)
+	}
+}
 
-	// Check if the bitNdx has been updated correctly after adding 64 bits
-	if stream.bitNdx != expectedBitNdx {
-		t.Errorf("AddBit() method didn't update the bitNdx as expected.\n"+
-			"Expected bitNdx: %d\n"+
-			"Actual bitNdx: %d", expectedBitNdx, stream.bitNdx)
+func TestSha256Stream_AddBit_FullBuffer(t *testing.T) {
+	hash := NewSha256Stream()
+	for i := 0; i < 511; i++ {
+		hash.AddBit(true)
+	}
+	if hash.bitNdx != 7 {
+		t.Fatalf("expected bitNdx 7. Got: %d", hash.bitNdx)
+	}
+	if hash.byteNdx != int8(len(hash.buffer)-1) {
+		t.Fatalf("expect byteNdx %d. Got: %d", len(hash.buffer)-1, hash.byteNdx)
+	}
+	hash.AddBit(true)
+	if hash.bitNdx != 0 {
+		t.Fatalf("expected bitNdx 0. Got: %d", hash.bitNdx)
+	}
+	if hash.byteNdx != 0 {
+		t.Fatalf("expect byteNdx 0. Got: %d", hash.byteNdx)
 	}
 }

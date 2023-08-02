@@ -13,13 +13,18 @@ func (hash *Sha256Stream) AddBit(b bool) *Sha256Stream {
 	hash.lock.Lock()
 	defer hash.lock.Unlock()
 
+	if b {
+		hash.buffer[hash.byteNdx] |= 1 << (7 - hash.bitNdx)
+	}
 	hash.bitNdx++
 
-	if hash.bitNdx == 8 && hash.byteNdx == int8(len(hash.buffer)) {
+	if hash.bitNdx == 8 {
+		hash.bitNdx = 0
+		hash.byteNdx++
+	}
+	if hash.byteNdx == int8(len(hash.buffer)) {
 		hash.processMessageBlock()
 		hash.ClearBuffer(false)
 	}
-
 	return hash
-
 }
