@@ -13,8 +13,6 @@ import "encoding/binary"
 // processMessageBlock -
 func (hash *Sha256Stream) processMessageBlock() {
 
-	const max32 = 0xffffffff
-
 	// Constants (from SHA-256 specification)
 	var K = []uint32{
 		0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -36,7 +34,7 @@ func (hash *Sha256Stream) processMessageBlock() {
 	var h = hash.h[_h]
 
 	// Step 3: Message Scheduling
-	words := make([]uint32, 64)
+	var words [64]uint32
 	for i := 0; i < 16; i++ {
 		words[i] = binary.BigEndian.Uint32(hash.buffer[i*4 : (i+1)*4])
 	}
@@ -51,30 +49,31 @@ func (hash *Sha256Stream) processMessageBlock() {
 	for i := 0; i < 64; i++ {
 		var s1 uint32 = (e>>6 | e<<26) ^ (e>>11 | e<<21) ^ (e>>25 | e<<7)
 		var ch uint32 = (e & f) ^ ((^e) & g)
-		temp1 := h + s1 + ch + K[i] + words[i]
+		k := K[i]
+		w := words[i]
+		temp1 := h + s1 + ch + k + w
 
-		s0 := (a>>2 | a<<30) ^ (a>>13 | a<<19) ^ (a>>22 | a<<10)
-		maj := (a & b) ^ (a & c) ^ (b & c)
+		var s0 uint32 = (a>>2 | a<<30) ^ (a>>13 | a<<19) ^ (a>>22 | a<<10)
+		var maj uint32 = (a & b) ^ (a & c) ^ (b & c)
 		temp2 := s0 + maj
 
 		h = g
 		g = f
 		f = e
-		e = (d + temp1) & max32
+		e = (d + temp1) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
 		d = c
 		c = b
 		b = a
-		a = (temp1 + temp2) & max32
+		a = (temp1 + temp2) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
 	}
 
 	// Step 5: Update Hash Values
-	hash.h[_a] = (hash.h[_a] + a) & max32
-	hash.h[_b] = (hash.h[_b] + b) & max32
-	hash.h[_c] = (hash.h[_c] + c) & max32
-	hash.h[_d] = (hash.h[_d] + d) & max32
-	hash.h[_e] = (hash.h[_e] + e) & max32
-	hash.h[_f] = (hash.h[_f] + f) & max32
-	hash.h[_g] = (hash.h[_g] + g) & max32
-	hash.h[_h] = (hash.h[_h] + h) & max32
-	hash.size += 64
+	hash.h[_a] = (hash.h[_a] + a) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_b] = (hash.h[_b] + b) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_c] = (hash.h[_c] + c) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_d] = (hash.h[_d] + d) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_e] = (hash.h[_e] + e) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_f] = (hash.h[_f] + f) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_g] = (hash.h[_g] + g) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
+	hash.h[_h] = (hash.h[_h] + h) & 0xffffffff // Use bitwise AND operation to keep within 32-bit range
 }
