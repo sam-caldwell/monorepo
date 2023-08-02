@@ -19,5 +19,6 @@ func (hash *Sha256Stream) ClearBuffer(lock bool) *Sha256Stream {
 	}
 	hash.bitNdx = 0
 	hash.byteNdx = 0
+	hash.size += uint32(len(hash.buffer))
 	return hash
 }

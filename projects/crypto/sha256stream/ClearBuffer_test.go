@@ -46,4 +46,7 @@ func TestSha256StreamClearBuffer(t *testing.T) {
 			"Expected byteNdx: 0\n"+
 			"Actual byteNdx: %d", stream.byteNdx)
 	}
+	if stream.size != uint32(len(stream.buffer)) {
+		t.Fatal("verify stream size is at least one buffer size")
+	}
 }
