@@ -14,7 +14,7 @@ func (hash *Sha256Stream) ClearBuffer(lock bool) *Sha256Stream {
 		hash.lock.Lock()
 		defer hash.lock.Unlock()
 	}
-	for i := 0; i < 64; i++ {
+	for i := 0; i < len(hash.buffer); i++ {
 		hash.buffer[i] = 0
 	}
 	hash.bitNdx = 0
