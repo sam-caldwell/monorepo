@@ -1,0 +1,34 @@
+#cloud-config
+autoinstall:
+  version: 1
+  refresh-installer:
+    update: yes
+  timezone: US/Eastern
+  locale: en_US.UTF-8
+  identity:
+    hostname: vagrant
+    username: vagrant
+    password: '$6$rounds=4096$5CU3LEj/MQvbkfPb$LmKEF9pCfU8R.dA.GemgE/8GT6r9blge3grJvdsVTMFKyLEQwzEF3SGWqAzjawY/XHRpWj4fOiLBrRyxJhIRJ1'
+  network:
+    version: 2
+    ethernets:
+      enp0s5:
+        dhcp4: true
+        nameservers:
+          addresses: ${dns}
+  early-commands:
+    # otherwise packer tries to connect and exceed max attempts:
+    - systemctl stop ssh.service
+    - systemctl stop ssh.socket
+  package_reboot_if_required: true
+  byobu_by_default: system
+  ssh:
+    install-server: yes
+    allow-pw: yes
+  late-commands:
+    - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
+    #- apt-get update -y --fix-missing
+    #- apt-get upgrade -y
+    #- apt-get install openssh-server -y
+    - systemctl start ssh.service
+    - systemctl start ssh.socket
