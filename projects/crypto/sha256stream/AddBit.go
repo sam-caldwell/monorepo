@@ -9,22 +9,19 @@ package crypto
  * the hash state.
  */
 
+// AddBit - Add a bit to our hash stream and flush when we have a byte.
 func (hash *Sha256Stream) AddBit(b bool) *Sha256Stream {
-	hash.lock.Lock()
-	defer hash.lock.Unlock()
-
+	hash.buffer = hash.buffer << 1 //shift left
 	if b {
-		hash.buffer[hash.byteNdx] |= 1 << (7 - hash.bitNdx)
+		hash.buffer |= 1
+	} else {
+		hash.buffer |= 0
 	}
 	hash.bitNdx++
-
 	if hash.bitNdx == 8 {
+		hash.h.Write([]byte{hash.buffer})
+		hash.buffer = 0x00
 		hash.bitNdx = 0
-		hash.byteNdx++
-	}
-	if hash.byteNdx == int8(len(hash.buffer)) {
-		hash.processMessageBlock()
-		hash.ClearBuffer(false)
 	}
 	return hash
 }
