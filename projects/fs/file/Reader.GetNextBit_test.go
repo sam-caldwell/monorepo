@@ -38,5 +38,4 @@ func TestReader_GetNextBit(t *testing.T) {
 			}
 		}
 	}
-
 }
