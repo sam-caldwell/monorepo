@@ -18,7 +18,5 @@ func (hash *Sha256Stream) Size() int {
 		be in the buffer.  But the caller can assume that if Output() were called
 		at any point the full 512-bit buffer would be flushed into this count.
 	*/
-	hash.lock.Lock()
-	defer hash.lock.Unlock()
-	return int(hash.size)
+	return hash.h.Size()
 }

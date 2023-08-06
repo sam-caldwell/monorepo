@@ -9,12 +9,10 @@ package crypto
  * result.
  */
 
-import "encoding/binary"
-
 func (hash *Sha256Stream) Output() (out []byte) {
-	out = make([]byte, 32)
-	for i, h := range hash.h {
-		binary.BigEndian.PutUint32(out[i*4:i*4+4], h)
+	var input []byte = nil
+	if hash.bitNdx != 0 {
+		input = []byte{hash.buffer}
 	}
-	return out
+	return hash.h.Sum(input)
 }
