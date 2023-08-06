@@ -17,7 +17,7 @@ func (f *Reader) LoadBuffer(bufferSize int) error {
 	// We have an empty buffer, load content.
 
 	// Read from the file starting from f.fPos into the buffer
-	if bytesRead, err = f.h.ReadAt(f.buffer[f.bufferPosition:], int64(f.filePosition)); err != nil {
+	if bytesRead, err = f.h.ReadAt(f.buffer, int64(f.filePosition)); err != nil {
 		return err
 	}
 
