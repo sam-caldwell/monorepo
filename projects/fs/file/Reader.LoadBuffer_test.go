@@ -12,6 +12,7 @@ func TestReader_LoadBuffer_Noop(t *testing.T) {
 	)
 	var err error
 	var reader Reader
+	defer reader.Close()
 
 	file := createTempFile(t, testFileName, []byte(testData))
 	defer deleteTempFile(t, file)
