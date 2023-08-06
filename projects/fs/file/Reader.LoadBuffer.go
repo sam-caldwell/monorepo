@@ -1,9 +1,5 @@
 package file
 
-import (
-	"fmt"
-)
-
 // LoadBuffer - Load the Reader.buffer byte array from the file (f.h) at f.fPos if empty
 func (f *Reader) LoadBuffer(bufferSize int) error {
 	var err error
@@ -25,10 +21,8 @@ func (f *Reader) LoadBuffer(bufferSize int) error {
 	}
 
 	// Update positions after successful read
-	fmt.Printf("bytesRead: %d\n", bytesRead)
 	f.filePosition += uint64(bytesRead)
 	f.bufferPosition = 0
 	f.bufferBitPos = 0
-	fmt.Printf("pos:%d\n", f.filePosition)
 	return nil
 }
