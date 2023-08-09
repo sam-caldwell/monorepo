@@ -2,7 +2,11 @@ package crsce
 
 // Crsce - Cross-Sums Compression
 type Crsce struct {
-	csm *CSM
-	lsm *CrossSumArray
-	vsm *CrossSumArray
+
+	//virtual cross sum (csm) source matrix
+	csm CSM
+	//lateral sum and hash matrix
+	lsm []CrossSum
+	//vertical sum and hash matrix
+	vsm []CrossSum
 }
