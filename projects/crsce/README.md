@@ -19,17 +19,17 @@ func main() {
 		blockSize    = 128 //Block size is the length/width of CSM or the length of the LSM/VSM cross sums.
 	)
 
-	//var c crsce.Crsce
+	var c crsce.Crsce
 
-	// Open a source file
-	//if err := c.Open(mySourceFile, bufferSize); err != nil {
-	//	panic(err)
-	//}
-	//
-	Compress the file, naming the target file.
-	//if err := c.Compress(myTargetFile, blockSize); err != nil {
-    //    panic(err)
-	//}
+	//Open a source file
+	if err := c.Open(mySourceFile, bufferSize); err != nil {
+		panic(err)
+	}
+	
+	//Compress the file, naming the target file.
+	if err := c.Compress(myTargetFile, blockSize); err != nil {
+       panic(err)
+	}
 }
 
 ```
