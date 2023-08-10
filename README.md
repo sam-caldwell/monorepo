@@ -25,18 +25,14 @@ or work project.
 
 1. If we create a binary, it's `main.go` goes [here in cmd/](./cmd). (`Makefile` will automatically build it).
 2. If we create reusable code, it goes [here in projects/](./projects)
-3. Makefile automation is [here in Makefile.d/](./Makefile.d)
 4. Binaries we produce are [here in build/](./build)
 5. Documentation is [here in docs/](./docs) (this includes example code for our projects)
 
 ## Commands
 This section covers the commands in the go monorepo:
 * [Command: Ansi/Color](./cmd/ansi/color/README.md)
-* [Command: subnetting/calculateSubnets](./cmd/subnetting/calculateSubnets/README.md)
+* [Command: net/calculateSubnets](./cmd/net/calculate-subnets/README.md)
 * [Command: Tools/badge-maker](./cmd/tools/badge-maker/README.md)
-* [Command: Tools/findBuildProjects](./cmd/tools/findBuildProjects/README.md)
-* [Command: Tools/has-executable](cmd/tools/has-executable/README.md)
-* [Command: Tools/Locks](./cmd/tools/locks/README.md)
 * [Command: What](./cmd/tools/what/README.md)
 
 ## Projects
@@ -45,7 +41,7 @@ This section covers the commands in the go monorepo:
 
 * [Cli Argument Parser](./projects/argparse/README.md)
 
-* [Counter](./projects/counter/README.md)
+* [Counter](./projects/counters/README.md)
 
 * [Environment Variable Tools](./projects/environment/README.md)
 
@@ -54,7 +50,7 @@ This section covers the commands in the go monorepo:
     * [Simple Set](./projects/sets/simpleset/README.md)
 
 * [Networking Stuff](./projects/net/README.md)
-    * [Subnetting Tools](./projects/net/subnetting/README.md)
+    * [Subnet Tools](./projects/net/subnetting/calculate-subnets/README.md)
 
 ## Other Documentation and Stuff
 
