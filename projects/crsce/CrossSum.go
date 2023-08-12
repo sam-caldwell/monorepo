@@ -7,3 +7,7 @@ type CrossSum struct {
 	sum  uint64
 	hash *crypto.Sha256Stream
 }
+
+func (cs *CrossSum) Increment() {
+	cs.sum++
+}

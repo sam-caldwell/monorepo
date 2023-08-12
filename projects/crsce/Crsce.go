@@ -9,4 +9,7 @@ type Crsce struct {
 	lsm []CrossSum
 	//vertical sum and hash matrix
 	vsm []CrossSum
+
+	//block size is the number of bits in a CSM block
+	blockSize int
 }

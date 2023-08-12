@@ -10,8 +10,8 @@ package crsce
  */
 
 // getCsmCoordinates - Given index i and CSM size n, return the (x,y) coordinate pair.
-func getCsmCoordinates(i, n int) (x int, y int) {
-	y = i / n
-	x = i - y*n
+func getCsmCoordinates(i uint64, n int) (x uint64, y uint64) {
+	y = i / uint64(n)
+	x = i - uint64(y)*uint64(n)
 	return x, y
 }
