@@ -8,9 +8,13 @@ import (
 func TestCreateTempFile(t *testing.T) {
 	t.Run("Create temp file successfully", func(t *testing.T) {
 		tempFile, err := CreateTempFile()
+
 		defer func() {
 			// Clean up the temporary file after the test
-			if err = os.Remove(tempFile); err != nil {
+			if tempFile == nil {
+				t.Fatal("temp file should not be nil")
+			}
+			if err = os.Remove(tempFile.Name()); err != nil {
 				t.Errorf("Failed to remove the temporary file: %v", err)
 			}
 		}()
