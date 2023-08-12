@@ -6,4 +6,5 @@ func (io *BinaryIo) Close() {
 	}
 	_ = io.handle.Sync()
 	_ = io.handle.Close()
+	io.handle = nil
 }
