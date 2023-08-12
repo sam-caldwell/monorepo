@@ -43,5 +43,9 @@ func main() {
 		return
 	}
 	minimumSize := math.Ceil(root)
-	fmt.Printf("minimum size of n: %0.f\n", minimumSize)
+	minimumSignalSizeInBits := math.Ceil(root * root)
+	minimumSignalSizeInBytes := math.Ceil(minimumSignalSizeInBits / 8)
+	fmt.Printf("minimum size of n(Ms)       : %0.f\n", minimumSize)
+	fmt.Printf("minimum signal size(bits)   : %0.f\n", minimumSignalSizeInBits)
+	fmt.Printf("minimum signal size(bytes)  : %0.f\n", minimumSignalSizeInBytes)
 }

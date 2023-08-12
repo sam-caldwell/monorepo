@@ -30,11 +30,11 @@ func main() {
 	compressionRate := (2*b*n + 32*n) / math.Pow(n, 2)
 
 	fmt.Printf("results:\n  "+
-		"        CompressionRate: %f\n"+
+		"        CompressionRate: %f  %0.00f%%\n"+
 		" Signal Size (in bytes): %d\n"+
 		"         Array Size (n): %f\n"+
-		"    Cross Sum Width (b): %f",
-		compressionRate,
+		"    Cross Sum Width (b): %f\n",
+		compressionRate, 100-(100*compressionRate),
 		SignalSizeInBytes,
 		n,
 		b)
