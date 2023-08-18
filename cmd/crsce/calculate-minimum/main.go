@@ -12,16 +12,19 @@ import (
 	"math"
 )
 
-const hashSize = 256 //sha256 hash size in bits (32*8)
+const (
+	hashSize   = 256  //sha256 hash size in bits (32*8)
+	headerSize = 1216 // header size
+)
 
 func calculateMinimum(start, stop float64) (Ms float64, err error) {
 	for N := start; N < stop; N++ {
 
-		n := math.Ceil(math.Sqrt(8 * N)) // Cross Sum Size
-		b := math.Ceil(math.Log2(n))     // Cross Sum Width
-		numerator := 2*b*n + hashSize*n  // Compressed Signal Size
-		denominator := n * n             // Csm Array Size.
-		P := math.Abs(8*N - n*n)         //Padding size
+		n := math.Ceil(math.Sqrt(8 * N))             // Cross Sum Size
+		b := math.Ceil(math.Log2(n))                 // Cross Sum Width
+		numerator := 2*b*n + hashSize*n + headerSize // Compressed Signal Size
+		denominator := n * n                         // Csm Array Size.
+		P := math.Abs(8*N - n*n)                     //Padding size
 		diff := denominator - numerator
 		fmt.Printf("numerator: %05.f  denominator: %05.f  "+
 			"difference: %05.4f n: %5.2f b: %5.f N: %5.2f (P: %5.2f)\n",
