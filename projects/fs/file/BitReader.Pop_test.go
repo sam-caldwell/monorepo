@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestBitReader_Start(t *testing.T) {
+func TestBitReader_Pop(t *testing.T) {
 	// Create a temporary file for testing
 	tempFile, err := os.CreateTemp("", "testfile")
 	if err != nil {
@@ -52,13 +52,15 @@ func TestBitReader_Start(t *testing.T) {
 		false, false, false, false, false, false, false, false, // 00000000 (position 32 - 39)
 	}
 
+	var done bool
+	var receivedBit bool
 	for position, expectedBit := range expectedBits {
-		receivedBit := <-reader.buffer
+		receivedBit, done = reader.Pop()
 		if receivedBit != expectedBit {
 			t.Errorf("Expected bit %t, but received %t (position %d)", expectedBit, receivedBit, position)
 		}
 	}
-	if !reader.done {
+	if !done {
 		ansi.Red().Println("reader should be done").Reset()
 	}
 	// Wait for the reading to complete

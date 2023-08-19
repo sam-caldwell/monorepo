@@ -14,11 +14,6 @@ const (
 	ReadFailed   = 11
 )
 
-func (reader *BitReader) Close() {
-	reader.done = true
-	close(reader.buffer)
-}
-
 // Start - start reading the file bit-by-bit into the bitReader.buffer (channel).
 func (reader *BitReader) Start(fileName string, wg *sync.WaitGroup) {
 
