@@ -50,10 +50,10 @@ func (reader *BitReader) Start(fileName string, wg *sync.WaitGroup) {
 			break
 		}
 		for _, byteVal := range reader.readBuffer[:nBytesRead] {
-			for i := uint(0); i < 8; i++ {
+			for i := 7; i >= 0; i-- { // Reverse the loop order
 				bit := (byteVal & (1 << i)) != 0
 				reader.buffer <- bit
-				log.Printf("bit count: %02d value: %v\n", reader.count, bit)
+				log.Printf("byte (%0x) bit count: %d value: %v\n", byteVal, reader.count, bit)
 				reader.count++
 			}
 		}

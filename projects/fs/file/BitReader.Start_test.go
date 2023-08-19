@@ -26,6 +26,7 @@ func TestBitReaderStart(t *testing.T) {
 		0x00, // 00000000
 	}
 	_, err = tempFile.Write(content)
+	t.Logf("tempFile: %s", tempFile.Name())
 	if err != nil {
 		t.Fatalf("Failed to write content to temporary file: %v", err)
 	}
@@ -45,8 +46,8 @@ func TestBitReaderStart(t *testing.T) {
 	// Collect the bits from the buffer and compare with expected
 	expectedBits := []bool{
 		false, false, false, false, false, false, false, false, // 00000000 (position 0 - 7)
-		false, true, false, true, false, true, false, true, //     01010101 (position 8 - 15)
-		true, false, true, false, true, false, true, false, //     10101010 (position 16 - 23)
+		true, false, true, false, true, false, true, false, //     10101010 (position 8 - 15)
+		false, true, false, true, false, true, false, true, //     01010101 (position 16 - 23)
 		true, true, true, true, true, true, true, true, //         11111111 (position 24 - 31)
 		false, false, false, false, false, false, false, false, // 00000000 (position 32 - 39)
 	}
