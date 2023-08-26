@@ -3,11 +3,11 @@ name: create-project
 author: Sam Caldwell
 options:
   buildEnabled: true
-  lintEnabled: false
+  lintEnabled: true
   packEnabled: false
-  scanEnabled: false
+  scanEnabled: true
   signEnabled: false
-  testEnabled: false
+  testEnabled: true
   language: go
 supportedPlatforms:
   - opsys: darwin

@@ -86,7 +86,7 @@ func main() {
 			Fatal(exit.GeneralError)
 	}
 
-	err := projectmanifest.projectmanifest.
+	err := projectmanifest.
 		CreateManifest(manifestFileName).
 		SetName(projectName).
 		SetAuthor(*author).
