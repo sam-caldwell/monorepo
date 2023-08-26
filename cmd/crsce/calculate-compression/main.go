@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+const hashSize = 256 //sha256 hash size in bits (32*8)
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Error: missing signal size (in bytes) argument")
@@ -27,7 +28,7 @@ func main() {
 	b := math.Ceil(math.Log2(n)) //bit width
 
 	// This is the compression ratio of output to input signal size.
-	compressionRate := (2*b*n + 32*n) / math.Pow(n, 2)
+	compressionRate := (2*b*n + hashSize*n) / math.Pow(n, 2)
 
 	fmt.Printf("results:\n  "+
 		"        CompressionRate: %f  %0.00f%%\n"+

@@ -113,6 +113,9 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Temporary file created: %s\n", tempFilePath)
-	defer os.Remove(tempFilePath) // Clean up the temporary file when done
+	fmt.Printf("Temporary file created: %s\n", tempFilePath.Name())
+	defer func() {
+		// Clean up the temporary file when done
+		_ = os.Remove(tempFilePath.Name())
+	}()
 }
