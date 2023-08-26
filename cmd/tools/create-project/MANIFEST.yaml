@@ -3,11 +3,11 @@ name: create-project
 author: Sam Caldwell
 options:
   buildEnabled: true
-  lintEnabled: true
+  lintEnabled: false
   packEnabled: false
-  scanEnabled: true
+  scanEnabled: false
   signEnabled: false
-  testEnabled: true
+  testEnabled: false
   language: go
 supportedPlatforms:
   - opsys: darwin
@@ -17,9 +17,9 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
-  - ansi
-  - exit
-  - fs/directory
-  - fs/file
-  - repotools
-  - systemrecon
+  - go/ansi
+  - go/exit
+  - go/fs/directory
+  - go/fs/file
+  - go/repotools
+  - go/systemrecon

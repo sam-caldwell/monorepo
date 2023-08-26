@@ -17,6 +17,6 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
-  - ansi
-  - exit
-  - misc
+  - go/ansi
+  - go/exit
+  - go/misc

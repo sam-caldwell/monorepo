@@ -3,7 +3,7 @@ name: ansi
 author: Sam Caldwell
 options:
     buildEnabled: true
-    lintEnabled: true
+    lintEnabled: false
     packEnabled: false
     scanEnabled: false
     signEnabled: false

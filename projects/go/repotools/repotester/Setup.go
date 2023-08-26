@@ -21,14 +21,16 @@ func Setup(
 	skip repocli2.SkipMessagePrintFunc,
 	fail repocli2.FailMessagePrintFunc) func(projectType string) (err error) {
 
+	testCommands := map[string]TestRunner{
+		"c":      TestC,
+		"cpp":    TestCpp,
+		"go":     TestGolang,
+		"nodejs": TestNodeJs,
+	}
+
 	// Run Tests - multi-language support
 	runTest := func(projectPath string, manifest *projectmanifest.Manifest) (localErr error) {
-		testCommands := map[string]TestRunner{
-			"c":      TestC,
-			"cpp":    TestCpp,
-			"go":     TestGolang,
-			"nodejs": TestNodeJs,
-		}
+
 		thisLanguage := strings.ToLower(strings.TrimSpace(manifest.GetLanguage()))
 		var command = func() TestRunner {
 			if value, ok := testCommands[thisLanguage]; ok {
@@ -47,7 +49,7 @@ func Setup(
 
 		var rootDirectory string //This is the root of the monorepo
 		if rootDirectory, err = repotools.FindRepoRoot(); err != nil {
-			return err
+			return fmt.Errorf("FindRepoRoot(): %v", err)
 		}
 
 		projectDirectory := filepath.Join(rootDirectory, projectType)

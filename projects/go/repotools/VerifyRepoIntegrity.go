@@ -22,7 +22,6 @@ func VerifyRepoIntegrity(repoRoot string) error {
 		"cmd",
 		"cmd/tools",
 		"projects",
-		"projects/__system__",
 	}
 	expectedFiles := []string{
 		"LICENSE.txt",
