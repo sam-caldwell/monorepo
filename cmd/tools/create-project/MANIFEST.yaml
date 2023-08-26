@@ -2,7 +2,7 @@
 name: create-project
 author: Sam Caldwell
 options:
-  buildEnabled: true
+  buildEnabled: false
   lintEnabled: true
   packEnabled: false
   scanEnabled: true

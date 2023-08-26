@@ -11,7 +11,7 @@ package main
 
 import (
 	"flag"
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"github.com/sam-caldwell/go/v2/projects/go/fs/directory"
 	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
@@ -45,13 +45,13 @@ func main() {
 
 	projectName := strings.TrimSpace(*project)
 	if projectName == "" {
-		ansi2.Red().Printf("Empty project name not allowed").
+		ansi.Red().Printf("Empty project name not allowed").
 			LF().
 			Fatal(exit.GeneralError)
 	}
 	projectDirectory := filepath.Clean(filepath.Join(projectRootDirectory, projectName))
 
-	ansi2.Blue().
+	ansi.Blue().
 		Tab().Printf("  author: %s", *author).LF().
 		Tab().Printf(" project: %s", projectName).LF().
 		Tab().Printf("language: %s", *language).LF().
@@ -59,7 +59,7 @@ func main() {
 
 	if *manifestOnly {
 		if !directory.Exists(projectDirectory) {
-			ansi2.Red().
+			ansi.Red().
 				Println("manifest-only option cannot be used if the project does not exist.").
 				LF().
 				Fatal(exit.GeneralError)
@@ -72,7 +72,7 @@ func main() {
 			Commit().
 			Error()
 		if err != nil {
-			ansi2.Red().
+			ansi.Red().
 				Printf("Error creating skeleton (%s): %s", projectDirectory, err).
 				LF().
 				Fatal(exit.GeneralError)
@@ -80,7 +80,7 @@ func main() {
 	}
 	manifestFileName := filepath.Join(projectDirectory, projectmanifest.ManifestYaml)
 	if file.Exists(manifestFileName) {
-		ansi2.Red().
+		ansi.Red().
 			Printf("manifest file exists: %s", manifestFileName).
 			LF().
 			Fatal(exit.GeneralError)
@@ -106,10 +106,10 @@ func main() {
 		Error()
 
 	if err != nil {
-		ansi2.Red().Printf("Error: %s", err).LF().Fatal(exit.GeneralError)
+		ansi.Red().Printf("Error: %s", err).LF().Fatal(exit.GeneralError)
 	}
 
-	ansi2.Green().
+	ansi.Green().
 		Printf("Created %s", manifestFileName).LF().
 		Println("(This manifest file is a standard template.  Edits are required)").
 		LF().
