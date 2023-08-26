@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"os"
 	"strings"
 )

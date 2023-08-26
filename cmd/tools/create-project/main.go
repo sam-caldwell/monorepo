@@ -11,13 +11,13 @@ package main
 
 import (
 	"flag"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/fs/directory"
-	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/repotools/manifest" // Replace with your actual package import path
-	reposkeleton "github.com/sam-caldwell/go/v2/projects/repotools/skeleton"
-	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/directory"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/manifest"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/skeleton"
+	"github.com/sam-caldwell/go/v2/projects/go/systemrecon/opsys"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -45,13 +45,13 @@ func main() {
 
 	projectName := strings.TrimSpace(*project)
 	if projectName == "" {
-		ansi.Red().Printf("Empty project name not allowed").
+		ansi2.Red().Printf("Empty project name not allowed").
 			LF().
 			Fatal(exit.GeneralError)
 	}
 	projectDirectory := filepath.Clean(filepath.Join(projectRootDirectory, projectName))
 
-	ansi.Blue().
+	ansi2.Blue().
 		Tab().Printf("  author: %s", *author).LF().
 		Tab().Printf(" project: %s", projectName).LF().
 		Tab().Printf("language: %s", *language).LF().
@@ -59,7 +59,7 @@ func main() {
 
 	if *manifestOnly {
 		if !directory.Exists(projectDirectory) {
-			ansi.Red().
+			ansi2.Red().
 				Println("manifest-only option cannot be used if the project does not exist.").
 				LF().
 				Fatal(exit.GeneralError)
@@ -72,7 +72,7 @@ func main() {
 			Commit().
 			Error()
 		if err != nil {
-			ansi.Red().
+			ansi2.Red().
 				Printf("Error creating skeleton (%s): %s", projectDirectory, err).
 				LF().
 				Fatal(exit.GeneralError)
@@ -80,13 +80,13 @@ func main() {
 	}
 	manifestFileName := filepath.Join(projectDirectory, projectmanifest.ManifestYaml)
 	if file.Exists(manifestFileName) {
-		ansi.Red().
+		ansi2.Red().
 			Printf("manifest file exists: %s", manifestFileName).
 			LF().
 			Fatal(exit.GeneralError)
 	}
 
-	err := projectmanifest.
+	err := projectmanifest.projectmanifest.
 		CreateManifest(manifestFileName).
 		SetName(projectName).
 		SetAuthor(*author).
@@ -106,11 +106,10 @@ func main() {
 		Error()
 
 	if err != nil {
-		ansi.Red().Printf("Error: %s", err).LF().Fatal(exit.GeneralError)
+		ansi2.Red().Printf("Error: %s", err).LF().Fatal(exit.GeneralError)
 	}
 
-	ansi.
-		Green().
+	ansi2.Green().
 		Printf("Created %s", manifestFileName).LF().
 		Println("(This manifest file is a standard template.  Edits are required)").
 		LF().

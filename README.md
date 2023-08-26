@@ -37,20 +37,20 @@ This section covers the commands in the go monorepo:
 
 ## Projects
 
-* [Ansi Color Printing](./projects/ansi/README.md)
+* [Ansi Color Printing](projects/go/ansi/README.md)
 
-* [Cli Argument Parser](./projects/argparse/README.md)
+* [Cli Argument Parser](projects/go/argparse/README.md)
 
-* [Counter](./projects/counters/README.md)
+* [Counter](projects/go/counters/README.md)
 
-* [Environment Variable Tools](./projects/environment/README.md)
+* [Environment Variable Tools](projects/go/environment/README.md)
 
-* [Sets](./projects/sets/README.md)
-    * [Ordered Set](./projects/sets/orderedset/README.md)
-    * [Simple Set](./projects/sets/simpleset/README.md)
+* [Sets](projects/go/sets/README.md)
+    * [Ordered Set](projects/go/sets/orderedset/README.md)
+    * [Simple Set](projects/go/sets/simpleset/README.md)
 
-* [Networking Stuff](./projects/net/README.md)
-    * [Subnet Tools](./projects/net/subnetting/calculate-subnets/README.md)
+* [Networking Stuff](projects/go/net/README.md)
+    * [Subnet Tools](projects/go/net/subnetting/calculate-subnets/README.md)
 
 ## Other Documentation and Stuff
 

@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/repotools"
-	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools"
+	"github.com/sam-caldwell/go/v2/projects/go/simpleArgs"
 	"os"
 )
 
@@ -29,20 +29,20 @@ func main() {
 	exit.IfVersionRequested()
 
 	if useColor {
-		ansi.Blue().Println("Cleaning...").Reset()
+		ansi2.Blue().Println("Cleaning...").Reset()
 	}
 
 	err = repotools.Clean()
 	if err != nil {
 		if useColor {
-			ansi.Red().Println(err.Error()).Reset()
+			ansi2.Red().Println(err.Error()).Reset()
 		} else {
 			fmt.Println(err)
 		}
 		os.Exit(exit.GeneralError)
 	}
 	if useColor {
-		ansi.Green().Println("ok").Reset()
+		ansi2.Green().Println("ok").Reset()
 	}
 	os.Exit(exit.Success)
 }

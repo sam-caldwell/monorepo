@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	subnetting "github.com/sam-caldwell/go/v2/projects/net/subnetting/calculate-subnets"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/net/subnetting/calculate-subnets"
 	"os"
 	"strconv"
 )
@@ -11,17 +11,17 @@ import (
 func main() {
 	exit.IfVersionRequested()
 	if len(os.Args) < 3 {
-		fmt.Println(subnetting.ErrMissingArguments)
-		os.Exit(subnetting.ExitMissingArgs)
+		fmt.Println(calculate_subnets.ErrMissingArguments)
+		os.Exit(calculate_subnets.ExitMissingArgs)
 	}
-	parentCIDR := os.Args[subnetting.ArgParentCIDR]
+	parentCIDR := os.Args[calculate_subnets.ArgParentCIDR]
 	subnetSize := func() int {
 		var err error
 		var n int64
-		s := os.Args[subnetting.ArgSubnetSize]
+		s := os.Args[calculate_subnets.ArgSubnetSize]
 		if n, err = strconv.ParseInt(s, 10, 32); err != nil {
 			fmt.Println(err)
-			os.Exit(subnetting.ExitSubnettingError)
+			os.Exit(calculate_subnets.ExitSubnettingError)
 		}
 		return int(n)
 	}()
@@ -32,17 +32,17 @@ func main() {
 		resultCount = func() int {
 			var err error
 			var n int64
-			s := os.Args[subnetting.ArgResultCount]
+			s := os.Args[calculate_subnets.ArgResultCount]
 			if n, err = strconv.ParseInt(s, 10, 32); err != nil {
-				fmt.Println(subnetting.ErrInvalidResultCount)
-				os.Exit(subnetting.ExitInvalidResultCount)
+				fmt.Println(calculate_subnets.ErrInvalidResultCount)
+				os.Exit(calculate_subnets.ExitInvalidResultCount)
 			}
 			return int(n)
 		}()
 	}
 
-	if subnets, err := subnetting.CalculateSubnets(parentCIDR, subnetSize); err != nil {
-		fmt.Printf(subnetting.ErrGeneral, err)
+	if subnets, err := calculate_subnets.CalculateSubnets(parentCIDR, subnetSize); err != nil {
+		fmt.Printf(calculate_subnets.ErrGeneral, err)
 	} else {
 		if resultCount == 0 {
 			resultCount = len(subnets)
@@ -51,5 +51,5 @@ func main() {
 			fmt.Printf("%s", network)
 		}
 	}
-	os.Exit(subnetting.ExitSuccess)
+	os.Exit(calculate_subnets.ExitSuccess)
 }

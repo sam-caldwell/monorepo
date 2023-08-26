@@ -11,9 +11,9 @@ package main
 
 import (
 	"fmt"
-	monorepo "github.com/sam-caldwell/go/v2/projects/__system__"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	monorepo2 "github.com/sam-caldwell/go/v2/projects/go/__system__"
+	"github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"os"
 	"strings"
 )
@@ -26,11 +26,11 @@ func main() {
 	}
 	switch mode {
 	case "":
-		fmt.Printf("%s\n", strings.Join(monorepo.GetSupportedPlatforms(), ", "))
+		fmt.Printf("%s\n", strings.Join(monorepo2.GetSupportedPlatforms(), ", "))
 	case "opsys":
-		fmt.Printf("%s\n", strings.Join(monorepo.GetSupportedOpsys(), ", "))
+		fmt.Printf("%s\n", strings.Join(monorepo2.GetSupportedOpsys(), ", "))
 	case "arch":
-		fmt.Printf("%s\n", strings.Join(monorepo.GetSupportedArch(), ", "))
+		fmt.Printf("%s\n", strings.Join(monorepo2.GetSupportedArch(), ", "))
 	default:
 		ansi.Red().Printf("Invalid mode:%s (use opsys, arch or nothing)", mode).LF().Reset()
 	}

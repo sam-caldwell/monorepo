@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/runcommand"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/runcommand"
 )
 
 const (
@@ -24,12 +24,12 @@ func main() {
 	exit.IfVersionRequested()
 
 	if out, err := runcommand.ShellExecute("snyk test --file=go.mod"); err != nil {
-		ansi.Red().Printf("GO: snyk FAIL: %s\nout: %s\n", err, out).Reset().Fatal(exit.GeneralError)
+		ansi2.Red().Printf("GO: snyk FAIL: %s\nout: %s\n", err, out).Reset().Fatal(exit.GeneralError)
 	}
-	ansi.Green().Println("GO: snyk PASS").Reset()
+	ansi2.Green().Println("GO: snyk PASS").Reset()
 
 	if out, err := runcommand.ShellExecute("snyk test --file=package.json"); err != nil {
-		ansi.Red().Printf("NODE: snyk FAIL: %s\nout: %s\n", err, out).Reset().Fatal(exit.GeneralError)
+		ansi2.Red().Printf("NODE: snyk FAIL: %s\nout: %s\n", err, out).Reset().Fatal(exit.GeneralError)
 	}
-	ansi.Green().Println("NODE: snyk PASS").Reset()
+	ansi2.Green().Println("NODE: snyk PASS").Reset()
 }

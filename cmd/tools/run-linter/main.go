@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	repolinter "github.com/sam-caldwell/go/v2/projects/repotools/linter"
-	repocli "github.com/sam-caldwell/go/v2/projects/repotools/ui"
-	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/linter"
+	repocli2 "github.com/sam-caldwell/go/v2/projects/go/repotools/ui"
+	simpleArgs2 "github.com/sam-caldwell/go/v2/projects/go/simpleArgs"
 	"os"
 )
 
@@ -34,8 +34,8 @@ run-linter [-color]
 
 // main - run-linter main function
 func main() {
-	var useColor = simpleArgs.UseColor()
-	var quietMode = simpleArgs.QuietMode()
+	var useColor = simpleArgs2.UseColor()
+	var quietMode = simpleArgs2.QuietMode()
 	var countSkip int
 	var countFail int
 	var countPass int
@@ -43,24 +43,23 @@ func main() {
 	exit.IfHelpRequested(commandUsage)
 	exit.IfVersionRequested()
 
-	banner := repocli.
-		BannerMessagePrinter(programName, useColor, quietMode, displayWidth)
+	banner := repocli2.BannerMessagePrinter(programName, useColor, quietMode, displayWidth)
 
-	notice := repocli.NoticeMessagePrinter(programName, useColor, quietMode)
+	notice := repocli2.NoticeMessagePrinter(programName, useColor, quietMode)
 
-	fail := repocli.FailMessagePrinter(programName, useColor, &countFail)
+	fail := repocli2.FailMessagePrinter(programName, useColor, &countFail)
 
-	skip := repocli.SkipMessagePrinter(programName, useColor, quietMode, &countSkip)
+	skip := repocli2.SkipMessagePrinter(programName, useColor, quietMode, &countSkip)
 
-	pass := repocli.PassMessagePrinter(programName, useColor, &countPass)
+	pass := repocli2.PassMessagePrinter(programName, useColor, &countPass)
 
-	banner(ansi.Blue(), "start")
+	banner(ansi2.Blue(), "start")
 
 	err := repolinter.LinterMaster(useColor, notice, pass, skip, fail)
-	repocli.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
+	repocli2.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
 	if err != nil {
-		banner(ansi.Red(), programName, "failed checks")
+		banner(ansi2.Red(), programName, "failed checks")
 	}
-	banner(ansi.Green(), programName, "passing all checks")
+	banner(ansi2.Green(), programName, "passing all checks")
 	os.Exit(exit.Success)
 }

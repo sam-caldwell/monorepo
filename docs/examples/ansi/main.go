@@ -1,13 +1,12 @@
 package main
 
 import (
-	ansi "github.com/sam-caldwell/go/v2/projects/ansi"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
 )
 
 func main() {
 	//ansi.Clear()
-	ansi.
-		Black().Print("black").LF().
+	ansi2.Black().Print("black").LF().
 		Red().Print("red|").Space().Print("|").LF().
 		Green().Printf("%s", "green").LF().
 		Yellow().Print("yellow|").Tab().Print("|").LF().
@@ -17,8 +16,7 @@ func main() {
 		White().Println("white").
 		Reset().Println("reset")
 
-	ansi.
-		BgRed().Green().Blink().Bold().Print("We can move places").
+	ansi2.BgRed().Green().Blink().Bold().Print("We can move places").
 		Reset().LF().LF().
 		Underline().Print("Style").LF().
 		Up(1).Print("Move up one").Reset().

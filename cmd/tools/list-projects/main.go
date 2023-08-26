@@ -13,12 +13,12 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/go/v2/cmd/tools/list-projects/ui"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/keyvalue/pair"
-	"github.com/sam-caldwell/go/v2/projects/repotools/filters"
-	"github.com/sam-caldwell/go/v2/projects/repotools/listprojects"
-	projectmanifest "github.com/sam-caldwell/go/v2/projects/repotools/manifest"
-	"github.com/sam-caldwell/go/v2/projects/version"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/keyvalue/pair"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/filters"
+	listprojects2 "github.com/sam-caldwell/go/v2/projects/go/repotools/listprojects"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/manifest"
+	"github.com/sam-caldwell/go/v2/projects/go/version"
 	"time"
 )
 
@@ -62,10 +62,10 @@ func main() {
 
 	if order := ui.SortBy(); order == ui.SortByDependency {
 		sortedBy = "dependency"
-		projects, err = listprojects.SortedByDependencies(filter)
+		projects, err = listprojects2.SortedByDependencies(filter)
 	} else {
 		sortedBy = "name"
-		projects, err = listprojects.SortedLexically(filter)
+		projects, err = listprojects2.SortedLexically(filter)
 	}
 	exit.OnError(err, exit.GeneralError, commandUsage)
 

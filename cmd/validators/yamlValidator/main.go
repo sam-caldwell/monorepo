@@ -11,12 +11,12 @@ package main
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	exit "github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/fs"
-	"github.com/sam-caldwell/go/v2/projects/fs/directory"
-	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/fs"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/directory"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
+	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
 	"os"
 	"path/filepath"
 )
@@ -48,18 +48,18 @@ func main() {
 	// Find and validate YAML files
 	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			ansi.Red().Printf(errAccessDenied, path, err).LF().Reset()
+			ansi2.Red().Printf(errAccessDenied, path, err).LF().Reset()
 			return nil
 		}
 		if info.IsDir() {
 			return nil
 		}
 		if file.HasYamlExtension(path) {
-			ansi.Blue().Printf("%v", path).Reset().Space().Print(":")
+			ansi2.Blue().Printf("%v", path).Reset().Space().Print(":")
 			if err = file.IsValidYaml(path); err != nil {
-				ansi.Red().Printf("FAIL: %v", err).LF().Reset()
+				ansi2.Red().Printf("FAIL: %v", err).LF().Reset()
 			} else {
-				ansi.Green().Print("OK").LF().Reset()
+				ansi2.Green().Print("OK").LF().Reset()
 			}
 		}
 		return nil

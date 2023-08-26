@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/exit/errors"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
+	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
 	"os"
 	"strings"
 )
@@ -24,35 +24,35 @@ func main() {
 	exit.IfHelpRequested(errUsage)
 	exit.IfVersionRequested()
 
-	colorMap := map[string]func() *ansi.Color{
-		words.Bold:          ansi.Bold,
-		words.Dim:           ansi.Dim,
-		words.Hidden:        ansi.Hidden,
-		words.Strikethrough: ansi.Strikethrough,
-		words.Underline:     ansi.Underline,
-		words.Reset:         ansi.Reset,
+	colorMap := map[string]func() *ansi2.Color{
+		words2.Bold:          ansi2.Bold,
+		words2.Dim:           ansi2.Dim,
+		words2.Hidden:        ansi2.Hidden,
+		words2.Strikethrough: ansi2.Strikethrough,
+		words2.Underline:     ansi2.Underline,
+		words2.Reset:         ansi2.Reset,
 
-		words.Black:   ansi.Black,
-		words.Blue:    ansi.Blue,
-		words.Cyan:    ansi.Cyan,
-		words.Green:   ansi.Green,
-		words.Magenta: ansi.Magenta,
-		words.Red:     ansi.Red,
-		words.White:   ansi.White,
-		words.Yellow:  ansi.Yellow,
+		words2.Black:   ansi2.Black,
+		words2.Blue:    ansi2.Blue,
+		words2.Cyan:    ansi2.Cyan,
+		words2.Green:   ansi2.Green,
+		words2.Magenta: ansi2.Magenta,
+		words2.Red:     ansi2.Red,
+		words2.White:   ansi2.White,
+		words2.Yellow:  ansi2.Yellow,
 	}
 
 	usage := func() string {
 		return fmt.Sprintf(errUsage, strings.Join([]string{
-			words.Black, words.Blue, words.Cyan, words.Green,
-			words.Magenta, words.Red, words.White, words.Yellow,
-		}, words.Comma+words.Space), strings.Join([]string{
-			words.Bold, words.Dim, words.Hidden,
-			words.Strikethrough, words.Underline, words.Reset,
-		}, words.Comma+words.Space))
+			words2.Black, words2.Blue, words2.Cyan, words2.Green,
+			words2.Magenta, words2.Red, words2.White, words2.Yellow,
+		}, words2.Comma+words2.Space), strings.Join([]string{
+			words2.Bold, words2.Dim, words2.Hidden,
+			words2.Strikethrough, words2.Underline, words2.Reset,
+		}, words2.Comma+words2.Space))
 	}
 
-	ansi.Reset()
+	ansi2.Reset()
 
 	exit.OnCondition(len(os.Args) < 2, exit.MissingColor, errors.MissingColor, usage())
 
@@ -69,8 +69,8 @@ func main() {
 			textPos++
 		}
 		if len(os.Args) > textPos {
-			_, _ = printFunc(strings.Join(os.Args[textPos:], words.Space))
+			_, _ = printFunc(strings.Join(os.Args[textPos:], words2.Space))
 		}
 	}
-	defer ansi.Reset()
+	defer ansi2.Reset()
 }

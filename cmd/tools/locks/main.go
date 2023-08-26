@@ -25,11 +25,11 @@ package main
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/exit/errors"
-	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/lock"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
+	"github.com/sam-caldwell/go/v2/projects/go/lock"
+	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
 	"os"
 	"regexp"
 	"strings"

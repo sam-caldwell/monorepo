@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/convert"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/exit/errors"
-	keyvalue "github.com/sam-caldwell/go/v2/projects/keyvalue"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
-	cpu "github.com/sam-caldwell/go/v2/projects/systemrecon/cpu"
-	memory "github.com/sam-caldwell/go/v2/projects/systemrecon/memory"
-	opsys "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
-	"github.com/sam-caldwell/go/v2/projects/version"
+	"github.com/sam-caldwell/go/v2/projects/go/convert"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/go/v2/projects/go/keyvalue"
+	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
+	systemrecon2 "github.com/sam-caldwell/go/v2/projects/go/systemrecon/cpu"
+	memory "github.com/sam-caldwell/go/v2/projects/go/systemrecon/memory"
+	"github.com/sam-caldwell/go/v2/projects/go/systemrecon/opsys"
+	"github.com/sam-caldwell/go/v2/projects/go/version"
 	"os"
 	"strings"
 )
@@ -48,27 +48,27 @@ func main() {
 	 * CPU-related commands
 	 */
 	case "cpus":
-		output, err = convert.IntToStringFuncWrapper(cpu.CpuCores)
+		output, err = convert.IntToStringFuncWrapper(systemrecon2.CpuCores)
 
 	case "cpu-arch":
-		output, err = cpu.CpuArch()
+		output, err = systemrecon2.CpuArch()
 
 	case "cpu-cache":
-		output, err = cpu.CpuCache()
+		output, err = systemrecon2.CpuCache()
 
 	case "cpu-info":
-		output, err = keyvalue.Interceptor(cpu.CpuInfo)
+		output, err = keyvalue.Interceptor(systemrecon2.CpuInfo)
 	/*
 	 * operating system stuff
 	 */
 	case "os":
-		output, err = opsys.OpSys()
+		output, err = systemrecon.OpSys()
 
 	case "os-family":
-		output, err = opsys.OpSysFamily()
+		output, err = systemrecon.OpSysFamily()
 
 	case "os-version":
-		output, err = opsys.OpSysVersion()
+		output, err = systemrecon.OpSysVersion()
 	/*
 	 * Memory related
 	 */

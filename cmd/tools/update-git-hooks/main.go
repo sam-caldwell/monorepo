@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"os"
 )
 
@@ -10,16 +10,16 @@ const preComment = `
 # git/hooks/pre-commit
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 # This script will run the run-linter golang command
-go run cmd/tools/run-linter/main.go -color -quiet || exit 1
+go run cmd/tools/run-linter/main.cpp -color -quiet || exit 1
 `
 
 const prePush = `
 # git/hooks/pre-push
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 # This script will run the tests, security scanners and builds
-go run cmd/tools/run-tests/main.go -color -quiet || exit 1
-go run cmd/tools/run-builds/main.go -color -quiet || exit 1
-go run cmd/tools/run-scans/main.go -color -quiet || exit 1
+go run cmd/tools/run-tests/main.cpp -color -quiet || exit 1
+go run cmd/tools/run-builds/main.cpp -color -quiet || exit 1
+go run cmd/tools/run-scans/main.cpp -color -quiet || exit 1
 `
 
 const commandUsage = `
@@ -43,9 +43,9 @@ func main() {
 
 	for file, script := range hookScripts {
 		if err := os.WriteFile(file, []byte(script), 0755); err != nil {
-			ansi.Red().Printf("[%s]FAIL on %s", program, file).LF().Reset()
+			ansi2.Red().Printf("[%s]FAIL on %s", program, file).LF().Reset()
 		}
-		ansi.Green().Printf("[%s]PASS on %s", program, file).LF().Reset()
+		ansi2.Green().Printf("[%s]PASS on %s", program, file).LF().Reset()
 	}
 
 }
