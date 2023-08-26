@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
 	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
@@ -24,22 +24,22 @@ func main() {
 	exit.IfHelpRequested(errUsage)
 	exit.IfVersionRequested()
 
-	colorMap := map[string]func() *ansi2.Color{
-		words2.Bold:          ansi2.Bold,
-		words2.Dim:           ansi2.Dim,
-		words2.Hidden:        ansi2.Hidden,
-		words2.Strikethrough: ansi2.Strikethrough,
-		words2.Underline:     ansi2.Underline,
-		words2.Reset:         ansi2.Reset,
+	colorMap := map[string]func() *ansi.Color{
+		words2.Bold:          ansi.Bold,
+		words2.Dim:           ansi.Dim,
+		words2.Hidden:        ansi.Hidden,
+		words2.Strikethrough: ansi.Strikethrough,
+		words2.Underline:     ansi.Underline,
+		words2.Reset:         ansi.Reset,
 
-		words2.Black:   ansi2.Black,
-		words2.Blue:    ansi2.Blue,
-		words2.Cyan:    ansi2.Cyan,
-		words2.Green:   ansi2.Green,
-		words2.Magenta: ansi2.Magenta,
-		words2.Red:     ansi2.Red,
-		words2.White:   ansi2.White,
-		words2.Yellow:  ansi2.Yellow,
+		words2.Black:   ansi.Black,
+		words2.Blue:    ansi.Blue,
+		words2.Cyan:    ansi.Cyan,
+		words2.Green:   ansi.Green,
+		words2.Magenta: ansi.Magenta,
+		words2.Red:     ansi.Red,
+		words2.White:   ansi.White,
+		words2.Yellow:  ansi.Yellow,
 	}
 
 	usage := func() string {
@@ -52,7 +52,7 @@ func main() {
 		}, words2.Comma+words2.Space))
 	}
 
-	ansi2.Reset()
+	ansi.Reset()
 
 	exit.OnCondition(len(os.Args) < 2, exit.MissingColor, errors.MissingColor, usage())
 
@@ -72,5 +72,5 @@ func main() {
 			_, _ = printFunc(strings.Join(os.Args[textPos:], words2.Space))
 		}
 	}
-	defer ansi2.Reset()
+	defer ansi.Reset()
 }

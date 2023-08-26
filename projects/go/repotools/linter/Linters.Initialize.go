@@ -2,7 +2,7 @@ package repolinter
 
 import (
 	"fmt"
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
 	"os"
@@ -128,14 +128,14 @@ func (linter *Linters) Initialize(useColor bool) {
 			if err.Error() == errors.NotImplemented {
 				message := fmt.Sprintf("Pre-check [SKIP]: %s for %s\n", config.name, extension)
 				if useColor {
-					ansi2.Yellow().Print(message).Reset()
+					ansi.Yellow().Print(message).Reset()
 				} else {
 					fmt.Print(message)
 				}
 			} else {
 				message := fmt.Sprintf("Pre-check [FAIL]: %s for %s\n", config.name, extension)
 				if useColor {
-					ansi2.Red().Print(message).Reset().Fatal(exit.GeneralError)
+					ansi.Red().Print(message).Reset().Fatal(exit.GeneralError)
 				} else {
 					fmt.Print(message)
 					os.Exit(exit.GeneralError)
@@ -144,7 +144,7 @@ func (linter *Linters) Initialize(useColor bool) {
 		} else {
 			message := fmt.Sprintf("Pre-check [PASS]: %s for %s\n", config.name, extension)
 			if useColor {
-				ansi2.Green().Printf(message).Reset()
+				ansi.Green().Printf(message).Reset()
 			} else {
 				fmt.Print(message)
 				os.Exit(exit.GeneralError)
@@ -152,6 +152,6 @@ func (linter *Linters) Initialize(useColor bool) {
 		}
 	}
 	if useColor {
-		ansi2.Green().Println("Linters initialized").Reset()
+		ansi.Green().Println("Linters initialized").Reset()
 	}
 }

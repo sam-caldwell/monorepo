@@ -1,7 +1,7 @@
 package main
 
 import (
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"os"
 )
@@ -43,9 +43,9 @@ func main() {
 
 	for file, script := range hookScripts {
 		if err := os.WriteFile(file, []byte(script), 0755); err != nil {
-			ansi2.Red().Printf("[%s]FAIL on %s", program, file).LF().Reset()
+			ansi.Red().Printf("[%s]FAIL on %s", program, file).LF().Reset()
 		}
-		ansi2.Green().Printf("[%s]PASS on %s", program, file).LF().Reset()
+		ansi.Green().Printf("[%s]PASS on %s", program, file).LF().Reset()
 	}
 
 }

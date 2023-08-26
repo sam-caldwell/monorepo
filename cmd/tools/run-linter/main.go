@@ -1,7 +1,7 @@
 package main
 
 import (
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"github.com/sam-caldwell/go/v2/projects/go/repotools/linter"
 	repocli2 "github.com/sam-caldwell/go/v2/projects/go/repotools/ui"
@@ -53,13 +53,13 @@ func main() {
 
 	pass := repocli2.PassMessagePrinter(programName, useColor, &countPass)
 
-	banner(ansi2.Blue(), "start")
+	banner(ansi.Blue(), "start")
 
 	err := repolinter.LinterMaster(useColor, notice, pass, skip, fail)
 	repocli2.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
 	if err != nil {
-		banner(ansi2.Red(), programName, "failed checks")
+		banner(ansi.Red(), programName, "failed checks")
 	}
-	banner(ansi2.Green(), programName, "passing all checks")
+	banner(ansi.Green(), programName, "passing all checks")
 	os.Exit(exit.Success)
 }

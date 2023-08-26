@@ -1,7 +1,7 @@
 package main
 
 import (
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"github.com/sam-caldwell/go/v2/projects/go/repotools/repotester"
 	repocli2 "github.com/sam-caldwell/go/v2/projects/go/repotools/ui"
@@ -46,7 +46,7 @@ func main() {
 	testRunner := repotester.Setup(notice, pass, skip, fail)
 
 	for _, testGroup := range []string{"projects", "cmd"} {
-		banner(ansi2.Blue(), programName+": start "+testGroup)
+		banner(ansi.Blue(), programName+": start "+testGroup)
 		err = testRunner(testGroup)
 		if err != nil {
 			fail("testType:"+testGroup, "outcome:failure", err)
@@ -55,9 +55,9 @@ func main() {
 	}
 	repocli2.ShowStats(programName, displayWidth, useColor, quietMode, countPass, countFail, countSkip)
 	if err != nil {
-		banner(ansi2.Red(), programName, "failed checks")
+		banner(ansi.Red(), programName, "failed checks")
 		os.Exit(exit.GeneralError)
 	}
-	banner(ansi2.Green(), programName, "passing all checks")
+	banner(ansi.Green(), programName, "passing all checks")
 	os.Exit(exit.Success)
 }

@@ -16,7 +16,7 @@ package packageManager
  */
 
 import (
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/simpleLogger"
 )
 
@@ -27,18 +27,18 @@ func InstallDependencies(logf simpleLogger.Logf, packageList []DependencyDescrip
 
 	for n, thisPackage := range packageList {
 
-		logf(ansi2.Blue(), "installing (%d,%d) %s", n, count, thisPackage.Name)
+		logf(ansi.Blue(), "installing (%d,%d) %s", n, count, thisPackage.Name)
 
 		if out, err := Install(thisPackage); err != nil {
 
-			logf(ansi2.Red(), "Installation failed on %s\n"+
+			logf(ansi.Red(), "Installation failed on %s\n"+
 				"Details:\n"+
 				"%s\n", thisPackage.Name, out)
 
 			return err
 		}
 
-		logf(ansi2.Green(), "installation OK (%d,%d) %s", n, count, thisPackage.Name)
+		logf(ansi.Green(), "installation OK (%d,%d) %s", n, count, thisPackage.Name)
 
 	}
 	return nil

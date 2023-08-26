@@ -2,7 +2,7 @@ package hijack
 
 import (
 	"fmt"
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
 	"reflect"
 	"testing"
@@ -53,8 +53,8 @@ func TestHijackFunction(t *testing.T) {
 	* Doveryay no proveryay.
 	 */
 	if actualValue != words.EmptyString {
-		ansi2.Red()
-		defer ansi2.Reset()
+		ansi.Red()
+		defer ansi.Reset()
 		t.Fatal("expected actualValue to be empty")
 	}
 	/*
@@ -63,8 +63,8 @@ func TestHijackFunction(t *testing.T) {
 	* and healthy...
 	 */
 	if targetFunc(); actualValue != initialValue {
-		ansi2.Red()
-		defer ansi2.Reset()
+		ansi.Red()
+		defer ansi.Reset()
 		t.Fatal("targetFunc did not maintain initial value")
 	}
 	/*
@@ -74,8 +74,8 @@ func TestHijackFunction(t *testing.T) {
 	* value...
 	 */
 	if imposterFunc(); actualValue != alteredValue {
-		ansi2.Red()
-		defer ansi2.Reset()
+		ansi.Red()
+		defer ansi.Reset()
 		t.Fatal("imposterFunc did not alter the value")
 	}
 	/*
@@ -84,7 +84,7 @@ func TestHijackFunction(t *testing.T) {
 	* can be happy.  The Karens can relax, we're back to empty state.
 	 */
 	actualValue = words.EmptyString
-	ansi2.Blue().Println("setup").Reset()
+	ansi.Blue().Println("setup").Reset()
 	/*
 	* As the Beastie Boys would say...  It's time to get Func'y
 	* Hijack this thingy.  It's time for some Sabotage!
@@ -93,16 +93,16 @@ func TestHijackFunction(t *testing.T) {
 	if targetFuncPtr != reflect.ValueOf(targetFunc).Pointer() {
 		t.Fatalf("targetFuncPtr is not referncing the function")
 	}
-	ansi2.Yellow().Printf("targetFuncPtr:  %00x", targetFuncPtr).LF().Reset()
+	ansi.Yellow().Printf("targetFuncPtr:  %00x", targetFuncPtr).LF().Reset()
 
 	imposterFuncPtr := reflect.ValueOf(imposterFunc).Pointer()
 	if imposterFuncPtr != reflect.ValueOf(imposterFunc).Pointer() {
 		t.Fatalf("imposterFuncPtr is not referncing the function")
 	}
 
-	ansi2.Yellow().Printf("imposterFuncPtr:%00x", imposterFuncPtr).LF().Reset()
+	ansi.Yellow().Printf("imposterFuncPtr:%00x", imposterFuncPtr).LF().Reset()
 
-	ansi2.Blue().Println("ready to hijack").
+	ansi.Blue().Println("ready to hijack").
 		Yellow().Printf("> targetFuncPtr:  %00x", targetFuncPtr).LF().
 		Yellow().Printf("> imposterFuncPtr:%00x", imposterFuncPtr).LF().Reset()
 
@@ -110,7 +110,7 @@ func TestHijackFunction(t *testing.T) {
 
 	//originalMemory, err := hijackFunction(targetFuncPtr, imposterFuncPtr)
 
-	ansi2.Blue().Println("hijack completed").
+	ansi.Blue().Println("hijack completed").
 		Yellow().Printf("> targetFuncPtr:  %00x", targetFuncPtr).LF().
 		Yellow().Printf("> imposterFuncPtr:%00x", imposterFuncPtr).LF().Reset()
 	/*
@@ -121,7 +121,7 @@ func TestHijackFunction(t *testing.T) {
 	//	defer ansi.Reset()
 	//	t.Fatalf("hijackFunction returned an error: %v", err)
 	//}
-	ansi2.Blue().Println("hijack complete with no errors").Reset()
+	ansi.Blue().Println("hijack complete with no errors").Reset()
 	/*
 	* Make sure we didn't get too greedy.  Our hijack operation should only copy out
 	* a specific memory area (the jump code) so we are fast, light and sweet.
@@ -131,18 +131,18 @@ func TestHijackFunction(t *testing.T) {
 	//	defer ansi.Reset()
 	//	t.Fatalf("we expected the original memory to only be the size of the jump code")
 	//}
-	ansi2.Blue().Println("memory saved is the right size").Reset()
+	ansi.Blue().Println("memory saved is the right size").Reset()
 	/*
 	* Let's check and make sure our actual value is what we expect.
 	* Doveryay no proveryay.  Someone may drink and code some day and forget that
 	* we need the initial state to be correct.
 	 */
 	if actualValue != words.EmptyString {
-		ansi2.Red()
-		defer ansi2.Reset()
+		ansi.Red()
+		defer ansi.Reset()
 		t.Fatal("expected actualValue to be empty")
 	}
-	ansi2.Blue().Println("initial state verified").Reset()
+	ansi.Blue().Println("initial state verified").Reset()
 	/*
 	* Run our targetFunc() and expect that it now alters the views.  Call the Karens!
 	* Someone get Greg Abbott on the phone and summon the Texas Legislature into Special Session,
@@ -150,18 +150,18 @@ func TestHijackFunction(t *testing.T) {
 	* alteredValue.
 	 */
 	if targetFunc(); actualValue != alteredValue {
-		ansi2.Red()
-		defer ansi2.Reset()
+		ansi.Red()
+		defer ansi.Reset()
 		t.Fatalf("targetFunc should have altered the value. ActualValue:%s", actualValue)
 
 	}
-	ansi2.Green().Println("target is altered").Reset()
+	ansi.Green().Println("target is altered").Reset()
 	/*
 	* And our imposterFunc() is still doing its thing.
 	 */
 	if imposterFunc(); actualValue != alteredValue {
-		ansi2.Red()
-		defer ansi2.Reset()
+		ansi.Red()
+		defer ansi.Reset()
 		t.Fatalf("imposterFunc should have altered the value. ActualValue:%s", actualValue)
 	}
 	/*

@@ -11,7 +11,7 @@ package main
  */
 import (
 	"fmt"
-	ansi2 "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
 	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"github.com/sam-caldwell/go/v2/projects/go/fs"
 	"github.com/sam-caldwell/go/v2/projects/go/fs/directory"
@@ -48,18 +48,18 @@ func main() {
 	// Find and validate YAML files
 	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			ansi2.Red().Printf(errAccessDenied, path, err).LF().Reset()
+			ansi.Red().Printf(errAccessDenied, path, err).LF().Reset()
 			return nil
 		}
 		if info.IsDir() {
 			return nil
 		}
 		if file.HasYamlExtension(path) {
-			ansi2.Blue().Printf("%v", path).Reset().Space().Print(":")
+			ansi.Blue().Printf("%v", path).Reset().Space().Print(":")
 			if err = file.IsValidYaml(path); err != nil {
-				ansi2.Red().Printf("FAIL: %v", err).LF().Reset()
+				ansi.Red().Printf("FAIL: %v", err).LF().Reset()
 			} else {
-				ansi2.Green().Print("OK").LF().Reset()
+				ansi.Green().Print("OK").LF().Reset()
 			}
 		}
 		return nil
