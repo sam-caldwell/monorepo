@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include "../types/byte_t.h"
 #include "constants.h"
+#include <mutex>
 
 namespace DataSource {
     /*
@@ -24,22 +25,32 @@ namespace DataSource {
      */
 
     template<typename SourceType>
-    class Root {
+    class Abstract {
 
     private:
-        SourceType data;
+        SourceType *data;
+        std::mutex dataMutex; // Mutex for synchronization
 
     public:
+        Abstract(std::string connect){
+            data = new SourceType(connect);
+        };
+        ~Abstract(){
+            delete data;
+        };
 
         byte_t Read(uint64_t position) {
-            return this->data.Read(position);
+            std::lock_guard<std::mutex> lock(dataMutex); // Lock during Read
+            return data->Read(position);
         }
 
         byte_t Write(uint64_t position, byte_t content) {
-            return this->data.Write(position, content);
+            std::lock_guard<std::mutex> lock(dataMutex); // Lock during Read
+            return data->Write(position, content);
         }
 
         uint64_t Size() {
+            std::lock_guard<std::mutex> lock(dataMutex); // Lock during Read
             return SizeNotImplemented;
             /* if not implemented, it will return -1. */
         }

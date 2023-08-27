@@ -8,10 +8,9 @@
 #include <string>
 #include "usage.h"
 #include "arguments.h"
-
+#include "../../../projects/cpp/DataSource/DataSource.h"
 
 using namespace std;
-
 
 int main(int argc, char *argv[]) {
     Argument arg;
@@ -22,6 +21,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    DataSource::Abstract<DataSource::File> source(arg.in());
+    DataSource::Abstract<DataSource::File> target(arg.out());
     //ToDo: Compress in -> out with flags.
 
 }

@@ -21,7 +21,7 @@ namespace DataSource {
         int socketFd; // Example network socket descriptor
 
     public:
-        Network(const std::string &address, int port);
+        Network(const std::string &connect);
 
         ~Network();
 
