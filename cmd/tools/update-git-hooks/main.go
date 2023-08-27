@@ -38,7 +38,7 @@ func main() {
 
 	hookScripts := map[string]string{
 		".git/hooks/pre-commit": preComment,
-		".git/hooks/pre-push":   prePush,
+		//".git/hooks/pre-push":   prePush,
 	}
 
 	for file, script := range hookScripts {
