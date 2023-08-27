@@ -17,5 +17,5 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
-  - exit
-  - semver
+  - go/exit
+  - go/semver

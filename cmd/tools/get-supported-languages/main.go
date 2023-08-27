@@ -10,8 +10,8 @@ package main
 
 import (
 	"fmt"
-	monorepo "github.com/sam-caldwell/go/v2/projects/__system__"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/__system__"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"strings"
 )
 

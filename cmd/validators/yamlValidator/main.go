@@ -11,12 +11,12 @@ package main
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	exit "github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/fs"
-	"github.com/sam-caldwell/go/v2/projects/fs/directory"
-	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/misc/words"
+	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/fs"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/directory"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
+	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
 	"os"
 	"path/filepath"
 )

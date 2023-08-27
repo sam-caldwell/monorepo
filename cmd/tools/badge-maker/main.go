@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
 	"os"
 	"strings"
 )

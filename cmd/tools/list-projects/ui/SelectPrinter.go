@@ -2,8 +2,8 @@ package ui
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/simpleArgs"
+	"github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/simpleArgs"
 )
 
 // SelectPrinter - select a color or non-color printer

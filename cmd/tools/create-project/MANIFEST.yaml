@@ -2,7 +2,7 @@
 name: create-project
 author: Sam Caldwell
 options:
-  buildEnabled: true
+  buildEnabled: false
   lintEnabled: true
   packEnabled: false
   scanEnabled: true
@@ -17,9 +17,9 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
-  - ansi
-  - exit
-  - fs/directory
-  - fs/file
-  - repotools
-  - systemrecon
+  - go/ansi
+  - go/exit
+  - go/fs/directory
+  - go/fs/file
+  - go/repotools
+  - go/systemrecon

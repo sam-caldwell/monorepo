@@ -1,6 +1,8 @@
 package main
 
-import "github.com/sam-caldwell/go/v2/projects/exit"
+import (
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+)
 
 const (
 	cmdBuild = "build"

@@ -11,13 +11,13 @@ package main
 
 import (
 	"flag"
-	"github.com/sam-caldwell/go/v2/projects/ansi"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	"github.com/sam-caldwell/go/v2/projects/fs/directory"
-	"github.com/sam-caldwell/go/v2/projects/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/repotools/manifest" // Replace with your actual package import path
-	reposkeleton "github.com/sam-caldwell/go/v2/projects/repotools/skeleton"
-	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
+	"github.com/sam-caldwell/go/v2/projects/go/ansi"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/directory"
+	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/manifest"
+	"github.com/sam-caldwell/go/v2/projects/go/repotools/skeleton"
+	"github.com/sam-caldwell/go/v2/projects/go/systemrecon/opsys"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -109,8 +109,7 @@ func main() {
 		ansi.Red().Printf("Error: %s", err).LF().Fatal(exit.GeneralError)
 	}
 
-	ansi.
-		Green().
+	ansi.Green().
 		Printf("Created %s", manifestFileName).LF().
 		Println("(This manifest file is a standard template.  Edits are required)").
 		LF().

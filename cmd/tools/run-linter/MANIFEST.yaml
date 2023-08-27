@@ -17,8 +17,8 @@ supportedPlatforms:
   - opsys: windows
     arch: amd64
 dependencies:
-  - repotools
-  - ansi
-  - repotools
-  - simpleArgs
-  - exit
+  - go/repotools
+  - go/ansi
+  - go/repotools
+  - go/simpleArgs
+  - go/exit

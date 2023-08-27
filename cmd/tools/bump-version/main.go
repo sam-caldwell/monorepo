@@ -14,7 +14,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/semver"
+	"github.com/sam-caldwell/go/v2/projects/go/semver"
 )
 
 func main() {

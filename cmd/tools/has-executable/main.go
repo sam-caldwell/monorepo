@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/exit"
-	systemrecon "github.com/sam-caldwell/go/v2/projects/systemrecon/opsys"
+	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/go/v2/projects/go/systemrecon/opsys"
 	"os"
 	"strings"
 )
