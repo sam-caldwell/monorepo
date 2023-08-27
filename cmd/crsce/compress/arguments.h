@@ -34,7 +34,7 @@ public:
         this->__out = emptyString;
     }
 
-    void inline Parse(int argc, char *argv);
+    void inline Parse(int argc, char *argv[]);
 
     bool inline color() { return this->__color; };
 
