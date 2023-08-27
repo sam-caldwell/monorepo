@@ -1,3 +1,7 @@
+/*
+ * Crsce/compress/arguments.h
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ */
 #ifndef COMPRESS_ARGUMENTS_H
 #define COMPRESS_ARGUMENTS_H
 

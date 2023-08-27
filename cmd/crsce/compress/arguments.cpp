@@ -1,5 +1,6 @@
 /*
- *
+ * Crsce/compress/arguments.cpp
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
  */
 #include "arguments.h"
 #include "../../../projects/cpp/misc/trim.cpp"
