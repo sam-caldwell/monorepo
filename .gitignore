@@ -50,7 +50,7 @@ go/
 
 
 # Cmake stuff
-CMakeFiles/
+**/CMakeFiles/
 CMakeCache.txt
 **/Makefile
-cmake/
+cmake/Modules
