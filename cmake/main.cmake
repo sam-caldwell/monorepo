@@ -8,10 +8,12 @@
 include(cmake/logging/debug.cmake)
 include(cmake/logging/debugList.cmake)
 include(cmake/logging/debugLine.cmake)
+include(cmake/logging/error.cmake)
 include(cmake/logging/info.cmake)
+include(cmake/logging/ok.cmake)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/cmake/Modules)
-    info("Update CMAKE Modules path to ${CMAKE_BINARY_DIR}/cmake/Modules")
+    ok("Update CMAKE Modules path to ${CMAKE_BINARY_DIR}/cmake/Modules")
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_BINARY_DIR}/cmake/Modules/")
 endif ()
 
