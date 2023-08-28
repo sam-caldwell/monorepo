@@ -1,7 +1,7 @@
 package monorepo
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/sets/simple"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/sets/simple"
 	"strings"
 )
 

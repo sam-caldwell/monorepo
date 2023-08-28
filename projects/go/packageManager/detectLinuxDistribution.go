@@ -9,9 +9,9 @@ package packageManager
  */
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/keyvalue"
-	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
-	"github.com/sam-caldwell/go/v2/projects/go/wrappers/os"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/keyvalue"
+	words2 "github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/wrappers/os"
 )
 
 // detectLinuxDistribution - detect linux distribution

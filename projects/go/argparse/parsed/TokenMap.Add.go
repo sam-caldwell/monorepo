@@ -2,8 +2,8 @@ package parsed
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/parsed/token"
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/parsed/token"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 )
 
 // Add - Add a new token to the Namespace

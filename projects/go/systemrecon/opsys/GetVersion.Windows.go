@@ -14,8 +14,8 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
-	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
+	words2 "github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
 	"golang.org/x/sys/windows/registry"
 	"runtime"
 )

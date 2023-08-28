@@ -4,7 +4,7 @@
 package systemrecon
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
 	"testing"
 )
 

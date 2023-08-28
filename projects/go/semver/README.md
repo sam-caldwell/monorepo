@@ -27,7 +27,7 @@ automate more so that I can tag less and drink more coffee.
 
 ### In your go project?
 
-`go get "github.com/sam-caldwell/go/v2/projects/semver"`
+`go get "github.com/sam-caldwell/monorepo/v2/projects/semver"`
 
 ```go
 var version SemanticVersion

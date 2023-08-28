@@ -1,9 +1,9 @@
 package systemrecon
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/keyvalue"
-	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
-	"github.com/sam-caldwell/go/v2/projects/go/wrappers/os"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/keyvalue"
+	words2 "github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/wrappers/os"
 )
 
 func GetLinuxOsReleaseMap() (output keyvalue.KeyValue, err error) {

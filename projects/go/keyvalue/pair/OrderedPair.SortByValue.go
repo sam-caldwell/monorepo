@@ -1,7 +1,7 @@
 package pair
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/misc"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/misc"
 	"reflect"
 	"sort"
 	"unsafe"

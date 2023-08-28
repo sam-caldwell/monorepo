@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
-	"github.com/sam-caldwell/go/v2/projects/go/repotools"
-	"github.com/sam-caldwell/go/v2/projects/go/simpleArgs"
+	ansi "github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/repotools"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/simpleArgs"
 	"os"
 )
 

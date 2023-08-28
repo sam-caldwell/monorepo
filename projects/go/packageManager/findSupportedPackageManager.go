@@ -13,7 +13,7 @@ package packageManager
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/systemrecon/opsys"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/systemrecon/opsys"
 )
 
 // findSupportedPackageManager - Find out if the system has a supported package manager

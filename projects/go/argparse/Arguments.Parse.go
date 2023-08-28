@@ -2,9 +2,9 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/descriptormap/descriptor"
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/types"
-	valid2 "github.com/sam-caldwell/go/v2/projects/go/argparse/valid"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	valid2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/valid"
 	"log"
 	"os"
 	"strings"

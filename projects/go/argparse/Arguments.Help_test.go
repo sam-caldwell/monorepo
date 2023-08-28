@@ -1,7 +1,7 @@
 package argparse
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"strings"
 	"testing"
 )

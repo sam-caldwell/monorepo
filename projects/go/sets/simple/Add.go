@@ -2,8 +2,8 @@ package simple
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
-	"github.com/sam-caldwell/go/v2/projects/go/misc"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/misc"
 )
 
 // Add - add item to set (all items must be of the same type).

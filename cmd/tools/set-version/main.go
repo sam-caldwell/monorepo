@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
-	"github.com/sam-caldwell/go/v2/projects/go/semver"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/semver"
 	"os"
 )
 

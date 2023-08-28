@@ -18,7 +18,7 @@ package systemrecon
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/convert"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/convert"
 )
 
 // CpuCache - Return the CPU cache (in KB)

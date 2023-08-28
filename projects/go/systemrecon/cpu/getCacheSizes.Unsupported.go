@@ -12,7 +12,7 @@ package systemrecon
  * See CpuCache.md
  */
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
 )
 
 // getCacheSizes - Return a given CPU cache (L1, L2, L3)

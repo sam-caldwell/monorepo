@@ -2,8 +2,8 @@ package descriptor
 
 import (
 	"fmt"
-	types2 "github.com/sam-caldwell/go/v2/projects/go/argparse/types"
-	"github.com/sam-caldwell/go/v2/projects/go/counters"
+	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/counters"
 )
 
 // Add - Sanitize and set the descriptor _config.

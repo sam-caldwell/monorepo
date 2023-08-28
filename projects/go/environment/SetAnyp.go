@@ -2,7 +2,7 @@ package environment
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/wrappers/os"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/wrappers/os"
 )
 
 // SetAnyp - Set an environment variable of any type

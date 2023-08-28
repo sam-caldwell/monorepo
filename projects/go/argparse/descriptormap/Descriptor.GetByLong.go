@@ -1,7 +1,7 @@
 package descriptormap
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/descriptormap/descriptor"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/descriptormap/descriptor"
 )
 
 // GetByLong - perform a linear search of the descriptor map for a matching Long arg

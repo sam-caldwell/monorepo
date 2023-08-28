@@ -1,7 +1,7 @@
 package simpleLogger
 
 import (
-	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
+	ansi "github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
 	"time"
 )
 

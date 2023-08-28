@@ -2,9 +2,9 @@ package lock
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
-	"github.com/sam-caldwell/go/v2/projects/go/fs/file"
-	"github.com/sam-caldwell/go/v2/projects/go/wrappers/os"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/fs/file"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/wrappers/os"
 	"path/filepath"
 )
 
