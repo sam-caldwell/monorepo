@@ -5,7 +5,7 @@
 # This file is the single point of including functions
 # for use in the CMakeLists.txt file.
 #
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.27.4)
 include(version.cmake)
 include(cmake/main.cmake)
 set(CMAKE_DEBUG True)
@@ -16,7 +16,7 @@ project(MONOREPO VERSION ${MONOREPO_VERSION} LANGUAGES CXX)
 
 # configure languages
 configureCpp()
-#configureGolang()
+configureGolang()
 
 
 # Global Parameters
