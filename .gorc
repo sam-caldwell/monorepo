@@ -1,4 +1,4 @@
 echo "gorc..."
 export PATH=${PATH}:/Users/samcaldwell/git/monorepo/go/go1.21.0
-export GOROOT=/Users/samcaldwell/go/go1.21.0
-export GOPATH=/Users/samcaldwell/go/:/Users/samcaldwell/go/pkg/mod
+export GOROOT=/Users/samcaldwell/git/monorepo/go/go1.21.0
+export GOPATH=/Users/samcaldwell/git/monorepo/go/:/Users/samcaldwell/git/monorepo/go/pkg/mod
