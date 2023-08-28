@@ -2,7 +2,7 @@ package ansi
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/wrappers/os"
+	"os"
 )
 
 // Fatal - Terminate the program and return the exit code
