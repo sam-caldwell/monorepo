@@ -53,3 +53,4 @@ go/
 **/CMakeFiles/
 CMakeCache.txt
 **/Makefile
+cmake/Modules

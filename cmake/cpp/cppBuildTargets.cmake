@@ -1,10 +1,10 @@
 #
-# createCppBuildTargets.cmake
+# cppBuildTargets.cmake
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 #
 
-function(createCppBuildTargets)
-    debug("createCppBuildTargets: start")
+function(cppBuildTargets)
+    debug("cppBuildTargets: start")
     #
     # Define executables
     #
@@ -35,6 +35,6 @@ function(createCppBuildTargets)
         endif ()
         debugLine()
     endforeach ()
-    debug("createCppBuildTargets: done")
+    debug("cppBuildTargets: done")
     debugLine()
 endfunction()
