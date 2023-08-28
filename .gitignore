@@ -44,3 +44,13 @@ packer.log
 virtualfloppy.vfd
 *.variables.json
 *.metadata.json
+
+# Go Environment
+go/
+
+
+# Cmake stuff
+CMakeFiles/
+CMakeCache.txt
+**/Makefile
+cmake/

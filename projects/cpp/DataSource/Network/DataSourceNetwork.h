@@ -11,27 +11,25 @@
 #include <unistd.h>
 #include "../../types/byte_t.h"
 #include "../constants.h"
-
-namespace DataSource {
+#include "../DataSource.h"
 /*
  * Specialization for network-based data source
  */
-    class Network {
-    private:
-        int socketFd; // Example network socket descriptor
+class DataSourceNetwork : DataSource {
+private:
+    int socketFd; // Example network socket descriptor
 
-    public:
-        Network(const std::string &connect);
+public:
+    DataSourceNetwork(const std::string &connect);
 
-        ~Network();
+    ~DataSourceNetwork();
 
-        byte_t Read();
+    byte_t Read();
 
-        byte_t Write(byte_t content);
+    byte_t Write(byte_t content);
 
-        // Not implemented.
-        uint64_t Size(){return SizeNotImplemented;};
-    };
+    // Not implemented.
+    uint64_t Size(){return SizeNotImplemented;};
 };
 
 #include "Network.cpp"

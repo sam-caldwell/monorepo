@@ -1,0 +1,1 @@
+set(MONOREPO_VERSION 1.0)
