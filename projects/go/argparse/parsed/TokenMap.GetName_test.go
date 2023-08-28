@@ -1,7 +1,7 @@
 package parsed
 
 import (
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"testing"
 )
 
@@ -10,7 +10,7 @@ func TestArgumentElementMap_GetName(t *testing.T) {
 	var set Namespace
 
 	//test() is the test function that takes a name, type and value
-	test := func(n string, typ types2.ArgTypes, value any) {
+	test := func(n string, typ types.ArgTypes, value any) {
 		//Add element to the Namespace.Add()
 		err := set.Add(&n, typ, &value)
 		if err != nil {
@@ -22,8 +22,8 @@ func TestArgumentElementMap_GetName(t *testing.T) {
 		}
 	}
 
-	test("bool", types2.Boolean, true)
-	test("bool", types2.Boolean, false)
+	test("bool", types.Boolean, true)
+	test("bool", types.Boolean, false)
 
 	test("flag", types2.Flag, true)
 	test("flag", types2.Flag, false)

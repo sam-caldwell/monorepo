@@ -2,7 +2,7 @@ package descriptormap
 
 import (
 	"fmt"
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"github.com/sam-caldwell/monorepo/v2/projects/go/counters"
 	"testing"
 )
@@ -16,12 +16,12 @@ func TestMap_GetByLong(t *testing.T) {
 		}
 	}
 
-	addRows := func(pos *counters.Conditional, name, short, long string, typ types2.ArgTypes, required bool, dValue any, help string) {
+	addRows := func(pos *counters.Conditional, name, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
 		err := m.Add(pos, name, short, long, typ, required, dValue, help)
 		failIf(err != nil, "%v", err)
 	}
 
-	verifyRows := func(name, short, long string, typ types2.ArgTypes, required bool, dValue any, help string) {
+	verifyRows := func(name, short, long string, typ types.ArgTypes, required bool, dValue any, help string) {
 		n, d := m.GetByLong(&long)
 
 		failIf(n == nil, "Error: nil name returned")

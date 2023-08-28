@@ -1,7 +1,7 @@
 package parsed
 
 import (
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"testing"
 )
 
@@ -10,7 +10,7 @@ func TestArgumentElementMap_Get(t *testing.T) {
 	var set Namespace
 
 	//test() is the test function that takes a name, type and value
-	test := func(n string, typ types2.ArgTypes, value any) {
+	test := func(n string, typ types.ArgTypes, value any) {
 		//Add element to the Namespace.Add()
 		err := set.Add(&n, typ, &value)
 		if err != nil {
@@ -29,21 +29,21 @@ func TestArgumentElementMap_Get(t *testing.T) {
 		}
 	}
 
-	test("bool", types2.Boolean, true)
-	test("bool", types2.Boolean, false)
+	test("bool", types.Boolean, true)
+	test("bool", types.Boolean, false)
 
-	test("flag", types2.Flag, true)
-	test("flag", types2.Flag, false)
-	test("flag", types2.Flag, true)
-	test("flag", types2.Flag, false)
+	test("flag", types.Flag, true)
+	test("flag", types.Flag, false)
+	test("flag", types.Flag, true)
+	test("flag", types.Flag, false)
 
-	test("float", types2.Float, -10.0)
-	test("float", types2.Float, 00.00)
-	test("float", types2.Float, 10.00)
+	test("float", types.Float, -10.0)
+	test("float", types.Float, 00.00)
+	test("float", types.Float, 10.00)
 
-	test("integer", types2.Integer, -1)
-	test("integer", types2.Integer, 0)
-	test("integer", types2.Integer, 1)
+	test("integer", types.Integer, -1)
+	test("integer", types.Integer, 0)
+	test("integer", types.Integer, 1)
 
 	test("string", types2.String, "ok")
 	test("string", types2.String, "")
