@@ -1,0 +1,4 @@
+echo "gorc..."
+export PATH=${PATH}:/Users/samcaldwell/go/go1.21.0
+export GOROOT=/Users/samcaldwell/go/go1.21.0
+export GOPATH=/Users/samcaldwell/go/:/Users/samcaldwell/go/pkg/mod
