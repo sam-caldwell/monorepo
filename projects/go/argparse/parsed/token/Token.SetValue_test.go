@@ -1,14 +1,14 @@
 package token
 
 import (
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"testing"
 )
 
 func TestArgumentElement_SetValue(t *testing.T) {
 	var input Token
 
-	test := func(typ types2.ArgTypes, value any, expectFail bool) {
+	test := func(typ types.ArgTypes, value any, expectFail bool) {
 		if err := input.SetType(typ); err != nil {
 			t.Fatal(err)
 		}
@@ -23,17 +23,17 @@ func TestArgumentElement_SetValue(t *testing.T) {
 			}
 		}
 	}
-	test(types2.Boolean, true, false)
-	test(types2.Boolean, false, false)
-	test(types2.Boolean, "true", true)
-	test(types2.Boolean, "false", true)
-	test(types2.Boolean, -1, true)
-	test(types2.Boolean, 0, true)
-	test(types2.Boolean, 1, true)
-	test(types2.Boolean, -1.0, true)
-	test(types2.Boolean, 0.0, true)
-	test(types2.Boolean, 1.0, true)
-	test(types2.Boolean, "bad", true)
+	test(types.Boolean, true, false)
+	test(types.Boolean, false, false)
+	test(types.Boolean, "true", true)
+	test(types.Boolean, "false", true)
+	test(types.Boolean, -1, true)
+	test(types.Boolean, 0, true)
+	test(types.Boolean, 1, true)
+	test(types.Boolean, -1.0, true)
+	test(types.Boolean, 0.0, true)
+	test(types.Boolean, 1.0, true)
+	test(types.Boolean, "bad", true)
 
 	test(types2.Flag, true, false)
 	test(types2.Flag, false, false)

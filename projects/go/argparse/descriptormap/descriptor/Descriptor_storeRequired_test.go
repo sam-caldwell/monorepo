@@ -1,12 +1,12 @@
 package descriptor
 
 import (
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"testing"
 )
 
 func TestDescriptor_storeRequired(t *testing.T) {
-	test := func(typ types2.ArgTypes, value any) {
+	test := func(typ types.ArgTypes, value any) {
 		var descriptor Descriptor
 		if err := descriptor.storeRequired(typ, true, value); err != nil {
 			t.Fatal(err)
@@ -22,11 +22,11 @@ func TestDescriptor_storeRequired(t *testing.T) {
 		}
 		var ok bool
 		switch descriptor.typ {
-		case types2.Boolean:
+		case types.Boolean:
 			_, ok = value.(bool)
-		case types2.Flag:
+		case types.Flag:
 			_, ok = value.(bool)
-		case types2.Float:
+		case types.Float:
 			_, ok = value.(float64)
 		case types2.Integer:
 			_, ok = value.(int)

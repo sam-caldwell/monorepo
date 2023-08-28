@@ -2,13 +2,13 @@ package descriptor
 
 import (
 	"fmt"
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"github.com/sam-caldwell/monorepo/v2/projects/go/counters"
 )
 
 // Add - Sanitize and set the descriptor _config.
 func (arg *Descriptor) Add(pos *counters.Conditional, short string, long string,
-	argType types2.ArgTypes, required bool, argDefault any, help string) (err error) {
+	argType types.ArgTypes, required bool, argDefault any, help string) (err error) {
 
 	const optionalArgumentIndicator = -1
 	if err = arg.storeShort(&short); err != nil {
@@ -25,7 +25,7 @@ func (arg *Descriptor) Add(pos *counters.Conditional, short string, long string,
 	}
 
 	//positional arguments cannot be flags
-	if (arg.pos != optionalArgumentIndicator) && (argType == types2.Flag) {
+	if (arg.pos != optionalArgumentIndicator) && (argType == types.Flag) {
 		return fmt.Errorf(errPositionalArgumentCannotBeFlag)
 	}
 	if err = arg.storeType(argType); err != nil {

@@ -2,7 +2,7 @@ package parsed
 
 import (
 	"fmt"
-	types2 "github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
 	"strings"
 	"testing"
 )
@@ -10,7 +10,7 @@ import (
 func TestTokenMap_Add(t *testing.T) {
 	var set Namespace
 
-	test := func(n string, typ types2.ArgTypes, value any, expectRecord bool, typeCheckFail bool) {
+	test := func(n string, typ types.ArgTypes, value any, expectRecord bool, typeCheckFail bool) {
 		if err := set.Add(&n, typ, &value); err != nil {
 			actualError := strings.ToLower(err.Error())
 			if expectRecord {
@@ -49,17 +49,17 @@ func TestTokenMap_Add(t *testing.T) {
 		}
 	}
 
-	test("bool", types2.Boolean, true, false, false)
-	test("bool", types2.Boolean, false, true, false)
-	test("bool", types2.Integer, 0, true, false)
+	test("bool", types.Boolean, true, false, false)
+	test("bool", types.Boolean, false, true, false)
+	test("bool", types.Integer, 0, true, false)
 
-	test("flag", types2.Flag, true, false, false)
-	test("flag", types2.Flag, false, true, false)
-	test("flag", types2.Flag, true, true, false)
-	test("flag", types2.Flag, false, true, false)
-	test("flag", types2.Flag, -1, true, true)
-	test("flag", types2.Flag, 0, true, true)
-	test("flag", types2.Flag, 1, true, true)
+	test("flag", types.Flag, true, false, false)
+	test("flag", types.Flag, false, true, false)
+	test("flag", types.Flag, true, true, false)
+	test("flag", types.Flag, false, true, false)
+	test("flag", types.Flag, -1, true, true)
+	test("flag", types.Flag, 0, true, true)
+	test("flag", types.Flag, 1, true, true)
 	test("flag", types2.Flag, false, true, true)
 	test("flag", types2.Flag, false, true, true)
 	test("flag", types2.Flag, false, true, true)
