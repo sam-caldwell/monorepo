@@ -46,7 +46,9 @@ virtualfloppy.vfd
 *.metadata.json
 
 # Go Environment
-go/
+go
+!cmd/*.go
+!projects/go
 
 
 # Cmake stuff

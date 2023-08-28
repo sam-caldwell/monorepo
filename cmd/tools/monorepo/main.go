@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
 )
 
 const (

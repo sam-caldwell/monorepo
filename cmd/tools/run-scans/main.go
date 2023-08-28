@@ -1,9 +1,9 @@
 package main
 
 import (
-	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
-	"github.com/sam-caldwell/go/v2/projects/go/runcommand"
+	ansi "github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/runcommand"
 )
 
 const (

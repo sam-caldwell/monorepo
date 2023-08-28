@@ -12,13 +12,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/cmd/tools/list-projects/ui"
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
-	"github.com/sam-caldwell/go/v2/projects/go/keyvalue/pair"
-	"github.com/sam-caldwell/go/v2/projects/go/repotools/filters"
-	listprojects2 "github.com/sam-caldwell/go/v2/projects/go/repotools/listprojects"
-	"github.com/sam-caldwell/go/v2/projects/go/repotools/manifest"
-	"github.com/sam-caldwell/go/v2/projects/go/version"
+	"github.com/sam-caldwell/monorepo/v2/cmd/tools/list-projects/ui"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/keyvalue/pair"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/repotools/filters"
+	listprojects2 "github.com/sam-caldwell/monorepo/v2/projects/go/repotools/listprojects"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/repotools/manifest"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/version"
 	"time"
 )
 

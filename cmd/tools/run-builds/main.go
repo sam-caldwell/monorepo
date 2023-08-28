@@ -1,11 +1,11 @@
 package main
 
 import (
-	ansi "github.com/sam-caldwell/go/v2/projects/go/ansi"
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
-	repoBuilder "github.com/sam-caldwell/go/v2/projects/go/repotools/repobuilder"
-	repocli2 "github.com/sam-caldwell/go/v2/projects/go/repotools/ui"
-	simpleArgs2 "github.com/sam-caldwell/go/v2/projects/go/simpleArgs"
+	ansi "github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
+	repoBuilder "github.com/sam-caldwell/monorepo/v2/projects/go/repotools/repobuilder"
+	repocli2 "github.com/sam-caldwell/monorepo/v2/projects/go/repotools/ui"
+	simpleArgs2 "github.com/sam-caldwell/monorepo/v2/projects/go/simpleArgs"
 	"os"
 )
 

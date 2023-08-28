@@ -11,9 +11,9 @@ package main
 
 import (
 	"fmt"
-	monorepo2 "github.com/sam-caldwell/go/v2/projects/go/__system__"
-	"github.com/sam-caldwell/go/v2/projects/go/ansi"
-	"github.com/sam-caldwell/go/v2/projects/go/exit"
+	monorepo2 "github.com/sam-caldwell/monorepo/v2/projects/go/__system__"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
 	"os"
 	"strings"
 )

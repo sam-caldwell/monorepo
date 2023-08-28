@@ -8,14 +8,14 @@ gets real old, real quick whether here or when I just want to reuse some of my c
 or work project.
 
 ## Status
-![Version](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/VERSION.svg)          
+![Version](https://raw.githubusercontent.com/sam-caldwell/monorepo/main/badges/VERSION.svg)          
 
 |          |                                                                                               |
 |----------|-----------------------------------------------------------------------------------------------|
-| Linter   | ![Linter](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/LINT.svg?branch=main) |
-| Security | ![Snyk](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/SNYK.svg?branch=main)   |
-| Test     | ![Test](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/TEST.svg?branch=main)   |
-| Build    | ![Build](https://raw.githubusercontent.com/sam-caldwell/go/main/badges/BUILD.svg?branch=main) |
+| Linter   | ![Linter](https://raw.githubusercontent.com/sam-caldwell/monorepo/main/badges/LINT.svg?branch=main) |
+| Security | ![Snyk](https://raw.githubusercontent.com/sam-caldwell/monorepo/main/badges/SNYK.svg?branch=main)   |
+| Test     | ![Test](https://raw.githubusercontent.com/sam-caldwell/monorepo/main/badges/TEST.svg?branch=main)   |
+| Build    | ![Build](https://raw.githubusercontent.com/sam-caldwell/monorepo/main/badges/BUILD.svg?branch=main) |
 
 
 
@@ -30,14 +30,14 @@ or work project.
 
 ## Commands
 This section covers the commands in the go monorepo:
-* [Command: Ansi/Color](./cmd/ansi/color/README.md)
+* [Command: Ansi/Color](cmd/ansi/README.md)
 * [Command: net/calculateSubnets](./cmd/net/calculate-subnets/README.md)
 * [Command: Tools/badge-maker](./cmd/tools/badge-maker/README.md)
 * [Command: What](./cmd/tools/what/README.md)
 
 ## Projects
 
-* [Ansi Color Printing](projects/go/ansi/README.md)
+* [Ansi Color Printing](projects/go/ansi/color/README.md)
 
 * [Cli Argument Parser](projects/go/argparse/README.md)
 
