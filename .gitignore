@@ -52,5 +52,5 @@ go/
 # Cmake stuff
 CMakeFiles/
 CMakeCache.txt
-Makefile
+**/Makefile
 cmake/
