@@ -1,5 +1,5 @@
 #
-# go/main.cmake
+# go/configureGolang.cmake
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 #
 function(configure_project)

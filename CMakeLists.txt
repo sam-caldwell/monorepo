@@ -8,24 +8,22 @@
 cmake_minimum_required(VERSION 3.27)
 include(version.cmake)
 include(cmake/main.cmake)
+set(CMAKE_DEBUG True)
+#check prerequisites
+#install prerequisites
 
 project(MONOREPO VERSION ${MONOREPO_VERSION} LANGUAGES CXX)
 
-# Special Signals
-set(CMAKE_DEBUG True)
+# configure languages
 configureCpp()
-configureGolang()
+#configureGolang()
 
 
 # Global Parameters
 enable_testing()
 set(CTEST_OUTPUT_ON_FAILURE TRUE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_BUILD_ROOT ${CMAKE_BINARY_DIR}/build)
-set(CMAKE_BINARY_ROOT ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_GOLANG_COMPILER ~/go/go1.21.0/bin/go)
-set(CMAKE_GOLANG_GOROOT ~/go/go1.21.0)
 
 
 # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
