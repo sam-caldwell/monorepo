@@ -1,10 +1,10 @@
 package argparse
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/descriptormap"
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/parsed"
-	"github.com/sam-caldwell/go/v2/projects/go/counters"
-	"github.com/sam-caldwell/go/v2/projects/go/sets/ordered"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/descriptormap"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/parsed"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/counters"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/sets/ordered"
 )
 
 /*

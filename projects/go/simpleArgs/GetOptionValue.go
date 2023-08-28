@@ -2,7 +2,7 @@ package simpleArgs
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
 	"os"
 	"strings"
 )

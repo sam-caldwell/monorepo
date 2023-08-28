@@ -1,7 +1,7 @@
 package environment
 
 import (
-	"github.com/sam-caldwell/go/v2/projects/go/wrappers/os"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/wrappers/os"
 )
 
 // GetStringp - Return the int value of a given environment variable

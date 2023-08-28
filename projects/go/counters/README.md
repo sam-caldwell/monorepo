@@ -9,7 +9,7 @@ A set of counters which helps avoid reinvented wheels.
 ```golang
 package main
 
-import counters "github.com/sam-caldwell/go/v2/projects/counter"
+import counters "github.com/sam-caldwell/monorepo/v2/projects/counter"
 
 var count counters.Simple
 count.Increment() //output: 0

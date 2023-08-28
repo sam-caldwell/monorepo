@@ -1,7 +1,7 @@
 package keyvalue
 
 import (
-	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
+	words2 "github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
 )
 
 func Interceptor(sourceFunc func() (KeyValue, error)) (string, error) {

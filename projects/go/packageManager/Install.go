@@ -12,8 +12,8 @@ package packageManager
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/misc/words"
-	"github.com/sam-caldwell/go/v2/projects/go/runcommand"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/runcommand"
 )
 
 // Install - Detect the system's package manager and install the given package

@@ -2,7 +2,7 @@ package simple
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
 )
 
 // Delete - delete an item from the set

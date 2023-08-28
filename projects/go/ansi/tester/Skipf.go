@@ -1,7 +1,7 @@
 package ansi
 
 import (
-	"github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
+	"github.com/sam-caldwell/monorepo/projects/go/v2/ansi/color"
 )
 
 // Skipf - A skipped test report

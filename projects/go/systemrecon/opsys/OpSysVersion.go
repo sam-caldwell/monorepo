@@ -10,8 +10,8 @@ package systemrecon
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
-	words2 "github.com/sam-caldwell/go/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
+	words2 "github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
 )
 
 // OpSysVersion - Return the operating system version

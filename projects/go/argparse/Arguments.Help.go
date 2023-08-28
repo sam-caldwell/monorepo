@@ -2,8 +2,8 @@ package argparse
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/argparse/types"
-	misc2 "github.com/sam-caldwell/go/v2/projects/go/misc"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/argparse/types"
+	misc2 "github.com/sam-caldwell/monorepo/v2/projects/go/misc"
 	"sort"
 	"strings"
 )

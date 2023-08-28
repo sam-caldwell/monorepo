@@ -14,8 +14,8 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/go/v2/projects/go/exit/errors"
-	"github.com/sam-caldwell/go/v2/projects/go/keyvalue"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/v2/projects/go/keyvalue"
 )
 
 // GetFamily2 - return the operating system family
