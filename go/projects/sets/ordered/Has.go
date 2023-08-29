@@ -4,7 +4,7 @@ package ordered
  * projects/sets/ordered/Has.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 // Has scan the set and see if an item (data) has been seen before.

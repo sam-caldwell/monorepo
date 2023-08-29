@@ -7,7 +7,7 @@ package keyvalue
  * This file defines the keyvalue.SetInterface() method which will allow us to store an arbitrary data type
  * as the value of a string-keyed key-value store.
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 // SetInterface - Allow an arbitrary struct to be stored...or anything else really.

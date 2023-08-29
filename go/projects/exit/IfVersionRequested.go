@@ -8,7 +8,7 @@ package exit
  * detect a version flag in os.Args and
  * show the monorepo version
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 import (

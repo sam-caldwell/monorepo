@@ -10,7 +10,7 @@ import "fmt"
  * allow us to 'walk' over a key-value store and execute a given
  * function for each key-value pair.
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 func (kv *KeyValue) Walk(fn func(key string, value interface{}) error) error {

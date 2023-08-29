@@ -6,7 +6,7 @@ package packageManager
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/projects/v2/runcommand"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/systemrecon/opsys"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/systemrecon"
 )
 
 // yum - Redhat/centos/fedora package manager wrapper function

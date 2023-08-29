@@ -9,7 +9,7 @@ package exit
  * and if so, the program will print commandUsage
  * and exit.
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 import (

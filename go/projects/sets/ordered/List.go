@@ -4,7 +4,7 @@ package ordered
  * projects/sets/ordered/List.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 // List - return a list of items

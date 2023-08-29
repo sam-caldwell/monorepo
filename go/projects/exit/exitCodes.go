@@ -6,7 +6,7 @@ package exit
  *
  * This file defines our program exit codes.
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 const (

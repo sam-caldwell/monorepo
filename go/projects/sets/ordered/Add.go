@@ -8,7 +8,7 @@ package ordered
  * ordered set and enforces type-checking if data
  * exists already.  First element determines type.
  *
- * See README.md
+ * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 import (
