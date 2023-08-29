@@ -1,7 +1,7 @@
 package systemrecon
 
 /*
- * projects/systemrecon/HasExecutable.go
+ * projects/systemrecon/OpSys.HasExecutable.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This cross-platform function will check to see if a given

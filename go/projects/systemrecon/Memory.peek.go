@@ -1,7 +1,7 @@
 package systemrecon
 
 /*
- * projects/systemrecon/memory/Peek.go
+ * projects/systemrecon/memory/Memory.peek.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * Peek() will capture a given number (length) of bytes starting at

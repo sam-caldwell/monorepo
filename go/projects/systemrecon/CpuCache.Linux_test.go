@@ -25,13 +25,13 @@ func TestCpuCache(t *testing.T) {
 				expected = s
 			}
 		}
-		if actual, err := getCacheSizes(i); err != nil {
+		if actual, err := systemrecon.getCacheSizes(i); err != nil {
 			t.Fatal(err)
 		} else if actual != expected {
 			t.Fatal("actual not expected")
 		}
 	}
-	if actual, err := getCacheSizes(-1); err == nil {
+	if actual, err := systemrecon.getCacheSizes(-1); err == nil {
 		t.Fatal("expected error not found")
 	} else if actual != -1 {
 		t.Fatal("expected -1 got something else")
