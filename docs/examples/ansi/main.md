@@ -1,7 +1,8 @@
+```
 package main
 
 import (
-	"github.com/sam-caldwell/monorepo/v2/projects/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi"
 )
 
 func main() {
@@ -27,3 +28,4 @@ func main() {
 		Strikethrough().Print("This is too much").
 		Reset()
 }
+```
