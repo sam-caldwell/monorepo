@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
 	"os"
 	"strings"
 )

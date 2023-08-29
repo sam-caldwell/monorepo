@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/convert"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/exit"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/exit/errors"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/keyvalue"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/misc/words"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/keyvalue"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/words"
+	systemrecon "github.com/sam-caldwell/monorepo/go/projects/v2/systemrecon/opsys"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/version"
 	systemrecon2 "github.com/sam-caldwell/monorepo/v2/projects/go/systemrecon/cpu"
 	memory "github.com/sam-caldwell/monorepo/v2/projects/go/systemrecon/memory"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/systemrecon/opsys"
-	"github.com/sam-caldwell/monorepo/v2/projects/go/version"
 	"os"
 	"strings"
 )
