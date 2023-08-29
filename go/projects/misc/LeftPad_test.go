@@ -1,7 +1,7 @@
 package misc
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi/Tester"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/testing/testmessage"
 	"testing"
 )
 
@@ -15,7 +15,7 @@ func TestLeftPad(t *testing.T) {
 		underscore = '_'
 		root       = "test"
 	)
-	test := ansi.Test(t)
+	test := testmessage.Test(t)
 	defer test.Stats()
 
 	var expectedPadding [2]string

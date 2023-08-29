@@ -1,12 +1,12 @@
 package counters
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi/Tester"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/testing/testmessage"
 	"testing"
 )
 
 func TestIntegerCounter_incrementing(t *testing.T) {
-	test := ansi.Test(t)
+	test := testmessage.Test(t)
 	defer test.Stats()
 
 	count := IntegerCounter(0, 1)
@@ -24,7 +24,7 @@ func TestIntegerCounter_incrementing(t *testing.T) {
 }
 
 func TestIntegerCounter_decrementing(t *testing.T) {
-	test := ansi.Test(t)
+	test := testmessage.Test(t)
 	defer test.Stats()
 
 	count := IntegerCounter(10, -1)

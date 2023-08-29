@@ -1,12 +1,12 @@
 package counters
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi/Tester"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/testing/testmessage"
 	"testing"
 )
 
 func TestFloatCounter32(t *testing.T) {
-	test := ansi.Test(t)
+	test := testmessage.Test(t)
 	defer test.Stats()
 	increments := []float32{-1.0, -0.5, -0.25, -0.1, -0.01, 0.01, 0.1, 0.25, 0.5, 1.0}
 

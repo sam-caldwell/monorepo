@@ -1,12 +1,12 @@
 package counters
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi/Tester"
+	"github.com/sam-caldwell/monorepo/go/projects/v2/testing/testmessage"
 	"testing"
 )
 
 func TestConditional_Increment(t *testing.T) {
-	test := ansi.Test(t)
+	test := testmessage.Test(t)
 	defer test.Stats()
 	var count Conditional
 	if count.value != 0 {
