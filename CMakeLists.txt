@@ -7,9 +7,25 @@
 #
 cmake_minimum_required(VERSION 3.27.4)
 include(version.cmake)
+#
+# Set up the environment
+#
+set(CMAKE_DEBUG true)
+#
+# Core Functionality
+#
 include(cmake/main.cmake)
-set(CMAKE_DEBUG True)
+#
+# Include the language-specific functionality
+#
+debug("LANGUAGE: ${LANGUAGE}")
+set(LANGUAGE_CONFIGURE_FILE "${LANGUAGE}/cmake/configure.cmake")
+set(LANGUAGE_TARGETS_FILE "${LANGUAGE}/cmake/targets.cmake")
+include("${LANGUAGE_CONFIGURE_FILE}")
+include("${LANGUAGE_TARGETS_FILE}")
+
 copyModulesLocal()
+
 #check prerequisites
 #install prerequisites
 

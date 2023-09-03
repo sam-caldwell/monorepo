@@ -1,10 +1,10 @@
 #
-# buildGoTargets.cmake
+# cpp/targets.cmake
 # (c) 2023 Sam Caldwell.  See LICENSE.txt
 #
 
-function(buildGoTargets source_directory)
-    debug("cppBuildTargets: start")
+function(targets)
+    debug("cpp/targets: start")
     #
     # Define executables
     #
@@ -35,6 +35,6 @@ function(buildGoTargets source_directory)
         endif ()
         debugLine()
     endforeach ()
-    debug("cppBuildTargets: done")
+    debug("cpp/targets: done")
     debugLine()
 endfunction()

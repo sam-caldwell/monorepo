@@ -12,6 +12,10 @@ function(configureGolang)
     set(ENV{CGO_LDFLAGS} "")
     set(ENV{CGO_CFLAGS} "")
 
+    debug("   [CGO_ENABLED  : ${CGO_ENABLED}]")
+    debug("   [CGO_LDFLAGS  : ${CGO_LDFLAGS}]")
+    debug("   [CGO_CFLAGS   : ${CGO_CFLAGS}]")
+
     enable_language("GO")
 
     ok("configureGolang()")

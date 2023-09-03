@@ -11,10 +11,10 @@
 
 # This file sets the basic flags for Golang in cmake and loads available platform
 # information where possible.
-if(NOT CMAKE_Go_COMPILE_OBJECT)
-  set(CMAKE_Go_COMPILE_OBJECT "go tool compile -l -N -o <OBJECT> <SOURCE> ")
+if(NOT CMAKE_GO_COMPILE_OBJECT)
+  set(CMAKE_GO_COMPILE_OBJECT "go tool compile -l -N -o <OBJECT> <SOURCE> ")
 endif()
 
-if(NOT CMAKE_Go_LINK_EXECUTABLE)
-  set(CMAKE_Go_LINK_EXECUTABLE "go tool link -o <TARGET> <OBJECTS>  ")
+if(NOT CMAKE_GO_LINK_EXECUTABLE)
+  set(CMAKE_GO_LINK_EXECUTABLE "go tool link -o <TARGET> <OBJECTS>  ")
 endif()
