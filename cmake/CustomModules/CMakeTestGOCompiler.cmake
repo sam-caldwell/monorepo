@@ -9,3 +9,4 @@
 # The version in the cmake Modules/ directory will be overwritten when cmake is run.
 #
 
+set(CMAKE_Go_COMPILER_WORKS 1 CACHE INTERNAL "")

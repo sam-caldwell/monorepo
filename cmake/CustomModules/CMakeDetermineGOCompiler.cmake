@@ -14,35 +14,47 @@
 # 3. This module will configure--
 # 3.a. CMAKE_GO_COMPILER
 
-debug("CMakeDetermineGOCompiler.cmake: start")
+if(NOT CMAKE_GO_COMPILER)
+  if(NOT $ENV{GO_COMPILER} STREQUAL "")
+    get_filename_component(CMAKE_GO_COMPILER_INIT $ENV{GO_COMPILER} PROGRAM PROGRAM_ARGS CMAKE_GO_FLAGS_ENV_INIT)
 
-include(${CMAKE_ROOT}/Modules/CMakeDetermineCompiler.cmake)
+    if(CMAKE_GO_FLAGS_ENV_INIT)
+      set(CMAKE_GO_COMPILER_ARG1 "${CMAKE_GO_FLAGS_ENV_INIT}" CACHE STRING "First argument to Go compiler")
+    endif()
 
-if( NOT CMAKE_GO_COMPILER )
-    debug("CMAKE_GO_COMPILER not set...")
-    find_program(CMAKE_GO_COMPILER "go" "/")
-    get_filename_component(go_bin_dir ${CMAKE_GO_COMPILER} DIRECTORY)
-    get_filename_component(GOROOT ${go_bin_dir} DIRECTORY)
-endif ()
+    if(NOT EXISTS ${CMAKE_GO_COMPILER_INIT})
+      message(SEND_ERROR "Could not find compiler set in environment variable GO_COMPILER:\n$ENV{GO_COMPILER}.")
+    endif()
 
-set(GLOBAL PROPERTY GOROOT "${CMAKE_GO_COMPILER}")
-set(GLOBAL PROPERTY GOPATH "${CMAKE_BINARY_DIR}")
-set(ENV{GOPATH} "${CMAKE_BINARY_DIR}")
+  endif()
 
-set(ENV{CGO_ENABLED} 0)
-set(ENV{CGO_LDFLAGS} "")
-set(ENV{CGO_CFLAGS} "")
+  set(Go_BIN_PATH
+    $ENV{GOPATH}
+    $ENV{GOROOT}
+    $ENV{GOROOT}/../bin
+    $ENV{GO_COMPILER}
+    /usr/bin
+    /usr/local/bin
+    )
 
-ok("CMAKE_GO_COMPILER: '${CMAKE_GO_COMPILER}'")
-ok("           GOROOT: '${GOROOT}'")
+  if(CMAKE_GO_COMPILER_INIT)
+    set(CMAKE_GO_COMPILER ${CMAKE_GO_COMPILER_INIT} CACHE PATH "Go Compiler")
+  else()
+    find_program(CMAKE_GO_COMPILER
+      NAMES go
+      PATHS ${Go_BIN_PATH}
+    )
+    EXEC_PROGRAM(${CMAKE_GO_COMPILER} ARGS version OUTPUT_VARIABLE GOLANG_VERSION)
+    STRING(REGEX MATCH "go[0-9]+.[0-9]+.[0-9]+[ /A-Za-z0-9]*" VERSION "${GOLANG_VERSION}")
+    message("-- The Golang compiler identification is ${VERSION}")
+    message("-- Check for working Golang compiler: ${CMAKE_GO_COMPILER}")
+  endif()
 
-# configure variables set in this file for fast reload later on
-configure_file(${CMAKE_BINARY_DIR}/cmake/Modules/CMakeGOCompiler.cmake.in
-        ${CMAKE_PLATFORM_INFO_DIR}/CMakeGOCompiler.cmake
-        @ONLY
-)
-#set(CMAKE_GO_COMPILER_ENV_VAR "GO")
+endif()
 
+mark_as_advanced(CMAKE_GO_COMPILER)
 
-ok("CMakeDetermineGOCompiler.cmake: done")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CMakeGoCompiler.cmake.in
+  ${CMAKE_PLATFORM_INFO_DIR}/CMakeGoCompiler.cmake @ONLY)
 
+set(CMAKE_GO_COMPILER_ENV_VAR "GO_COMPILER")

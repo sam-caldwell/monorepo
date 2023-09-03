@@ -5,9 +5,6 @@
 # This file configures C++ compilers, etc.
 #
 
-
-
-
 # For Windows
 if (MSVC)
     # Use the latest C++ standard.

@@ -23,7 +23,8 @@ include(cmake/os/apple.cmake)
 include(cmake/os/unix.cmake)
 include(cmake/os/windows.cmake)
 
-include(cmake/cpp/configureCpp.cmake)
-include(cmake/go/configureGolang.cmake)
+include(cpp/cmake/configure.cmake)
+include(go/cmake/buildTargets.cmake)
 
-include(cmake/cpp/cppBuildTargets.cmake)
+include(cpp/cmake/cppBuildTargets.cmake)
+include(go/cmake/buildTargets.cmake)
