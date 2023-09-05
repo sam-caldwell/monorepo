@@ -1,10 +1,10 @@
 ---
 #
-# cpp/monorepo.yaml
+# go/monorepo.yaml
 # (c) 2023 Sam Caldwell.  See LICENSE.txt.
 #
 # This file defines how the monorepo tools will
-# work when operating against c++ projects.
+# work when operating against golang projects.
 #
 # Golang Structure:
 #
@@ -21,8 +21,8 @@
 #  }
 #
 
-language: cpp  # must agree with directory name and root manifest
-description: c++ language manifest
+language: gi  # must agree with directory name and root manifest
+description: Golang language manifest
 platforms:
   - macos
   - linux
@@ -36,9 +36,11 @@ tasks:
   #     build process abstracted from the platform/CPU.
   #
   build:
-    - monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main.cpp"
-  linter: # feature is empty and not currently supported
+    - monorepo exec go "build -o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main.go"
+  linter:
+    - monorepo exec go "vet -v ./..." --working_dir ./go/projects
+    - monorepo exec go "vet -v ./..." --working_dir ./go/cmd
   tester:
-    - monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main_test.cpp"
-    - monorepo exec {TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}_test
+    - monorepo exec go "test -v ./..." --working_dir ./go/projects
+    - monorepo exec go "test -v ./..." --working_dir ./go/cmd
   signing: # feature is empty and not currently supported
