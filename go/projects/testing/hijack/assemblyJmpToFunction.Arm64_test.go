@@ -5,7 +5,6 @@ package hijack
 
 import (
 	"encoding/binary"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert/Endianness"
 	"reflect"
 	"testing"
 	"unsafe"

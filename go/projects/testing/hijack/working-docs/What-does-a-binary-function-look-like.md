@@ -80,7 +80,7 @@ func main() {
 <span> . . . skipping code . . .</span>
 <p>then we eventually see our hijackFunction...</p>
 <pre style="color:grey">
-TEXT github.com/sam-caldwell/monorepo/v2/projects/testing/hijack.hijackFunction(SB) /Users/samcaldwell/git/go/projects/testing/hijack/hijackFunction.go
+TEXT github.com/sam-caldwell/monorepo//projects/testing/hijack.hijackFunction(SB) /Users/samcaldwell/git/go/projects/testing/hijack/hijackFunction.go
 func hijackFunction(targetFuncPtr, imposterFuncPtr uintptr) (originalMemory []byte, err error) {
 </pre>
 <pre>
@@ -93,7 +93,7 @@ func hijackFunction(targetFuncPtr, imposterFuncPtr uintptr) (originalMemory []by
   0x10963a9             48895c2470              MOVQ BX, 0x70(SP)               
   0x10963ae             4889442468              MOVQ AX, 0x68(SP)               
         ansi.Blue().Println("hijackFunction() start").
-  0x10963b3             e808f9ffff              CALL github.com/sam-caldwell/monorepo/v2/projects/ansi.Blue(SB)       
+  0x10963b3             e808f9ffff              CALL github.com/sam-caldwell/monorepo//projects/ansi.Blue(SB)       
         fmt.Println(message)
 </pre>
 <div style="color:green">

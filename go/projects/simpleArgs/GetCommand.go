@@ -2,9 +2,9 @@ package simpleArgs
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/version"
+	"github.com/sam-caldwell/monorepo/go/projects/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/version"
 	"os"
 )
 

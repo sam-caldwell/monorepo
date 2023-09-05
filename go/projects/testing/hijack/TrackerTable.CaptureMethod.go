@@ -1,7 +1,7 @@
 package hijack
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/exit"
 	"reflect"
 )
 

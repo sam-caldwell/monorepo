@@ -57,8 +57,8 @@ package main
 
 import (
    "fmt"
-   "github.com/sam-caldwell/monorepo/v2/projects/testing/hijack"
-   "github.com/sam-caldwell/monorepo/v2/projects/wrappers/os"
+   "github.com/sam-caldwell/monorepo//projects/testing/hijack"
+   "github.com/sam-caldwell/monorepo//projects/wrappers/os"
 )
 
 func main() {

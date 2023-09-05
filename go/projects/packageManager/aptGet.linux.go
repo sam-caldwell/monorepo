@@ -5,8 +5,8 @@ package packageManager
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/runcommand"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/systemrecon"
+	"github.com/sam-caldwell/monorepo/go/projects/runcommand"
+	"github.com/sam-caldwell/monorepo/go/projects/systemrecon"
 )
 
 // aptGet - debian/ubuntu package manager wrapper function

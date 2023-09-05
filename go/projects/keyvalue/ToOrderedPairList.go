@@ -1,7 +1,7 @@
 package keyvalue
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/keyvalue/pair"
+	"github.com/sam-caldwell/monorepo/go/projects/keyvalue/pair"
 )
 
 func (kv *KeyValue) ToOrderedPairList(sorted bool) (list pair.OrderedPair) {

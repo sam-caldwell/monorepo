@@ -2,8 +2,8 @@ package lock
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/fs/file"
-	os2 "github.com/sam-caldwell/monorepo/go/projects/v2/wrappers/os"
+	"github.com/sam-caldwell/monorepo/go/projects/fs/file"
+	os2 "github.com/sam-caldwell/monorepo/go/projects/wrappers/os"
 	"path/filepath"
 )
 

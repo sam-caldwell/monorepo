@@ -1,7 +1,7 @@
 package environment
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/environment/environment_testing"
+	"github.com/sam-caldwell/monorepo/go/projects/environment/environment_testing"
 	"testing"
 )
 

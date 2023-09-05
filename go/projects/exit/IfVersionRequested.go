@@ -13,7 +13,7 @@ package exit
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/version"
+	"github.com/sam-caldwell/monorepo/go/projects/version"
 	"os"
 )
 

@@ -13,7 +13,7 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/words"
+	"github.com/sam-caldwell/monorepo/go/projects/misc/words"
 	"os/exec"
 	"runtime"
 	"strings"

@@ -2,8 +2,8 @@ package keyvalue
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/numbers"
+	"github.com/sam-caldwell/monorepo/go/projects/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/misc/numbers"
 	"reflect"
 )
 

@@ -1,7 +1,7 @@
 package convert
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/words"
+	"github.com/sam-caldwell/monorepo/go/projects/misc/words"
 )
 
 // ErrorToString - Safely turn an error into a string

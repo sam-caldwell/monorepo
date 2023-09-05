@@ -1,7 +1,7 @@
 package misc
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/testing/testmessage"
+	"github.com/sam-caldwell/monorepo/go/projects/testing/testmessage"
 	"testing"
 )
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/ansi"
+	"github.com/sam-caldwell/monorepo/go/projects/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/exit"
 	"os"
 	"strings"
 )

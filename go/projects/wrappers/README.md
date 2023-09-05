@@ -27,7 +27,7 @@ repo's wrapper of `os.Exit()` (found in `projects/wrappers/os`) we see this--
 package os
 
 import (
-	"github.com/sam-caldwell/monorepo/v2/projects/wrappers/os"
+	"github.com/sam-caldwell/monorepo//projects/wrappers/os"
 )
 
 var Exit = os.Exit
@@ -43,7 +43,7 @@ package foo
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/v2/projects/wrappers/os"
+	"github.com/sam-caldwell/monorepo//projects/wrappers/os"
 	"testing"
 )
 

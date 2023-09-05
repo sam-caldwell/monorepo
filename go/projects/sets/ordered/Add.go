@@ -13,7 +13,7 @@ package ordered
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/exit/errors"
 )
 
 // Add - add item to set if the item is the same type as the set

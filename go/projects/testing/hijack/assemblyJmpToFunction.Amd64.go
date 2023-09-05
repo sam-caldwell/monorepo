@@ -4,7 +4,7 @@
 package hijack
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/convert"
 )
 
 // AssemblyJmpToFunction - Create a byte slice containing our Assembly Language to Jump to a function entrypoint.

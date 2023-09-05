@@ -2,8 +2,8 @@ package hijack
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/words"
+	"github.com/sam-caldwell/monorepo/go/projects/ansi"
+	"github.com/sam-caldwell/monorepo/go/projects/misc/words"
 	"reflect"
 	"testing"
 )

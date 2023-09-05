@@ -2,7 +2,7 @@ package environment
 
 import (
 	"fmt"
-	os2 "github.com/sam-caldwell/monorepo/go/projects/v2/wrappers/os"
+	os2 "github.com/sam-caldwell/monorepo/go/projects/wrappers/os"
 	"testing"
 )
 

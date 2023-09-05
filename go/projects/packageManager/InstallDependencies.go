@@ -16,8 +16,8 @@ package packageManager
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/ansi"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/simpleLogger"
+	"github.com/sam-caldwell/monorepo/go/projects/ansi"
+	"github.com/sam-caldwell/monorepo/go/projects/simpleLogger"
 )
 
 // InstallDependencies - Install dependencies for the caller

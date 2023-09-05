@@ -18,7 +18,7 @@ package convert
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert/Endianness"
+	endianness "github.com/sam-caldwell/monorepo/go/projects/convert/Endianness"
 	"unsafe"
 )
 

@@ -16,7 +16,7 @@ we did it in DOS.  No frills, no fuss.
 
 ### Installation
 
-`go get "github.com/sam-caldwell/monorepo/v2/"`
+`go get "github.com/sam-caldwell/monorepo//"`
 
 ### Printing colors...
 

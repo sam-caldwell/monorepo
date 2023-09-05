@@ -2,7 +2,7 @@ package systemrecon
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/keyvalue"
+	"github.com/sam-caldwell/monorepo/go/projects/keyvalue"
 )
 
 // CpuInfo - Returns a map of CPU characteristics

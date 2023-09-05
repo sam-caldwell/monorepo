@@ -13,7 +13,7 @@ package systemrecon
  * See CpuCache.md
  */
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/convert"
 	"os/exec"
 	"strconv"
 	"strings"

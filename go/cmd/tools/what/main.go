@@ -2,15 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/keyvalue"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/words"
-	systemrecon "github.com/sam-caldwell/monorepo/go/projects/v2/systemrecon/opsys"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/version"
-	systemrecon2 "github.com/sam-caldwell/monorepo/v2/projects/go/systemrecon/cpu"
-	memory "github.com/sam-caldwell/monorepo/v2/projects/go/systemrecon/memory"
+	"github.com/sam-caldwell/monorepo/go/projects/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/keyvalue"
+	"github.com/sam-caldwell/monorepo/go/projects/misc/words"
+	"github.com/sam-caldwell/monorepo/go/projects/systemrecon"
+	"github.com/sam-caldwell/monorepo/go/projects/version"
 	"os"
 	"strings"
 )
@@ -48,16 +46,16 @@ func main() {
 	 * CPU-related commands
 	 */
 	case "cpus":
-		output, err = convert.IntToStringFuncWrapper(systemrecon2.CpuCores)
+		output, err = convert.IntToStringFuncWrapper(systemrecon.CpuCores)
 
 	case "cpu-arch":
-		output, err = systemrecon2.CpuArch()
+		output, err = systemrecon.CpuArch()
 
 	case "cpu-cache":
-		output, err = systemrecon2.CpuCache()
+		output, err = systemrecon.CpuCache()
 
 	case "cpu-info":
-		output, err = keyvalue.Interceptor(systemrecon2.CpuInfo)
+		output, err = keyvalue.Interceptor(systemrecon.CpuInfo)
 	/*
 	 * operating system stuff
 	 */
@@ -73,7 +71,7 @@ func main() {
 	 * Memory related
 	 */
 	case "ram":
-		output, err = convert.IntToStringFuncWrapper(memory.RamSize)
+		output, err = convert.IntToStringFuncWrapper(systemrecon.RamSize)
 	/*
 	 * General user stuff (help, version, etc)
 	 */

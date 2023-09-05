@@ -13,7 +13,7 @@ package packageManager
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/systemrecon"
+	"github.com/sam-caldwell/monorepo/go/projects/systemrecon"
 )
 
 // findSupportedPackageManager - Find out if the system has a supported package manager

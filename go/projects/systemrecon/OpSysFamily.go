@@ -10,8 +10,8 @@ package systemrecon
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc/words"
+	"github.com/sam-caldwell/monorepo/go/projects/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/misc/words"
 )
 
 // OpSysFamily - return the operating system family (e.g. Ubuntu, Redhat, Centos)

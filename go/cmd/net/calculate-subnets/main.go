@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/net/subnetting/calculate-subnets"
+	"github.com/sam-caldwell/monorepo/go/projects/exit"
+	"github.com/sam-caldwell/monorepo/go/projects/net/subnetting/calculate-subnets"
 	"os"
 	"strconv"
 )

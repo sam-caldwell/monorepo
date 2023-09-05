@@ -2,7 +2,7 @@ package packageManager
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/runcommand"
+	"github.com/sam-caldwell/monorepo/go/projects/runcommand"
 )
 
 // goInstall - Wrapper for 'go get'

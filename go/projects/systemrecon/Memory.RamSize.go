@@ -13,7 +13,7 @@ package systemrecon
  */
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/projects/exit/errors"
 )
 
 // RamSize - Return the ram size in KB

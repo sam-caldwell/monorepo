@@ -2,8 +2,8 @@ package environment
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/wrappers/os"
+	"github.com/sam-caldwell/monorepo/go/projects/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/wrappers/os"
 	"strconv"
 	"strings"
 )

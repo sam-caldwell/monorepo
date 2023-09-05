@@ -4,7 +4,7 @@
 package hijack
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/convert"
+	"github.com/sam-caldwell/monorepo/go/projects/convert"
 )
 
 // Assembles a jump to a function value

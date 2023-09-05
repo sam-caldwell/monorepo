@@ -3,7 +3,7 @@ package file
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/sam-caldwell/monorepo/go/projects/v2/fs"
+	"github.com/sam-caldwell/monorepo/go/projects/fs"
 	"os"
 )
 

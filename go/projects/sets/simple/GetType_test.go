@@ -1,7 +1,7 @@
 package simple
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/v2/misc"
+	"github.com/sam-caldwell/monorepo/go/projects/misc"
 	"reflect"
 	"testing"
 )
