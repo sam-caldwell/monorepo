@@ -1,0 +1,40 @@
+---
+#
+# go/cmd/communications/morse-code/monorepo.yaml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt.
+#
+# This is the optional project-specific configuration.
+# If this file is not present:
+#     - project name is the current directory
+#     - author is <current username>
+#     - produces_executable: false
+#     - feature_flags are all true
+#     - platforms are macos, linux, windows.
+#
+# Golang Structure:
+#
+#   type MonorepoYamlProject struct {
+#	  Project             string `yaml:"project"`
+#     Description         string `yaml:"description"`
+#	  Author              string `yaml:"author"`
+#	  ProducesExecutable  bool   `yaml:"produces_executable"`
+#	  FeatureFlags        struct {
+#		Linter bool `yaml:"linter"`
+#		Build  bool `yaml:"build"`
+#		Tests  bool `yaml:"tests"`
+#	  } `yaml:"feature_flags"`
+#	  Platforms []string `yaml:"platforms"`
+#   }
+#
+project: morse-code
+description: This project takes a string and prints its morse-code equivalent.
+author: Sam Caldwell
+produces_executable: true
+feature_flags:
+  linter: true
+  build: true
+  tests: true
+platforms:
+  - macos
+  - linux
+  - windows
