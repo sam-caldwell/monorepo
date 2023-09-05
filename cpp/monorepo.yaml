@@ -36,9 +36,9 @@ tasks:
   #     build process abstracted from the platform/CPU.
   #
   build:
-    - monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main.cpp"
+    - monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} cpp/{PROJECT_NAME}/main.cpp"
   linter: # feature is empty and not currently supported
   tester:
-    - monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main_test.cpp"
+    - monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} cpp/{PROJECT_NAME}/main_test.cpp"
     - monorepo exec {TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}_test
   signing: # feature is empty and not currently supported
