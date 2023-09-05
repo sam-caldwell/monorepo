@@ -1,0 +1,27 @@
+---
+#
+# monorepo.d/container_runtimes.yaml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt.
+#
+# This file defines the supported container run-times
+# (e.g., docker, kubernetes).
+#
+# Golang Structure:
+#
+#   type MonorepoYamlContainerRuntime struct {
+#     Name       string   `yaml:"name"`
+#     Enabled    bool     `yaml:"enabled"`
+#     Platforms  []string `yaml:"platforms"`
+#   }
+#
+#   type MonorepoYamlContainerRuntimes struct {
+#     ContainerRuntimes []MonorepoYamlContainerRuntime `yaml:"container_runtimes"`
+#   }
+#
+
+container_runtimes:
+  - name: docker
+    enabled: true
+    platforms:
+      - macos
+      - linux

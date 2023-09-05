@@ -1,0 +1,31 @@
+---
+#
+# cpp/monorepo.yaml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt.
+#
+# This file defines the build targets used for distributed builds
+# Each host is an actual host on the current network.
+#
+# Golang Structure:
+#
+
+language: cpp  # must agree with directory name and root manifest
+description: c++ language manifest
+platforms:
+  - macos
+  - linux
+parameters:
+  # language-specific parameters.
+  #   - This should be the command or array of commands which will
+  #     execute for each feature.
+  #   - We should implement all steps by executing commands through monorepo exec
+  #     (written in golang for cross-platform execution).  This keeps the language
+  #     build process abstracted from the platform/CPU.
+  #
+  build: |
+    monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main.cpp"
+  linter: null  # if set to null, feature is not supported.
+  tester: |
+    monorepo exec g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} {SOURCE_PATH}/main_test.cpp"
+    monorepo exec {TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}_test
+  signing: null # if set to null, feature is not supported.

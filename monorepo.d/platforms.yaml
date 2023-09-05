@@ -1,0 +1,57 @@
+---
+#
+# monorepo.d/platforms.yaml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt.
+#
+# This file defines the platforms (cpu arch, operating systems)
+# supported by the monorepo.
+#
+# Golang Structure:
+#
+#   type MonorepoYamlSupportedVersion struct {
+#     Family   string `yaml:"family"`
+#     Version  string `yaml:"version"`
+#     CPUArch  string `yaml:"cpu_arch"`
+#   }
+#
+#   type MonorepoYamlPlatform struct {
+#     Name              string             `yaml:"name"`
+#     Description       string             `yaml:"description"`
+#     Connect           string             `yaml:"connect"`
+#     Enabled           bool               `yaml:"enabled"`
+#     SupportedVersions []MonorepoYamlSupportedVersion `yaml:"supported_versions"`
+#   }
+#
+#   type MonorepoYamlPlatforms struct {
+#     Platforms []MonorepoYamlPlatform `yaml:"platforms"`
+#   }
+#
+
+platforms:
+  - name: macos
+    description: MacOS Ventura or later
+    connect: ssh
+    enabled: true
+    supported_versions:
+      - family: macOS Ventura
+        version: 13.5.[0-9]+  # accept any 13.5.xx version
+        cpu_arch: x86_64
+  - name: linux
+    description: Ubuntu or Debian Linux
+    connect: ssh
+    enabled: true
+    supported_version:
+      - family: Ubuntu
+        version: 22.[0-9]+
+        cpu_arch: x86_64
+      - family: Ubuntu
+        version: 23.[0-9]+
+        cpu_arch: x86_64
+#  - name: windows
+#    description: Microsoft Windows 10 or later
+#    connect: ssh
+#    enabled: false
+#  - name: freebsd
+#    description: FreeBSD (stretch goal)
+#    connect: ssh
+#    enabled: false

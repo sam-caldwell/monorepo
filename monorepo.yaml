@@ -1,0 +1,40 @@
+---
+#
+# <root>/monorepo.yaml
+#    Required root manifest
+#    (c) 2023 Sam Caldwell.  See LICENSE.txt.
+#
+#    This is the top-level file for configuring the monorepo.
+#    Editing this file will affect how the monorepo tools work.
+#    Use caution.
+#
+# Golang Structure:
+#
+#   type MonorepoYaml struct {
+#	  license           string `yaml:"license"`
+#  	  artifactDirectory string `yaml:"artifact_directory"`
+#	  buildHosts        string `yaml:"build_hosts"`
+#	  languages         string `yaml:"languages"`
+#	  platforms         string `yaml:"platforms"`
+# 	  hypervisors       string `yaml:"hypervisors"`
+# 	  containerRuntimes string `yaml:"container_runtimes"`
+#   }
+#
+license: LICENSE.txt
+
+artifact_directory: ./build
+
+# Define the hosts on which distributed builds can be run
+build_hosts: monorepo.d/build_hosts.yaml
+
+# Define the languages the monorepo supports
+languages: monorepo.d/languages.yaml
+
+# Define the operating system environments supported by the monorepo
+platforms: monorepo.d/platforms.yaml
+
+# Define the hypervisors supported by the monorepo
+hypervisors: monorepo.d/hypervisors.yaml
+
+# Define the container runtimes (e.g. Kubernetes/Docker) supported by the monorepo
+container_runtimes: monorepo.d/container_runtimes.yaml

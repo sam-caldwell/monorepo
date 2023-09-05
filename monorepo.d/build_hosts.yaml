@@ -1,0 +1,49 @@
+---
+#
+# monorepo.d/build_hosts.yaml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt.
+#
+# This file defines the build targets used for distributed builds
+# Each host is an actual host on the current network.
+#
+# Golang Structure:
+#
+#   type MonorepoYamlBuildHost struct {
+#     Name       string `yaml:"name"`
+#	  Host       string `yaml:"host"`
+#	  Enabled    bool   `yaml:"enabled"`
+#	  Username   string `yaml:"username"`
+#	  OpSys      string `yaml:"opsys"`
+#	  Hypervisor string `yaml:"hypervisor"`
+#	  CRI        string `yaml:"cri"`
+#   }
+#
+#   type MonorepoYamlBuildHosts struct {
+#     BuildHosts []MonorepoYamlBuildHost `yaml:"build_hosts"`
+#   }
+#
+
+build_hosts:
+  - name: local mac laptop
+    host: mac-builder.local
+    enabled: true
+    username: null  # if username is null, we use the current user when tools run.
+    opsys: macos  # must be in the platforms list
+    hypervisor: parallels  # must be in the hypervisor list
+    cri: docker  # must be in the container runtimes list
+
+  - name: local linux laptop
+    host: linux-builder.local
+    enabled: false
+    username: null  # if username is null, we use the current user when tools run.
+    cri: docker
+    opsys: linux
+    hypervisor: kvm
+
+  - name: local windows laptop
+    host: windows-builder.local
+    enabled: false
+    username: null  # if username is null, we use the current user when tools run.
+    cri: null
+    opsys: windows  # must be in the platforms list
+    hypervisor: vmware # we should support hyper-v too.
