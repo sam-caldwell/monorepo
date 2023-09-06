@@ -55,17 +55,17 @@ can be reviewed and committed to git separately.)
 |                                                    | name and options.  Any options not specified will result    |
 |                                                    | in the defaults being used.                                 |
 | `monorepo project enable <feature> <name>`         | Enable the given project and feature                        |
-| `monorepo project disable <featur> <name>`         | Disable the given project and feature                       |
+| `monorepo project disable <feature> <name>`        | Disable the given project and feature                       |
 
 #### Project Options
 
-| Option                              | Description                                        |
-|-------------------------------------|----------------------------------------------------|
-| `--description <string>`            | Project description                                |
-| `--author <string>`                 | Project author (used in copyright strings)         |
-| `--output <executable   \| source>` | Project output (executable or reusable source code | 
-| `--enable <feature>`                | Enable a feature flag (linter,build,tests)         |
-| `--addPlatform <opsys string>`      | Add a supported platform                           |
+| Option                            | Description                                        |
+|-----------------------------------|----------------------------------------------------|
+| `--description <string>`          | Project description                                |
+| `--author <string>`               | Project author (used in copyright strings)         |
+| `--output <executable \| source>` | Project output (executable or reusable source code | 
+| `--enable <feature>`              | Enable a feature flag (linter,build,tests)         |
+| `--addPlatform <opsys string>`    | Add a supported platform                           |
 
 ### Build Host Configuration
 
@@ -97,8 +97,8 @@ There must be at least one host configured for tasks to run, including localhost
 | `--username`        | Declare the username used for connectivity.  If not specified the current user |
 |                     | is used.  Assumes all authentication is key-based.                             |
 | `--platform <name>` | Specify the target host's platform.                                            |
-| `--hypervisor`      | Define what hypervisor is expecte on remote host.                              |
-| `--cri`             | Define what container runtime. is expecte on remote host.                      |
+| `--hypervisor`      | Define what hypervisor is expected on remote host.                             |
+| `--cri`             | Define what container runtime. is expected on remote host.                     |
 
 ### Container Runtime Configuration
 
