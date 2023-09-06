@@ -17,7 +17,6 @@
 #   type MonorepoYamlPlatform struct {
 #     Name              string             `yaml:"name"`
 #     Description       string             `yaml:"description"`
-#     Connect           string             `yaml:"connect"`
 #     Enabled           bool               `yaml:"enabled"`
 #     SupportedVersions []MonorepoYamlSupportedVersion `yaml:"supported_versions"`
 #   }
@@ -30,7 +29,6 @@
 platforms:
   - name: macos
     description: MacOS Ventura or later
-    connect: ssh
     enabled: true
     supported_versions:
       - family: macOS Ventura
@@ -38,7 +36,6 @@ platforms:
         cpu_arch: x86_64
   - name: linux
     description: Ubuntu or Debian Linux
-    connect: ssh
     enabled: true
     supported_version:
       - family: Ubuntu
@@ -49,7 +46,6 @@ platforms:
         cpu_arch: x86_64
 #  - name: windows
 #    description: Microsoft Windows 10 or later
-#    connect: ssh
 #    enabled: false
 #  - name: freebsd
 #    description: FreeBSD (stretch goal)
