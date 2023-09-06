@@ -20,7 +20,7 @@ import (
 // IfVersionRequested - show version and exit program.
 func IfVersionRequested() {
 	for _, arg := range os.Args {
-		if arg == "--version" || arg == "-version" {
+		if arg == "--version" || arg == "-version" || arg == "-v" {
 			fmt.Println(version.Version)
 			os.Exit(Success)
 		}
