@@ -1,6 +1,6 @@
 ---
 #
-# go/cmd/communications/morse-code/monorepo.yaml
+# go/communications/morse-code/monorepo.yaml
 # (c) 2023 Sam Caldwell.  See LICENSE.txt.
 #
 # This is the optional project-specific configuration.
