@@ -33,3 +33,19 @@ const (
 
 	Help = "help"
 )
+
+const (
+	Build      = "build"
+	Config     = "config"
+	Cri        = "cri"
+	Exec       = "exec"
+	Group      = "group"
+	Host       = "host"
+	Hypervisor = "hypervisor"
+	Language   = "language"
+	Lint       = "lint"
+	Parameters = "parameters"
+	Platform   = "platform"
+	Project    = "project"
+	Test       = "test"
+)
