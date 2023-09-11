@@ -17,13 +17,24 @@ import (
 //	and all subsequent arguments.
 func (arg *Arguments) execCommand(args []string) {
 	exit.OnCondition(len(args) < 3, exit.MissingArg, "Missing arguments for exec command", checkUsage)
-	arg.group = cmdExec   // exec
-	arg.command = args[1] // this is the code string
+	for i, a := range args {
+		fmt.Printf("[%d]: %s\n", i, a)
+	}
+
+	arg.group = cmdExec // exec (args[1])
+
+	args = arg.generalOptions(args[2:])
+
+	arg.command = args[0] // this is the code string
+
+	fmt.Printf("group: %s\n", arg.group)
+	fmt.Printf("command: %s\n", arg.command)
+	fmt.Printf("parameters: %v\n", arg.parameters)
 
 	var parameterName string
 	var expectValue bool
 
-	for _, parameter := range arg.generalOptions(args[2:]) {
+	for _, parameter := range arg.generalOptions(args[1:]) {
 		switch parameter {
 		case optionWorkingDir:
 			parameterName = strings.TrimLeft(parameter, words.Hyphen)
