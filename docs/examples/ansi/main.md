@@ -2,7 +2,7 @@
 package main
 
 import (
-	"github.com/sam-caldwell/monorepo/go/projects/ansi"
+	"github.com/sam-caldwell/monorepo/go/ansi"
 )
 
 func main() {
