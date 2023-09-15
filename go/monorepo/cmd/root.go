@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/monorepo/go/cli/cobraFlags"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"os"
 	"path/filepath"
@@ -42,12 +43,10 @@ func init() {
 		}
 		return filepath.Join(homeDirectory, "git", "monorepo", "monorepo.yaml")
 	}
-
-	cobra.OnInitialize(InitConfigFile)
 	rootCmd.PersistentFlags().BoolP("nocolor", "c", false, "Print output without color")
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Print verbose output")
 	rootCmd.PersistentFlags().BoolP("noop", "s", false, "Execute without persistent change")
 
-	rootCmd.PersistentFlags().String("config", defaultConfigFile(), "config file (default is $HOME/git/monorepo/monorepo.yaml)")
+	cobraFlags.ConfigFlag(rootCmd, defaultConfigFile())
 	rootCmd.Flags().BoolP("version", "v", false, "Show current version")
 }
