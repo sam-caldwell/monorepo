@@ -4,7 +4,9 @@ import "fmt"
 
 // Down - move cursor n units
 func (c *Color) Down(n int) *Color {
-	fmt.Printf(moveDown, n)
+	if !disabled {
+		fmt.Printf(moveDown, n)
+	}
 	return c
 }
 

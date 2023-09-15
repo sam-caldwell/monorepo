@@ -4,7 +4,7 @@ import "fmt"
 
 // Strikethrough - Set format attribute
 func (c *Color) Strikethrough() *Color {
-	if !c.disabled {
+	if !disabled {
 		fmt.Print(strikethrough)
 	}
 	return c

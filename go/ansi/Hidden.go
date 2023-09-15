@@ -4,7 +4,7 @@ import "fmt"
 
 // Hidden - Set format attribute
 func (c *Color) Hidden() *Color {
-	if !c.disabled {
+	if !disabled {
 		fmt.Print(hiddenText)
 	}
 	return c

@@ -6,7 +6,9 @@ import (
 
 // Fatal - Terminate the program and return the exit code
 func (c *Color) Fatal(exitCode int) *Color {
-	Reset()
+	if !disabled {
+		Reset()
+	}
 	os.Exit(exitCode)
 	return c
 }
