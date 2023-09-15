@@ -1,4 +1,4 @@
-package cobraFlags
+package cli
 
 /*
  * cli/cobraFlags/version.go
