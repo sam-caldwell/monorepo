@@ -4,7 +4,9 @@ import "fmt"
 
 // Reverse - Set format attribute
 func (c *Color) Reverse() *Color {
-	fmt.Print(reverse)
+	if !c.disabled {
+		fmt.Print(reverse)
+	}
 	return c
 }
 

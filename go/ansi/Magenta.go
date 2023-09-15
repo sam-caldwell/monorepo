@@ -4,7 +4,9 @@ import "fmt"
 
 // Magenta - Set color
 func (c *Color) Magenta() *Color {
-	fmt.Print(fgMagenta)
+	if !c.disabled {
+		fmt.Print(fgMagenta)
+	}
 	return c
 }
 

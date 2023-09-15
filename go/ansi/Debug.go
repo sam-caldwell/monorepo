@@ -8,6 +8,9 @@ import (
 
 // Debug - Print debug message (with cobra integration for --nocolor flag)
 func Debug(cmd *cobra.Command, msg interface{}) {
+	if cmd.PersistentFlags().Lookup(words.Debug).Value.String() != words.True {
+		return
+	}
 	if cmd.PersistentFlags().Lookup(words.NoColor).Value.String() != words.True {
 		Yellow()
 		defer Reset()

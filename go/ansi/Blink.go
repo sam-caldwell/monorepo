@@ -4,7 +4,9 @@ import "fmt"
 
 // Blink - Set format attribute
 func (c *Color) Blink() *Color {
-	fmt.Print(blink)
+	if !c.disabled {
+		fmt.Print(blink)
+	}
 	return c
 }
 

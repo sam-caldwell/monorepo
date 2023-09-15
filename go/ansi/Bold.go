@@ -4,7 +4,9 @@ import "fmt"
 
 // Bold - Set format attribute
 func (c *Color) Bold() *Color {
-	fmt.Print(bold)
+	if !c.disabled {
+		fmt.Print(bold)
+	}
 	return c
 }
 

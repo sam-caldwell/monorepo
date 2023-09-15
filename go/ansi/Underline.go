@@ -4,7 +4,9 @@ import "fmt"
 
 // Underline - Set format attribute
 func (c *Color) Underline() *Color {
-	fmt.Print(underline)
+	if !c.disabled {
+		fmt.Print(underline)
+	}
 	return c
 }
 

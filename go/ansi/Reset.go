@@ -4,7 +4,9 @@ import "fmt"
 
 // Reset - Send Reset to stdout
 func (c *Color) Reset() *Color {
-	fmt.Print(reset) // Reset color
+	if !c.disabled {
+		fmt.Print(reset) // Reset color
+	}
 	return c
 }
 
