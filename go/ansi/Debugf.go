@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Debugf - Print debug line (with cobra integration for --nocolor flag)
+// Debugf - Print debug line (with cobra integration for --debug flag)
 func Debugf(cmd *cobra.Command, format string, msg ...interface{}) {
 	Debug(cmd, fmt.Sprintf(format, msg...))
 }
