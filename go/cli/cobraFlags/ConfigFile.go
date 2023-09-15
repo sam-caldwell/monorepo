@@ -15,12 +15,14 @@ import (
 	"github.com/spf13/viper"
 )
 
-func ConfigFlag(cmd *cobra.Command, defaultConfigFile string) {
-	cobra.OnInitialize(InitConfigFile(cmd))
+// ConfigFile - create --config (-c) persistent flag (cobra) and load any config file
+func ConfigFile(cmd *cobra.Command, defaultConfigFile string) {
+	cobra.OnInitialize(initConfigFile(cmd))
 	cmd.PersistentFlags().String(words.Config, defaultConfigFile, "config file")
 }
 
-func InitConfigFile(cmd *cobra.Command) func() {
+// initConfigFile - load the config file
+func initConfigFile(cmd *cobra.Command) func() {
 	return func() {
 		fmt.Println("InitConfigFile")
 		cfgFile := cmd.Flags().Lookup("config").Value.String()
