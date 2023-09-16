@@ -6,28 +6,22 @@ package cmd
  */
 
 import (
-	"fmt"
-
+	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/spf13/cobra"
 )
 
-// deleteCmd represents the delete command
-var deleteConfigCmd = &cobra.Command{
+// configCriDeleteCmd represents the delete command
+var configCriDeleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "- Delete a container runtime configuration",
+	Long:  `Delete a container runtime configuration`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete config <name>")
+		ansi.Blue().Println("delete config <name>").Reset()
 	},
 }
 
 func init() {
-	configCmd.AddCommand(deleteConfigCmd)
+	configCriCmd.AddCommand(configCriDeleteCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -37,5 +31,5 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	deleteConfigCmd.Flags().String("name", "", "Specify the project name to delete (required)")
+	configCriDeleteCmd.Flags().String("name", "", "Specify the project name to delete (required)")
 }
