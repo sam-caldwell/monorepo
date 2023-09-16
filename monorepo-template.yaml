@@ -175,7 +175,6 @@ hypervisors:
 #         PROJECT_NAME : The current PROJECT_NAME (directory under 'go/${PROJECT_NAME}')
 #         EXTENSION    : The EXTENSION is determined by operating system (e.g. windows -> .exe).
 #
-#     The build t
 languages:
   - name: asmAmd64
     description: Amd64 Assembly Language

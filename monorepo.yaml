@@ -1,375 +1,392 @@
----
-# <root>/monorepo-template.yaml (Monorepo Configuration file)
-#    (c) 2023 Sam Caldwell.  See LICENSE.txt.
-#
-#    This is the top-level file for configuring the monorepo.
-#    Editing this file will affect how the monorepo tools work.
-#    Use caution.
+_comment: |
+    # ---
+    # <root>/monorepo-template.yaml (Monorepo Configuration file)
+    #    (c) 2023 Sam Caldwell.  See LICENSE.txt.
+    #
+    #    This is the top-level file for configuring the monorepo.
+    #    Editing this file will affect how the monorepo tools work.
+    #    Use caution.
 
-# artifact_directory
-#   The local directory where build artifacts will be stored.
-#   if build operation is remote, the artifact will be copied
-#   to this local directory once completed.
-#
-#   The 'artifact_directory' is relative to the repository
-#   root directory.
-#
+    # artifact_directory
+    #   The local directory where build artifacts will be stored.
+    #   if build operation is remote, the artifact will be copied
+    #   to this local directory once completed.
+    #
+    #   The 'artifact_directory' is relative to the repository
+    #   root directory.
+    #
+    # ---
+    # build_hosts
+    #   Defines the hosts on which distributed builds can be run.
+    #
+    #   A "build host" is a computer on which monorepo operations
+    #   such as builds will be run.
+    #
+    #   Fields:
+    #     - name       : Must be unique
+    #     - enabled    : Enables/disables the build host.
+    #     - host       : Should be a valid hostname, FQDN or IP address.
+    #     - connect    : Values (local | ssh) indicate connectivity to the host.
+    #     - username   : If null, we use the current user when tools run.
+    #     - opsys      : Values must be in the platforms list
+    #     - hypervisor : Values must be in the hypervisors list
+    #     - cri        : Values must be in the cri list
+    #
+    # ---
+    # container_runtimes
+    #   Define supported container runtimes
+    #     - This will constrain the runtime to specific platforms (opsys/cpu)
+    #     - Defining a supported CRI simply makes the CRI available for use
+    #       in defining a build host (pairing platforms with a CRI, if appropriate).
+    #     - Examples: Docker, Kubernetes
+    #
+    # ---
+    # hypervisors
+    #   Define the hypervisors supported by the monorepo
+    #     - This will constrain the hypervisor to specific platforms (opsys/cpu)
+    #     - Defining a supported hypervisor makes the hypervisor available for use
+    #       in defining a build host (pairing platforms with a hypervisor, if appropriate).
+    #     - Examples: parallels, vmware, kvm, etc.
+    #
+    #   Fields:
+    #     - name     : Must be unique
+    #     - enabled  : Enables/disables hypervisor
+    #     - platform : list of allowed supported platforms
+    #
+    # ---
+    # language
+    #   Define the supported programming languages for the monorepo and
+    #   how the language will be handled (scripts).
+    #
+    #   Fields:
+    #     - name     : Programming language name
+    #     - enabled  : Enables/disables hypervisor
+    #     - directory : Relative path to source files (REPO_ROOT/go/<directory>)
+    #     - tasks:
+    #         build: <operation descriptor>
+    #         lint: <operation descriptor>
+    #         scan: <operation descriptor>
+    #         sign: <operation descriptor>
+    #         test: <operation descriptor>
+    #
+    #   <operation descriptor>:
+    #     null   : When null, a disabled message will be written to stdout.
+    #
+    #     string : A template for an executable command to be run in a shell to perform an
+    #              operation (build, test, scan, lint).
+    #
+    #     A task <operation descriptor> will provide a template for how the operation
+    #     will be executed.  For example, golang would use--
+    #
+    #       tasks:
+    #         build: |
+    #           GOOS=${OPSYS} \
+    #           GOARCH=${CPU_ARCH} \
+    #           go build -o ${OPSYS}/${CPU_ARCH}/${PROJECT_NAME}${EXTENSION} go/${PROJECT_NAME}/main.go
+    #         lint: |
+    #           GOOS=${OPSYS} \
+    #           GOARCH=${CPU_ARCH} \
+    #           go vet -v  ./go/...
+    #         test: |
+    #           go GOOS=${OPSYS} \
+    #              GOARCH=${CPU_ARCH} \
+    #              test -v -asmdecl -atomic -bool -buildtags -assign -cgocall -composites \
+    #                   -copylocks -httpresponse -lostcancel -methods -nilfunc -printf \
+    #                   -rangeloops -shift -tests -unreachable -unsafeptr -unusedresult \
+    #                   -unusedstringmethods -unusedfuncs ./${PROJECT_NAME}
+    #
+    #     Task Operations:
+    #         build: Compile source code and link as an executable program
+    #         lint: Run linter(s) against the project(s)
+    #         scan: Run Security Scanners against project(s)
+    #         sign: Sign an artifact for project(s)
+    #         test: Run test(s) against the project(s)
+    #
+    #     Task Parameters:
+    #       The task expects the following discoverable parameters:
+    #         GOOS         : Detected operating system
+    #         GOARCH       : Detected CPU architecture
+    #         PROJECT_NAME : The current PROJECT_NAME (directory under 'go/${PROJECT_NAME}')
+    #         EXTENSION    : The EXTENSION is determined by operating system (e.g. windows -> .exe).
+    #
+    # ---
+    # license: <filename>
+    #          (the name of a license file relative to the repository root directory)
+    #
+    # ---
+    # platforms:
+    #
+    #       Define the platform (operating system, cpu combinations)
+    #
+    #   - description: Ubuntu or Debian Linux
+    #
+    #       if a platform is enabled (true), we will use it in build_hosts
+    #       if a platform is disabled (false), it will no longer be available to use in build_hosts
+    #       but the disabled platform was used previously in build_hosts, it will still be honored.
+    #
+    #     enabled: true
+    #
+    #       The platform name is the reference used in build_hosts.
+    #
+    #     name: linux
+    #
+    #       The supported_version uses regular expressions for cpu_arch, family or version
+    #       to match a host to its platform.
+    #
+    #     supported_version:
+    #       - cpu_arch: (x86_64|arm64)
+    #         family: Ubuntu
+    #         version: 2[23456789].[0-9]+
+    #
 artifact_directory: build
-
-# build_hosts
-#   Defines the hosts on which distributed builds can be run.
-#
-#   A "build host" is a computer on which monorepo operations
-#   such as builds will be run.
-#
-#   Fields:
-#     - name       : Must be unique
-#     - enabled    : Enables/disables the build host.
-#     - host       : Should be a valid hostname, FQDN or IP address.
-#     - connect    : Values (local | ssh) indicate connectivity to the host.
-#     - username   : If null, we use the current user when tools run.
-#     - opsys      : Values must be in the platforms list
-#     - hypervisor : Values must be in the hypervisors list
-#     - cri        : Values must be in the cri list
-#
 build_hosts:
-  - name: local mac laptop
-    description: This is the local mac dev machine.
-    host: mac-builder.local
-    connect: local
-    enabled: true
-    username: null
-    opsys: macos
-    hypervisor: parallels
-    cri: docker
-
-  - name: local linux laptop
-    description: This is a local linux dev machine.
-    host: linux-builder.local
-    connect: ssh
-    enabled: false
-    username: null
-    cri: docker
-    opsys: linux
-    hypervisor: kvm
-
-  - name: local windows laptop
-    host: windows-builder.local
-    connect: ssh
-    enabled: false
-    username: null
-    cri: null
-    opsys: windows
-    hypervisor: vmware
-
-# container_runtimes
-#   Define supported container runtimes
-#     - This will constrain the runtime to specific platforms (opsys/cpu)
-#     - Defining a supported CRI simply makes the CRI available for use
-#       in defining a build host (pairing platforms with a CRI, if appropriate).
-#     - Examples: Docker, Kubernetes
-#
+    - connect: local
+      cri: docker
+      description: This is the local mac dev machine.
+      enabled: true
+      host: mac-builder.local
+      hypervisor: parallels
+      name: local mac laptop
+      opsys: macos
+      username: null
+    - connect: ssh
+      cri: docker
+      description: This is a local linux dev machine.
+      enabled: false
+      host: linux-builder.local
+      hypervisor: kvm
+      name: local linux laptop
+      opsys: linux
+      username: null
+    - connect: ssh
+      cri: null
+      enabled: false
+      host: windows-builder.local
+      hypervisor: vmware
+      name: local windows laptop
+      opsys: windows
+      username: null
 container_runtimes:
-  - name: docker
-    enabled: true
-    platforms:
-      - darwin
-      - macos
-      - linux
-      - freebsd
-  - name: minikube
-    enabled: true
-    platforms:
-      - macos
-      - linux
-
-# hypervisors
-#   Define the hypervisors supported by the monorepo
-#     - This will constrain the hypervisor to specific platforms (opsys/cpu)
-#     - Defining a supported hypervisor makes the hypervisor available for use
-#       in defining a build host (pairing platforms with a hypervisor, if appropriate).
-#     - Examples: parallels, vmware, kvm, etc.
-#
-#   Fields:
-#     - name     : Must be unique
-#     - enabled  : Enables/disables hypervisor
-#     - platform : list of allowed supported platforms
-#
+    - enabled: true
+      name: docker
+      platforms:
+        - darwin
+        - macos
+        - linux
+        - freebsd
+    - enabled: false
+      name: minikube
+      platforms:
+        - macos
+        - linux
 hypervisors:
-  - name: parallels
-    enabled: true
-    platforms:
-      - macos
-  - name: vmware
-    enabled: false
-    platforms:
-      - macos
-      - linux
-      - windows
-  - name: hyper-v
-    enabled: false
-    platforms:
-      - windows
-  - name: virtualbox
-    enabled: false
-    platforms:
-      - linux
-      - windows
-  - name: kvm
-    enabled: false
-    platforms:
-      - linux
-
-# language
-#   Define the supported programming languages for the monorepo and
-#   how the language will be handled (scripts).
-#
-#   Fields:
-#     - name     : Programming language name
-#     - enabled  : Enables/disables hypervisor
-#     - directory : Relative path to source files (REPO_ROOT/go/<directory>)
-#     - tasks:
-#         build: <operation descriptor>
-#         lint: <operation descriptor>
-#         scan: <operation descriptor>
-#         sign: <operation descriptor>
-#         test: <operation descriptor>
-#
-#   <operation descriptor>:
-#     null   : When null, a disabled message will be written to stdout.
-#
-#     string : A template for an executable command to be run in a shell to perform an
-#              operation (build, test, scan, lint).
-#
-#     A task <operation descriptor> will provide a template for how the operation
-#     will be executed.  For example, golang would use--
-#
-#       tasks:
-#         build: |
-#           GOOS=${OPSYS} \
-#           GOARCH=${CPU_ARCH} \
-#           go build -o ${OPSYS}/${CPU_ARCH}/${PROJECT_NAME}${EXTENSION} go/${PROJECT_NAME}/main.go
-#         lint: |
-#           GOOS=${OPSYS} \
-#           GOARCH=${CPU_ARCH} \
-#           go vet -v  ./go/...
-#         test: |
-#           go GOOS=${OPSYS} \
-#              GOARCH=${CPU_ARCH} \
-#              test -v -asmdecl -atomic -bool -buildtags -assign -cgocall -composites \
-#                   -copylocks -httpresponse -lostcancel -methods -nilfunc -printf \
-#                   -rangeloops -shift -tests -unreachable -unsafeptr -unusedresult \
-#                   -unusedstringmethods -unusedfuncs ./${PROJECT_NAME}
-#
-#     Task Operations:
-#         build: Compile source code and link as an executable program
-#         lint: Run linter(s) against the project(s)
-#         scan: Run Security Scanners against project(s)
-#         sign: Sign an artifact for project(s)
-#         test: Run test(s) against the project(s)
-#
-#     Task Parameters:
-#       The task expects the following discoverable parameters:
-#         GOOS         : Detected operating system
-#         GOARCH       : Detected CPU architecture
-#         PROJECT_NAME : The current PROJECT_NAME (directory under 'go/${PROJECT_NAME}')
-#         EXTENSION    : The EXTENSION is determined by operating system (e.g. windows -> .exe).
-#
-#     The build t
+    - enabled: true
+      name: parallels
+      platforms:
+        - macos
+    - enabled: false
+      name: vmware
+      platforms:
+        - macos
+        - linux
+        - windows
+    - enabled: false
+      name: hyper-v
+      platforms:
+        - windows
+    - enabled: false
+      name: virtualbox
+      platforms:
+        - linux
+        - windows
+    - enabled: false
+      name: kvm
+      platforms:
+        - linux
 languages:
-  - name: asmAmd64
-    description: Amd64 Assembly Language
-    directory: asm/amd64
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: asmArm64
-    description: Arm64 Assembly Language
-    directory: asm/arm64
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: C
-    description: C Programming language
-    directory: c
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: Cpp
-    description: C++ Programming language
-    directory: cpp
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: Go
-    description: Golang Programming language
-    directory: go
-    enabled: false
-    tasks:
-      build: |
-        GOOS=${OPSYS} \
-        GOARCH=${CPU_ARCH} \
-        go build -o ${OPSYS}/${CPU_ARCH}/${PROJECT_NAME}${EXTENSION} go/${PROJECT_NAME}/main.go
-      lint: |
-        GOOS=${OPSYS} \
-        GOARCH=${CPU_ARCH} \
-        go vet -v -asmdecl -atomic -bool -buildtags -assign -cgocall -composites \
-             -copylocks -httpresponse -lostcancel -methods -nilfunc -printf \
-             -rangeloops -shift -tests -unreachable -unsafeptr -unusedresult \
-             -unusedstringmethods -unusedfuncs ./go/...
-      scan: null
-      sign: null
-      test: |
-        GOOS=${OPSYS} \
-        GOARCH=${CPU_ARCH} \
-        go test -v  ./${PROJECT_NAME}
-  - name: reactjs
-    directory: js/reactjs
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: electron
-    directory: js/electron
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: nodejs
-    directory: js/node
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: typescript
-    directory: js/typescript
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: python
-    directory: python/3
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: packer
-    directory: hashicorp/packer
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: terraform
-    directory: hashicorp/terraform
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-  - name: vagrant
-    directory: hashicorp/vagrant
-    enabled: false
-    platforms:
-      - macos
-      - linux
-    tasks:
-      build: null
-      lint: null
-      scan: null
-      sign: null
-      test: null
-
+    - description: Amd64 Assembly Language
+      directory: asm/amd64
+      enabled: false
+      name: asmAmd64
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - description: Arm64 Assembly Language
+      directory: asm/arm64
+      enabled: false
+      name: asmArm64
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - description: C Programming language
+      directory: c
+      enabled: false
+      name: C
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - description: C++ Programming language
+      directory: cpp
+      enabled: false
+      name: Cpp
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - description: Golang Programming language
+      directory: go
+      enabled: false
+      name: Go
+      tasks:
+        build: |
+            GOOS=${OPSYS} \
+            GOARCH=${CPU_ARCH} \
+            go build -o ${OPSYS}/${CPU_ARCH}/${PROJECT_NAME}${EXTENSION} go/${PROJECT_NAME}/main.go
+        lint: |
+            GOOS=${OPSYS} \
+            GOARCH=${CPU_ARCH} \
+            go vet -v -asmdecl -atomic -bool -buildtags -assign -cgocall -composites \
+                 -copylocks -httpresponse -lostcancel -methods -nilfunc -printf \
+                 -rangeloops -shift -tests -unreachable -unsafeptr -unusedresult \
+                 -unusedstringmethods -unusedfuncs ./go/...
+        scan: null
+        sign: null
+        test: |
+            GOOS=${OPSYS} \
+            GOARCH=${CPU_ARCH} \
+            go test -v  ./${PROJECT_NAME}
+    - directory: js/reactjs
+      enabled: false
+      name: reactjs
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: js/electron
+      enabled: false
+      name: electron
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: js/node
+      enabled: false
+      name: nodejs
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: js/typescript
+      enabled: false
+      name: typescript
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: python/3
+      enabled: false
+      name: python
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: hashicorp/packer
+      enabled: false
+      name: packer
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: hashicorp/terraform
+      enabled: false
+      name: terraform
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
+    - directory: hashicorp/vagrant
+      enabled: false
+      name: vagrant
+      platforms:
+        - macos
+        - linux
+      tasks:
+        build: null
+        lint: null
+        scan: null
+        sign: null
+        test: null
 license: LICENSE.txt
-
-# Define the platform (operating system, cpu combinations)
 platforms:
-  - name: macos
-    description: MacOS Ventura or later
-    enabled: true
-    supported_versions:
-      - family: macOS Ventura
-        version: 13.[0-9]+.[0-9]+  # accept any 13.5.xx version
-        cpu_arch: (x86_64|arm64)
-  - name: linux
-    description: Ubuntu or Debian Linux
-    enabled: true
-    supported_version:
-      - family: Ubuntu
-        version: 2[23456789].[0-9]+
-        cpu_arch: (x86_64|arm64)
-#  - name: windows
-#    description: Microsoft Windows 10 or later
-#    enabled: false
-#  - name: freebsd
-#    description: FreeBSD (stretch goal)
-#    connect: ssh
-#    enabled: false
+    - description: MacOS Ventura or later
+      enabled: true
+      name: macos
+      supported_versions:
+        - cpu_arch: (x86_64|arm64)
+          family: macOS Ventura
+          version: 13.[0-9]+.[0-9]+
+    - description: Ubuntu or Debian Linux
+      enabled: true
+      name: linux
+      supported_version:
+        - cpu_arch: (x86_64|arm64)
+          family: Ubuntu
+          version: 2[23456789].[0-9]+
