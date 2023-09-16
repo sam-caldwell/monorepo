@@ -14,5 +14,5 @@ import (
 
 // NoColor - turn off ANSI color output for cobra applications
 func NoColor(cmd *cobra.Command) {
-	cmd.PersistentFlags().BoolP(words.NoColor, words.EmptyString, false, "Print verbose output")
+	cmd.PersistentFlags().BoolP(words.NoColor, words.EmptyString, false, "Disable ANSI color codes")
 }
