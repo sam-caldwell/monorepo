@@ -1,7 +1,8 @@
 package ansi
 
+import "fmt"
+
 // Debugln - Print debug line with LF ending (with cobra integration for --debug flag)
-func Debugln(format string, msg ...interface{}) {
-	Debug(msg)
-	LF()
+func Debugln(msg interface{}) {
+	Debug(fmt.Sprintf("%v\n", msg))
 }
