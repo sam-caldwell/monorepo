@@ -10,7 +10,7 @@ import (
 )
 
 /*
- * cli/cobraFlags/initConfigFile.go
+ * cli/initConfigFile.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file provides a function to initialize the config file
@@ -31,6 +31,6 @@ func initConfigFile(cmd *cobra.Command) func() {
 		if err := viper.ReadInConfig(); err != nil {
 			ansi.CheckErr(cmd, err)
 		}
-		ansi.Debugf(cmd, "Using config file: %s\n", viper.ConfigFileUsed())
+		ansi.Debugf("Using config file: %s\n", viper.ConfigFileUsed())
 	}
 }

@@ -1,7 +1,7 @@
 package cli
 
 /*
- * cli/cobraFlags/ConfigFile.go
+ * cli/ConfigFile.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file allows cobra command-line applications

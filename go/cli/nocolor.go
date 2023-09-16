@@ -8,7 +8,6 @@ package cli
  * for cobra cli applications.
  */
 import (
-	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/spf13/cobra"
 )
@@ -16,13 +15,4 @@ import (
 // NoColor - turn off ANSI color output for cobra applications
 func NoColor(cmd *cobra.Command) {
 	cmd.PersistentFlags().BoolP(words.NoColor, words.EmptyString, false, "Print verbose output")
-}
-
-func SetNoColorIfPresent(cmd *cobra.Command) {
-	if cmd.PersistentFlags().Lookup(words.NoColor).Value.String() == words.True {
-		ansi.Disable()
-	} else {
-		ansi.Enable()
-	}
-
 }

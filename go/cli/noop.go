@@ -1,7 +1,7 @@
 package cli
 
 /*
- * cli/cobraFlags/noop.go
+ * cli/noop.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the reusable persistent --noop flag

@@ -1,7 +1,7 @@
 package cli
 
 /*
- * cli/cobraFlags/debug.go
+ * cli/debug.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the reusable persistent --debug flag

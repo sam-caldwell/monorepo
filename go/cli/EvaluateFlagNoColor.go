@@ -7,18 +7,19 @@ import (
 )
 
 /*
- * cli/EvaluateFlagDebug.go
+ * cli/EvaluateFlagNoColor.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the reusable persistent --debug flag
  * for cobra cli applications.
  */
 
-// EvaluateFlagDebug - Set Ansi Debug flag if present
-func EvaluateFlagDebug(cmd *cobra.Command) {
-	if cmd.PersistentFlags().Lookup(words.Debug).Value.String() == words.True {
-		ansi.EnableDebug()
+// EvaluateFlagNoColor - Set Ansi NoColor flag if present
+func EvaluateFlagNoColor(cmd *cobra.Command) {
+	if cmd.PersistentFlags().Lookup(words.NoColor).Value.String() == words.True {
+		ansi.Disable()
 	} else {
-		ansi.DisableDebug()
+		ansi.Enable()
 	}
+
 }
