@@ -1,7 +1,6 @@
 package ansi
 
 // Enable - Turn on ANSI Color codes. (This is a global setting)
-
 func (c *Color) Enable() *Color {
 	disabled = false
 	return c
