@@ -17,7 +17,7 @@ import (
 
 // ShowVersionIfPresent - Show version if --version is present and exit (0)
 func ShowVersionIfPresent(cmd *cobra.Command) (response bool) {
-	if cmd.PersistentFlags().Lookup(words.Version).Value.String() == words.True {
+	if cmd.Flags().Lookup(words.Version).Value.String() == words.True {
 		ansi.Println(version.Version)
 		response = true
 	}

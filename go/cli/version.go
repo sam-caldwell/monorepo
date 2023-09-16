@@ -14,7 +14,7 @@ import (
 
 // Version - create --noop flag for cobra applications
 func Version(cmd *cobra.Command) {
-	cmd.PersistentFlags().BoolP(words.Version,
+	cmd.Flags().BoolP(words.Version,
 		words.EmptyString,
 		false,
 		"Show current version")

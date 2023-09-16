@@ -76,7 +76,7 @@ container_runtimes:
       - darwin
       - macos
       - linux
-      - freebsd
+      - windows
   - name: minikube
     enabled: true
     platforms:
@@ -252,6 +252,7 @@ languages:
         GOARCH=${CPU_ARCH} \
         go test -v  ./${PROJECT_NAME}
   - name: reactjs
+    description: Front-end JavaScript framework
     directory: js/reactjs
     enabled: false
     platforms:
@@ -264,6 +265,7 @@ languages:
       sign: null
       test: null
   - name: electron
+    description: A JavaScript App Framework
     directory: js/electron
     enabled: false
     platforms:
@@ -276,6 +278,7 @@ languages:
       sign: null
       test: null
   - name: nodejs
+    description: Raw server-side javascript applications
     directory: js/node
     enabled: false
     platforms:
@@ -288,6 +291,7 @@ languages:
       sign: null
       test: null
   - name: typescript
+    description: A structured Javascript dialect
     directory: js/typescript
     enabled: false
     platforms:
@@ -300,6 +304,7 @@ languages:
       sign: null
       test: null
   - name: python
+    description: Python3+ applications.
     directory: python/3
     enabled: false
     platforms:
@@ -312,6 +317,7 @@ languages:
       sign: null
       test: null
   - name: packer
+    description: Hashicorp image builder
     directory: hashicorp/packer
     enabled: false
     platforms:
@@ -324,6 +330,7 @@ languages:
       sign: null
       test: null
   - name: terraform
+    description: Hashicorp infrastructure as code.
     directory: hashicorp/terraform
     enabled: false
     platforms:
@@ -336,6 +343,7 @@ languages:
       sign: null
       test: null
   - name: vagrant
+    description: Hashicorp VM automation
     directory: hashicorp/vagrant
     enabled: false
     platforms:
@@ -348,6 +356,7 @@ languages:
       sign: null
       test: null
 
+# Repo-level LICENSE file
 license: LICENSE.txt
 
 # Define the platform (operating system, cpu combinations)

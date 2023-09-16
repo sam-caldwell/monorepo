@@ -34,7 +34,7 @@ func EvaluateStandardFlags(cmd *cobra.Command) {
 	ansi.Debugf("Debug Mode : Enabled\n")
 	ansi.Debugf("Noop Mode  : %s\n", titleCase(noop))
 	if !ShowVersionIfPresent(cmd) { // show version and terminate.
-		ansi.Blue().Println(cmd.UsageString()).Reset()
+		ansi.Println(cmd.UsageString()).Reset()
 		os.Exit(exit.GeneralError)
 	}
 }
