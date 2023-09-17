@@ -1,5 +1,10 @@
 package cli
 
+import (
+	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"github.com/spf13/cobra"
+)
+
 /*
  * cli/IsNoop.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
@@ -9,9 +14,7 @@ package cli
  * is in a no-operation mode.
  */
 
-var noop bool
-
 // IsNoop - Check if --noop was used and return boolean state
-func IsNoop() bool {
-	return noop
+func IsNoop(cmd *cobra.Command) bool {
+	return cmd.PersistentFlags().Lookup(words.Noop).Value.String() == words.True
 }

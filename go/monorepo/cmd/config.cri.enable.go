@@ -16,19 +16,16 @@ Enable a specified container runtime configuration
 `,
 	Args: cobra.ExactArgs(1), //name
 	Run: func(cmd *cobra.Command, args []string) {
-		ansi.Blue().Println("---")
 		name := args[0]
 		if cli.IsNoop(cmd) {
 			ansi.Yellow().Printf("CRI config (%s) enable (noop)\n", name).Reset()
 			return
 		}
-		ansi.Debugf("cri name: %s", name)
 		if err := monorepoCri.Enable(name); err != nil {
 			ansi.Red().Printf("CRI config (%s) enable failed\n", name).Reset()
 		}
 		ansi.Green().Printf("CRI config (%s) enabled\n", name).Reset()
 		cli.WriteConfig(cmd)
-		ansi.Blue().Println("---")
 	},
 }
 
