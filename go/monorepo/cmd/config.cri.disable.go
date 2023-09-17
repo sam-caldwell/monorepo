@@ -16,8 +16,9 @@ Disable a specified container runtime configuration
 `,
 	Args: cobra.ExactArgs(1), //name
 	Run: func(cmd *cobra.Command, args []string) {
+		ansi.Blue().Println("---")
 		name := args[0]
-		if cli.IsNoop() {
+		if cli.IsNoop(cmd) {
 			ansi.Yellow().Printf("CRI config (%s) disable (noop)\n", name).Reset()
 			return
 		}
@@ -28,9 +29,11 @@ Disable a specified container runtime configuration
 		ansi.Green().Printf("CRI config (%s) disabled\n", name).Reset()
 
 		cli.WriteConfig(cmd)
+		ansi.Blue().Println("---")
 	},
 }
 
 func init() {
 	configCriCmd.AddCommand(configCriDisableCmd)
+	cli.CreateStandardFlags(configCriDisableCmd)
 }
