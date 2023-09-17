@@ -11,14 +11,18 @@ import (
 var configCriEnableCmd = &cobra.Command{
 	Use:   "enable",
 	Short: "- Enable a specified container runtime configuration",
-	Long:  `Enable a specified container runtime configuration`,
-	Args:  cobra.ExactArgs(1), //name
+	Long: `
+Enable a specified container runtime configuration
+`,
+	Args: cobra.ExactArgs(1), //name
 	Run: func(cmd *cobra.Command, args []string) {
+		//cli.EvaluateStandardFlags(cmd)
 		name := args[0]
 		if cli.IsNoop() {
 			ansi.Yellow().Printf("CRI config (%s) enable (noop)\n", name).Reset()
 			return
 		}
+		ansi.Debugf("cri name: %s", name)
 		if err := monorepoCri.Enable(name); err != nil {
 			ansi.Red().Printf("CRI config (%s) enable failed\n", name).Reset()
 		}
@@ -29,4 +33,5 @@ var configCriEnableCmd = &cobra.Command{
 
 func init() {
 	configCriCmd.AddCommand(configCriEnableCmd)
+	//cli.CreateStandardFlags(configCriEnableCmd)
 }

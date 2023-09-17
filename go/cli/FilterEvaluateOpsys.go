@@ -7,12 +7,12 @@ import (
 	"strings"
 )
 
-// EvaluateFilter - Return true if config contains the filter values.
+// FilterEvaluate - Return true if config contains the filter values.
 //
 // Evaluate the list of expected opsys names against a comma-delimited
 // list of opsys and return true if the expected matches any of the
 // enabled --opsys <list> values.
-func EvaluateFilter(cmd *cobra.Command, configPath string, expectedOpsys []string) bool {
+func FilterEvaluate(cmd *cobra.Command, configPath string, expectedOpsys []string) bool {
 	cliOpsysFlags := strings.Split(
 		strings.TrimSpace(cmd.Flags().Lookup(configPath).Value.String()),
 		words.Comma)

@@ -11,14 +11,17 @@ import (
 var configCriDisableCmd = &cobra.Command{
 	Use:   "disable",
 	Short: "- Disable a specified container runtime configuration",
-	Long:  `Disable a specified container runtime configuration`,
-	Args:  cobra.ExactArgs(1), //name
+	Long: `
+Disable a specified container runtime configuration
+`,
+	Args: cobra.ExactArgs(1), //name
 	Run: func(cmd *cobra.Command, args []string) {
 		name := args[0]
 		if cli.IsNoop() {
 			ansi.Yellow().Printf("CRI config (%s) disable (noop)\n", name).Reset()
 			return
 		}
+		ansi.Debugf("cri name: %s", name)
 		if err := monorepoCri.Disable(name); err != nil {
 			ansi.Red().Printf("CRI config (%s) disable failed\n", name).Reset()
 		}

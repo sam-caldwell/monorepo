@@ -13,12 +13,15 @@ var configCriListCmd = &cobra.Command{
 	Short: "- List supported container runtimes",
 	Long:  `List supported container runtimes`,
 	Run: func(cmd *cobra.Command, args []string) {
+		cli.EvaluateStandardFlags(cmd)
 		monorepoCri.List(cli.GetFilterList(cmd, words.Opsys))
 	},
 }
 
 func init() {
 	configCriCmd.AddCommand(configCriListCmd)
+
+	cli.CreateStandardFlags(configCriListCmd)
 
 	cli.FilterByList(
 		configCriListCmd,

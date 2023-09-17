@@ -14,7 +14,7 @@ import (
  * for cobra cli applications.
  */
 
-// EvaluateFlagDebug - Set Ansi Debug flag if present
+// EvaluateFlagDebug - Set Ansi CreateFlagDebug flag if present
 func EvaluateFlagDebug(cmd *cobra.Command) {
 	if cmd.PersistentFlags().Lookup(words.Debug).Value.String() == words.True {
 		ansi.EnableDebug()

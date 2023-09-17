@@ -30,9 +30,9 @@ func EvaluateStandardFlags(cmd *cobra.Command) {
 	}
 	EvaluateFlagNoColor(cmd)
 	EvaluateFlagDebug(cmd)
-	EvaluateFlagNoop(cmd)
-	ansi.Debugf("Debug Mode : Enabled\n")
-	ansi.Debugf("Noop Mode  : %s\n", titleCase(noop))
+	//EvaluateFlagNoop(cmd)
+	ansi.Debugf("CreateFlagDebug Mode : Enabled\n")
+	ansi.Debugf("CreateFlagNoop Mode  : %s\n", titleCase(noop))
 	if !ShowVersionIfPresent(cmd) { // show version and terminate.
 		ansi.Println(cmd.UsageString()).Reset()
 		os.Exit(exit.GeneralError)

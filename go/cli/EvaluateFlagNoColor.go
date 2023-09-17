@@ -14,7 +14,7 @@ import (
  * for cobra cli applications.
  */
 
-// EvaluateFlagNoColor - Set Ansi NoColor flag if present
+// EvaluateFlagNoColor - Set Ansi CreateFlagNoColor flag if present
 func EvaluateFlagNoColor(cmd *cobra.Command) {
 	if cmd.PersistentFlags().Lookup(words.NoColor).Value.String() == words.True {
 		ansi.Disable()

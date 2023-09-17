@@ -6,7 +6,7 @@ package cmd
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"github.com/sam-caldwell/monorepo/go/cli"
 	"github.com/spf13/cobra"
 )
 
@@ -15,13 +15,12 @@ var configCriCmd = &cobra.Command{
 	Use:   "cri",
 	Short: "- Manage the monorepo container runtime integration",
 	Long:  `This manages any supported container runtime integrations (e.g. docker, kubernetes)`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cli.EvaluateStandardFlags(cmd)
+	},
 }
 
 func init() {
 	configCmd.AddCommand(configCriCmd)
-	configCriCmd.Flags().BoolP(
-		words.NoColor,
-		words.EmptyString,
-		false,
-		words.ConfigCriVerboseUsage)
+	cli.CreateStandardFlags(configCriCmd)
 }
