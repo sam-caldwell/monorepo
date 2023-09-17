@@ -251,11 +251,14 @@ languages:
         - macos
         - linux
       tasks:
-        build: null
+        build: |
+            g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} cpp/{PROJECT_NAME}/main.cpp"
         lint: null
         scan: null
         sign: null
-        test: null
+        test: |
+            g++ "-o{TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}{EXTENSION} cpp/{PROJECT_NAME}/main_test.cpp"
+            {TARGET_DIR}/{PROJECT_NAME}/{PROGRAM_NAME}_test
     - description: Golang Programming language
       directory: go
       enabled: false
