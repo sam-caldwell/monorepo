@@ -38,5 +38,5 @@ func Execute() {
 func init() {
 	//Reusable, standardized flags should make app development pretty easy.
 	cli.ConfigFile(rootCmd, defaultConfigFile())
-	cli.StandardFlags(rootCmd)
+	cli.CreateStandardFlags(rootCmd)
 }

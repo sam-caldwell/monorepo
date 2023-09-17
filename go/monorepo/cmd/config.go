@@ -6,6 +6,7 @@ package cmd
  */
 
 import (
+	"github.com/sam-caldwell/monorepo/go/cli"
 	"github.com/spf13/cobra"
 )
 
@@ -22,14 +23,12 @@ For example, this command could be used to--
  - list objects configured for a specific object class (project, host, cri, hypervisor, language).
  - print the current configuration fo a specific object.
 `,
-	//Run: func(cmd *cobra.Command, args []string) {
-	//	ansi.Red().
-	//		Println("'config' must be called with a specific object class to be configured.").
-	//		Println("Object classes include 'cri, host, hypervisor, language, platform, project.'").
-	//		Reset()
-	//},
+	Run: func(cmd *cobra.Command, args []string) {
+		cli.EvaluateStandardFlags(cmd)
+	},
 }
 
 func init() {
 	rootCmd.AddCommand(configCmd)
+	cli.CreateStandardFlags(configCmd)
 }

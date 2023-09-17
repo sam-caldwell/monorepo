@@ -14,9 +14,10 @@ import "github.com/spf13/cobra"
  *     --noop
  */
 
-func StandardFlags(cmd *cobra.Command) {
-	Debug(cmd)
-	NoColor(cmd)
-	Noop(cmd)
+// CreateStandardFlags - Create the standard flags (--debug, --nocolor, --noop and --version)
+func CreateStandardFlags(cmd *cobra.Command) {
+	CreateFlagDebug(cmd)
+	CreateFlagNoColor(cmd)
+	CreateFlagNoop(cmd)
 	Version(cmd)
 }

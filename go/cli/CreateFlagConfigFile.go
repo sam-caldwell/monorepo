@@ -1,7 +1,7 @@
 package cli
 
 /*
- * cli/ConfigFile.go
+ * cli/CreateFlagConfigFile.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file allows cobra command-line applications
@@ -13,8 +13,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// ConfigFile - create --config persistent flag (cobra) and load any config file
-func ConfigFile(cmd *cobra.Command, defaultConfigFile string) {
+// CreateFlagConfigFile - create --config persistent flag (cobra) and load any config file
+func CreateFlagConfigFile(cmd *cobra.Command, defaultConfigFile string) {
 	cobra.OnInitialize(initConfigFile(cmd))
 	cmd.PersistentFlags().String(words.Config, defaultConfigFile, "config file")
 }

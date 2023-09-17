@@ -1,7 +1,7 @@
 package cli
 
 /*
- * cli/noop.go
+ * cli/CreateFlagNoop.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * This file defines the reusable persistent --noop flag
@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Noop - create --noop flag for cobra applications
-func Noop(cmd *cobra.Command) {
+// CreateFlagNoop - create --noop flag for cobra applications
+func CreateFlagNoop(cmd *cobra.Command) {
 	cmd.PersistentFlags().BoolP(words.Noop,
 		words.EmptyString,
 		false,
