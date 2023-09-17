@@ -21,4 +21,5 @@ func EvaluateFlagDebug(cmd *cobra.Command) {
 	} else {
 		ansi.DisableDebug()
 	}
+	ansi.Debugf("CreateFlagDebug Mode : Enabled\n")
 }

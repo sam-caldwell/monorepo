@@ -16,23 +16,14 @@ import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/spf13/cobra"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"os"
-	"strconv"
 )
 
 // EvaluateStandardFlags - Evaluate the standard tags (if present) and display any active debug, noop modes.
 func EvaluateStandardFlags(cmd *cobra.Command) {
-	titleCase := func(b bool) string {
-		c := cases.Title(language.Und)
-		return c.String(strconv.FormatBool(b))
-	}
 	EvaluateFlagNoColor(cmd)
 	EvaluateFlagDebug(cmd)
-	//EvaluateFlagNoop(cmd)
-	ansi.Debugf("CreateFlagDebug Mode : Enabled\n")
-	ansi.Debugf("CreateFlagNoop Mode  : %s\n", titleCase(noop))
+	EvaluateFlagNoop(cmd)
 	if !ShowVersionIfPresent(cmd) { // show version and terminate.
 		ansi.Println(cmd.UsageString()).Reset()
 		os.Exit(exit.GeneralError)

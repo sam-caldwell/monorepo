@@ -1,8 +1,12 @@
 package cli
 
 import (
+	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/spf13/cobra"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+	"strconv"
 )
 
 /*
@@ -15,9 +19,11 @@ import (
 
 // EvaluateFlagNoop - Set Ansi CreateFlagNoop flag if present
 func EvaluateFlagNoop(cmd *cobra.Command) {
-	if cmd.PersistentFlags().Lookup(words.Noop).Value.String() == words.True {
-		noop = true
-	} else {
-		noop = false
+	titleCase := func(b bool) string {
+		c := cases.Title(language.Und)
+		return c.String(strconv.FormatBool(b))
 	}
+	ansi.Debugf(
+		"CreateFlagNoop Mode  : %s\n",
+		titleCase(cmd.PersistentFlags().Lookup(words.Noop).Value.String() == words.True))
 }
