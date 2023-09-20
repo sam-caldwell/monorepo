@@ -52,6 +52,8 @@ func main() {
 		/**/
 		Argument("config", "cri", "list").NoValue().Done().
 		/**/
+		ShowHelpIfRequeted().
+        /**/
 		Parse()
 
 	fmt.Println(args.ToString())
