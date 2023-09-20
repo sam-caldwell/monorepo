@@ -1,3 +1,5 @@
+package main
+
 /*
  * Copyright © 2023 Sam Caldwell <mail@samcaldwell.net>
  *
@@ -19,10 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package main
 
 import (
+	"github.com/sam-caldwell/monorepo/go/cli"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"github.com/sam-caldwell/monorepo/go/version"
 	"go/types"
 )
 
@@ -31,29 +34,49 @@ const (
 	programDescription = `A common tool for managing the monorepo and its projects.`
 )
 
-func noopAction() func() {
-	// This is a placeholder for actions
-	return func() {}
-}
-
 func main() {
-	argument := cli.NewArgumentParser(programName, programDescription).
-		VersionFlag().
-		NoopFlag().
-		DebugFlag().
-		SubCommand("build", noopAction()).
-		SubCommandWithChildren("config", cli.
-			SubCommandWithChildren("cri", cli.
-				SubCommandWithOptions("create", cli.
-					Value("name", types.String).
-						OptionFlag("enabled", types.Bool, false, cli.Required).
-						OptionKeyValue("description", types.String, words.EmptyString, cli.Required).
-						OptionKeyValue("platform", types.String, words.EmptyString, cli.Required)))).
-				EndSubCommandWithOptions().
-			SubCommandWithChildren("host")
-		SubCommand("exec", noopAction()).
-		SubCommand("lint", noopAction()).
-		SubCommand("scan", noopAction()).
-		SubCommand("sign", noopAction()).
-		SubCommand("test", noopAction()).
+	args := cli.NewArgParse(programName, programDescription).
+		GlobalFlag([]string{"-v", "--version"}, "show application version", version.Show).
+		GlobalFlag([]string{"--debug"}, "print debugging messages", cli.EnableDebug).
+		GlobalFlag([]string{"--noop"}, "prevent any persistent changes", cli.EnableNoop).
+		/*
+		 * monorepo config cri check
+		 */
+		Argument("config", "cri", "check").Value("name", cli.Required, nil).Done().
+		/*
+		 * monorepo config cri create <name> [options]
+		 */
+		Argument("config", "cri", "create").
+		Value("name", cli.Required, nil).
+		Option([]string{"--enabled"}, "enables the object", types.Bool, cli.Optional, cli.Flag(false)).
+		Option([]string{"--platform"}, "associates the object with a platform", types.String, cli.Optional, cli.OptionList(words.Comma)).
+		Done().
+		/**/
+		Argument("config", "cri", "delete").Value("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "enable").Value("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "disable").Value("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "show").Value("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "list").Value(nil, cli.None, nil).Done().
+		/**/
+		Argument("config", "cri", "check").StringValue("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "create").StringValue("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "delete").v("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "enable").StringValue("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "disable").StringValue("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "show").StringValue("name", cli.Required, nil).Done().
+		/**/
+		Argument("config", "cri", "list").NoValue().Done().
+		/**/
+		Parse()
+
+	fmt.Println(args.ToString())
 }
