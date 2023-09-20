@@ -23,6 +23,7 @@ package cli
  */
 
 const (
+	width      = 60
 	checkUsage = "Use -h or --help to Check usage"
 	Required   = true
 	Optional   = false
