@@ -22,16 +22,17 @@ package cli
  * THE SOFTWARE.
  */
 
-// ArgumentDescriptor - The top-level object representing a command-line parser definition.
-type ArgumentDescriptor struct {
-	/*
-	 * the program name (for -h and --help options)
-	 */
-	programName        string
-	programDescription string
-	command            map[string]Command
+import (
+	"os"
+)
 
-	//We add all help text (descriptions indexed by the associated object)
-	//Our built-in -h | --help flags will trigger this.
-	helpText map[string]string
+// search - search os.Args for the given flag and delete it if found.
+func (arg *ArgumentDescriptor) search(flagName string) bool {
+	for i, opt := range os.Args {
+		if opt == flagName {
+			return true
+		}
+		os.Args = append(os.Args[:i], os.Args[i+1:]...)
+	}
+	return false
 }
