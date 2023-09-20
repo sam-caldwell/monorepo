@@ -27,7 +27,7 @@ build_hosts:
       opsys: windows
       username: null
 container_runtimes:
-    - enabled: false
+    - enabled: true
       name: docker
       platforms:
         - darwin
