@@ -21,10 +21,14 @@ package cli
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+var noop bool
 
-// GlobalFlagDescriptor - Describes a -f or --flag which will trigger an action (function) to update state.
-// Note that these are "global" flags affecting the entire command structure.
-type GlobalFlagDescriptor struct {
-	description string
-	action      func()
+func EnableNoop() {
+	noop = true
+}
+func DisableNoop() {
+	noop = false
+}
+func IsNoop() bool {
+	return noop
 }
