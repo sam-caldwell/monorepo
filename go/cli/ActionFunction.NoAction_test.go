@@ -23,21 +23,12 @@ package cli
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/misc/words"
-	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestNewArgParse(t *testing.T) {
-	const (
-		testProgramName        = "testProgram"
-		TestProgramDescription = "test program description"
-	)
-
-	arg := NewArgParse(testProgramName, TestProgramDescription)
-	assert.Equal(t, arg.programName, testProgramName, "test program name mismatch")
-	assert.Equal(t, arg.programDescription, TestProgramDescription, "test program description mismatch")
-	assert.NotNil(t, arg.command, "ArgumentDescriptor.command should not be nil")
-	assert.Equal(t, arg.lastCommand, words.EmptyString, "ArgumentDescriptor.lastCommand should be empty string")
-	assert.NotNil(t, arg.helpText, "ArgumentDescriptor.helpText should not be nil")
+func TestActionFunction_NoAction(t *testing.T) {
+	err := NoAction(map[string]Command{})
+	if err != nil {
+		t.Fatalf("expected nil error but got '%s'", err)
+	}
 }
