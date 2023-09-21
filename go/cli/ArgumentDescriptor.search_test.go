@@ -23,20 +23,19 @@ package cli
  */
 
 import (
+	"github.com/sam-caldwell/monorepo/go/testing/assert"
 	"os"
+	"testing"
 )
 
-// search - search os.Args for the given flag and delete it if found.
-func (arg *ArgumentDescriptor) search(flagName string) bool {
-	for i, opt := range os.Args {
-		if opt == flagName {
-			lhs := os.Args[:i]
-			if i+1 <= len(os.Args) {
-				rhs := os.Args[i+1:]
-				os.Args = append(lhs, rhs...)
-			}
-			return true
-		}
-	}
-	return false
+func TestArgumentDescriptor_Search(t *testing.T) {
+	arg := NewArgParse("test", "this is a test")
+	os.Args = append(os.Args, "not here")
+	assert.False(t, arg.search("waldo"), "search expects false")
+
+	os.Args = append(os.Args, "waldo")
+	assert.True(t, arg.search("waldo"), "search expects true")
+
+	assert.False(t, arg.search("waldo"), "search expects false (removed after found)")
+
 }
