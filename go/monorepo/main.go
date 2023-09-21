@@ -51,13 +51,13 @@ func main() {
 		/*
 		 * monorepo config cri check
 		 */
-		Argument(words.Config, words.Cri, words.Check).
+		Argument("validate container runtime config", words.Config, words.Cri, words.Check).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config cri create <name> [options]
 		 */
-		Argument(words.Config, words.Cri, words.Create).
+		Argument("create container runtime config", words.Config, words.Cri, words.Create).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		OptionFlag([]string{"-e", "--enabled"}, "enables the object", cli.Optional).
 		OptionList([]string{"--platform"}, "associates the object with a platform", cli.Optional, types.String, []string{}).
@@ -65,73 +65,73 @@ func main() {
 		/*
 		 * monorepo config cri delete <name>
 		 */
-		Argument(words.Config, words.Cri, words.Delete).
+		Argument("delete a container runtime config", words.Config, words.Cri, words.Delete).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config cri enable <name>
 		 */
-		Argument(words.Config, words.Cri, words.Enable).
+		Argument("enable a specified container runtime config", words.Config, words.Cri, words.Enable).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config cri disable <name>
 		 */
-		Argument(words.Config, words.Cri, words.Disable).
+		Argument("disable a specified container runtime config", words.Config, words.Cri, words.Disable).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config cri show <name>
 		 */
-		Argument(words.Config, words.Cri, words.Show).
+		Argument("show a named container runtime config", words.Config, words.Cri, words.Show).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config cri list
 		 */
-		Argument(words.Config, words.Host, words.List).
+		Argument("list all container runtime configurations", words.Config, words.Host, words.List).
 		NoValue().
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host check <name>
 		 */
-		Argument(words.Config, words.Host, words.Check).
+		Argument("Verify a build-host config", words.Config, words.Host, words.Check).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host create <name> [options]
 		 */
-		Argument(words.Config, words.Host, words.Create).
+		Argument("Create a build-host config", words.Config, words.Host, words.Create).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host delete <name>
 		 */
-		Argument(words.Config, words.Host, words.Delete).
+		Argument("Delete a build-host config", words.Config, words.Host, words.Delete).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host enable <name>
 		 */
-		Argument(words.Config, words.Host, words.Enable).
+		Argument("Enable a build-host config", words.Config, words.Host, words.Enable).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host disable <name>
 		 */
-		Argument(words.Config, words.Host, words.Disable).
+		Argument("Disable a build-host config", words.Config, words.Host, words.Disable).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host show <name>
 		 */
-		Argument(words.Config, words.Host, words.Show).
+		Argument("Show a named build-host configuration", words.Config, words.Host, words.Show).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config host list
 		 */
-		Argument(words.Config, words.Host, words.List).
+		Argument("List all build-host configurations", words.Config, words.Host, words.List).
 		NoValue().
 		Done(cli.NoAction).
 		/*

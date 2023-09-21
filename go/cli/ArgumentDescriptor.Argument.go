@@ -28,7 +28,7 @@ import (
 )
 
 // Argument - Add Argument Definition Base, which will continue until .Done().
-func (arg *ArgumentDescriptor) Argument(identifiers ...string) *ArgumentDescriptor {
+func (arg *ArgumentDescriptor) Argument(description string, identifiers ...string) *ArgumentDescriptor {
 	if len(identifiers) == 0 {
 		panic("Empty command identifiers")
 	}
@@ -37,6 +37,6 @@ func (arg *ArgumentDescriptor) Argument(identifiers ...string) *ArgumentDescript
 	}
 	arg.lastCommand = strings.Join(identifiers, words.Space)
 	arg.command[arg.lastCommand] = Command{}
-
+	arg.helpText[arg.lastCommand] = description
 	return arg
 }
