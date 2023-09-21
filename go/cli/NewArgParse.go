@@ -1,7 +1,5 @@
 package cli
 
-import "github.com/sam-caldwell/monorepo/go/misc/words"
-
 /*
  * Copyright © 2023 Sam Caldwell <mail@samcaldwell.net>
  *
@@ -23,6 +21,7 @@ import "github.com/sam-caldwell/monorepo/go/misc/words"
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import "github.com/sam-caldwell/monorepo/go/misc/words"
 
 func NewArgParse(programName string, programDescription string) *ArgumentDescriptor {
 	return &ArgumentDescriptor{
