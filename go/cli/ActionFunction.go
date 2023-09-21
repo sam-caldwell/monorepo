@@ -21,19 +21,5 @@ package cli
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import (
-	"fmt"
-	"go/types"
-)
 
-type ValueDescriptor struct {
-	description string
-	required    bool
-	vType       types.BasicKind
-	value       any
-}
-
-func (v *ValueDescriptor) ToString() string {
-	return fmt.Sprintf("(value:'%v',type:'%v',required:'%v') ",
-		v.value, v.vType, v.required)
-}
+type ActionFunction func(parameters map[string]Command) error

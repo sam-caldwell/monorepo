@@ -1,5 +1,7 @@
 package cli
 
+import "github.com/sam-caldwell/monorepo/go/misc/words"
+
 /*
  * Copyright © 2023 Sam Caldwell <mail@samcaldwell.net>
  *
@@ -26,5 +28,8 @@ func NewArgParse(programName string, programDescription string) *ArgumentDescrip
 	return &ArgumentDescriptor{
 		programName:        programName,
 		programDescription: programDescription,
+		command:            make(map[string]Command),
+		lastCommand:        words.EmptyString,
+		helpText:           make(map[string]string),
 	}
 }

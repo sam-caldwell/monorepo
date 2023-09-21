@@ -21,19 +21,22 @@ package cli
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 import (
-	"fmt"
-	"go/types"
+	"reflect"
+	"runtime"
 )
 
-type ValueDescriptor struct {
-	description string
-	required    bool
-	vType       types.BasicKind
-	value       any
-}
+func (cmd *Command) ToString() string {
+	out := "value:["
+	for k, v := range cmd.value {
+		out = out + "('" + k + "','" + v.ToString() + "'),"
+	}
+	out = out + "],\noptions:["
+	for k, v := range cmd.options {
+		out = out + "('" + k + "','" + v.ToString() + "'),"
+	}
+	out = out + "],\naction:" + runtime.FuncForPC(reflect.ValueOf(cmd.action).Pointer()).Name()
 
-func (v *ValueDescriptor) ToString() string {
-	return fmt.Sprintf("(value:'%v',type:'%v',required:'%v') ",
-		v.value, v.vType, v.required)
+	return out
 }

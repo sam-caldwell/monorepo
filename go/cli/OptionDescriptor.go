@@ -28,13 +28,12 @@ import (
 )
 
 type OptionDescriptor struct {
-	name     string
 	required bool
-	vType    types.Builtin
+	vType    types.BasicKind
 	value    any
 }
 
 func (opt *OptionDescriptor) ToString() string {
-	return fmt.Sprintf("(name:%v required:%v vType:%v, value: %v)",
-		opt.name, opt.required, opt.vType, opt.value)
+	return fmt.Sprintf("(required:'%v',vType:'%v',value:'%v')",
+		opt.required, opt.vType, opt.value)
 }

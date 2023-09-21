@@ -23,6 +23,8 @@ package main
  */
 
 import (
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/cli"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/sam-caldwell/monorepo/go/version"
@@ -32,50 +34,114 @@ import (
 const (
 	programName        = "monorepo"
 	programDescription = `A common tool for managing the monorepo and its projects.`
+
+	DescriptionCriName = "cri name"
 )
 
 func main() {
 	args := cli.NewArgParse(programName, programDescription).
-		GlobalFlag([]string{"-v", "--version"}, "show application version", version.Show).
+		/*
+		 * Global flags which may appear anywhere in the os.Args and which will be immediately processed
+		 * to either update internal state or take action and terminate.
+		 */
+		GlobalFlag([]string{"-v", "--version"}, "show application version and exit", version.Show).
 		GlobalFlag([]string{"--debug"}, "print debugging messages", cli.EnableDebug).
 		GlobalFlag([]string{"--noop"}, "prevent any persistent changes", cli.EnableNoop).
+		GlobalFlag([]string{"--nocolor"}, "turn off colored output", func() { ansi.Disable() }).
 		/*
 		 * monorepo config cri check
 		 */
-		Argument("config", "cri", "check").Value("name", cli.Required, nil).Done().
+		Argument(words.Config, words.Cri, words.Check).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
 		/*
 		 * monorepo config cri create <name> [options]
 		 */
-		Argument("config", "cri", "create").
-		Value("name", cli.Required, nil).
-		Option([]string{"--enabled"}, "enables the object", types.Bool, cli.Optional, cli.Flag(false)).
-		Option([]string{"--platform"}, "associates the object with a platform", types.String, cli.Optional, cli.OptionList(words.Comma)).
-		Done().
-		/**/
-		Argument("config", "cri", "delete").Value("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "enable").Value("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "disable").Value("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "show").Value("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "list").Value(nil, cli.None, nil).Done().
-		/**/
-		Argument("config", "cri", "check").StringValue("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "create").StringValue("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "delete").v("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "enable").StringValue("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "disable").StringValue("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "show").StringValue("name", cli.Required, nil).Done().
-		/**/
-		Argument("config", "cri", "list").NoValue().Done().
-		/**/
+		Argument(words.Config, words.Cri, words.Create).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		OptionFlag([]string{"-e", "--enabled"}, "enables the object", cli.Optional).
+		OptionList([]string{"--platform"}, "associates the object with a platform", cli.Optional, types.String, []string{}).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config cri delete <name>
+		 */
+		Argument(words.Config, words.Cri, words.Delete).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config cri enable <name>
+		 */
+		Argument(words.Config, words.Cri, words.Enable).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config cri disable <name>
+		 */
+		Argument(words.Config, words.Cri, words.Disable).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config cri show <name>
+		 */
+		Argument(words.Config, words.Cri, words.Show).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config cri list
+		 */
+		Argument(words.Config, words.Host, words.List).
+		NoValue().
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host check <name>
+		 */
+		Argument(words.Config, words.Host, words.Check).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host create <name> [options]
+		 */
+		Argument(words.Config, words.Host, words.Create).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host delete <name>
+		 */
+		Argument(words.Config, words.Host, words.Delete).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host enable <name>
+		 */
+		Argument(words.Config, words.Host, words.Enable).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host disable <name>
+		 */
+		Argument(words.Config, words.Host, words.Disable).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host show <name>
+		 */
+		Argument(words.Config, words.Host, words.Show).
+		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
+		Done(cli.NoAction).
+		/*
+		 * monorepo config host list
+		 */
+		Argument(words.Config, words.Host, words.List).
+		NoValue().
+		Done(cli.NoAction).
+		/*
+		 * monorepo -h | --help  : Show the help information and exit.  The ShowHelpIfRequested() call
+		 * must be at the end before Parse() to capture all helpTest.
+		 */
+		ShowHelpIfRequested().
+		/*
+		 * Parse the actual os.Args (other than global flags already processed) and action the command.
+		 */
 		Parse()
 
 	fmt.Println(args.ToString())

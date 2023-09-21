@@ -21,34 +21,34 @@ import (
 
 func main() {
 	args := cli.NewArgParse().
-		Argument("config", "cri", "check").Value("name", cli.Required, nil).Done().
+		Argument("config", "cri", "check").Value(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "create").Value("name", cli.Required, nil).
+		Argument("config", "cri", "create").Value(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).
 		Option("enabled", types.Bool, cli.Optional, cli.Flag(false)).
 		Option("platform", types.String, cli.Optional, cli.OptionList(words.Comma)).
 		Done().
 		/**/
-		Argument("config", "cri", "delete").Value("name", cli.Required, nil).Done().
+		Argument("config", "cri", "delete").Value(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "enable").Value("name", cli.Required, nil).Done().
+		Argument("config", "cri", "enable").Value(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "disable").Value("name", cli.Required, nil).Done().
+		Argument("config", "cri", "disable").Value(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "show").Value("name", cli.Required, nil).Done().
+		Argument("config", "cri", "show").Value(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
 		Argument("config", "cri", "list").Value(nil, cli.None, nil).Done().
 		/**/
-		Argument("config", "cri", "check").StringValue("name", cli.Required, nil).Done().
+		Argument("config", "cri", "check").StringValue(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "create").StringValue("name", cli.Required, nil).Done().
+		Argument("config", "cri", "create").StringValue(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
 		Argument("config", "cri", "delete").v("name", cli.Required, nil).Done().
 		/**/
-		Argument("config", "cri", "enable").StringValue("name", cli.Required, nil).Done().
+		Argument("config", "cri", "enable").StringValue(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "disable").StringValue("name", cli.Required, nil).Done().
+		Argument("config", "cri", "disable").StringValue(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
-		Argument("config", "cri", "show").StringValue("name", cli.Required, nil).Done().
+		Argument("config", "cri", "show").StringValue(words.Name, criNameDescription, cli.Required, types.String, words.EmptyString).Done().
 		/**/
 		Argument("config", "cri", "list").NoValue().Done().
 		/**/

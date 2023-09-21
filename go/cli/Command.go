@@ -22,17 +22,9 @@ package cli
  * THE SOFTWARE.
  */
 
-import (
-	"github.com/sam-caldwell/monorepo/go/misc/words"
-	"strings"
-)
-
 type Command struct {
 	descriptor []string
-	value      *ValueDescriptor
-	options    *OptionDescriptor
-}
-
-func (cmd *Command) ToString() string {
-	return strings.Join(cmd.descriptor, words.Space) + cmd.value.ToString() + cmd.options.ToString()
+	value      map[string]ValueDescriptor
+	options    map[string]OptionDescriptor
+	action     ActionFunction
 }

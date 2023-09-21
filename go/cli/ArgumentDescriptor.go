@@ -25,13 +25,26 @@ package cli
 // ArgumentDescriptor - The top-level object representing a command-line parser definition.
 type ArgumentDescriptor struct {
 	/*
-	 * the program name (for -h and --help options)
+	 * The program name (for -h and --help options)
 	 */
-	programName        string
+	programName string
+	/*
+	 * The program description (for -h and --help options)
+	 */
 	programDescription string
-	command            map[string]Command
-
-	//We add all help text (descriptions indexed by the associated object)
-	//Our built-in -h | --help flags will trigger this.
+	/*
+	 * A map of commands defined for the program where the name is the space delimited
+	 * command string (e.g. 'monorepo config cri create').
+	 */
+	command map[string]Command
+	/*
+	 * As the command definition is processed through to define the structure, the
+	 * last command provides the current command between .Argument() and .Done().
+	 */
+	lastCommand string
+	/*
+		 	 * We add all help text (descriptions indexed by the associated object)
+			 * Our built-in -h | --help flags will trigger this.
+	*/
 	helpText map[string]string
 }

@@ -29,7 +29,7 @@ import (
 	"os"
 )
 
-func (arg *ArgumentDescriptor) ShowHelpIfRequested() {
+func (arg *ArgumentDescriptor) ShowHelpIfRequested() *ArgumentDescriptor {
 	for _, opt := range os.Args {
 		if (opt == "-h") || (opt == "--help") {
 			ansi.Blue().
@@ -45,4 +45,5 @@ func (arg *ArgumentDescriptor) ShowHelpIfRequested() {
 			os.Exit(exit.Success)
 		}
 	}
+	return arg
 }

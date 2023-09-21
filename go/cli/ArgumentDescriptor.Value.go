@@ -21,19 +21,25 @@ package cli
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import (
-	"fmt"
-	"go/types"
-)
 
-type ValueDescriptor struct {
-	description string
-	required    bool
-	vType       types.BasicKind
-	value       any
-}
+import "go/types"
 
-func (v *ValueDescriptor) ToString() string {
-	return fmt.Sprintf("(value:'%v',type:'%v',required:'%v') ",
-		v.value, v.vType, v.required)
+func (arg *ArgumentDescriptor) Value(name string, description string, required bool, vType types.BasicKind, value any) *ArgumentDescriptor {
+	if cmd, exists := arg.command[arg.lastCommand]; exists {
+		if cmd.value == nil {
+			cmd.value = make(map[string]ValueDescriptor)
+
+		}
+		cmd.value[name] = ValueDescriptor{
+			description: description,
+			required:    required,
+			vType:       vType,
+			value:       value,
+		}
+		arg.command[arg.lastCommand] = cmd
+		arg.helpText[name] = description
+	} else {
+		panic("internal error assigning action to non-existent command")
+	}
+	return arg
 }

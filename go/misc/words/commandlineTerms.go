@@ -10,6 +10,9 @@ const (
 
 const (
 	ContainerRuntimes = "container_runtimes"
+	Disable           = "disable"
+	Disabled          = "disabled"
+	Enable            = "enable"
 	Enabled           = "enabled"
 	Name              = "name"
 	CriPlatformsPath  = "container_runtimes.platforms"

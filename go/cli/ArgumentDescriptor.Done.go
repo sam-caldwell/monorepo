@@ -22,6 +22,13 @@ package cli
  * THE SOFTWARE.
  */
 
-func (arg *ArgumentDescriptor) Done() *ArgumentDescriptor {
+// Done - Terminate a command definition and define its ActionFunction.
+func (arg *ArgumentDescriptor) Done(action ActionFunction) *ArgumentDescriptor {
+	if cmd, exists := arg.command[arg.lastCommand]; exists {
+		cmd.action = action
+		arg.command[arg.lastCommand] = cmd
+	} else {
+		panic("internal error assigning action to non-existent command")
+	}
 	return arg
 }
