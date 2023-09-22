@@ -22,4 +22,4 @@ package cli
  * THE SOFTWARE.
  */
 
-type ActionFunction func(parameters map[string]Command) error
+type ActionFunction func(CommandMap) error

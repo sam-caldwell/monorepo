@@ -36,7 +36,7 @@ func TestArgumentDescriptor_Done(t *testing.T) {
 		testResponse           = "test response"
 		testDescription        = "test command description"
 	)
-	testAction := func(parameters map[string]Command) error {
+	testAction := func(parameters CommandMap) error {
 		return fmt.Errorf(testResponse)
 	}
 	arg := NewArgParse(testProgramName, testProgramDescription).
@@ -50,5 +50,5 @@ func TestArgumentDescriptor_Done(t *testing.T) {
 	assert.Equal(t, arg.lastCommand, "test", "ArgumentDescriptor.lastCommand mismatch")
 	assert.NotNil(t, arg.command[arg.lastCommand], "ArgumentDescriptor.command not nil")
 	assert.Equal(t, arg.helpText[arg.lastCommand], testDescription, "ArgumentDescriptor.helpText mismatch")
-	assert.Equal(t, arg.command[arg.lastCommand].action(map[string]Command{}).Error(), testResponse, "testResponse mismatch")
+	assert.Equal(t, arg.command[arg.lastCommand].action(CommandMap{}).Error(), testResponse, "testResponse mismatch")
 }

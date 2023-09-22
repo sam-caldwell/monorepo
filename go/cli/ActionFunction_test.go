@@ -29,10 +29,10 @@ import (
 
 func TestActionFunction(t *testing.T) {
 	var f ActionFunction
-	f = func(p map[string]Command) error {
+	f = func(p CommandMap) error {
 		return fmt.Errorf("test")
 	}
-	if err := f(map[string]Command{}); err == nil {
+	if err := f(CommandMap{}); err == nil {
 		t.Fatal("expected error but got nil")
 	} else if err.Error() != "test" {
 		t.Fatalf("expected error mismatch (%s)", err.Error())

@@ -22,6 +22,8 @@ package cli
  * THE SOFTWARE.
  */
 
-func NoAction(p map[string]Command) error {
+type CommandMap map[string]Command
+
+func NoAction(p CommandMap) error {
 	return nil
 }

@@ -60,7 +60,7 @@ func main() {
 		Argument("create container runtime config", words.Config, words.Cri, words.Create).
 		Value(words.Name, DescriptionCriName, cli.Required, types.String, words.EmptyString).
 		OptionFlag([]string{"-e", "--enabled"}, "enables the object", cli.Optional).
-		OptionList([]string{"--platform"}, "associates the object with a platform", cli.Optional, types.String, []string{}).
+		OptionKvList([]string{"--platform"}, "associates the object with a platform", cli.Optional, types.String, []string{}).
 		Done(cli.NoAction).
 		/*
 		 * monorepo config cri delete <name>

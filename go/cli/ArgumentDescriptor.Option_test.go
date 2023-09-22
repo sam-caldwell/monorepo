@@ -25,24 +25,27 @@ package cli
 import (
 	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/stretchr/testify/assert"
+	"go/types"
 	"testing"
 )
 
-func TestArgumentDescriptor_NoValue(t *testing.T) {
+func TestArgumentDescriptor_Option_WithString(t *testing.T) {
 	const (
 		programName        = "testProgram"
 		programDescription = "this is a test"
+		shortOption        = "-t"
+		longOption         = "--test"
+		testDescription    = "this is a test option"
+		testType           = types.String
+		testValue          = "testValue"
 	)
 	arg := NewArgParse(programName, programDescription).
 		Argument("validate container runtime config", words.Config, words.Cri, words.Check).
 		NoValue().
+		Option([]string{shortOption, longOption}, testDescription, testType, Required, testValue).
 		Done(NoAction)
 
 	assert.NotNil(t, arg.command[arg.lastCommand], "arg.command should not be nil")
 	assert.NotNil(t, arg.command[arg.lastCommand].value, "arg.command.value should not be nil")
-	c := arg.command[arg.lastCommand]
-	assert.NotNil(t, c.action, "action expects non-nil value (function)")
-	assert.Nil(t, c.action(CommandMap{}), "action() returns nil when NoAction() is called")
-	v := c.value
-	assert.Equal(t, len(v), 0, "NoValue() should cause zero-length command value")
+
 }

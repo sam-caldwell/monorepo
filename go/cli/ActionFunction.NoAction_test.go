@@ -27,7 +27,7 @@ import (
 )
 
 func TestActionFunction_NoAction(t *testing.T) {
-	err := NoAction(map[string]Command{})
+	err := NoAction(CommandMap{})
 	if err != nil {
 		t.Fatalf("expected nil error but got '%s'", err)
 	}

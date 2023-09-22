@@ -23,8 +23,7 @@ package cli
  */
 
 type Command struct {
-	descriptor []string
-	value      map[string]ValueDescriptor
-	options    map[string]OptionDescriptor
-	action     ActionFunction
+	value   map[string]ValueDescriptor
+	options map[string]OptionDescriptor
+	action  ActionFunction
 }
