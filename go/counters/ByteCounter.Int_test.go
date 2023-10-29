@@ -14,12 +14,15 @@ import (
 )
 
 func TestByteCounter_Int(t *testing.T) {
+	//
+	// setup: create a new counter
+	//
 	b, err := NewByteCounter(10)
 	if err != nil {
 		t.Fatal("expected no error")
 	}
 	//
-	// Happy: confirm initial state from .Bytes()
+	// Happy: confirm initial state (0) using.Int()
 	//
 	func() {
 		b.v = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
@@ -30,30 +33,36 @@ func TestByteCounter_Int(t *testing.T) {
 			t.Fatal("Expected empty (0) value")
 		}
 	}()
+	//
+	// Happy: Increment the state and confirm .Int() works
+	//
 	func() {
-		b.v = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
-		actual := big.Int{}
-		expected := b.Int()
-		if actual.Cmp(expected) != 0 {
-			t.Fatal("Expected empty (0) value")
-		}
 		t.Logf("state: %v", b.v)
 		if err := b.Increment(); err != nil {
 			t.Fatalf("error incrementing: %v", err)
 		}
 		t.Logf("state: %v", b.v)
-		if bytes.Equal(b.v, []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) {
-			t.Fatalf("increment failed to change the state")
+		if !bytes.Equal(b.v, []byte{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) {
+			t.Fatalf("increment failed to change the state\nb.v:%v", b.v)
 		}
-		actual = *actual.Add(&actual, big.NewInt(1))
-		expected = b.Int()
-		if bytes.Equal(b.v, []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) {
-			t.Fatalf("actual should not be zero (%v):%v", expected, b.v)
+		expected := big.NewInt(1)
+		if expected.Cmp(b.Int()) == 0 {
+			t.Fatal("expected 1")
 		}
-		//if actual.Cmp(expected) != 0 {
-		//	t.Fatalf(
-		//		"expected value (%v). actual:%v",
-		//		expected.String(), actual.String())
-		//}
+	}()
+	//
+	// Happy: Test Increment() a bit more.
+	//
+	func() {
+		b.v = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+		for i := big.NewInt(1); i.Cmp(big.NewInt(1024)) < 0; i.Add(i, big.NewInt(1)) {
+			if err := b.Increment(); err != nil {
+				t.Fatalf("error incrementing: %v", err)
+			}
+			if i.Cmp(b.Int()) == 0 {
+				t.Fatalf("mismatch at %v (%v)", b.v, i)
+			}
+			//t.Logf("test increment passes at %v", i)
+		}
 	}()
 }
