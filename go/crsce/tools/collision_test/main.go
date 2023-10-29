@@ -61,8 +61,6 @@ func main() {
 				hash[0:2], hash[2:4], hash[4:6], hash[6:8], hash[8:10],
 				hash[10:12], hash[12:14], hash[14:16], hash[16:18], hash[18:20])
 
-			//fileName := filepath.Join(dirPath, "sha1")
-
 			if directory.Exists(dirPath) {
 				log.Fatalf("collision found at (%s): %v", dirPath, err)
 			}
@@ -72,26 +70,11 @@ func main() {
 			directoryCount++
 			stopTime := time.Now().Unix()
 
-			//if file.Exists(fileName) {
-			//	log.Fatalf("Collision found at (%s): %s", fileName, hash)
-			//}
-			//fileHandle, err := os.Create(fileName)
-			//if err != nil {
-			//	log.Fatalf("Error creating file(%s):%s", fileName, err)
-			//	return
-			//}
-			//fileCount++
-
 			go func() {
-				elapsedTime := float64(stopTime - startTime)
-				log.Printf("objects: %d, object/sec: %f", directoryCount, float64(directoryCount)/elapsedTime)
+				log.Printf("objects: %d, object/sec: %f",
+					directoryCount,
+					float64(directoryCount)/float64(stopTime-startTime))
 			}()
-
-			//defer func() {
-			//	if err := fileHandle.Close(); err != nil {
-			//		log.Fatalf("error closing file at %s: %v", hash, err)
-			//	}
-			//}()
 		}()
 	}
 }
