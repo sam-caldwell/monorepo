@@ -1,6 +1,10 @@
 package counters
 
-import "testing"
+import (
+	"bytes"
+	"math/big"
+	"testing"
+)
 
 /*
 * ByteCounter
@@ -102,5 +106,62 @@ func TestByteCounter_Increment(t *testing.T) {
 		if err.Error() != "overflow error" {
 			t.Fatal("Expected overflow error")
 		}
+	}
+}
+
+func TestByteCounter_StringOrInt(t *testing.T) {
+	b, err := NewByteCounter(10)
+	if err != nil {
+		t.Fatal("expect no error")
+	}
+	if len(b.v) != 10 {
+		t.Fatal("expect 10-element array")
+	}
+	expected := []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+	if !bytes.Equal(b.v, expected) {
+		t.Fatal("expect empty array")
+	}
+	b.v = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
+	actual := b.Bytes() //should flip byte order
+	expected = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
+	t.Log("Flipping and Printing Bytes")
+	if !bytes.Equal(actual, expected) {
+		t.Fatalf("output mismatch(1.0)\na:%v\ne:%v", actual, expected)
+	}
+	if (string)(actual) != (string)(expected) {
+		t.Fatalf("output mismatch(1.1)")
+	}
+
+	expected = []byte{0x02, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
+	_ = b.Increment()
+	actual = b.Bytes()
+	if !bytes.Equal(actual, expected) {
+		t.Fatalf("output mismatch(2.0)\na:%v\ne:%v", actual, expected)
+	}
+	if (string)(actual) != (string)(expected) {
+		t.Fatalf("output mismatch (2.1)")
+	}
+}
+
+func TestByteCounter_Bytes(t *testing.T) {
+	empty := []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+	b, err := NewByteCounter(10)
+	if err != nil {
+		t.Fatal("expected no error")
+	}
+	b.v = empty
+	actual := big.Int{}
+	actual.SetBytes(empty)
+	expected := b.Int()
+	if actual.Cmp(expected) != 0 {
+		t.Fatal("Expected empty (0) value")
+	}
+	_ = b.Increment()
+	actual = *actual.Add(&actual, big.NewInt(1))
+	expected = b.Int()
+	if actual.Cmp(expected) != 0 {
+		t.Fatalf(
+			"expected value (%v). actual:%v",
+			expected.String(), actual.String())
 	}
 }
