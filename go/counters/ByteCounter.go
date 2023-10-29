@@ -52,8 +52,9 @@ func (c *ByteCounter) Increment() error {
 }
 
 func (c *ByteCounter) reverseBytes() {
+	fmt.Println("reverseBytes")
 	o := make([]byte, len(c.v))
-	copy(o, c.v)
+	copy(c.v, o)
 	for i := 0; i < len(o); i++ {
 		c.v[i] = o[(len(o)-i)-1]
 	}
@@ -61,7 +62,10 @@ func (c *ByteCounter) reverseBytes() {
 
 // Bytes - return the byte string value of our counter state.
 func (c *ByteCounter) Bytes() []byte {
-	c.reverseBytes()
+	o := make([]byte, len(c.v))
+	for i := 0; i < len(o); i++ {
+		o[i] = c.v[(len(o)-i)-1]
+	}
 	return c.v
 }
 
