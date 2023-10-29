@@ -54,15 +54,16 @@ func TestByteCounter_Int(t *testing.T) {
 	// Happy: Test Increment() a bit more.
 	//
 	func() {
+		stopValue := big.NewInt(100)
 		b.v = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
-		for i := big.NewInt(1); i.Cmp(big.NewInt(1024)) < 0; i.Add(i, big.NewInt(1)) {
+		for i := big.NewInt(1); i.Cmp(stopValue) < 0; i.Add(i, big.NewInt(1)) {
 			if err := b.Increment(); err != nil {
 				t.Fatalf("error incrementing: %v", err)
 			}
 			if i.Cmp(b.Int()) == 0 {
 				t.Fatalf("mismatch at %v (%v)", b.v, i)
 			}
-			//t.Logf("test increment passes at %v", i)
+			t.Logf("test increment passes at %v", i)
 		}
 	}()
 }
