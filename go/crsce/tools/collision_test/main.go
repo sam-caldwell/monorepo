@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	root          = "/tmp/data"
+	root          = "/opt/data/crsce"
 	fileExtension = ".sha1"
 	keySpaceSize  = 1024
 
