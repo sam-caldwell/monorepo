@@ -63,7 +63,7 @@ func TestByteCounter_Int(t *testing.T) {
 			if i.Cmp(b.Int()) == 0 {
 				t.Fatalf("mismatch at %v (%v)", b.v, i)
 			}
-			t.Logf("test increment passes at %v", i)
+			//t.Logf("test increment passes at %v", i)
 		}
 	}()
 }
