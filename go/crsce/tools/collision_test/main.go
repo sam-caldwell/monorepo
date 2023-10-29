@@ -20,8 +20,6 @@ const (
 	root          = "/opt/data/crsce"
 	fileExtension = ".sha1"
 	keySpaceSize  = 1024
-
-	partitionSize = 10
 )
 
 func initialize() {
@@ -53,11 +51,11 @@ func main() {
 		func() {
 			hash := input.Sha1()
 
-			dirPath := filepath.Join(root, hash[0:partitionSize])
-			fileName := filepath.Join(dirPath, hash[partitionSize:]+fileExtension)
+			dirPath := filepath.Join(root, hash[0:2], hash[2:4], hash[4:6], hash[6:8], hash[8:10])
+			fileName := filepath.Join(dirPath, hash[10:]+fileExtension)
 
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
-				log.Fatalf("Failed to create path (%s)", dirPath)
+				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
 			if file.Exists(fileName) {
 				log.Fatalf("Collision found at (%s): %s", fileName, hash)
