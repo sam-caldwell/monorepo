@@ -54,7 +54,7 @@ func main() {
 			hash := input.Sha1()
 
 			dirPath := filepath.Join(root, hash[0:partitionSize])
-			fileName := filepath.Join(dirPath, hash[partitionSize:], fileExtension)
+			fileName := filepath.Join(dirPath, hash[partitionSize:]+fileExtension)
 
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
 				log.Fatalf("Failed to create path (%s)", dirPath)
