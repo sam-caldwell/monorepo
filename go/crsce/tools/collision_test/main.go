@@ -61,12 +61,9 @@ func main() {
 				hash[0:2], hash[2:4], hash[4:6], hash[6:8], hash[8:10],
 				hash[10:12], hash[12:14], hash[14:16], hash[16:18], hash[18:20])
 
-			if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+			if directory.Existsp(&dirPath) {
 				log.Fatalf("collision found at (%s): %v", dirPath, err)
 			}
-			//if directory.Existsp(&dirPath) {
-			//	log.Fatalf("collision found at (%s): %v", dirPath, err)
-			//}
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
 				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
