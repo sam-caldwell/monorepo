@@ -37,6 +37,9 @@ func initialize() {
 }
 
 func main() {
+	var directoryCount uint64
+	var fileCount uint64
+
 	log.Println("Starting")
 	initialize()
 	// Iterate through strings of length 0 to 1024
@@ -57,6 +60,7 @@ func main() {
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
 				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
+			directoryCount++
 			if file.Exists(fileName) {
 				log.Fatalf("Collision found at (%s): %s", fileName, hash)
 			}
@@ -65,6 +69,12 @@ func main() {
 				log.Fatalf("Error creating file(%s):%s", fileName, err)
 				return
 			}
+			fileCount++
+
+			defer func() {
+				log.Printf("directories: %d, files: %d", directoryCount, fileCount)
+			}()
+
 			defer func() {
 				if err := fileHandle.Close(); err != nil {
 					log.Fatalf("error closing file at %s: %v", hash, err)
