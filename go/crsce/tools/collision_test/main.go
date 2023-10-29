@@ -82,10 +82,9 @@ func main() {
 			//}
 			//fileCount++
 
-			defer func() {
-				elapsedTime := stopTime - startTime
-				ops := float64(directoryCount) / float64(elapsedTime)
-				log.Printf("objects: %d, elapsedTime: %d object/sec: %f", directoryCount, elapsedTime, ops)
+			go func() {
+				elapsedTime := float64(stopTime - startTime)
+				log.Printf("objects: %d, object/sec: %f", directoryCount, float64(directoryCount)/elapsedTime)
 			}()
 
 			//defer func() {
