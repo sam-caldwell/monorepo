@@ -9,6 +9,14 @@ package counters
  * for each byte, carrying 1 to the n+1 byte.
  */
 
-type ByteCounter struct {
-	v []byte // byte array used for the counter.
+import (
+	"math/big"
+)
+
+// Int - return the numeric value of our counter state (using big int)
+func (c *ByteCounter) Int() *big.Int {
+	c.reverse()
+	i := big.Int{}
+	i.SetBytes(c.v)
+	return &i
 }

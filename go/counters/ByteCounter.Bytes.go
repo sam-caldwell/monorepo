@@ -9,6 +9,11 @@ package counters
  * for each byte, carrying 1 to the n+1 byte.
  */
 
-type ByteCounter struct {
-	v []byte // byte array used for the counter.
+// Bytes - return the byte string value of our counter state.
+func (c *ByteCounter) Bytes() []byte {
+	o := make([]byte, len(c.v))
+	for i := 0; i < len(o); i++ {
+		o[i] = c.v[(len(o)-i)-1]
+	}
+	return c.v
 }

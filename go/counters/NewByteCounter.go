@@ -9,6 +9,15 @@ package counters
  * for each byte, carrying 1 to the n+1 byte.
  */
 
-type ByteCounter struct {
-	v []byte // byte array used for the counter.
+import (
+	"fmt"
+)
+
+func NewByteCounter(sz int) (ByteCounter, error) {
+	var b ByteCounter
+	if sz <= 0 {
+		return b, fmt.Errorf("ByteCounter size must be > 0")
+	}
+	b.v = make([]byte, sz)
+	return b, nil
 }

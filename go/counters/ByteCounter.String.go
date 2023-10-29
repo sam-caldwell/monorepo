@@ -1,5 +1,10 @@
 package counters
 
+import (
+	"encoding/hex"
+	"strings"
+)
+
 /*
  * ByteCounter
  * (c) 2023 Sam Caldwell.  See License.txt
@@ -9,6 +14,8 @@ package counters
  * for each byte, carrying 1 to the n+1 byte.
  */
 
-type ByteCounter struct {
-	v []byte // byte array used for the counter.
+// String - return the string value of our counter state.
+func (c *ByteCounter) String() string {
+	//c.reverse()
+	return strings.ToUpper(hex.EncodeToString(c.v))
 }
