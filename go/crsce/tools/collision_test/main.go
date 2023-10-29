@@ -47,12 +47,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	startTime := time.Now().Unix()
 	for {
 		if err := input.Increment(); err != nil {
 			break
 		}
 		func() {
-			startTime := time.Now().Unix()
 
 			hash := input.Sha1()
 
