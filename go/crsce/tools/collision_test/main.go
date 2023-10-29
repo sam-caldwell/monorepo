@@ -10,52 +10,51 @@ import (
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"log"
+	"math/big"
 	"os"
 	"path/filepath"
 )
 
 const (
-	root         = "data"
-	extension    = ".sha1"
+	root         = "/tmp/data"
+	sha1file     = "sha1"
 	keySpaceSize = 1024
 )
 
-func generateSHA1(input string) string {
-	hash := sha1.Sum([]byte(input))
-	return hex.EncodeToString(hash[:])
-}
+func generateSHA1(input *big.Int) (dirPath string) {
+	hash := sha1.Sum(input.Bytes())
+	h := hex.EncodeToString(hash[:])
 
-func partitionSHA1(hash string) string {
 	// Divide the hash into directories and filename
-	dirPath := ""
-	for i := 0; i < len(hash); i += 4 {
-		dirPath += hash[i:i+4] + "/"
+	for i := 0; i < len(h); i += 4 {
+		dirPath = filepath.Join(dirPath, h[i:i+4])
 	}
-	return dirPath + "sha1"
+	return dirPath
 }
 
 func main() {
+	log.Println("Starting")
 	// Create a directory to store the generated hashes
 	if directory.Exists(root) {
+		log.Println("Cleaning")
 		_ = os.RemoveAll(root)
 	}
-	_ = os.MkdirAll(root, os.ModeDir)
-
+	_ = os.MkdirAll(root, 0744)
 	// Iterate through strings of length 0 to 1024
-	for i := 0; i <= keySpaceSize; i++ {
-		var input string
+	maxValue := new(big.Int)
+	maxValue.Exp(big.NewInt(2), big.NewInt(8*keySpaceSize), nil) // 2^(8*keySpaceSize)
+	for i := new(big.Int); i.Cmp(maxValue) < 0; i.Add(i, big.NewInt(1)) {
 		// Generate SHA-1 hash
-		hash := generateSHA1(input)
-
-		// Create directory path based on hash
-		dirPath := partitionSHA1(hash)
-
+		dirPath := generateSHA1(i)
+		//log.Printf("i: %d (%s)", i, dirPath)
 		// Create directories
-		_ = os.MkdirAll(filepath.Join(root, dirPath), os.ModeDir)
+		if err := os.MkdirAll(filepath.Join(root, dirPath), 0744); err != nil {
+			panic(err)
+		}
 
 		func() {
 			// Create a file with the SHA-1 hash as the name
-			fileName := filepath.Join(root, dirPath+extension)
+			fileName := filepath.Join(root, dirPath, sha1file)
 			if file.Exists(fileName) {
 				log.Fatalf("Collision found at %s", fileName)
 			}
