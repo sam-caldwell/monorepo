@@ -1,69 +1,76 @@
 package main
 
 /*
+ * collision_test
+ * (c) 2023 Sam Caldwell. See License.txt
  *
+ * Test 1024-bit collisions.
  */
 
 import (
-	"crypto/sha1"
-	"encoding/hex"
+	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"log"
-	"math/big"
 	"os"
 	"path/filepath"
 )
 
 const (
-	root         = "/tmp/data"
-	sha1file     = "sha1"
-	keySpaceSize = 1024
+	root          = "/tmp/data"
+	fileExtension = ".sha1"
+	keySpaceSize  = 1024
+
+	partitionSize = 10
 )
 
-func generateSHA1(input *big.Int) (dirPath string) {
-	hash := sha1.Sum(input.Bytes())
-	h := hex.EncodeToString(hash[:])
-
-	// Divide the hash into directories and filename
-	for i := 0; i < len(h); i += 4 {
-		dirPath = filepath.Join(dirPath, h[i:i+4])
+func initialize() {
+	if directory.Exists(root) {
+		log.Println("Cleaning")
+		if err := os.RemoveAll(root); err != nil {
+			panic(err)
+		}
 	}
-	return dirPath
+	// Create a directory to store the generated hashes
+	if err := os.MkdirAll(root, 0744); err != nil {
+		panic(err)
+	}
 }
 
 func main() {
 	log.Println("Starting")
-	// Create a directory to store the generated hashes
-	if directory.Exists(root) {
-		log.Println("Cleaning")
-		_ = os.RemoveAll(root)
-	}
-	_ = os.MkdirAll(root, 0744)
+	initialize()
 	// Iterate through strings of length 0 to 1024
-	maxValue := new(big.Int)
-	maxValue.Exp(big.NewInt(2), big.NewInt(8*keySpaceSize), nil) // 2^(8*keySpaceSize)
-	for i := new(big.Int); i.Cmp(maxValue) < 0; i.Add(i, big.NewInt(1)) {
-		// Generate SHA-1 hash
-		dirPath := generateSHA1(i)
-		//log.Printf("i: %d (%s)", i, dirPath)
-		// Create directories
-		if err := os.MkdirAll(filepath.Join(root, dirPath), 0744); err != nil {
-			panic(err)
+	input, err := counters.NewByteCounter(keySpaceSize)
+	if err != nil {
+		panic(err)
+	}
+	for {
+		if err := input.Increment(); err != nil {
+			break
 		}
-
 		func() {
-			// Create a file with the SHA-1 hash as the name
-			fileName := filepath.Join(root, dirPath, sha1file)
-			if file.Exists(fileName) {
-				log.Fatalf("Collision found at %s", fileName)
+			hash := input.Sha1()
+
+			dirPath := filepath.Join(root, hash[0:partitionSize])
+			fileName := filepath.Join(root, dirPath, hash[partitionSize:], fileExtension)
+
+			if err := os.MkdirAll(dirPath, 0744); err != nil {
+				log.Fatalf("Failed to create path (%s)", dirPath)
 			}
-			file, err := os.Create(fileName)
+			if file.Exists(fileName) {
+				log.Fatalf("Collision found at (%s): %s", fileName, hash)
+			}
+			fileHandle, err := os.Create(fileName)
 			if err != nil {
 				log.Fatalf("Error creating file(%s):%s", fileName, err)
 				return
 			}
-			defer func() { _ = file.Close() }()
+			defer func() {
+				if err := fileHandle.Close(); err != nil {
+					log.Fatalf("error closing file at %s: %v", hash, err)
+				}
+			}()
 		}()
 	}
 }
