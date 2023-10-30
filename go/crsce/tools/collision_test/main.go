@@ -87,8 +87,8 @@ func main() {
 				log.Printf("objects: %d, object/sec: %5.2f hashTime:%d (%5.2f) diskOpElapsed:%d (%6.2f)",
 					directoryCount,
 					float64(directoryCount)/float64(stopTime-startTime),
-					hashElapsed, float64(hashElapsed) / float64(hashElapsedTotal),
-					diskOpElapsed, float64(diskOpElapsed) / float64(diskOpTotal)))
+					hashElapsed, float64(hashElapsed)/float64(hashElapsedTotal),
+					diskOpElapsed, float64(diskOpElapsed)/float64(diskOpTotal))
 			}()
 		}()
 	}
