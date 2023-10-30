@@ -8,6 +8,7 @@ package main
  */
 
 import (
+	"bufio"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	"log"
@@ -17,12 +18,27 @@ import (
 )
 
 const (
-	root          = "/opt/data/crsce"
-	fileExtension = ".sha1"
-	keySpaceSize  = 1024
+	root         = "/opt/data/crsce"
+	keySpaceSize = 1024
 )
 
-func initialize() {
+func init() {
+	bufferedWriter := bufio.NewWriter(os.Stdout)
+	log.SetOutput(bufferedWriter)
+	log.Println("This is a log message")
+
+	go func() {
+		ticker := time.NewTicker(5 * time.Second) // Adjust the interval as needed
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				_ = bufferedWriter.Flush()
+			}
+		}
+	}()
+
 	if directory.Exists(root) {
 		log.Println("Cleaning")
 		if err := os.RemoveAll(root); err != nil {
@@ -34,18 +50,14 @@ func initialize() {
 		panic(err)
 	}
 	log.Printf("Created root directory: %s", root)
+
 }
 
 func main() {
-	var sampleCount float64
-	var hashElapsedTotal float64
-	var diskOpTotal float64
-
 	var directoryCount uint64
-	//var fileCount uint64
 
 	log.Println("Starting")
-	initialize()
+
 	// Iterate through strings of length 0 to 1024
 	input, err := counters.NewByteCounter(keySpaceSize)
 	if err != nil {
@@ -57,38 +69,26 @@ func main() {
 			break
 		}
 		func() {
-
-			hashStart := time.Now().UnixNano()
 			hash := input.Sha1()
 
 			dirPath := filepath.Join(
 				root,
 				hash[0:2], hash[2:4], hash[4:6], hash[6:8], hash[8:10],
 				hash[10:12], hash[12:14], hash[14:16], hash[16:18], hash[18:20])
-			hashElapsed := time.Now().UnixNano() - hashStart
 
-			diskOpStart := time.Now().UnixNano()
 			if directory.Existsp(&dirPath) {
 				log.Fatalf("collision found at (%s): %v", dirPath, err)
 			}
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
 				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
-			diskOpElapsed := time.Now().UnixNano() - diskOpStart
 
 			stopTime := time.Now().Unix()
 			directoryCount++
 
 			go func() {
-				sampleCount++
-				hashElapsedTotal += float64(hashElapsed)
-				diskOpTotal += float64(diskOpElapsed)
-
-				log.Printf("objects: %9d, object/sec: %5.2f hashTime:%6d (%5.2f) diskOpElapsed:%d (%6.2f)",
-					directoryCount,
-					float64(directoryCount)/float64(stopTime-startTime),
-					hashElapsed, hashElapsedTotal/sampleCount,
-					diskOpElapsed, diskOpTotal/sampleCount)
+				log.Printf("objects: %09d, object/sec: %05.2f",
+					directoryCount, float64(directoryCount)/float64(stopTime-startTime))
 			}()
 		}()
 	}
