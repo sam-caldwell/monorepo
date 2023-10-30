@@ -29,14 +29,12 @@ func main() {
 			select {
 			case <-ticker.C:
 				elapsedTime := float64(time.Now().Unix() - startTime)
-				l := lhs.Bytes()
-				r := rhs.Bytes()
-				log.Printf("lhs(%v) rhs(%v) "+
+				log.Printf("lhs(%s) rhs(%s) "+
 					"elapsed: %11.2f "+
 					"objectCnt: %11d, object/sec: %11.6f "+
 					"compareCnt:%11d compare/sec:%11.2f",
-					l,
-					r,
+					lhs.String(),
+					rhs.String(),
 					elapsedTime,
 					objectCount,
 					float64(objectCount)/elapsedTime,
