@@ -76,15 +76,15 @@ func main() {
 			}
 			diskOpElapsed := time.Now().UnixNano() - diskOpStart
 
-			directoryCount++
 			stopTime := time.Now().Unix()
+			directoryCount++
 
 			go func() {
 				sampleCount++
 				hashElapsedTotal += float64(hashElapsed)
 				diskOpTotal += float64(diskOpElapsed)
 
-				log.Printf("objects: %d, object/sec: %5.2f hashTime:%d (%5.2f) diskOpElapsed:%d (%6.2f)",
+				log.Printf("objects: %9d, object/sec: %5.2f hashTime:%6d (%5.2f) diskOpElapsed:%d (%6.2f)",
 					directoryCount,
 					float64(directoryCount)/float64(stopTime-startTime),
 					hashElapsed, hashElapsedTotal/sampleCount,
