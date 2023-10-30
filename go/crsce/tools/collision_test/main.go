@@ -54,9 +54,8 @@ func main() {
 		}
 		func() {
 
-			hashStart := time.Now().Unix()
+			hashStart := time.Now().UnixNano()
 			hash := input.Sha1()
-			hashElapsed := time.Now().Unix() - hashStart
 
 			dirPath := filepath.Join(
 				root,
@@ -69,6 +68,7 @@ func main() {
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
 				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
+			hashElapsed := time.Now().UnixNano() - hashStart
 			directoryCount++
 			stopTime := time.Now().Unix()
 
