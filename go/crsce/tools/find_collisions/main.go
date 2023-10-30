@@ -33,8 +33,8 @@ func main() {
 					"elapsed: %11.2f "+
 					"objectCnt: %11d, object/sec: %11.6f "+
 					"compareCnt:%11d compare/sec:%11.2f",
-					lhs.String(),
-					rhs.String(),
+					lhs.Text(16),
+					rhs.Text(16),
 					elapsedTime,
 					objectCount,
 					float64(objectCount)/elapsedTime,
