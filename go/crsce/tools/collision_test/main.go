@@ -19,6 +19,7 @@ import (
 const (
 	root         = "/opt/data/crsce"
 	keySpaceSize = 1024
+	logInterval  = 10
 )
 
 func init() {
@@ -70,15 +71,16 @@ func main() {
 
 			go func() {
 
-				ticker := time.NewTicker(5 * time.Second) // Adjust the interval as needed
-				defer ticker.Stop()
+				//ticker := time.NewTicker(logInterval * time.Second) // Adjust the interval as needed
+				//defer ticker.Stop()
 
 				for {
-					select {
-					case <-ticker.C:
-						log.Printf("objects: %11d, object/sec: %11.2f",
-							directoryCount, float64(directoryCount)/float64(stopTime-startTime))
-					}
+					//select {
+					//case <-ticker.C:
+					log.Printf("objects: %11d, object/sec: %11.2f",
+						directoryCount, float64(directoryCount)/float64(stopTime-startTime))
+					time.Sleep(logInterval * time.Second)
+					//}
 				}
 			}()
 		}()
