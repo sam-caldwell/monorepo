@@ -76,7 +76,7 @@ func main() {
 				for {
 					select {
 					case <-ticker.C:
-						log.Printf("objects: %09d, object/sec: %05.2f",
+						log.Printf("objects: %09d, object/sec: %08.2f",
 							directoryCount, float64(directoryCount)/float64(stopTime-startTime))
 					}
 				}
