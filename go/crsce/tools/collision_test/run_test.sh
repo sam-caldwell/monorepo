@@ -6,7 +6,7 @@ sudo umount /opt/data || true
 #sudo mkfs.btrfs /dev/sdb -f
 sudo mkfs.btrfs -R free-space-tree -f -L data /dev/sdb
 #sudo mount -o noatime,rw,ssd,compress=zlib:9,autodefrag, commit=120,noacl,nobarrier,discard=async /dev/sdb /opt/data
-sudo mount -o noatime,rw,ssd,compress=lzo,autodefrag,commit=240,noacl,nobarrier,nodiscard /dev/sdb /opt/data
+sudo mount -o noatime,rw,ssd,compress=lzo,autodefrag,commit=60,noacl,nobarrier,nodiscard /dev/sdb /opt/data
 sudo chown $(whoami) /opt/data
 echo 2048 | sudo tee /sys/block/sdb/queue/nr_requests
 
