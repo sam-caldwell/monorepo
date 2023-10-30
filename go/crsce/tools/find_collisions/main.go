@@ -51,7 +51,7 @@ func main() {
 		hash := sha1.Sum(lhs.Bytes())
 		lhsHash := hash[:]
 
-		for rhs = big.NewInt(0); rhs.Cmp(lhsMax) < 0; rhs.Add(rhs, big.NewInt(1)) {
+		for rhs = big.NewInt(0); rhs.Cmp(lhs) < 0; rhs.Add(rhs, big.NewInt(1)) {
 			if lhs.String() == rhs.String() {
 				log.Printf("skip v:%v", rhs.String())
 				continue
