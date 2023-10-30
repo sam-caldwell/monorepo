@@ -38,8 +38,8 @@ func initialize() {
 
 func main() {
 	var sampleCount int64
-	var hashElapsedTotal int64
-	var diskOpTotal int64
+	var hashElapsedTotal float64
+	var diskOpTotal float64
 
 	var directoryCount uint64
 	//var fileCount uint64
@@ -81,14 +81,14 @@ func main() {
 
 			go func() {
 				sampleCount++
-				hashElapsedTotal += hashElapsed
-				diskOpTotal += diskOpElapsed
+				hashElapsedTotal += float64(hashElapsed)
+				diskOpTotal += float64(diskOpElapsed)
 
 				log.Printf("objects: %d, object/sec: %5.2f hashTime:%d (%5.2f) diskOpElapsed:%d (%6.2f)",
 					directoryCount,
 					float64(directoryCount)/float64(stopTime-startTime),
-					hashElapsed, float64(hashElapsed)/float64(hashElapsedTotal),
-					diskOpElapsed, float64(diskOpElapsed)/float64(diskOpTotal))
+					hashElapsed, hashElapsedTotal/float64(sampleCount),
+					diskOpElapsed, diskOpTotal/float64(sampleCount))
 			}()
 		}()
 	}
