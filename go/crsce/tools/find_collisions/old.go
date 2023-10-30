@@ -31,8 +31,10 @@ func main() {
 				elapsedTime := float64(time.Now().Unix() - startTime)
 				log.Printf("lhs(%s) rhs(%s) "+
 					"elapsed: %11.2f "+
-					"objectCnt: %11d, object/sec: %11.6f "+
-					"compareCnt:%11d compare/sec:%11.2f",
+					"objectCnt: %11d, "+
+					"object/sec: %11.2f "+
+					"compareCnt:%11d "+
+					"compare/sec:%11.2f",
 					lhs.Text(16),
 					rhs.Text(16),
 					elapsedTime,
