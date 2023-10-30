@@ -37,7 +37,7 @@ func initialize() {
 }
 
 func main() {
-	var sampleCount int64
+	var sampleCount float64
 	var hashElapsedTotal float64
 	var diskOpTotal float64
 
@@ -87,8 +87,8 @@ func main() {
 				log.Printf("objects: %d, object/sec: %5.2f hashTime:%d (%5.2f) diskOpElapsed:%d (%6.2f)",
 					directoryCount,
 					float64(directoryCount)/float64(stopTime-startTime),
-					hashElapsed, hashElapsedTotal/float64(sampleCount),
-					diskOpElapsed, diskOpTotal/float64(sampleCount))
+					hashElapsed, hashElapsedTotal/sampleCount,
+					diskOpElapsed, diskOpTotal/sampleCount)
 			}()
 		}()
 	}
