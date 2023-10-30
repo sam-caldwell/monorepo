@@ -8,7 +8,6 @@ package main
  */
 
 import (
-	"bufio"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	"log"
@@ -23,22 +22,6 @@ const (
 )
 
 func init() {
-	bufferedWriter := bufio.NewWriter(os.Stdout)
-	log.SetOutput(bufferedWriter)
-	log.Println("This is a log message")
-
-	go func() {
-		ticker := time.NewTicker(5 * time.Second) // Adjust the interval as needed
-		defer ticker.Stop()
-
-		for {
-			select {
-			case <-ticker.C:
-				_ = bufferedWriter.Flush()
-			}
-		}
-	}()
-
 	if directory.Exists(root) {
 		log.Println("Cleaning")
 		if err := os.RemoveAll(root); err != nil {
@@ -50,7 +33,6 @@ func init() {
 		panic(err)
 	}
 	log.Printf("Created root directory: %s", root)
-
 }
 
 func main() {
@@ -87,8 +69,17 @@ func main() {
 			directoryCount++
 
 			go func() {
-				log.Printf("objects: %09d, object/sec: %05.2f",
-					directoryCount, float64(directoryCount)/float64(stopTime-startTime))
+
+				ticker := time.NewTicker(5 * time.Second) // Adjust the interval as needed
+				defer ticker.Stop()
+
+				for {
+					select {
+					case <-ticker.C:
+						log.Printf("objects: %09d, object/sec: %05.2f",
+							directoryCount, float64(directoryCount)/float64(stopTime-startTime))
+					}
+				}
 			}()
 		}()
 	}
