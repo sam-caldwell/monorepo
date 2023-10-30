@@ -63,7 +63,7 @@ func main() {
 	}()
 	for {
 		if err := input.Increment(); err != nil {
-			break
+			log.Fatalf("ByteCounter error: %v", err)
 		}
 		func() {
 			hash := input.Sha1()
