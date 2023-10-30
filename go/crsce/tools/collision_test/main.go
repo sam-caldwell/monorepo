@@ -39,7 +39,6 @@ func init() {
 func main() {
 	var directoryCount uint64
 	var startTime int64
-	var stopTime int64
 
 	log.Println("Starting")
 
@@ -56,6 +55,7 @@ func main() {
 		for {
 			select {
 			case <-ticker.C:
+				stopTime := time.Now().Unix()
 				log.Printf("objects: %11d, object/sec: %11.2f",
 					directoryCount, float64(directoryCount)/float64(stopTime-startTime))
 			}
@@ -79,8 +79,6 @@ func main() {
 			if err := os.MkdirAll(dirPath, 0744); err != nil {
 				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
-
-			stopTime = time.Now().Unix()
 			directoryCount++
 		}()
 	}
