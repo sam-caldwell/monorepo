@@ -38,6 +38,8 @@ func init() {
 
 func main() {
 	var directoryCount uint64
+	var startTime int64
+	var stopTime int64
 
 	log.Println("Starting")
 
@@ -46,7 +48,19 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	startTime := time.Now().Unix()
+	startTime = time.Now().Unix()
+	go func() {
+		ticker := time.NewTicker(logInterval * time.Second) // Adjust the interval as needed
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				log.Printf("objects: %11d, object/sec: %11.2f",
+					directoryCount, float64(directoryCount)/float64(stopTime-startTime))
+			}
+		}
+	}()
 	for {
 		if err := input.Increment(); err != nil {
 			break
@@ -66,23 +80,8 @@ func main() {
 				log.Fatalf("Failed to create path (%s): %v", dirPath, err)
 			}
 
-			stopTime := time.Now().Unix()
+			stopTime = time.Now().Unix()
 			directoryCount++
-
-			go func() {
-
-				//ticker := time.NewTicker(logInterval * time.Second) // Adjust the interval as needed
-				//defer ticker.Stop()
-
-				for {
-					//select {
-					//case <-ticker.C:
-					log.Printf("objects: %11d, object/sec: %11.2f",
-						directoryCount, float64(directoryCount)/float64(stopTime-startTime))
-					time.Sleep(logInterval * time.Second)
-					//}
-				}
-			}()
 		}()
 	}
 }
