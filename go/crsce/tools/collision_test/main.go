@@ -54,7 +54,9 @@ func main() {
 		}
 		func() {
 
+			hashStart := time.Now().Unix()
 			hash := input.Sha1()
+			hashElapsed := time.Now().Unix() - hashStart
 
 			dirPath := filepath.Join(
 				root,
@@ -71,9 +73,9 @@ func main() {
 			stopTime := time.Now().Unix()
 
 			go func() {
-				log.Printf("objects: %d, object/sec: %f",
+				log.Printf("objects: %d, object/sec: %5.2f hashTime:%d",
 					directoryCount,
-					float64(directoryCount)/float64(stopTime-startTime))
+					float64(directoryCount)/float64(stopTime-startTime), hashElapsed)
 			}()
 		}()
 	}
