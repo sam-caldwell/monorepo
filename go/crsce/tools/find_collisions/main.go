@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha1"
 	"encoding/hex"
 	"log"
 	"math/big"
@@ -17,13 +18,8 @@ func main() {
 	var comparisonCount uint64
 	startTime := time.Now().Unix()
 
-	empty := bytes.Repeat([]byte{0}, 1024)
-
 	lhs := big.NewInt(0)
 	rhs := big.NewInt(0)
-
-	lhsHash := make([]byte, 1024)
-	rhsHash := make([]byte, 1024)
 
 	go func() {
 		ticker := time.NewTicker(logInterval) // Adjust the interval as needed
@@ -54,23 +50,21 @@ func main() {
 	lhsMax := new(big.Int).Exp(big.NewInt(256), big.NewInt(1024), nil)
 
 	for lhs = big.NewInt(17153810); lhs.Cmp(lhsMax) <= 1; lhs.Add(lhs, big.NewInt(1)) {
-		objectCount++
-
-		copy(lhsHash, empty)
-		copy(lhsHash, lhs.Bytes())
+		hash := sha1.Sum(lhs.Bytes())
+		lhsHash := hash[:]
 
 		for rhs = big.NewInt(0); rhs.Cmp(lhsMax) < 0; rhs.Add(rhs, big.NewInt(1)) {
 			if lhs.String() == rhs.String() {
 				log.Printf("skip v:%v", rhs.String())
 				continue
 			}
-			copy(rhsHash, empty)
-			copy(rhsHash, rhs.Bytes())
-			//log.Printf("value(%v, %v)", hex.EncodeToString(lhs.Bytes()), hex.EncodeToString(rhs.Bytes()))
+			hash := sha1.Sum(rhs.Bytes())
+			rhsHash := hash[:]
 			if bytes.Equal(lhsHash, rhsHash) {
 				log.Fatalf("collision (value:%v): %v", rhs.String(), hex.EncodeToString(rhsHash))
 			}
 			comparisonCount++
 		}
+		objectCount += lhs.Uint64() - objectCount
 	}
 }
