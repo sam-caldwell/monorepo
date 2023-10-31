@@ -8,6 +8,7 @@ package counters
  */
 
 import (
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
 	"testing"
 )
 
@@ -83,7 +84,7 @@ func TestByteCounter_Increment(t *testing.T) {
 		b.v[i] = 255
 	}
 	if err := b.Increment(); err != nil {
-		if err.Error() != "overflow error" {
+		if err.Error() != errors.OverflowError {
 			t.Fatal("Expected overflow error")
 		}
 	}

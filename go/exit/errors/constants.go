@@ -23,6 +23,7 @@ const (
 	MissingField               = "missing field"
 	NotFound                   = "not found"
 	NotInitialized             = "not initialized"
+	OverflowError              = "overflow error"
 	ReadOnly                   = "read only"
 	TypeMismatch               = "type mismatch"
 	UnableToDetectFamily       = "unable to detect operating system family"

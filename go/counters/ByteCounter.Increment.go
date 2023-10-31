@@ -11,6 +11,7 @@ package counters
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
 )
 
 func (c *ByteCounter) inc(n int) error {
@@ -27,7 +28,7 @@ func (c *ByteCounter) carry(n int) (err error) {
 	if n < len(c.v) {
 		return c.inc(n)
 	} else {
-		err = fmt.Errorf("overflow error")
+		err = fmt.Errorf(errors.OverflowError)
 	}
 	return err
 }
