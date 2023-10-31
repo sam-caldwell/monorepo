@@ -1,9 +1,13 @@
 package ansi
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 // Reset - Send Reset to stdout
 func (c *Color) Reset() *Color {
+	defer func() { _ = os.Stdout.Sync() }()
 	if !disabled {
 		fmt.Print(reset) // Reset color
 	}
