@@ -13,5 +13,4 @@ import "sync"
 type CandidateQueue struct {
 	lock  sync.Mutex
 	queue chan Candidate
-	count uint64
 }

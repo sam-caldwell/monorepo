@@ -14,7 +14,6 @@ func NewCandidateQueue(sz int) *CandidateQueue {
 	}
 	q := CandidateQueue{
 		queue: make(chan Candidate, sz),
-		count: 0,
 	}
 	return &q
 }

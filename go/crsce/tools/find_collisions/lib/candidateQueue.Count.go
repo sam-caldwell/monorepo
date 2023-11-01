@@ -11,5 +11,8 @@ package hashScanner
 func (c *CandidateQueue) Count() int64 {
 	c.lock.Lock()
 	defer c.lock.Unlock()
-	return int64(c.count)
+	if c.queue == nil {
+		return 0
+	}
+	return int64(len(c.queue))
 }

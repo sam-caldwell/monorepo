@@ -16,7 +16,6 @@ func (c *CandidateQueue) Pop() *Candidate {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	item := <-c.queue
-	c.count--
 	//log.Printf("Pop() count: %d", c.count)
 	_ = os.Stdout.Sync()
 	return &item

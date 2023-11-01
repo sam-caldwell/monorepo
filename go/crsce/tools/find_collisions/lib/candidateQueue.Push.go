@@ -15,11 +15,14 @@ import (
 func (c *CandidateQueue) Push(raw, hash string) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
+	if c.queue == nil {
+		//initialize with 10 if not otherwise initialized.
+		c.queue = make(chan Candidate, 10)
+	}
 	c.queue <- Candidate{
 		raw:  raw,
 		hash: hash,
 	}
-	c.count++
 	//log.Printf("Push() count: %d", c.count)
 	_ = os.Stdout.Sync()
 }
