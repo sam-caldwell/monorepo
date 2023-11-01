@@ -81,14 +81,17 @@ func main() {
 		log.Printf("worker %d started", i)
 	}
 	log.Println("Generator workers started.")
-	numRhsWorkers := 2 * int(*NumberOfWorkers)
+	numRhsWorkers := int(*NumberOfWorkers)
+	var wg sync.WaitGroup
 	for lhs := range queue {
-		var wg sync.WaitGroup
 		for i := int(0); i < numRhsWorkers; i++ {
 			wg.Add(1)
 			go func() {
 				rhsWorkerCount++
-				defer wg.Done()
+				defer func() {
+					rhsWorkerCount--
+					wg.Done()
+				}()
 				rhs, _ := counters.NewByteCounter(1024)
 				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(numRhsWorkers) }() {
 					if rhsHash := rhs.Sha1(); lhs.hash == rhsHash {
@@ -108,7 +111,6 @@ func main() {
 					}
 					count++
 				}
-				rhsWorkerCount--
 			}()
 		}
 		wg.Wait()
