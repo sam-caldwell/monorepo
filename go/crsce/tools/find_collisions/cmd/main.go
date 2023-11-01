@@ -11,11 +11,9 @@ package main
 import (
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/counters"
-	hashScanner "github.com/sam-caldwell/monorepo/go/crsce/tools/find_collisions/lib"
 	"log"
 	"os"
 	"runtime"
-	"sync"
 	"time"
 )
 
@@ -25,59 +23,81 @@ const (
 	candidateQueueSize  = 128
 )
 
+type Candidate struct {
+	raw  string
+	hash string
+}
+
 func main() {
-	defer func() { _ = os.Stdout.Sync() }()
-	var wg sync.WaitGroup
 	keySpaceSize := flag.Uint(
 		"keySpaceSize",
 		defaultKeySpaceSize,
 		"Number of bytes in the key space to scan")
-
 	NumberOfWorkers := flag.Uint(
 		"numberWorkers",
 		uint(runtime.NumCPU()),
 		"Number of workers to launch")
-
 	flag.Parse()
-
+	if *NumberOfWorkers > 255 {
+		log.Println("number of workers exceeds max worker count")
+	}
 	log.Printf("Starting with %d generator workers (keySpaceSz:%d)\n", *NumberOfWorkers, *keySpaceSize)
 
-	var scanner hashScanner.Worker
-	if err := scanner.Initialize(0, 0, *keySpaceSize); err != nil {
-		log.Println("Failed to initialize scanner")
-	}
-	log.Println("scanner worker is initialized.")
+	startTime := time.Now().Unix()
+	count := uint64(0)
+	queue := make(chan Candidate, 1024)
 
-	workers := make([]hashScanner.Worker, *NumberOfWorkers)
+	go func() {
+		ticker := time.NewTicker(logInterval) // Adjust the interval as needed
+		defer ticker.Stop()
 
-	queue := make(chan struct {
-		raw  string
-		hash string
-	}, 1024)
+		for {
+			select {
+			case <-ticker.C:
+				elapsedTime := float64(time.Now().Unix() - startTime)
+				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f queueSz:%d ",
+					elapsedTime, count, float64(count)/elapsedTime, len(queue))
+			}
+		}
+	}()
 
 	for i := uint(0); i < *NumberOfWorkers; i++ {
-		go func() {
+		go func(offset uint) {
 			c, _ := counters.NewByteCounter(1024)
+			_ = c.Set(0, byte(offset))
 			for {
-				raw := c.String()
-				hash := c.Sha1()
-				if err := c.Increment(); err != nil {
+				queue <- Candidate{
+					raw:  c.String(),
+					hash: c.Sha1(),
+				}
+				if err := c.Add(int(*NumberOfWorkers)); err != nil {
 					return
 				}
-				queue <- struct {
-					raw  string
-					hash string
-				}{
-					raw, hash,
-				}
 			}
-		}()
+		}(i)
+		log.Printf("worker %d started", i)
 	}
 	log.Println("Generator workers started.")
-
-	func() {
-		log.Println("scanner worker starting")
-		scanner.Test(queue)
-	}()
-	log.Printf("All workers terminated.  Remaining Records: %d", queue.Count())
+	for lhs := range queue {
+		for i := uint(0); i < *NumberOfWorkers; i++ {
+			go func() {
+				rhs, _ := counters.NewByteCounter(1024)
+				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(int(*NumberOfWorkers)) }() {
+					if lhs.hash == rhs.Sha1() {
+						if lhs.raw == rhs.String() {
+							log.Println("Pass complete")
+							return
+						}
+						log.Printf("collision\n"+
+							"lhs %v\n"+
+							"rhs %v\n\n---\n%v\n---\n\n---\n%v\n---\n",
+							lhs.hash, rhs.Sha1(), lhs.raw, rhs.String())
+						os.Exit(1)
+					}
+					count++
+				}
+			}()
+		}
+	}
+	log.Println("terminating")
 }
