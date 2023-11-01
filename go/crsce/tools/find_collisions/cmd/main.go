@@ -75,7 +75,7 @@ func main() {
 	if *NumberOfWorkers > 1 {
 		numLhsWorkers = int(*NumberOfWorkers) / 2
 	}
-	if *NumberOfWorkers > 8 {
+	if *NumberOfWorkers >= 8 {
 		numLhsWorkers = int(*NumberOfWorkers) / 4
 	}
 	for i := 0; i < numLhsWorkers; i++ {
