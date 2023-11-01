@@ -35,9 +35,11 @@ func TestByteCounter_Bytes(t *testing.T) {
 	//
 	b.v = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
 	actual := b.Bytes() //should flip byte order
-	expected = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
+	expected = []byte{0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01}
 	if !bytes.Equal(actual, expected) {
-		t.Fatalf("output mismatch(1.0)\na:%v\ne:%v", actual, expected)
+		t.Fatalf("output mismatch(1.0)\n"+
+			"a:%v\n"+
+			"e:%v", actual, expected)
 	}
 	if (string)(actual) != (string)(expected) {
 		t.Fatalf("output mismatch(1.1)")
@@ -45,7 +47,7 @@ func TestByteCounter_Bytes(t *testing.T) {
 	//
 	// Happy: Increment counter and confirm .Bytes() returns expected output
 	//
-	expected = []byte{0x02, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
+	expected = []byte{0x0A, 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x02}
 	_ = b.Increment()
 	actual = b.Bytes()
 	if !bytes.Equal(actual, expected) {
