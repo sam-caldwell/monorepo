@@ -66,7 +66,7 @@ func main() {
 				chgCompletedPasses := float64(completedPasses) / float64(elapsedTime)
 
 				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f "+
-					"queueSz:%d rhsWorkerCount:%d completedPasses: %6.2f",
+					"queueSz:%d rhsWorkerCount:%d completedPasses: %6.4f",
 					elapsedTime, count, float64(count)/elapsedTime, len(queue), rhsWorkerCount, chgCompletedPasses)
 			}
 		}
@@ -92,9 +92,9 @@ func main() {
 				}
 			}
 		}(i)
-		log.Printf("worker %d started", i)
+		log.Printf("generator %d started", i)
 	}
-	log.Println("Generator workers started.")
+	log.Println("Generators started.")
 	numRhsWorkers := int(*NumberOfWorkers)
 	var wg sync.WaitGroup
 	for lhs := range queue {
