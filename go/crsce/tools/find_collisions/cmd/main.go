@@ -10,15 +10,17 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"github.com/sam-caldwell/monorepo/go/counters"
 	hashScanner "github.com/sam-caldwell/monorepo/go/crsce/tools/find_collisions/lib"
 	"log"
 	"os"
 	"runtime"
 	"sync"
+	"time"
 )
 
 const (
+	logInterval         = 1 * time.Second
 	defaultKeySpaceSize = 1024
 	candidateQueueSize  = 128
 )
@@ -48,23 +50,34 @@ func main() {
 
 	workers := make([]hashScanner.Worker, *NumberOfWorkers)
 
-	queue := hashScanner.NewCandidateQueue(candidateQueueSize)
+	queue := make(chan struct {
+		raw  string
+		hash string
+	}, 1024)
 
 	for i := uint(0); i < *NumberOfWorkers; i++ {
-		if err := workers[i].Initialize(i, *NumberOfWorkers, *keySpaceSize); err != nil {
-			fmt.Printf("Error: %v", err)
-			os.Exit(1)
-		}
-	}
-	log.Println("Generator workers initialized.")
-	for i := uint(0); i < *NumberOfWorkers; i++ {
-		go workers[i].EnumerateKeyspace(&wg, queue)
-		log.Printf("Generator worker (%v) started\n", i)
+		go func() {
+			c, _ := counters.NewByteCounter(1024)
+			for {
+				raw := c.String()
+				hash := c.Sha1()
+				if err := c.Increment(); err != nil {
+					return
+				}
+				queue <- struct {
+					raw  string
+					hash string
+				}{
+					raw, hash,
+				}
+			}
+		}()
 	}
 	log.Println("Generator workers started.")
-	log.Println("scanner worker starting")
-	scanner.Test(&wg, queue)
-	log.Println("Waiting on all workers to terminate")
-	wg.Wait()
+
+	func() {
+		log.Println("scanner worker starting")
+		scanner.Test(queue)
+	}()
 	log.Printf("All workers terminated.  Remaining Records: %d", queue.Count())
 }

@@ -10,6 +10,7 @@ package hashScanner
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/counters"
+	"log"
 	"os"
 )
 
@@ -18,7 +19,7 @@ import (
 // worker's index value (i).  This value will start each worker one value above the previous worker.  The offset
 // will then increment each counter by a count equal to the number of workers.
 func (w *Worker) Initialize(i, offset, keySpace uint) (err error) {
-	//defer log.Printf("worker %d initializer done", i)
+	log.Printf("worker %d initializer done", i)
 	defer func() { _ = os.Stdout.Sync() }()
 	if i > (maxSupportedWorkers - 1) {
 		return fmt.Errorf("this system does not support %d workers (max:%d)", i, maxSupportedWorkers)
