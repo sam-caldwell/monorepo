@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	logInterval         = 15 * time.Second
+	logInterval         = 5 * time.Second
 	defaultKeySpaceSize = 1024
 	candidateQueueSize  = 65536
 )
@@ -51,19 +51,23 @@ func main() {
 	startTime := time.Now().Unix()
 	count := uint64(0)
 	queue := make(chan Candidate, candidateQueueSize)
+	completedPasses := 0
 
 	rhsWorkerCount := 0
 
 	go func() {
+		log.Printf("Log interval: %d", logInterval)
 		ticker := time.NewTicker(logInterval) // Adjust the interval as needed
 		defer ticker.Stop()
-
 		for {
 			select {
 			case <-ticker.C:
 				elapsedTime := float64(time.Now().Unix() - startTime)
-				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f queueSz:%d rhsWorkerCount:%d",
-					elapsedTime, count, float64(count)/elapsedTime, len(queue), rhsWorkerCount)
+				chgCompletedPasses := float64(completedPasses) / float64(elapsedTime)
+
+				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f "+
+					"queueSz:%d rhsWorkerCount:%d completedPasses: %6.2f",
+					elapsedTime, count, float64(count)/elapsedTime, len(queue), rhsWorkerCount, chgCompletedPasses)
 			}
 		}
 	}()
@@ -91,21 +95,21 @@ func main() {
 	numRhsWorkers := int(*NumberOfWorkers)
 	var wg sync.WaitGroup
 	for lhs := range queue {
-		for i := int(0); i < numRhsWorkers; i++ {
+		for i := 0; i < numRhsWorkers; i++ {
 			wg.Add(1)
-			go func() {
+			go func(id int) {
 				rhsWorkerCount++
 				defer func() {
 					rhsWorkerCount--
 					wg.Done()
 				}()
 				rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
-				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(numRhsWorkers) }() {
+				for func() { _ = rhs.Set(0, byte(id)) }(); true; func() { _ = rhs.Add(numRhsWorkers) }() {
+					if lhs.raw == rhs.String() {
+						completedPasses++
+						return
+					}
 					if rhsHash := rhs.Sha1(); lhs.hash == rhsHash {
-						if lhs.raw == rhs.String() {
-							log.Println("Pass complete")
-							return
-						}
 						log.Printf("collision\n"+
 							"lhs %v\n"+
 							"rhs %v\n---\n"+
@@ -118,7 +122,7 @@ func main() {
 					}
 					count++
 				}
-			}()
+			}(i)
 		}
 		wg.Wait()
 	}
