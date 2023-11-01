@@ -10,6 +10,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/hex"
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
@@ -96,7 +97,7 @@ func main() {
 	for worker := uint(0); worker < *NumberOfWorkers; worker++ {
 		log.Printf("Start worker %d", worker)
 		for candidate := range queue {
-			go func(id uint, lhs *Candidate) {
+			go func(id uint, lhs Candidate) {
 				rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
 				for {
 					if bytes.Compare(rhs.Bytes(), lhs.raw) >= 0 {
@@ -112,13 +113,13 @@ func main() {
 							"%v\n"+
 							"---\n",
 							lhs.hash, rhs.Sha1(),
-							lhs.raw, rhs.String())
+							hex.EncodeToString(lhs.raw), rhs.String())
 						exit <- true
 					}
 					count++
 					_ = rhs.Increment()
 				}
-			}(worker, &candidate)
+			}(worker, candidate)
 		}
 	}
 	<-exit
