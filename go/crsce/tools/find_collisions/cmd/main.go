@@ -62,7 +62,7 @@ func main() {
 	}()
 	numLhsWorkers := int(*NumberOfWorkers)
 	for i := 0; i < numLhsWorkers; i++ {
-		go func(offset uint) {
+		go func(offset int) {
 			c, _ := counters.NewByteCounter(1024)
 			_ = c.Set(0, byte(offset))
 			for {
