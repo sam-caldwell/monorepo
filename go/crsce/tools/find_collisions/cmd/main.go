@@ -71,13 +71,13 @@ func main() {
 		}
 	}()
 
-	// Generate LHS values to test agains
+	// Generate LHS values to test against
 	go func() {
-		const generatorCount = 3
+		const generatorCount = 4
 		for worker := 0; worker < generatorCount; worker++ {
 			go func(id int) {
 				lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
-				lhsCounter.Set(0, byte(id))
+				_ = lhsCounter.Set(0, byte(id))
 				for {
 					queue <- Candidate{
 						raw:  lhsCounter.Bytes(),
