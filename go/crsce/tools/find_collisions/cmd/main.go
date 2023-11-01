@@ -19,9 +19,9 @@ import (
 )
 
 const (
-	logInterval         = 1 * time.Second
+	logInterval         = 10 * time.Second
 	defaultKeySpaceSize = 1024
-	candidateQueueSize  = 128
+	candidateQueueSize  = 16384
 )
 
 type Candidate struct {
@@ -34,19 +34,23 @@ func main() {
 		"keySpaceSize",
 		defaultKeySpaceSize,
 		"Number of bytes in the key space to scan")
+
 	NumberOfWorkers := flag.Uint(
 		"numberWorkers",
 		uint(runtime.NumCPU()),
 		"Number of workers to launch")
+
 	flag.Parse()
+
 	if *NumberOfWorkers > 255 {
 		log.Println("number of workers exceeds max worker count")
 	}
+
 	log.Printf("Starting with %d generator workers (keySpaceSz:%d)\n", *NumberOfWorkers, *keySpaceSize)
 
 	startTime := time.Now().Unix()
 	count := uint64(0)
-	queue := make(chan Candidate, 1024)
+	queue := make(chan Candidate, candidateQueueSize)
 
 	rhsWorkerCount := 0
 
