@@ -75,6 +75,9 @@ func main() {
 	if *NumberOfWorkers > 1 {
 		numLhsWorkers = int(*NumberOfWorkers) / 2
 	}
+	if *NumberOfWorkers > 8 {
+		numLhsWorkers = int(*NumberOfWorkers) / 4
+	}
 	for i := 0; i < numLhsWorkers; i++ {
 		go func(offset int) {
 			c, _ := counters.NewByteCounter(int(*keySpaceSize))
@@ -101,12 +104,12 @@ func main() {
 				rhsWorkerCount++
 				defer func() {
 					rhsWorkerCount--
+					completedPasses++
 					wg.Done()
 				}()
 				rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
 				for func() { _ = rhs.Set(0, byte(id)) }(); true; func() { _ = rhs.Add(numRhsWorkers) }() {
 					if lhs.raw == rhs.String() {
-						completedPasses++
 						return
 					}
 					if rhsHash := rhs.Sha1(); lhs.hash == rhsHash {
