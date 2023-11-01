@@ -85,7 +85,7 @@ func main() {
 		log.Printf("worker %d started", i)
 	}
 	log.Println("Generator workers started.")
-	numRhsWorkers := 2 * int(*NumberOfWorkers)
+	numRhsWorkers := 10 * int(*NumberOfWorkers)
 	var wg sync.WaitGroup
 	for lhs := range queue {
 		for i := int(0); i < numRhsWorkers; i++ {
