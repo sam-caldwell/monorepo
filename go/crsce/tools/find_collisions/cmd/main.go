@@ -67,7 +67,10 @@ func main() {
 			}
 		}
 	}()
-	numLhsWorkers := int(*NumberOfWorkers) - 1
+	numLhsWorkers := 1
+	if *NumberOfWorkers > 1 {
+		numLhsWorkers = int(*NumberOfWorkers) / 2
+	}
 	for i := 0; i < numLhsWorkers; i++ {
 		go func(offset int) {
 			c, _ := counters.NewByteCounter(int(*keySpaceSize))
