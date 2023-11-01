@@ -61,7 +61,7 @@ func main() {
 		}
 	}()
 
-	for i := uint(0); i < *NumberOfWorkers; i++ {
+	for i := uint(0); i < 2; i++ {
 		go func(offset uint) {
 			c, _ := counters.NewByteCounter(1024)
 			_ = c.Set(0, byte(offset))
@@ -78,11 +78,12 @@ func main() {
 		log.Printf("worker %d started", i)
 	}
 	log.Println("Generator workers started.")
+	numRhsWorkers := int(*NumberOfWorkers)
 	for lhs := range queue {
-		for i := uint(0); i < *NumberOfWorkers; i++ {
+		for i := int(0); i < numRhsWorkers; i++ {
 			go func() {
 				rhs, _ := counters.NewByteCounter(1024)
-				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(int(*NumberOfWorkers)) }() {
+				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(numRhsWorkers) }() {
 					if lhs.hash == rhs.Sha1() {
 						if lhs.raw == rhs.String() {
 							log.Println("Pass complete")
