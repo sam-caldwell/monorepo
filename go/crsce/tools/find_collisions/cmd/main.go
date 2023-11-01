@@ -14,6 +14,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"sync"
 	"time"
 )
 
@@ -47,6 +48,8 @@ func main() {
 	count := uint64(0)
 	queue := make(chan Candidate, 1024)
 
+	rhsWorkerCount := 0
+
 	go func() {
 		ticker := time.NewTicker(logInterval) // Adjust the interval as needed
 		defer ticker.Stop()
@@ -55,12 +58,12 @@ func main() {
 			select {
 			case <-ticker.C:
 				elapsedTime := float64(time.Now().Unix() - startTime)
-				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f queueSz:%d ",
-					elapsedTime, count, float64(count)/elapsedTime, len(queue))
+				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f queueSz:%d rhsWorkerCount:%d",
+					elapsedTime, count, float64(count)/elapsedTime, len(queue), rhsWorkerCount)
 			}
 		}
 	}()
-	numLhsWorkers := int(*NumberOfWorkers)
+	numLhsWorkers := int(*NumberOfWorkers) - 1
 	for i := 0; i < numLhsWorkers; i++ {
 		go func(offset int) {
 			c, _ := counters.NewByteCounter(1024)
@@ -78,27 +81,37 @@ func main() {
 		log.Printf("worker %d started", i)
 	}
 	log.Println("Generator workers started.")
-	numRhsWorkers := int(*NumberOfWorkers)
+	numRhsWorkers := 2 * int(*NumberOfWorkers)
 	for lhs := range queue {
+		var wg sync.WaitGroup
 		for i := int(0); i < numRhsWorkers; i++ {
+			wg.Add(1)
 			go func() {
+				rhsWorkerCount++
+				defer wg.Done()
 				rhs, _ := counters.NewByteCounter(1024)
 				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(numRhsWorkers) }() {
-					if lhs.hash == rhs.Sha1() {
+					if rhsHash := rhs.Sha1(); lhs.hash == rhsHash {
 						if lhs.raw == rhs.String() {
 							log.Println("Pass complete")
 							return
 						}
 						log.Printf("collision\n"+
 							"lhs %v\n"+
-							"rhs %v\n\n---\n%v\n---\n\n---\n%v\n---\n",
-							lhs.hash, rhs.Sha1(), lhs.raw, rhs.String())
+							"rhs %v\n---\n"+
+							"%v\n"+
+							"---\n"+
+							"%v\n"+
+							"---\n",
+							lhs.hash, rhsHash, lhs.raw, rhs.String())
 						os.Exit(1)
 					}
 					count++
 				}
+				rhsWorkerCount--
 			}()
 		}
+		wg.Wait()
 	}
 	log.Println("terminating")
 }
