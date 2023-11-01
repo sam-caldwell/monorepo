@@ -60,8 +60,8 @@ func main() {
 			}
 		}
 	}()
-
-	for i := uint(0); i < 2; i++ {
+	numLhsWorkers := int(*NumberOfWorkers)
+	for i := 0; i < numLhsWorkers; i++ {
 		go func(offset uint) {
 			c, _ := counters.NewByteCounter(1024)
 			_ = c.Set(0, byte(offset))
@@ -70,7 +70,7 @@ func main() {
 					raw:  c.String(),
 					hash: c.Sha1(),
 				}
-				if err := c.Add(int(*NumberOfWorkers)); err != nil {
+				if err := c.Add(numLhsWorkers); err != nil {
 					return
 				}
 			}
