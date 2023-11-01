@@ -21,7 +21,7 @@ import (
 const (
 	logInterval         = 10 * time.Second
 	defaultKeySpaceSize = 1024
-	candidateQueueSize  = 32768
+	candidateQueueSize  = 65536
 )
 
 type Candidate struct {
