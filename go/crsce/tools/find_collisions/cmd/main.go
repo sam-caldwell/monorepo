@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	logInterval         = 10 * time.Second
+	logInterval         = 15 * time.Second
 	defaultKeySpaceSize = 1024
 	candidateQueueSize  = 65536
 )
