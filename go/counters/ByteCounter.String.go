@@ -17,5 +17,5 @@ import (
 // String - return the string value of our counter state.
 func (c *ByteCounter) String() string {
 	//c.reverse()
-	return strings.ToUpper(hex.EncodeToString(c.v))
+	return strings.ToUpper(hex.EncodeToString(c.Bytes()))
 }

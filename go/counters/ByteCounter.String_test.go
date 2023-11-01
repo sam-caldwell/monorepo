@@ -35,7 +35,7 @@ func TestByteCounter_String(t *testing.T) {
 	func() {
 		b.v = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
 		t.Logf("b.v: %v", b.v)
-		expected := "0102030405060708090A"
+		expected := "0A090807060504030201"
 		actual := b.String() //should flip byte order
 		if actual != expected {
 			t.Fatalf("output mismatch(1)\na:'%s'\ne:'%s'", actual, expected)
@@ -46,7 +46,7 @@ func TestByteCounter_String(t *testing.T) {
 	//
 	func() {
 		b.v = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
-		expected := "0202030405060708090A" //increment element(0)
+		expected := "0A090807060504030202" //increment element(0)
 		_ = b.Increment()
 		actual := b.String()
 		if actual != expected {
