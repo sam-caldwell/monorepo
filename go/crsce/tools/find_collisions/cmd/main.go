@@ -9,12 +9,11 @@ package main
  */
 
 import (
+	"bytes"
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
-	"os"
 	"runtime"
-	"sync"
 	"time"
 )
 
@@ -25,7 +24,7 @@ const (
 )
 
 type Candidate struct {
-	raw  string
+	raw  []byte
 	hash string
 }
 
@@ -53,8 +52,7 @@ func main() {
 	queue := make(chan Candidate, candidateQueueSize)
 	completedPasses := 0
 
-	rhsWorkerCount := 0
-
+	// Timed logging
 	go func() {
 		log.Printf("Log interval: %d", logInterval)
 		ticker := time.NewTicker(logInterval) // Adjust the interval as needed
@@ -63,56 +61,49 @@ func main() {
 			select {
 			case <-ticker.C:
 				elapsedTime := float64(time.Now().Unix() - startTime)
-				chgCompletedPasses := float64(completedPasses) / float64(elapsedTime)
+				chgCompletedPasses := float64(completedPasses) / elapsedTime
 
 				log.Printf("elapsed: %f objectCnt: %d, object/sec: %6.2f "+
-					"queueSz:%d rhsWorkerCount:%d completedPasses: %6.4f",
-					elapsedTime, count, float64(count)/elapsedTime, len(queue), rhsWorkerCount, chgCompletedPasses)
+					"queueSz:%d passes/sec: %6.4f",
+					elapsedTime, count, float64(count)/elapsedTime, len(queue), chgCompletedPasses)
 			}
 		}
 	}()
-	numLhsWorkers := 1
-	if *NumberOfWorkers > 1 {
-		numLhsWorkers = int(*NumberOfWorkers) / 2
-	}
-	if *NumberOfWorkers >= 8 {
-		numLhsWorkers = int(*NumberOfWorkers) / 4
-	}
-	for i := 0; i < numLhsWorkers; i++ {
-		go func(offset int) {
-			c, _ := counters.NewByteCounter(int(*keySpaceSize))
-			_ = c.Set(0, byte(offset))
-			for {
-				queue <- Candidate{
-					raw:  c.String(),
-					hash: c.Sha1(),
-				}
-				if err := c.Add(numLhsWorkers); err != nil {
-					return
-				}
-			}
-		}(i)
-		log.Printf("generator %d started", i)
-	}
-	log.Println("Generators started.")
-	numRhsWorkers := int(*NumberOfWorkers)
-	var wg sync.WaitGroup
-	for lhs := range queue {
-		for i := 0; i < numRhsWorkers; i++ {
-			wg.Add(1)
+
+	// Generate LHS values to test agains
+	go func() {
+		const generatorCount = 3
+		for worker := 0; worker < generatorCount; worker++ {
 			go func(id int) {
-				rhsWorkerCount++
-				defer func() {
-					rhsWorkerCount--
-					completedPasses++
-					wg.Done()
-				}()
-				rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
-				for func() { _ = rhs.Set(0, byte(id)) }(); true; func() { _ = rhs.Add(numRhsWorkers) }() {
-					if lhs.raw == rhs.String() {
+				lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
+				lhsCounter.Set(0, byte(id))
+				for {
+					queue <- Candidate{
+						raw:  lhsCounter.Bytes(),
+						hash: lhsCounter.Sha1(),
+					}
+					if err := lhsCounter.Add(generatorCount); err != nil {
+						log.Println("LHS enumeration complete.")
 						return
 					}
-					if rhsHash := rhs.Sha1(); lhs.hash == rhsHash {
+				}
+			}(worker)
+		}
+	}()
+
+	//Test RHS against LHS values
+	exit := make(chan bool, 1)
+	for worker := uint(0); worker < *NumberOfWorkers; worker++ {
+		log.Printf("Start worker %d", worker)
+		for candidate := range queue {
+			go func(id uint, lhs *Candidate) {
+				rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
+				for {
+					if bytes.Compare(rhs.Bytes(), lhs.raw) >= 0 {
+						completedPasses++
+						break
+					}
+					if lhs.hash == rhs.Sha1() {
 						log.Printf("collision\n"+
 							"lhs %v\n"+
 							"rhs %v\n---\n"+
@@ -120,14 +111,15 @@ func main() {
 							"---\n"+
 							"%v\n"+
 							"---\n",
-							lhs.hash, rhsHash, lhs.raw, rhs.String())
-						os.Exit(1)
+							lhs.hash, rhs.Sha1(),
+							lhs.raw, rhs.String())
+						exit <- true
 					}
 					count++
+					_ = rhs.Increment()
 				}
-			}(i)
+			}(worker, &candidate)
 		}
-		wg.Wait()
 	}
-	log.Println("terminating")
+	<-exit
 }
