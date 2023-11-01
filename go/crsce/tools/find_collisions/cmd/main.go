@@ -70,7 +70,7 @@ func main() {
 	numLhsWorkers := int(*NumberOfWorkers) - 1
 	for i := 0; i < numLhsWorkers; i++ {
 		go func(offset int) {
-			c, _ := counters.NewByteCounter(1024)
+			c, _ := counters.NewByteCounter(int(*keySpaceSize))
 			_ = c.Set(0, byte(offset))
 			for {
 				queue <- Candidate{
@@ -96,7 +96,7 @@ func main() {
 					rhsWorkerCount--
 					wg.Done()
 				}()
-				rhs, _ := counters.NewByteCounter(1024)
+				rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
 				for func() { _ = rhs.Set(0, byte(i)) }(); lhs.raw != rhs.String(); func() { _ = rhs.Add(numRhsWorkers) }() {
 					if rhsHash := rhs.Sha1(); lhs.hash == rhsHash {
 						if lhs.raw == rhs.String() {
