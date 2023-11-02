@@ -51,16 +51,33 @@ func main() {
 
 	log.Printf("Starting with %d generator workers (keySpaceSz:%d)\n", *NumberOfWorkers, *keySpaceSize)
 
+	var count uint64
+
+	var ops float64
+	var minOps = math.MaxFloat64
+	var maxOps float64
+
+	var passStart int64
+	var passStop int64
+
+	var queueSz = candidateQueueSize
+	var minQueueSz = math.MaxInt
+	var maxQueueSz int
+
+	var workers int
+	var minWorkers = 300
+	var maxWorkers = int(*NumberOfWorkers) * minWorkers
+
+	var backOffCount int64
+	var backOffIncreases int64
+	var backOffDecreases int64
+	var workerBackoff = time.Millisecond * 1
+
+	var collisionCount int64
+
 	startTime := time.Now().Unix()
-	count := uint64(0)
+	exit := make(chan bool, 1)
 	queue := make(chan Candidate, candidateQueueSize)
-	completedPasses := 0
-	ops := float64(0)
-	minOps := math.MaxFloat64
-	maxOps := float64(0)
-	queueSz := candidateQueueSize
-	minQueueSz := math.MaxInt
-	maxQueueSz := 0
 
 	// Metrics collection
 	go func() {
@@ -70,12 +87,18 @@ func main() {
 		for {
 			select {
 			case <-metricsTicket.C:
+				//
+				// operations per second (min and max)
+				//
 				if (ops < minOps) || ((minOps == 0) && (ops < maxOps)) {
 					minOps = ops
 				}
 				if ops > maxOps {
 					maxOps = ops
 				}
+				//
+				// queue size stats
+				//
 				queueSz = len(queue)
 				if (queueSz < minQueueSz) || ((minQueueSz == 0) && (queueSz < maxQueueSz)) {
 					minQueueSz = queueSz
@@ -97,14 +120,36 @@ func main() {
 			select {
 			case <-ticker.C:
 				elapsedTime := float64(time.Now().Unix() - startTime)
-				chgCompletedPasses := float64(completedPasses) / elapsedTime
+				passRate := float64(passStop) / elapsedTime
 				ops = float64(count) / elapsedTime
-				log.Printf("elapsed: %f objectCnt: %d,"+
-					" object/sec: %6.2f (min: %6.2f, max: %6.2f) "+
-					"queueSz:%d (min: %d, max: %d)"+
-					"passes/sec: %6.4f",
-					elapsedTime, count, ops, minOps, maxOps, queueSz,
-					minQueueSz, maxQueueSz, chgCompletedPasses)
+
+				workers = runtime.NumGoroutine()
+				log.Printf("{"+
+					"\"t\": %4.f, "+
+					"\"obj\":{"+
+					"\"cnt\": %8d, \"rate/sec\": %8.f, \"min\": %8.f, \"max\": %8.f"+
+					"}, "+
+					"\"queue\":{"+
+					"\"sz\":%5d, \"min\": %5d, \"max\": %5d"+
+					"}, "+
+					"\"pass\":{"+
+					"\"start\":%5d, \"stops\":%5d, \"rate/s\": %4.2f"+
+					"}, "+
+					"\"worker\":{"+
+					"\"count\": %5d \"max\": %5d"+
+					"}, "+
+					"\"backoff\":{"+
+					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d"+
+					"},"+
+					"\"collisionCount\": %3d"+
+					"}",
+					elapsedTime,
+					count, ops, minOps, maxOps,
+					queueSz, minQueueSz, maxQueueSz,
+					passStart, passStop, passRate,
+					workers, maxWorkers,
+					backOffCount, workerBackoff, backOffIncreases, backOffDecreases,
+					collisionCount)
 			}
 		}
 	}()
@@ -132,57 +177,63 @@ func main() {
 	}()
 
 	//Test RHS against LHS values
-	exit := make(chan bool, 1)
-	maxWorkers := int(*NumberOfWorkers) * 200
-	workerBackoff := time.Duration(1)
 	log.Printf("Start consumers")
-	backOffId := int64(0)
-	backOffIncreases := int64(0)
-	backOffDecreases := int64(0)
 	for candidate := range queue {
-		//log.Printf("Start cycle. workers (count: %d)", runtime.NumGoroutine())
+		passStart++
 		go func(lhs Candidate) {
 			rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
 			for {
 				if bytes.Compare(rhs.Bytes(), lhs.raw) >= 0 {
-					completedPasses++
+					passStop++
 					break
 				}
 				if lhs.hash == rhs.Sha1() {
-					log.Printf("collision\n"+
-						"lhs %v\n"+
-						"rhs %v\n---\n"+
-						"%v\n"+
-						"---\n"+
-						"%v\n"+
-						"---\n",
-						lhs.hash, rhs.Sha1(),
-						hex.EncodeToString(lhs.raw), rhs.String())
-					os.Exit(1)
+					collisionCount++
+					collisionFound(lhs.hash, rhs.Sha1(), lhs.raw, rhs.Bytes())
 				}
 				count++
 				_ = rhs.Increment()
 			}
 		}(candidate)
+
+		//BackOff if needed.
 		for runtime.NumGoroutine() >= maxWorkers {
-			log.Printf("%d worker count: %d (max %d, backoff: %v)",
-				backOffId, runtime.NumGoroutine(), maxWorkers, workerBackoff*time.Millisecond)
-			time.Sleep(time.Millisecond * workerBackoff)
-			if runtime.NumGoroutine() > maxWorkers/2 {
+			backOffCount++
+			time.Sleep(workerBackoff)
+			//
+			// Adjust backoff
+			//
+			if runtime.NumGoroutine() > 9*maxWorkers/10 {
 				ansi.Red()
 				workerBackoff *= 2
 				backOffIncreases++
 			} else {
 				ansi.Green()
-				workerBackoff /= 2
+				if runtime.NumGoroutine() < minWorkers {
+					workerBackoff = 1
+				} else {
+					if workerBackoff > 1 {
+						workerBackoff /= 2
+					}
+				}
 				backOffDecreases++
 			}
-			log.Printf("%d backoff complete (count: %d inc: %d, dec: %d)",
-				backOffId, runtime.NumGoroutine(), backOffIncreases, backOffDecreases)
-			ansi.Reset()
-			backOffId++
 		}
 	}
 	//}
 	<-exit
+}
+
+func collisionFound(lhsHash, rhsHash string, lhsRaw, rhsRaw []byte) {
+	log.Printf("collision\n"+
+		"lhs %v\n"+
+		"rhs %v\n"+
+		"---\n"+
+		"%v\n"+
+		"---\n"+
+		"%v\n"+
+		"---\n",
+		lhsHash, rhsHash,
+		hex.EncodeToString(lhsRaw), hex.EncodeToString(rhsRaw))
+	os.Exit(1)
 }
