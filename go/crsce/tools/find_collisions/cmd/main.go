@@ -14,6 +14,7 @@ import (
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/counters"
+	"github.com/sam-caldwell/monorepo/go/exit"
 	"log"
 	"math"
 	"os"
@@ -47,37 +48,31 @@ func main() {
 
 	if *NumberOfWorkers > 255 {
 		log.Println("number of workers exceeds max worker count")
+		os.Exit(exit.GeneralError)
 	}
 
-	log.Printf("Starting with %d generator workers (keySpaceSz:%d)\n", *NumberOfWorkers, *keySpaceSize)
-
 	var count uint64
-
 	var ops float64
 	var minOps = math.MaxFloat64
 	var maxOps float64
-
 	var passStart int64
 	var passStop int64
-
 	var queueSz = candidateQueueSize
 	var minQueueSz = math.MaxInt
 	var maxQueueSz int
-
 	var workers int
 	var minWorkers = 300
 	var maxWorkers = int(*NumberOfWorkers) * minWorkers
-
 	var backOffCount int64
 	var backOffIncreases int64
 	var backOffDecreases int64
 	var workerBackoff = time.Millisecond * 1
-
 	var collisionCount int64
-
 	startTime := time.Now().Unix()
 	exit := make(chan bool, 1)
 	queue := make(chan Candidate, candidateQueueSize)
+
+	log.Printf("Starting with %d generator workers (keySpaceSz:%d)\n", *NumberOfWorkers, *keySpaceSize)
 
 	// Metrics collection
 	go func() {
@@ -140,7 +135,7 @@ func main() {
 					"}, "+
 					"\"backoff\":{"+
 					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d"+
-					"},"+
+					"}, "+
 					"\"collisionCount\": %3d"+
 					"}",
 					elapsedTime,
@@ -235,5 +230,5 @@ func collisionFound(lhsHash, rhsHash string, lhsRaw, rhsRaw []byte) {
 		"---\n",
 		lhsHash, rhsHash,
 		hex.EncodeToString(lhsRaw), hex.EncodeToString(rhsRaw))
-	os.Exit(1)
+	os.Exit(exit.GeneralError)
 }
