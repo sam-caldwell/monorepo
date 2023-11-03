@@ -9,25 +9,18 @@ package counters
  */
 
 import (
-	"fmt"
-	"github.com/sam-caldwell/monorepo/go/exit/errors"
 	"math"
 )
 
 // Increment - increment the large counter by one.
-func (c *LargeCounter) Increment() error {
-	return c.carry(0)
-}
-
-// carry - recursively carry the value at element pos if overflow or increment.
-func (c *LargeCounter) carry(pos uint) error {
-	if pos > uint(len(c.v)) {
-		return fmt.Errorf(errors.OverflowError)
+func (c *LargeCounter) Increment() {
+	for i := 0; i < len(*c); i++ {
+		if (*c)[i] == math.MaxUint64 {
+			(*c)[i] = 0
+		} else {
+			(*c)[i]++
+			return
+		}
 	}
-	if c.v[pos] == math.MaxUint64 {
-		c.v[pos] = 0
-		return c.carry(pos + 1)
-	}
-	c.v[pos]++
-	return nil
+	return
 }
