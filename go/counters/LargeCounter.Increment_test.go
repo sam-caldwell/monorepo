@@ -64,5 +64,4 @@ func TestLargeCounter_Increment(t *testing.T) {
 			t.Fatal("initial value expects element 1 to be 1")
 		}
 	}()
-
 }
