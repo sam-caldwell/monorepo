@@ -1,5 +1,10 @@
 package counters
 
+import (
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
+)
+
 /*
  * LargeCounter.Add() method
  * (c) 2023 Sam Caldwell.  See License.txt
@@ -7,19 +12,25 @@ package counters
  * A LargeCounter method to add a uint64 to a given counter.
  */
 
-import "math"
-
-func (c *LargeCounter) Add(value uint64) (err error) {
-	return c.carryValue(0, value)
-}
-
-func (c *LargeCounter) carryValue(pos uint, v uint64) (err error) {
-	if pos < uint(len(c.v)) {
-		n := math.MaxUint64 - v
-		if n > 0 {
-			c.v[pos] = 0
-			return c.carryValue(pos+1, n)
+// carryValue - Add the value to an element at pos and carry the overflow.
+func (c *LargeCounter) carryValue(pos uint, v uint64) error {
+	for pos < uint(len(*c)) && v > 0 {
+		sum := (*c)[pos] + v
+		if sum < (*c)[pos] { // Check for overflow
+			v = 1
+		} else {
+			v = 0
 		}
+		(*c)[pos] = sum
+		pos++
+	}
+	if v > 0 {
+		return fmt.Errorf(errors.OverflowError)
 	}
 	return nil
+}
+
+// Add - Add value to the LargeCounter.
+func (c *LargeCounter) Add(value uint64) error {
+	return c.carryValue(0, value)
 }

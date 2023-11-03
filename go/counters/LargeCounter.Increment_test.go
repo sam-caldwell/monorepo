@@ -13,6 +13,7 @@ import (
 )
 
 func TestLargeCounter_Increment(t *testing.T) {
+
 	func() {
 		//Create 64-bit counter
 		c, err := NewLargeCounter(64)
@@ -36,6 +37,7 @@ func TestLargeCounter_Increment(t *testing.T) {
 			t.Fatal("initial value expects 0")
 		}
 	}()
+
 	func() {
 		//Create 128-bit counter
 		c, err := NewLargeCounter(128)

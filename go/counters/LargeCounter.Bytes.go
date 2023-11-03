@@ -10,10 +10,10 @@ import "encoding/binary"
 
 // Bytes - Return the bytes in reverse order
 func (c *LargeCounter) Bytes() []byte {
-	out := make([]byte, 8*len(c.v))
-	for i := len(c.v) - 1; i >= 0; i-- {
+	out := make([]byte, 8*len(*c))
+	for i := len(*c) - 1; i >= 0; i-- {
 		this := make([]byte, 8)
-		binary.LittleEndian.PutUint64(this, c.v[i])
+		binary.LittleEndian.PutUint64(this, (*c)[i])
 		out = append(out, this...)
 	}
 	return out
