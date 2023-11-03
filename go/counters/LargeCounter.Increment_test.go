@@ -10,6 +10,7 @@ package counters
 import (
 	"math"
 	"testing"
+	"time"
 )
 
 func TestLargeCounter_Increment(t *testing.T) {
@@ -66,15 +67,26 @@ func TestLargeCounter_Increment(t *testing.T) {
 	}()
 
 	func() {
-		c, err := NewLargeCounter(64 * 10)
-		if err != nil {
-			t.Fatal(err)
-		}
-		for i := 0; i < 1000; i++ {
-			c.Increment()
-		}
-		if (*c)[0] != 1000 {
-			t.Fatal("outcome unexpected")
+		const iterations = 10485760
+		for pass := 0; pass < 100; pass++ {
+			startTime := time.Now().UnixNano()
+			c, err := NewLargeCounter(64 * 10)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for i := 0; i < iterations; i++ {
+				c.Increment()
+			}
+			if (*c)[0] != iterations {
+				t.Fatal("outcome unexpected")
+			}
+			stopTime := time.Now().UnixNano()
+			elapsedPerIteration := float64(stopTime-startTime) / float64(iterations)
+			t.Logf("elapsedPerIteration: %f", elapsedPerIteration)
+			if elapsedPerIteration > 4.6 {
+				t.Fatalf("baseline performance not expected (%f) ns/iteration", elapsedPerIteration)
+			}
+			time.Sleep(100 * time.Millisecond)
 		}
 	}()
 }
