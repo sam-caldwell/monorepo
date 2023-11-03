@@ -1,13 +1,13 @@
 package counters
 
-import "testing"
-
 /*
  * LargeCounter.String() test
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Tests for the String() method
  */
+
+import "testing"
 
 func TestLargeCounterString(t *testing.T) {
 	// Create a LargeCounter with some sample data

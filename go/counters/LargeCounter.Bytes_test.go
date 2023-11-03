@@ -1,5 +1,12 @@
 package counters
 
+/*
+ * LargeCounter.Bytes() test
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * Tests for the Bytes() method
+ */
+
 import (
 	"reflect"
 	"testing"
