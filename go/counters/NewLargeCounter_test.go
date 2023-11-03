@@ -10,12 +10,48 @@ func TestNewLargeCounter(t *testing.T) {
 		}
 	}()
 	func() {
-		o, err := NewLargeCounter(10)
+		o, err := NewLargeCounter(64)
 		if err != nil {
-			t.Fatal("expect no error")
+			t.Fatalf("expect no error. err:%v", err)
 		}
-		if len(*o) != 10 {
-			t.Fatal("expect 10-element counter")
+		if len(*o) != 1 {
+			t.Fatalf("expect 1-element counter: %d", len(*o))
+		}
+	}()
+	func() {
+		o, err := NewLargeCounter(65)
+		if err != nil {
+			t.Fatalf("expect no error. err:%v", err)
+		}
+		if len(*o) != 2 {
+			t.Fatalf("expect 2-element counter: %d", len(*o))
+		}
+	}()
+	func() {
+		o, err := NewLargeCounter(66)
+		if err != nil {
+			t.Fatalf("expect no error. err:%v", err)
+		}
+		if len(*o) != 2 {
+			t.Fatalf("expect 2-element counter: %d", len(*o))
+		}
+	}()
+	func() {
+		o, err := NewLargeCounter(128)
+		if err != nil {
+			t.Fatalf("expect no error. err:%v", err)
+		}
+		if len(*o) != 2 {
+			t.Fatalf("expect 2-element counter: %d", len(*o))
+		}
+	}()
+	func() {
+		o, err := NewLargeCounter(129)
+		if err != nil {
+			t.Fatalf("expect no error. err:%v", err)
+		}
+		if len(*o) != 3 {
+			t.Fatalf("expect 2-element counter: %d", len(*o))
 		}
 	}()
 	func() {
