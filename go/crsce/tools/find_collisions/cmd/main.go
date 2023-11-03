@@ -23,9 +23,10 @@ import (
 )
 
 const (
+	generatorCount      = 2
 	logInterval         = 5 * time.Second
 	defaultKeySpaceSize = 1024
-	candidateQueueSize  = 32768
+	candidateQueueSize  = 2048
 )
 
 type Candidate struct {
@@ -63,16 +64,16 @@ func main() {
 	var workers int
 	var minWorkers = 300
 	var maxWorkers = int(*NumberOfWorkers) * minWorkers
+	var backOffTime time.Duration
 	var backOffCount int64
 	var backOffIncreases int64
 	var backOffDecreases int64
 	var workerBackoff = time.Millisecond * 1
 	var collisionCount int64
+	var currentCandidate []byte
 	startTime := time.Now().Unix()
 	exit := make(chan bool, 1)
 	queue := make(chan Candidate, candidateQueueSize)
-
-	log.Printf("Starting with %d generator workers (keySpaceSz:%d)\n", *NumberOfWorkers, *keySpaceSize)
 
 	// Metrics collection
 	go func() {
@@ -107,16 +108,19 @@ func main() {
 
 	// Timed logging
 	go func() {
-		log.Printf("Log interval: %d", logInterval)
+		log.Printf("Log interval: %v", logInterval)
 		time.Sleep(logInterval)
 		ticker := time.NewTicker(logInterval) // Adjust the interval as needed
 		defer ticker.Stop()
+		totalBackOffTime := float64(0)
 		for {
 			select {
 			case <-ticker.C:
 				elapsedTime := float64(time.Now().Unix() - startTime)
 				passRate := float64(passStop) / elapsedTime
 				ops = float64(count) / elapsedTime
+
+				totalBackOffTime += float64(backOffTime)
 
 				workers = runtime.NumGoroutine()
 				log.Printf("{"+
@@ -134,24 +138,26 @@ func main() {
 					"\"count\": %5d \"max\": %5d"+
 					"}, "+
 					"\"backoff\":{"+
-					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d"+
+					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d, \"time\":%5v, \"avg\":%3.2f"+
 					"}, "+
-					"\"collisionCount\": %3d"+
+					"\"collisionCount\": %3d, "+
+					"\"c\":%v "+
 					"}",
 					elapsedTime,
 					count, ops, minOps, maxOps,
 					queueSz, minQueueSz, maxQueueSz,
 					passStart, passStop, passRate,
 					workers, maxWorkers,
-					backOffCount, workerBackoff, backOffIncreases, backOffDecreases,
-					collisionCount)
+					backOffCount, workerBackoff, backOffIncreases, backOffDecreases, backOffTime, totalBackOffTime/elapsedTime,
+					collisionCount,
+					currentCandidate)
+				ansi.Reset()
 			}
 		}
 	}()
 
 	// Generate LHS values to test against
 	go func() {
-		const generatorCount = 4
 		for worker := 0; worker < generatorCount; worker++ {
 			go func(id int) {
 				lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
@@ -180,19 +186,27 @@ func main() {
 			for {
 				if bytes.Compare(rhs.Bytes(), lhs.raw) >= 0 {
 					passStop++
+					currentCandidate = lhs.raw[1014:]
+					if runtime.NumGoroutine() < minWorkers {
+						ansi.Green()
+						backOffDecreases++
+						workerBackoff = time.Millisecond * 1
+					}
 					break
 				}
 				if lhs.hash == rhs.Sha1() {
 					collisionCount++
 					collisionFound(lhs.hash, rhs.Sha1(), lhs.raw, rhs.Bytes())
 				}
-				count++
 				_ = rhs.Increment()
+				count++
 			}
 		}(candidate)
 
 		//BackOff if needed.
+		backOffStart := time.Now()
 		for runtime.NumGoroutine() >= maxWorkers {
+			//currentCandidate = candidate.raw[1014:]
 			backOffCount++
 			time.Sleep(workerBackoff)
 			//
@@ -202,18 +216,13 @@ func main() {
 				ansi.Red()
 				workerBackoff *= 2
 				backOffIncreases++
-			} else {
-				ansi.Green()
-				if runtime.NumGoroutine() < minWorkers {
-					workerBackoff = 1
-				} else {
-					if workerBackoff > 1 {
-						workerBackoff /= 2
-					}
-				}
-				backOffDecreases++
+				continue
 			}
+			ansi.Green()
+			backOffDecreases++
+			workerBackoff /= 2
 		}
+		backOffTime = time.Since(backOffStart)
 	}
 	//}
 	<-exit
