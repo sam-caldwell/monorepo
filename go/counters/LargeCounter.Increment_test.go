@@ -64,4 +64,17 @@ func TestLargeCounter_Increment(t *testing.T) {
 			t.Fatal("initial value expects element 1 to be 1")
 		}
 	}()
+
+	func() {
+		c, err := NewLargeCounter(64 * 10)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for i := 0; i < 1000; i++ {
+			c.Increment()
+		}
+		if (*c)[0] != 1000 {
+			t.Fatal("outcome unexpected")
+		}
+	}()
 }
