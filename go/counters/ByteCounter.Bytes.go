@@ -9,15 +9,6 @@ package counters
  * for each byte, carrying 1 to the n+1 byte.
  */
 
-func reverseBytes(data []byte) []byte {
-	sz := len(data)
-	out := make([]byte, sz)
-	for i := 0; i < sz; i++ {
-		out[i] = data[(sz-1)-i]
-	}
-	return out
-}
-
 // Bytes - return the byte string value of our counter state.
 func (c *ByteCounter) Bytes() []byte {
 	return reverseBytes(c.v)
