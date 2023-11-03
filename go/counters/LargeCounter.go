@@ -16,5 +16,5 @@ package counters
 //	v  []uint64 // uint64 value array
 //}
 
-// LargeCounter - A struct which embodies the large number in memory
+// LargeCounter - A Large counter array
 type LargeCounter []uint64

@@ -1,20 +1,20 @@
 package counters
 
-/*
- * LargeCounter.Bytes() method
- * (c) 2023 Sam Caldwell.  See License.txt
- *
- * Return the []byte string representation of the LargeCounter.
- */
 import "encoding/binary"
 
 // Bytes - Return the bytes in reverse order
-func (c *LargeCounter) Bytes() []byte {
-	out := make([]byte, 8*len(*c))
-	for i := len(*c) - 1; i >= 0; i-- {
-		this := make([]byte, 8)
-		binary.LittleEndian.PutUint64(this, (*c)[i])
-		out = append(out, this...)
+func (c *LargeCounter) Bytes() (out []byte) {
+	const (
+		byteSize     = 8 // 8 bits per byte
+		bytesPerWord = 8 // 8 bytes per 64-bit word
+	)
+
+	out = make([]byte, byteSize*len(*c))
+	for i := 0; i < len(*c); i++ {
+		this := make([]byte, bytesPerWord)
+		binary.BigEndian.PutUint64(this, (*c)[i])
+		out = append(out[:i*byteSize], this...)
 	}
+
 	return out
 }
