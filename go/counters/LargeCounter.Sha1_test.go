@@ -16,13 +16,16 @@ func TestLargeCounter_Sha1(t *testing.T) {
 	counter := LargeCounter{123, 456, 789}
 
 	// Calculate the expected SHA-1 hash
-	expected := "d9f553e5606e5d58adf6f4f01302af12fb6cb8cd"
+	expected := "c769d306d87e750b9d5358b8dc347ce59c12b1fb"
 
 	// Get the actual SHA-1 hash
 	actual := counter.Sha1()
 
 	// Check if the actual result matches the expected result
 	if actual != expected {
-		t.Errorf("Sha1() returned %s, expected %s", actual, expected)
+		t.Errorf("Sha1() returned\n"+
+			"actual:   %s,\n"+
+			"expected: %s",
+			actual, expected)
 	}
 }

@@ -8,7 +8,6 @@ package counters
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/exit/errors"
 	"testing"
 	"time"
 )
@@ -33,9 +32,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	// Happy: increment byte 0 to 255 and confirm state
 	//
 	for v := byte(1); v < byte(255); v++ {
-		if err := b.Increment(); err != nil {
-			t.Fatalf("expect increment without error")
-		}
+		b.Increment()
 		if b.v[0] != v {
 			t.Fatal("expected zeroth element incremented")
 		}
@@ -52,9 +49,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	// Happy: Set byte 0 to 255 and test carry to byte 1 if incremented
 	//
 	b.v[0] = 255
-	if err := b.Increment(); err != nil {
-		t.Fatal("expect no error")
-	}
+	b.Increment()
 	if b.v[0] != 0 {
 		t.Fatalf("expect element 0 to rollover to 0")
 	}
@@ -66,9 +61,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	//
 	b.v[0] = 255
 	b.v[1] = 255
-	if err := b.Increment(); err != nil {
-		t.Fatal("expect no error")
-	}
+	b.Increment()
 	if b.v[0] != 0 {
 		t.Fatalf("expect element 0 to rollover to 0")
 	}
@@ -84,11 +77,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	for i := 0; i < len(b.v); i++ {
 		b.v[i] = 255
 	}
-	if err := b.Increment(); err != nil {
-		if err.Error() != errors.OverflowError {
-			t.Fatal("Expected overflow error")
-		}
-	}
+	b.Increment()
 
 	func() {
 		const iterations = 10485760
@@ -107,7 +96,7 @@ func TestByteCounter_Increment(t *testing.T) {
 			stopTime := time.Now().UnixNano()
 			elapsedPerIteration := float64(stopTime-startTime) / float64(iterations)
 			t.Logf("elapsedPerIteration: %f", elapsedPerIteration)
-			if elapsedPerIteration > 5.2 {
+			if elapsedPerIteration > 2.5 {
 				t.Fatalf("baseline performance not expected (%f) ns/iteration", elapsedPerIteration)
 			}
 			time.Sleep(100 * time.Millisecond)

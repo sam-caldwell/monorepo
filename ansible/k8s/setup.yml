@@ -1,0 +1,297 @@
+#
+# k8s/setup.yml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt
+#
+# Deploy kubernetes control plane and worker nodes.
+#
+#   ansible-playbook -i hosts setup.yml
+#
+- name: "Step 0: initialize the kubernetes (kube) user"
+  hosts: 'controls, workers'
+  become: yes
+  tasks:
+    - name: "Create a non-root user (kube)"
+      user: name=kube append=yes groups=sudo state=present createhome=yes shell=/bin/bash
+
+    - name: "check if /etc/sudoers.d/kube exists"
+      stat:
+        path: /etc/sudoers.d/kube
+      register: sudoers_file
+
+    - name: "check if /home/kube/.ssh/authorized_keys exists"
+      stat:
+        path: /home/kube/.ssh/authorized_keys
+      register: authorized_keys
+
+    - name: "Allow 'kube' user to sudo without password"
+      when: sudoers_file.stat.exists is defined and not sudoers_file.stat.exists
+      shell: |
+        echo 'kube ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/kube
+
+    - name: "Create .ssh directory if it does not exist"
+      when: authorized_keys.stat.exists is defined and not authorized_keys.stat.exists
+      ansible.builtin.file:
+        path: /home/kube/.ssh/
+        state: directory
+        owner: kube
+        recurse: yes
+        mode: '0755'
+
+    - name: "copy the ansible keys to kube user"
+      when: authorized_keys.stat.exists is defined and not authorized_keys.stat.exists
+      copy:
+        remote_src: true
+        src: /home/ansible/.ssh/authorized_keys
+        dest: /home/kube/.ssh/authorized_keys
+
+- name: "Step 1: Disable swap, install dependencies and prepare the kubernetes package repos"
+  hosts: "controls,workers"
+  remote_user: kube
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  tasks:
+    - name: "check if swap file exists"
+      stat:
+        path: /swap.img
+      register: swap_file
+
+    - name: "disable swap"
+      when: swap_file.stat.exists is defined and swap_file.stat.exists
+      shell: |
+        swapoff -a
+        sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+        rm -rf /swap.img
+
+    - name: "install dependency packages"
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - curl
+        - gnupg2
+        - net-tools
+        - bind9-dnsutils
+        - lsof
+        - nano
+
+    - name: "remove apt kubernetes configs (if it exists)"
+      shell: |
+        rm /etc/apt/sources.list.d/kubernetes.list || true
+        rm /etc/apt/keyrings/kubernetes-apt-keyring.gpg || true
+
+    - name: "configure GPG keyring for K8s package repos"
+      shell: |
+        curl -L -s --fail https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: "Create kubernetes repo file"
+      file:
+        path: "/etc/apt/sources.list.d/kubernetes.list"
+        state: "touch"
+
+    - name: "Add K8s Source to k8s repo file"
+      shell: |
+        echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" > /etc/apt/sources.list.d/kubernetes.list
+
+- name: "Install and configure containerd"
+  hosts: "controls, workers"
+  remote_user: kube
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  tasks:
+    - name: "install the containerd CRI"
+      apt:
+        name: containerd
+        state: present
+        update_cache: yes
+      register: containerd_installed
+
+    - name: "Create containerd configuration file"
+      file:
+        path: "/etc/modules-load.d/containerd.conf"
+        state: "touch"
+
+    - name: "Configure containerd"
+      blockinfile:
+        path: "/etc/modules-load.d/containerd.conf"
+        block: |
+          overlay
+          br_netfilter
+
+    - name: "Create crictl config"
+      become: yes
+      copy:
+        dest: "/etc/crictl.yaml"
+        content: |
+          runtime-endpoint: unix:///run/containerd/containerd.sock
+          image-endpoint: unix:///var/run/containerd/containerd.sock
+          timeout: 2
+          debug: true
+          pull-image-on-create: true
+
+    - name: "install kernel modules"
+      shell: |
+        modprobe overlay
+        modprobe br_netfilter
+
+    - name: "Configure networking for the Kubernetes Container Runtime Interface (CRI)"
+      file:
+        path: "/etc/sysctl.d/99-kubernetes-cri.conf"
+        state: "touch"
+
+    - name: "Configure networking (sysctl) for netfilter stuff"
+      blockinfile:
+        path: "/etc/sysctl.d/99-kubernetes-cri.conf"
+        block: |
+          net.bridge.bridge-nf-call-iptables = 1
+          net.ipv4.ip_forward = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+
+    - name: "Apply the sysctl settings"
+      command: sudo sysctl --system
+
+    - name: "finish containerd cri install (create /etc/containerd/config.toml)"
+      shell: |
+        containerd config default > /etc/containerd/config.toml
+        systemctl restart containerd
+
+    - name: "change group ownerhip of cotnainerd.sock"
+      shell: |
+        chown root:kube /run/containerd/containerd.sock
+
+- name: "Install and configure Kubernetes"
+  hosts: "controls, workers"
+  remote_user: kube
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  tasks:
+    - name: "Create .kube directory"
+      file:
+        owner: kube
+        path: /home/kube/.kube
+        state: directory
+        mode: 0755
+
+    - name: "install Kubernetes"
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - kubelet=1.28.2-1.1
+        - kubeadm=1.28.2-1.1
+        - kubectl=1.28.2-1.1
+        - bash-completion
+      register: kubernetes_install_ran
+
+    - name: "install bash_completion to .bashrc"
+      shell: |
+        echo 'source /usr/share/bash-completion/bash_completion' > /home/kube/.bashrc
+
+    - name: "freeze kubernetes packages"
+      when: kubernetes_install_ran is defined
+      shell: |
+        apt-mark hold kubelet kubeadm kubectl
+
+    - name: "Pull the Kubernetes container images"
+      become: yes
+      shell: kubeadm config images pull
+
+#- name: "Configure the control plane nodes"
+#  hosts: "controls"
+#  remote_user: kube
+#  become: yes
+#  become_method: sudo
+#  become_user: root
+#  gather_facts: yes
+#  connection: ssh
+#  tasks:
+#    - name: "Initialize the cluster"
+#      shell: |
+#         kubeadm init --control-plane-endpoint=control.k8s.local \
+#                      --pod-network-cidr 10.96.0.0/16 \
+#                      --cri-socket /run/containerd/containerd.sock
+#      become: yes
+#      become_user: root
+#      args:
+#        chdir: $HOME
+#        creates: cluster_initialized.txt
+#
+#    - name: "Copy admin.conf to user's kube config"
+#      copy:
+#        src: /etc/kubernetes/admin.conf
+#        dest: /home/kube/.kube/config
+#        remote_src: yes
+#        owner: kube
+#
+#    - name: "Add KUBECONFIG to .bashrc"
+#      copy:
+#        dest: /home/kube/.bashrc
+#        owner: kube
+#        content: |
+#          source /usr/share/bash-completion/bash_completion
+#          export KUBECONFIG=$HOME/.kube/config
+
+#    - name: Wait for all control-plane pods become created
+#      shell: "kubectl get po --namespace=kube-system --selector tier=control-plane --output=jsonpath='{.items[*].metadata.name}'"
+#      register: control_plane_pods_created
+#      until: item in control_plane_pods_created.stdout
+#      retries: 10
+#      delay: 30
+#      with_items:
+#        - etcd
+#        - kube-apiserver
+#        - kube-controller-manager
+#        - kube-scheduler
+#
+#    - name: Wait for control-plane pods become ready
+#      shell: "kubectl wait --namespace=kube-system --for=condition=Ready pods --selector tier=control-plane --timeout=600s"
+#      register: control_plane_pods_ready
+#
+# problem: kubectl is not talking to the cluster yet...
+
+
+#    - name: install Pod network
+#      become: yes
+#      become_user: kube
+#      shell: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+#      args:
+#        chdir: $HOME
+#
+#    - name: "Get the token for joining the worker nodes"
+#      become: yes
+#      become_user: kube
+#      shell: kubeadm token create  --print-join-command
+#      register: kubernetes_join_command
+#
+#    - name: "Copy join command to local file ({{ kubernetes_join_command.stdout }})"
+#      become: yes
+#      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="/tmp/kubernetes_join_command" mode=0777
+
+#- hosts: workers
+#  #
+#  # Configure the Kubernetes Worker nodes
+#  #
+#  become: yes
+#  gather_facts: yes
+#  tasks:
+#    - name: "Copy the kubernetes join command from local host to worker nodes."
+#      become: yes
+#      copy:
+#        src: /tmp/kubernetes_join_command
+#        dest: /tmp/kubernetes_join_command
+#        mode: 0777
+#
+#    - name: "Workers of the cluster, unite!  ...or at least join the cluster"
+#      become: yes
+#      command: sh /tmp/kubernetes_join_command
+#      register: joined_or_not

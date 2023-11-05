@@ -19,3 +19,7 @@ func (c *ByteCounter) Sha1() string {
 	hash := sha1.Sum(c.v)
 	return hex.EncodeToString(hash[:])
 }
+
+func (c *ByteCounter) Sha1Bytes() [20]byte {
+	return sha1.Sum(c.v)
+}

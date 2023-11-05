@@ -67,6 +67,25 @@ func TestLargeCounter_Increment(t *testing.T) {
 	}()
 
 	func() {
+		counter := LargeCounter{0, 0, 0}
+		counter.Increment()
+		if counter[0] != 1 {
+			t.Fatal("incremented wrong position")
+		}
+	}()
+
+	func() {
+		const start = math.MaxUint64
+		c, _ := NewLargeCounter(128)
+		for i := 0; i < 1023; i++ {
+			c.Increment()
+		}
+		if ((*c)[0] == 1022) && ((*c)[1] == 1) {
+			t.Fatal("unexpected outcome")
+		}
+	}()
+
+	func() {
 		const iterations = 10485760
 		for pass := 0; pass < 100; pass++ {
 			startTime := time.Now().UnixNano()

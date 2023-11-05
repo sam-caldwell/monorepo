@@ -13,3 +13,7 @@ package counters
 func (c *ByteCounter) Bytes() []byte {
 	return reverseBytes(c.v)
 }
+
+func (c *ByteCounter) RawBytes() []byte {
+	return c.v
+}

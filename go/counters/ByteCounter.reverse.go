@@ -10,9 +10,11 @@ package counters
  */
 
 func (c *ByteCounter) reverse() {
-	o := make([]byte, len(c.v))
-	copy(c.v, o)
-	for i := 0; i < len(o); i++ {
-		c.v[i] = o[(len(o)-i)-1]
+	sz := len(c.v)
+	rhs := sz
+	sz /= 2
+	for lhs := 0; lhs < sz; lhs++ {
+		rhs--
+		c.v[lhs] = c.v[rhs]
 	}
 }

@@ -1,0 +1,61 @@
+#
+# core/baseline.yml
+# (c) 2023 Sam Caldwell.  See LICENSE.txt
+#
+# This file defines core users needed to bootstrap systems
+# in the environment
+#
+# Execute with:
+#     ansible-playbook -i hosts baseline.yml --ask-become-pass --user $(whoami)
+#
+- hosts: '*'
+  become: yes
+  tasks:
+
+    - name: "get the username running the deploy (Assumption: this user already has a provisioned account)"
+      become: false
+      local_action: command whoami
+      register: connecting_user
+
+    - name: "allow current user ({{ connecting_user.stdout }}) to use sudo without needing a password"
+      copy:
+        dest: /etc/sudoers.d/{{ connecting_user.stdout }}
+        content: |
+          {{ connecting_user.stdout }} ALL=(ALL) NOPASSWD: ALL
+
+    - name: "create ansible user account (used by the rest of our playbooks)"
+      user: name=ansible append=yes state=present createhome=yes shell=/bin/bash
+
+    - name: "allow 'ansible' to use sudo without needing a password"
+      copy:
+        dest: /etc/sudoers.d/ansible
+        content: |
+          ansible ALL=(ALL) NOPASSWD: ALL
+
+    - name: "set up authorized keys for the ansible user (assumes it will use authorized keys for current user)"
+      copy:
+        remote_src: true
+        src: /home/{{ connecting_user.stdout }}/.ssh/authorized_keys
+        dest: /home/ansible/.ssh/authorized_keys
+
+    - name: "Update packages and the package repo"
+      shell: |
+        sudo apt-get update -y
+        sudo apt-get upgrade -y
+        sudo apt-get install -y --no-install-recommends apt-transport-https ca-certificates
+
+    - name: "Reboot the server"
+      tags: reboot
+      shell: "sleep 5 && reboot"
+      async: 1
+      poll: 0
+
+    - name: "Wait for the reboot and reconnect"
+      become: no
+      wait_for:
+        port: 22
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+        search_regex: OpenSSH
+        delay: 10
+        timeout: 60
+      connection: local

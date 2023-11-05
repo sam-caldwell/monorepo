@@ -1,0 +1,7 @@
+[controls]
+control0 ansible_host=control0 ansible_user=ansible
+
+[workers]
+worker0 ansible_host=worker0 ansible_user=ansible
+worker1 ansible_host=worker1 ansible_user=ansible
+worker2 ansible_host=worker2 ansible_user=ansible

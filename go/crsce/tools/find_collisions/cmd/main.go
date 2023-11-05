@@ -19,22 +19,26 @@ import (
 	"math"
 	"os"
 	"runtime"
+	"strings"
 	"time"
 )
 
 const (
+	initialBackoff      = 1 * time.Millisecond
+	maxBackoff          = 4 * time.Minute
 	generatorCount      = 2
-	logInterval         = 5 * time.Second
+	logInterval         = 20 * time.Second
 	defaultKeySpaceSize = 1024
-	candidateQueueSize  = 2048
+	candidateQueueSize  = 8192
 )
 
 type Candidate struct {
-	raw  []byte
 	hash string
+	raw  []byte
 }
 
 func main() {
+
 	keySpaceSize := flag.Uint(
 		"keySpaceSize",
 		defaultKeySpaceSize,
@@ -68,11 +72,11 @@ func main() {
 	var backOffCount int64
 	var backOffIncreases int64
 	var backOffDecreases int64
-	var workerBackoff = time.Millisecond * 1
+	var workerBackoff = initialBackoff
 	var collisionCount int64
 	var currentCandidate []byte
 	startTime := time.Now().Unix()
-	exit := make(chan bool, 1)
+	done := make(chan bool, 1)
 	queue := make(chan Candidate, candidateQueueSize)
 
 	// Metrics collection
@@ -126,31 +130,31 @@ func main() {
 				log.Printf("{"+
 					"\"t\": %4.f, "+
 					"\"obj\":{"+
-					"\"cnt\": %8d, \"rate/sec\": %8.f, \"min\": %8.f, \"max\": %8.f"+
+					"\"cnt\": %12d, \"rate/sec\": %12.f, \"min\": %12.f, \"max\": %12.f"+
 					"}, "+
 					"\"queue\":{"+
 					"\"sz\":%5d, \"min\": %5d, \"max\": %5d"+
 					"}, "+
 					"\"pass\":{"+
-					"\"start\":%5d, \"stops\":%5d, \"rate/s\": %4.2f"+
+					"\"start\":%5d, \"stops\":%5d, \"rate/s\": %06.2f"+
 					"}, "+
 					"\"worker\":{"+
 					"\"count\": %5d \"max\": %5d"+
 					"}, "+
 					"\"backoff\":{"+
-					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d, \"time\":%5v, \"avg\":%3.2f"+
+					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d, \"time\":%10v, "+
 					"}, "+
 					"\"collisionCount\": %3d, "+
-					"\"c\":%v "+
+					"\"c\":%s"+
 					"}",
 					elapsedTime,
 					count, ops, minOps, maxOps,
 					queueSz, minQueueSz, maxQueueSz,
 					passStart, passStop, passRate,
 					workers, maxWorkers,
-					backOffCount, workerBackoff, backOffIncreases, backOffDecreases, backOffTime, totalBackOffTime/elapsedTime,
+					backOffCount, workerBackoff, backOffIncreases, backOffDecreases, backOffTime.Truncate(time.Microsecond),
 					collisionCount,
-					currentCandidate)
+					strings.TrimRight(strings.TrimLeft(hex.EncodeToString(currentCandidate), "0"), "0"))
 				ansi.Reset()
 			}
 		}
@@ -158,22 +162,15 @@ func main() {
 
 	// Generate LHS values to test against
 	go func() {
-		for worker := 0; worker < generatorCount; worker++ {
-			go func(id int) {
-				lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
-				_ = lhsCounter.Set(0, byte(id))
-				for {
-					queue <- Candidate{
-						raw:  lhsCounter.Bytes(),
-						hash: lhsCounter.Sha1(),
-					}
-					if err := lhsCounter.Add(generatorCount); err != nil {
-						log.Println("LHS enumeration complete.")
-						return
-					}
-				}
-			}(worker)
-			time.Sleep(1 * time.Second)
+		lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
+		for {
+			queue <- Candidate{
+				raw:  lhsCounter.Bytes(),
+				hash: lhsCounter.Sha1(),
+			}
+			if err := lhsCounter.FastIncrement(); err != nil {
+				break
+			}
 		}
 	}()
 
@@ -184,13 +181,13 @@ func main() {
 		go func(lhs Candidate) {
 			rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
 			for {
-				if bytes.Compare(rhs.Bytes(), lhs.raw) >= 0 {
+				if bytes.Compare(lhs.raw, rhs.Bytes()) <= 0 {
 					passStop++
-					currentCandidate = lhs.raw[1014:]
+					currentCandidate = lhs.raw
 					if runtime.NumGoroutine() < minWorkers {
 						ansi.Green()
 						backOffDecreases++
-						workerBackoff = time.Millisecond * 1
+						workerBackoff = initialBackoff
 					}
 					break
 				}
@@ -198,7 +195,9 @@ func main() {
 					collisionCount++
 					collisionFound(lhs.hash, rhs.Sha1(), lhs.raw, rhs.Bytes())
 				}
-				_ = rhs.Increment()
+				if err := rhs.Increment(); err != nil {
+					break
+				}
 				count++
 			}
 		}(candidate)
@@ -206,26 +205,25 @@ func main() {
 		//BackOff if needed.
 		backOffStart := time.Now()
 		for runtime.NumGoroutine() >= maxWorkers {
-			//currentCandidate = candidate.raw[1014:]
 			backOffCount++
+			if workerBackoff > maxBackoff {
+				ansi.Green()
+				backOffDecreases++
+				workerBackoff /= 2
+			}
 			time.Sleep(workerBackoff)
-			//
-			// Adjust backoff
-			//
-			if runtime.NumGoroutine() > 9*maxWorkers/10 {
+			if runtime.NumGoroutine() > maxWorkers {
 				ansi.Red()
 				workerBackoff *= 2
 				backOffIncreases++
 				continue
 			}
-			ansi.Green()
-			backOffDecreases++
-			workerBackoff /= 2
+			ansi.Reset()
 		}
 		backOffTime = time.Since(backOffStart)
 	}
 	//}
-	<-exit
+	<-done
 }
 
 func collisionFound(lhsHash, rhsHash string, lhsRaw, rhsRaw []byte) {

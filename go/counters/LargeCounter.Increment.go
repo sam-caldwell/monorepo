@@ -8,18 +8,12 @@ package counters
  * any overflow to the next element in the array.
  */
 
-import (
-	"math"
-)
-
 // Increment - increment the large counter by one.
 func (c *LargeCounter) Increment() {
 	for i := 0; i < len(*c); i++ {
-		if (*c)[i] == math.MaxUint64 {
-			(*c)[i] = 0
-		} else {
-			(*c)[i]++
-			return
+		(*c)[i]++
+		if (*c)[i] != 0 {
+			break
 		}
 	}
 	return

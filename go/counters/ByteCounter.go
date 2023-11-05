@@ -1,5 +1,7 @@
 package counters
 
+import "sync"
+
 /*
  * ByteCounter
  * (c) 2023 Sam Caldwell.  See License.txt
@@ -10,5 +12,6 @@ package counters
  */
 
 type ByteCounter struct {
-	v []byte // byte array used for the counter.
+	lock sync.Mutex
+	v    []byte // byte array used for the counter.
 }

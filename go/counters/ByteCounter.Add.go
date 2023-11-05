@@ -8,17 +8,10 @@ package counters
  */
 
 func (c *ByteCounter) Add(value int) (err error) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
 	for i := 0; i < value; i++ {
-		if c.v[0] == 255 {
-			c.v[0] = 0
-			if err = c.carry(1); err != nil {
-				break
-			}
-		} else {
-			if err = c.inc(0); err != nil {
-				break
-			}
-		}
+		c.FastIncrement()
 	}
 	return err
 }
