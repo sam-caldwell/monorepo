@@ -7,7 +7,7 @@ package main
  * Proof of concept for CRSCE compression.
  */
 import (
-	"github.com/sam-caldwell/monorepo/go/crsce/BitFile"
+	"github.com/sam-caldwell/monorepo/go/bitfile"
 )
 
 const commandUsage = `

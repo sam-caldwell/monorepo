@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * CRSCE BitFile
+ * CRSCE bitfile
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer
@@ -49,7 +49,7 @@ func TestBitFile_Close(t *testing.T) {
 		f.Close()
 	}()
 
-	//Perform the test of the BitFile.Close() method.
+	//Perform the test of the bitfile.Close() method.
 	func() {
 		var f BitFile
 		if err := f.Open(&testFile); err != nil {
@@ -58,7 +58,7 @@ func TestBitFile_Close(t *testing.T) {
 		defer f.Close()
 	}()
 
-	//Perform the test of the BitFile.Close() method with double-close
+	//Perform the test of the bitfile.Close() method with double-close
 	func() {
 		var f BitFile
 		if err := f.Open(&testFile); err != nil {

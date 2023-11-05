@@ -1,10 +1,10 @@
 package bitfile
 
 /*
- * CRSCE BitFile size method test
+ * CRSCE bitfile size method test
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * Test the BitFile.Size() method
+ * Test the bitfile.Size() method
  */
 
 import (

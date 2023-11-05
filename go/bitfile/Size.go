@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * CRSCE BitFile size method
+ * CRSCE bitfile size method
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * Return the size of the file

@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * CRSCE BitFile reader
+ * CRSCE bitfile reader
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer

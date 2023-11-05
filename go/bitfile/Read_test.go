@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * CRSCE BitFile
+ * CRSCE bitfile
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer
@@ -46,7 +46,7 @@ func TestBitFile_Read(t *testing.T) {
 		}
 	}()
 
-	//Perform the test of the BitFile.Open() method.
+	//Perform the test of the bitfile.Open() method.
 	func() {
 		var f BitFile
 		defer f.Close()

@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * CRSCE BitFile
+ * CRSCE bitfile
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer close method
