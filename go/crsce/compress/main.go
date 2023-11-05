@@ -19,11 +19,22 @@ crsce-compress --in <input_file> --out <output_file> [--bs <blocksize>]
 func main() {
 	var args Arguments
 	args.GetArgs()
+
 	var source bitfile.BitFile
-	source.Open(args.In)
+	if err := source.Open(args.In); err != nil {
+		panic(err)
+	}
 	defer source.Close()
+
 	var target bitfile.BitFile
-	target.Open(args.Out)
+	if err := target.Open(args.Out); err != nil {
+		panic(err)
+	}
 	defer target.Close()
+
+	var fileSize int64
+	if fileSize, err := source.Size(); err != nil {
+		panic(err)
+	}
 
 }
