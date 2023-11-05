@@ -10,14 +10,14 @@ package moremath
 import "fmt"
 
 // TransformLinearToRowColumn - Transform linear address (i) to row (r), column (c) given matrix size (s)
-func TransformLinearToRowColumn(i, s int) (row, column int, err error) {
+func TransformLinearToRowColumn(i int, s int) (row, column int, err error) {
 	if i < 0 {
 		return 0, 0, fmt.Errorf("bounds check error")
 	}
 	if s <= 0 {
 		return 0, 0, fmt.Errorf("array size error")
 	}
-	row = i % s
-	column = i / s
+	row = i % int(s)
+	column = i / int(s)
 	return row, column, nil
 }
