@@ -20,7 +20,7 @@ type BitFile struct {
 
 	buffer []byte
 
-	filePos int // byte position in file
+	filePos int64 // byte position in file
 
 	bitPos byte // bit position in current byte (in buffer)
 
