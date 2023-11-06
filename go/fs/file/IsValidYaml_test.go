@@ -2,18 +2,28 @@ package file
 
 import (
 	"github.com/sam-caldwell/monorepo/go/wrappers/os"
-	"io/ioutil"
 	"testing"
 )
 
 func TestIsValidYaml(t *testing.T) {
-	t.Run("Valid YAML file", func(t *testing.T) {
-		// Create a temporary YAML file for testing
-		yamlContent := `
+	const testFile = "testfile.yaml"
+	const testFilePerms = 0644
+	const yamlContent = `
 key1: value1
 key2: value2
 `
-		tempFile, err := ioutil.TempFile("", "testfile.yaml")
+
+	const invalidYamlContent = `
+key1: value1
+key2
+`
+	/*
+	 *
+	 */
+	t.Run("Valid YAML file", func(t *testing.T) {
+		// Create a temporary YAML file for testing
+
+		tempFile, err := os.CreateTemp("", testFile)
 		if err != nil {
 			t.Fatalf("Failed to create temporary file: %v", err)
 		}
@@ -25,7 +35,7 @@ key2: value2
 		}()
 
 		// Write the YAML content to the temporary file
-		err = ioutil.WriteFile(tempFile.Name(), []byte(yamlContent), 0644)
+		err = os.WriteFile(tempFile.Name(), []byte(yamlContent), testFilePerms)
 		if err != nil {
 			t.Fatalf("Failed to write to temporary file: %v", err)
 		}
@@ -35,15 +45,13 @@ key2: value2
 			t.Errorf("Expected no error, but got: %v", err)
 		}
 	})
-
+	/*
+	 *
+	 */
 	t.Run("Invalid YAML file", func(t *testing.T) {
 		// Create a temporary file with invalid YAML content for testing
-		invalidYamlContent := `
-key1: value1
-key2
-`
 
-		tempFile, err := ioutil.TempFile("", "testfile.yaml")
+		tempFile, err := os.CreateTemp("", testFile)
 		if err != nil {
 			t.Fatalf("Failed to create temporary file: %v", err)
 		}
@@ -55,7 +63,7 @@ key2
 		}()
 
 		// Write the invalid YAML content to the temporary file
-		err = ioutil.WriteFile(tempFile.Name(), []byte(invalidYamlContent), 0644)
+		err = os.WriteFile(tempFile.Name(), []byte(invalidYamlContent), testFilePerms)
 		if err != nil {
 			t.Fatalf("Failed to write to temporary file: %v", err)
 		}
