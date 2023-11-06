@@ -33,7 +33,7 @@ func TestReadBytes(t *testing.T) {
 
 	// Happy path validation
 	t.Run("Happy path", func(t *testing.T) {
-		n := len(content)
+		n := uint(len(content))
 		blk, err := bitFile.ReadBytes(n)
 
 		if err != nil {
@@ -47,7 +47,7 @@ func TestReadBytes(t *testing.T) {
 
 	// Sad path validation (reading more bytes than available)
 	t.Run("Sad path (reading more bytes than available)", func(t *testing.T) {
-		n := len(content) + 1
+		n := uint(len(content)) + 1
 		_, err := bitFile.ReadBytes(n)
 
 		if err == nil || err.Error() != "EOF" {
@@ -60,7 +60,7 @@ func TestReadBytes(t *testing.T) {
 		if err := bitFile.file.Close(); err != nil {
 			t.Fatal(err)
 		}
-		n := len(content)
+		n := uint(len(content))
 		_, err := bitFile.ReadBytes(n)
 
 		if err == nil || err.Error() != fmt.Sprintf("read %s: file already closed", tempFile.Name()) {
