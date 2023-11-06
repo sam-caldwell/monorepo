@@ -27,7 +27,7 @@ func TestBlock_ReadBit(t *testing.T) {
 		if blk.buffer[pos] != value {
 			t.Fatalf("Byte value mismatch (pos: %d, value: %02x)", pos, value)
 		}
-		t.Logf("--Byte: %02x--", value)
+		//t.Logf("--Byte: %02x--", value)
 	}
 
 	testBit := func(pos, expBit uint, expErr error) {

@@ -10,7 +10,6 @@ package bitfile
 
 import (
 	"fmt"
-	"log"
 )
 
 // ReadBit - Read the block one bit at a time, returning the bit at position p and return error if
@@ -33,7 +32,7 @@ func (blk *Block) ReadBit(p uint) (bit bool, err error) {
 	//bit value
 	v := thisByte & mask
 
-	log.Printf("pos: %02d  bit: %02d mask: %08b v: %08b", p, b, mask, v)
+	//log.Printf("pos: %02d  bit: %02d mask: %08b v: %08b", p, b, mask, v)
 
 	//if bit b is not zero, then return true indicating set bit.
 	return v != 0, err
