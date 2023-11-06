@@ -11,6 +11,9 @@ package bitfile
 
 // ReadBytes - Read a sequence of n bytes from the current file and return them as a Block.
 func (o *BitFile) ReadBytes(n int) (blk Block, err error) {
+	if n < 0 {
+		n = 0
+	}
 	blk.buffer = make([]byte, n)
 	_, err = o.file.Read(blk.buffer)
 	return blk, err
