@@ -43,6 +43,10 @@ func TestReadBytes(t *testing.T) {
 		if !bytes.Equal(blk.buffer, content) {
 			t.Errorf("Expected buffer %v, got %v", content, blk.buffer)
 		}
+
+		if bitFile.filePos != int64(len(content)) {
+			t.Fatal("Error: file position mismatch")
+		}
 	})
 
 	// Sad path validation (reading more bytes than available)
@@ -52,6 +56,9 @@ func TestReadBytes(t *testing.T) {
 
 		if err == nil || err.Error() != "EOF" {
 			t.Errorf("Expected 'EOF' error, got %v", err)
+		}
+		if bitFile.filePos != int64(len(content)) {
+			t.Fatal("Error: file position mismatch")
 		}
 	})
 
