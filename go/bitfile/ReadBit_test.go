@@ -16,21 +16,21 @@ func TestBlock_ReadBit(t *testing.T) {
 	blk := Block{
 		buffer: []byte{0x00, 0xFF, 0x02, 0x04, 0x08, 0x10, 0x11, 0x12, 0x13, 0x14},
 	}
-	bit2int := func(b bool) int {
+	bit2int := func(b bool) uint {
 		if b {
 			return 1
 		}
 		return 0
 	}
 
-	testByte := func(pos int, value byte) {
+	testByte := func(pos uint, value byte) {
 		if blk.buffer[pos] != value {
 			t.Fatalf("Byte value mismatch (pos: %d, value: %02x)", pos, value)
 		}
 		t.Logf("--Byte: %02x--", value)
 	}
 
-	testBit := func(pos, expBit int, expErr error) {
+	testBit := func(pos, expBit uint, expErr error) {
 		bit, err := blk.ReadBit(pos)
 		if (err != nil) && (err.Error() != expErr.Error()) {
 			t.Fatalf("Expected error not found.\n"+
@@ -43,7 +43,7 @@ func TestBlock_ReadBit(t *testing.T) {
 	}
 
 	//Test bounds check
-	testBit(8*len(blk.buffer), 0, errors.New("index out of range"))
+	testBit(uint(8*len(blk.buffer)), 0, errors.New("index out of range"))
 
 	//Test bits 0x00
 	testByte(0, 0x00)

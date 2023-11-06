@@ -15,8 +15,8 @@ import (
 
 // ReadBit - Read the block one bit at a time, returning the bit at position p and return error if
 // position p is out of bounds.
-func (blk *Block) ReadBit(p int) (bit bool, err error) {
-	if p >= 8*len(blk.buffer) {
+func (blk *Block) ReadBit(p uint) (bit bool, err error) {
+	if p >= uint(8*len(blk.buffer)) {
 		return false, fmt.Errorf("index out of range")
 	}
 	//Get the byte index
