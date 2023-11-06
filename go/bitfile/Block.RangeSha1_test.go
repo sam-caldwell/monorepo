@@ -13,9 +13,15 @@ import (
 )
 
 func TestRangeSha1(t *testing.T) {
+	content := []byte("Hello, World!")
+
+	expectedHash := []byte{
+		0x0a, 0x0a, 0x9f, 0x2a, 0x67, 0x72, 0x94, 0x25, 0x57, 0xab,
+		0x53, 0x55, 0xd7, 0x6a, 0xf4, 0x42, 0xf8, 0xf6, 0x5e, 0x01}
+
 	// Create a sample block with some bytes
 	blk := Block{
-		buffer: []byte("Hello, World!"),
+		buffer: content,
 	}
 
 	// Happy path validation
@@ -29,7 +35,6 @@ func TestRangeSha1(t *testing.T) {
 			t.Errorf("Expected no error, got %v", err)
 		}
 
-		expectedHash := []byte{0x2ef7bde608ce5404e97d5f042f95f89f1c232871}
 		if !bytes.Equal(hash, expectedHash) {
 			t.Errorf("Expected hash %x, got %x", expectedHash, hash)
 		}
