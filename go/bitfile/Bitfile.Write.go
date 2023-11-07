@@ -8,16 +8,15 @@ package bitfile
  */
 
 // Write - Write file bits to a target file in 4K chunks.
-func (o *BitFile) Write() (err error) {
-	return nil
-}
-
-func (o *BitFile) WriteBytes(b []byte) error {
-	if b == nil {
-		return nil //Do nothing
+func (o *BitFile) Write(bit bool) (err error) {
+	var bitValue byte
+	if bit {
+		bitValue = 1
 	}
-
-	//ToDo: write bytes to the buffer for write to file
-
+	o.buffer[o.bitPos] = bitValue
+	if o.bitPos >= 7 {
+		return o.flushBits()
+	}
+	o.bitPos++
 	return nil
 }
