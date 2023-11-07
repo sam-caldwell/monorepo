@@ -1,12 +1,11 @@
 package bitfile
 
 /*
- * CRSCE bitfile uint32 writer method
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ * BitFile.WriteUint32() tests
+ * (c) 2023 Sam Caldwell.  See License.txt
  *
- * write a 32-bit unsigned integer to the bitfile.
+ * This file contains the unit test(s) for BitFile.WriteUint32()
  */
-
 import (
 	"bytes"
 	"os"

@@ -1,5 +1,11 @@
 package bitfile
 
+/*
+ * BitFile.WriteUint64() tests
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * This file contains the unit test(s) for BitFile.WriteUint64()
+ */
 import (
 	"bytes"
 	"os"
