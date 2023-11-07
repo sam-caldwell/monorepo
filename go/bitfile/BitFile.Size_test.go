@@ -13,8 +13,11 @@ import (
 )
 
 func TestBitFile_Size(t *testing.T) {
+
 	const testData = "this is a test"
+
 	var testFile string
+
 	//Create test file
 	func() {
 		var err error
@@ -35,15 +38,21 @@ func TestBitFile_Size(t *testing.T) {
 			t.Fatal(err)
 		}
 	}()
+
 	var f BitFile
+
 	if err := f.Open(&testFile); err != nil {
 		t.Fatalf("failed to open file: %v", err)
 	}
+
 	actual, err := f.Size()
+
 	if err != nil {
 		t.Fatalf("error retrieving size: %v", err)
 	}
-	if actual != int64(len(testData)) {
+
+	if actual != uint64(len(testData)) {
 		t.Fatalf("size mismatch.  (actual: %d, expected: %d)", actual, len(testData))
 	}
+
 }
