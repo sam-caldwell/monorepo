@@ -22,8 +22,6 @@ type BitFile struct {
 
 	filePos int64 // byte position in file
 
-	bitPos byte // bit position in current byte (in buffer)
-
 	bufferPos int // byte position in buffer
 
 	bufferSize int // actual byte size of the buffer (what was read)

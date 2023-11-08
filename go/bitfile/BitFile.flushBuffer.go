@@ -1,17 +1,25 @@
 package bitfile
 
 /*
- * CRSCE bitfile writer
+ * CRSCE BitFile.flushBuffer() method
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * bit-for-bit reader/writer
+ * If the BitFile buffer is full, flush the byte buffer array
+ * to disk.
  */
 
+// flushBuffer - flush the full buffer to disk
 func (o *BitFile) flushBuffer() error {
-	if err := o.WriteBytes(o.buffer); err != nil {
+
+	if o.bufferPos == len(o.buffer) {
+		defer func() { _ = o.file.Sync() }()
+		_, err := o.file.Write(o.buffer)
 		return err
 	}
-	o.buffer = make([]byte, o.bufferSize)
+
 	o.bufferPos = 0
+	o.buffer = make([]byte, o.bufferSize)
+
 	return nil
+
 }
