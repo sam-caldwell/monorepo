@@ -9,54 +9,35 @@ package bitfile
 
 // WriteBytes - Write an array of bits to the bit buffer and flush to disk when buffer is full
 func (o *BitFile) WriteBytes(data []byte) (err error) {
-	if o.buffer == nil {
-
-	}
 
 	if data != nil {
-
 		for _, currByte := range data {
-
 			if err := o.WriteBit(0x00, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x01, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x02, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x03, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x04, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x05, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x06, currByte); err != nil {
 				break
 			}
-
 			if err := o.WriteBit(0x07, currByte); err != nil {
 				break
 			}
-
 		}
-
-	}
-
-	if err == nil {
-		err = o.flushBuffer()
 	}
 
 	return err
-
 }
