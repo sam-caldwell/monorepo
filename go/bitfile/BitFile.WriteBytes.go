@@ -9,6 +9,9 @@ package bitfile
 
 // WriteBytes - Write an array of bits to the bit buffer and flush to disk when buffer is full
 func (o *BitFile) WriteBytes(data []byte) (err error) {
+	if o.buffer == nil {
+
+	}
 
 	if data != nil {
 

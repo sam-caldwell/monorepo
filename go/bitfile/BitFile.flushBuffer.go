@@ -13,7 +13,8 @@ func (o *BitFile) flushBuffer() error {
 
 	if o.bufferPos == len(o.buffer) {
 		defer func() { _ = o.file.Sync() }()
-		_, err := o.file.Write(o.buffer)
+		bytesWritten, err := o.file.Write(o.buffer)
+		o.filePos += int64(bytesWritten)
 		return err
 	}
 

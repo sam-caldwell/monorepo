@@ -52,7 +52,7 @@ func TestBitFile_Close(t *testing.T) {
 	//Perform the test of the bitfile.Close() method.
 	func() {
 		var f BitFile
-		if err := f.Open(&testFile); err != nil {
+		if err := f.OpenRead(&testFile); err != nil {
 			t.Fatal(err)
 		}
 		defer f.Close()
@@ -61,7 +61,7 @@ func TestBitFile_Close(t *testing.T) {
 	//Perform the test of the bitfile.Close() method with double-close
 	func() {
 		var f BitFile
-		if err := f.Open(&testFile); err != nil {
+		if err := f.OpenRead(&testFile); err != nil {
 			t.Fatal(err)
 		}
 		defer f.Close()

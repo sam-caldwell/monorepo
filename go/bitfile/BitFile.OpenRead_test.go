@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-// TestBitFile_Open - create a test file, test the BitFile.Open() method and then clean up afterward.
+// TestBitFile_Open - create a test file, test the BitFile.OpenRead() method and then clean up afterward.
 func TestBitFile_Open(t *testing.T) {
 	var testFile string
 	const testData = "this is a test"
@@ -45,10 +45,10 @@ func TestBitFile_Open(t *testing.T) {
 		//t.Logf("deleted file: %s", testFile)
 	}()
 
-	//Perform the test of the bitfile.Open() method.
+	//Perform the test of the bitfile.OpenRead() method.
 	func() {
 		var f BitFile
-		if err := f.Open(&testFile); err != nil {
+		if err := f.OpenRead(&testFile); err != nil {
 			t.Fatalf("failed to open file (%s): %v", testFile, err)
 		}
 		defer f.Close()

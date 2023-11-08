@@ -46,14 +46,14 @@ func TestBitFile_Read(t *testing.T) {
 		}
 	}()
 
-	//Perform the test of the bitfile.Open() method.
+	//Perform the test of the bitfile.OpenRead() method.
 	func() {
 		var f BitFile
 		defer f.Close()
 
-		//Open the test file.
-		if err := f.Open(&testFile); err != nil {
-			t.Fatalf("Open() failed: %v", err)
+		//OpenRead the test file.
+		if err := f.OpenRead(&testFile); err != nil {
+			t.Fatalf("OpenRead() failed: %v", err)
 		}
 
 		//Create a byte array we will use to store our data

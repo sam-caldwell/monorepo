@@ -41,7 +41,7 @@ func TestBitFile_Size(t *testing.T) {
 
 	var f BitFile
 
-	if err := f.Open(&testFile); err != nil {
+	if err := f.OpenRead(&testFile); err != nil {
 		t.Fatalf("failed to open file: %v", err)
 	}
 
