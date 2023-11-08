@@ -1,7 +1,5 @@
 package bitBlock
 
-import "fmt"
-
 /*
  * Block.Set() method
  * (c) 2023 Sam Caldwell.  All Rights Reserved.
@@ -10,13 +8,12 @@ import "fmt"
  * into the buffer.
  */
 
-func (block *Block) Set(b []byte) (err error) {
+func (block *Block) Set(b []byte) {
 	if b == nil {
-		return fmt.Errorf("invalid nil input")
+		b = make([]byte, 0)
 	}
 	if block.buffer == nil {
 		block.buffer = make([]byte, len(b))
 	}
 	copy(block.buffer, b)
-	return nil
 }

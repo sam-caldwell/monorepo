@@ -1,4 +1,4 @@
-package file
+package bitfile
 
 /*
  * BitFile.Close() method

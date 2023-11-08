@@ -19,11 +19,7 @@ func TestSet(t *testing.T) {
 		blk := Block{}
 
 		data := []byte("Hello")
-		err := blk.Set(data)
-
-		if err != nil {
-			t.Errorf("Expected no error, got %v", err)
-		}
+		blk.Set(data)
 
 		expectedBuffer := []byte("Hello")
 		if !bytes.Equal(blk.buffer, expectedBuffer) {
@@ -36,10 +32,10 @@ func TestSet(t *testing.T) {
 		// Create a sample block with nil buffer
 		blk := Block{}
 
-		err := blk.Set(nil)
+		blk.Set(nil)
 
-		if err == nil || err.Error() != "invalid nil input" {
-			t.Errorf("Expected 'invalid nil input' error, got %v", err)
+		if len(blk.buffer) != 0 {
+			t.Errorf("Expected 0-length buffer on nil input")
 		}
 	})
 
@@ -49,11 +45,7 @@ func TestSet(t *testing.T) {
 		blk := Block{}
 		data := []byte("Hello")
 
-		err := blk.Set(data)
-
-		if err != nil {
-			t.Errorf("Expected no error, got %v", err)
-		}
+		blk.Set(data)
 
 		expectedBuffer := []byte("Hello")
 		if !bytes.Equal(blk.buffer, expectedBuffer) {
