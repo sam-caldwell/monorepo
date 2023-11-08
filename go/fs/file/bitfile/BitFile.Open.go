@@ -1,7 +1,7 @@
-package file
+package bitfile
 
 /*
- * CRSCE BitFile.Open()
+ * BitFile.Open() method
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * Open an existing file or throw an error if not found.
@@ -16,9 +16,6 @@ func (o *BitFile) Open(fileName *string) (err error) {
 	o.file, err = os.Open(*fileName)
 	if err != nil {
 		err = fmt.Errorf("cannot open file (%s): %v", *fileName, err)
-	} else {
-		o.buffer = make([]byte, bufferSize)
-		o.bufferSize, err = o.file.Read(o.buffer)
 	}
 	return err
 }

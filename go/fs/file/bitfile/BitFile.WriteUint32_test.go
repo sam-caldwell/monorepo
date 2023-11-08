@@ -1,4 +1,4 @@
-package file
+package bitfile
 
 /*
  * BitFile.WriteUint32() tests

@@ -1,9 +1,7 @@
-package file
-
-import "github.com/sam-caldwell/monorepo/go/fs/file/bitBlock"
+package bitfile
 
 /*
- * CRSCE ReadBytes
+ * Bitfile.ReadBytes() method
  * (c) 2023 Sam Caldwell.  All Rights Reserved.
  *
  * ReadBytes() will read a block of bytes from a given file
@@ -11,11 +9,14 @@ import "github.com/sam-caldwell/monorepo/go/fs/file/bitBlock"
  * or other block operations can be performed.
  */
 
+import (
+	"github.com/sam-caldwell/monorepo/go/fs/file/bitBlock"
+)
+
 // ReadBytes - Read a sequence of n bytes from the current file and return them as a Block.
-func (o *BitFile) ReadBytes(n uint) (blk Block, err error) {
-	var bytesRead int
-	bitBlock.NewBlock(n)
-	bytesRead, err = bitBlock.ReadBytes()
-	o.filePos += int64(bytesRead)
-	return blk, err
+func (o *BitFile) ReadBytes(n uint) (block *bitBlock.Block, err error) {
+	block = bitBlock.NewBlock(n)
+	data := make([]byte, n)
+	_, err = o.file.Read(data)
+	return block, err
 }

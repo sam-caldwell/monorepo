@@ -1,7 +1,7 @@
-package file
+package bitfile
 
 /*
- * CRSCE bitfile
+ * BitFile.Open() tests
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer
@@ -48,12 +48,13 @@ func TestBitFile_Open(t *testing.T) {
 	//Perform the test of the bitfile.OpenRead() method.
 	func() {
 		var f BitFile
-		if err := f.OpenRead(&testFile); err != nil {
+		if err := f.Open(&testFile); err != nil {
 			t.Fatalf("failed to open file (%s): %v", testFile, err)
 		}
-		defer f.Close()
-		if f.buffer == nil {
-			t.Fatal("expect buffer to be initialized")
-		}
+		defer func() {
+			if err := f.Close(); err != nil {
+				t.Fatal(err)
+			}
+		}()
 	}()
 }

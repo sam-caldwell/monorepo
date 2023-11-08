@@ -4,7 +4,7 @@ package bitfile
  * Bitfile Close() test
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * bit-for-bit reader/writer
+ * Test the bitfile close method
  */
 
 import (

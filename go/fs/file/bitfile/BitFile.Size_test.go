@@ -1,7 +1,7 @@
-package file
+package bitfile
 
 /*
- * CRSCE bitfile size method test
+ * bitfile.Size() tests
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * Test the bitfile.Size() method
@@ -41,7 +41,7 @@ func TestBitFile_Size(t *testing.T) {
 
 	var f BitFile
 
-	if err := f.OpenRead(&testFile); err != nil {
+	if err := f.Open(&testFile); err != nil {
 		t.Fatalf("failed to open file: %v", err)
 	}
 

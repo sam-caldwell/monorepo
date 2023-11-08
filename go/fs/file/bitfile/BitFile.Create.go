@@ -1,4 +1,4 @@
-package file
+package bitfile
 
 /*
  * BitFile.Create() method
@@ -8,12 +8,13 @@ package file
  */
 
 import (
+	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"os"
 )
 
-// Create - Create a file if not found, or open an existing file
+// Create - Create a file if not found, or open an existing file.
 func (o *BitFile) Create(fileName *string) (err error) {
-	if Existsp(fileName) {
+	if file.Existsp(fileName) {
 		err = o.Open(fileName)
 	} else {
 		o.file, err = os.Create(*fileName)

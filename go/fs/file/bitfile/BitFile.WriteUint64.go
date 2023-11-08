@@ -1,4 +1,4 @@
-package file
+package bitfile
 
 /*
  * CRSCE bitfile uint64 writer method
