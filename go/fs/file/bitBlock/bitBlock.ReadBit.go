@@ -15,6 +15,9 @@ import (
 // ReadBit - Read the block one bit at a time, returning the bit at position p and return error if
 // position p is out of bounds.
 func (block *Block) ReadBit(p uint) (bit bool, err error) {
+	block.lock.Lock()
+	defer block.lock.Unlock()
+
 	if p >= uint(8*len(block.buffer)) {
 		return false, fmt.Errorf("index out of range")
 	}

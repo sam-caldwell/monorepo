@@ -15,6 +15,9 @@ import (
 
 // RangeSha512 - Calculate and return the Sha512 hash of a range of bytes within a given block of bytes
 func (block *Block) RangeSha512(start, stop int) (hash []byte, err error) {
+	block.lock.Lock()
+	defer block.lock.Unlock()
+
 	if stop > len(block.buffer) {
 		return nil, fmt.Errorf("bounds check error")
 	}

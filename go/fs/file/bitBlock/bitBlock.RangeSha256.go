@@ -15,6 +15,9 @@ import (
 
 // RangeSha256 - Calculate and return the Sha256 hash of a range of bytes within a given block of bytes
 func (block *Block) RangeSha256(start, stop int) (hash []byte, err error) {
+	block.lock.Lock()
+	defer block.lock.Unlock()
+
 	if stop > len(block.buffer) {
 		return nil, fmt.Errorf("bounds check error")
 	}
