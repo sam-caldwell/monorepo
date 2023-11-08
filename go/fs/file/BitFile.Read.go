@@ -1,10 +1,10 @@
 package file
 
 /*
- * CRSCE bitfile reader
+ * CRSCE BitFile.Read()
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * bit-for-bit reader/writer
+ * Read a file bit by bit (loading a buffer as needed)
  */
 
 // Read - Read file o.file 4K at a time and return the buffer one bit at a time each call.

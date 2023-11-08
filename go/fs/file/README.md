@@ -5,7 +5,7 @@ File
 Simple file utilities.
 
 
-## Features
+## General Features
 1. `GetExtension`: Extracts the extension of a given file name and returns it as a string.
 
 2. `HasExtension`: Checks if a file has a specific extension and returns a boolean result.
@@ -25,3 +25,7 @@ Simple file utilities.
 
 9. `CreateTempFile`: Creates a temporary file in a temporary directory using a unique identifier 
    (UUID) and returns the file path. It handles the cleanup of the temporary file after use.
+
+10. `Bitfile` package: creates a bitwise file reader/writer.
+    (Mostly used by `crsce` project.)  See 
+

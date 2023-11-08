@@ -11,20 +11,22 @@ import (
 	"os"
 )
 
-const (
-	bufferSize = 4096
-)
-
 type BitFile struct {
+	// file handle for the associated file
 	file *os.File
 
-	buffer []byte
-
-	bitPos int
-
+	// byte position within the file
 	filePos int64 // byte position in file
 
-	bufferPos int // byte position in buffer
+	// bit position in the current buffer element (byte)
+	bitPos int
 
-	bufferSize int // actual byte size of the buffer (what was read)
+	// buffer containing bytes read into the BitFile periodically.
+	buffer []byte
+
+	// byte position in buffer
+	bufferPos int
+
+	// actual byte size of the buffer (what was read during last BitFile.Read() operation)
+	bufferSize int
 }
