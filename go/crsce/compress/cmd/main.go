@@ -9,10 +9,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/bitfile"
 	crsce "github.com/sam-caldwell/monorepo/go/crsce/compress/lib"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/file"
+	file2 "github.com/sam-caldwell/monorepo/go/fs/file"
 )
 
 func main() {
@@ -24,14 +24,14 @@ func main() {
 	//
 	// open the input (source) file
 	//
-	var source bitfile.BitFile
-	exit.CheckError(source.Open(&args.In))
+	var source file2.BitFile
+	exit.CheckError(source.OpenRead(&args.In))
 	defer source.Close()
 	//
 	// open the output (target) file
 	//
-	var target bitfile.BitFile
-	exit.CheckError(target.Open(&args.Out))
+	var target file2.BitFile
+	exit.CheckError(target.OpenRead(&args.Out))
 	defer target.Close()
 	//
 	// Determine the file size

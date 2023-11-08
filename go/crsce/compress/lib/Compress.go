@@ -1,9 +1,11 @@
 package crsce
 
-import "github.com/sam-caldwell/monorepo/go/bitfile"
+import (
+	"github.com/sam-caldwell/monorepo/go/fs/file"
+)
 
 // Compress - given a block of bytes, compress the block and write it to target.
-func Compress(block []byte, target bitfile.BitFile) error {
+func Compress(block []byte, target file.BitFile) error {
 	LSM := make([]byte, s)
 	VSM := make([]byte, s)
 
