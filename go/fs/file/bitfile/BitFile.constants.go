@@ -1,4 +1,4 @@
-package file
+package bitfile
 
 /*
  * BitFile constants
@@ -7,5 +7,6 @@ package file
  * Define the constants for the Bitfile
  */
 const (
-	bufferSize = 4096
+	//This is the default buffer size (4MB)
+	defaultBufferSize = 4 * 1048576
 )

@@ -1,4 +1,4 @@
-package file
+package bitfile
 
 /*
  * CRSCE bitfile reader
@@ -11,6 +11,7 @@ import (
 	"os"
 )
 
+// BitFile - A Bitfile struct represents a single bitwise reader/writer object
 type BitFile struct {
 	// file handle for the associated file
 	file *os.File
