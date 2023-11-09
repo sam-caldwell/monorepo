@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-// TestBitFile_Close - create a test file, test the BitFile.Close() method and then clean up afterward.
+// TestBitFile_Close - create a test file, test the Reader.Close() method and then clean up afterward.
 func TestBitFile_Close(t *testing.T) {
 
 	var testFile string
@@ -48,7 +48,7 @@ func TestBitFile_Close(t *testing.T) {
 
 	//Perform a .Close() with a nil file handle.  Expect no error
 	func() {
-		var f BitFile
+		var f Reader
 		if err := f.Close(); err != nil {
 			t.Fatal(err)
 		}
@@ -56,7 +56,7 @@ func TestBitFile_Close(t *testing.T) {
 
 	//Perform the test of the bitfile.Close() method.
 	func() {
-		var f BitFile
+		var f Reader
 		if err := f.Open(&testFile); err != nil {
 			t.Fatal(err)
 		}
@@ -69,12 +69,12 @@ func TestBitFile_Close(t *testing.T) {
 
 	//Perform the test of the bitfile.Close() method with double-close
 	func() {
-		var f BitFile
+		var f Reader
 		if err := f.Open(&testFile); err != nil {
 			t.Fatal(err)
 		}
 		defer func() {
-			var f BitFile
+			var f Reader
 			if err := f.Close(); err != nil {
 				t.Fatal(err)
 			}
