@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * BitFile.Open() tests
+ * Reader.Open() tests
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer
@@ -12,10 +12,12 @@ import (
 	"testing"
 )
 
-// TestBitFile_Open - create a test file, test the BitFile.OpenRead() method and then clean up afterward.
+// TestBitFile_Open - create a test file, test the Reader.OpenRead() method and then clean up afterward.
 func TestBitFile_Open(t *testing.T) {
+
 	var testFile string
 	const testData = "this is a test"
+
 	//Create test file
 	func() {
 		var err error
@@ -47,7 +49,7 @@ func TestBitFile_Open(t *testing.T) {
 
 	//Perform the test of the bitfile.OpenRead() method.
 	func() {
-		var f BitFile
+		var f Reader
 		if err := f.Open(&testFile); err != nil {
 			t.Fatalf("failed to open file (%s): %v", testFile, err)
 		}
