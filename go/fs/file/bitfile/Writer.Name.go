@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * Reader.Name()
+ * Writer.Name()
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Return the file name of the given file
@@ -10,7 +10,7 @@ package bitfile
 import "github.com/sam-caldwell/monorepo/go/misc/words"
 
 // Name - Return the file name of any currently open bitfile.
-func (o *Reader) Name() string {
+func (o *Writer) Name() string {
 
 	if o.file != nil {
 		return o.file.Name()

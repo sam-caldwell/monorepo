@@ -6,20 +6,20 @@ import (
 )
 
 /*
- * Reader.Name() test
+ * Writer.Name() test
  * (c) 2023 Sam Caldwell.  See License.txt
  *
- * This file defines the unit tests for the Reader.Name() method.
+ * This file defines the unit tests for the Writer.Name() method.
  */
 
-func TestBitFile_Name(t *testing.T) {
+func TestWriter_Name(t *testing.T) {
 	var err error
-	var bitfile Reader
+	var bitfile Writer
 
 	if bitfile.Name() != "" {
 		t.Fatal("expect empty string when file not open")
 	}
-	bitfile.file, err = os.CreateTemp("", "Bitfile.Name.test.txt")
+	bitfile.file, err = os.CreateTemp("", "Writer.Name.test.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
