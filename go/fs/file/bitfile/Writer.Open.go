@@ -1,23 +1,22 @@
 package bitfile
 
 /*
- * Reader.Create() method
+ * Writer.Create() method
  * (c) 2023 Sam Caldwell.  See License.txt
  *
- * Create a file (if not found) or open file (if exists).
+ * Create a file to target for write operations.
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"os"
 )
 
-// Create - Create a file if not found, or open an existing file.
-func (o *Reader) Create(fileName *string) (err error) {
-	if file.Existsp(fileName) {
-		err = o.Open(fileName)
-	} else {
-		o.file, err = os.Create(*fileName)
-	}
+// Open - Open/create a file.  If the file exists, truncate it and open for write.
+// The file mode (perms) will be set to 0666.
+func (o *Writer) Open(fileName *string) (err error) {
+
+	o.file, err = os.Create(*fileName)
+
 	return err
+
 }
