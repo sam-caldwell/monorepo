@@ -1,10 +1,10 @@
 package bitfile
 
 /*
- * BitFile.ReadBytes() test
+ * Reader.ReadBytes() test
  * (c) 2023 Sam Caldwell.  See License.txt
  *
- * Unit test for the BitFile.ReadBytes() method
+ * Unit test for the Reader.ReadBytes() method
  */
 import (
 	"bytes"
@@ -31,7 +31,7 @@ func TestReadBytes(t *testing.T) {
 
 	// Happy path validation
 	t.Run("Happy path: file reads okay", func(t *testing.T) {
-		var b BitFile
+		var b Reader
 		if err := b.Open(&tempFileName); err != nil {
 			t.Fatal(err)
 		}
@@ -53,7 +53,7 @@ func TestReadBytes(t *testing.T) {
 		}
 	})
 	t.Run("Sad Path: file read fails when not open", func(t *testing.T) {
-		var b BitFile
+		var b Reader
 		if err := b.Open(&tempFileName); err != nil {
 			t.Fatal(err)
 		}
