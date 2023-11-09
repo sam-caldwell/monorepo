@@ -13,7 +13,7 @@ import (
 
 // TestBitFile_Struct - test the structure itself.
 func TestBitFile_Struct(t *testing.T) {
-	var b BitFile
+	var b Reader
 
 	//Validate the constant used for default buffer size
 	if defaultBufferSize < 4*1048576 {

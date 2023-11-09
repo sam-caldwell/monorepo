@@ -1,18 +1,18 @@
 package bitfile
 
 /*
- * bitfile reader
+ * bitfile Reader
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * bit-for-bit reader/writer
+ * bit-for-bit reader
  */
 
 import (
 	"os"
 )
 
-// BitFile - A Bitfile struct represents a single bitwise reader/writer object
-type BitFile struct {
+// Reader - A Bitfile struct represents a single bitwise reader object
+type Reader struct {
 	// file handle for the associated file
 	file *os.File
 }
