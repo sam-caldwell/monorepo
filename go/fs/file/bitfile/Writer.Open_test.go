@@ -1,10 +1,10 @@
 package bitfile
 
 /*
- * Reader.Create() test
+ * Writer.Open() test
  * (c) 2023 Sam Caldwell.  See License.txt
  *
- * Define unit test for the Create() method
+ * Define unit test for the Writer.Open() method
  */
 
 import (
@@ -13,14 +13,16 @@ import (
 	"testing"
 )
 
-func TestBitFile_Create(t *testing.T) {
-	var b Reader
+func TestWriter_Open(t *testing.T) {
+	var b Writer
 	tempFileName := "/tmp/TestBitFile_Create.txt"
-	if err := b.Create(&tempFileName); err != nil {
+	if err := b.Open(&tempFileName); err != nil {
 		t.Fatal(err)
 	}
-	if !file.Exists(tempFileName) {
-		t.Fatalf("failed to create file (%s)", tempFileName)
+	if file.Exists(tempFileName) {
+		if err := os.Remove(tempFileName); err != nil {
+			t.Fatal(err)
+		}
 	}
 	defer func() {
 		if err := b.Close(); err != nil {
