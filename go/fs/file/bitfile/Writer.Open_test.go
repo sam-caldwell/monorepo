@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * BitFile.Create() test
+ * Reader.Create() test
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Define unit test for the Create() method
@@ -14,7 +14,7 @@ import (
 )
 
 func TestBitFile_Create(t *testing.T) {
-	var b BitFile
+	var b Reader
 	tempFileName := "/tmp/TestBitFile_Create.txt"
 	if err := b.Create(&tempFileName); err != nil {
 		t.Fatal(err)

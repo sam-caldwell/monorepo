@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * BitFile.Create() method
+ * Reader.Create() method
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create a file (if not found) or open file (if exists).
@@ -13,7 +13,7 @@ import (
 )
 
 // Create - Create a file if not found, or open an existing file.
-func (o *BitFile) Create(fileName *string) (err error) {
+func (o *Reader) Create(fileName *string) (err error) {
 	if file.Existsp(fileName) {
 		err = o.Open(fileName)
 	} else {

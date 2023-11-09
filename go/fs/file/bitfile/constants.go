@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * BitFile constants
+ * Reader constants
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Define the constants for the Bitfile

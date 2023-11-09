@@ -1,10 +1,10 @@
 package bitfile
 
 /*
- * BitFile.WriteUint32() tests
+ * Reader.WriteUint32() tests
  * (c) 2023 Sam Caldwell.  See License.txt
  *
- * This file contains the unit test(s) for BitFile.WriteUint32()
+ * This file contains the unit test(s) for Reader.WriteUint32()
  */
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 )
 
 func TestWriteUint32(t *testing.T) {
-	var bitFile BitFile
+	var bitFile Reader
 	var tempFileName string
 	func() {
 		// Create a temporary file for testing
@@ -24,7 +24,7 @@ func TestWriteUint32(t *testing.T) {
 		tempFileName = tempFile.Name()
 		defer func() { _ = tempFile.Close() }()
 	}()
-	// Close the BitFile to ensure the data is flushed to the file
+	// Close the Reader to ensure the data is flushed to the file
 	defer bitFile.Close()
 	defer func() {
 		_ = os.Remove(tempFileName)
@@ -32,10 +32,10 @@ func TestWriteUint32(t *testing.T) {
 	if err := bitFile.OpenRead(&tempFileName); err != nil {
 		t.Fatal(err)
 	}
-	// Write a uint32 to the BitFile
+	// Write a uint32 to the Reader
 	err := bitFile.WriteUint32(123456)
 	if err != nil {
-		t.Fatalf("Error writing uint32 to BitFile: %v", err)
+		t.Fatalf("Error writing uint32 to Reader: %v", err)
 	}
 
 	func() {
