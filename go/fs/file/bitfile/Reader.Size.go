@@ -1,7 +1,7 @@
 package bitfile
 
 /*
- * CRSCE bitfile size method
+ * bitfile Reader.Size() method
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * Return the size of the file
@@ -13,7 +13,7 @@ import (
 )
 
 // Size - Return file size (in bytes)
-func (o *BitFile) Size() (sz uint64, err error) {
+func (o *Reader) Size() (sz uint64, err error) {
 
 	if o.file == nil {
 		return 0, fmt.Errorf("file unknown")

@@ -1,10 +1,10 @@
 package bitfile
 
 /*
- * bitfile.Size() tests
+ * bitfile Reader.Size() tests
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
- * Test the bitfile.Size() method
+ * Test the Reader.Size() method
  */
 
 import (
@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func TestBitFile_Size(t *testing.T) {
+func TestBitFileReader_Size(t *testing.T) {
 
 	const testData = "this is a test"
 
@@ -23,7 +23,7 @@ func TestBitFile_Size(t *testing.T) {
 		var err error
 		var f *os.File
 
-		if f, err = os.CreateTemp("", "TestBitFile_Read.*.txt"); err != nil {
+		if f, err = os.CreateTemp("", "TestBitFileReader_Size.*.txt"); err != nil {
 			t.Fatal(err)
 		}
 		testFile = f.Name()
@@ -39,7 +39,7 @@ func TestBitFile_Size(t *testing.T) {
 		}
 	}()
 
-	var f BitFile
+	var f Reader
 
 	if err := f.Open(&testFile); err != nil {
 		t.Fatalf("failed to open file: %v", err)
