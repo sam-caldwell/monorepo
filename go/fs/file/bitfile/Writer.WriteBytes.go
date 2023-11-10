@@ -1,14 +1,14 @@
 package bitfile
 
 /*
- * CRSCE BitFile WriteBytes() Method
+ * CRSCE Reader WriteBytes() Method
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
  *
  * bit-for-bit reader/writer
  */
 
 // WriteBytes - Write an array of bits to the bit buffer and flush to disk when buffer is full
-func (o *BitFile) WriteBytes(data []byte) (err error) {
+func (o *Writer) WriteBytes(data []byte) (err error) {
 
 	if data != nil {
 		for _, currByte := range data {

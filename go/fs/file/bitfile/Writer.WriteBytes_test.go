@@ -1,10 +1,10 @@
 package bitfile
 
 /*
- * CRSCE BitFile.WriteBytes() Test
+ * CRSCE Reader.WriteBytes() Test
  * (c) 2023 Sam Caldwell.  See License.txt
  *
- * Unit test for the BitFile.WriteBytes() method which performs a bitwise buffered write to disk.
+ * Unit test for the Reader.WriteBytes() method which performs a bitwise buffered write to disk.
  */
 
 import (
@@ -14,10 +14,10 @@ import (
 
 func TestBitFile_WriteBytes(t *testing.T) {
 
-	const testFileName = "/tmp/BitFile.WriteBytes.test.txt"
+	const testFileName = "/tmp/Reader.WriteBytes.test.txt"
 
 	var err error
-	var target BitFile
+	var target Writer
 
 	originalData := []byte("test data")
 
