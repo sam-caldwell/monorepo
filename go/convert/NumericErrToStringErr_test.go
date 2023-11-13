@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestFloatErrToStringErr(t *testing.T) {
+func TestNumericErrToStringErr(t *testing.T) {
 	testCases := []struct {
 		name    string
 		n       any
@@ -19,7 +19,7 @@ func TestFloatErrToStringErr(t *testing.T) {
 			n:       float64(1.23),
 			dt:      "64",
 			err:     nil,
-			wantStr: "1.230000",
+			wantStr: "1.23",
 			wantErr: nil,
 		},
 		{
@@ -27,7 +27,7 @@ func TestFloatErrToStringErr(t *testing.T) {
 			n:       float64(45.6),
 			dt:      "64",
 			err:     fmt.Errorf("some error"),
-			wantStr: "45.600000",
+			wantStr: "45.6",
 			wantErr: fmt.Errorf("some error"),
 		},
 		{
@@ -35,7 +35,7 @@ func TestFloatErrToStringErr(t *testing.T) {
 			n:       float32(1.24),
 			dt:      "32",
 			err:     nil,
-			wantStr: "1.240000",
+			wantStr: "1.24",
 			wantErr: nil,
 		},
 		{
@@ -43,7 +43,7 @@ func TestFloatErrToStringErr(t *testing.T) {
 			n:       float32(45.7),
 			dt:      "32",
 			err:     fmt.Errorf("some error"),
-			wantStr: "45.700001",
+			wantStr: "45.7",
 			wantErr: fmt.Errorf("some error"),
 		},
 	}
