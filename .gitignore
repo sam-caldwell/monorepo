@@ -54,3 +54,6 @@ pkg/
 CMakeCache.txt
 **/Makefile
 cmake/Modules
+
+# Rust stuff
+rust/**/target
