@@ -23,13 +23,15 @@ import (
 	"time"
 )
 
+import "github.com/newrelic/go-agent/v3/newrelic"
+
 const (
 	initialBackoff      = 1 * time.Millisecond
 	maxBackoff          = 4 * time.Minute
-	generatorCount      = 2
+	generatorCount      = 16
 	logInterval         = 20 * time.Second
 	defaultKeySpaceSize = 1024
-	candidateQueueSize  = 8192
+	candidateQueueSize  = 1048576
 )
 
 type Candidate struct {
@@ -38,6 +40,15 @@ type Candidate struct {
 }
 
 func main() {
+	app, err := newrelic.NewApplication(
+  		newrelic.ConfigAppName("find_collisions"),
+  		newrelic.ConfigLicense("<redacted>"),
+  		newrelic.ConfigAppLogForwardingEnabled(true),
+	)
+        if err!= nil {
+		panic(err)
+	}
+
 
 	keySpaceSize := flag.Uint(
 		"keySpaceSize",
@@ -50,6 +61,8 @@ func main() {
 		"Number of workers to launch")
 
 	flag.Parse()
+
+	runtime.GOMAXPROCS(80)
 
 	if *NumberOfWorkers > 255 {
 		log.Println("number of workers exceeds max worker count")
@@ -66,7 +79,7 @@ func main() {
 	var minQueueSz = math.MaxInt
 	var maxQueueSz int
 	var workers int
-	var minWorkers = 300
+	var minWorkers = 400
 	var maxWorkers = int(*NumberOfWorkers) * minWorkers
 	var backOffTime time.Duration
 	var backOffCount int64
@@ -164,6 +177,7 @@ func main() {
 	go func() {
 		lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
 		for {
+			txnLhs := app.StartTransaction("lhs_generation")
 			queue <- Candidate{
 				raw:  lhsCounter.Bytes(),
 				hash: lhsCounter.Sha1(),
@@ -171,12 +185,19 @@ func main() {
 			if err := lhsCounter.FastIncrement(); err != nil {
 				break
 			}
+			txnLhs.End()
 		}
 	}()
+	//Give the LHS time to populate the queue
+        time.Sleep(5*time.Second)
+
 
 	//Test RHS against LHS values
 	log.Printf("Start consumers")
+
 	for candidate := range queue {
+		txnRhs := app.StartTransaction("rhs_consumers")
+
 		passStart++
 		go func(lhs Candidate) {
 			rhs, _ := counters.NewByteCounter(int(*keySpaceSize))
@@ -185,7 +206,6 @@ func main() {
 					passStop++
 					currentCandidate = lhs.raw
 					if runtime.NumGoroutine() < minWorkers {
-						ansi.Green()
 						backOffDecreases++
 						workerBackoff = initialBackoff
 					}
@@ -221,6 +241,7 @@ func main() {
 			ansi.Reset()
 		}
 		backOffTime = time.Since(backOffStart)
+	       	txnRhs.End()
 	}
 	//}
 	<-done
