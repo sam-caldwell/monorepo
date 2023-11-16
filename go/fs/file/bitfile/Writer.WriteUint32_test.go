@@ -13,27 +13,33 @@ import (
 )
 
 func TestWriteUint32(t *testing.T) {
-	var bitFile Reader
+
+	var writer Writer
 	var tempFileName string
+
 	func() {
+		var err error
+		var tempFile *os.File
+
 		// Create a temporary file for testing
-		tempFile, err := os.CreateTemp("", "bitfile32_test")
-		if err != nil {
+		if tempFile, err = os.CreateTemp("", "TestWriteUint32"); err != nil {
 			t.Fatalf("Error creating temp file: %v", err)
 		}
 		tempFileName = tempFile.Name()
 		defer func() { _ = tempFile.Close() }()
+
 	}()
-	// Close the Reader to ensure the data is flushed to the file
-	defer bitFile.Close()
+
 	defer func() {
+		// Close the writer to ensure the data is flushed to the file
+		_ = writer.Close()
 		_ = os.Remove(tempFileName)
 	}()
-	if err := bitFile.OpenRead(&tempFileName); err != nil {
+	if err := writer.Open(&tempFileName); err != nil {
 		t.Fatal(err)
 	}
 	// Write a uint32 to the Reader
-	err := bitFile.WriteUint32(123456)
+	err := writer.WriteUint32(123456)
 	if err != nil {
 		t.Fatalf("Error writing uint32 to Reader: %v", err)
 	}

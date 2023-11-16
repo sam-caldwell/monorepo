@@ -13,27 +13,33 @@ import (
 )
 
 func TestWriteUint64(t *testing.T) {
-	var bitFile Reader
+
+	var writer Writer
 	var tempFileName string
+
 	func() {
+		var err error
+		var tempFile *os.File
+
 		// Create a temporary file for testing
-		tempFile, err := os.CreateTemp("", "bitfile64_test")
-		if err != nil {
+		if tempFile, err = os.CreateTemp("", "TestWriteUint64"); err != nil {
 			t.Fatalf("Error creating temp file: %v", err)
 		}
 		tempFileName = tempFile.Name()
 		defer func() { _ = tempFile.Close() }()
+
 	}()
-	// Close the Reader to ensure the data is flushed to the file
-	defer bitFile.Close()
+
 	defer func() {
+		// Close the writer to ensure the data is flushed to the file
+		_ = writer.Close()
 		_ = os.Remove(tempFileName)
 	}()
-	if err := bitFile.OpenRead(&tempFileName); err != nil {
+	if err := writer.Open(&tempFileName); err != nil {
 		t.Fatal(err)
 	}
 	// Write a uint64 to the Reader
-	if err := bitFile.WriteUint64(123456); err != nil {
+	if err := writer.WriteUint64(123456); err != nil {
 		t.Fatalf("Error writing uint64 to Reader: %v", err)
 	}
 	func() {
