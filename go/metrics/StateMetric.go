@@ -18,23 +18,3 @@ type StateMetric[T StateType] struct {
 	lock  sync.Mutex
 	value []T
 }
-
-type StateType interface {
-	[]byte | //arbitrary byte array
-		string |
-		Sha1Hash |
-		Sha256Hash |
-		Sha512Hash |
-		Block1KB |
-		Block2KB |
-		Block4KB |
-		Block8KB
-}
-
-type Sha1Hash [20]byte
-type Sha256Hash [64]byte
-type Sha512Hash [128]byte
-type Block1KB [1024]byte
-type Block2KB [2048]byte
-type Block4KB [4096]byte
-type Block8KB [8192]byte
