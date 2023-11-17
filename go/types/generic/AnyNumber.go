@@ -1,4 +1,4 @@
-package metrics
+package generic
 
 import (
 	"math/big"
