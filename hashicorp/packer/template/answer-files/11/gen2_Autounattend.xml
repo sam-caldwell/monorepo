@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress XmlHighlighting, XmlHighlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
+Highlighting -->
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <settings pass="windowsPE">
         <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64"

@@ -118,6 +118,7 @@ func TestBlock16KB_String(t *testing.T) {
 			"123456789123456789123-5678" + strings.Repeat("00", blockSize-1024)
 
 		block.FromSlice([]byte(testInput))
+
 		result := block.String()
 
 		expectedString := hex.EncodeToString([]byte(testInput)[:blockSize])
