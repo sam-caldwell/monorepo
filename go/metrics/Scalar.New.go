@@ -1,7 +1,7 @@
 package metrics
 
-// New - initialize the numeric metric object
-func (o *NumericMetric[ValueType, CounterType]) New(size uint8) *NumericMetric[ValueType, CounterType] {
+// New - initialize the Scalar metric object
+func (o *Scalar[ValueType, CounterType]) New(size uint8) *Scalar[ValueType, CounterType] {
 	o.lock.Lock()
 	defer o.lock.Unlock()
 
