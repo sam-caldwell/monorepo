@@ -2,10 +2,11 @@ package hashes
 
 import (
 	"bytes"
+	"encoding/hex"
 	"testing"
 )
 
-func TestStateMetric_StateType_Sha1Hash(t *testing.T) {
+func TestStateMetric_StateType_Sha1(t *testing.T) {
 	const expectedSize = uint(20)
 	/*
 	 * Test Sha256Length
@@ -156,11 +157,29 @@ func TestStateMetric_StateType_Sha1Hash(t *testing.T) {
 			t.Fatalf("Size Mismatch")
 		}
 	})
-	t.Run("Test ToSlice() Empty Slice", func(t *testing.T) {
+	t.Run("Test HashString() Happy", func(t *testing.T) {
+		const testInput = "This is my test.  There is no test like my test."
+		const expected = "027c4109f56c0dffdcfd2e0dc50fdc97488d5300"
 		var hash Sha1
-		hash.FromSlice([]byte{})
-		if hash.SizeOf() != expectedSize {
-			t.Fatalf("Size Mismatch")
+		hash.HashString(testInput)
+		result := hash.ToSlice()
+		if actual := hex.EncodeToString(result); actual != expected {
+			t.Fatalf("Mismatch\n"+
+				"Actual:%v\n"+
+				"Expected:%v\n",
+				actual, expected)
+		}
+	})
+	t.Run("Test String() Happy", func(t *testing.T) {
+		const testInput = "This is my test.  There is no test like my test."
+		const expected = "027c4109f56c0dffdcfd2e0dc50fdc97488d5300"
+		var hash Sha1
+		hash.HashString(testInput)
+		if actual := hash.String(); actual != expected {
+			t.Fatalf("Mismatch\n"+
+				"Actual:%v\n"+
+				"Expected:%v\n",
+				actual, expected)
 		}
 	})
 }

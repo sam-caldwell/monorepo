@@ -2,6 +2,7 @@ package hashes
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 )
 
 const (
@@ -36,4 +37,9 @@ func (block *Sha256) HashString(data string) {
 // HashBytes - hash the input and store as state
 func (block *Sha256) HashBytes(data []byte) {
 	*block = sha256.Sum256(data)
+}
+
+// String - return the contents of the hash object as a hex string
+func (block *Sha256) String() string {
+	return hex.EncodeToString(block[:])
 }

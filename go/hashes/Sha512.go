@@ -1,6 +1,9 @@
 package hashes
 
-import "crypto/sha512"
+import (
+	"crypto/sha512"
+	"encoding/hex"
+)
 
 const (
 	Sha512Length = 64
@@ -34,4 +37,9 @@ func (block *Sha512) HashString(data string) {
 // HashBytes - hash the input and store as state
 func (block *Sha512) HashBytes(data []byte) {
 	*block = sha512.Sum512(data)
+}
+
+// String - return the contents of the hash object as a hex string
+func (block *Sha512) String() string {
+	return hex.EncodeToString(block[:])
 }
