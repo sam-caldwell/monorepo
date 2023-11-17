@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+//goland:noinspection GoBoolExpressions
 func TestBlock16KB(t *testing.T) {
 	var b Block16KB
 	if len(b) != 16384 {
