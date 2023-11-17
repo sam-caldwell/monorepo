@@ -12,6 +12,7 @@ func TestSet_GetType(t *testing.T) {
 	if set.GetType() != reflect.UnsafePointer {
 		t.Fatal("Expected initial type to be reflect.UnsafePointer")
 	}
+	//goland:noinspection GoRedundantConversion
 	testData := map[any]reflect.Kind{
 		int(1):       reflect.Int,
 		int8(2):      reflect.Int8,

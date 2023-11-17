@@ -33,7 +33,7 @@ func TestCalcMaxColumnWidth(t *testing.T) {
 
 	for n := range data {
 		thisList := data[:n]
-		if max := CalcMaxColumnWidth(&thisList); max != output[n] {
+		if maxValue := CalcMaxColumnWidth(&thisList); maxValue != output[n] {
 			t.Fatalf("max not correct [%d] (%d):%v", n, output, thisList)
 		}
 	}
