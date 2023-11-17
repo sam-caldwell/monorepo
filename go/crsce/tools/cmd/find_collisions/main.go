@@ -20,6 +20,8 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -35,20 +37,68 @@ const (
 )
 
 type Candidate struct {
-	hash string
+	lock sync.Mutex
+	hash []byte
 	raw  []byte
 }
 
-func main() {
-	app, err := newrelic.NewApplication(
-  		newrelic.ConfigAppName("find_collisions"),
-  		newrelic.ConfigLicense("<redacted>"),
-  		newrelic.ConfigAppLogForwardingEnabled(true),
-	)
-        if err!= nil {
-		panic(err)
-	}
+func (o *Candidate) Get() (hash, raw []byte) {
+	o.lock.Lock()
+	defer o.lock.Unlock()
+	return o.hash, o.raw
+}
+func (o *Candidate) Set(hash, raw []byte) {
+	o.lock.Lock()
+	defer o.lock.Unlock()
+	copy(o.hash, hash)
+	copy(o.raw, raw)
+}
 
+type Queue struct {
+	readLock atomic.Bool
+	writeLock atomic.Bool
+	writeHead int
+	readHead  int
+	data      []Candidate
+}
+
+func (o *Queue) Push(hash, raw []byte) {
+	o.writeLock.Lock()
+	defer o.writeLock.Lock()
+	o.data[o.writeHead].Set(hash, raw)
+	o.writeHead++
+	if o.writeHead==len(o.data) {
+		o.writeHead=0
+	}
+	if o.writeHead ==o.readHead {
+		o.writeLock.Lock()
+	}
+}
+
+func (o *Queue) Pop() (hash, raw []byte) {
+	return o.data[o.readHead].Get()
+}
+
+func main() {
+	var app *newrelic.Application
+	var useNewRelic bool
+	if os.Getenv("NEWRELIC_ENABLED") == "1" {
+		newRelicLicenseKey := os.Getenv("NEWRELIC_LICENSE_KEY")
+		if newRelicLicenseKey == "" {
+			panic("NewRelic License Key Missing")
+		}
+		useNewRelic = true
+		var err error
+		app, err = newrelic.NewApplication(
+			newrelic.ConfigAppName("find_collisions"),
+			newrelic.ConfigLicense(newRelicLicenseKey),
+			newrelic.ConfigAppLogForwardingEnabled(true),
+		)
+		if err != nil {
+			panic(err)
+		}
+
+	}
 
 	keySpaceSize := flag.Uint(
 		"keySpaceSize",
@@ -62,12 +112,16 @@ func main() {
 
 	flag.Parse()
 
-	runtime.GOMAXPROCS(80)
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	log.Printf("Number CPU: %d", runtime.NumCPU())
 
 	if *NumberOfWorkers > 255 {
 		log.Println("number of workers exceeds max worker count")
 		os.Exit(exit.GeneralError)
 	}
+
+	var txnLhs *newrelic.Transaction
+	var txnRhs *newrelic.Transaction
 
 	var count uint64
 	var ops float64
@@ -83,8 +137,6 @@ func main() {
 	var maxWorkers = int(*NumberOfWorkers) * minWorkers
 	var backOffTime time.Duration
 	var backOffCount int64
-	var backOffIncreases int64
-	var backOffDecreases int64
 	var workerBackoff = initialBackoff
 	var collisionCount int64
 	var currentCandidate []byte
@@ -149,13 +201,13 @@ func main() {
 					"\"sz\":%5d, \"min\": %5d, \"max\": %5d"+
 					"}, "+
 					"\"pass\":{"+
-					"\"start\":%5d, \"stops\":%5d, \"rate/s\": %06.2f"+
+					"\"start\":%5d, \"stops\":%5d, \"active\":%5d \"rate/s\": %06.2f"+
 					"}, "+
 					"\"worker\":{"+
 					"\"count\": %5d \"max\": %5d"+
 					"}, "+
 					"\"backoff\":{"+
-					"\"count\": %5d, \"backoff\": %8v, \"inc\": %5d, \"dec\": %5d, \"time\":%10v, "+
+					"\"count\": %5d, \"time\": %8v, \"time\":%10v, "+
 					"}, "+
 					"\"collisionCount\": %3d, "+
 					"\"c\":%s"+
@@ -163,9 +215,9 @@ func main() {
 					elapsedTime,
 					count, ops, minOps, maxOps,
 					queueSz, minQueueSz, maxQueueSz,
-					passStart, passStop, passRate,
+					passStart, passStop, passStop-passStart, passRate,
 					workers, maxWorkers,
-					backOffCount, workerBackoff, backOffIncreases, backOffDecreases, backOffTime.Truncate(time.Microsecond),
+					backOffCount, workerBackoff, backOffTime.Truncate(time.Microsecond),
 					collisionCount,
 					strings.TrimRight(strings.TrimLeft(hex.EncodeToString(currentCandidate), "0"), "0"))
 				ansi.Reset()
@@ -177,7 +229,9 @@ func main() {
 	go func() {
 		lhsCounter, _ := counters.NewByteCounter(int(*keySpaceSize))
 		for {
-			txnLhs := app.StartTransaction("lhs_generation")
+			if useNewRelic {
+				txnLhs = app.StartTransaction("lhs_generation")
+			}
 			queue <- Candidate{
 				raw:  lhsCounter.Bytes(),
 				hash: lhsCounter.Sha1(),
@@ -185,18 +239,21 @@ func main() {
 			if err := lhsCounter.FastIncrement(); err != nil {
 				break
 			}
-			txnLhs.End()
+			if useNewRelic {
+				txnLhs.End()
+			}
 		}
 	}()
 	//Give the LHS time to populate the queue
-        time.Sleep(5*time.Second)
-
+	time.Sleep(5 * time.Second)
 
 	//Test RHS against LHS values
 	log.Printf("Start consumers")
 
 	for candidate := range queue {
-		txnRhs := app.StartTransaction("rhs_consumers")
+		if useNewRelic {
+			txnRhs = app.StartTransaction("rhs_consumers")
+		}
 
 		passStart++
 		go func(lhs Candidate) {
@@ -206,7 +263,6 @@ func main() {
 					passStop++
 					currentCandidate = lhs.raw
 					if runtime.NumGoroutine() < minWorkers {
-						backOffDecreases++
 						workerBackoff = initialBackoff
 					}
 					break
@@ -228,20 +284,20 @@ func main() {
 			backOffCount++
 			if workerBackoff > maxBackoff {
 				ansi.Green()
-				backOffDecreases++
 				workerBackoff /= 2
 			}
 			time.Sleep(workerBackoff)
 			if runtime.NumGoroutine() > maxWorkers {
 				ansi.Red()
 				workerBackoff *= 2
-				backOffIncreases++
 				continue
 			}
 			ansi.Reset()
 		}
 		backOffTime = time.Since(backOffStart)
-	       	txnRhs.End()
+		if useNewRelic {
+			txnRhs.End()
+		}
 	}
 	//}
 	<-done
@@ -260,3 +316,6 @@ func collisionFound(lhsHash, rhsHash string, lhsRaw, rhsRaw []byte) {
 		hex.EncodeToString(lhsRaw), hex.EncodeToString(rhsRaw))
 	os.Exit(exit.GeneralError)
 }
+
+545065
+648912
