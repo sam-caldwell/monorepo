@@ -36,7 +36,7 @@ func (block *Sha1) HashString(data string) {
 
 // HashBytes - hash the input and store as state
 func (block *Sha1) HashBytes(data []byte) {
-	*block = sha1.Sum([]byte(data))
+	*block = sha1.Sum(data)
 }
 
 // String - return the contents of the hash object as a hex string

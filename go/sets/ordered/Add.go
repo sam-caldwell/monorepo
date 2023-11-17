@@ -26,7 +26,7 @@ func (set *Set) Add(item any) (err error) {
 	set.lock.Lock()
 	defer set.lock.Unlock()
 
-	// If there is a first element, perform our typecheck.
+	// If there is a first element, perform our type check.
 	if len(set.data) > 0 {
 		if err = set.typeCheck(&item); err != nil {
 			return err
