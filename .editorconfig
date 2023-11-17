@@ -10,10 +10,9 @@ indent_style = space
 [*.py]
 indent_size = 4
 
-[{Makefile,go.mod,go.sum,*.go,.gitmodules,.gitattributes,*.c,*.h,*.cpp,*.hpp,*.cs}]
+[{Makefile,go.mod,go.sum,.gitmodules,.gitattributes}]
 indent_style = tab
 indent_size = 4
-
 
 
 [{lib/**.js,*.js,*.ts,*.tsx,*.jsx}]

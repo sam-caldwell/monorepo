@@ -19,7 +19,7 @@ const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="
 		<path fill="%s" d="M%d 0h%dv20H%dz"/>
 		<path fill="url(#b)" d="M0 0h%dv20H0z"/>
 	</g>
-	<g fill="#fff" text-anchor="middle" 
+	<g fill="#fff" text-anchor="middle"
 		font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
 		<text x="%f" y="15" fill="#010101" fill-opacity=".3">%s</text>
 		<text x="%f" y="14">%s</text>
