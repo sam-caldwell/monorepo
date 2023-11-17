@@ -1,0 +1,33 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+indent_style = space
+
+[*.py]
+indent_size = 4
+
+[{Makefile,go.mod,go.sum,*.go,.gitmodules,.gitattributes,*.c,*.h,*.cpp,*.hpp,*.cs}]
+indent_style = tab
+indent_size = 4
+
+
+
+[{lib/**.js,*.js,*.ts,*.tsx,*.jsx}]
+indent_size = 2
+
+# Matches the exact files either package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+indent_size = 4
+trim_trailing_whitespace = false
+
+
+[Dockerfile]
+indent_size = 4
