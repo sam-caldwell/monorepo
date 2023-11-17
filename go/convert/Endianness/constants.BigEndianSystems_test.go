@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+//goland:noinspection GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions
 func TestEndianness(t *testing.T) {
 	/*
 	 * Test plan...

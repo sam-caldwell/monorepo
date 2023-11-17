@@ -6,6 +6,7 @@ import (
 )
 
 func TestNumericErrToStringErr(t *testing.T) {
+	//goland:noinspection GoRedundantConversion
 	testCases := []struct {
 		name    string
 		n       any

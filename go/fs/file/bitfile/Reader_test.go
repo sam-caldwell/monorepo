@@ -12,6 +12,8 @@ import (
 )
 
 // TestBitFile_Struct - test the structure itself.
+//
+//goland:noinspection ALL
 func TestBitFile_Struct(t *testing.T) {
 	var b Reader
 

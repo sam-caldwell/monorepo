@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+//goland:noinspection GoBoolExpressions,GoBoolExpressions,GoBoolExpressions,GoBoolExpressions
 func TestInstallAs(t *testing.T) {
 	var data InstallAs
 	if reflect.TypeOf(data).Size() != 1 {

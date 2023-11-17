@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+//goland:noinspection GoBoolExpressions
 func TestSetBool(t *testing.T) {
 	envVar := "TestEnvVar1337"
 	var testValue = true
