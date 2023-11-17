@@ -28,7 +28,7 @@ func (store *MetricStore) AddMetric(name string, metric interface{}) *MetricStor
 	default:
 		// Handle unsupported metric type, or log an error.
 		// You can choose to panic, log, or take any appropriate action here.
-		store.err = fmt.Errorf("unsupported metric type")
+		store.err = append(store.err, fmt.Errorf("unsupported metric type"))
 	}
 	return store
 }
