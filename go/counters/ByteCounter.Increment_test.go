@@ -32,7 +32,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	// Happy: increment byte 0 to 255 and confirm state
 	//
 	for v := byte(1); v < byte(255); v++ {
-		b.Increment()
+		_ = b.Increment()
 		if b.v[0] != v {
 			t.Fatal("expected zeroth element incremented")
 		}
@@ -49,7 +49,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	// Happy: Set byte 0 to 255 and test carry to byte 1 if incremented
 	//
 	b.v[0] = 255
-	b.Increment()
+	_ = b.Increment()
 	if b.v[0] != 0 {
 		t.Fatalf("expect element 0 to rollover to 0")
 	}
@@ -61,7 +61,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	//
 	b.v[0] = 255
 	b.v[1] = 255
-	b.Increment()
+	_ = b.Increment()
 	if b.v[0] != 0 {
 		t.Fatalf("expect element 0 to rollover to 0")
 	}
@@ -77,7 +77,7 @@ func TestByteCounter_Increment(t *testing.T) {
 	for i := 0; i < len(b.v); i++ {
 		b.v[i] = 255
 	}
-	b.Increment()
+	_ = b.Increment()
 
 	func() {
 		const iterations = 10485760

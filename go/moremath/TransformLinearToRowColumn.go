@@ -17,7 +17,7 @@ func TransformLinearToRowColumn(i int, s int) (row, column int, err error) {
 	if s <= 0 {
 		return 0, 0, fmt.Errorf("array size error")
 	}
-	row = i % int(s)
-	column = i / int(s)
+	row = i % s
+	column = i / s
 	return row, column, nil
 }

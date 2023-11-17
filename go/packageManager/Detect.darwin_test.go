@@ -4,6 +4,7 @@
 package packageManager
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -13,7 +14,7 @@ func TestDetect(t *testing.T) {
 	expectedPkg := brew
 	expectedErr := error(nil)
 
-	if err != expectedErr {
+	if !errors.Is(expectedErr, err) {
 		t.Fatalf("error mismatch")
 	}
 

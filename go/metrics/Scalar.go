@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"github.com/sam-caldwell/monorepo/go/types/generic"
 	"sync"
 )
 
@@ -14,7 +15,7 @@ import (
  */
 
 // Scalar - A generic metric for all things big and numeric.
-type Scalar[ValueType AnyNumber, CounterType AnyNumber] struct {
+type Scalar[ValueType generic.AnyNumber, CounterType generic.AnyNumber] struct {
 
 	// Lock - some safety for the concurrent stuff.
 	lock sync.Mutex

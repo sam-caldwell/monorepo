@@ -38,7 +38,7 @@ func TestByteCounter_Int(t *testing.T) {
 	//
 	func() {
 		t.Logf("state: %v", b.v)
-		b.Increment()
+		_ = b.Increment()
 		t.Logf("state: %v", b.v)
 		if !bytes.Equal(b.v, []byte{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) {
 			t.Fatalf("increment failed to change the state\nb.v:%v", b.v)
@@ -55,7 +55,7 @@ func TestByteCounter_Int(t *testing.T) {
 		stopValue := big.NewInt(100)
 		b.v = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 		for i := big.NewInt(1); i.Cmp(stopValue) < 0; i.Add(i, big.NewInt(1)) {
-			b.Increment()
+			_ = b.Increment()
 			if i.Cmp(b.Int()) == 0 {
 				t.Fatalf("mismatch at %v (%v)", b.v, i)
 			}

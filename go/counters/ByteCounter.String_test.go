@@ -47,7 +47,7 @@ func TestByteCounter_String(t *testing.T) {
 	func() {
 		b.v = []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A}
 		expected := "0A090807060504030202" //increment element(0)
-		b.Increment()
+		_ = b.Increment()
 		actual := b.String()
 		if actual != expected {
 			t.Fatalf("output mismatch(2)\na:%v\ne:%v", actual, expected)

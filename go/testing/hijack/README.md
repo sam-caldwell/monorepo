@@ -117,29 +117,35 @@ func main() {
 ### Methods and Functions
 
 ### hijack.NewTrackerTable()
->> Creates, initializes and returns a `GlobalPatchTable`.   Please use this.  Don't try doing it yourself.
+
+> > Creates, initializes and returns a `GlobalPatchTable`. Please use this. Don't try doing it yourself.
 
 ### hijack.Capture(targetFunc, imposterFunc) error
->> Given a Target Function (the thing you want to take over) and Imposter Function (the code you want instead),
->> This method will locate, copy and overwrite the `targetFunc` with the `imposterFunc`.
+
+> > Given a Target Function (the thing you want to take over) and Imposter Function (the code you want instead),
+> > This method will locate, copy and overwrite the `targetFunc` with the `imposterFunc`.
 >>
 >> The change will be tracked, so it can be reverted...theoretically.
->> <span style="color:red">Do not use this with a method, only with functions.  For methods, use .CaptureMethod()</span>
+> > <span style="color:red">Do not use this with a method, only with functions. For methods, use .CaptureMethod()</span>
 
 ### hijack.Free(targetFunc) error
->> Given a target function (the thing you took over with .Capture()), this method will revert the change using the
->> TrackerTable and restore original functionality...theoretically. <span style="color:red">Do not use this with a 
->> method, only with functions.  For methods, use .FreeMethod()</span>
+
+> > Given a target function (the thing you took over with .Capture()), this method will revert the change using the
+> > TrackerTable and restore original functionality...theoretically. <span style="color:red">Do not use this with a
+> > method, only with functions. For methods, use .FreeMethod()</span>
 
 ### hijack.CaptureMethod(targetObject, methodName, imposterFunc) error
->> Given a targetObject (struct) and methodName (string), this method will look up the methodName within the 
->> targetObject and patch that method with the given imposterFunc specified.
+
+> > Given a targetObject (struct) and methodName (string), this method will look up the methodName within the
+> > targetObject and patch that method with the given imposterFunc specified.
 
 ### hijack.FreeMethod(targetObject, methodName) error
->> Given a targetObject (struct) and methodName (string), this method will look up and restore the functionality of
->> the given method.  As all good programmers would say, this all works great! `***`Pats hood`***`  you'll get lots of 
->> mileage from this baby!
+
+> > Given a targetObject (struct) and methodName (string), this method will look up and restore the functionality of
+> > the given method. As all good programmers would say, this all works great! `***`Pats hood`***`  you'll get lots of
+> > mileage from this baby!
 
 ### hijack.FreeAll() error
->> Where hijack.Free() will revert a specific Captured function, this method will roll back all changes currently known
->> to the TrackerTable.
+
+> > Where hijack.Free() will revert a specific Captured function, this method will roll back all changes currently known
+> > to the TrackerTable.

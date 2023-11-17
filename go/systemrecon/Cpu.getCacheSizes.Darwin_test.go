@@ -4,6 +4,7 @@
 package systemrecon
 
 import (
+	"errors"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/convert"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
@@ -37,7 +38,7 @@ func TestGetCacheSizes(t *testing.T) {
 		t.Errorf("Unexpected cache size. Expected: %d, got: %d", expectedSize, size)
 	}
 
-	if err != expectedErr {
+	if !errors.Is(err, expectedErr) {
 		t.Errorf("Unexpected error. Expected: %v, got: %v", expectedErr, err)
 	}
 

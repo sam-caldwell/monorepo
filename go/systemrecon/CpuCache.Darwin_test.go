@@ -4,6 +4,7 @@
 package systemrecon
 
 import (
+	"errors"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/convert"
 	"os/exec"
@@ -38,7 +39,7 @@ func TestCpuCache(t *testing.T) {
 			expectedCache, cache)
 	}
 
-	if err != expectedErr {
+	if !errors.Is(err, expectedErr) {
 		t.Errorf("Unexpected error.\n"+
 			"\tExpected: %v,\n"+
 			"\tGot: %v",
