@@ -1,6 +1,8 @@
 package metrics
 
-import "sync"
+import (
+	"sync"
+)
 
 /*
  * Theory of Use
@@ -16,5 +18,5 @@ import "sync"
 // StateMetric - A single metric capable of storing a number of state values (in buckets) for analysis
 type StateMetric[T StateType] struct {
 	lock  sync.Mutex
-	value []T
+	value T
 }
