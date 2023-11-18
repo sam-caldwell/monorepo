@@ -35,18 +35,6 @@ type Collector struct {
 	metrics   []Metric
 }
 
-func (c *Collector) Report(numberWorkers int) {
-	var currCount int64
-	duration := time.Now().Unix() - c.startTime
-	for id := 0; id < numberWorkers; id++ {
-		currCount += c.metrics[id].lhsCount
-	}
-	sample := strings.TrimLeft(c.metrics[0].lhsSample, "0")
-	log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chgOps: %12d, sample: %s (%.1f bytes)",
-		duration, currCount, c.prevCount, currCount-c.prevCount, sample, float64(len(sample))/2)
-	c.prevCount = currCount
-}
-
 // AsynchronousJob - Perform a collision search of a given pattern
 func AsynchronousJob(id, workerCount, keySpaceSize int, collector *Collector, result chan<- Finding) {
 	//
@@ -168,6 +156,7 @@ func main() {
 	// Log the metrics via a goroutine using a timer
 	//
 	go func() {
+		var currCount int64
 		time.Sleep(initialLogDelay)
 		log.Printf("logging started...")
 		metricReportingTimer := time.NewTicker(metricsReportingInterval)
@@ -175,7 +164,15 @@ func main() {
 		for {
 			select {
 			case <-metricReportingTimer.C:
-				collector.Report(numCpu)
+				duration := time.Now().Unix() - collector.startTime
+				for id := 0; id < numCpu; id++ {
+					currCount += collector.metrics[id].lhsCount
+				}
+				sample := strings.TrimLeft(collector.metrics[0].lhsSample, "0")
+				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chgOps: %12d, sample: %s (%.1f bytes)",
+					duration, currCount, collector.prevCount, currCount-collector.prevCount, sample,
+					float64(len(sample))/2)
+				collector.prevCount = currCount
 			}
 		}
 	}()
