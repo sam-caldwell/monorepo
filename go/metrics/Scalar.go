@@ -7,7 +7,7 @@ import (
 
 /*
  * Theory of Use
- *	The Scalar is intended to store any scalar metric.
+ *  The Scalar is intended to store any scalar metric.
  *
  *  (For the new coder, we have all been there.  Let me explain.  A scalar metric is a measurable
  *   value (such as distance or temperature).  We just give it a fancy name, so we seem smarter
