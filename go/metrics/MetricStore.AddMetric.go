@@ -1,6 +1,12 @@
 package metrics
 
-/*
+import (
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/types/generic"
+	hashes2 "github.com/sam-caldwell/monorepo/go/types/hashes"
+	"math/big"
+)
+
 // AddMetric adds a new dynamically typed metric to the store.
 func (store *MetricStore) AddMetric(name string, metricType interface{}) *MetricStore {
 
@@ -26,7 +32,10 @@ func (store *MetricStore) AddMetric(name string, metricType interface{}) *Metric
 		Scalar[int32, uint64], Scalar[int64, uint64], Scalar[uint, uint64],
 		Scalar[uint8, uint64], Scalar[uint16, uint64], Scalar[uint32, uint64],
 		Scalar[uint64, uint64], Scalar[float32, uint64], Scalar[float64, uint64],
-		TimeMetric, StateMetric:
+		StateMetric[[]byte], StateMetric[string], StateMetric[hashes2.Sha1], StateMetric[hashes2.Sha256],
+		StateMetric[hashes2.Sha512], StateMetric[generic.Block1KB], StateMetric[generic.Block2KB],
+		StateMetric[generic.Block4KB], StateMetric[generic.Block8KB], StateMetric[generic.Block16KB],
+		TimeMetric:
 		store.data[name] = metricType
 	default:
 		//
@@ -41,4 +50,3 @@ func (store *MetricStore) AddMetric(name string, metricType interface{}) *Metric
 	//
 	return store
 }
-*/
