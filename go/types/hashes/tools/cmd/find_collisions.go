@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
+	"math"
 	"os"
 	"runtime"
 	"strings"
@@ -12,7 +13,8 @@ import (
 const (
 	defaultKeySpaceSize      = 1024
 	initialLogDelay          = 5 * time.Second
-	metricsReportingInterval = 10 * time.Second
+	timeWindow               = 10
+	metricsReportingInterval = timeWindow * time.Second
 )
 
 // Finding - A finding is a report object describing some outcome of the AsynchronousJob()
@@ -169,10 +171,16 @@ func main() {
 					currCount += collector.metrics[id].lhsCount
 				}
 				sample := strings.TrimLeft(collector.metrics[0].lhsSample, "0")
-				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chgOps: %12d, sample: %s (%.1f bytes)",
-					duration, currCount, collector.prevCount, currCount-collector.prevCount, sample,
-					float64(len(sample))/2)
+				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg"+
+					"Ops: %12.f, sample: %s (%.1f bytes)",
+					duration,
+					currCount,
+					collector.prevCount,
+					float64(currCount-collector.prevCount)/float64(timeWindow),
+					sample,
+					math.Ceil(float64(len(sample))/2))
 				collector.prevCount = currCount
+				currCount = 0
 			}
 		}
 	}()
