@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/convert"
-	"github.com/sam-caldwell/monorepo/go/exit/errors"
+	e "github.com/sam-caldwell/monorepo/go/exit/errors"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -45,7 +45,7 @@ func TestGetCacheSizes(t *testing.T) {
 	// Test case 2: Invalid cache level
 	level = 4
 	expectedSize = invalidCacheSz
-	expectedErr = fmt.Errorf(errors.IndexOutOfRange)
+	expectedErr = fmt.Errorf(e.IndexOutOfRange)
 
 	size, err = getCacheSizes(level)
 
