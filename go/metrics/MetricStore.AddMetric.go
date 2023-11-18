@@ -23,18 +23,19 @@ func (store *MetricStore) AddMetric(name string, metricType interface{}) *Metric
 	// If it is, create the metric...
 	// If it is not, then bail and store the error.  Do not create the metric.
 	switch metricType.(type) {
-	case Scalar[big.Int, big.Int], Scalar[big.Float, big.Int], Scalar[big.Float, big.Float],
-		Scalar[int, big.Int], Scalar[int8, big.Int], Scalar[int16, big.Int],
-		Scalar[int32, big.Int], Scalar[int64, big.Int], Scalar[uint, big.Int],
-		Scalar[uint8, big.Int], Scalar[uint16, big.Int], Scalar[uint32, big.Int],
-		Scalar[uint64, big.Int], Scalar[float32, big.Int], Scalar[float64, big.Int],
-		Scalar[int, uint64], Scalar[int8, uint64], Scalar[int16, uint64],
-		Scalar[int32, uint64], Scalar[int64, uint64], Scalar[uint, uint64],
-		Scalar[uint8, uint64], Scalar[uint16, uint64], Scalar[uint32, uint64],
-		Scalar[uint64, uint64], Scalar[float32, uint64], Scalar[float64, uint64],
-		StateMetric[[]byte], StateMetric[string], StateMetric[hashes2.Sha1], StateMetric[hashes2.Sha256],
-		StateMetric[hashes2.Sha512], StateMetric[generic.Block1KB], StateMetric[generic.Block2KB],
-		StateMetric[generic.Block4KB], StateMetric[generic.Block8KB], StateMetric[generic.Block16KB],
+	case Scalar[big.Int], Scalar[big.Float],
+		Scalar[int], Scalar[int8], Scalar[int16], Scalar[int32], Scalar[int64],
+		Scalar[uint], Scalar[uint8], Scalar[uint16], Scalar[uint32], Scalar[uint64],
+		Scalar[float32], Scalar[float64],
+		BigScalar[big.Int], BigScalar[big.Float],
+		BigScalar[int], BigScalar[int8], BigScalar[int16], BigScalar[int32], BigScalar[int64],
+		BigScalar[uint], BigScalar[uint8], BigScalar[uint16], BigScalar[uint32], BigScalar[uint64],
+		BigScalar[float32], BigScalar[float64],
+		StateMetric[[]byte], StateMetric[string],
+		StateMetric[hashes2.Sha1], StateMetric[hashes2.Sha256], StateMetric[hashes2.Sha512],
+		StateMetric[generic.Block1KB], StateMetric[generic.Block2KB],
+		StateMetric[generic.Block4KB], StateMetric[generic.Block8KB],
+		StateMetric[generic.Block16KB],
 		TimeMetric:
 		store.data[name] = metricType
 	default:

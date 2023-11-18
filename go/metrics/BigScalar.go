@@ -2,20 +2,21 @@ package metrics
 
 import (
 	"github.com/sam-caldwell/monorepo/go/types/generic"
+	"math/big"
 	"sync"
 )
 
 /*
  * Theory of Use
- *  The Scalar is intended to store any scalar metric.
+ *  The BigScalar is intended to store any scalar metric.
  *
  *  (For the new coder, we have all been there.  Let me explain.  A scalar metric is a measurable
  *   value (such as distance or temperature).  We just give it a fancy name, so we seem smarter
  *   and can confuse people.)
  */
 
-// Scalar - A generic metric for all things big and numeric with a smaller 64-bit counter.
-type Scalar[ValueType generic.AnyNumber] struct {
+// BigScalar - A generic metric for all things big and numeric with a larger counter type
+type BigScalar[ValueType generic.AnyNumber] struct {
 
 	// Lock - some safety for the concurrent stuff.
 	lock sync.Mutex
@@ -24,7 +25,7 @@ type Scalar[ValueType generic.AnyNumber] struct {
 	value []ValueType
 
 	// count - a total count of all instances of this metric for all time
-	count uint64
+	count big.Int
 
 	// movingWindow - A moving window for calculating min/max and moving averages
 	// This is used to determine the value bucket array size during initialization.
