@@ -11,9 +11,13 @@ package counters
 
 // Bytes - return the byte string value of our counter state.
 func (c *ByteCounter) Bytes() []byte {
+	c.lock.Lock()
+	defer c.lock.Unlock()
 	return reverseBytes(c.v)
 }
 
 func (c *ByteCounter) RawBytes() []byte {
+	c.lock.Lock()
+	defer c.lock.Unlock()
 	return c.v
 }
