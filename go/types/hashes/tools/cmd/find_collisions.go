@@ -60,7 +60,7 @@ func ParseSeed(raw *string) ([]byte, error) {
 }
 
 // AsynchronousJob - Perform a collision search of a given pattern
-func AsynchronousJob(id, workerCount, keySpaceSize int, segmentId, seed []byte, collector *Collector, result chan<- Finding) {
+func AsynchronousJob(segment, id, workerCount, keySpaceSize int, seed []byte, collector *Collector, result chan<- Finding) {
 	//
 	// Create the LHS (Left-hand side) counter.  This will be the counter we
 	// compare against.
@@ -86,22 +86,11 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, segmentId, seed []byte, 
 		return
 	}
 	//
-	//
-	//
-	if err := lhs.SetBytes(keySpaceSize-len(segmentId)-1, segmentId); err != nil {
-		result <- Finding{
-			id:        id,
-			collision: false,
-			err:       err,
-		}
-		return
-	}
-	//
 	// Set the initial value of LHS to be the worker id (0-255) at the least-significant byte.
 	// This will offset each worker by a value of 1.  Our increment (later) will be id * workerCount
 	// So that each worker's search pattern will interleave entire key space.
 	//
-	if err := lhs.Set(0, byte(id)); err != nil {
+	if err := lhs.Add(id + segment); err != nil {
 		result <- Finding{
 			id:        id,
 			collision: false,
@@ -109,6 +98,7 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, segmentId, seed []byte, 
 		}
 		return
 	}
+	log.Printf("lhsStart: %v", strings.TrimLeft(lhs.String(), "0"))
 	//
 	// Create the Right-Hand Side counter.  This will be the counter we will use to
 	// iterate over {0,...,LHS}.  Thus, for every LHS, we will iterate over every value from 0 to LHS
@@ -179,15 +169,13 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, segmentId, seed []byte, 
 // main - the main routine for a single unit of processing.
 func main() {
 	rawSeed := flag.String("Seed", "", "Seed value (hex-encoded string)")
-	segment := flag.String("Segment", "", "The segmentId")
+	startingWorkerId := flag.Int("Segment", 0, "The segment starting worker Id")
 	flag.Parse()
 	seed, err := ParseSeed(rawSeed)
-	segmentId, err := ParseSeed(segment)
 	if err != nil {
 		log.Fatalf("Seed Parse error: %v", err)
 	}
 	log.Printf("Seed: %v (%d)", hex.EncodeToString(seed), len(seed))
-	log.Printf("SegmentId: %v (%d)", hex.EncodeToString(segmentId), len(segmentId))
 	log.Println("Initializing...")
 	//
 	// The number of CPUs will determine the number
@@ -227,13 +215,13 @@ func main() {
 				lhsSample := strings.TrimLeft(collector.metrics[sampleId].lhsSample[5:], "0")
 				rhsSample := strings.TrimLeft(collector.metrics[sampleId].rhsSample[5:], "0")
 				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg Ops: %12.f, "+
-					"id: %2d, lhs:%s:%s (%.f bytes) rhs: %s (%.f bytes)",
+					"id: %2d, lhs:%d:%s (%.f bytes) rhs: %s (%.f bytes)",
 					duration,
 					currCount,
 					collector.prevCount,
 					float64(currCount-collector.prevCount)/float64(timeWindow),
 					sampleId,
-					hex.EncodeToString(segmentId),
+					*startingWorkerId,
 					lhsSample,
 					math.Ceil(float64(len(lhsSample))/2),
 					rhsSample,
@@ -250,7 +238,7 @@ func main() {
 	//
 	for workerId := 0; workerId < numCpu; workerId++ {
 		log.Printf("Start worker %d", workerId)
-		go AsynchronousJob(workerId, numCpu, defaultKeySpaceSize, segmentId, seed, &collector, results)
+		go AsynchronousJob(*startingWorkerId, workerId, numCpu, defaultKeySpaceSize, seed, &collector, results)
 	}
 	//
 	// Block until all results are in or a single error is encountered.
