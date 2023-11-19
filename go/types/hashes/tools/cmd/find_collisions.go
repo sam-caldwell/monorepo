@@ -47,7 +47,6 @@ func ParseSeed(raw *string) ([]byte, error) {
 	if *raw == "" {
 		log.Fatal("a seed must be specified")
 	}
-	log.Println("rawSeed ready")
 	decoded, err := hex.DecodeString(*raw)
 	if err != nil {
 		log.Fatalf("decoding error: %v", err)
@@ -61,7 +60,7 @@ func ParseSeed(raw *string) ([]byte, error) {
 }
 
 // AsynchronousJob - Perform a collision search of a given pattern
-func AsynchronousJob(id, workerCount, keySpaceSize int, seed []byte, collector *Collector, result chan<- Finding) {
+func AsynchronousJob(id, workerCount, keySpaceSize int, segmentId, seed []byte, collector *Collector, result chan<- Finding) {
 	//
 	// Create the LHS (Left-hand side) counter.  This will be the counter we
 	// compare against.
@@ -87,6 +86,17 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, seed []byte, collector *
 		return
 	}
 	//
+	//
+	//
+	if err := lhs.SetBytes(keySpaceSize-len(segmentId)-1, segmentId); err != nil {
+		result <- Finding{
+			id:        id,
+			collision: false,
+			err:       err,
+		}
+		return
+	}
+	//
 	// Set the initial value of LHS to be the worker id (0-255) at the least-significant byte.
 	// This will offset each worker by a value of 1.  Our increment (later) will be id * workerCount
 	// So that each worker's search pattern will interleave entire key space.
@@ -99,7 +109,6 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, seed []byte, collector *
 		}
 		return
 	}
-	log.Printf("worker (%v) initial: %v", id, strings.TrimLeft(lhs.String(), "0"))
 	//
 	// Create the Right-Hand Side counter.  This will be the counter we will use to
 	// iterate over {0,...,LHS}.  Thus, for every LHS, we will iterate over every value from 0 to LHS
@@ -170,7 +179,15 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, seed []byte, collector *
 // main - the main routine for a single unit of processing.
 func main() {
 	rawSeed := flag.String("Seed", "", "Seed value (hex-encoded string)")
+	segment := flag.String("Segment", "", "The segmentId")
 	flag.Parse()
+	seed, err := ParseSeed(rawSeed)
+	segmentId, err := ParseSeed(segment)
+	if err != nil {
+		log.Fatalf("Seed Parse error: %v", err)
+	}
+	log.Printf("Seed: %v (%d)", hex.EncodeToString(seed), len(seed))
+	log.Printf("SegmentId: %v (%d)", hex.EncodeToString(segmentId), len(segmentId))
 	log.Println("Initializing...")
 	//
 	// The number of CPUs will determine the number
@@ -207,10 +224,10 @@ func main() {
 				for id := 0; id < numCpu; id++ {
 					currCount += collector.metrics[id].lhsCount
 				}
-				lhsSample := strings.TrimLeft(collector.metrics[sampleId].lhsSample, "0")
-				rhsSample := strings.TrimLeft(collector.metrics[sampleId].rhsSample, "0")
+				lhsSample := strings.TrimLeft(collector.metrics[sampleId].lhsSample[5:], "0")
+				rhsSample := strings.TrimLeft(collector.metrics[sampleId].rhsSample[5:], "0")
 				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg Ops: %12.f, "+
-					"id: %d, lhs: %s (%.f bytes) rhs: %s (%.f bytes)",
+					"id: %2d, lhs: %s (%.f bytes) rhs: %s (%.f bytes)",
 					duration,
 					currCount,
 					collector.prevCount,
@@ -225,10 +242,6 @@ func main() {
 			}
 		}
 	}()
-	seed, err := ParseSeed(rawSeed)
-	if err != nil {
-		log.Fatalf("Seed Parse error: %v", err)
-	}
 	//
 	// Loop over the number of CPUs dispatching workers accordingly.
 	// We trust that the linux kernel and golang runtime will ensure
@@ -236,7 +249,7 @@ func main() {
 	//
 	for workerId := 0; workerId < numCpu; workerId++ {
 		log.Printf("Start worker %d", workerId)
-		go AsynchronousJob(workerId, numCpu, defaultKeySpaceSize, seed, &collector, results)
+		go AsynchronousJob(workerId, numCpu, defaultKeySpaceSize, segmentId, seed, &collector, results)
 	}
 	//
 	// Block until all results are in or a single error is encountered.
@@ -252,7 +265,7 @@ func main() {
 		}
 		if thisResult.collision {
 			//report the collision and keep searching.
-			log.Printf("collision found (id: %d) (%v) in %v",
+			log.Printf("collision found (id: %2d) (%v) in %v",
 				thisResult.id, thisResult.hash, thisResult.raw)
 		} else {
 			log.Printf("worker %d finished", checkedIn)
