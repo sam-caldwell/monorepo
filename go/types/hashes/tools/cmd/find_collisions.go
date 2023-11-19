@@ -227,12 +227,13 @@ func main() {
 				lhsSample := strings.TrimLeft(collector.metrics[sampleId].lhsSample[5:], "0")
 				rhsSample := strings.TrimLeft(collector.metrics[sampleId].rhsSample[5:], "0")
 				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg Ops: %12.f, "+
-					"id: %2d, lhs: %s (%.f bytes) rhs: %s (%.f bytes)",
+					"id: %2d, lhs:%s:%s (%.f bytes) rhs: %s (%.f bytes)",
 					duration,
 					currCount,
 					collector.prevCount,
 					float64(currCount-collector.prevCount)/float64(timeWindow),
 					sampleId,
+					hex.EncodeToString(segmentId),
 					lhsSample,
 					math.Ceil(float64(len(lhsSample))/2),
 					rhsSample,
