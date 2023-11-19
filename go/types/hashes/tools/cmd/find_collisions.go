@@ -200,7 +200,9 @@ func main() {
 	//
 	go func() {
 		var currCount int64
-		time.Sleep(initialLogDelay)
+		//
+		// ToDo: setup file logging so we can centralize things for analysis...
+		//
 		log.Printf("logging started...")
 		metricReportingTimer := time.NewTicker(metricsReportingInterval)
 		defer metricReportingTimer.Stop()
