@@ -60,7 +60,7 @@ func ParseSeed(raw *string) ([]byte, error) {
 }
 
 // AsynchronousJob - Perform a collision search of a given pattern
-func AsynchronousJob(segment, id, workerCount, keySpaceSize int, seed []byte, collector *Collector, result chan<- Finding) {
+func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, seed []byte, collector *Collector, result chan<- Finding) {
 	//
 	// Create the LHS (Left-hand side) counter.  This will be the counter we
 	// compare against.
@@ -155,7 +155,7 @@ func AsynchronousJob(segment, id, workerCount, keySpaceSize int, seed []byte, co
 		//
 		//LHS.Add() increments the LHS value by id*workerCount and when an error occurs, we are exhausted.
 		//
-		if err := lhs.Add(workerCount); err != nil {
+		if err := lhs.Add(workerCount * segmentCount); err != nil {
 			result <- Finding{
 				id:        id,
 				err:       err,
@@ -170,6 +170,7 @@ func AsynchronousJob(segment, id, workerCount, keySpaceSize int, seed []byte, co
 func main() {
 	rawSeed := flag.String("Seed", "", "Seed value (hex-encoded string)")
 	startingWorkerId := flag.Int("Segment", 0, "The segment starting worker Id")
+	segmentCount := flag.Int("SegmentCount", 0, "This is the planned segment count")
 	flag.Parse()
 	seed, err := ParseSeed(rawSeed)
 	if err != nil {
@@ -238,7 +239,7 @@ func main() {
 	//
 	for workerId := 0; workerId < numCpu; workerId++ {
 		log.Printf("Start worker %d", workerId)
-		go AsynchronousJob(*startingWorkerId, workerId, numCpu, defaultKeySpaceSize, seed, &collector, results)
+		go AsynchronousJob(*startingWorkerId, workerId, *segmentCount, numCpu, defaultKeySpaceSize, seed, &collector, results)
 	}
 	//
 	// Block until all results are in or a single error is encountered.
