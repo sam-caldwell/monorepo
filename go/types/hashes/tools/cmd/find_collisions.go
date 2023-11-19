@@ -2,9 +2,12 @@ package main
 
 import (
 	"bytes"
+	"encoding/hex"
+	"flag"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
 	"math"
+	"math/rand"
 	"os"
 	"runtime"
 	"strings"
@@ -30,6 +33,7 @@ type Finding struct {
 type Metric struct {
 	lhsCount  int64
 	lhsSample string
+	rhsSample string
 }
 
 type Collector struct {
@@ -38,14 +42,43 @@ type Collector struct {
 	metrics   []Metric
 }
 
+// ParseSeed - parse raw hex-encoded string for byte values representing a seed number
+func ParseSeed(raw *string) ([]byte, error) {
+	if *raw == "" {
+		log.Fatal("a seed must be specified")
+	}
+	log.Println("rawSeed ready")
+	decoded, err := hex.DecodeString(*raw)
+	if err != nil {
+		log.Fatalf("decoding error: %v", err)
+	}
+	length := len(decoded)
+	reversed := make([]byte, length)
+	for i := 0; i < length; i++ {
+		reversed[length-i-1] = decoded[i]
+	}
+	return reversed, err
+}
+
 // AsynchronousJob - Perform a collision search of a given pattern
-func AsynchronousJob(id, workerCount, keySpaceSize int, collector *Collector, result chan<- Finding) {
+func AsynchronousJob(id, workerCount, keySpaceSize int, seed []byte, collector *Collector, result chan<- Finding) {
 	//
 	// Create the LHS (Left-hand side) counter.  This will be the counter we
 	// compare against.
 	//
 	lhs, err := counters.NewByteCounter(keySpaceSize)
 	if err != nil {
+		result <- Finding{
+			id:        id,
+			collision: false,
+			err:       err,
+		}
+		return
+	}
+	//
+	// Set the lhs to the seed value, which will be over-ridden by the workerId.
+	//
+	if err := lhs.SetBytes(0, seed); err != nil {
 		result <- Finding{
 			id:        id,
 			collision: false,
@@ -66,6 +99,7 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, collector *Collector, re
 		}
 		return
 	}
+	log.Printf("worker (%v) initial: %v", id, strings.TrimLeft(lhs.String(), "0"))
 	//
 	// Create the Right-Hand Side counter.  This will be the counter we will use to
 	// iterate over {0,...,LHS}.  Thus, for every LHS, we will iterate over every value from 0 to LHS
@@ -89,9 +123,9 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, collector *Collector, re
 	var b [20]byte
 	for {
 		collector.metrics[id].lhsCount++
-		//collector.metrics[id].lhsStart = time.Now().Unix()
 		collector.metrics[id].lhsSample = lhs.String()
 		for {
+			collector.metrics[id].rhsSample = rhs.String()
 			//
 			// When LHS == RHS, get the next LHS
 			//
@@ -130,17 +164,13 @@ func AsynchronousJob(id, workerCount, keySpaceSize int, collector *Collector, re
 			}
 			break
 		}
-		//collector.metrics[id].lhsStop = time.Now().Unix()
 	} /* LHS Loop */
 }
-func ReportMetrics(metric *[]Metric) {
 
-}
-
-/*
- * Main routine.
- */
+// main - the main routine for a single unit of processing.
 func main() {
+	rawSeed := flag.String("Seed", "", "Seed value (hex-encoded string)")
+	flag.Parse()
 	log.Println("Initializing...")
 	//
 	// The number of CPUs will determine the number
@@ -171,24 +201,34 @@ func main() {
 		for {
 			select {
 			case <-metricReportingTimer.C:
+				rand.Seed(time.Now().UnixNano())
+				sampleId := rand.Intn(numCpu)
 				duration := time.Now().Unix() - collector.startTime
 				for id := 0; id < numCpu; id++ {
 					currCount += collector.metrics[id].lhsCount
 				}
-				sample := strings.TrimLeft(collector.metrics[0].lhsSample, "0")
-				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg"+
-					"Ops: %12.f, sample: %s (%.f bytes)",
+				lhsSample := strings.TrimLeft(collector.metrics[sampleId].lhsSample, "0")
+				rhsSample := strings.TrimLeft(collector.metrics[sampleId].rhsSample, "0")
+				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg Ops: %12.f, "+
+					"id: %d, lhs: %s (%.f bytes) rhs: %s (%.f bytes)",
 					duration,
 					currCount,
 					collector.prevCount,
 					float64(currCount-collector.prevCount)/float64(timeWindow),
-					sample,
-					math.Ceil(float64(len(sample))/2))
+					sampleId,
+					lhsSample,
+					math.Ceil(float64(len(lhsSample))/2),
+					rhsSample,
+					math.Ceil(float64(len(rhsSample))/2))
 				collector.prevCount = currCount
 				currCount = 0
 			}
 		}
 	}()
+	seed, err := ParseSeed(rawSeed)
+	if err != nil {
+		log.Fatalf("Seed Parse error: %v", err)
+	}
 	//
 	// Loop over the number of CPUs dispatching workers accordingly.
 	// We trust that the linux kernel and golang runtime will ensure
@@ -196,7 +236,7 @@ func main() {
 	//
 	for workerId := 0; workerId < numCpu; workerId++ {
 		log.Printf("Start worker %d", workerId)
-		go AsynchronousJob(workerId, numCpu, defaultKeySpaceSize, &collector, results)
+		go AsynchronousJob(workerId, numCpu, defaultKeySpaceSize, seed, &collector, results)
 	}
 	//
 	// Block until all results are in or a single error is encountered.
