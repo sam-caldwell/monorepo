@@ -11,8 +11,8 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 	collector *Collector, result chan<- Finding) {
 
 	var err error
-	var lhs counters.ByteCounter
-	var rhs counters.ByteCounter
+	var lhs *counters.ByteCounter
+	var rhs *counters.ByteCounter
 
 	log.Printf("Start worker (%d, %d)", segment, id)
 	// Create the LHS (Left-hand side) counter.  This will be the counter we compare against.
@@ -66,12 +66,12 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 			collector.Metrics[id].RhsSample = rhs.String()
 
 			// When LHS == RHS, get the next LHS
-			if lhs.Equal(&rhs) {
+			if lhs.Equal(rhs) {
 				break
 			}
 
 			// When LHS != RHS but the two have the same hash, we have a collision.
-			if lhs.EqualSha1(&rhs) {
+			if lhs.EqualSha1(rhs) {
 				result <- Finding{
 					Id:        id,
 					Hash:      lhs.Sha1(),
