@@ -1,10 +1,10 @@
-package find_collisions
+package findCollisions
 
 // Finding - A finding is a report object describing some outcome of the AsynchronousJob()
 type Finding struct {
-	id        int
-	collision bool
-	err       error
-	hash      string
-	raw       string
+	Id        int
+	Collision bool
+	Err       error
+	Hash      string
+	Raw       string
 }
