@@ -48,12 +48,5 @@ virtualfloppy.vfd
 # Go Environment
 pkg/
 
-
-# Cmake stuff
-**/CMakeFiles/
-CMakeCache.txt
-**/Makefile
-cmake/Modules
-
 # Rust stuff
 rust/**/target
