@@ -23,16 +23,16 @@ func TestReadBytes(t *testing.T) {
 		}
 	}()
 
-	defer func() {
+	t.Cleanup(func() {
 		if err := os.Remove(tempFileName); err != nil {
 			t.Fatal(err)
 		}
-	}()
+	})
 
 	// Happy path validation
 	t.Run("Happy path: file reads okay", func(t *testing.T) {
 		var b Reader
-		if err := b.Open(&tempFileName); err != nil {
+		if err := b.Open(&tempFileName, MinimumBlockSize); err != nil {
 			t.Fatal(err)
 		}
 
@@ -54,7 +54,7 @@ func TestReadBytes(t *testing.T) {
 	})
 	t.Run("Sad Path: file read fails when not open", func(t *testing.T) {
 		var b Reader
-		if err := b.Open(&tempFileName); err != nil {
+		if err := b.Open(&tempFileName, MinimumBlockSize); err != nil {
 			t.Fatal(err)
 		}
 		if err := b.Close(); err != nil {

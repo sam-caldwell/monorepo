@@ -7,20 +7,29 @@ package bitfile
  * Read a single block of data from the file.
  */
 
-import "github.com/sam-caldwell/monorepo/go/fs/file/bitBlock"
+import (
+	bitBlock2 "github.com/sam-caldwell/monorepo/go/types/bitBlock"
+)
 
 // Read - Read a block of bytes from the file and return the block to the caller.
-func (o *Reader) Read() (block *bitBlock.Block, err error) {
+func (o *Reader) Read() (block *bitBlock2.Block, err error) {
 
-	var bytesRead int
+	//var bytesRead int // count of bytes read
+	var buffer []byte
 
-	buffer := make([]byte, block.Size())
+	block = bitBlock2.NewBlock(o.blockSize)
 
-	bytesRead, err = o.file.Read(buffer)
+	buffer = make([]byte, block.Size())
 
-	if bytesRead > 0 {
-		block.Set(buffer[0:bytesRead])
+	if _, err = o.file.Read(buffer); err != nil {
+		return nil, err
 	}
+
+	block.Set(buffer)
+
+	//if (bytesRead > 0) && (bytesRead < len(buffer)) {
+	//	block.Set(buffer)
+	//}
 
 	return block, err
 }

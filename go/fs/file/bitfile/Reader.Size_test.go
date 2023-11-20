@@ -15,18 +15,21 @@ import (
 func TestBitFileReader_Size(t *testing.T) {
 
 	const testData = "this is a test"
+	testFileName := "/tmp/TestBitFileReader_Size.txt"
 
-	var testFile string
+	t.Cleanup(func() {
+		if err := os.Remove(testFileName); err != nil {
+			t.Fatalf("file remove failed: %v", err)
+		}
+	})
 
-	//Create test file
-	func() {
+	t.Run("Create test file", func(t *testing.T) {
 		var err error
 		var f *os.File
 
-		if f, err = os.CreateTemp("", "TestBitFileReader_Size.*.txt"); err != nil {
+		if f, err = os.Create(testFileName); err != nil {
 			t.Fatal(err)
 		}
-		testFile = f.Name()
 		n, err := f.Write([]byte(testData))
 		if err != nil {
 			t.Fatal("error writing test data")
@@ -37,22 +40,24 @@ func TestBitFileReader_Size(t *testing.T) {
 		if err = f.Close(); err != nil {
 			t.Fatal(err)
 		}
-	}()
+	})
 
-	var f Reader
+	t.Run("Open file and read content", func(t *testing.T) {
+		var f Reader
 
-	if err := f.Open(&testFile); err != nil {
-		t.Fatalf("failed to open file: %v", err)
-	}
+		if err := f.Open(&testFileName, MinimumBlockSize); err != nil {
+			t.Fatalf("failed to open file: %v", err)
+		}
 
-	actual, err := f.Size()
+		actual, err := f.Size()
 
-	if err != nil {
-		t.Fatalf("error retrieving size: %v", err)
-	}
+		if err != nil {
+			t.Fatalf("error retrieving size: %v", err)
+		}
 
-	if actual != uint64(len(testData)) {
-		t.Fatalf("size mismatch.  (actual: %d, expected: %d)", actual, len(testData))
-	}
+		if actual != uint64(len(testData)) {
+			t.Fatalf("size mismatch.  (actual: %d, expected: %d)", actual, len(testData))
+		}
+	})
 
 }

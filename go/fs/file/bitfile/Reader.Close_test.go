@@ -14,16 +14,21 @@ import (
 
 // TestBitFile_Close - create a test file, test the Reader.Close() method and then clean up afterward.
 func TestBitFile_Close(t *testing.T) {
-
-	var testFile string
-
 	const testData = "this is a test"
+	var testFile string
+	testFileName := "/tmp/TestBitFile_Close.txt"
+
+	t.Cleanup(func() {
+		if err := os.Remove(testFileName); err != nil {
+			t.Fatal(err)
+		}
+	})
 
 	//Create test file
 	func() {
 		var err error
 		var f *os.File
-		if f, err = os.CreateTemp("", "TestBitFile_Close.*.txt"); err != nil {
+		if f, err = os.Create(testFileName); err != nil {
 			t.Fatal(err)
 		}
 		testFile = f.Name()
@@ -39,13 +44,6 @@ func TestBitFile_Close(t *testing.T) {
 		}
 	}()
 
-	//Delete the test file when the test is done.
-	defer func() {
-		if err := os.Remove(testFile); err != nil {
-			t.Fatalf("cleanup failed to delete test file: %v", err)
-		}
-	}()
-
 	//Perform a .Close() with a nil file handle.  Expect no error
 	func() {
 		var f Reader
@@ -57,7 +55,7 @@ func TestBitFile_Close(t *testing.T) {
 	//Perform the test of the bitfile.Close() method.
 	func() {
 		var f Reader
-		if err := f.Open(&testFile); err != nil {
+		if err := f.Open(&testFile, MinimumBlockSize); err != nil {
 			t.Fatal(err)
 		}
 		defer func() {
@@ -70,7 +68,7 @@ func TestBitFile_Close(t *testing.T) {
 	//Perform the test of the bitfile.Close() method with double-close
 	func() {
 		var f Reader
-		if err := f.Open(&testFile); err != nil {
+		if err := f.Open(&testFile, MinimumBlockSize); err != nil {
 			t.Fatal(err)
 		}
 		defer func() {

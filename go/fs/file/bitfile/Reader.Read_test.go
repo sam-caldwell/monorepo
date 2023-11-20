@@ -9,69 +9,155 @@ package bitfile
 
 import (
 	"bytes"
+	"github.com/sam-caldwell/monorepo/go/types/bitBlock"
 	"os"
 	"testing"
 )
 
 // TestReader_Read - create a test file and write some test data, then test the Reader.Read() method.
 func TestReader_Read(t *testing.T) {
+	const testDataSize = 8192
 	testFileName := "/tmp/TestReader_Read.txt"
-	testData := []byte("this is a test")
 
-	func() {
-		//Create test file with data.
-		if err := os.WriteFile(testFileName, testData, 0644); err != nil {
-			t.Fatal(err)
-		}
-	}()
+	// Create a sequence of byte values (ASCII) as test data
+	testData := make([]byte, testDataSize)
+	for i := 0; i < testDataSize; i++ {
+		const numberLowerCase = 26
+		const numberUpperCase = 26
+		const numberDigits = 10
+		const numberCharactersAndNumbers = numberLowerCase + numberUpperCase + numberDigits
+		const startingAscii = 48
+		testData[i] = byte(i % (numberCharactersAndNumbers + startingAscii))
+	}
 
-	defer func() {
+	t.Cleanup(func() {
 		if err := os.Remove(testFileName); err != nil {
 			t.Fatal(err)
 		}
-	}()
+	})
 
-	t.Run("Create an oversize block and read all testData", func(t *testing.T) {
-
-		var b Reader
-
-		if err := b.Open(&testFileName); err != nil {
+	t.Run("Create test file with data", func(t *testing.T) {
+		if err := os.WriteFile(testFileName, testData, 0644); err != nil {
 			t.Fatal(err)
 		}
-
-		block, err := b.Read()
-
+		data, err := os.ReadFile(testFileName)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("Content verification failed: %v", err)
 		}
-
-		if data := block.ReadBytes(0); !bytes.Equal(data, testData) {
-			t.Fatal("test data mismatch")
+		if !bytes.Equal(data, testData) {
+			t.Fatalf("Content verification failed (mismatch)\n"+
+				"actual:   %v\n"+
+				"expected: %v", data, testData)
 		}
 	})
 
-	t.Run("Create an undersized block and read all testData", func(t *testing.T) {
+	t.Run("Read all testData into a block and compare", func(t *testing.T) {
 
 		var b Reader
+		var err error
+		var block *bitBlock.Block
 
-		if err := b.Open(&testFileName); err != nil {
-			t.Fatal(err)
+		if err = b.Open(&testFileName, testDataSize); err != nil {
+			t.Fatalf("failed to open file: %v", err)
 		}
 
-		block, err := b.Read()
-
-		if err != nil {
-			t.Fatal(err)
+		if block != nil {
+			t.Fatal("expect nil block at this point")
 		}
 
-		if data := block.ReadBytes(uint(len(testData) - 1)); err != nil {
-			t.Fatal(err)
-		} else {
-			if bytes.Equal(data, testData[0:uint(len(testData)-1)]) {
-				t.Fatal("test data n-1 mismatch")
-			}
+		if block, err = b.Read(); err != nil {
+			t.Fatalf("Failed to read file: %v", err)
 		}
 
+		if size := block.Size(); size != testDataSize {
+			t.Fatalf("Block size mismatch")
+		}
+
+		expected := testData[:testDataSize]
+		if actual := block.ReadBytes(0); !bytes.Equal(actual, expected) {
+			t.Fatalf("test data mismatch\n"+
+				"actual:  %v\n"+
+				"expected %v",
+				actual,
+				expected)
+		}
 	})
+	t.Run("Create a block of min size and read from the file only one block of data", func(t *testing.T) {
 
+		var b Reader
+		var err error
+		var block *bitBlock.Block
+
+		if err = b.Open(&testFileName, MinimumBlockSize); err != nil {
+			t.Fatalf("failed to open file: %v", err)
+		}
+
+		if block != nil {
+			t.Fatal("expect nil block at this point")
+		}
+
+		if block, err = b.Read(); err != nil {
+			t.Fatalf("Failed to read file: %v", err)
+		}
+
+		if size := block.Size(); size != MinimumBlockSize {
+			t.Fatalf("Block size mismatch")
+		}
+
+		expected := testData[:MinimumBlockSize]
+		if actual := block.ReadBytes(0); !bytes.Equal(actual, expected) {
+			t.Fatalf("test data mismatch\n"+
+				"actual:  %v\n"+
+				"expected %v",
+				actual,
+				expected)
+		}
+	})
+	t.Run("Create a block of min size and read from the file only one block at a time", func(t *testing.T) {
+
+		var b Reader
+		var err error
+		var block *bitBlock.Block
+
+		if err = b.Open(&testFileName, MinimumBlockSize); err != nil {
+			t.Fatalf("failed to open file: %v", err)
+		}
+
+		if block != nil {
+			t.Fatal("expect nil block at this point")
+		}
+
+		if block, err = b.Read(); err != nil {
+			t.Fatalf("Failed to read file: %v", err)
+		}
+
+		if size := block.Size(); size != MinimumBlockSize {
+			t.Fatalf("Block size mismatch")
+		}
+
+		expected := testData[:MinimumBlockSize]
+		if actual := block.ReadBytes(0); !bytes.Equal(actual, expected) {
+			t.Fatalf("test data mismatch\n"+
+				"actual:  %v\n"+
+				"expected %v",
+				actual,
+				expected)
+		}
+		expected = testData[:MinimumBlockSize]
+		if actual := block.ReadBytes(0); !bytes.Equal(actual, expected) {
+			t.Fatalf("test data mismatch\n"+
+				"actual:  %v\n"+
+				"expected %v",
+				actual,
+				expected)
+		}
+		expected = testData[:MinimumBlockSize]
+		if actual := block.ReadBytes(0); !bytes.Equal(actual, expected) {
+			t.Fatalf("test data mismatch\n"+
+				"actual:  %v\n"+
+				"expected %v",
+				actual,
+				expected)
+		}
+	})
 }

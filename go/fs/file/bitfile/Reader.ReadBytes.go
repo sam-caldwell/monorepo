@@ -10,13 +10,13 @@ package bitfile
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/fs/file/bitBlock"
+	bitBlock2 "github.com/sam-caldwell/monorepo/go/types/bitBlock"
 )
 
 // ReadBytes - Read a sequence of n bytes from the current file and return them as a Block.
-func (o *Reader) ReadBytes(n uint) (block *bitBlock.Block, err error) {
+func (o *Reader) ReadBytes(n uint) (block *bitBlock2.Block, err error) {
 
-	block = bitBlock.NewBlock(n)
+	block = bitBlock2.NewBlock(n)
 
 	data := make([]byte, n)
 

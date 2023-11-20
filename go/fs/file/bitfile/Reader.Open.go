@@ -8,18 +8,20 @@ package bitfile
  */
 import (
 	"fmt"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
 	"os"
 )
 
 // Open - Open the named file (error if not exists)
-func (o *Reader) Open(fileName *string) (err error) {
+func (o *Reader) Open(fileName *string, blockSize uint) (err error) {
 
-	o.file, err = os.Open(*fileName)
-
-	if err != nil {
-		err = fmt.Errorf("cannot open file (%s): %v", *fileName, err)
+	if blockSize < MinimumBlockSize {
+		return fmt.Errorf(errors.ValueTooSmall)
 	}
-
+	o.blockSize = blockSize
+	if o.file, err = os.Open(*fileName); err != nil {
+		err = fmt.Errorf(errors.CannotOpenFile+errors.Details+errors.Details, *fileName, err)
+	}
 	return err
 
 }

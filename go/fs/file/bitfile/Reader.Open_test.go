@@ -14,15 +14,20 @@ import (
 
 // TestBitFile_Open - create a test file, test the Reader.OpenRead() method and then clean up afterward.
 func TestBitFile_Open(t *testing.T) {
-
-	var testFile string
 	const testData = "this is a test"
+	var testFile string
+	testFileName := "/tmp/TestBitFile_Open.txt"
 
-	//Create test file
-	func() {
+	t.Cleanup(func() {
+		if err := os.Remove(testFileName); err != nil {
+			t.Fatal(err)
+		}
+	})
+
+	t.Run("Create test file", func(t *testing.T) {
 		var err error
 		var f *os.File
-		if f, err = os.CreateTemp("", "TestBitFile_Open.*.txt"); err != nil {
+		if f, err = os.Create(testFileName); err != nil {
 			t.Fatal(err)
 		}
 		testFile = f.Name()
@@ -36,21 +41,10 @@ func TestBitFile_Open(t *testing.T) {
 		if err = f.Close(); err != nil {
 			t.Fatal(err)
 		}
-	}()
-
-	//Delete the test file when the test is done.
-	defer func() {
-		//t.Logf("deleting file")
-		if err := os.Remove(testFile); err != nil {
-			t.Fatalf("cleanup failed to delete test file: %v", err)
-		}
-		//t.Logf("deleted file: %s", testFile)
-	}()
-
-	//Perform the test of the bitfile.OpenRead() method.
-	func() {
+	})
+	t.Run("Perform the test of the bitfile.OpenRead() method", func(t *testing.T) {
 		var f Reader
-		if err := f.Open(&testFile); err != nil {
+		if err := f.Open(&testFile, MinimumBlockSize); err != nil {
 			t.Fatalf("failed to open file (%s): %v", testFile, err)
 		}
 		defer func() {
@@ -58,5 +52,5 @@ func TestBitFile_Open(t *testing.T) {
 				t.Fatal(err)
 			}
 		}()
-	}()
+	})
 }
