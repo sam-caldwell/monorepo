@@ -3,10 +3,9 @@ package bitBlock
 /*
  * bitBlock.Size() method
  * (c) 2023 Sam Caldwell.  See License.txt
- *
- * Return the buffer size
  */
 
+// Size - Return the buffer size
 func (block *Block) Size() uint {
 	block.lock.Lock()
 	defer block.lock.Unlock()
