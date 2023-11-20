@@ -34,4 +34,5 @@ const (
 	UnsupportedCpuArchitecture = "unsupported cpu architecture"
 	UnsupportedLanguage        = "unsupported language"
 	UnsupportedVersion         = "unsupported version"
+	ValueTooSmall              = "value too small"
 )
