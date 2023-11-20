@@ -8,7 +8,7 @@ import (
 )
 
 func TestChangeMemoryProtectionFlags(t *testing.T) {
-	t.Skip("not implemented")
+	t.Skip("disabled. memoryProtection flags have issues with MacOS security features")
 	//// Test case: Change memory protection flags
 	//// Create an object
 	//testObject := []byte("This is a test object")
