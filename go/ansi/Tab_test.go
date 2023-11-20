@@ -3,5 +3,5 @@ package ansi
 import "testing"
 
 func TestTab(t *testing.T) {
-	t.Skip("not implemented")
+	//t.Skip("not implemented")
 }
