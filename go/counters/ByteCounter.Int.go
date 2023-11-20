@@ -15,8 +15,11 @@ import (
 
 // Int - return the numeric value of our counter state (using big int)
 func (c *ByteCounter) Int() *big.Int {
-	c.reverse()
-	i := big.Int{}
-	i.SetBytes(c.v)
+
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
+	var i big.Int
+	i.SetBytes(reverseBytes(c.v))
 	return &i
 }
