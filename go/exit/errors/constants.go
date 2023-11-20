@@ -1,6 +1,8 @@
 package errors
 
 const (
+	ArraySizeError   = "array size error"
+	BoundsCheckError = "bounds check error"
 	// Details - Modifier (any) to add Details to an error
 	Details = "(%v)"
 
