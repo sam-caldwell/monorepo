@@ -7,15 +7,24 @@ package bitfile
  * Write a single bit to the buffer and ultimately to the target file.
  */
 
-// WriteBit - Write file bits to a target file in 4K chunks.
-func (o *Writer) WriteBit(pos, value byte) (err error) {
-
-	mask := byte(1 << pos)
-
-	if bit := (value & mask) != 0; bit {
-		o.buffer[o.bufferPos] = o.buffer[o.bufferPos] | (1 << pos)
+// WriteBit - Write a given bit to the buffer and when all bits are buffered, push to file.
+// Given a value (byte), extract the bit at position (pos) and push to the current byte at
+// buffer[bufferPos].
+func (o *Writer) WriteBit(pos, inputValue byte) (err error) {
+	// readMask decodes the bit from the given value
+	var readMask = byte(1 << pos)
+	// determine the bit value and store it.
+	if bit := readMask&inputValue != 0; bit {
+		//ansi.Blue().Printf("Set bit %d (mask %08b): %08b", pos, readMask, o.buffer[o.bufferPos]).LF().Reset()
+		o.bitPos = pos
+		o.setBit()
+		//ansi.Green().Printf("Set bit %d (mask %08b): %08b", pos, readMask, o.buffer[o.bufferPos]).LF().Reset()
+	} else {
+		//ansi.Blue().Printf("Clear bit %d (mask %08b): %08b", pos, readMask, o.buffer[o.bufferPos]).LF().Reset()
+		o.bitPos = pos
+		o.clearBit()
+		//ansi.Red().Printf("Clear bit %d (mask %08b): %08b", pos, readMask, o.buffer[o.bufferPos]).LF().Reset()
 	}
-
+	o.bitPos++
 	return nil
-
 }
