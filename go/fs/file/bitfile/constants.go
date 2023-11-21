@@ -9,4 +9,5 @@ package bitfile
 const (
 	//This is the default buffer size (4MB)
 	defaultBufferSize = 4 * 1048576
+	MinimumBlockSize  = 64
 )
