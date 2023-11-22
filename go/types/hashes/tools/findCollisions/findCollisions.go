@@ -22,13 +22,14 @@ func main() {
 	results := make(chan findCollision.Finding, numberOfWorkers)
 	collector := findCollision.NewCollector(numberOfWorkers)
 
+	lookupTable, rhsStartingSequence := findCollision.NewQuickTable(defaultKeySpaceSize, QuickTableSize)
+
 	go findCollision.TimedLogger(metricsReportingInterval, numberOfWorkers, startingWorkerId, timeWindow, &collector)
 
-	lookupTable := findCollision.NewQuickTable(defaultKeySpaceSize, QuickTableSize)
 	for workerId := 0; workerId < numberOfWorkers; workerId++ {
 		log.Printf("Start worker %d", workerId)
 		go findCollision.AsynchronousJob(startingWorkerId, workerId, segmentCount, numberOfWorkers,
-			defaultKeySpaceSize, seed, lookupTable, &collector, results)
+			defaultKeySpaceSize, seed, lookupTable, rhsStartingSequence, &collector, results)
 	}
 
 	findCollision.CollectFindings(numberOfWorkers, results)
