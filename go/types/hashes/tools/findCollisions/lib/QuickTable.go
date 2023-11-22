@@ -24,24 +24,31 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var mode string
 	var tableReady bool
 	var flushing bool
+	var backoff bool
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
 	go func() {
-		var flags string
+		var flushFlag string
+		var backoffFlag string
 		t := time.NewTicker(1 * time.Second)
 		defer t.Stop()
 		for !tableReady {
 			select {
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
-				if flushing {
-					flags = "flushing"
+				if backoffFlag {
+					backoffFlag = "backoff"
 				} else {
-					flags = ""
+					backoffFlag = ""
 				}
-				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v (%s)",
+				if flushing {
+					flushFlag = "flushing"
+				} else {
+					flushFlag = ""
+				}
+				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v %s %s",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
-					time.Since(generatorStart).Seconds(), flags)
+					time.Since(generatorStart).Seconds(), flushFlag, backoffFlag)
 			}
 		}
 	}()
@@ -103,7 +110,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		workers := 0
 		for i := 0; i < TableSize; i++ {
 			if workers > 100 {
+				backoff = true
 				time.Sleep(time.Second * 1)
+				backoff = false
 			}
 			go func(n int) {
 				workers++
