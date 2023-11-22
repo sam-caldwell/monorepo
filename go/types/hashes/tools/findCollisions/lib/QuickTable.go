@@ -13,7 +13,7 @@ func NewQuickTable(keySpaceSize, TableSize int) *QuickTable {
 	c, _ := counters.NewByteCounter(keySpaceSize)
 
 	for i := 0; i < TableSize; i++ {
-		log.Printf("pre-populating lookup table.  row %f %", 100*float64(i)/float64(TableSize))
+		log.Printf("pre-populating lookup table.  row %f", 100*float64(i)/float64(TableSize))
 		table[c.Sha1()] = true
 		_ = c.Increment()
 	}
