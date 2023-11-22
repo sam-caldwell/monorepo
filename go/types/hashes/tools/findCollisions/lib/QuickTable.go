@@ -115,8 +115,8 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 				time.Sleep(time.Second * 1)
 				backoff = false
 			}
-			go func(n int) {
-				workers++
+			workers++
+			go func(n int, w *int) {
 				cycleStart = time.Now()
 				mutex.Lock()
 				defer mutex.Unlock()
@@ -131,8 +131,8 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 					flushing = false
 				}
 				_ = c.Increment()
-				workers--
-			}(i)
+				*w--
+			}(i, &workers)
 			pos = i
 		}
 	}
