@@ -25,6 +25,7 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 		return
 	}
 	// Set the lhs to the seed value, which will be over-ridden by the workerId.
+	log.Printf("initial seed: %v", seed)
 	if err = lhs.SetBytes(0, seed); err != nil {
 		result <- Finding{
 			Id:        id,
@@ -36,6 +37,7 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 	// Set the initial value of LHS to be the worker id (0-255) at the least-significant byte.
 	// This will offset each worker by a value of 1.  Our increment (later) will be id * workerCount
 	// So that each worker's search pattern will interleave entire key space.
+	log.Printf("id: %d, segment: %d", id, segment)
 	if err = lhs.Add(id + segment); err != nil {
 		result <- Finding{
 			Id:        id,
@@ -96,5 +98,6 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 			}
 			break
 		}
+		rhs.Reset()
 	} /* LHS Loop */
 }
