@@ -8,14 +8,16 @@ package counters
  * offset (pos).
  */
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (c *ByteCounter) SetBytes(pos int, values []byte) (err error) {
 	if c.v == nil {
 		//If not initialized, initialize it to avoid bad things.
 		c.v = make([]byte, len(values)+pos)
 	}
-	if pos+len(values) >= len(c.v) {
+	if pos+len(values) > len(c.v) {
 		//If our values array would overflow c.v, bail!
 		err = fmt.Errorf("overflow error")
 	} else {
@@ -25,4 +27,10 @@ func (c *ByteCounter) SetBytes(pos int, values []byte) (err error) {
 		}
 	}
 	return err
+}
+
+func (c *ByteCounter) Reset() {
+	for i := 0; i < len(c.v); i++ {
+		c.v[i] = 0x00
+	}
 }
