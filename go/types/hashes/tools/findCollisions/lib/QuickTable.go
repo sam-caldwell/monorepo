@@ -8,7 +8,6 @@ import (
 	"log"
 	"math"
 	"os"
-	"sync"
 	"time"
 )
 
@@ -23,33 +22,18 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var pos int
 	var mode string
 	var tableReady bool
-	var flushing bool
-	var backoff bool
-	var workers int
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
 	go func() {
-		var flushFlag string
-		var backoffFlag string
 		t := time.NewTicker(1 * time.Second)
 		defer t.Stop()
 		for !tableReady {
 			select {
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
-				if backoff {
-					backoffFlag = "backoff"
-				} else {
-					backoffFlag = ""
-				}
-				if flushing {
-					flushFlag = "flushing"
-				} else {
-					flushFlag = ""
-				}
-				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v workers: %d %s %s",
+				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
-					time.Since(generatorStart).Seconds(), workers, flushFlag, backoffFlag)
+					time.Since(generatorStart).Seconds())
 			}
 		}
 	}()
@@ -98,7 +82,6 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		}
 	} else {
 		mode = "create"
-		var mutex sync.Mutex
 		fileHandle, err := os.Create(hashFileName)
 		if err != nil {
 			panic(err)
@@ -109,31 +92,13 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = fileHandle.Close()
 		}()
 		for i := 0; i < TableSize; i++ {
-			if workers > 3 {
-				backoff = true
-				time.Sleep(time.Millisecond * 1)
-				backoff = false
+			cycleStart = time.Now()
+			hash := c.Sha1Bytes()
+			table.Store(hash)
+			if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
+				panic(err)
 			}
-			go func(n int, w *int) {
-				cycleStart = time.Now()
-				mutex.Lock()
-				*w++
-				defer func() {
-					*w--
-					mutex.Unlock()
-				}()
-				hash := c.Sha1Bytes()
-				table.Store(hash)
-				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
-					panic(err)
-				}
-				//if n%40000 == 0 {
-				//	flushing = true
-				//	_ = writer.Flush()
-				//	flushing = false
-				//}
-				_ = c.Increment()
-			}(i, &workers)
+			_ = c.Increment()
 			pos = i
 		}
 	}
