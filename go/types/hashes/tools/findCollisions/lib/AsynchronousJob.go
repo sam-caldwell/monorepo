@@ -8,11 +8,12 @@ import (
 
 // AsynchronousJob - Perform a collision search of a given pattern
 func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, seed []byte,
-	collector *Collector, result chan<- Finding) {
+	lookupTable *QuickTable, collector *Collector, result chan<- Finding) {
 
 	var err error
 	var lhs *counters.ByteCounter
 	var rhs *counters.ByteCounter
+	var initialRhsState []byte
 
 	log.Printf("Start worker (%d, %d)", segment, id)
 	// Create the LHS (Left-hand side) counter.  This will be the counter we compare against.
@@ -58,12 +59,29 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 		}
 		return
 	}
+	_ = rhs.Add(len(*lookupTable))
+	initialRhsState = rhs.Bytes()
+
 	// Loop through all values of LHS starting with the initial value.
 	// When lhs.Add() is executed, the increment will be the product of the worker id
 	// and the number of workers running.
 	for {
 		collector.Metrics[id].LhsCount++
 		collector.Metrics[id].LhsSample = lhs.String()
+		//
+		// Lookup the first few hashes rather than calculate them
+		// This optimization trades memory for cpu/time.
+		//
+		if _, ok := (*lookupTable)[lhs.Sha1()]; ok {
+			log.Printf("prelookup hit: %s", lhs.Sha1())
+			result <- Finding{
+				Id:        id,
+				Hash:      lhs.Sha1(),
+				Raw:       lhs.String(),
+				Collision: true,
+			}
+			return
+		}
 		for {
 			collector.Metrics[id].RhsSample = rhs.String()
 
@@ -98,6 +116,9 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 			}
 			break
 		}
-		rhs.Reset()
+		if err := rhs.SetBytes(0, initialRhsState); err != nil {
+			log.Fatalf("err setting bytes: %v", err)
+		}
 	} /* LHS Loop */
+	defer log.Println("worker died")
 }

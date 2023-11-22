@@ -6,7 +6,9 @@ install:
 	sudo mv findCollisions /usr/local/bin/
 
 stop:
-	@for i in $(ps aux | grep findCollisions | awk '{print $2}'); do echo "killing $i"; kill -9 $i; done
+	( \
+		for i in $$(ps aux | grep findCollisions | grep -v grep | awk '{print $$2}'); do echo "killing $$i"; kill -9 $$i; done;\
+	)
 
 run80:
 	echo "starting all segments"
