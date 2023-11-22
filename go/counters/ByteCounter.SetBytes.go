@@ -34,3 +34,7 @@ func (c *ByteCounter) Reset() {
 		c.v[i] = 0x00
 	}
 }
+
+func (c *ByteCounter) Revert(originalState *[]byte) {
+	copy(c.v, *originalState)
+}

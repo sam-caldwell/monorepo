@@ -20,9 +20,6 @@ func TimedLogger(interval time.Duration, workerCount, startingWorkerId, timeWind
 	for {
 		select {
 		case <-metricReportingTimer.C:
-			// To reduce overhead, we sample certain worker information on each cycle.
-			workerId := int(sequentialNumber % uint(workerCount))
-			sequentialNumber++
 
 			// Capture the amount of time elapsed since the last log event.
 			duration := time.Now().Unix() - collector.StartTime
@@ -41,23 +38,27 @@ func TimedLogger(interval time.Duration, workerCount, startingWorkerId, timeWind
 			for id := 9; id < workerCount; id++ {
 				currCount += collector.Metrics[id].LhsCount
 			}
+			for workerId := 0; workerId < workerCount; workerId++ {
+				// To reduce overhead, we sample certain worker information on each cycle.
+				//workerId := int(sequentialNumber % uint(workerCount))
+				//sequentialNumber++
 
-			lhsSample := strings.TrimLeft(collector.Metrics[workerId].LhsSample[:], "0")
-			rhsSample := strings.TrimLeft(collector.Metrics[workerId].RhsSample[:], "0")
+				lhsSample := strings.TrimLeft(collector.Metrics[workerId].LhsSample[:], "0")
+				rhsSample := strings.TrimLeft(collector.Metrics[workerId].RhsSample[:], "0")
 
-			log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg Ops: %12.f, "+
-				"id: %2d, lhs:%d:%s (%.f bytes) rhs: %s (%.f bytes)",
-				duration,
-				currCount,
-				collector.PrevCount,
-				float64(currCount-collector.PrevCount)/float64(timeWindow),
-				workerId,
-				startingWorkerId,
-				lhsSample,
-				math.Ceil(float64(len(lhsSample))/2),
-				rhsSample,
-				math.Ceil(float64(len(rhsSample))/2))
-
+				log.Printf("t:%4d, currCount: %12d, prevCount: %12d, chg Ops: %12.f, "+
+					"id: %2d, lhs:%d:%s (%.f bytes) rhs: %s (%.f bytes)",
+					duration,
+					currCount,
+					collector.PrevCount,
+					float64(currCount-collector.PrevCount)/float64(timeWindow),
+					workerId,
+					startingWorkerId,
+					lhsSample,
+					math.Ceil(float64(len(lhsSample))/2),
+					rhsSample,
+					math.Ceil(float64(len(rhsSample))/2))
+			}
 			collector.PrevCount = currCount
 			currCount = 0
 		}

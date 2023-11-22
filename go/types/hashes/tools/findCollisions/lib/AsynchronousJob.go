@@ -116,9 +116,7 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 			}
 			break
 		}
-		if err := rhs.SetBytes(0, initialRhsState); err != nil {
-			log.Fatalf("err setting bytes: %v", err)
-		}
+		rhs.Revert(&initialRhsState)
 	} /* LHS Loop */
 	defer log.Println("worker died")
 }
