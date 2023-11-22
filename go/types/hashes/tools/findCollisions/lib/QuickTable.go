@@ -39,13 +39,13 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	c, _ := counters.NewByteCounter(keySpaceSize)
 	lastSequence = c.Bytes()
 
-	if file.Exists("hashFileName/PreComputedHashes.txt") {
+	if file.Exists(hashFileName) {
 		/*
 		 * The file exists, load it into memory
 		 */
 		mode = "load"
 
-		fileHandle, err := os.Open("hashFileName/PreComputedHashes.txt")
+		fileHandle, err := os.Open(hashFileName)
 		if err != nil {
 			panic(err)
 		}
@@ -79,7 +79,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		}
 	} else {
 		mode = "create"
-		fileHandle, err := os.Create("hashFileName/PreComputedHashes.txt")
+		fileHandle, err := os.Create(hashFileName)
 		if err != nil {
 			panic(err)
 		}
