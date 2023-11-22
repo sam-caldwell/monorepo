@@ -100,8 +100,13 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = writer.Flush()
 			_ = fileHandle.Close()
 		}()
+		workers := 0
 		for i := 0; i < TableSize; i++ {
+			if workers > 100 {
+				time.Sleep(time.Second * 1)
+			}
 			go func(n int) {
+				workers++
 				cycleStart = time.Now()
 				mutex.Lock()
 				defer mutex.Unlock()
@@ -116,7 +121,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 					flushing = false
 				}
 				_ = c.Increment()
-
+				workers--
 			}(i)
 			pos = i
 		}
