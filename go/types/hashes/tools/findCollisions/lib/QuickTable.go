@@ -115,11 +115,14 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 				time.Sleep(time.Second * 1)
 				backoff = false
 			}
-			workers++
 			go func(n int, w *int) {
 				cycleStart = time.Now()
 				mutex.Lock()
-				defer mutex.Unlock()
+				*w++
+				defer func() {
+					*w--
+					mutex.Unlock()
+				}()
 				hash := c.Sha1Bytes()
 				table.Store(hash)
 				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
@@ -131,7 +134,6 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 					flushing = false
 				}
 				_ = c.Increment()
-				*w--
 			}(i, &workers)
 			pos = i
 		}
