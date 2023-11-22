@@ -23,18 +23,25 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var pos int
 	var mode string
 	var tableReady bool
+	var flushing bool
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
 	go func() {
+		var flags string
 		t := time.NewTicker(1 * time.Second)
 		defer t.Stop()
 		for !tableReady {
 			select {
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
-				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v",
+				if flushing {
+					flags = "flushing"
+				} else {
+					flags = ""
+				}
+				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v (%s)",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
-					time.Since(generatorStart).Seconds())
+					time.Since(generatorStart).Seconds(), flags)
 			}
 		}
 	}()
@@ -93,34 +100,25 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = writer.Flush()
 			_ = fileHandle.Close()
 		}()
-		go func() {
-			t := time.NewTicker(10 * time.Second)
-			defer t.Stop()
-			for {
-				select {
-				case <-t.C:
-					mutex.Lock()
-					log.Println("flushing writer")
-					_ = writer.Flush()
-					mutex.Unlock()
-				}
-			}
-		}()
 		for i := 0; i < TableSize; i++ {
-			go func() {
+			go func(n int) {
 				cycleStart = time.Now()
 				mutex.Lock()
-				_ = writer.Flush()
+				defer mutex.Unlock()
 				hash := c.Sha1Bytes()
 				table.Store(hash)
-
 				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
 					panic(err)
 				}
+				if n%200 == 0 {
+					flushing = true
+					_ = writer.Flush()
+					flushing = false
+				}
 				_ = c.Increment()
-				mutex.Unlock()
-				pos = i
-			}()
+
+			}(i)
+			pos = i
 		}
 	}
 	return &table, lastSequence
