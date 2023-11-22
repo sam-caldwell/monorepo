@@ -3,6 +3,7 @@ package findCollision
 import (
 	"bufio"
 	"encoding/hex"
+	"fmt"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"log"
@@ -25,6 +26,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var tableReady bool
 	var flushing bool
 	var backoff bool
+	var workers int
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
 	go func() {
@@ -36,8 +38,8 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			select {
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
-				if backoffFlag {
-					backoffFlag = "backoff"
+				if backoff {
+					backoffFlag = fmt.Sprintf("backoff (%d)", workers)
 				} else {
 					backoffFlag = ""
 				}
@@ -107,7 +109,6 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = writer.Flush()
 			_ = fileHandle.Close()
 		}()
-		workers := 0
 		for i := 0; i < TableSize; i++ {
 			if workers > 100 {
 				backoff = true
