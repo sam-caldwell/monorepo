@@ -17,7 +17,7 @@ func (c *ByteCounter) SetBytes(pos int, values []byte) (err error) {
 		//If not initialized, initialize it to avoid bad things.
 		c.v = make([]byte, len(values)+pos)
 	}
-	if pos+len(values) > len(c.v) {
+	if pos+len(values) >= len(c.v) {
 		//If our values array would overflow c.v, bail!
 		err = fmt.Errorf("overflow error")
 	} else {
