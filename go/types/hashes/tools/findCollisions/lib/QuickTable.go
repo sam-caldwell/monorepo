@@ -110,14 +110,15 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			go func() {
 				cycleStart = time.Now()
 				mutex.Lock()
+				_ = writer.Flush()
 				hash := c.Sha1Bytes()
 				table.Store(hash)
 
 				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
 					panic(err)
 				}
-				mutex.Unlock()
 				_ = c.Increment()
+				mutex.Unlock()
 				pos = i
 			}()
 		}
