@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	writeBufferSize = 4294967296 // 4GB Buffer for writes
+	//writeBufferSize = 4294967296 // 4GB Buffer for writes
+	writeBufferSize = 10485760 // 10MB Buffer for writes
 	hashFileName    = "/tmp/PreComputedHashes.txt"
 )
 
