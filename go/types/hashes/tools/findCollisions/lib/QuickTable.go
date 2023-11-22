@@ -8,6 +8,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -82,6 +83,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		}
 	} else {
 		mode = "create"
+		var mutex sync.Mutex
 		fileHandle, err := os.Create(hashFileName)
 		if err != nil {
 			panic(err)
@@ -97,20 +99,27 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			for {
 				select {
 				case <-t.C:
+					mutex.Lock()
 					log.Println("flushing writer")
 					_ = writer.Flush()
+					mutex.Unlock()
 				}
 			}
 		}()
 		for i := 0; i < TableSize; i++ {
-			cycleStart = time.Now()
-			hash := c.Sha1Bytes()
-			table.Store(hash)
-			if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
-				panic(err)
-			}
-			_ = c.Increment()
-			pos = i
+			go func() {
+				cycleStart = time.Now()
+				mutex.Lock()
+				hash := c.Sha1Bytes()
+				table.Store(hash)
+
+				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
+					panic(err)
+				}
+				mutex.Unlock()
+				_ = c.Increment()
+				pos = i
+			}()
 		}
 	}
 	return &table, lastSequence
