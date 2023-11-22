@@ -1,14 +1,25 @@
 package findCollision
 
 import (
+	"bufio"
+	"encoding/hex"
 	"github.com/sam-caldwell/monorepo/go/counters"
+	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"log"
+	"math"
+	"os"
 	"time"
 )
 
-func NewQuickTable(keySpaceSize, TableSize int) (*QuickTable, []byte) {
-	var start time.Time
+const (
+	writeBufferSize = 4294967296 // 4GB Buffer for writes
+	hashFileName    = "/tmp/PreComputedHashes.txt"
+)
+
+func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []byte) {
+	var cycleStart time.Time
 	var pos int
+	var mode string
 	generatorStart := time.Now()
 	go func() {
 		t := time.NewTicker(1 * time.Second)
@@ -17,8 +28,8 @@ func NewQuickTable(keySpaceSize, TableSize int) (*QuickTable, []byte) {
 			select {
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
-				log.Printf("pre-populating table.  progress (%d/%d) %3.6f (t/op:%6d) elapsed:%v",
-					pos, TableSize, progress, time.Since(start).Microseconds(),
+				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v",
+					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
 					time.Since(generatorStart).Seconds())
 			}
 		}
@@ -26,14 +37,69 @@ func NewQuickTable(keySpaceSize, TableSize int) (*QuickTable, []byte) {
 
 	table := make(QuickTable)
 	c, _ := counters.NewByteCounter(keySpaceSize)
+	lastSequence = c.Bytes()
 
-	for i := 0; i < TableSize; i++ {
-		start = time.Now()
-		table.Store(c.Sha1Bytes())
-		_ = c.Increment()
-		pos = i
+	if file.Exists("hashFileName/PreComputedHashes.txt") {
+		/*
+		 * The file exists, load it into memory
+		 */
+		mode = "load"
+
+		fileHandle, err := os.Open("hashFileName/PreComputedHashes.txt")
+		if err != nil {
+			panic(err)
+		}
+		defer func() { _ = fileHandle.Close() }()
+		scanner := bufio.NewScanner(fileHandle)
+		pos = 0
+		TableSize = func() int {
+			info, err := fileHandle.Stat()
+			if err != nil {
+				panic(err)
+			}
+			sz := info.Size()
+			if sz > math.MaxInt {
+				panic("pre-computed table is too large (past MaxInt)")
+			}
+			return int(sz)
+		}()
+		for scanner.Scan() {
+			cycleStart = time.Now()
+			line := scanner.Text()
+			hash, err := hex.DecodeString(line)
+			if err != nil {
+				panic(err)
+			}
+			table.Store([20]byte(hash))
+			lastSequence = hash
+			pos++
+		}
+		if err := scanner.Err(); err != nil {
+			panic(err)
+		}
+	} else {
+		mode = "create"
+		fileHandle, err := os.Create("hashFileName/PreComputedHashes.txt")
+		if err != nil {
+			panic(err)
+		}
+		writer := bufio.NewWriterSize(fileHandle, writeBufferSize)
+		defer func() {
+			_ = writer.Flush()
+			_ = fileHandle.Close()
+		}()
+		for i := 0; i < TableSize; i++ {
+			cycleStart = time.Now()
+			hash := c.Sha1Bytes()
+			table.Store(hash)
+			if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
+				panic(err)
+			}
+			_ = c.Increment()
+			pos = i
+		}
 	}
-	return &table, c.Bytes()
+	return &table, lastSequence
 }
 
 type QuickTable map[byte]QuickTable
