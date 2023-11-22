@@ -128,7 +128,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
 					panic(err)
 				}
-				if n%200 == 0 {
+				if n%40000 == 0 {
 					flushing = true
 					_ = writer.Flush()
 					flushing = false
