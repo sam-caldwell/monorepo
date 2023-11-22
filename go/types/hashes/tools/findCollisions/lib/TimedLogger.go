@@ -10,7 +10,6 @@ import (
 // TimedLogger - Log the metrics via a goroutine using a timer
 func TimedLogger(interval time.Duration, workerCount, startingWorkerId, timeWindow int, collector *Collector) {
 	var currCount int64
-	var sequentialNumber uint
 
 	log.Printf("logging starting...")
 
