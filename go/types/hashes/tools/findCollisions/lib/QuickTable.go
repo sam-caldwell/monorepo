@@ -8,20 +8,26 @@ import (
 	"log"
 	"math"
 	"os"
+	"sync"
 	"time"
+	"unsafe"
 )
 
 const (
 	//writeBufferSize = 4294967296 // 4GB Buffer for writes
-	writeBufferSize = 10485760 // 10MB Buffer for writes
+	writeBufferSize = 1048576 * 20 // 10MB Buffer for writes
 	hashFileName    = "/tmp/PreComputedHashes.txt"
 )
+
+var mutex sync.Mutex
 
 func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []byte) {
 	var cycleStart time.Time
 	var pos int
 	var mode string
 	var tableReady bool
+	table := make(QuickTable)
+	c, _ := counters.NewByteCounter(keySpaceSize)
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
 	go func() {
@@ -30,17 +36,26 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		for !tableReady {
 			select {
 			case <-t.C:
+				size := table.SizeOf()
+				szUom := "bytes"
+				if size > 1024 {
+					szUom = "KB"
+				}
+				if size > 1048576 {
+					szUom = "MB"
+				}
+				if size > 1073741824 {
+					szUom = "GB"
+				}
 				progress := 100 * float64(pos) / float64(TableSize)
-				log.Printf("lookup table init (mode:%6s).  (progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v",
+				log.Printf("lookup table init (mode:%6s). "+
+					"(progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v "+
+					"size: %d%s",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
-					time.Since(generatorStart).Seconds())
+					time.Since(generatorStart).Seconds(), size, szUom)
 			}
 		}
 	}()
-
-	table := make(QuickTable)
-	c, _ := counters.NewByteCounter(keySpaceSize)
-	lastSequence = c.Bytes()
 
 	if file.Exists(hashFileName) {
 		/*
@@ -73,7 +88,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			if err != nil {
 				panic(err)
 			}
+			mutex.Lock()
 			table.Store([20]byte(hash))
+			mutex.Unlock()
 			lastSequence = hash
 			pos++
 		}
@@ -81,6 +98,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			panic(err)
 		}
 	} else {
+		/*
+		 * Create the new hash file for future and present use.
+		 */
 		mode = "create"
 		fileHandle, err := os.Create(hashFileName)
 		if err != nil {
@@ -92,6 +112,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = fileHandle.Close()
 		}()
 		for i := 0; i < TableSize; i++ {
+			mutex.Lock()
 			cycleStart = time.Now()
 			hash := c.Sha1Bytes()
 			table.Store(hash)
@@ -100,8 +121,10 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			}
 			_ = c.Increment()
 			pos = i
+			mutex.Unlock()
 		}
 	}
+	lastSequence = c.Bytes()
 	return &table, lastSequence
 }
 
@@ -146,6 +169,9 @@ func (o *QuickTable) Store(s [20]byte) {
 				},
 			},
 		},
+	}
+	if !o.Lookup(s) {
+		panic("store failed")
 	}
 }
 
@@ -192,4 +218,26 @@ func (o *QuickTable) Lookup(s [20]byte) bool {
 		}
 	}
 	return false
+}
+
+func getNodeSize(n map[byte]QuickTable) int64 {
+	sz := int64(unsafe.Sizeof(n))
+	for _, thisN := range n {
+		if thisN != nil {
+			sz += getNodeSize(thisN)
+		}
+	}
+	return sz
+}
+
+func (o *QuickTable) SizeOf() int64 {
+	mutex.Lock()
+	defer mutex.Unlock()
+	sz := int64(unsafe.Sizeof(*o))
+	for _, n := range *o {
+		if n != nil {
+			sz = getNodeSize(n)
+		}
+	}
+	return sz
 }
