@@ -110,7 +110,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = fileHandle.Close()
 		}()
 		for i := 0; i < TableSize; i++ {
-			if workers > 10 {
+			if workers > 2 {
 				backoff = true
 				time.Sleep(time.Second * 1)
 				backoff = false
