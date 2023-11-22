@@ -109,9 +109,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = fileHandle.Close()
 		}()
 		for i := 0; i < TableSize; i++ {
-			if workers > 2 {
+			if workers > 3 {
 				backoff = true
-				time.Sleep(time.Second * 1)
+				time.Sleep(time.Millisecond * 1)
 				backoff = false
 			}
 			go func(n int, w *int) {
@@ -127,11 +127,11 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
 					panic(err)
 				}
-				if n%40000 == 0 {
-					flushing = true
-					_ = writer.Flush()
-					flushing = false
-				}
+				//if n%40000 == 0 {
+				//	flushing = true
+				//	_ = writer.Flush()
+				//	flushing = false
+				//}
 				_ = c.Increment()
 			}(i, &workers)
 			pos = i
