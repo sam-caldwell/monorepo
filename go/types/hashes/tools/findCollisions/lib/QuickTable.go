@@ -3,7 +3,6 @@ package findCollision
 import (
 	"bufio"
 	"encoding/hex"
-	"fmt"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"log"
@@ -26,7 +25,6 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var tableReady bool
 	var flushing bool
 	var backoff bool
-	var workers int
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
 	go func() {
@@ -39,7 +37,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
 				if backoff {
-					backoffFlag = fmt.Sprintf("backoff (%d)", workers)
+					backoffFlag = "backoff"
 				} else {
 					backoffFlag = ""
 				}
@@ -110,31 +108,22 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			_ = fileHandle.Close()
 		}()
 		for i := 0; i < TableSize; i++ {
-			if workers > 10 {
-				backoff = true
-				time.Sleep(time.Second * 1)
-				backoff = false
-			}
-			go func(n int, w *int) {
+			func(n int) {
 				cycleStart = time.Now()
 				mutex.Lock()
-				*w++
-				defer func() {
-					*w--
-					mutex.Unlock()
-				}()
+				defer mutex.Unlock()
 				hash := c.Sha1Bytes()
 				table.Store(hash)
 				if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
 					panic(err)
 				}
-				if n%200 == 0 {
+				if n%2000 == 0 {
 					flushing = true
 					_ = writer.Flush()
 					flushing = false
 				}
 				_ = c.Increment()
-			}(i, &workers)
+			}(i)
 			pos = i
 		}
 	}
