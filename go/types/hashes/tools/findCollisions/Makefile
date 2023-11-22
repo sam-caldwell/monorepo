@@ -10,14 +10,11 @@ stop:
 
 run80:
 	echo "starting all segments"
-	nohup findCollisions -Segment 00 -SegmentCount 8 -Seed 10000000 > log.00.txt &
-	nohup findCollisions -Segment 80 -SegmentCount 8 -Seed 10000000 > log.80.txt &
-	nohup findCollisions -Segment 160 -SegmentCount 8 -Seed 10000000 > log.160.txt &
-	nohup findCollisions -Segment 240 -SegmentCount 8 -Seed 10000000 > log.240.txt &
-	nohup findCollisions -Segment 320 -SegmentCount 8 -Seed 10000000 > log.320.txt &
-	nohup findCollisions -Segment 400 -SegmentCount 8 -Seed 10000000 > log.400.txt &
-	nohup findCollisions -Segment 480 -SegmentCount 8 -Seed 10000000 > log.480.txt &
-	nohup findCollisions -Segment 560 -SegmentCount 8 -Seed 10000000 > log.560.txt &
+	nohup findCollisions -Segment 00 -SegmentCount 4 -Seed 10000000 > log.00.txt &
+	nohup findCollisions -Segment 80 -SegmentCount 4 -Seed 10000000 > log.80.txt &
+	nohup findCollisions -Segment 160 -SegmentCount 4 -Seed 10000000 > log.160.txt &
+	nohup findCollisions -Segment 240 -SegmentCount 4 -Seed 10000000 > log.240.txt &
+	nohup findCollisions -Segment 320 -SegmentCount 4 -Seed 10000000 > log.320.txt &
 	echo "started..."
 	for PID in $(pgrep findCollisions); do ls /proc/$PID/task | xargs renice -20; done
 	echo "re-nice done..."
