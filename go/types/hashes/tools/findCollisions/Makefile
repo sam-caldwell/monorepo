@@ -18,7 +18,9 @@ run80:
 	nohup findCollisions -Segment 240 -SegmentCount 4 -Seed 10000000 > log.240.txt &
 	nohup findCollisions -Segment 320 -SegmentCount 4 -Seed 10000000 > log.320.txt &
 	echo "started..."
-	for PID in $(pgrep findCollisions); do ls /proc/$PID/task | xargs renice -20; done
+	(\
+		for PID in $(pgrep findCollisions); do ls /proc/$PID/task | xargs sudo renice -20; done; \
+	)
 	echo "re-nice done..."
 
 run16:

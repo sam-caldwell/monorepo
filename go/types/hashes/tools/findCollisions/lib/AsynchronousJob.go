@@ -1,6 +1,7 @@
 package findCollision
 
 import (
+	"encoding/hex"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
 	"strings"
@@ -82,6 +83,7 @@ func AsynchronousJob(segment, id, workerCount, segmentCount, keySpaceSize int, s
 			}
 			return
 		}
+		log.Printf("initialRhsState: %s", hex.EncodeToString(initialRhsState))
 		for {
 			collector.Metrics[id].RhsSample = rhs.String()
 

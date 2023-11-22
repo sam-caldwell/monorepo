@@ -9,7 +9,7 @@ type QuickTable map[string]bool
 
 func NewQuickTable(keySpaceSize, TableSize int) *QuickTable {
 	log.Printf("initializing the lookup table for %d hashes", TableSize)
-	table := make(QuickTable, TableSize)
+	table := make(QuickTable)
 	c, _ := counters.NewByteCounter(keySpaceSize)
 
 	for i := 0; i < TableSize; i++ {
