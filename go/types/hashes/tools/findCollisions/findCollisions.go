@@ -11,7 +11,7 @@ const (
 	//initialLogDelay          = 5 * time.Second
 	timeWindow               = 10
 	metricsReportingInterval = timeWindow * time.Second
-	QuickTableSize           = 256 * 256 * 256 //Table Size: 256 * 256 * 256 * 20 / 1048576 MB
+	QuickTableSize           = 256 * 256 * 256 * 256 //Table Size: 256 * 256 * 256 * 256 * 20 / 1048576 MB
 )
 
 // main - the main routine for a single unit of processing.
