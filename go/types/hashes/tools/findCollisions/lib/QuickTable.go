@@ -21,11 +21,13 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var cycleStart time.Time
 	var pos int
 	var mode string
+	var tableReady bool
 	generatorStart := time.Now()
+	defer func() { tableReady = true }()
 	go func() {
 		t := time.NewTicker(1 * time.Second)
 		defer t.Stop()
-		for {
+		for !tableReady {
 			select {
 			case <-t.C:
 				progress := 100 * float64(pos) / float64(TableSize)
@@ -88,6 +90,17 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		defer func() {
 			_ = writer.Flush()
 			_ = fileHandle.Close()
+		}()
+		go func() {
+			t := time.NewTicker(10 * time.Second)
+			defer t.Stop()
+			for {
+				select {
+				case <-t.C:
+					log.Println("flushing writer")
+					_ = writer.Flush()
+				}
+			}
 		}()
 		for i := 0; i < TableSize; i++ {
 			cycleStart = time.Now()
