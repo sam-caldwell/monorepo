@@ -1,7 +1,6 @@
 package findCollision
 
 import (
-	"bufio"
 	"compress/gzip"
 	"encoding/hex"
 	"github.com/sam-caldwell/monorepo/go/counters"
@@ -109,21 +108,31 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			}
 			return int(sz)
 		}()
-		scanner := bufio.NewScanner(gzipReader)
-		for scanner.Scan() {
+
+		err = nil
+		//scanner := bufio.NewScanner(gzipReader)
+		for func() bool { eof, _ := file.IsEndOfFile(err); return eof }() {
 			cycleStart = time.Now()
-			line := scanner.Text()
-			hash, err := hex.DecodeString(line)
-			if err != nil {
-				panic(err)
-			}
+			var hash = make([]byte, 20)
+			_, err = gzipReader.Read(hash)
 			table.Store([20]byte(hash))
 			lastSequence = hash
 			pos++
 		}
-		if err := scanner.Err(); err != nil {
-			panic(err)
-		}
+		//for scanner.Scan() {
+		//	cycleStart = time.Now()
+		//	line := scanner.Text()
+		//	hash, err := hex.DecodeString(line)
+		//	if err != nil {
+		//		panic(err)
+		//	}
+		//	table.Store([20]byte(hash))
+		//	lastSequence = hash
+		//	pos++
+		//}
+		//if err := scanner.Err(); err != nil {
+		//	panic(err)
+		//}
 	} else {
 		/*
 		 * Create the new hash file for future and present use.
@@ -148,7 +157,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			if !table.Lookup(hash) {
 				panic("Failed to look-up table after store")
 			}
-			if _, err := writer.Write([]byte(hex.EncodeToString(hash[:]) + "\n")); err != nil {
+			if _, err := writer.Write([]byte(hex.EncodeToString(hash[:20]))); err != nil {
 				panic(err)
 			}
 			_ = c.FastIncrement()
