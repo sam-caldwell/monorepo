@@ -154,9 +154,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			cycleStart = time.Now()
 			hash := c.Sha1Bytes()
 			table.Store(hash)
-			//if !table.Lookup(hash) {
-			//	panic("Failed to look-up table after store")
-			//}
+			if !table.Lookup(hash) {
+				panic("Failed to look-up table after store")
+			}
 			if _, err := writer.Write([]byte(hex.EncodeToString(hash[:20]))); err != nil {
 				panic(err)
 			}
