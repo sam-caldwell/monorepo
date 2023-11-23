@@ -10,7 +10,6 @@ import (
 	"os"
 	"sync"
 	"time"
-	"unsafe"
 )
 
 const (
@@ -20,13 +19,18 @@ const (
 )
 
 var mutex sync.Mutex
+var lookupTime time.Duration
+var lookupCount int64
+var lookupTotalTime time.Duration
 
 func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []byte) {
 	var cycleStart time.Time
 	var pos int
 	var mode string
 	var tableReady bool
-	table := make(QuickTable)
+	var table QuickTable
+	table.Init()
+
 	c, _ := counters.NewByteCounter(keySpaceSize)
 	generatorStart := time.Now()
 	defer func() { tableReady = true }()
@@ -36,23 +40,30 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		for !tableReady {
 			select {
 			case <-t.C:
-				size := table.SizeOf()
-				szUom := "bytes"
-				if size > 1024 {
-					szUom = "KB"
-				}
-				if size > 1048576 {
-					szUom = "MB"
-				}
+				size := len(table.data)
+				var szUom string
 				if size > 1073741824 {
 					szUom = "GB"
+					size = size / 1073741824
+				} else if size > 1048576 {
+					szUom = "MB"
+					size = size / 1048576
+				} else if size > 1024 {
+					szUom = "KB"
+					size = size / 1024
+				} else {
+					szUom = "bytes"
 				}
+
+				avgLookupTime := time.Duration(float64(lookupTotalTime.Nanoseconds()) / float64(lookupCount))
+
 				progress := 100 * float64(pos) / float64(TableSize)
 				log.Printf("lookup table init (mode:%6s). "+
 					"(progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v "+
-					"size: %d%s",
+					"size: %d %s (lookup time: %v avg: %v)",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
-					time.Since(generatorStart).Seconds(), size, szUom)
+					time.Since(generatorStart).Seconds(), size, szUom,
+					lookupTime.Nanoseconds(), avgLookupTime.Nanoseconds())
 			}
 		}
 	}()
@@ -116,6 +127,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			cycleStart = time.Now()
 			hash := c.Sha1Bytes()
 			table.Store(hash)
+			if !table.Lookup(hash) {
+				panic("Failed to look-up table after store")
+			}
 			if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
 				panic(err)
 			}
@@ -128,116 +142,27 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	return &table, lastSequence
 }
 
-type QuickTable map[byte]QuickTable
+//type QuickMap map[byte]QuickMap
+
+type QuickTable struct {
+	data map[string]bool
+}
+
+func (o *QuickTable) Init() {
+	o.data = make(map[string]bool)
+}
 
 func (o *QuickTable) Store(s [20]byte) {
-	(*o)[s[0]] = QuickTable{
-		s[1]: QuickTable{
-			s[2]: QuickTable{
-				s[3]: QuickTable{
-					s[4]: QuickTable{
-						s[5]: QuickTable{
-							s[6]: QuickTable{
-								s[7]: QuickTable{
-									s[8]: QuickTable{
-										s[9]: QuickTable{
-											s[10]: QuickTable{
-												s[11]: QuickTable{
-													s[12]: QuickTable{
-														s[13]: QuickTable{
-															s[14]: QuickTable{
-																s[15]: QuickTable{
-																	s[16]: QuickTable{
-																		s[17]: QuickTable{
-																			s[18]: QuickTable{
-																				s[19]: nil,
-																			},
-																		},
-																	},
-																},
-															},
-														},
-													},
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	}
-	if !o.Lookup(s) {
-		panic("store failed")
-	}
+	o.data[string(s[:])] = true
 }
 
 func (o *QuickTable) Lookup(s [20]byte) bool {
-	if n1, ok := (*o)[s[0]]; ok {
-		if n2, ok := n1[s[1]]; ok {
-			if n3, ok := n2[s[2]]; ok {
-				if n4, ok := n3[s[3]]; ok {
-					if n5, ok := n4[s[4]]; ok {
-						if n6, ok := n5[s[5]]; ok {
-							if n7, ok := n6[s[6]]; ok {
-								if n8, ok := n7[s[7]]; ok {
-									if n9, ok := n8[s[8]]; ok {
-										if n10, ok := n9[s[9]]; ok {
-											if n11, ok := n10[s[10]]; ok {
-												if n12, ok := n11[s[11]]; ok {
-													if n13, ok := n12[s[12]]; ok {
-														if n14, ok := n13[s[13]]; ok {
-															if n15, ok := n14[s[14]]; ok {
-																if n16, ok := n15[s[15]]; ok {
-																	if n17, ok := n16[s[16]]; ok {
-																		if n18, ok := n17[s[17]]; ok {
-																			if n19, ok := n18[s[18]]; ok {
-																				if _, ok := n19[s[19]]; ok {
-																					return true
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return false
-}
-
-func getNodeSize(n map[byte]QuickTable) int64 {
-	sz := int64(unsafe.Sizeof(n))
-	for _, thisN := range n {
-		if thisN != nil {
-			sz += getNodeSize(thisN)
-		}
-	}
-	return sz
-}
-
-func (o *QuickTable) SizeOf() int64 {
-	mutex.Lock()
-	defer mutex.Unlock()
-	sz := int64(unsafe.Sizeof(*o))
-	for _, n := range *o {
-		if n != nil {
-			sz = getNodeSize(n)
-		}
-	}
-	return sz
+	lookupStart := time.Now()
+	lookupCount++
+	defer func() {
+		lookupTime = time.Since(lookupStart)
+		lookupTotalTime = lookupTotalTime + lookupTime
+	}()
+	_, ok := o.data[string(s[:])]
+	return ok
 }
