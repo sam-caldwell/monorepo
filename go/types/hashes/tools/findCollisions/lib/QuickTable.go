@@ -59,8 +59,8 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 
 				progress := 100 * float64(pos) / float64(TableSize)
 				log.Printf("lookup table init (mode:%6s). "+
-					"(progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%v "+
-					"size: %d %s (lookup time: %v avg: %v)",
+					"(progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%6.2fs "+
+					"tableSize: %3d %s (lookup time: %4dns avg: %4dns)",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
 					time.Since(generatorStart).Seconds(), size, szUom,
 					lookupTime.Nanoseconds(), avgLookupTime.Nanoseconds())
