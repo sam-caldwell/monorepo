@@ -1,8 +1,8 @@
 package findCollision
 
 import (
+	"bufio"
 	"compress/gzip"
-	"encoding/hex"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"github.com/sam-caldwell/monorepo/go/types/hashes"
@@ -142,12 +142,15 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		if err != nil {
 			panic(err)
 		}
-		writer, err := gzip.NewWriterLevel(fileHandle, gzip.BestCompression)
+		compressor, err := gzip.NewWriterLevel(fileHandle, gzip.BestCompression)
 		if err != nil {
 			panic(err)
 		}
+		writer := bufio.NewWriterSize(compressor, writeBufferSize)
 		defer func() {
 			_ = writer.Flush()
+			_ = compressor.Flush()
+			_ = compressor.Close()
 			_ = fileHandle.Close()
 		}()
 		for i := 0; i < TableSize; i++ {
@@ -157,7 +160,8 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			if !table.Lookup(hash) {
 				panic("Failed to look-up table after store")
 			}
-			if _, err := writer.Write([]byte(hex.EncodeToString(hash[:20]))); err != nil {
+			// compress and write to file
+			if _, err := writer.Write(hash[:]); err != nil {
 				panic(err)
 			}
 			_ = c.FastIncrement()
