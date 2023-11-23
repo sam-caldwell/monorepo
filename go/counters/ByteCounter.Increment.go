@@ -26,9 +26,9 @@ func (c *ByteCounter) Increment() error {
 
 // FastIncrement - increment the large counter by one (without locking)
 func (c *ByteCounter) FastIncrement() error {
-	for i := 0; i < len(c.v); i++ {
-		c.v[i]++
-		if c.v[i] != 0 {
+	for pos := 0; pos < len(c.v); pos++ {
+		c.v[pos]++
+		if c.v[pos] != 0 {
 			return nil
 		}
 	}
