@@ -2,6 +2,7 @@ package findCollision
 
 import (
 	"bufio"
+	"compress/gzip"
 	"encoding/hex"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
@@ -16,9 +17,12 @@ import (
 const (
 	//writeBufferSize = 4294967296 // 4GB Buffer for writes
 	writeBufferSize = 1048576 * 20 // 10MB Buffer for writes
-	hashFileName    = "/tmp/PreComputedHashes.txt"
+	hashFileName    = "/tmp/PreComputedHashes.gz"
 )
 
+var storeTime time.Duration
+var storeCount int64
+var storeTotalTime time.Duration
 var lookupTime time.Duration
 var lookupCount int64
 var lookupTotalTime time.Duration
@@ -29,7 +33,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 	var mode string
 	var tableReady bool
 	var table QuickTable
-	table.Init()
+	table.Init(1048576)
 
 	c, _ := counters.NewByteCounter(keySpaceSize)
 	generatorStart := time.Now()
@@ -59,14 +63,18 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 				}
 
 				avgLookupTime := time.Duration(float64(lookupTotalTime.Nanoseconds()) / float64(lookupCount))
+				avgStoreTime := time.Duration(float64(storeTotalTime.Nanoseconds()) / float64(storeCount))
 
 				progress := 100 * float64(pos) / float64(TableSize)
 				log.Printf("lookup table init (mode:%6s). "+
 					"(progress %12d/%012d %8.4f%%) (t/op:%6dns) elapsed:%6.2fs "+
-					"tableSize: %3d %s (lookup time: %4dns avg: %4dns)",
+					"tableSize: %3d %s "+
+					"(lookup time: %4dns avg: %4dns)"+
+					"(store time: %4dns avg: %4dns)",
 					mode, pos, TableSize, progress, time.Since(cycleStart).Nanoseconds(),
 					time.Since(generatorStart).Seconds(), size, szUom,
-					lookupTime.Nanoseconds(), avgLookupTime.Nanoseconds())
+					lookupTime.Nanoseconds(), avgLookupTime.Nanoseconds(),
+					storeTime.Nanoseconds(), avgStoreTime.Nanoseconds())
 			}
 		}
 	}()
@@ -81,8 +89,14 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		if err != nil {
 			panic(err)
 		}
-		defer func() { _ = fileHandle.Close() }()
-		scanner := bufio.NewScanner(fileHandle)
+		gzipReader, err := gzip.NewReader(fileHandle)
+		if err != nil {
+			panic(err)
+		}
+		defer func() {
+			_ = gzipReader.Close()
+			_ = fileHandle.Close()
+		}()
 		pos = 0
 		TableSize = func() int {
 			info, err := fileHandle.Stat()
@@ -95,6 +109,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			}
 			return int(sz)
 		}()
+		scanner := bufio.NewScanner(gzipReader)
 		for scanner.Scan() {
 			cycleStart = time.Now()
 			line := scanner.Text()
@@ -118,7 +133,10 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		if err != nil {
 			panic(err)
 		}
-		writer := bufio.NewWriterSize(fileHandle, writeBufferSize)
+		writer, err := gzip.NewWriterLevel(fileHandle, gzip.BestCompression)
+		if err != nil {
+			panic(err)
+		}
 		defer func() {
 			_ = writer.Flush()
 			_ = fileHandle.Close()
@@ -130,7 +148,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			if !table.Lookup(hash) {
 				panic("Failed to look-up table after store")
 			}
-			if _, err := writer.WriteString(hex.EncodeToString(hash[:]) + "\n"); err != nil {
+			if _, err := writer.Write([]byte(hex.EncodeToString(hash[:]) + "\n")); err != nil {
 				panic(err)
 			}
 			_ = c.FastIncrement()
@@ -147,11 +165,17 @@ type QuickTable struct {
 	data map[string]bool
 }
 
-func (o *QuickTable) Init() {
-	o.data = make(map[string]bool)
+func (o *QuickTable) Init(sz int) {
+	o.data = make(map[string]bool, sz)
 }
 
 func (o *QuickTable) Store(s [20]byte) {
+	storeStart := time.Now()
+	storeCount++
+	defer func() {
+		storeTime = time.Since(storeStart)
+		storeTotalTime = storeTotalTime + storeTime
+	}()
 	o.data[string(s[:])] = true
 }
 
