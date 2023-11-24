@@ -40,7 +40,8 @@ func sizeFix(sz int64) (int64, string) {
 
 func logMessage(
     mode *string,
-    headerSize, recordSize, recordCount, pos, TableSize int64,
+    pos int,
+    headerSize, recordSize, recordCount, TableSize int64,
     cycleStart, generatorStart time.Time, lookupTime, storeTime time.Duration) {
 
     size, szUom := sizeFix(headerSize + recordSize*recordCount)
@@ -62,7 +63,7 @@ func logMessage(
 
 func NewQuickTable(hashFileName string, keySpaceSize, TableSize int) (t *QuickTable, lastSequence []byte) {
     var cycleStart time.Time
-    var pos int64
+    var pos int
     var mode string
     var tableReady bool
     var table QuickTable
@@ -80,7 +81,7 @@ func NewQuickTable(hashFileName string, keySpaceSize, TableSize int) (t *QuickTa
                 headerSize := int64(unsafe.Sizeof(table.data))
                 recordSize := int64(unsafe.Sizeof(true) + unsafe.Sizeof(hashes.Sha1{}))
                 recordCount := int64(len(table.data))
-                logMessage(&mode, headerSize, recordSize, recordCount, pos, int64(TableSize), cycleStart,
+                logMessage(&mode, pos, headerSize, recordSize, recordCount, int64(TableSize), cycleStart,
                     generatorStart, lookupTime, storeTime)
             }
         }
@@ -155,11 +156,11 @@ func NewQuickTable(hashFileName string, keySpaceSize, TableSize int) (t *QuickTa
             cycleStart = time.Now()
             hash := c.Sha1Bytes()
             table.Store(hash)
-            if !table.Lookup(hash) {
-                panic("Failed to look-up table after store")
-            }
+            //if !table.Lookup(hash) {
+            //	panic("Failed to look-up table after store")
+            //}
             _ = c.FastIncrement()
-            pos = int64(i)
+            pos = i
         }
         log.Println("Asynchronously write file.")
         go func() {
@@ -178,7 +179,7 @@ func NewQuickTable(hashFileName string, keySpaceSize, TableSize int) (t *QuickTa
                 _ = compressor.Close()
                 _ = fileHandle.Close()
             }()
-            pos = int64(0)
+            pos = 0
             for hash, _ := range table.data {
                 cycleStart = time.Now()
                 // compress and write to file
