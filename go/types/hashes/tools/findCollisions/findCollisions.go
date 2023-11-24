@@ -16,13 +16,13 @@ const (
 
 // main - the main routine for a single unit of processing.
 func main() {
-	seed, startingWorkerId, segmentCount := findCollision.GetCommandLineArgs()
+	seed, startingWorkerId, segmentCount, hashFileName := findCollision.GetCommandLineArgs()
 	log.Println("Initializing...")
 	numberOfWorkers := findCollision.SetNumberCpu()
 	results := make(chan findCollision.Finding, numberOfWorkers)
 	collector := findCollision.NewCollector(numberOfWorkers)
 
-	lookupTable, rhsStartingSequence := findCollision.NewQuickTable(defaultKeySpaceSize, QuickTableSize)
+	lookupTable, rhsStartingSequence := findCollision.NewQuickTable(hashFileName, defaultKeySpaceSize, QuickTableSize)
 
 	go findCollision.TimedLogger(metricsReportingInterval, numberOfWorkers, startingWorkerId, timeWindow, &collector)
 

@@ -10,18 +10,25 @@ import (
 	"os"
 )
 
-func GetCommandLineArgs() ([]byte, int, int) {
+func GetCommandLineArgs() ([]byte, int, int, string) {
 
 	var err error
 	var seed []byte
 
-	versionFlag := flag.Bool("version", false, "Show the current version")
+	versionFlag := flag.Bool("version", false,
+		"Show the current version")
 
-	rawSeed := flag.String("Seed", "", "Seed value (hex-encoded string)")
+	hashFileName := flag.String("hashFile", "/media/PreComputedHashes.gz",
+		"name the pre-computed hash file")
 
-	startingWorkerId := flag.Int("Segment", 0, "The segment starting worker Id")
+	rawSeed := flag.String("Seed", "",
+		"Seed value (hex-encoded string)")
 
-	segmentCount := flag.Int("SegmentCount", 0, "This is the planned segment count")
+	startingWorkerId := flag.Int("Segment", 0,
+		"The segment starting worker Id")
+
+	segmentCount := flag.Int("SegmentCount", 0,
+		"This is the planned segment count")
 
 	flag.Parse()
 	if *versionFlag {
@@ -33,6 +40,6 @@ func GetCommandLineArgs() ([]byte, int, int) {
 		log.Fatalf("Seed Parse error: %v", err)
 	}
 	log.Printf("Seed: %v (%d)", hex.EncodeToString(seed), len(seed))
-	return seed, *startingWorkerId, *segmentCount
+	return seed, *startingWorkerId, *segmentCount, *hashFileName
 
 }

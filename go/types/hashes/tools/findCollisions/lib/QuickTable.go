@@ -17,7 +17,6 @@ import (
 const (
 	//writeBufferSize = 4294967296 // 4GB Buffer for writes
 	writeBufferSize = 1048576 * 20 // 10MB Buffer for writes
-	hashFileName    = "/media/PreComputedHashes.gz"
 )
 
 var storeTime time.Duration
@@ -27,7 +26,7 @@ var lookupTime time.Duration
 var lookupCount int64
 var lookupTotalTime time.Duration
 
-func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []byte) {
+func NewQuickTable(hashFileName string, keySpaceSize, TableSize int) (t *QuickTable, lastSequence []byte) {
 	var cycleStart time.Time
 	var pos int
 	var mode string
@@ -84,6 +83,7 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		   		 * A pre-computed hash file exists on disk.  Load that file into our in-memory
 		            * hash table.
 		*/
+		log.Printf("hashFile exists (%s). loading...", hashFileName)
 		mode = "load"
 
 		fileHandle, err := os.Open(hashFileName)
@@ -141,10 +141,11 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		            * Create the in-memory map of hashes, then asynchronously write
 		            * the hashes to a precomputed hash file we can use next time.
 		*/
+		log.Printf("hashFile not found (%s). creating...", hashFileName)
 		mode = "create"
 		fileHandle, err := os.Create(hashFileName)
 		if err != nil {
-			panic(err)
+			log.Fatalf("cannot create hash file (%s): %v", hashFileName, err)
 		}
 		compressor, err := gzip.NewWriterLevel(fileHandle, gzip.BestCompression)
 		if err != nil {
