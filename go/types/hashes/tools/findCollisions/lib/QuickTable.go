@@ -3,6 +3,7 @@ package findCollision
 import (
 	"bufio"
 	"compress/gzip"
+	"encoding/hex"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"github.com/sam-caldwell/monorepo/go/types/hashes"
@@ -80,8 +81,9 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 
 	if file.Exists(hashFileName) {
 		/*
-		 * The file exists, load it into memory
-		 */
+		   		 * A pre-computed hash file exists on disk.  Load that file into our in-memory
+		            * hash table.
+		*/
 		mode = "load"
 
 		fileHandle, err := os.Open(hashFileName)
@@ -110,33 +112,31 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 		}()
 
 		err = nil
-		//scanner := bufio.NewScanner(gzipReader)
-		for func() bool { eof, _ := file.IsEndOfFile(err); return eof }() {
+		compressor, err := gzip.NewReader(fileHandle)
+		if err != nil {
+			panic(err)
+		}
+		scanner := bufio.NewScanner(compressor)
+		for scanner.Scan() {
 			cycleStart = time.Now()
-			var hash = make([]byte, 20)
-			_, err = gzipReader.Read(hash)
+			line := scanner.Text()
+			hash, err := hex.DecodeString(line)
+			if err != nil {
+				panic(err)
+			}
 			table.Store([20]byte(hash))
 			lastSequence = hash
 			pos++
 		}
-		//for scanner.Scan() {
-		//	cycleStart = time.Now()
-		//	line := scanner.Text()
-		//	hash, err := hex.DecodeString(line)
-		//	if err != nil {
-		//		panic(err)
-		//	}
-		//	table.Store([20]byte(hash))
-		//	lastSequence = hash
-		//	pos++
-		//}
-		//if err := scanner.Err(); err != nil {
-		//	panic(err)
-		//}
+		if err := scanner.Err(); err != nil {
+			panic(err)
+		}
 	} else {
 		/*
-		 * Create the new hash file for future and present use.
-		 */
+		   		 * We have no precomputed hash file.  We need to create one.
+		            * Create the in-memory map of hashes, then asynchronously write
+		            * the hashes to a precomputed hash file we can use next time.
+		*/
 		mode = "create"
 		fileHandle, err := os.Create(hashFileName)
 		if err != nil {
