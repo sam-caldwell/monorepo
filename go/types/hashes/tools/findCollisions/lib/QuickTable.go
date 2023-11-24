@@ -95,8 +95,12 @@ func NewQuickTable(keySpaceSize, TableSize int) (t *QuickTable, lastSequence []b
 			panic(err)
 		}
 		defer func() {
-			_ = gzipReader.Close()
-			_ = fileHandle.Close()
+			if gzipReader != nil {
+				_ = gzipReader.Close()
+			}
+			if fileHandle != nil {
+				_ = fileHandle.Close()
+			}
 		}()
 		pos = 0
 		TableSize = func() int {
