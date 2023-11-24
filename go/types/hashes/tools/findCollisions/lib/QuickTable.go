@@ -17,7 +17,7 @@ import (
 const (
 	//writeBufferSize = 4294967296 // 4GB Buffer for writes
 	writeBufferSize = 1048576 * 20 // 10MB Buffer for writes
-	hashFileName    = "/tmp/PreComputedHashes.gz"
+	hashFileName    = "/media/PreComputedHashes.gz"
 )
 
 var storeTime time.Duration
