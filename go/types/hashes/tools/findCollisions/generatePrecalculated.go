@@ -26,13 +26,15 @@ func main() {
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		DbHost, DbPort, DbUser, DbPassword, DbName)
 
-	log.Printf("connstr:%s", connStr)
+	log.Println("connecting to database")
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer func() { _ = db.Close() }()
+
+	log.Println("Database is connected...confirming")
 
 	// Create the "hashes" table
 	_, err = db.Exec(`
@@ -42,6 +44,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	log.Println("Database connection confirmed")
+
+	log.Println("Generating hashes")
 	c, _ := counters.NewByteCounter(keySpaceSize)
 	for i := 0; i < PreComputeSize; i++ {
 		hash := c.Sha1Bytes()
