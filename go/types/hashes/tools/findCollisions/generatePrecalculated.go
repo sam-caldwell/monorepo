@@ -7,7 +7,6 @@ import (
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -42,7 +41,7 @@ func main() {
 				sProgress := 100 * float64(storeCount) / float64(PreComputeSize)
 				gOps := float64(genCount) / float64(elapsed.Nanoseconds())
 				log.Printf("generator progres: %d/%d (%3.2f %%) gOps:%8.2f "+
-					"storage: %d/%d (%3.2f %%) elapsed: %d",
+					"storage: %d/%d (%3.2f %%) elapsed: %v",
 					genCount, PreComputeSize, gProgress, gOps,
 					storeCount, len(queue), sProgress, elapsed.Seconds())
 			}
@@ -83,13 +82,7 @@ func main() {
 	go func() {
 		log.Println("storing hashes...")
 		for continueRunning {
-			valueList := "("
-			for i := 0; i < 16; i++ {
-				valueList += fmt.Sprintf("%v,", <-queue)
-			}
-			valueList = strings.TrimRight(valueList, ",")
-			valueList += ");"
-			if _, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", valueList); err != nil {
+			if _, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", <-queue); err != nil {
 				log.Fatal(err)
 			}
 			storeCount++
