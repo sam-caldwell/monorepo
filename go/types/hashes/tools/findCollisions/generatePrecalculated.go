@@ -83,5 +83,5 @@ func main() {
 	}()
 
 	<-terminate
-	fmt.Println("Data inserted successfully.")
+	log.Println("Data inserted successfully.")
 }
