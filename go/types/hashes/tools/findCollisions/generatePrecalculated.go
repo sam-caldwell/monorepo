@@ -27,8 +27,8 @@ func main() {
 	continueRunning := true
 	queue := make(chan []byte, 1048576)
 	terminate := make(chan bool, 1)
-	var genCount int64
-	var storeCount int64
+	var genCount int
+	var storeCount int
 
 	go func() {
 		startTime := time.Now()
