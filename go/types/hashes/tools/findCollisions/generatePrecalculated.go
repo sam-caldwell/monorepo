@@ -3,12 +3,12 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
 	"os"
 	"strings"
-
-	_ "github.com/lib/pq"
+	"time"
 )
 
 const (
@@ -18,13 +18,33 @@ const (
 )
 
 func main() {
-	// Connect to the PostgreSQL database
 	DbHost := os.Getenv("db_host")
 	DbPort := os.Getenv("db_port")
 	DbUser := os.Getenv("db_user")
 	DbPassword := os.Getenv("db_pass")
 	DbName := os.Getenv("db_name")
 
+	continueRunning := true
+	queue := make(chan []byte, 1048576)
+	terminate := make(chan bool, 1)
+	genCount := 0
+	storeCount := 0
+
+	go func() {
+		t := time.NewTicker(1 * time.Second)
+		defer t.Stop()
+		for continueRunning {
+			select {
+			case <-t.C:
+				gProgress := 100 * float64(genCount) / float64(PreComputeSize)
+				sProgress := 100 * float64(storeCount) / float64(len(queue))
+				log.Printf("t: %d generator progres: %d/%d (3.4%f %%) storage: %d/%d (3.4%f %%)",
+					genCount, PreComputeSize, gProgress, storeCount, len(queue), sProgress)
+			}
+		}
+	}()
+
+	// Connect to the PostgreSQL database
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		DbHost, DbPort, DbUser, DbPassword, DbName)
 
@@ -37,19 +57,11 @@ func main() {
 	defer func() { _ = db.Close() }()
 
 	log.Println("Database is connected...confirming")
-
-	// Create the "hashes" table
-	_, err = db.Exec(`
-		select count(*) from hashes;
-	`)
-	if err != nil {
+	if _, err = db.Exec(`select count(*) from hashes;`); err != nil {
 		log.Fatal(err)
 	}
 
 	log.Println("Database connection confirmed")
-	continueRunning := true
-	queue := make(chan []byte, 1048576)
-	terminate := make(chan bool, 1)
 
 	go func() {
 		log.Println("Generating hashes")
@@ -58,14 +70,13 @@ func main() {
 			hash := c.Sha1Bytes()
 			queue <- hash[:]
 			_ = c.FastIncrement()
-			log.Printf("generating %d (progress %3.4f %%)", i, 100*float64(i)/float64(PreComputeSize))
+			genCount = i
 		}
 		log.Println()
 		continueRunning = false
 	}()
 	go func() {
 		log.Println("storing hashes...")
-		stored := 0
 		for continueRunning {
 			valueList := "("
 			for i := 0; i < 1048576; i++ {
@@ -73,7 +84,7 @@ func main() {
 			}
 			valueList = strings.TrimRight(valueList, ",")
 			valueList += ");"
-			log.Printf("storing %d (progress %3.4f %%)", stored, 100*float64(stored)/float64(PreComputeSize))
+			storeCount++
 			if _, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", valueList); err != nil {
 				log.Fatal(err)
 			}
