@@ -78,6 +78,8 @@ func main() {
 				log.Fatal(err)
 			}
 		}
+		log.Println("storage routine terminating")
+		terminate <- true
 	}()
 
 	<-terminate
