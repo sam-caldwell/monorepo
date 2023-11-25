@@ -88,10 +88,10 @@ func main() {
 		for continueRunning {
 			storeStart := time.Now()
 			if _, err := db.Exec(`
-                INSERT INTO hashes (h) VALUES ($1),($2),($3),($4),($1),($2),($3),($4);
-                INSERT INTO hashes (h) VALUES ($1),($2),($3),($4),($1),($2),($3),($4);
-                INSERT INTO hashes (h) VALUES ($1),($2),($3),($4),($1),($2),($3),($4);
-                INSERT INTO hashes (h) VALUES ($1),($2),($3),($4),($1),($2),($3),($4);
+                INSERT INTO hashes (h) VALUES ($1),($2),($3),($4),($1),($2),($3),($4),
+                                              ($1),($2),($3),($4),($1),($2),($3),($4),
+                                              ($1),($2),($3),($4),($1),($2),($3),($4),
+                                              ($1),($2),($3),($4),($1),($2),($3),($4);
                 `, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue,
 				<-queue, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue,
 				<-queue, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue, <-queue,
