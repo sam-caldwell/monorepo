@@ -56,6 +56,7 @@ func main() {
 			hash := c.Sha1Bytes()
 			queue <- hash[:]
 			_ = c.FastIncrement()
+			log.Printf("generating (progress %3.4f)", 100*float64(i)/float64(PreComputeSize))
 		}
 		continueRunning = false
 	}()
