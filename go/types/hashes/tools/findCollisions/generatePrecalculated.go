@@ -24,7 +24,7 @@ func main() {
 	DbName := os.Getenv("db_name")
 
 	continueRunning := true
-	queue := make(chan []byte, 1048576)
+	queue := make(chan []byte, 256)
 	terminate := make(chan bool, 1)
 	var genCount int
 	var storeCount int
