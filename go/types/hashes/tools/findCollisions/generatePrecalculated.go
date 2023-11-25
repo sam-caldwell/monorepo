@@ -27,10 +27,11 @@ func main() {
 	continueRunning := true
 	queue := make(chan []byte, 1048576)
 	terminate := make(chan bool, 1)
-	genCount := 0
-	storeCount := 0
+	var genCount int64
+	var storeCount int64
 
 	go func() {
+		startTime := time.Now()
 		t := time.NewTicker(1 * time.Second)
 		defer t.Stop()
 		for continueRunning {
@@ -38,8 +39,11 @@ func main() {
 			case <-t.C:
 				gProgress := 100 * float64(genCount) / float64(PreComputeSize)
 				sProgress := 100 * float64(storeCount) / float64(len(queue))
-				log.Printf("t: %d generator progres: %d/%d (3.4%f %%) storage: %d/%d (3.4%f %%)",
-					genCount, PreComputeSize, gProgress, storeCount, len(queue), sProgress)
+				log.Printf(""+
+					"generator progres: %d/%d (3.4%f %%) gps:%8.2f "+
+					"storage: %d/%d (3.4%f %%)",
+					genCount, PreComputeSize, gProgress, float64(genCount)/float64(time.Since(startTime).Nanoseconds()),
+					storeCount, len(queue), sProgress)
 			}
 		}
 	}()
