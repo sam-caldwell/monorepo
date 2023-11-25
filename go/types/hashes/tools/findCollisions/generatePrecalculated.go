@@ -60,6 +60,7 @@ func main() {
 		continueRunning = false
 	}()
 
+	log.Println("storing hashes...")
 	for continueRunning {
 		valueList := "("
 		for i := 0; i < 1048576; i++ {
