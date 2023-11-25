@@ -87,7 +87,8 @@ func main() {
 		log.Println("storing hashes...")
 		for continueRunning {
 			storeStart := time.Now()
-			if _, err := db.Exec(`
+			go func(sc *int, sd *time.Duration) {
+				if _, err := db.Exec(`
                 INSERT INTO hashes (h) VALUES ($1),($2),($3),($4),
                                               ($5),($6),($7),($8),
                                               ($9),($10),($11),($12),
@@ -104,26 +105,27 @@ func main() {
                                               ($53),($54),($55),($56),
                                               ($57),($58),($59),($60),
                                               ($61),($62),($63),($64);`,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue,
-				<-queue, <-queue, <-queue, <-queue); err != nil {
-				log.Fatal(err)
-			}
-			storeCount++
-			storeDuration = time.Since(storeStart)
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue,
+					<-queue, <-queue, <-queue, <-queue); err != nil {
+					log.Fatal(err)
+				}
+				*sc++
+				*sd = time.Since(storeStart)
+			}(&storeCount, &storeDuration)
 		}
 		log.Println("storage routine terminating")
 		terminate <- true
