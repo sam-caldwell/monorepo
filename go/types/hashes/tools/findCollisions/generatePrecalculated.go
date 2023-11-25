@@ -40,8 +40,8 @@ func main() {
 				gProgress := 100 * float64(genCount) / float64(PreComputeSize)
 				sProgress := 100 * float64(storeCount) / float64(len(queue))
 				gOps := float64(genCount) / float64(time.Since(startTime).Nanoseconds())
-				log.Printf("generator progres: %d/%d (3.4%f %%) gOps:%8.2f "+
-					"storage: %d/%d (3.4%f %%)",
+				log.Printf("generator progres: %d/%d (%3.2f %%) gOps:%8.2f "+
+					"storage: %d/%d (%3.2f %%)",
 					genCount, PreComputeSize, gProgress, gOps,
 					storeCount, len(queue), sProgress)
 			}
