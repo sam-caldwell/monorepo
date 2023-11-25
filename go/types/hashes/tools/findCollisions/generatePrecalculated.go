@@ -63,7 +63,7 @@ func main() {
 	defer func() { _ = db.Close() }()
 
 	log.Println("Database is connected...confirming")
-	if _, err = db.Exec(`select count(*) from hashes;`); err != nil {
+	if _, err = db.Exec(`select delete from hashes where true;`); err != nil {
 		log.Fatal(err)
 	}
 
