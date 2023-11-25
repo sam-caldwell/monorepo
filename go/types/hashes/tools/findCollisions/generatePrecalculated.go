@@ -26,6 +26,8 @@ func main() {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		DbHost, DbPort, DbUser, DbPassword, DbName)
 
+	log.Printf("connstr:%s", connStr)
+
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
@@ -34,9 +36,7 @@ func main() {
 
 	// Create the "hashes" table
 	_, err = db.Exec(`
-		CREATE TABLE IF NOT EXISTS hashes (
-			h BYTEA PRIMARY KEY
-		);
+		select count(*) from hashes;
 	`)
 	if err != nil {
 		log.Fatal(err)
