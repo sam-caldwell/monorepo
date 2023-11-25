@@ -56,12 +56,13 @@ func main() {
 			hash := c.Sha1Bytes()
 			queue <- hash[:]
 			_ = c.FastIncrement()
-			log.Printf("generating (progress %3.4f)", 100*float64(i)/float64(PreComputeSize))
+			log.Printf("generating %d (progress %3.4f %%)", i, 100*float64(i)/float64(PreComputeSize))
 		}
 		continueRunning = false
 	}()
 
 	log.Println("storing hashes...")
+	stored := 0
 	for continueRunning {
 		valueList := "("
 		for i := 0; i < 1048576; i++ {
@@ -69,8 +70,8 @@ func main() {
 		}
 		valueList = strings.TrimRight(valueList, ",")
 		valueList += ");"
-		_, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", valueList)
-		if err != nil {
+		log.Printf("storing %d (progress %3.4f %%)", stored, 100*float64(stored)/float64(PreComputeSize))
+		if _, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", valueList); err != nil {
 			log.Fatal(err)
 		}
 	}
