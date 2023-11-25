@@ -122,7 +122,7 @@ func main() {
 				<-queue, <-queue, <-queue, <-queue); err != nil {
 				log.Fatal(err)
 			}
-			storeCount++
+			storeCount += 64
 			storeDuration = time.Since(storeStart)
 		}
 		log.Println("storage routine terminating")
