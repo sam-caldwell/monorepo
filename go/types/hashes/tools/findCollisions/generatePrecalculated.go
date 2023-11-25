@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	keySpaceSize   = 1024
-	PreComputeSize = 100
-	//PreComputeSize = 256 * 256 * 256 * 256 //Table Size: 256 * 256 * 256 * 256 * 20 / 1048576 MB
+	keySpaceSize = 1024
+	//PreComputeSize = 100
+	PreComputeSize = 256 * 256 * 256 * 256 //Table Size: 256 * 256 * 256 * 256 * 20 / 1048576 MB
 )
 
 func main() {
