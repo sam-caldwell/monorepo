@@ -23,7 +23,7 @@ func main() {
 	DbPassword := os.Getenv("db_pass")
 	DbName := os.Getenv("db_name")
 
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		DbHost, DbPort, DbUser, DbPassword, DbName)
 
 	log.Printf("connstr:%s", connStr)
