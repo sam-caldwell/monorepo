@@ -52,6 +52,18 @@ func main() {
 	terminate := make(chan bool, 1)
 
 	go func() {
+		log.Println("Generating hashes")
+		c, _ := counters.NewByteCounter(keySpaceSize)
+		for i := 0; i < PreComputeSize; i++ {
+			hash := c.Sha1Bytes()
+			queue <- hash[:]
+			_ = c.FastIncrement()
+			log.Printf("generating %d (progress %3.4f %%)", i, 100*float64(i)/float64(PreComputeSize))
+		}
+		log.Println()
+		continueRunning = false
+	}()
+	go func() {
 		log.Println("storing hashes...")
 		stored := 0
 		for continueRunning {
@@ -68,16 +80,6 @@ func main() {
 		}
 	}()
 
-	log.Println("Generating hashes")
-	c, _ := counters.NewByteCounter(keySpaceSize)
-	for i := 0; i < PreComputeSize; i++ {
-		hash := c.Sha1Bytes()
-		queue <- hash[:]
-		_ = c.FastIncrement()
-		log.Printf("generating %d (progress %3.4f %%)", i, 100*float64(i)/float64(PreComputeSize))
-	}
-	log.Println()
-	continueRunning = false
 	<-terminate
 	fmt.Println("Data inserted successfully.")
 }
