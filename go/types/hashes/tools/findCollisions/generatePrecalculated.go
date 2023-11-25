@@ -83,15 +83,15 @@ func main() {
 		log.Println("storing hashes...")
 		for continueRunning {
 			valueList := "("
-			for i := 0; i < 1048576; i++ {
+			for i := 0; i < 1024; i++ {
 				valueList += fmt.Sprintf("%v,", <-queue)
 			}
 			valueList = strings.TrimRight(valueList, ",")
 			valueList += ");"
-			storeCount++
 			if _, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", valueList); err != nil {
 				log.Fatal(err)
 			}
+			storeCount++
 		}
 		log.Println("storage routine terminating")
 		terminate <- true
