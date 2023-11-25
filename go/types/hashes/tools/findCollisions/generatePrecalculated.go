@@ -6,6 +6,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"log"
 	"os"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -45,16 +46,32 @@ func main() {
 	}
 
 	log.Println("Database connection confirmed")
+	continueRunning := true
+	queue := make(chan []byte, 1048576)
 
-	log.Println("Generating hashes")
-	c, _ := counters.NewByteCounter(keySpaceSize)
-	for i := 0; i < PreComputeSize; i++ {
-		hash := c.Sha1Bytes()
-		_, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", hash[:])
+	go func() {
+		log.Println("Generating hashes")
+		c, _ := counters.NewByteCounter(keySpaceSize)
+		for i := 0; i < PreComputeSize; i++ {
+			hash := c.Sha1Bytes()
+			queue <- hash[:]
+			_ = c.FastIncrement()
+		}
+		continueRunning = false
+	}()
+
+	for continueRunning {
+		valueList := "("
+		for i := 0; i < 1048576; i++ {
+			valueList += fmt.Sprintf("%v,", <-queue)
+		}
+		valueList = strings.TrimRight(valueList, ",")
+		valueList += ");"
+		_, err := db.Exec("INSERT INTO hashes (h) VALUES ($1)", valueList)
 		if err != nil {
 			log.Fatal(err)
 		}
-		_ = c.FastIncrement()
 	}
+
 	fmt.Println("Data inserted successfully.")
 }
