@@ -49,6 +49,7 @@ func main() {
 	log.Println("Database connection confirmed")
 	continueRunning := true
 	queue := make(chan []byte, 1048576)
+	terminate := make(chan bool, 1)
 
 	go func() {
 		log.Println("storing hashes...")
@@ -77,6 +78,6 @@ func main() {
 	}
 	log.Println()
 	continueRunning = false
-
+	<-terminate
 	fmt.Println("Data inserted successfully.")
 }
