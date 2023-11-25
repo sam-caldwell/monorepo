@@ -83,7 +83,7 @@ func main() {
 		log.Println("storing hashes...")
 		for continueRunning {
 			valueList := "("
-			for i := 0; i < 1024; i++ {
+			for i := 0; i < 64; i++ {
 				valueList += fmt.Sprintf("%v,", <-queue)
 			}
 			valueList = strings.TrimRight(valueList, ",")
