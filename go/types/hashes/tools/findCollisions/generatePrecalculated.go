@@ -37,14 +37,14 @@ func main() {
 		for continueRunning {
 			select {
 			case <-t.C:
-				elapsed := time.Since(startTime).Nanoseconds()
+				elapsed := time.Since(startTime)
 				gProgress := 100 * float64(genCount) / float64(PreComputeSize)
-				sProgress := 100 * float64(storeCount) / float64(len(queue))
-				gOps := float64(genCount) / float64(elapsed)
+				sProgress := 100 * float64(storeCount) / float64(PreComputeSize)
+				gOps := float64(genCount) / float64(elapsed.Nanoseconds())
 				log.Printf("generator progres: %d/%d (%3.2f %%) gOps:%8.2f "+
 					"storage: %d/%d (%3.2f %%) elapsed: %d",
 					genCount, PreComputeSize, gProgress, gOps,
-					storeCount, len(queue), sProgress, elapsed)
+					storeCount, len(queue), sProgress, elapsed.Seconds())
 			}
 		}
 	}()
