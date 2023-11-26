@@ -18,8 +18,11 @@ const (
 func main() {
 	var genCount int
 
-	hashFile := flag.String("HashFile", "/media/PrecomputedHashes.txt", "Pre-computed hashes")
+	hashFile := flag.String("HashFile", "", "Pre-computed hashes")
 	flag.Parse()
+	if *hashFile == "" {
+		log.Fatalf("hashfile required")
+	}
 
 	fh, err := os.Create(*hashFile)
 	if err != nil {
