@@ -31,7 +31,8 @@ func main() {
 
 	defer func() { _ = fh.Close() }()
 
-	table := make([]hashes.Sha1, TableSize)
+	var table [TableSize]hashes.Sha1
+	//table := make([]hashes.Sha1, TableSize)
 	c, _ := counters.NewByteCounter(keySpaceSz)
 
 	go func() {
