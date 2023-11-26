@@ -26,7 +26,7 @@ func main() {
 
 	fh, err := os.Create(*hashFile)
 	if err != nil {
-		panic(err)
+		log.Fatalf("failed to create file: %v", err)
 	}
 
 	defer func() { _ = fh.Close() }()
