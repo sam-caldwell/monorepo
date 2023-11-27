@@ -11,9 +11,14 @@ build/preCalculateHash:
 	go build -o preCalculateHash.bin preCalculateHash/preCalculateHash.go
 	shasum -a 256 preCalculateHash.bin
 
+build/searchHashes:
+	go build -o searchHashes.bin searchHashes/searchHashes.go
+	shasum -a 256 searchHashes.bin
+
 install:
 	sudo mv findCollisions.bin /usr/local/bin/
 	sudo mv preCalculateHash.bin /usr/local/bin/
+	sudo mv searchHashes.bin /usr/local/bin/
 
 stop:
 	( \
