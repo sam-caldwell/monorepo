@@ -57,7 +57,7 @@ func main() {
 				sProgress := 100 * float64(sortCount.Load()) / float64(QuickTableSize)
 				log.Printf("%10s (elapsed: %v) %d / %d (%8.2f %%)"+
 					"write:%d (%8.2f %%) sort:%d (%8.2f %%)",
-					role, elapsed, genCount, len(table), gProgress,
+					role, elapsed.Seconds(), genCount, len(table), gProgress,
 					writeCount, wProgress, sortCount, sProgress)
 			}
 		}
