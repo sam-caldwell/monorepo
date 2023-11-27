@@ -70,5 +70,6 @@ func main() {
 		if _, err := fh.WriteString(hex.EncodeToString(hash[:])); err != nil {
 			panic(err)
 		}
+		writeCount++
 	}
 }
