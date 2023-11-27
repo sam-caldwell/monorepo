@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"slices"
+	"sync/atomic"
 	"time"
 )
 
@@ -21,7 +22,7 @@ const (
 func main() {
 	var role string
 	var genCount int
-	var sortCount int
+	var sortCount atomic.Int32
 	var writeCount int
 
 	hashFile := flag.String("file", "", "Pre-computed hashes")
@@ -53,8 +54,8 @@ func main() {
 				elapsed := time.Since(startTime)
 				gProgress := 100 * float64(genCount) / float64(QuickTableSize)
 				wProgress := 100 * float64(writeCount) / float64(QuickTableSize)
-				sProgress := 100 * float64(sortCount) / float64(QuickTableSize)
-				log.Printf("%10s (elapsed: %vs) %d / %d (%8.2f %%)"+
+				sProgress := 100 * float64(sortCount.Load()) / float64(QuickTableSize)
+				log.Printf("%10s (elapsed: %v) %d / %d (%8.2f %%)"+
 					"write:%d (%8.2f %%) sort:%d (%8.2f %%)",
 					role, elapsed, genCount, len(table), gProgress,
 					writeCount, wProgress, sortCount, sProgress)
@@ -70,9 +71,9 @@ func main() {
 	}
 
 	role = "sorting"
-	sortCount = 0
+	sortCount.Store(0)
 	slices.SortFunc(table[:], func(a, b hashes.Sha1) int {
-		sortCount++
+		sortCount.Add(1)
 		return bytes.Compare(a[:], b[:])
 	})
 
