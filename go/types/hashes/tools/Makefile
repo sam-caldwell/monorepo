@@ -1,24 +1,19 @@
 build: build/findCollisions \
-	   build/generatePrecalculated \
-	   build/precalculateHash
+	   build/preCalculateHash
 
 
 build/findCollisions:
-	go build -o findCollisions findCollisions.go
+	go build -o findCollisions findCollisions/findCollisions.go
 	shasum -a 256 findCollisions
 
-build/generatePrecalculated:
-	go build -o generatePrecalculated generatePrecalculated.go
-	shasum -a 256 generatePrecalculated
-
-build/precalculateHash:
-	go build -o precalculateHash precalculateHash.go
-	shasum -a 256 precalculateHash
+build/preCalculateHash:
+	go build -o preCalculateHash preCalculateHash/preCalculateHash.go
+	shasum -a 256 preCalculateHash
 
 install:
 	sudo mv findCollisions /usr/local/bin/
 	sudo mv generatePrecalculated /usr/local/bin/
-	sudo mv precalculateHash /usr/local/bin/
+	sudo mv preCalculateHash /usr/local/bin/
 
 stop:
 	( \
