@@ -70,7 +70,7 @@ func main() {
 	}
 
 	role = "sorting"
-	sortCount := 0
+	sortCount = 0
 	slices.SortFunc(table[:], func(a, b hashes.Sha1) int {
 		sortCount++
 		return bytes.Compare(a[:], b[:])
