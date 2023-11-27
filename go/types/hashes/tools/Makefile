@@ -1,5 +1,6 @@
 build: build/findCollisions \
 	   build/preCalculateHash
+	   @echo "ok"
 
 
 build/findCollisions:
