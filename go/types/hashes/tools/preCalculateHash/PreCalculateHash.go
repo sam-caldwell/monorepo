@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/hex"
 	"flag"
+	"fmt"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/types/hashes"
 	"log"
@@ -13,20 +14,23 @@ import (
 )
 
 const (
-	keySpaceSz = 1024
-	TableSize  = 256 * 256 * 256 * 256 //Table Size: 256 * 256 * 256 * 256 * 20 / 1048576 MB
+	defaultKeySpaceSize = 1024
+	QuickTableSize      = 256 * 256 * 256 * 256 //Table Size: 256 * 256 * 256 * 256 * 20 / ~81GB
 )
 
 func main() {
+	var role string
 	var genCount int
+	var sortCount int
 	var writeCount int
 
-	hashFile := flag.String("file", "hashes.txt", "Pre-computed hashes")
+	hashFile := flag.String("file", "", "Pre-computed hashes")
 	flag.Parse()
 	log.Printf("create hash file: %v", *hashFile)
 
 	if *hashFile == "" {
-		log.Fatalf("hashfile required")
+		fmt.Println("hash file (-file) required")
+		os.Exit(1)
 	}
 
 	fh, err := os.Create(*hashFile)
@@ -36,8 +40,8 @@ func main() {
 
 	defer func() { _ = fh.Close() }()
 
-	table := make([]hashes.Sha1, TableSize)
-	c, _ := counters.NewByteCounter(keySpaceSz)
+	table := make([]hashes.Sha1, QuickTableSize)
+	c, _ := counters.NewByteCounter(defaultKeySpaceSize)
 
 	go func() {
 		startTime := time.Now()
@@ -47,25 +51,32 @@ func main() {
 			select {
 			case <-t.C:
 				elapsed := time.Since(startTime)
-				gProgress := 100 * float64(genCount) / float64(TableSize)
-				wProgress := 100 * float64(writeCount) / float64(TableSize)
-				gOps := float64(genCount) / float64(elapsed.Nanoseconds())
-				log.Printf("generating %d / %d (%8.2f %%) %8.2f (elapsed: %vs) writeCount:%d (%8.2f %%)",
-					genCount, len(table), gProgress, gOps, time.Since(startTime).Seconds(), writeCount, wProgress)
+				gProgress := 100 * float64(genCount) / float64(QuickTableSize)
+				wProgress := 100 * float64(writeCount) / float64(QuickTableSize)
+				sProgress := 100 * float64(sortCount) / float64(QuickTableSize)
+				log.Printf("%10s (elapsed: %vs) %d / %d (%8.2f %%)"+
+					"write:%d (%8.2f %%) sort:%d (%8.2f %%)",
+					role, elapsed, genCount, len(table), gProgress,
+					writeCount, wProgress, sortCount, sProgress)
 			}
 		}
 	}()
 
-	for i := 0; i < TableSize; i++ {
+	role = "generating"
+	for i := 0; i < QuickTableSize; i++ {
 		table[i] = c.Sha1Bytes()
 		_ = c.FastIncrement()
 		genCount++
 	}
 
+	role = "sorting"
+	sortCount := 0
 	slices.SortFunc(table[:], func(a, b hashes.Sha1) int {
+		sortCount++
 		return bytes.Compare(a[:], b[:])
 	})
 
+	role = "writing"
 	for _, hash := range table {
 		if _, err := fh.WriteString(hex.EncodeToString(hash[:])); err != nil {
 			panic(err)
