@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/hex"
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/counters"
 	"github.com/sam-caldwell/monorepo/go/types/hashes"
@@ -66,11 +67,8 @@ func main() {
 	})
 
 	for _, hash := range table {
-		//_, err := fh.WriteString(hex.EncodeToString(hash[:]))
-		_, err := fh.Write(hash[:])
-		if err != nil {
+		if _, err := fh.WriteString(hex.EncodeToString(hash[:])); err != nil {
 			panic(err)
 		}
 	}
-
 }
