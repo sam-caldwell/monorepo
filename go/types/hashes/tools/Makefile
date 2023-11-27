@@ -13,7 +13,6 @@ build/preCalculateHash:
 
 install:
 	sudo mv findCollisions.bin /usr/local/bin/
-	sudo mv generatePrecalculated.bin /usr/local/bin/
 	sudo mv preCalculateHash.bin /usr/local/bin/
 
 stop:
