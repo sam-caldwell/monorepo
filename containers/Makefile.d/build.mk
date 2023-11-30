@@ -23,22 +23,25 @@ build/containers/opsys: build/containers/opsys/ubuntu/20.04 \
 
 build/containers/opsys/ubuntu/20.04:
 	@echo ${GREEN}">>>Start $@"${RESET}
-	@docker build --tag opsys/ubuntu:20.04 --file containers/opsys/ubuntu/20.04/Dockerfile . || exit 1
+	@docker build --tag opsys/ubuntu:20.04 \
+                  --file containers/opsys/ubuntu/20.04/Dockerfile . || exit 1
 	@echo ${GREEN}">>>Completed $@"${RESET}
 
 build/containers/opsys/ubuntu/22.04:
 	@echo ${GREEN}">>>Start $@"${RESET}
-	@docker build --tag opsys/ubuntu:22.04 --file containers/opsys/ubuntu/22.04/Dockerfile . || exit 1
+	@docker build --tag opsys/ubuntu:22.04 \
+                  --file containers/opsys/ubuntu/22.04/Dockerfile . || exit 1
 	@echo ${GREEN}">>>Completed $@"${RESET}
 
 build/containers/opsys/ubuntu/23.04:
 	@echo ${GREEN}">>>Start $@"${RESET}
-	@docker build --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04/Dockerfile . || exit 1
+	@docker build --tag opsys/ubuntu:23.04 \
+                  --file containers/opsys/ubuntu/23.04/Dockerfile . || exit 1
 	@echo ${GREEN}">>>Completed $@"${RESET}
 
 build/containers/opsys/ubuntu/latest:
 	@echo ${GREEN}">>>Start $@"${RESET}
-	@docker tag opsys/ubuntu:23.04 containers/opsys/ubuntu:latest || exit 1
+	@docker tag opsys/ubuntu:23.04 opsys/ubuntu:latest || exit 1
 	@echo ${GREEN}">>>Completed $@"${RESET}
 
 # --------------------------------------------------------------------------------------------------------
