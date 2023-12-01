@@ -1,5 +1,5 @@
 /*
- * 0100-func-createIcons.sql
+ * 0110-func-createIcons.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 

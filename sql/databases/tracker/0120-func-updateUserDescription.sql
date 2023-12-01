@@ -1,5 +1,5 @@
 /*
- * 0100-func-updateUserDescription.sql
+ * 0120-func-updateUserDescription.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateUserDescription(userId uuid, description text) returns integer as

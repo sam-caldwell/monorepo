@@ -1,9 +1,9 @@
 /*
- * 0100-func-getUserByEmail.sql
+ * 0120-func-getUserById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
-create or replace function getUserByEmail(emailAddress varchar(256)) returns jsonb as
+create or replace function getUserById(userId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -18,7 +18,7 @@ begin
             'description', description
         )) into result
     from users
-    where email == emailAddress;
+    where id == userId;
     return result;
 
 end ;

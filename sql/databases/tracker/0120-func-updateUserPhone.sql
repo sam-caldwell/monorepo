@@ -1,5 +1,5 @@
 /*
- * 0100-func-updateUserPhone.sql
+ * 0120-func-updateUserPhone.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateUserPhone(userId uuid, phoneNumber varchar(20)) returns integer as

@@ -1,5 +1,5 @@
 /*
- * 0100-func-createUser.sql
+ * 0120-func-createUser.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function createUser(firstName varchar(64), lastName varchar(64), avatarId uuid, email varchar(256),

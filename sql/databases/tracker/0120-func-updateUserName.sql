@@ -1,5 +1,5 @@
 /*
- * 0100-func-updateUserName.sql
+ * 0120-func-updateUserName.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateUserName(userId uuid, firstName varchar(64), lastName varchar(64)) returns integer as

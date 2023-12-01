@@ -1,5 +1,5 @@
 /*
- * 0100-func-updateUserEmail.sql
+ * 0120-func-updateUserEmail.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateUserEmail(userId uuid, email varchar(256)) returns integer as

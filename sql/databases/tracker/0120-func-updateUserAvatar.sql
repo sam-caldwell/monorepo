@@ -1,5 +1,5 @@
 /*
- * 0100-func-updateUserAvatar.sql
+ * 0120-func-updateUserAvatar.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateUserAvatar(userId uuid, avatarId varchar(256)) returns integer as
