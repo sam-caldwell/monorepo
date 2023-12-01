@@ -6,7 +6,7 @@ package main
  *
  * Proof of concept for CRSCE compression.
  */
-
+/*
 import (
 	"fmt"
 	crsce "github.com/sam-caldwell/monorepo/go/crsce/compress/lib"
@@ -14,7 +14,8 @@ import (
 	"github.com/sam-caldwell/monorepo/go/file"
 	file2 "github.com/sam-caldwell/monorepo/go/fs/file"
 )
-
+*/
+/*
 func main() {
 	//
 	// evaluate command-line arguments
@@ -55,3 +56,4 @@ func main() {
 		exit.CheckError(crsce.Compress(block, target))
 	}
 }
+*/
