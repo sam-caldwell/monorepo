@@ -21,6 +21,8 @@ const (
 
 	NotFound = 20
 
+	ConnectionFailed = 30
+
 	LockCreateFailed = 98
 	FailedToFreeLock = 99
 )
