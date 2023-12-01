@@ -28,12 +28,12 @@ clean: clean/asm \
 	@mkdir build || true
 
 build: build/asm \
-       build/containers \
        build/cpp \
 	   build/go \
 	   build/js \
 	   build/python \
-	   build/sql
+       build/containers \
+	   build/sql \
 	@echo ${GREEN}">>>Completed $@"${RESET}
 #
 #	@(\
