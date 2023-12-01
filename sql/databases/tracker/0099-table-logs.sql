@@ -1,5 +1,5 @@
 /*
- * 0003-table-logs.sql
+ * 0099-table-logs.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * A table containing all logs for history.
