@@ -11,7 +11,7 @@ declare
 begin
     select jsonb_agg(jsonb_build_object(
             'userId', userId
-        ))
+        )) as workflow
     into result
     from teamMembership
     where teamId == teamId;

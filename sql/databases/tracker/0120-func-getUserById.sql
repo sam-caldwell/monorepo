@@ -16,7 +16,7 @@ begin
             'email', email,
             'phoneNumber', phoneNumber,
             'description', description
-        )) into result
+        ))  as workflow into result
     from users
     where id == userId;
     return result;

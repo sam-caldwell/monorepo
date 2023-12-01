@@ -18,7 +18,7 @@ begin
             'team', team,
             'everyone', everyone,
             'description', description
-        ))
+        )) as workflow
     into result
     from workflow
     where name == workflowName;

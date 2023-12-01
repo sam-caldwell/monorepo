@@ -16,7 +16,7 @@ begin
             'perm_team', team,
             'perm_everyone', everyone,
             'description', description
-        ))
+        )) as workflow
     into result
     from teams
     where id == teamId;
