@@ -17,13 +17,10 @@ create table if not exists projects
     team        permissions not null default 'none',
     everyone    permissions not null default 'none',
     defaultTicketType uuid not null,
-    -- a project is mapped to a workflow --
-    workflowId  uuid        not null,
     -- descriptive text --
     description text,
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
-    foreign key (workflowId) references workflow (id),
     foreign key (iconId) references icons(id),
     foreign key (defaultTicketType) references ticketTypes(id)
 );
