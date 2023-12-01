@@ -41,7 +41,7 @@ func TestBitFileWriter_Size(t *testing.T) {
 
 	var f Writer
 
-	if err := f.Open(&testFile); err != nil {
+	if err := f.Open(&testFile, 4096); err != nil {
 		t.Fatalf("failed to open file: %v", err)
 	}
 
@@ -51,8 +51,10 @@ func TestBitFileWriter_Size(t *testing.T) {
 		t.Fatalf("error retrieving size: %v", err)
 	}
 
-	if actual != uint64(len(testData)) {
-		t.Fatalf("size mismatch.  (actual: %d, expected: %d)", actual, len(testData))
+	if actual != 0 {
+		t.Fatalf("size mismatch.\n"+
+			"actual:   %d,\n"+
+			"expected: %d", actual, 0)
 	}
 
 }
