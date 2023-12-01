@@ -9,9 +9,8 @@ declare
 begin
     select jsonb_agg(jsonb_build_object(
             'id', id,
-            'url',url,
-        )) as icons
-    into result
+            'url', url
+        )) as icons into result
     from icons
     where id == id;
     return result;

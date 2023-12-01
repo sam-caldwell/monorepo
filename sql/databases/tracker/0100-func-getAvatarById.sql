@@ -9,9 +9,8 @@ declare
 begin
     select jsonb_agg(jsonb_build_object(
             'id', id,
-            'url',url,
-        )) as avatars
-    into result
+            'url', url
+        )) as avatars into result
     from avatars
     where id == id;
     return result;
