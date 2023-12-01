@@ -26,7 +26,12 @@ clean: clean/asm \
 	@echo "$@"
 	@rm -rf build || true
 	@mkdir build || true
-
+#
+# Builds should--
+#		- Build language-specific projects first.
+#		- Build containers second (which may consume language-specific projects)
+#		- Build the various database schemas next (which uses containers)
+#
 build: build/asm \
        build/cpp \
 	   build/go \
