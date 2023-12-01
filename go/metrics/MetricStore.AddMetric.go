@@ -35,9 +35,9 @@ func (store *MetricStore) AddMetric(name string, metricType interface{}) *Metric
 		StateMetric[hashes2.Sha1], StateMetric[hashes2.Sha256], StateMetric[hashes2.Sha512],
 		StateMetric[generic.Block1KB], StateMetric[generic.Block2KB],
 		StateMetric[generic.Block4KB], StateMetric[generic.Block8KB],
-		StateMetric[generic.Block16KB],
-		TimeMetric:
-		store.data[name] = metricType
+		StateMetric[generic.Block16KB]: //,
+		//TimeMetric:
+		//store.data[name] = metricType
 	default:
 		//
 		// Record the error if an unsupported type is used.
