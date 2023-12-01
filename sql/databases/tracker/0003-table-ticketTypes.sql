@@ -1,3 +1,9 @@
+/*
+ * 0003-table-ticketTypes.sql
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * Identify the ticket classifications.
+ */
 create table if not exists ticketTypes (
     id uuid primary key default gen_random_uuid(),
     -- each workflow has a unique name --

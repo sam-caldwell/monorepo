@@ -1,5 +1,5 @@
 /*
- * 0002-workflow.sql
+ * 0002-table-workflow.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * This is the top-level table for representing a workflow.

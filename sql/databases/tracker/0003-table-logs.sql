@@ -1,3 +1,9 @@
+/*
+ * 0003-table-logs.sql
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * A table containing all logs for history.
+ */
 create table if not exists logs
 (
     id       serial4       not null primary key,

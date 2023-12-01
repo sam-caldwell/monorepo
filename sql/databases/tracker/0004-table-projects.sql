@@ -1,3 +1,8 @@
+/*
+ * 0004-table-projects.sql
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ */
 create table if not exists projects
 (
     id          uuid primary key default gen_random_uuid(),

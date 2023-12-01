@@ -1,3 +1,7 @@
+/*
+ * 0005-table-workflowActions.sql
+ * (c) 2023 Sam Caldwell.  See License.txt.
+ */
 create table if not exists workflowActions
 (
     id             uuid primary key default gen_random_uuid(),

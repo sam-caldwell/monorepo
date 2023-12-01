@@ -1,3 +1,7 @@
+/*
+ * 0000-type-logPriority.sql
+ * (c) 2023 Sam Caldwell.  See License.txt
+ */
 DO
 $$
     BEGIN

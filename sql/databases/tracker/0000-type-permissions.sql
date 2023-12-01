@@ -1,5 +1,5 @@
 /*
- * 0000-permissions.sql
+ * 0000-type-permissions.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create a permissions type (enum)

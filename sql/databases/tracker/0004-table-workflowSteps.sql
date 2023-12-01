@@ -1,5 +1,5 @@
 /*
- * 0004-workflowSteps.sql
+ * 0004-table-workflowSteps.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create user profiles for the tracker.

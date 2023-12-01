@@ -1,5 +1,5 @@
 /*
- * 0006-ticketAudience.sql
+ * 0006-table-ticketAudience.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * map tickets to teams/users and allow overriding permissions.

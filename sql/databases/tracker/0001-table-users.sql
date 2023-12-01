@@ -1,5 +1,5 @@
 /*
- * 0001-users.sql
+ * 0001-table-users.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create user profiles for the tracker.
