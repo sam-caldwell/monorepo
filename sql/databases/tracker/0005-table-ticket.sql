@@ -14,7 +14,7 @@ create table if not exists ticket
     team           permissions   not null default 'read',
     everyone       permissions   not null default 'read',
     -- descriptive text --
-    subject        varchar(2048) not null,
+    summary        varchar(2048) not null,
     workflowStepId uuid          not null,
     description    text,
     foreign key (projectId) references projects (id),

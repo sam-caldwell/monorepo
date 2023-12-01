@@ -10,6 +10,7 @@ create table if not exists comment
     ticketId uuid,
     authorId uuid,
     author   permissions not null default 'delete',
+    team     permissions not null default 'read',
     everyone permissions not null default 'read',
     comment  text,
     foreign key (ticketId) references ticket (id),

@@ -3,7 +3,9 @@
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
-create or replace function getWorkflowByOwnerId(workflowOwnerId varchar(64)) returns jsonb as
+create or replace function getWorkflowByOwnerId(workflowOwnerId varchar(64),
+                                                pageLimit integer,
+                                                pageOffset integer) returns jsonb as
 $$
 declare
     result jsonb;
@@ -21,7 +23,8 @@ begin
         )) as workflow
     into result
     from workflow
-    where ownerId == workflowOwnerId;
+    where ownerId == workflowOwnerId
+    limit pageLimit offset pageOffset;
     return result;
 
 end ;
