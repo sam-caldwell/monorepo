@@ -11,5 +11,9 @@ build/sql: build/go/db/dbMigrations
 	@docker ps
 	@echo ${GREEN}"$@ has started the local dev database"${RESET}
 
-	go run go/db/dbMigrations/main.go
+	@go run go/db/dbMigrations/main.go --db_host 192.168.3.190 \
+									   --db_port 5432 \
+									   --db_user admin \
+									   --db_pass admin
+
 	@echo ${GREEN}"$@ completed"${RESET}
