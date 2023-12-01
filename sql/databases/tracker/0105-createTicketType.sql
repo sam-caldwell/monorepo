@@ -3,26 +3,15 @@
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
-create or replace function createTicketType(name varchar(64), iconId uuid, description text) returns jsonb as
+create or replace function createTicketType(name varchar(64), iconId uuid, workflowId uuid,
+                                            description text) returns uuid as
 $$
 declare
-    result jsonb;
+    newId uuid;
 begin
-    select jsonb_agg(jsonb_build_object(
-            'id', id,
-            'name', name,
-            'iconId', iconId,
-            'ownerId', ownerId,
-            'teamId', teamId,
-            'owner', owner,
-            'team', team,
-            'everyone', everyone,
-            'description', description
-        )) as workflow
-    into result
-    from workflow
-    where ownerId == workflowTeamId;
-    return result;
-
-end ;
+    newId := gen_random_uuid();
+    insert into ticketTypes (id, name, iconId, workflowId, description)
+    values (newId, name, iconId, workflowId, description);
+    return newId;
+end;
 $$ language plpgsql;
