@@ -4,21 +4,18 @@ import (
 	"fmt"
 )
 
-func (db *Db) CreateDatabase(dbName string, owner string) *Db {
-	var sql string
+func (db *Db) CreateDatabase(dbName string, owner string) error {
 	if !SanitizeDBName(&dbName) {
-		db.err = fmt.Errorf("invalid database name (%s)", dbName)
+		return fmt.Errorf("invalid database name (%s)", dbName)
 	}
-	sql = fmt.Sprintf("create database '%s';", dbName)
-	if _, err := db.conn.Exec(sql); err != nil {
-		db.err = fmt.Errorf("error creating the database %s: %v", dbName, err)
-		return db
+	if _, err := db.conn.Exec(fmt.Sprintf("create database %s", dbName)); err != nil {
+		return fmt.Errorf("error creating the database %s: %v\n", dbName, err)
+	}
+	_, err := db.conn.Exec(fmt.Sprintf("grant all privileges on database %s to %s", dbName, owner))
+	if err != nil {
+		return fmt.Errorf("failed to grant privileges on the database %s to %s.  error: %v\n",
+			dbName, owner, err)
 	}
 
-	sql = fmt.Sprintf("grant all privileges on database %s to %s", dbName, owner)
-	if _, err := db.conn.Exec(sql); err != nil {
-		db.err = fmt.Errorf("error granting privileges on the database %s to %s: %v", dbName, owner, err)
-		return db
-	}
-	return db
+	return nil
 }

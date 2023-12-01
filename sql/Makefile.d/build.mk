@@ -3,8 +3,6 @@
 #
 build/sql: build/go/db/dbMigrations
 	@echo ${GREEN}"$@ starting"${RESET}
-	@pip3 install --upgrade pip
-	@pip3 install -r sql/requirements.txt
 
 	@echo ${GREEN}"Create the database schema in the local dev database"${RESET}
 	@docker kill postgresql &>/dev/null || true

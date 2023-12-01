@@ -65,6 +65,9 @@ func main() {
 		LF().
 		Reset()
 
+	/*
+	 * Validate the database directory exists
+	 */
 	databasesDirectory = filepath.Join(*rootDirectory, sqlDirectoryPath)
 	if !directory.Exists(databasesDirectory) {
 		ansi.Red().
@@ -75,8 +78,11 @@ func main() {
 	}
 	ansi.Green().Time().Printf("databasesDirectory (%s) confirmed\n", databasesDirectory).Reset()
 
-	postgresDb := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, defaultDatabase, *pgDbUser, *pgDbPass, *pgDbUseTls)
-	if err := postgresDb.Error(); err != nil {
+	/*
+	 * Establish a default database connection (postgres)
+	 */
+	postgresDb, err := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, defaultDatabase, *pgDbUser, *pgDbPass, *pgDbUseTls)
+	if err != nil {
 		ansi.Red().
 			Time().
 			Printf("Error connecting to database (postgres): %v\n", err).
@@ -85,13 +91,6 @@ func main() {
 	}
 
 	defer func() {
-		if err := postgresDb.Error(); err != nil {
-			ansi.Red().
-				Time().
-				Printf("Error in database connector: %v\n", err).
-				Reset().
-				Fatal(exit.ConnectionFailed)
-		}
 		if err := postgresDb.Close(); err != nil {
 			ansi.Red().
 				Time().
@@ -100,73 +99,54 @@ func main() {
 				Fatal(exit.ConnectionFailed)
 		}
 	}()
-
+	/*
+	 * Walk through the database directories and process the db migrations
+	 */
 	if err := filepath.Walk(databasesDirectory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		if info.IsDir() {
-			dbName := info.Name()
-			if dbName == "databases" {
-				//Skip the "databases" directory
-				return nil
-			}
-			if !postgresDb.DbExists(dbName) {
-				postgresDb.CreateDatabase(dbName, *pgDbUser)
-				if err := postgresDb.Error(); err != nil {
-					ansi.Red().
-						Time().
-						Printf("Error creating database: %v\n", err).
-						Reset().
-						Fatal(exit.ConnectionFailed)
-				}
-				ansi.Green().
-					Time().
-					Printf("Database created: %s\n", dbName).
-					Reset()
-			}
-
-			dbConn := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, dbName, *pgDbUser, *pgDbPass, *pgDbUseTls)
-			if err := dbConn.Error(); err != nil {
+		if !info.IsDir() {
+			return nil
+		}
+		dbName := info.Name()
+		if dbName == "databases" {
+			return nil //Skip the "databases" directory
+		}
+		if !postgresDb.DbExists(dbName) {
+			if err := postgresDb.CreateDatabase(dbName, *pgDbUser); err != nil {
 				ansi.Red().
 					Time().
-					Printf("Error connecting to database (%s): %v\n", dbName, err).
+					Printf("Error creating database: %v\n", err).
 					Reset().
 					Fatal(exit.ConnectionFailed)
 			}
-			ansi.Green().
-				Time().
-				Printf("Database connection established (%s)\n", dbName).
-				Reset()
+		}
 
-			defer func() {
-				if err := dbConn.Error(); err != nil {
-					ansi.Red().
-						Time().
-						Printf("Error in database connector: %v\n", err).
-						Reset().
-						Fatal(exit.ConnectionFailed)
-				}
-				if err := dbConn.Close(); err != nil {
-					ansi.Red().
-						Time().
-						Printf("Error closing database connector: %v\n", err).
-						Reset().
-						Fatal(exit.ConnectionFailed)
-				}
-			}()
-			dbConn.ApplyMigration(filepath.Join(databasesDirectory, dbName))
-			if err := dbConn.Error(); err != nil {
+		dbConn, err := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, dbName, *pgDbUser, *pgDbPass, *pgDbUseTls)
+		if err != nil {
+			ansi.Red().
+				Time().
+				Printf("Error connecting to database (%s): %v\n", dbName, err).
+				Reset().
+				Fatal(exit.ConnectionFailed)
+		}
+		defer func() {
+			if err := dbConn.Close(); err != nil {
 				ansi.Red().
 					Time().
-					Printf("error applying migration to %s: %v\n", dbName, err).
+					Printf("Error closing database connector: %v\n", err).
 					Reset().
-					Fatal(exit.GeneralError)
+					Fatal(exit.ConnectionFailed)
 			}
-			ansi.Green().
+			ansi.Green().Time().Println("Terminating OK").Reset()
+		}()
+		if err := dbConn.ApplyMigration(filepath.Join(databasesDirectory, dbName)); err != nil {
+			ansi.Red().
 				Time().
-				Printf("Database migrations completed (%v)\n", dbName).
-				Reset()
+				Printf("error applying migration to %s: %v\n", dbName, err).
+				Reset().
+				Fatal(exit.GeneralError)
 		}
 		return nil
 	}); err != nil {
