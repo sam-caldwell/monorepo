@@ -33,7 +33,7 @@ build: build/asm \
 	   build/js \
 	   build/python \
        build/containers \
-	   build/sql \
+	   build/sql
 	@echo ${GREEN}">>>Completed $@"${RESET}
 #
 #	@(\
