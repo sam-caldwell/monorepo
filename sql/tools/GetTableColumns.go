@@ -13,6 +13,7 @@ type Record struct {
 	ColumnDefault string
 }
 
+// GetTableColumns - Enumerate the table columns and properties for test evaluation.
 func GetTableColumns(t *testing.T, db *Postgres.Db, tableName string) (columns []Record) {
 
 	query := fmt.Sprintf(""+
