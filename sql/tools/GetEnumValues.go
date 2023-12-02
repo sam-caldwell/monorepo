@@ -8,26 +8,18 @@ import (
 
 // GetEnumValues - Return a list of enumerated values.
 func GetEnumValues(t *testing.T, db *Postgres.Db, typeName string) (values []string) {
-
-	query := fmt.Sprintf("SELECT unnest(enum_range(NULL::%s)) AS enum_value;", typeName)
-
-	rows, err := db.Query(query)
-	if err != nil {
-		t.Fatal(err)
-	}
+	_, err := db.Query(
+		fmt.Sprintf(""+
+			"SELECT 1 "+
+			"FROM pg_type "+
+			"WHERE typname = '%s'AND typtype='e';",
+			typeName))
+	CheckError(t, err)
+	rows, err := db.Query(fmt.Sprintf(""+
+		"SELECT unnest(enum_range(NULL::%s)) AS enum_value;", typeName))
+	CheckError(t, err)
 	defer func() {
-		if err := rows.Close(); err != nil {
-			t.Fatal(err)
-		}
+		CheckError(t, rows.Close())
 	}()
-
-	for rows.Next() {
-		var v string
-		if err := rows.Scan(&v); err != nil {
-			t.Fatal(err)
-		}
-		values = append(values, v)
-
-	}
-	return values
+	return SqlRowsToColumns(t, rows)
 }

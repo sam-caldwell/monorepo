@@ -27,20 +27,14 @@ func GetTableColumns(t *testing.T, db *Postgres.Db, tableName string) (columns [
 		tableName)
 
 	rows, err := db.Query(query)
-	if err != nil {
-		t.Fatal(err)
-	}
+	CheckError(t, err)
 	defer func() {
-		if err := rows.Close(); err != nil {
-			t.Fatal(err)
-		}
+		CheckError(t, rows.Close())
 	}()
 
 	for rows.Next() {
 		var columnName, dataType, isNullable, columnDefault string
-		if err := rows.Scan(&columnName, &dataType, &isNullable, &columnDefault); err != nil {
-			t.Fatal(err)
-		}
+		CheckError(t, rows.Scan(&columnName, &dataType, &isNullable, &columnDefault))
 		columns = append(columns, Record{
 			ColumnName:    fmt.Sprintf("%v", columnName),
 			DataType:      fmt.Sprintf("%v", dataType),
