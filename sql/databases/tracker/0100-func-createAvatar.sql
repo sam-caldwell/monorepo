@@ -9,6 +9,6 @@ declare
 begin
     avatarId := gen_random_uuid();
     insert into avatars (id,url) values(avatarId,avatarUrl);
-    return id;
+    return avatarId;
 end;
 $$ language plpgsql;
