@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestSqlDbTable_Membership(t *testing.T) {
+func TestSqlDbTable_TeamMembership(t *testing.T) {
 	const tableName = "teammembership"
 
 	db := database.InitializeTestDbConn(t)
@@ -22,12 +22,10 @@ func TestSqlDbTable_Membership(t *testing.T) {
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		expectedColumns := []string{
-			"ColumnName:userId,datatype:uuid,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:teamId,DataType:uuid,IsNullable:no,ColumnDefault:<<null>>",
-		}
-		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
+		database.ValidateTable(t, db, tableName, []string{
+			"ColumnName:userId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:teamId,DataType:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
+		})
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {

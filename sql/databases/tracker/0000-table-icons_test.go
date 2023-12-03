@@ -21,11 +21,9 @@ func TestSqlDbTable_Icons(t *testing.T) {
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		expectedColumns := []string{
-			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:gen_random_uuid()",
-			"ColumnName:url,DataType:text,IsNullable:YES,ColumnDefault:<<null>>",
-		}
-		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
+		database.ValidateTable(t, db, tableName, []string{
+			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:gen_random_uuid()",
+			"ColumnName:url,DataType:text,size:-1,IsNullable:YES,ColumnDefault:<<null>>",
+		})
 	})
 }

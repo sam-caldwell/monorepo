@@ -22,16 +22,14 @@ func TestSqlDbTable_WorkflowActions(t *testing.T) {
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		expectedColumns := []string{
-			"ColumnName:id,datatype:uuid,IsNullable:no,ColumnDefault:gen_random_uuid()",
-			"ColumnName:workflowStepId,datatype:uuid,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:name,datatype:character varying,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:topic,datatype:character varying,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:message,datatype:character varying,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:description,datatype:text,IsNullable:yes,ColumnDefault:<<null>>",
-		}
-		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
+		database.ValidateTable(t, db, tableName, []string{
+			"ColumnName:id,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:gen_random_uuid()",
+			"ColumnName:workflowStepId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:name,datatype:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:topic,datatype:character varying,size:2048,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:message,datatype:character varying,size:2048,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:description,datatype:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
+		})
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {

@@ -21,18 +21,17 @@ func TestSqlDbTable_users(t *testing.T) {
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		expectedColumns := []string{
-			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:gen_random_uuid()",
-			"ColumnName:description,DataType:text,IsNullable:yes,ColumnDefault:<<null>>",
-			"ColumnName:email,DataType:character varying,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:firstName,DataType:character varying,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:lastName,DataType:character varying,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:avatarId,DataType:uuid,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:phonenumber,DataType:character varying,IsNullable:YES,ColumnDefault:<<null>>",
-		}
-		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
+		database.ValidateTable(t, db, tableName, []string{
+			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:gen_random_uuid()",
+			"ColumnName:description,DataType:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
+			"ColumnName:email,DataType:character varying,size:256,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:firstName,DataType:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:lastName,DataType:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:avatarId,DataType:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:phonenumber,DataType:character varying,size:20,IsNullable:YES,ColumnDefault:<<null>>",
+		})
 	})
+
 	t.Run("check foreign keys", func(t *testing.T) {
 		database.ValidateForeignKey(t, db, "users", "avatars", "avatarId", "id")
 	})

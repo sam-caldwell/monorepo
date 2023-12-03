@@ -21,11 +21,9 @@ func TestSqlDbTable_PropertyKeys(t *testing.T) {
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		expectedColumns := []string{
-			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:gen_random_uuid()",
-			"ColumnName:name,DataType:character varying,IsNullable:NO,ColumnDefault:<<null>>",
-		}
-		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
+		database.ValidateTable(t, db, tableName, []string{
+			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:gen_random_uuid()",
+			"ColumnName:name,DataType:character varying,size:64,IsNullable:NO,ColumnDefault:<<null>>",
+		})
 	})
 }

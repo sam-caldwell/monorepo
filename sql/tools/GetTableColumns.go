@@ -12,6 +12,7 @@ func GetTableColumns(t *testing.T, db *Postgres.Db, tableName string) (columns [
 		"SELECT "+
 		"coalesce(column_name,'<<null>>') as ColumnName, "+
 		"coalesce(data_type,'<<null>>') as DataType, "+
+		"coalesce(character_maximum_length,-1) as charMaxLength, "+
 		"coalesce(is_nullable,'<<null>>') as IsNullable, "+
 		"coalesce(column_default,'<<null>>') as ColumnDefault "+
 		"FROM information_schema.columns "+
@@ -25,14 +26,16 @@ func GetTableColumns(t *testing.T, db *Postgres.Db, tableName string) (columns [
 	}()
 	for rows.Next() {
 		var columnName, dataType, isNullable, columnDefault string
-		CheckError(t, rows.Scan(&columnName, &dataType, &isNullable, &columnDefault))
+		var charMaxLength int
+		CheckError(t, rows.Scan(&columnName, &dataType, &charMaxLength, &isNullable, &columnDefault))
 		columns = append(columns,
 			fmt.Sprintf(""+
 				"ColumnName:%v,"+
 				"DataType:%v,"+
+				"Size:%v,"+
 				"IsNullable:%v,"+
 				"ColumnDefault:%v",
-				columnName, dataType, isNullable, columnDefault))
+				columnName, dataType, charMaxLength, isNullable, columnDefault))
 	}
 	return columns
 }

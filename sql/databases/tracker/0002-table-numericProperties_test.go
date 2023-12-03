@@ -21,12 +21,10 @@ func TestSqlDbTable_numericProperties(t *testing.T) {
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		expectedColumns := []string{
-			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:<<null>>",
-			"ColumnName:value,DataType:integer,IsNullable:NO,ColumnDefault:<<null>>",
-		}
-		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
+		database.ValidateTable(t, db, tableName, []string{
+			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
+			"ColumnName:value,DataType:integer,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
+		})
 	})
 	t.Run("check foreign keys", func(t *testing.T) {
 		database.ValidateForeignKey(t, db, tableName, "propertyKeys", "id", "id")
