@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func TestSqlDbTable_Avatars(t *testing.T) {
-	const tableName = "avatars"
+func TestSqlDbTable_PropertyKeys(t *testing.T) {
+	const tableName = "propertykeys"
 	db := database.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
@@ -16,14 +16,14 @@ func TestSqlDbTable_Avatars(t *testing.T) {
 	})
 
 	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
-		_, err := db.Query(fmt.Sprintf("select id, url from %s limit 1;", tableName))
+		_, err := db.Query(fmt.Sprintf("select id, name from %s limit 1;", tableName))
 		database.CheckError(t, err)
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
 		expectedColumns := []string{
 			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:gen_random_uuid()",
-			"ColumnName:url,DataType:text,IsNullable:YES,ColumnDefault:<<null>>",
+			"ColumnName:name,DataType:character varying,IsNullable:NO,ColumnDefault:<<null>>",
 		}
 		actualColumns := database.GetTableColumns(t, db, tableName)
 		database.CompareTwoStringLists(t, actualColumns, expectedColumns)

@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/sam-caldwell/monorepo/sql/tools"
 	"testing"
 )
@@ -14,17 +15,17 @@ func TestSqlDbTable_Icons(t *testing.T) {
 		database.CheckError(t, err)
 	})
 
-	t.Run("query the avatars table", func(t *testing.T) {
-		_, err := db.Query("select id, url from avatars limit 1;")
+	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
+		_, err := db.Query(fmt.Sprintf("select id, url from %s limit 1;", tableName))
 		database.CheckError(t, err)
 	})
 
-	t.Run("check avatars table schema", func(t *testing.T) {
-		expectedColumns := []database.Record{
-			{"id", "uuid", "NO", "gen_random_uuid()"},
-			{"url", "text", "YES", "<<null>>"},
+	t.Run("check table schema", func(t *testing.T) {
+		expectedColumns := []string{
+			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:gen_random_uuid()",
+			"ColumnName:url,DataType:text,IsNullable:YES,ColumnDefault:<<null>>",
 		}
 		actualColumns := database.GetTableColumns(t, db, tableName)
-		database.CompareTableColumns(t, actualColumns, expectedColumns)
+		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
 	})
 }
