@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"github.com/sam-caldwell/monorepo/sql/tools"
 	"testing"
 )
@@ -17,7 +16,7 @@ func TestSqlDbTable_TicketTypes(t *testing.T) {
 	})
 
 	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
-		_, err := db.Query(fmt.Sprintf("select 1 from %s limit 1;", tableName))
+		_, err := db.Query("select 1 from %s limit 1;", tableName)
 		database.CheckError(t, err)
 	})
 

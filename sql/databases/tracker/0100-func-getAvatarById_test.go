@@ -7,11 +7,11 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_deleteAvatar(t *testing.T) {
+func TestSqlDbFunc_getAvatarById(t *testing.T) {
 
 	const (
 		tableName    = "avatar"
-		functionName = "deleteAvatar"
+		functionName = "getAvatarById"
 		testUrl      = "http://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png"
 	)
 	db := database.InitializeTestDbConn(t)
@@ -29,9 +29,9 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		database.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{avatarid},"+
+				"pn:{id},"+
 				"pt:{uuid},"+
-				"rt:int4", strings.ToLower(functionName)))
+				"rt:jsonb", strings.ToLower(functionName)))
 	})
 
 	t.Run("happy path:run the function", func(t *testing.T) {
