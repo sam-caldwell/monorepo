@@ -41,12 +41,13 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 		var avatarUrl string
 
 		t.Run("createAvatar", func(t *testing.T) {
-			t.Logf("createAvatar() call start")
 			rows, err := db.Query("select createAvatar('%s');", testUrl)
 			database.CheckError(t, err)
-			t.Logf("query returned")
-			rows.Next()
-			t.Logf("rows.Next() returned")
+			t.Run("createAvatar() should return a row", func(t *testing.T) {
+				if !rows.Next() {
+					t.Fatal("no row returned")
+				}
+			})
 			t.Run("expect result is a uuid", func(t *testing.T) {
 				err = rows.Scan(&avatarId)
 				database.CheckError(t, err)
