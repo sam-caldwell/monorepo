@@ -8,6 +8,7 @@ import (
 
 func TestSqlDbTable_workflow(t *testing.T) {
 	const tableName = "workflow"
+
 	db := database.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
@@ -23,7 +24,6 @@ func TestSqlDbTable_workflow(t *testing.T) {
 	t.Run("check table schema", func(t *testing.T) {
 		expectedColumns := []string{
 			"ColumnName:id,DataType:uuid,IsNullable:NO,ColumnDefault:gen_random_uuid()",
-			"ColumnName:description,DataType:text,IsNullable:yes,ColumnDefault:<<null>>",
 			"ColumnName:name,DataType:character varying,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:iconId,datatype:uuid,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:ownerId,DataType:uuid,IsNullable:no,ColumnDefault:<<null>>",
@@ -31,6 +31,7 @@ func TestSqlDbTable_workflow(t *testing.T) {
 			"ColumnName:owner,datatype:user-defined,IsNullable:no,ColumnDefault:'delete'::permissions",
 			"ColumnName:team,datatype:user-defined,IsNullable:no,ColumnDefault:'read'::permissions",
 			"ColumnName:everyone,datatype:user-defined,IsNullable:no,ColumnDefault:'read'::permissions",
+			"ColumnName:description,DataType:text,IsNullable:yes,ColumnDefault:<<null>>",
 		}
 		actualColumns := database.GetTableColumns(t, db, tableName)
 		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
