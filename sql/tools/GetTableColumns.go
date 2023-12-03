@@ -8,7 +8,6 @@ import (
 
 // GetTableColumns - Enumerate the table columns and properties for test evaluation.
 func GetTableColumns(t *testing.T, db *Postgres.Db, tableName string) (columns []string) {
-	t.Logf("tableName: %s", tableName)
 	query := fmt.Sprintf(""+
 		"SELECT "+
 		"coalesce(column_name,'<<null>>') as ColumnName, "+
