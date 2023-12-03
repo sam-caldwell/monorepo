@@ -8,6 +8,9 @@ test/sql:
 	db_name=tracker \
 	db_user=admin \
 	db_pass=admin  \
-	use_tls=false go test -v -failfast ./sql/databases/...
-	@echo ${GREEN}"completed $@"${RESET}
+	use_tls=false go test -v -failfast ./sql/databases/... || {\
+	  echo ${RED}"failed $@"${RESET};\
+	  exit 1;\
+  	};\
+	echo ${GREEN}"completed $@"${RESET}
 

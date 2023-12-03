@@ -28,4 +28,7 @@ func TestSqlDbTable_stringProperties(t *testing.T) {
 		actualColumns := database.GetTableColumns(t, db, tableName)
 		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
 	})
+	t.Run("check foreign keys", func(t *testing.T) {
+		database.ValidateForeignKey(t, db, tableName, "propertyKeys", "id", "id")
+	})
 }

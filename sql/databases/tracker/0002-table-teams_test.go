@@ -34,4 +34,8 @@ func TestSqlDbTable_teams(t *testing.T) {
 		actualColumns := database.GetTableColumns(t, db, tableName)
 		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
 	})
+	t.Run("check foreign keys", func(t *testing.T) {
+		database.ValidateForeignKey(t, db, "teams", "users", "ownerId", "id")
+		database.ValidateForeignKey(t, db, "teams", "icons", "iconId", "id")
+	})
 }

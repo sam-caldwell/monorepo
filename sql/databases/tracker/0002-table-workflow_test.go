@@ -36,4 +36,10 @@ func TestSqlDbTable_workflow(t *testing.T) {
 		actualColumns := database.GetTableColumns(t, db, tableName)
 		database.CompareTwoStringLists(t, actualColumns, expectedColumns)
 	})
+
+	t.Run("check foreign keys", func(t *testing.T) {
+		database.ValidateForeignKey(t, db, "workflow", "users", "ownerId", "id")
+		database.ValidateForeignKey(t, db, "workflow", "teams", "teamId", "id")
+		database.ValidateForeignKey(t, db, "workflow", "icons", "iconId", "id")
+	})
 }
