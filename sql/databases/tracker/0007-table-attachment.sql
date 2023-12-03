@@ -9,8 +9,8 @@
 create table if not exists attachment
 (
     id       uuid primary key default gen_random_uuid(),
-    ticketId uuid,
-    authorId uuid,
+    ticketId uuid not null,
+    authorId uuid not null,
     author   permissions not null default 'delete',
     team     permissions not null default 'read',
     everyone permissions not null default 'read',

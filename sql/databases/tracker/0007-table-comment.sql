@@ -7,12 +7,12 @@
 create table if not exists comment
 (
     id       uuid primary key     default gen_random_uuid(),
-    ticketId uuid,
-    authorId uuid,
+    ticketId uuid not null,
+    authorId uuid not null,
     author   permissions not null default 'delete',
     team     permissions not null default 'read',
     everyone permissions not null default 'read',
-    comment  text,
+    comment  text not null,
     foreign key (ticketId) references ticket (id),
     foreign key (authorId) references users (id)
 );
