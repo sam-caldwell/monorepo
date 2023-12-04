@@ -54,9 +54,11 @@ build/go/crsce:
 	@color -yellow -lf "##$@ not implemented"
 
 build/go/db/dbMigrations:
-	@color -blue -lf ">>start $@"
-	go build -o build/dbMigrations go/db/dbMigrations/main.go
-	@color -green -lf "<<complete $@"
+	@color -blue -lf -reset ">>start $@"
+	@go build -o build/dbMigrations go/db/dbMigrations/main.go || {\
+  		color -red -lf -reset ">>>failed $@";\
+	};\
+	color -green -lf "<<complete $@"
 
 build/go/db/postgres:
 	@color -yellow -lf "##$@ not implemented"

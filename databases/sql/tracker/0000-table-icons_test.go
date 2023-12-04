@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/sam-caldwell/monorepo/databases/sql/tools"
+	"github.com/sam-caldwell/monorepo/databases/tools"
 	"testing"
 )
 
@@ -11,7 +11,7 @@ func TestSqlDbTable_Icons(t *testing.T) {
 
 	t.Cleanup(func() {
 		err := db.Close()
-		database.CheckError(t, err)
+		database.database.CheckError(t, err)
 	})
 
 	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {

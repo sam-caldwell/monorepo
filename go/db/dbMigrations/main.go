@@ -39,7 +39,7 @@ const (
 
 	defaultDatabase = "postgres"
 
-	sqlDirectoryPath = "sql/databases"
+	sqlDirectoryPath = "databases/sql"
 )
 
 func main() {
@@ -76,7 +76,7 @@ func main() {
 			Reset().
 			Fatal(exit.NotFound)
 	}
-	ansi.Green().Time().Printf("databasesDirectory (%s) confirmed\n", databasesDirectory).Reset()
+	ansi.Green().Time().Printf("Databases Directory confirmed (%s)\n", databasesDirectory).Reset()
 
 	/*
 	 * Establish a default database connection (postgres)
@@ -89,6 +89,7 @@ func main() {
 			Reset().
 			Fatal(exit.ConnectionFailed)
 	}
+	ansi.Green().Time().Println("connection to postgres is established").Reset()
 
 	defer func() {
 		if err := postgresDb.Close(); err != nil {
@@ -99,9 +100,9 @@ func main() {
 				Fatal(exit.ConnectionFailed)
 		}
 	}()
-	/*
-	 * Walk through the database directories and process the db migrations
-	 */
+
+	ansi.Blue().Println("Walk through database directories and process each database discovered").Reset()
+	ansi.Blue().Printf("databasesDirectory:%s\n", databasesDirectory).Reset()
 	if err := filepath.Walk(databasesDirectory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -110,10 +111,13 @@ func main() {
 			return nil
 		}
 		dbName := info.Name()
-		if dbName == "databases" {
+		if dbName == "databases" || dbName == "sql" || dbName == "Makefile.d" {
 			return nil //Skip the "databases" directory
 		}
-		if !postgresDb.DbExists(dbName) {
+		if postgresDb.DbExists(dbName) {
+			ansi.Yellow().Printf("database exists: %s\n", dbName).Reset()
+		} else {
+			ansi.Blue().Printf("database not found (%s) ...create one\n", dbName).Reset()
 			if err := postgresDb.CreateDatabase(dbName, *pgDbUser); err != nil {
 				ansi.Red().
 					Time().

@@ -24,7 +24,7 @@ func InitializeTestDbConn(t *testing.T) *Postgres.Db {
 	CheckError(t, err)
 
 	if err = db.Connect(pgHost, uint(pgPort), dbName, pgUser, pgPass, pgUseTls); err != nil {
-		t.Fatal(err)
+		t.Fatalf("InitializeTestDbConn: %v", err)
 	}
 	return &db
 }
