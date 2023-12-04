@@ -1,2 +1,2 @@
 clean/cpp:
-	@echo '$@ not implemented'
+	@color -yellow -lf -reset "$@ not implemented"

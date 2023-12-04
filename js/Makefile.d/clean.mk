@@ -1,2 +1,2 @@
 clean/js:
-	@echo '$@ not implemented'
+	@color -yellow -lf -reset "$@ not implemented"

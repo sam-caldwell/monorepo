@@ -20,7 +20,7 @@ clean: clean/asm \
 	   clean/sql
 	@rm -rf build || true
 	@mkdir build || true
-	color -green -lf ">>>Completed $@"
+	@color -green -lf ">>>Completed $@"
 #
 # Builds should--
 #		- Build language-specific projects first.
@@ -34,7 +34,7 @@ build: build/asm \
 	   build/python \
        build/containers \
 	   build/sql
-	@color -yellow -lf ">>>Completed $@"
+	@color -green -lf ">>>Completed $@"
 
 test:
 	color -blue -lf ">>>Start $@"

@@ -1,2 +1,2 @@
 build/asm:
-	@echo "$@ not implemented"
+	@color -blue -lf -reset "$@ not implemented"

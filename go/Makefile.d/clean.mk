@@ -1,2 +1,2 @@
 clean/go:
-	color -yellow -lf '$@ not implemented'
+	@color -yellow -lf '$@ not implemented'
