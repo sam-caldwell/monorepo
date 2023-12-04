@@ -22,7 +22,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		_, _ = db.Query("delete from %s where url='%s';", tableName, testUrl)
 
 		err := db.Close()
-		database.database.CheckError(t, err)
+		database.CheckError(t, err)
 	})
 
 	t.Run("verify the function structure (params, return)", func(t *testing.T) {

@@ -10,7 +10,7 @@ func TestSqlDbType_logPriority(t *testing.T) {
 
 	t.Cleanup(func() {
 		err := db.Close()
-		database.database.CheckError(t, err)
+		database.CheckError(t, err)
 	})
 	t.Run("verify the enumerated type values", func(t *testing.T) {
 		actual := database.GetEnumValues(t, db, "logpriority")

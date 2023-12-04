@@ -12,7 +12,7 @@ func TestSqlDbTable_workflow(t *testing.T) {
 
 	t.Cleanup(func() {
 		err := db.Close()
-		database.database.CheckError(t, err)
+		database.CheckError(t, err)
 	})
 
 	t.Run("query the table", func(t *testing.T) {
