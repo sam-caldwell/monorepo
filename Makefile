@@ -9,6 +9,7 @@ YELLOW:="\033[33m"
 RESET:="\033[0m"
 
 include */Makefile.d/*.mk
+include databases/*/Makefile.d/*.mk
 #include containers/Makefile.d/*.mk
 #include cpp/Makefile.d/*.mk
 #include go/Makefile.d/*.mk
