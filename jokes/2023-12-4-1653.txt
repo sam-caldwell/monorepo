@@ -1,0 +1,21 @@
+A mathematician walks into a bar with his dog and cow in tow
+
+“Hey, buddy," the bartender says, "no animals are allowed in here!”
+
+“These are very special animals," replies the mathematician.
+
+“Yeah?  How so?”
+
+“They’re knot theorists.”
+
+The bartender sneers and says, “I’ve met a bunch of knot theorists who I thought were animals, but no an animals that were knot theorists.”
+
+The mathematician shrugs and says "I can prove it.  Ask them anything you like."
+
+The bartender turns to the dog and asks, “Name a knot invariant.” “Arf!” the dog barks.
+
+Turning to the cow, the bartender asks “Name a topological invariant.” “Mu!” says the cow.
+
+"Very funny.  Get out!" the bartender demands.
+
+Sitting on the curb outside, the dog turns to the mathematician and asks, “You think I should have said the Jones polynomial instead?”
