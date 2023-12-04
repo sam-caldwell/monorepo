@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/version"
 	"os"
 	"strings"
 )
@@ -34,9 +35,10 @@ const (
 	/*
 	 * general commands
 	 */
-	reset = "reset"
-	stdin = "stdin"
-	lf    = "lf"
+	reset       = "reset"
+	stdin       = "stdin"
+	lf          = "lf"
+	showVersion = "version"
 )
 
 func main() {
@@ -63,10 +65,15 @@ func main() {
 	cmdReset := flag.Bool(reset, false, "Reset the ansi color codes")
 	UseStdin := flag.Bool(stdin, false, "Read from stdin")
 	lineFeed := flag.Bool(lf, false, "Terminate line with line feed")
+	cmdVersion := flag.Bool(showVersion, false, "show program version")
 
 	flag.Parse()
 
 	nonFlagArgs := flag.Args()
+	if *cmdVersion {
+		version.Show()
+	}
+
 	if (len(nonFlagArgs) == 0) && *UseStdin {
 		scanner := bufio.NewScanner(os.Stdin)
 		for scanner.Scan() {
