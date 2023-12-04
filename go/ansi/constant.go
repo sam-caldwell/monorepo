@@ -14,7 +14,7 @@ const (
 	dim           = "\033[2m" // Set dim (decreased intensity) text
 	underline     = "\033[4m" // Set underlined text
 	blink         = "\033[5m" // Set blinking text (not widely supported)
-	reverse       = "\033[7m" // Set reverse video (swap foreground and background colors)
+	reverse       = "\033[7m" // Set reverse video (swap foreground and background color)
 	hiddenText    = "\033[8m" // Set hidden text (invisible)
 	strikethrough = "\033[9m" // Set strikethrough text (not widely supported)
 

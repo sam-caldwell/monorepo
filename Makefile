@@ -2,12 +2,6 @@
 # (c) 2023 Sam Caldwell.  See License.txt
 #
 
-RED:="\033[31m"
-GREEN:="\033[32m"
-BLUE:="\033[34m"
-YELLOW:="\033[33m"
-RESET:="\033[0m"
-
 include */Makefile.d/*.mk
 include databases/*/Makefile.d/*.mk
 #include containers/Makefile.d/*.mk
@@ -24,9 +18,9 @@ clean: clean/asm \
 	   clean/js \
 	   clean/python \
 	   clean/sql
-	@echo "$@"
 	@rm -rf build || true
 	@mkdir build || true
+	color -green -lf ">>>Completed $@"
 #
 # Builds should--
 #		- Build language-specific projects first.
@@ -40,18 +34,15 @@ build: build/asm \
 	   build/python \
        build/containers \
 	   build/sql
-	@echo ${GREEN}">>>Completed $@"${RESET}
-#
-#	@(\
-#		echo "$@"; \
-#		cd build && \
-#		echo "run child"; \
-#		make build/go/tools/numberCpuCores; \
-#	)
+	@color -yellow -lf ">>>Completed $@"
 
 test:
+	color -blue -lf ">>>Start $@"
 	go test -v -failfast ./... && \
 	go vet ./...
+	color -green -lf "<<<Completed $@"
 
 vet:
+	color -green -lf ">>>Start $@"
 	go vet ./...
+	color -green -lf "<<<Completed $@"

@@ -25,6 +25,7 @@ build/go: build/go/ansi \
 		  build/go/systemrecon \
 		  build/go/testing \
 		  build/go/tools/badgeMaker \
+		  build/go/tools/color \
 		  build/go/tools/numberCpuCores \
 		  build/go/tools/what \
 		  build/go/trees \
@@ -35,134 +36,139 @@ build/go: build/go/ansi \
 		  build/go/types/hashes/tools/searchHashes \
 		  build/go/version \
 		  build/go/wrappers
-	@echo ${GREEN}"$@ OK"${RESET}
+	@color -green -lf "$@ OK"
 
 build/go/ansi:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/communications:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/convert:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/counters:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/crsce:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/db/dbMigrations:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	go build -o build/dbMigrations go/db/dbMigrations/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/db/postgres:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/environment:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/exit:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/experiments:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/fs/file:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/fs/directory:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/keyvalue:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/lists:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/lock:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/logging:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/metrics:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/misc:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/moremath:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/net/calculateSubnets:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/calculateSubnets go/net/calculateSubnets/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/runcommand:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/semver:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/sets:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/simpleArgs:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/simpleLogger:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/systemrecon:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/testing:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/tools/badgeMaker:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/badgeMaker go/tools/badgeMaker/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
+
+build/go/tools/color:
+	@color -blue -lf ">>start $@"
+	@go build -o build/color go/tools/color/main.go
+	@color -green -lf "<<complete $@"
 
 build/go/tools/numberCpuCores:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/numCpuCores go/tools/numberCpuCores/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/tools/what:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/what go/tools/what/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/trees:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/types/bitBlock:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/types/generic:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/types/hashes/tools/findCollisions:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/findCollisions go/types/hashes/tools/findCollisions/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/types/hashes/tools/preCalculateHash:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/preCalculateHash go/types/hashes/tools/preCalculateHash/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/types/hashes/tools/searchHashes:
-	@echo ${BLUE}">>start $@"${RESET}
+	@color -blue -lf ">>start $@"
 	@go build -o build/searchHashes go/types/hashes/tools/searchHashes/main.go
-	@echo ${GREEN}"<<complete $@"${RESET}
+	@color -green -lf "<<complete $@"
 
 build/go/version:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"
 
 build/go/wrappers:
-	@echo ${YELLOW}"--$@ not implemented"${RESET}
+	@color -yellow -lf "##$@ not implemented"

@@ -2,18 +2,17 @@
 # (c) 2023 Sam Caldwell.  See License.txt
 #
 build/sql: build/go/db/dbMigrations
-	@echo ${GREEN}"$@ starting"${RESET}
-
-	@echo ${GREEN}"Create the database schema in the local dev database"${RESET}
+	@color -blue -reset -lf "$@ starting"
+	@color -blue -reset -lf "Create the database schema in the local dev database"
 	@docker kill postgresql &>/dev/null || true
 	@docker rm postgresql &>/dev/null || true
 	@docker run -d --rm --name postgresql -p 0.0.0.0:5432:5432 -v ./sql/databases:/opt/ services/postgresql
 	@docker ps
-	@echo ${GREEN}"$@ has started the local dev database"${RESET}
+	@color -blue -reset -lf $@ has started the local dev database
 
 	@go run go/db/dbMigrations/main.go --db_host 192.168.3.190 \
 									   --db_port 5432 \
 									   --db_user admin \
 									   --db_pass admin
 
-	@echo ${GREEN}"$@ completed"${RESET}
+	@color -green -reset -lf "$@ completed"
