@@ -1,5 +1,5 @@
 package version
 
 const (
-    Version = "v0.0.3"
+	Version = "v0.0.3"
 )
