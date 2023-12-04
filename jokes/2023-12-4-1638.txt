@@ -1,0 +1,9 @@
+A mathematician goes nuts and is committed to a psychiatric hospital.  Every time a new patient comes into the
+hospital, he runs up to the new person and screams "DIFFERENTIATE YOURSELF!" repeatedly until the new person
+freaks out and runs away.
+
+One day a new patient is admitted.  The older mathematician runs up and screams "DIFFERENTIATE YOURSELF!"  But the
+new patient does nothing.  The man screams again "DIFFERENTIATE YOURSELF!"  Again nothing.  Finally after several more
+attempts, the mathematician stops and asks "Why don't you run away like the rest?"
+
+The new patient smiles and says "I'm e^x, you have no power over me."
