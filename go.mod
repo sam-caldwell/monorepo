@@ -7,11 +7,12 @@ replace github.com/sam-caldwell/go/v2 => ./
 require (
 	github.com/go-git/go-git/v5 v5.7.0
 	github.com/google/uuid v1.3.0
-	golang.org/x/sys v0.9.0
+	golang.org/x/sys v0.11.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (
+	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230518184743-7afd39499903 // indirect
 	github.com/acomagu/bufpipe v1.0.4 // indirect
@@ -28,7 +29,11 @@ require (
 	github.com/skeema/knownhosts v1.1.1 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
-	golang.org/x/crypto v0.10.0 // indirect
-	golang.org/x/net v0.11.0 // indirect
+	golang.org/x/crypto v0.12.0 // indirect
+	golang.org/x/exp/typeparams v0.0.0-20221208152030-732eee02a75a // indirect
+	golang.org/x/mod v0.12.0 // indirect
+	golang.org/x/net v0.14.0 // indirect
+	golang.org/x/tools v0.12.1-0.20230825192346-2191a27a6dc5 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
+	honnef.co/go/tools v0.4.6 // indirect
 )
