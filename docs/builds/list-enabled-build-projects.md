@@ -16,13 +16,13 @@ current binary projects (enabled):
  - output:
  - cmd/ansi/color
  - cmd/calculateSubnets/calculateSubnets
- - cmd/tools/badgeMaker
- - cmd/tools/bump-version
- - cmd/tools/findBuildProjects
- - cmd/tools/has-executable
- - cmd/tools/locks
- - cmd/tools/set-version
- - cmd/tools/what
+ - cmd/sqldbtest/badgeMaker
+ - cmd/sqldbtest/bump-version
+ - cmd/sqldbtest/findBuildProjects
+ - cmd/sqldbtest/has-executable
+ - cmd/sqldbtest/locks
+ - cmd/sqldbtest/set-version
+ - cmd/sqldbtest/what
  - cmd/validators/yamlValidator
 
 ```
