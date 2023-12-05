@@ -1,8 +1,7 @@
-package database
+package sqldbtest
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/databases/tools"
 	"strings"
 	"testing"
 )

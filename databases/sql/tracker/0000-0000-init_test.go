@@ -1,22 +1,22 @@
-package database
+package sqldbtest
 
 import (
-	database2 "github.com/sam-caldwell/monorepo/databases/tools"
-	"testing"
+    "github.com/sam-caldwell/monorepo/go/db/sqldbtest"
+    "testing"
 )
 
 func TestDbConnectionForTests(t *testing.T) {
 	var err error
-	db := database2.InitializeTestDbConn(t)
+	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		err = db.Close()
-		database2.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 
 	t.Run("verify db connection works", func(t *testing.T) {
 		_, err = db.Query("select 1;")
-		database2.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 
 }

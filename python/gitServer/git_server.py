@@ -56,14 +56,14 @@ class GitServer(object):
     """
         __valid_repo_name_regex:
             A regular expression used to evaluate the validity
-            of a repository name used with our git-tools and the
+            of a repository name used with our git-sqldbtest and the
             git-server
     """
     __valid_repo_name_regex = "^[a-zA-Z][a-zA-Z./-_/0-9]+[a-zA-Z0-9]$"
     """
         __valid_sshkey_regex:
             A regular expression used to evaluate the validity of
-            an ssh key used with ssh for git-server and git-tools.
+            an ssh key used with ssh for git-server and git-sqldbtest.
     """
     __valid_sshkey_regex = "^(" + \
                            "(" + \
@@ -99,7 +99,7 @@ class GitServer(object):
         __disallowed_git_servers:
             A list of git servers we will not allow to be used
             as preferred (local) git servers for use with the
-            git-tools.
+            git-sqldbtest.
     """
     __disallowed_git_servers = [
         'github.com',

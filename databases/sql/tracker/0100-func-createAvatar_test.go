@@ -1,11 +1,10 @@
-package database
+package sqldbtest
 
 import (
-	"fmt"
-	"github.com/google/uuid"
-	"github.com/sam-caldwell/monorepo/databases/tools"
-	"strings"
-	"testing"
+    "fmt"
+    "github.com/google/uuid"
+    "strings"
+    "testing"
 )
 
 func TestSqlDbFunc_createAvatar(t *testing.T) {

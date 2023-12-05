@@ -1,0 +1,14 @@
+---
+clean:
+  enabled: true
+  steps:
+    - docker rmi -f language/java:21 || true
+
+build:
+  enabled: true
+  steps:
+    - docker build --tag language/java:21 --file containers/language/java/21/Dockerfile .
+
+test:
+  enabled: false
+

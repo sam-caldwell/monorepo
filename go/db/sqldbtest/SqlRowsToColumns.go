@@ -1,4 +1,4 @@
-package database
+package sqldbtest
 
 import (
 	"database/sql"

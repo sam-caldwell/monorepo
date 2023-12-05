@@ -1,0 +1,11 @@
+---
+clean:
+  enabled: false
+
+build:
+  enabled: false
+
+test:
+  enabled: true
+  steps:
+    - go test -v -failfast ./...

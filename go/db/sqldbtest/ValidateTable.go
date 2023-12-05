@@ -1,4 +1,4 @@
-package database
+package sqldbtest
 
 import (
 	Postgres "github.com/sam-caldwell/monorepo/go/db/postgres"
