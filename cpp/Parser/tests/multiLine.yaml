@@ -1,0 +1,5 @@
+multiLineA: |
+  This is a stand-alone text block to demonstrate
+  a multi-line text block.  This text block should
+  be decoded as a single string until it ends.
+KeyValue: Value

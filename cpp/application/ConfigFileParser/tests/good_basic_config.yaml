@@ -1,0 +1,6 @@
+# This is a simple basic configuration file.
+---
+secA:
+  key: value0
+secB:
+  key: 1337

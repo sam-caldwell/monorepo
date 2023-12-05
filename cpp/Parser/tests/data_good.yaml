@@ -1,0 +1,47 @@
+# file contains 33 objects (not including comments)
+# comment line A
+# comment line B
+---
+myKey: value
+secA:  # this is a list
+  - item0
+  - item1
+  - item2
+  - item3
+secB:
+  # this is a list of maps
+  - key0: value0
+  - key1: value1
+  - key2: value2
+
+secC:
+  # this is a map of objects
+  obj1:
+    propA: 0
+    propB: 1
+    propC: 2
+  obj2:
+    propD: 0
+    propE: 1
+    propF: 2
+
+secD:
+  objD1:
+
+    objD11:
+
+      objD111:
+
+        propG: 0
+
+        propH: 1
+      objD112:
+        propI: 0
+        propJ: 1
+secE:
+  multilineTextA: |  # A comment about our multiline.
+    This is where we are gonna
+    go wild # but we should never
+    see # a comment in this multiline.
+  multilineTextB: |
+    Another multiline.

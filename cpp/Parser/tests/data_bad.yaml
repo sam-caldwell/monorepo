@@ -1,0 +1,28 @@
+---
+sectionA:
+  - item1
+  - item2
+  - item3
+  - item4
+sectionB:
+  - item5: value5
+  - item6: value6
+  - item7: value7
+sectionC:
+  object1:
+    propertyA: 1
+    propertyB: 2
+    propertyC: 3
+  object2
+    propertyD: 4
+    propertyE: 5
+    propertyF: 6
+section D:
+  object3:
+    object4:
+      object5:
+        propertyG: 7
+        propertyH: 8
+      object6:
+        propertyI: 9
+        propertyJ: 10

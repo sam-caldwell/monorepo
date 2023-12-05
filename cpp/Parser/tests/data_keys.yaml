@@ -1,0 +1,8 @@
+keyA:
+  keyB: value1
+keyC: value2
+keyD: |
+  foobar this are
+  to wit we watch
+  our drinks on a bar.
+keyE: "value1"
