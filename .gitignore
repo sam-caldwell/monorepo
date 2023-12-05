@@ -50,3 +50,20 @@ pkg/
 
 # Rust stuff
 rust/**/target
+
+*.mp4
+*.wav
+*.mpg
+*.mpeg
+*.avi
+*.tar
+*.cpio
+*.gz
+*.bz
+*.bzip
+*.bzip2
+*.gzip
+*.xz
+*.exe
+*.bin
+*.o
