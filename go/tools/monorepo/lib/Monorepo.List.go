@@ -9,8 +9,6 @@ import (
 
 func (m *Monorepo) List() (err error) {
 
-	printHeader("List of projects")
-
 	objects := make(map[string][]string)
 
 	err = filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
@@ -43,7 +41,5 @@ func (m *Monorepo) List() (err error) {
 		}
 	}
 	ansi.LF().Reset()
-
-	printFooter()
 	return err
 }

@@ -7,22 +7,24 @@ import (
 )
 
 // GetArgs - Process commandline arguments
-func GetArgs() (command *string, debug *bool) {
-	command = GetCommand()
+func GetArgs() (commands []string, debug *bool) {
 
 	cmdVersion := flag.Bool("version", false, "show version")
 
 	debug = flag.Bool("debug", false, "print debug messages")
 
 	flag.Parse()
+
+	commands = flag.Args()
+
 	if *cmdVersion {
 		version.Show()
 	}
 
 	if *debug {
 		ansi.Blue().
-			Println("Debug:").
-			Printf("\tcommand: %s\n", *command).
+			Println("Debug: enabled").
+			Printf("\tcommand: %v\n", commands).
 			LF().
 			Reset()
 	}

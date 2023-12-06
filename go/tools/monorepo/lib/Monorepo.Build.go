@@ -7,7 +7,6 @@ import (
 )
 
 func (m *Monorepo) Build() (err error) {
-	printHeader("Building...")
 
 	err = filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -27,6 +26,5 @@ func (m *Monorepo) Build() (err error) {
 	if err != nil {
 		return err
 	}
-	printFooter()
 	return err
 }

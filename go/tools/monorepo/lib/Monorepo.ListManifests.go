@@ -6,25 +6,18 @@ import (
 	"strings"
 )
 
-func (m *Monorepo) Clean() (err error) {
-
+func (m *Monorepo) ListManifests() (results []string, err error) {
 	err = filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if strings.Contains(info.Name(), manifestYamlFile) {
-			var manifest Manifest
-			if err := manifest.Load(path); err != nil {
-				return err
-			}
-			if err := manifest.Run("clean", m.Debug); err != nil {
-				return err
-			}
+			results = append(results, path)
 		}
 		return nil
 	})
 	if err != nil {
-		return err
+		return results, err
 	}
-	return err
+	return results, err
 }

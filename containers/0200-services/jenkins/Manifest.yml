@@ -1,9 +1,0 @@
----
-clean:
-  enabled: false
-
-build:
-  enabled: false
-
-test:
-  enabled: false
