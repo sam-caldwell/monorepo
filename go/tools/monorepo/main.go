@@ -3,78 +3,28 @@ package main
 import (
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/convert"
 	"github.com/sam-caldwell/monorepo/go/exit"
-	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	monorepo "github.com/sam-caldwell/monorepo/go/tools/monorepo/lib"
-	"github.com/sam-caldwell/monorepo/go/version"
-	"path/filepath"
-	"strings"
 )
 
 func main() {
 
-	command := monorepo.GetCommand()
+	var err error
 
-	cmdVersion := flag.Bool("version", false, "show version")
+	command, class, project, debug := monorepo.GetArgs()
 
-	class := flag.String("class", "all", "specify a project class (e.g. go,containers, js, cpp")
-
-	project := flag.String("project", "all", "specify a group of projects to build")
-
-	debug := flag.Bool("debug", false, "print debug messages")
-
-	flag.Parse()
-	if *cmdVersion {
-		version.Show()
-	}
-
-	if *debug {
-		ansi.Blue().
-			Println("Debug:").
-			Printf("\tcommand: %s\n", *command).
-			Printf("\tclass:   %s\n", *class).
-			Printf("\tproject: %s\n", *project).
-			LF().
-			Reset()
+	Monorepo := monorepo.Monorepo{
+		Debug: *debug,
 	}
 
 	switch *command {
+
 	case "build":
-		if err := monorepo.Build(class, project); err != nil {
-			ansi.Red().Printf("error on build: %v", err).LF().Fatal(exit.GeneralError)
-		}
-		ansi.Green().Println("Build Successful").Reset()
+		err = Monorepo.Build(class, project)
 
 	case "clean":
-		if err := monorepo.Clean(class, project); err != nil {
-			ansi.Red().Printf("error on build: %v", err).LF().Fatal(exit.GeneralError)
-		}
-		ansi.Green().Println("Clean Successful").Reset()
-
-	case "test":
-		if err := monorepo.Test(class, project); err != nil {
-			ansi.Red().Printf("error on build: %v", err).LF().Fatal(exit.GeneralError)
-		}
-		ansi.Green().Println("Test Successful").Reset()
-
-	case "list":
-		ansi.Green().
-			Println("List of projects").
-			Println(strings.Repeat("=", 120)).
-			LF().Reset()
-
-		list, err := monorepo.GetProjectList(class, project)
-		if err != nil {
-			ansi.Red().Printf("Error:%v", err).LF().Reset().Fatal(exit.InvalidInput)
-		}
-		for class, projectList := range list {
-			ansi.Green().Printf(" class: %s\n", filepath.Base(class))
-			for _, project := range projectList {
-				projectName := strings.TrimPrefix(project, directory.GetCurrent()+"/"+filepath.Base(class)+"/")
-				ansi.Blue().Printf("\t%-42s\n", projectName).Reset()
-			}
-		}
-		ansi.Green().Println("Ok").Reset()
+		err = Monorepo.Clean(class, project)
 
 	case "help":
 		ansi.Blue().LF().Println("Usage:").LF().
@@ -83,12 +33,26 @@ func main() {
 		flag.PrintDefaults()
 		ansi.LF().Reset()
 
-	default:
+	case "list":
+		err = Monorepo.List(class, project)
 
+	case "test":
+		err = Monorepo.Test(class, project)
+
+	default:
 		ansi.Red().
 			Println("Missing or unsupported command").
 			LF().Reset().Fatal(exit.InvalidInput)
-
 	}
+
+	if err != nil {
+		ansi.Red().
+			Printf("error on %s: %v", convert.Capitalizep(command), err).
+			LF().Fatal(exit.GeneralError)
+	}
+
+	ansi.Green().LF().
+		Printf("%s Successful", convert.Capitalizep(command)).
+		LF().Reset()
 
 }
