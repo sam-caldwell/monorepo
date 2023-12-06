@@ -13,11 +13,14 @@ build:
   enabled: true
   steps:
     - continueOnError: false
-      command: "docker build --tag opsys/ubuntu:20.04 --file containers/language/opsys/20.04/Dockerfile ."
+      command: |
+        docker build --tag opsys/ubuntu:20.04 --file containers/opsys/ubuntu/20.04/Dockerfile .
     - continueOnError: false
-      command: "docker build --tag opsys/ubuntu:22.04 --file containers/language/opsys/22.04/Dockerfile ."
+      command: |
+        docker build --tag opsys/ubuntu:22.04 --file containers/opsys/ubuntu/22.04/Dockerfile .
     - continueOnError: false
-      command: "docker build --tag opsys/ubuntu:23.04 --file containers/language/opsys/23.04/Dockerfile ."
+      command: |
+        docker build --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04/Dockerfile .
 
 test:
   enabled: false
