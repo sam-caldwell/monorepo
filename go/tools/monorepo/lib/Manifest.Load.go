@@ -9,7 +9,7 @@ import (
 func (m *Manifest) Load(fileName string) (err error) {
 	m.FileName = fileName
 
-	ansi.Cyan().LF().Printf("Load Manifest: %s", fileName).LF().Reset()
+	ansi.Cyan().Printf("Load Manifest: %s\n", fileName).Reset()
 
 	yamlFile, err := os.ReadFile(fileName)
 	if err != nil {

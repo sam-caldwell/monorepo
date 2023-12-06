@@ -5,30 +5,35 @@ import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
 )
 
-func (m *Manifest) Run(command string) (err error) {
+func (m *Manifest) Run(command string, debug bool) (err error) {
 	switch command {
 	case "build":
 		if m.config.Build.Enabled {
-			return m.config.Build.Execute()
+			return m.config.Build.Execute(debug)
 		} else {
-			ansi.Cyan().Printf("  Disabled: %s", m.ProjectName()).LF()
+			if debug {
+				ansi.Magenta().Printf("  Disabled: %s", m.ProjectName()).LF()
+			}
 		}
 	case "clean":
 		if m.config.Clean.Enabled {
-			return m.config.Clean.Execute()
+			return m.config.Clean.Execute(debug)
 		} else {
-			ansi.Cyan().Printf("  Disabled: %s", m.ProjectName()).LF()
+			if debug {
+				ansi.Magenta().Printf("  Disabled: %s", m.ProjectName()).LF()
+			}
 		}
 	case "test":
 		if m.config.Test.Enabled {
-			return m.config.Test.Execute()
+			return m.config.Test.Execute(debug)
 		} else {
-			ansi.Cyan().Printf("  Disabled: %s", m.ProjectName()).LF()
+			if debug {
+				ansi.Magenta().Printf("  Disabled: %s", m.ProjectName()).LF()
+			}
 		}
 	default:
 		return fmt.Errorf("unsupported command %s", command)
 
 	}
-	//ansi.Green().Printf("Success: %s", m.ProjectName()).LF().Reset()
 	return nil
 }

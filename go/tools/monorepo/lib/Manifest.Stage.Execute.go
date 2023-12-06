@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func (s *Stage) Execute() error {
+func (s *Stage) Execute(debug bool) error {
 	for _, step := range s.Steps {
 		var args []string
 		ansi.White().Printf("  step: %s", step.Command).LF().Reset()
@@ -26,16 +26,20 @@ func (s *Stage) Execute() error {
 		}
 		hasError := strings.Contains(strings.ToLower(string(output)), "error")
 		if hasError {
-			ansi.White().
-				Print("\tOutput: ").
-				Yellow().
-				Printf("%s\n", strings.TrimSuffix(string(output), "\n")).
-				Printf("\tContinueOnError: %v\n", step.ContinueOnError).
-				Reset()
+			if step.ContinueOnError {
+				if debug {
+					ansi.White().
+						Print("\tOutput: ").
+						Yellow().
+						Printf("%s\n", strings.TrimSuffix(string(output), "\n")).
+						Printf("\tContinueOnError: %v\n", step.ContinueOnError).
+						Reset()
+				}
+			} else {
+				return fmt.Errorf(string(output))
+			}
 		}
-		if !step.ContinueOnError {
-			return fmt.Errorf(string(output))
-		}
+
 	}
 	return nil
 }
