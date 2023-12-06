@@ -3,31 +3,26 @@ package monorepo
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"os/exec"
 	"strings"
 	"time"
 )
 
-func (s *Stage) Execute(debug bool) error {
+func (s *Stage) Execute(projectName string, debug bool) error {
 	for _, step := range s.Steps {
 		var args []string
-		if strings.TrimSpace(step.Command) == "" {
+		command := strings.TrimSpace(strings.TrimSuffix(step.Command, words.NewLine))
+		if (command == "") || showProjectStatus(step.Enabled, projectName, step.Command) {
 			continue
 		}
-		ansi.White().Printf("  [").Bold()
-		if step.Enabled {
-			ansi.Green().Printf("enabled").Reset().White().Printf("]  step: %s ", step.Command).Reset()
-		} else {
-			ansi.Yellow().Printf("disabled").Reset().White().Printf("] step: %s ", step.Command).Reset()
-			continue
-		}
-		for _, line := range strings.Split(step.Command, "\n") {
+		for _, line := range strings.Split(step.Command, words.NewLine) {
 			line = strings.TrimSpace(line)
 			if line == "" {
 				continue
 			}
-			//ansi.Cyan().Printf("line: '%s'", line).LF().Reset()
-			parts := strings.Split(line, " ")
+
+			parts := strings.Split(line, words.Space)
 			command := parts[0]
 			if len(parts[1:]) > 0 {
 				args = parts[1:]
@@ -38,13 +33,15 @@ func (s *Stage) Execute(debug bool) error {
 				ansi.Red().Printf("Error (CombinedOutput):%v\n", err).Reset()
 				return err
 			}
+
 			hasError := strings.Contains(strings.ToLower(string(output)), "error")
 			if debug {
 				ansi.White().
 					Printf("\tContinueOnError: %v\n", step.ContinueOnError).
 					Print("\tOutput:").
 					Yellow().LF()
-				for _, lineOut := range strings.Split(strings.TrimSuffix(string(output), "\n"), "\n") {
+				outputLines := strings.Split(strings.TrimSuffix(string(output), words.NewLine), words.NewLine)
+				for _, lineOut := range outputLines {
 					ansi.Printf("\t%s:%s\n", time.Now().Format(time.RFC1123), lineOut)
 				}
 				ansi.Reset()

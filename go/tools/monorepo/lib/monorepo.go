@@ -5,6 +5,7 @@ const (
 )
 
 type Monorepo struct {
-	Root  string
-	Debug bool
+	Root         string
+	Debug        bool
+	manifestList []string
 }

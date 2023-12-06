@@ -9,4 +9,5 @@ test:
   enabled: true
   steps:
     - continueOnError: true
-      command: "go test -v -failfast ./..."
+      command: |
+        go test -v -failfast ./...

@@ -1,13 +1,22 @@
 package monorepo
 
 import (
-	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	"path/filepath"
-	"strings"
 )
 
 func (m *Manifest) ProjectName() string {
-	path := filepath.Dir(strings.TrimPrefix(m.FileName, directory.GetCurrent()))
-	parts := strings.Split(path, string(filepath.Separator))
-	return strings.Join(parts[2:], "/")
+	projectName := filepath.Base(filepath.Dir(m.FileName))
+
+	//path := filepath.Dir(strings.TrimPrefix(m.FileName, directory.GetCurrent()))
+	//parts := strings.Split(path, string(filepath.Separator))
+	//projectName := strings.Join(parts[2:], "/")
+	//if projectName == "" {
+	//	ansi.Red().
+	//		Printf("Internal error (empty project name) ").
+	//		Printf("File: %s", m.FileName).
+	//		LF().
+	//		Reset().
+	//		Fatal(exit.GeneralError)
+	//}
+	return projectName
 }

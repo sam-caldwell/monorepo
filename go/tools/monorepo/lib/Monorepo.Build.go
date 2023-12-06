@@ -1,30 +1,15 @@
 package monorepo
 
-import (
-	"os"
-	"path/filepath"
-	"strings"
-)
-
 func (m *Monorepo) Build() (err error) {
 
-	err = filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
+	for _, path := range m.manifestList {
+		var manifest Manifest
+		if err = manifest.Load(path); err != nil {
 			return err
 		}
-		if strings.Contains(info.Name(), manifestYamlFile) {
-			var manifest Manifest
-			if err := manifest.Load(path); err != nil {
-				return err
-			}
-			if err := manifest.Run("build", m.Debug); err != nil {
-				return err
-			}
+		if err = manifest.Run("build", m.Debug); err != nil {
+			return err
 		}
-		return nil
-	})
-	if err != nil {
-		return err
 	}
 	return err
 }

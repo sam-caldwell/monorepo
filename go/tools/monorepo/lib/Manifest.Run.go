@@ -6,29 +6,30 @@ import (
 )
 
 func (m *Manifest) Run(command string, debug bool) (err error) {
+	projectName := m.ProjectName()
 	switch command {
 	case "build":
 		if m.config.Build.Enabled {
-			return m.config.Build.Execute(debug)
+			return m.config.Build.Execute(projectName, debug)
 		} else {
 			if debug {
-				ansi.Magenta().Printf("  Disabled: %s", m.ProjectName()).LF()
+				ansi.Magenta().Printf("  Disabled: %s", projectName).LF()
 			}
 		}
 	case "clean":
 		if m.config.Clean.Enabled {
-			return m.config.Clean.Execute(debug)
+			return m.config.Clean.Execute(projectName, debug)
 		} else {
 			if debug {
-				ansi.Magenta().Printf("  Disabled: %s", m.ProjectName()).LF()
+				ansi.Magenta().Printf("  Disabled: %s", projectName).LF()
 			}
 		}
 	case "test":
 		if m.config.Test.Enabled {
-			return m.config.Test.Execute(debug)
+			return m.config.Test.Execute(projectName, debug)
 		} else {
 			if debug {
-				ansi.Magenta().Printf("  Disabled: %s", m.ProjectName()).LF()
+				ansi.Magenta().Printf("  Disabled: %s", projectName).LF()
 			}
 		}
 	default:
