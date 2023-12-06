@@ -8,15 +8,11 @@ import (
 
 func (m *Manifest) Load(fileName string) (err error) {
 	m.FileName = fileName
-
-	//ansi.Cyan().Printf("Load Manifest: %s\n", fileName).Reset()
-
 	yamlFile, err := os.ReadFile(fileName)
 	if err != nil {
 		ansi.Red().Printf("Error Loading Manifest: %s\n%v\n", fileName, err).Reset()
 		return err
 	}
-
 	err = yaml.Unmarshal(yamlFile, &m.config)
 	if err != nil {
 		ansi.Red().Printf("Error Parsing Manifest: %s\n%v\n", fileName, err).Reset()

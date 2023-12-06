@@ -7,5 +7,5 @@ const (
 type Monorepo struct {
 	Root         string
 	Debug        bool
-	manifestList []string
+	manifestList map[string]Manifest
 }

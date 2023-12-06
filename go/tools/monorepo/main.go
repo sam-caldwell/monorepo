@@ -28,15 +28,19 @@ func main() {
 		Debug: *debug,
 		Root:  rootPath,
 	}
+
 	monorepo.PrintHeader("Monorepo command")
 	ansi.Cyan().Println("Discovering project manifests")
-	if err := Monorepo.GetManifestList(); err != nil {
+	if err := Monorepo.LoadManifests(); err != nil {
 		ansi.Red().
 			Printf("Error discovering manifests\n%s", err).
 			Reset().
 			Fatal(exit.GeneralError)
 	}
-	ansi.Green().Printf("Discovered %d manifests\n", Monorepo.ManifestCount()).LF().Reset()
+	ansi.Green().
+		Printf("Discovered %d manifests (loaded)\n", Monorepo.ManifestCount()).
+		LF().
+		Reset()
 
 	for _, command := range commands {
 		monorepo.PrintHeader(convert.Capitalize(command))
