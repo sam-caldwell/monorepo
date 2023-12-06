@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-func (s *Stage) Execute(projectName string, debug bool) error {
+func (s *Stage) Execute(className, projectName string, debug bool) error {
 	for _, step := range s.Steps {
 		var args []string
 		command := strings.TrimSpace(strings.TrimSuffix(step.Command, words.NewLine))
-		if (command == "") || showProjectStatus(step.Enabled, projectName, step.Command) {
+		if (command == "") || showProjectStatus(step.Enabled, className, projectName, step.Command) {
 			continue
 		}
 		for _, line := range strings.Split(step.Command, words.NewLine) {

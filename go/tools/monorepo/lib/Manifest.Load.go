@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// Load - Load the YAML Manifest file for the monorepo command
 func (m *Manifest) Load(fileName string) (err error) {
 	m.FileName = fileName
 	yamlFile, err := os.ReadFile(fileName)
@@ -18,6 +19,5 @@ func (m *Manifest) Load(fileName string) (err error) {
 		ansi.Red().Printf("Error Parsing Manifest: %s\n%v\n", fileName, err).Reset()
 		return err
 	}
-
 	return nil
 }

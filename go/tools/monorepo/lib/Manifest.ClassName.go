@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// ClassName - Return the class name based on the monorepo manifest path
 func (m *Manifest) ClassName() string {
 	path := filepath.Dir(strings.TrimPrefix(m.FileName, directory.GetCurrent()))
 	parts := strings.Split(path, string(filepath.Separator))

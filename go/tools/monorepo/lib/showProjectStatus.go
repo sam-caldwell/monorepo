@@ -2,7 +2,7 @@ package monorepo
 
 import "github.com/sam-caldwell/monorepo/go/ansi"
 
-func showProjectStatus(enabled bool, projectName, command string) bool {
+func showProjectStatus(enabled bool, className, projectName, command string) bool {
 	ansi.White().
 		Printf("  [").
 		Bold()
@@ -10,12 +10,12 @@ func showProjectStatus(enabled bool, projectName, command string) bool {
 		ansi.Green().
 			Printf("enabled").Reset().
 			White().
-			Printf("]  (project:%s) step: %s\n", projectName, command).
+			Printf("] (class:%s) (project:%s) step: %s\n", className, projectName, command).
 			Reset()
 	} else {
 		ansi.Yellow().
 			Printf("disabled").Reset().
-			White().Printf("] (project:%s) step: %s\n", projectName, command).
+			White().Printf("] (class:%s) (project:%s) step: %s\n", className, projectName, command).
 			Reset()
 		return true
 	}
