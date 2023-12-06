@@ -7,6 +7,4 @@ build:
 
 test:
   enabled: false
-  steps:
-    - go test -v -failfast ./...
 

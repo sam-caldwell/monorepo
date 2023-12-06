@@ -2,24 +2,32 @@
 clean:
   enabled: false
   steps:
-    - docker exec -it postgresql /bin/bash -c """echo 'drop database tracker;' | /usr/bin/psql""" &>/dev/null || true
+    - continueOnError: true
+      command: "docker exec -it postgresql /bin/bash -c \"echo 'drop database tracker;' | /usr/bin/psql\" &>/dev/null"
 
 build:
   enabled: false
   steps:
-    - docker kill postgresql &>/dev/null || true
-    - docker rm postgresql &>/dev/null || true
-    - docker run -d --rm --name postgresql -p 0.0.0.0:5432:5432 -v ./databases/sql:/opt/ services/postgresql
-    - docker ps
-    - go run go/db/dbMigrations/main.go --db_host 192.168.3.190 --db_port 5432 --db_user admin --db_pass admin
+    - continueOnError: true
+      command: "docker kill postgresql &>/dev/null"
+    - continueOnError: true
+      command: "docker rm postgresql &>/dev/null"
+    - continueOnError: true
+      command: |
+        docker run -d --rm --name postgresql -p 0.0.0.0:5432:5432 -v ./databases/sql:/opt/ services/postgresql
+    - continueOnError: true
+      command: |
+        go run go/db/dbMigrations/main.go --db_host 192.168.3.190 --db_port 5432 --db_user admin --db_pass admin
 
 test:
   enabled: false
   steps:
-    - db_host=192.168.3.190 \
-      db_port=5432 \
-      db_name=tracker \
-      db_user=admin \
-      db_pass=admin \
-      use_tls=false \
-      go test -v -failfast ./databases/sql/...
+    - continueOnError: true
+      command: |
+        db_host=192.168.3.190 \
+        db_port=5432 \
+        db_name=tracker \
+        db_user=admin \
+        db_pass=admin \
+        use_tls=false \
+        go test -v -failfast ./databases/sql/...

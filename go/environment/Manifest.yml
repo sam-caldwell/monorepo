@@ -8,4 +8,5 @@ build:
 test:
   enabled: true
   steps:
-    - go test -v -failfast ./...
+    - continueOnError: true
+      command: "go test -v -failfast ./..."

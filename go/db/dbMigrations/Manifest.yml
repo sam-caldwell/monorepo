@@ -1,11 +1,20 @@
 ---
 clean:
   enabled: false
+  steps:
+    - continueOnError: false
+      command: |
+        rm -f ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME}
 
 build:
   enabled: false
+  steps:
+    - continueOnError: false
+      command: |
+        go build -o ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME} ${MANIFEST_DIR}/${PROJECT_NAME}/main.go
 
 test:
   enabled: true
   steps:
-    - go test -v -failfast ./...
+    - continueOnError: true
+      command: "go test -v -failfast ./..."

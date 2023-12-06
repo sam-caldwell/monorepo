@@ -1,0 +1,15 @@
+---
+clean:
+  enabled: true
+  steps:
+    - continueOnError: true
+      command: "docker rmi -f language/node:20.10.0"
+
+build:
+  enabled: true
+  steps:
+    - continueOnError: false
+      command: "docker build --tag language/node:20.10.0 --file containers/language/node/20.10.0/Dockerfile ."
+
+test:
+  enabled: false
