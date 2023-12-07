@@ -1,4 +1,6 @@
 ---
+author: Sam Caldwell
+email: mail@samcaldwell.net
 clean:
   enabled: true
   steps:
