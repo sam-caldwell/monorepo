@@ -7,7 +7,9 @@ const (
 	defaultColumnWidth = 80
 )
 
-// GetScreenColumns - Return Screen width of a terminal/console in columns (Windows Version)
+//ToDo: We need to make this consistent with the posix version
+
+// ColumnSize - Return Screen width of a terminal/console in columns (Windows Version)
 func GetScreenColumns() int {
 	handle := syscall.GetStdHandle(syscall.STD_OUTPUT_HANDLE)
 	var info syscall.ConsoleScreenBufferInfo

@@ -6,8 +6,9 @@ import (
 	"strings"
 )
 
+// DrawAsciiBox - Draw an ASCII text box of a given width
 func DrawAsciiBox(color *ansi.Color, text []string, width int) {
-	//screenWidth := GetScreenColumns()
+	//screenWidth := ColumnSize()
 	//adjustment := 4
 	barWidth := width - 2
 	color.LF().
