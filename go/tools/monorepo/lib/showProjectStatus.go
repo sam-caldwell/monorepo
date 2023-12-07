@@ -34,7 +34,7 @@ func showProjectStatus(enabled bool, className, projectName, command string) boo
 	} else {
 		terminal.BracketBox("disabled", terminal.Red, true).
 			Yellow().
-			White().Printf("class:%s) (project:%s) step: %s\n", className, projectName, command).
+			White().Printf("(class:%s) (project:%s) step: %s\n", className, projectName, command).
 			Reset()
 		return true
 	}
