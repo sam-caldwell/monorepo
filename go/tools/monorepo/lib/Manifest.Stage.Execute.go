@@ -31,9 +31,9 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 	}
 
 	for _, step := range s.Steps {
-		if showProjectStatus(step.Enabled, className, projectName, &step.Command) {
-			continue
-		}
+		//if showProjectStatus(step.Enabled, className, projectName, &step.Command) {
+		//	continue
+		//}
 		commandLine := strings.Split(step.Command, words.NewLine)
 		for _, rawLine := range commandLine {
 			rawLine = strings.TrimSpace(rawLine)

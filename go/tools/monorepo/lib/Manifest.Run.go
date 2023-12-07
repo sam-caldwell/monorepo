@@ -42,7 +42,7 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 			ansi.
 				Dim().
 				Magenta().
-				Printf("*class/project/os/arch: %s/%s/%s/%s", className, projectName, opsys, arch).
+				Printf("%s:%s/%s (%s/%s)", command, className, projectName, opsys, arch).
 				Bold().
 				LF()
 			if configStage.Enabled {
