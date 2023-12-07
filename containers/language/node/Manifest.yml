@@ -1,4 +1,15 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This is the Node.JS container base image.
+  opsys:
+    - darwin
+    - linux
+    - windows
+  arch:
+    - amd64
 clean:
   enabled: true
   steps:

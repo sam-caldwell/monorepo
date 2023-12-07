@@ -1,4 +1,15 @@
 ---
+header:
+  author: undefined
+  email: none@example.com
+  description: |
+    This is the project description
+  opsys:
+    - darwin
+    - linux
+  arch:
+    - amd64
+
 clean:
   enabled: false
 

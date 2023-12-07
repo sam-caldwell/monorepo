@@ -1,11 +1,21 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This project defines a DNS Server container
+  opsys:
+    - darwin
+    - linux
+    - windows
+  arch:
+    - amd64
 clean:
   enabled: true
   steps:
     - enabled: true
       continueOnError: true
       command: "docker rmi -f services/dns-server:latest"
-
 build:
   enabled: true
   steps:
@@ -13,6 +23,5 @@ build:
       continueOnError: false
       command: |
         docker build --tag services/dns-server:latest --file containers/services/dns-server/Dockerfile .
-
 test:
   enabled: false

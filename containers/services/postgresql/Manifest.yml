@@ -1,11 +1,21 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This project defines a postgresql database server container
+  opsys:
+    - darwin
+    - linux
+    - windows
+  arch:
+    - amd64
 clean:
   enabled: true
   steps:
     - enabled: true
       continueOnError: true
       command: "docker rmi -f services/postgresql:latest"
-
 build:
   enabled: true
   steps:
@@ -13,6 +23,5 @@ build:
       continueOnError: false
       command: |
         docker build --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
-
 test:
   enabled: false

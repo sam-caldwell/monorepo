@@ -1,11 +1,21 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This project defines a Jenkins Server container and Agent containers
+  opsys:
+    - darwin
+    - linux
+    - windows
+  arch:
+    - amd64
 clean:
   enabled: true
   steps:
     - enabled: true
       continueOnError: true
       command: "docker rmi -f services/jenkins:latest"
-
 build:
   enabled: true
   steps:
@@ -13,6 +23,5 @@ build:
       continueOnError: false
       command: |
         docker build --tag services/jenkins:latest --file containers/services/jenkins/Dockerfile .
-
 test:
   enabled: false

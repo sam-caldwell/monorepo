@@ -1,10 +1,19 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This project is the Golang ANSI text UI project for printing text with color and special formatting.
+    We use this project primarily to interact with stdout and stderr in console/terminal.
+  opsys:
+    - darwin
+    - linux
+  arch:
+    - amd64
 clean:
   enabled: false
-
 build:
   enabled: false
-
 test:
   enabled: true
   steps:

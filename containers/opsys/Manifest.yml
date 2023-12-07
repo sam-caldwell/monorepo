@@ -1,4 +1,15 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This project defines the Ubuntu linux base images
+  opsys:
+    - darwin
+    - linux
+    - windows
+  arch:
+    - amd64
 clean:
   enabled: true
   steps:
@@ -11,7 +22,6 @@ clean:
     - enabled: true
       continueOnError: true
       command: "docker rmi -f opsys/ubuntu:23.04"
-
 build:
   enabled: true
   steps:
@@ -27,6 +37,5 @@ build:
       continueOnError: false
       command: |
         docker build --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04//Dockerfile .
-
 test:
   enabled: false
