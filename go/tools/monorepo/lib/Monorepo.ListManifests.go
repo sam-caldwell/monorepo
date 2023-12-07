@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// ListManifests - Identify the manifest file paths.
 func (m *Monorepo) ListManifests() (results []string, err error) {
 	err = filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {

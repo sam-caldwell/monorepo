@@ -7,8 +7,10 @@ import (
 	"time"
 )
 
+// PrintFooter - print the footer text in an ascii box
 func (m *Monorepo) PrintFooter(command *string, err error) {
-	width := terminal.GetScreenColumns() - 2
+	var window terminal.TextWindow
+	width := window.ColumnSize() - 2
 	if err == nil {
 		terminal.DrawAsciiBox(
 			ansi.Green(),

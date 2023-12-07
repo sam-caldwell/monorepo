@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
+// PrintHeader - print the header text in an ascii box
 func (m *Monorepo) PrintHeader(title string) {
-	width := terminal.GetScreenColumns() - 4
+	var window terminal.TextWindow
+	width := window.ColumnSize() - 4
 	terminal.DrawAsciiBox(
 		ansi.Cyan(),
 		[]string{

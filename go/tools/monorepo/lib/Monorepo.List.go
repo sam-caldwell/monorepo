@@ -39,17 +39,17 @@ func (m *Monorepo) List() (err error) {
 	for class, projectList := range objects {
 		ansi.Yellow().
 			Printf("       ║").LF().
-			Printf("       ╠════╦═class: '%s'", class).
-			LF()
+			Printf("       ╠════╦═class: '%s'", class).LF().
+			Printf("       ║    ║").LF()
 		if len(projectList) == 0 {
 			ansi.Yellow().
-				Printf("       ║    ║ Empty Project List").
-				LF()
+				Printf("       ║    ║").LF().
+				Printf("       ║    ║ Empty Project List").LF().
+				Printf("       ║    ║").LF()
 		}
 		for _, project := range projectList {
 			ansi.Yellow().
-				Printf("       ║    ╠══%s", project).
-				LF()
+				Printf("       ║    ╠══%s", project).LF()
 		}
 	}
 	ansi.LF().Reset()
