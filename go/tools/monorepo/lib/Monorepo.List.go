@@ -30,25 +30,25 @@ func (m *Monorepo) List() (err error) {
 		objects[class] = append(objects[class], project)
 	}
 	ansi.Yellow().LF().
-		Printf("┌─────────────┐").LF().
-		Printf("│monorepo root│").LF().
-		Printf("└─────╥───────┘").LF()
+		Printf(" ┌─────────────┐").LF().
+		Printf(" │monorepo root│").LF().
+		Printf(" └─────╥───────┘").LF()
 	if len(objects) == 0 {
 		ansi.Red().Println("Empty list").Reset().LF()
 	}
 	for class, projectList := range objects {
 		ansi.Yellow().
-			Printf("      ║").LF().
-			Printf("      ╠════╦═class: '%s'", class).
+			Printf("       ║").LF().
+			Printf("       ╠════╦═class: '%s'", class).
 			LF()
 		if len(projectList) == 0 {
 			ansi.Yellow().
-				Printf("      ║    ║ Empty Project List").
+				Printf("       ║    ║ Empty Project List").
 				LF()
 		}
 		for _, project := range projectList {
 			ansi.Yellow().
-				Printf("      ║    ╠══%s", project).
+				Printf("       ║    ╠══%s", project).
 				LF()
 		}
 	}
