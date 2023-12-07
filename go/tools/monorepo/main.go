@@ -9,6 +9,7 @@ import (
 	monorepo "github.com/sam-caldwell/monorepo/go/tools/monorepo/lib"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -25,15 +26,16 @@ func main() {
 	commands, debug := monorepo.GetArgs()
 
 	Monorepo := monorepo.Monorepo{
-		Debug: *debug,
-		Root:  rootPath,
+		StartTime: time.Now(),
+		Debug:     *debug,
+		Root:      rootPath,
 	}
 
-	monorepo.PrintHeader("Monorepo command")
+	Monorepo.PrintHeader("Monorepo command")
 	Monorepo.LoadManifests()
 
 	for _, command := range commands {
-		monorepo.PrintHeader(convert.Capitalize(command))
+		Monorepo.PrintHeader(convert.Capitalize(command))
 		switch strings.ToLower(strings.TrimSpace(command)) {
 		case "build":
 			err = Monorepo.Build()
@@ -54,6 +56,6 @@ func main() {
 				Println("Missing or unsupported command").
 				LF().Reset().Fatal(exit.InvalidInput)
 		}
-		monorepo.PrintFooter(&command, err)
+		Monorepo.PrintFooter(&command, err)
 	}
 }

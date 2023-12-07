@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func PrintHeader(title string) {
+func (m *Monorepo) PrintHeader(title string) {
 	ansi.Cyan().
 		Printf("%s...  %v\n", title, time.Now().Format(time.RFC1123)).
 		Println(strings.Repeat("=", ScreenWidth)).
