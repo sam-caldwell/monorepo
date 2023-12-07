@@ -18,7 +18,7 @@ func showProjectStatus(enabled bool, className, projectName, command string) boo
 	if enabled {
 		terminal.BracketBox("enabled", terminal.Green, false).
 			White().Dim().
-			Printf("(class:").
+			Printf(" (class:").
 			Yellow().Bold().
 			Printf("%s", className).
 			White().Dim().
