@@ -2,14 +2,20 @@ package terminal
 
 import "github.com/sam-caldwell/monorepo/go/ansi"
 
-func BracketBox(text string, textColor string, highlight bool) *ansi.Color {
+const (
+	Red uint8 = iota
+	Green
+	Yellow
+)
+
+func BracketBox(text string, textColor uint8, highlight bool) *ansi.Color {
 	ansi.White().Dim().Printf("[")
 	switch textColor {
-	case "red":
+	case Red:
 		ansi.Red()
-	case "green":
+	case Green:
 		ansi.Green()
-	case "yellow":
+	case Yellow:
 		ansi.Yellow()
 	default:
 		ansi.White()
