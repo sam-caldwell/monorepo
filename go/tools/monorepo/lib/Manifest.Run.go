@@ -3,48 +3,74 @@ package monorepo
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/list"
 	"path/filepath"
 	"runtime"
 )
 
 // Run - Evaluate a monorepo command and execute the appropriate manifest definition.
 func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
+	// The config stage will point to our actual actions to be performed
+	var configStage Stage
+	switch command {
+	case "build":
+		configStage = m.config.Build
+	case "clean":
+		configStage = m.config.Clean
+	case "test":
+		configStage = m.config.Test
+	default:
+		return fmt.Errorf("unsupported command %s", command)
+	}
+
+	//
 	manifestDir := filepath.Dir(m.FileName)
 	className := m.ClassName()
 	projectName := m.ProjectName()
-	opsys := runtime.GOOS
-	arch := runtime.GOARCH
-	switch command {
-	case "build":
-		if m.config.Build.Enabled {
-			return m.config.Build.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
-		} else {
-			if debug {
-				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
-			}
-		}
-	case "clean":
-		if m.config.Clean.Enabled {
-			return m.config.Clean.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
-		} else {
-			if debug {
-				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
-			}
-		}
-	case "test":
-		if m.config.Test.Enabled {
-			if debug {
-				ansi.Magenta().Printf("  Enabled: %s::%s", className, projectName).LF().Reset()
-			}
-			return m.config.Test.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
-		} else {
-			if debug {
-				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
-			}
-		}
-	default:
-		return fmt.Errorf("unsupported command %s", command)
 
+	// If opsys contains, any we will build for our current opsys only
+	if list.Contains(m.config.Header.Opsys, "any") {
+		m.config.Header.Opsys = []string{runtime.GOOS}
+	}
+	// If arch contains, any we will build for our current architecture only
+	if list.Contains(m.config.Header.Arch, "any") {
+		m.config.Header.Arch = []string{runtime.GOARCH}
+	}
+
+	for _, opsys := range m.config.Header.Opsys {
+		for _, arch := range m.config.Header.Arch {
+			ansi.
+				Dim().
+				Magenta().
+				Printf("*class/project/os/arch: %s/%s/%s/%s", className, projectName, opsys, arch).
+				Bold().
+				LF()
+			if configStage.Enabled {
+				ansi.
+					Cyan().
+					Printf("   └─").
+					Green().
+					Bold().
+					Printf("Enabled:  ").
+					Dim().
+					White().
+					Printf("%s/%s", className, projectName).
+					Bold().
+					LF().
+					Reset()
+				return configStage.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
+			}
+			ansi.
+				Cyan().
+				Printf("   └─").
+				White().Dim().
+				Printf("Disabled: ").
+				Magenta().
+				Printf("%s/%s", className, projectName).
+				Bold().
+				LF().
+				Reset()
+		}
 	}
 	return nil
 }

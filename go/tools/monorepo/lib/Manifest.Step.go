@@ -1,7 +1,7 @@
 package monorepo
 
 type Step struct {
-	Enabled         bool   `yaml:"enabled"`
 	ContinueOnError bool   `yaml:"continueOnError"`
+	Enabled         bool   `yaml:"enabled"`
 	Command         string `yaml:"command"`
 }

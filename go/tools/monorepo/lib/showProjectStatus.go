@@ -1,8 +1,8 @@
 package monorepo
 
 import (
+	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
-	terminal "github.com/sam-caldwell/monorepo/go/terminal/widgets"
 	"strings"
 )
 
@@ -16,9 +16,9 @@ func showProjectStatus(enabled bool, className, projectName, command *string) bo
 	//	Printf("  [").
 	//	Bold()
 	if enabled {
-		terminal.BracketBox("enabled", terminal.Green, false).
+		ansi.
 			White().Dim().
-			Printf(" (class:").
+			Printf("     (class:").
 			Yellow().Bold().
 			Printf("%s", *className).
 			White().Dim().
@@ -27,16 +27,14 @@ func showProjectStatus(enabled bool, className, projectName, command *string) bo
 			Yellow().Bold().
 			Printf("%s", *projectName).
 			White().Dim().
-			Printf(" step: ").
-			Yellow().Bold().
-			Printf(" %s\n", *command).
+			Printf(")").
+			Yellow().Bold().LF().
 			Reset()
 	} else {
-		terminal.BracketBox("disabled", terminal.Red, true).
+		ansi.
 			Yellow().
-			White().Printf("(class:%s) (project:%s) step: %s\n",
-			*className, *projectName, *command).
-			Reset()
+			White().Printf("(class:%s) (project:%s)", *className, *projectName).
+			Reset().LF()
 		return true
 	}
 	return false
