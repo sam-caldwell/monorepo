@@ -5,4 +5,5 @@ type Node struct {
 	Key      string
 	Value    interface{}
 	Children []*Node
+	Parent   *Node
 }
