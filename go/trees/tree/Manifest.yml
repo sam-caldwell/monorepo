@@ -1,0 +1,23 @@
+---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This golang project provides a simple tree
+  opsys:
+    - darwin
+    - linux
+  arch:
+    - amd64
+clean:
+  enabled: false
+
+build:
+  enabled: false
+
+test:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: true
+      command: "go test -v -failfast ./go/trees/tree..."

@@ -5,6 +5,11 @@ import (
 )
 
 // DrawTree recursively draws the tree structure using ASCII extended characters.
+func (node *Node) DrawTree() {
+	DrawTree(node, 0, false)
+}
+
+// DrawTree recursively draws the tree structure using ASCII extended characters.
 func DrawTree(node *Node, depth int, lastChild bool) {
 	if node == nil {
 		return
@@ -29,9 +34,9 @@ func DrawTree(node *Node, depth int, lastChild bool) {
 	// Print node key
 	fmt.Print(node.Key)
 
-	// Print node value if it is a string
-	if str, ok := node.Value.(string); ok {
-		fmt.Print(":", str)
+	// If the value exists, return it.
+	if node.Value != nil {
+		fmt.Print(":", node.GetValue())
 	}
 
 	fmt.Println()
