@@ -1,0 +1,18 @@
+---
+clean:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: true
+      command: "docker rmi -f services/postgresql:latest"
+
+build:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
+
+test:
+  enabled: false

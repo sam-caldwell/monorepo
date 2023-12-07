@@ -1,0 +1,18 @@
+---
+clean:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: true
+      command: "docker rmi -f services/dns-server:latest"
+
+build:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --tag services/dns-server:latest --file containers/services/dns-server/Dockerfile .
+
+test:
+  enabled: false

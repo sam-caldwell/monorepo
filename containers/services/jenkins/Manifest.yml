@@ -1,0 +1,18 @@
+---
+clean:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: true
+      command: "docker rmi -f services/jenkins:latest"
+
+build:
+  enabled: true
+  steps:
+    - enabled: false
+      continueOnError: false
+      command: |
+        docker build --tag services/jenkins:latest --file containers/services/jenkins/Dockerfile .
+
+test:
+  enabled: false
