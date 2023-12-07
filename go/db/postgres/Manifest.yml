@@ -1,10 +1,17 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project implements some common postgresql tooling (used esp. by dbMigrations)
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
-
 build:
   enabled: false
-
 test:
   enabled: true
   steps:

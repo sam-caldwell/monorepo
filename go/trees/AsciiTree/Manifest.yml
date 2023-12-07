@@ -11,13 +11,11 @@ header:
     - amd64
 clean:
   enabled: false
-
 build:
   enabled: false
-
 test:
   enabled: true
   steps:
     - enabled: true
-      continueOnError: true
-      command: "go test -v -failfast ./go/trees/AsciiTree..."
+      continueOnError: false
+      command: "go test -v -failfast ./go/trees/AsciiTree/..."

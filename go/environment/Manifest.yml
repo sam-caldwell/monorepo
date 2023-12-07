@@ -1,10 +1,17 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project is used to interact with environment variables.
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
-
 build:
   enabled: false
-
 test:
   enabled: true
   steps:

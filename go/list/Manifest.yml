@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides various list-based structures and tools
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
 

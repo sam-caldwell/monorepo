@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project aims to standardize exit codes, error codes and similar so we have consistency in all projects.
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
 

@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project is used to create a tool for running SQL database migrations
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
   steps:

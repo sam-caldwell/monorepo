@@ -47,7 +47,7 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 			command, args := commandArgs(strings.Split(line, words.Space))
 			ansi.
 				Cyan().
-				Printf("      └─running: %s, %s", command, strings.Join(args, ",")).
+				Printf("      └─running: %s, %s", command, strings.Join(args, words.Space)).
 				LF().
 				Reset()
 

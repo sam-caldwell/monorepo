@@ -7,7 +7,6 @@ header:
     We use this project primarily to interact with stdout and stderr in console/terminal.
   opsys:
     - darwin
-    - linux
   arch:
     - amd64
 clean:

@@ -44,7 +44,8 @@ colors
   -yellow
         Yellow foreground
         
-        
+  -lf 
+        print line feed
   -noreset
         Do not reset color settings after execution
 

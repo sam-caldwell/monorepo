@@ -3,7 +3,7 @@ trees
 
 ## Description
 
-A simple map-based structure and methods for creating simple graphs
+A simple map-based structure and methods for creating simple graphs.
 
 ## Status
 
@@ -15,5 +15,6 @@ Tests](https://github.com/sam-caldwell/trees/actions/workflows/go-tests.yaml/bad
 - 1.18
 - 1.19
 - 1.20
+- 1.21
 
 ## Usage

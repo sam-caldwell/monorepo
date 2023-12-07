@@ -58,19 +58,20 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 					Bold().
 					LF().
 					Reset()
-				return configStage.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
+				err = configStage.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
+			} else {
+				ansi.
+					Cyan().
+					Printf("   └─").
+					White().Dim().
+					Printf("Disabled: ").
+					Magenta().
+					Printf("%s/%s", className, projectName).
+					Bold().
+					LF().
+					Reset()
 			}
-			ansi.
-				Cyan().
-				Printf("   └─").
-				White().Dim().
-				Printf("Disabled: ").
-				Magenta().
-				Printf("%s/%s", className, projectName).
-				Bold().
-				LF().
-				Reset()
 		}
 	}
-	return nil
+	return err
 }

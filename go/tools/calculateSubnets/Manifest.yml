@@ -29,4 +29,4 @@ test:
   steps:
     - enabled: true
       continueOnError: true
-      command: "go test -v -failfast ./go/net/calculateSubnets/..."
+      command: "go test -v -failfast ./go/tools/calculateSubnets/..."
