@@ -6,7 +6,7 @@ import (
 )
 
 func (m *Manifest) Run(command string, debug bool) (err error) {
-	className := "m.ClassName()"
+	className := m.ClassName()
 	projectName := m.ProjectName()
 	switch command {
 	case "build":
@@ -14,7 +14,7 @@ func (m *Manifest) Run(command string, debug bool) (err error) {
 			return m.config.Build.Execute(className, projectName, debug)
 		} else {
 			if debug {
-				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF()
+				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
 			}
 		}
 	case "clean":
@@ -22,15 +22,18 @@ func (m *Manifest) Run(command string, debug bool) (err error) {
 			return m.config.Clean.Execute(className, projectName, debug)
 		} else {
 			if debug {
-				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF()
+				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
 			}
 		}
 	case "test":
 		if m.config.Test.Enabled {
+			if debug {
+				ansi.Magenta().Printf("  Enabled: %s::%s", className, projectName).LF().Reset()
+			}
 			return m.config.Test.Execute(className, projectName, debug)
 		} else {
 			if debug {
-				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF()
+				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
 			}
 		}
 	default:

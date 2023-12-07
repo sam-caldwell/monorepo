@@ -1,15 +1,19 @@
 package monorepo
 
 import (
+	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/exit"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
-func (m *Monorepo) LoadManifests() error {
-
+func (m *Monorepo) LoadManifests() {
 	m.manifestList = make(map[string]Manifest)
 
+	ansi.Cyan().Println("Discovering project manifests")
+
+	count := 0
 	err := filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -20,13 +24,20 @@ func (m *Monorepo) LoadManifests() error {
 				return err
 			}
 			m.manifestList[path] = manifest
+			count++
 		}
 		return nil
 	})
 	if err != nil {
-		return err
+		ansi.Red().
+			Printf("Error discovering manifests\n%s", err).
+			Reset().
+			Fatal(exit.GeneralError)
 	}
-	return err
+	ansi.Green().
+		Printf("Discovered %d manifests (loaded)\n", count).
+		LF().
+		Reset()
 }
 
 func (m *Monorepo) ManifestCount() int {

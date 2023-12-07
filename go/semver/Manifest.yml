@@ -8,5 +8,6 @@ build:
 test:
   enabled: true
   steps:
-    - continueOnError: true
-      command: "go test -v -failfast ./..."
+    - enabled: true
+      continueOnError: true
+      command: "go test -v -failfast ./go/semver/..."

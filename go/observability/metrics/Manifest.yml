@@ -10,4 +10,4 @@ test:
   steps:
     - enabled: true
       continueOnError: true
-      command: "go test -v -failfast ./go/lock/..."
+      command: "go test -v -failfast ./go/observability/metrics/..."

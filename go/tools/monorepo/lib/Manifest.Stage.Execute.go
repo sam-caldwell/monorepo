@@ -9,32 +9,36 @@ import (
 	"time"
 )
 
+func commandArgs(commandLine []string) (command string, args []string) {
+	if len(commandLine[1:]) > 0 {
+		args = commandLine[1:]
+	}
+	return commandLine[0], args
+}
+
 func (s *Stage) Execute(className, projectName string, debug bool) error {
 	for _, step := range s.Steps {
-		var args []string
-		command := strings.TrimSpace(strings.TrimSuffix(step.Command, words.NewLine))
-		if (command == "") || showProjectStatus(step.Enabled, className, projectName, step.Command) {
+		if showProjectStatus(step.Enabled, className, projectName, step.Command) {
 			continue
 		}
-		for _, line := range strings.Split(step.Command, words.NewLine) {
+		commandLine := strings.Split(step.Command, words.NewLine)
+		for _, line := range commandLine {
 			line = strings.TrimSpace(line)
 			if line == "" {
 				continue
 			}
 
-			parts := strings.Split(line, words.Space)
-			command := parts[0]
-			if len(parts[1:]) > 0 {
-				args = parts[1:]
-			}
+			command, args := commandArgs(strings.Split(line, words.Space))
 			ansi.Cyan().Printf("    line: %s, %v", command, args).LF().Reset()
 			output, err := exec.Command(command, args...).CombinedOutput()
+
+			hasError := strings.Contains(strings.ToLower(string(output)), "error")
+
 			if err != nil {
 				ansi.Red().Printf("Error (CombinedOutput):%v\n", err).Reset()
 				return err
 			}
 
-			hasError := strings.Contains(strings.ToLower(string(output)), "error")
 			if debug {
 				ansi.White().
 					Printf("\tContinueOnError: %v\n", step.ContinueOnError).
@@ -42,7 +46,15 @@ func (s *Stage) Execute(className, projectName string, debug bool) error {
 					Yellow().LF()
 				outputLines := strings.Split(strings.TrimSuffix(string(output), words.NewLine), words.NewLine)
 				for _, lineOut := range outputLines {
-					ansi.Printf("\t%s:%s\n", time.Now().Format(time.RFC1123), lineOut)
+					ansi.Yellow().Printf("\t%s:", time.Now().Format(time.RFC1123))
+					lwrcsLn := strings.ToLower(lineOut)
+					if strings.Contains(lwrcsLn, "fail") {
+						ansi.Red()
+					}
+					if strings.Contains(lwrcsLn, "pass") || strings.Contains(lwrcsLn, "ok") {
+						ansi.Green()
+					}
+					ansi.Printf("%s\n", lineOut)
 				}
 				ansi.Reset()
 			}
