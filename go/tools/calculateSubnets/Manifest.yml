@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides a calculateSubnets tool
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
   steps:
