@@ -16,5 +16,6 @@ build:
 test:
   enabled: true
   steps:
-    - continueOnError: true
-      command: "go test -v -failfast ./go/types/hashes/tools/searchHashes/..."
+    - enabled: true
+      continueOnError: true
+      command: "go test -v -failfast ./go/tools/searchHashes/..."

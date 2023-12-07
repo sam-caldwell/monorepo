@@ -19,5 +19,5 @@ test:
   enabled: true
   steps:
     - enabled: true
-      continueOnError: true
+      continueOnError: false
       command: "go test -v -failfast ./go/tools/what/..."
