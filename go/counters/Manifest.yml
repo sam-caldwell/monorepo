@@ -6,7 +6,7 @@ header:
     This Golang project provides various counter objects
   opsys:
     - darwin
-    - linux
+
   arch:
     - amd64
 clean:

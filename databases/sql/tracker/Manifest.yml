@@ -6,7 +6,7 @@ header:
     This project creates the postgresql tracker database
   opsys:
     - darwin
-    - linux
+
   arch:
     - amd64
 clean:

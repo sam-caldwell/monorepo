@@ -7,7 +7,7 @@ header:
     codes across all platforms.
   opsys:
     - darwin
-    - linux
+
     - windows
   arch:
     - amd64

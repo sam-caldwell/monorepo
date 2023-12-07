@@ -1,7 +1,5 @@
 package monorepo
 
-import "github.com/sam-caldwell/monorepo/go/ansi"
-
 // Test - Run project-specific Test operations (as defined in the project manifest).
 func (m *Monorepo) Test() (err error) {
 	pass := 0
@@ -14,9 +12,6 @@ func (m *Monorepo) Test() (err error) {
 			pass++
 		}
 	}
-	ansi.Cyan().Printf("Statistics\n"+
-		"\tpass: %d\n"+
-		"\tfail: %d\n", pass, fail).
-		LF().Reset()
+	showStats(pass, fail)
 	return err
 }

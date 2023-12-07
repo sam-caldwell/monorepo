@@ -6,7 +6,7 @@ header:
     This golang project provides a variable type
   opsys:
     - darwin
-    - linux
+
   arch:
     - amd64
 clean:

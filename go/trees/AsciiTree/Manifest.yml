@@ -6,7 +6,7 @@ header:
     This Golang project provides a tree which can be drawn in ASCII.
   opsys:
     - darwin
-    - linux
+
   arch:
     - amd64
 clean:
