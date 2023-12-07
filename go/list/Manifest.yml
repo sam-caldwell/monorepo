@@ -10,4 +10,4 @@ test:
   steps:
     - enabled: true
       continueOnError: true
-      command: "go test -v -failfast ./go/observability/metrics/..."
+      command: "go test -v -failfast ./go/list/..."

@@ -1,4 +1,14 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project contains various conversions.
+  opsys:
+    - darwin
+    - linux
+  arch:
+    - amd64
 clean:
   enabled: false
   steps:

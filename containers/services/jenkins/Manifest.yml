@@ -5,19 +5,17 @@ header:
   description: |
     This project defines a Jenkins Server container and Agent containers
   opsys:
-    - darwin
-    - linux
-    - windows
+    - any
   arch:
-    - amd64
+    - any
 clean:
-  enabled: true
+  enabled: false
   steps:
     - enabled: true
       continueOnError: true
       command: "docker rmi -f services/jenkins:latest"
 build:
-  enabled: true
+  enabled: false
   steps:
     - enabled: false
       continueOnError: false

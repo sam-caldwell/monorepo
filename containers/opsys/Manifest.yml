@@ -5,11 +5,9 @@ header:
   description: |
     This project defines the Ubuntu linux base images
   opsys:
-    - darwin
-    - linux
-    - windows
+    - any
   arch:
-    - amd64
+    - any
 clean:
   enabled: true
   steps:

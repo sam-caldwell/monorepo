@@ -5,11 +5,9 @@ header:
   description: |
     This is the Python container base image.
   opsys:
-    - darwin
-    - linux
-    - windows
+    - any
   arch:
-    - amd64
+    - any
 clean:
   enabled: true
   steps:
