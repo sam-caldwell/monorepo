@@ -1,7 +1,7 @@
 //go:build windows
 // +build windows
 
-package terminal
+package geometry
 
 const (
 	defaultColumnWidth = 80

@@ -1,4 +1,4 @@
-package terminal
+package geometry
 
 // YPixel - Return the screen size (height) in pixels
 func (ws *TextWindow) YPixel() int {

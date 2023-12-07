@@ -1,4 +1,4 @@
-package terminal
+package geometry
 
 // TextWindow - A structure representing the screen.
 type TextWindow struct {

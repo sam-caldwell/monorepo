@@ -1,4 +1,4 @@
-package terminal
+package geometry
 
 import (
 	"github.com/sam-caldwell/monorepo/go/ansi"

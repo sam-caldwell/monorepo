@@ -1,4 +1,4 @@
-package terminal
+package geometry
 
 const (
 	defaultColumnWidth = 80

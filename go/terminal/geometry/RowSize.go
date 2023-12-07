@@ -1,4 +1,4 @@
-package terminal
+package geometry
 
 // RowSize - Return the number of rows for the terminal/console (tty/pty)
 func (ws *TextWindow) RowSize() int {

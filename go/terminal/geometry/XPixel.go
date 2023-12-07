@@ -1,4 +1,4 @@
-package terminal
+package geometry
 
 // XPixel - Return the screen size (width) in pixels
 func (ws *TextWindow) XPixel() int {
