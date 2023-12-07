@@ -3,15 +3,21 @@ package monorepo
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"path/filepath"
+	"runtime"
 )
 
-func (m *Manifest) Run(command string, debug bool) (err error) {
+// Run - Evaluate a monorepo command and execute the appropriate manifest definition.
+func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
+	manifestDir := filepath.Dir(m.FileName)
 	className := m.ClassName()
 	projectName := m.ProjectName()
+	opsys := runtime.GOOS
+	arch := runtime.GOARCH
 	switch command {
 	case "build":
 		if m.config.Build.Enabled {
-			return m.config.Build.Execute(className, projectName, debug)
+			return m.config.Build.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
 		} else {
 			if debug {
 				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
@@ -19,7 +25,7 @@ func (m *Manifest) Run(command string, debug bool) (err error) {
 		}
 	case "clean":
 		if m.config.Clean.Enabled {
-			return m.config.Clean.Execute(className, projectName, debug)
+			return m.config.Clean.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
 		} else {
 			if debug {
 				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()
@@ -30,7 +36,7 @@ func (m *Manifest) Run(command string, debug bool) (err error) {
 			if debug {
 				ansi.Magenta().Printf("  Enabled: %s::%s", className, projectName).LF().Reset()
 			}
-			return m.config.Test.Execute(className, projectName, debug)
+			return m.config.Test.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
 		} else {
 			if debug {
 				ansi.Magenta().Printf("  Disabled: %s::%s", className, projectName).LF().Reset()

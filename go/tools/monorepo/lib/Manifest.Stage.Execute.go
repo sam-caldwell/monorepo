@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"github.com/sam-caldwell/monorepo/go/version"
 	"os/exec"
 	"strings"
 	"time"
 )
 
+// commandArgs - parse the commandline for command and arguments
 func commandArgs(commandLine []string) (command string, args []string) {
 	if len(commandLine[1:]) > 0 {
 		args = commandLine[1:]
@@ -16,18 +18,31 @@ func commandArgs(commandLine []string) (command string, args []string) {
 	return commandLine[0], args
 }
 
-func (s *Stage) Execute(className, projectName string, debug bool) error {
+// Execute - Resolve build parameters and execute build steps
+func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arch *string, debug bool) error {
+	parameters := map[string]string{
+		"BUILD_ROOT":    *rootDir,
+		"BUILD_VERSION": version.Version,
+		"BUILD_OS":      *opsys,
+		"BUILD_ARCH":    *arch,
+		"PROJECT_NAME":  *projectName,
+		"MANIFEST_DIR":  *manifestDir,
+	}
+
 	for _, step := range s.Steps {
-		if showProjectStatus(step.Enabled, className, projectName, step.Command) {
+		if showProjectStatus(step.Enabled, className, projectName, &step.Command) {
 			continue
 		}
 		commandLine := strings.Split(step.Command, words.NewLine)
-		for _, line := range commandLine {
-			line = strings.TrimSpace(line)
-			if line == "" {
+		for _, rawLine := range commandLine {
+			rawLine = strings.TrimSpace(rawLine)
+			if rawLine == "" {
 				continue
 			}
-
+			line := rawLine
+			for key, value := range parameters {
+				line = strings.Replace(line, key, value, -1)
+			}
 			command, args := commandArgs(strings.Split(line, words.Space))
 			ansi.Cyan().Printf("    line: %s, %v", command, args).LF().Reset()
 			output, err := exec.Command(command, args...).CombinedOutput()
