@@ -18,8 +18,9 @@ func showProjectStatus(enabled bool, className, projectName, command string) boo
 	if enabled {
 		ansi.Green().
 			Printf("enabled").Reset().
-			White().Dim().
-			Printf("] (class:").
+			White().
+			Printf("] ").Dim().
+			Printf("(class:").
 			Yellow().Bold().
 			Printf("%s", className).
 			White().Dim().
