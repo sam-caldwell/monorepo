@@ -21,7 +21,7 @@ func BracketBox(text string, textColor uint8, highlight bool) *ansi.Color {
 		ansi.White()
 	}
 	if highlight {
-		ansi.BgYellow().Blink()
+		ansi.Dim().Blink()
 	} else {
 		ansi.BgBlack()
 	}
