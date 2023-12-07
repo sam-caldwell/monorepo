@@ -33,12 +33,12 @@ func (m *Monorepo) List() (err error) {
 		ansi.Red().Println("Empty list").Reset()
 	}
 	for class, projectList := range objects {
-		ansi.Yellow().Printf("\n class: '%s'\n", class)
+		ansi.Yellow().Printf("\n - class: '%s'\n", class)
 		if len(projectList) == 0 {
 			ansi.Yellow().Printf("    Empty Project List")
 		}
 		for _, project := range projectList {
-			ansi.Yellow().Printf("    %s\n", project)
+			ansi.Yellow().Printf("    - %s\n", project)
 		}
 	}
 	ansi.LF().Reset()
