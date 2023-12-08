@@ -38,7 +38,7 @@ build:
         - key: db_port
           value: 5432
         - key: db_name
-          value: ${PROJECT_NAME}
+          value: postgres
         - key: db_user
           value: admin
         - key: db_pass
@@ -57,7 +57,7 @@ test:
         - key: db_port
           value: 5432
         - key: db_name
-          value: ${PROJECT_NAME}
+          value: tracker
         - key: db_user
           value: admin
         - key: db_pass
@@ -65,4 +65,5 @@ test:
         - key: use_tls
           value: false
       command: |
+        go test -v -failfast ./databases/sql/tracker/0000-0000-init_test.go
         go test -v -failfast ./databases/sql/...
