@@ -65,5 +65,4 @@ test:
         - key: use_tls
           value: false
       command: |
-        go test -v -failfast ./databases/sql/tracker/0000-0000-init_test.go
         go test -v -failfast ./databases/sql/...
