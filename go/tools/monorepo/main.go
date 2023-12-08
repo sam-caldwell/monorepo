@@ -1,5 +1,13 @@
 package main
 
+/*
+ * monorepo/main.go
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * This is the main program for the monorepo command
+ * This is the start of all the automation goodness.
+ */
+
 import (
 	"flag"
 	"github.com/sam-caldwell/monorepo/go/ansi"
