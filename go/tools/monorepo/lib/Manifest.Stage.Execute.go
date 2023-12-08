@@ -60,10 +60,30 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 					fmt.Sprintf("GOARCH=%s", *arch),
 				)
 			}
+			for _, env := range step.Environment {
+				shell.Env = append(os.Environ(),
+					fmt.Sprintf("%s=%s", env.Key, env.Value))
+			}
+
+			//Show the environment variables if debug is set.
+			if debug {
+				ansi.Yellow().LF().Printf("Environment Variables:").LF()
+				if len(step.Environment) == 0 {
+					ansi.Println("  No environment variables defined")
+				} else {
+					for n, env := range step.Environment {
+						ansi.Printf(" %3d %s\n", n, env)
+					}
+				}
+				ansi.LF().Reset()
+			}
 
 			output, err := shell.CombinedOutput()
 			if err != nil {
-				ansi.Red().Printf("Error (Command shell [output]):%v\n", err).Reset()
+				ansi.
+					Red().
+					Printf("Error (Command shell [output]):%v\n\n%v\n\n", err, string(output)).
+					Reset()
 				return err
 			}
 			hasError := strings.Contains(strings.ToLower(string(output)), "error")
