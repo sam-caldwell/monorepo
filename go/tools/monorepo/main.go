@@ -7,7 +7,6 @@ import (
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	monorepo "github.com/sam-caldwell/monorepo/go/tools/monorepo/lib"
-	"path/filepath"
 	"strings"
 	"time"
 )
@@ -16,8 +15,8 @@ func main() {
 
 	var err error
 
-	rootPath := filepath.Dir(directory.GetCurrent())
-	if !directory.Exists(filepath.Join(rootPath, "monorepo")) {
+	rootPath := directory.GetCurrent()
+	if !directory.Exists(rootPath) {
 		ansi.Red().
 			Printf("This must be run from the root of the monorepo").
 			LF().Fatal(exit.GeneralError)
@@ -33,6 +32,8 @@ func main() {
 
 	Monorepo.PrintHeader("Monorepo command")
 	Monorepo.LoadManifests()
+	ansi.Cyan().Printf("%d records loaded", Monorepo.ManifestCount()).LF().Reset()
+	Monorepo.SortByClassAndProject()
 
 	for _, command := range commands {
 		Monorepo.PrintHeader(convert.Capitalize(command))

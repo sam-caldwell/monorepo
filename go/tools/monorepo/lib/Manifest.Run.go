@@ -25,8 +25,8 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 
 	//
 	manifestDir := filepath.Dir(m.FileName)
-	className := m.ClassName()
-	projectName := m.ProjectName()
+	className := m.ClassName(*root)
+	projectName := m.ProjectName(*root)
 
 	// If opsys contains, any we will build for our current opsys only
 	if list.Contains(m.config.Header.Opsys, "any") {

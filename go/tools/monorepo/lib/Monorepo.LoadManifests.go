@@ -9,35 +9,32 @@ import (
 )
 
 func (m *Monorepo) LoadManifests() {
-	m.manifestList = make(map[string]Manifest)
+	ansi.Cyan().
+		Print("Discovering project manifests").LF().Reset()
 
-	ansi.Cyan().Println("Discovering project manifests")
-
-	count := 0
 	err := filepath.Walk(m.Root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if strings.Contains(info.Name(), manifestYamlFile) {
 			var manifest Manifest
-			if err := manifest.Load(path); err != nil {
+			if err := manifest.Load(&path); err != nil {
 				return err
 			}
-			m.manifestList[path] = manifest
-			count++
+			m.manifestList = append(m.manifestList, Manifest{
+				FileName: path,
+			})
 		}
 		return nil
 	})
 	if err != nil {
 		ansi.Red().
 			Printf("Error discovering manifests\n%s", err).
-			Reset().
-			Fatal(exit.GeneralError)
+			Reset().Fatal(exit.GeneralError)
 	}
 	ansi.Green().
-		Printf("Discovered %d manifests (loaded)\n", count).
-		LF().
-		Reset()
+		Printf("Discovered %d manifests (loaded)\n", len(m.manifestList)).
+		LF().Reset()
 }
 
 func (m *Monorepo) ManifestCount() int {
