@@ -14,7 +14,6 @@ clean:
   steps:
     - continueOnError: true
       command: "docker exec -it postgresql /bin/bash -c \"echo 'drop database tracker;' | /usr/bin/psql\" &>/dev/null"
-
 build:
   enabled: false
   steps:
@@ -23,12 +22,31 @@ build:
     - continueOnError: true
       command: "docker rm postgresql &>/dev/null"
     - continueOnError: true
+      environment:
+        - key: listen
+          value: 0.0.0.0
+        - key: port
+          value: 5432
+        - key: volume
+          value: ./databases/sql
       command: |
-        docker run -d --rm --name postgresql -p 0.0.0.0:5432:5432 -v ./databases/sql:/opt/ services/postgresql
+        docker run -d --rm --name postgresql -p ${listen}:${port}:${port} -v ${volume}:/opt/ services/postgresql
     - continueOnError: true
+      environment:
+        - key: db_host
+          value: 192.168.3.190
+        - key: db_port
+          value: 5432
+        - key: db_name
+          value: ${PROJECT_NAME}
+        - key: db_user
+          value: admin
+        - key: db_pass
+          value: admin
+        - key: use_tls
+          value: false
       command: |
-        go run go/db/dbMigrations/main.go --db_host 192.168.3.190 --db_port 5432 --db_user admin --db_pass admin
-
+        go run go/db/dbMigrations/main.go
 test:
   enabled: true
   steps:
