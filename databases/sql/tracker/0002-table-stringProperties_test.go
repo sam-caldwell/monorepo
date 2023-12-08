@@ -1,6 +1,7 @@
 package sqldbtest
 
 import (
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
 	"testing"
 )
 
@@ -10,7 +11,9 @@ func TestSqlDbTable_stringProperties(t *testing.T) {
 
 	t.Cleanup(func() {
 		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		if err != nil {
+			t.Fatalf("Error when cleaning up\nerr:%v", err)
+		}
 	})
 
 	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
