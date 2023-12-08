@@ -1,8 +1,8 @@
 package sqldbtest
 
 import (
-    "github.com/sam-caldwell/monorepo/go/db/sqldbtest"
-    "testing"
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
+	"testing"
 )
 
 func TestDbConnectionForTests(t *testing.T) {
