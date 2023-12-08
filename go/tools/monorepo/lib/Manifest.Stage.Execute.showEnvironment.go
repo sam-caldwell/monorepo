@@ -30,7 +30,9 @@ func showEnvironment(shell *exec.Cmd, expected *[]EnvironmentVariable) {
 				}
 			}
 		}
-		if discoveredCount == 0 {
+		if discoveredCount == len(*expected) {
+			ansi.Green().Printf("\t    Expected environment variable count matches\n")
+		} else {
 			ansi.Red().Printf("\t    Environment is missing parameters\n")
 		}
 	}
