@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides the tool for managing the monorepo.
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
   steps:

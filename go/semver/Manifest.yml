@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides a semantic versioning automation
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
 

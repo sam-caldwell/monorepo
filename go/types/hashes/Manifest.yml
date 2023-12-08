@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    A golang implementation of hashes abstracted to make things easy over the long haul.
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
   steps:

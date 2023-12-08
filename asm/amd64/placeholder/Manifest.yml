@@ -6,16 +6,12 @@ header:
     This is the project description
   opsys:
     - darwin
-
   arch:
     - amd64
-
 clean:
   enabled: false
-
 build:
   enabled: false
-
 test:
   enabled: false
 

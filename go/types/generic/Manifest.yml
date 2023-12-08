@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    Generic byte blocks and other types
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
 

@@ -18,12 +18,11 @@ func (m *Monorepo) LoadManifests() {
 		}
 		if strings.Contains(info.Name(), manifestYamlFile) {
 			var manifest Manifest
+			manifest.FileName = path
 			if err := manifest.Load(&path); err != nil {
 				return err
 			}
-			m.manifestList = append(m.manifestList, Manifest{
-				FileName: path,
-			})
+			m.manifestList = append(m.manifestList, manifest)
 		}
 		return nil
 	})

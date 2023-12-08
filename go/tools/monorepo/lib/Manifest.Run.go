@@ -23,19 +23,29 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 		return fmt.Errorf("unsupported command %s", command)
 	}
 
-	//
 	manifestDir := filepath.Dir(m.FileName)
 	className := m.ClassName(*root)
 	projectName := m.ProjectName(*root)
 
 	// If opsys contains, any we will build for our current opsys only
-	if list.Contains(m.config.Header.Opsys, "any") {
+	if len(m.config.Header.Opsys) == 0 || list.Contains(m.config.Header.Opsys, "any") {
 		m.config.Header.Opsys = []string{runtime.GOOS}
 	}
 	// If arch contains, any we will build for our current architecture only
-	if list.Contains(m.config.Header.Arch, "any") {
+	if len(m.config.Header.Arch) == 0 || list.Contains(m.config.Header.Arch, "any") {
 		m.config.Header.Arch = []string{runtime.GOARCH}
 	}
+
+	//ansi.
+	//	Magenta().
+	//	Printf("Cleaning %s:%-40s (%s/%s) %s",
+	//		className,
+	//		projectName,
+	//		m.config.Header.Opsys,
+	//		m.config.Header.Arch,
+	//		manifestDir).
+	//	LF().
+	//	Reset()
 
 	for _, opsys := range m.config.Header.Opsys {
 		for _, arch := range m.config.Header.Arch {

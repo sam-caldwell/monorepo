@@ -5,6 +5,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -53,11 +54,44 @@ func TestMonorepo_LoadManifests(t *testing.T) {
 				"Expect: %d", actualCount, expectedCount)
 		}
 	})
-	t.Run("Verify paths exist", func(t *testing.T) {
+	t.Run("Verify filenames exist", func(t *testing.T) {
 		for n, manifest := range repo.manifestList {
+			if strings.TrimSpace(manifest.FileName) == "" {
+				t.Fatalf("unexpected empty filename at position %d", n)
+			}
 			if !file.Exists(manifest.FileName) {
 				t.Fatalf("missing file (%d): %s", n, manifest.FileName)
 			}
 		}
 	})
+	t.Run("verify each manifest has a proper config", func(t *testing.T) {
+		for n, manifest := range repo.manifestList {
+			if manifest.config.Build.Enabled && !manifest.config.Build.Enabled {
+				t.Fatalf("Build stage are bad %d on %s", n, manifest.FileName)
+			}
+			if manifest.config.Clean.Enabled && !manifest.config.Clean.Enabled {
+				t.Fatalf("Clean stage are bad %d on %s", n, manifest.FileName)
+			}
+			if manifest.config.Test.Enabled && !manifest.config.Test.Enabled {
+				t.Fatalf("Test stage are bad %d on %s", n, manifest.FileName)
+			}
+			if manifest.config.Header.Author == "" {
+				t.Fatalf("Author should not be empty.  See %s", manifest.FileName)
+			}
+			if manifest.config.Header.Email == "" {
+				t.Fatalf("Email should not be empty.  See %s", manifest.FileName)
+			}
+			if manifest.config.Header.Description == "" {
+				t.Fatalf("Description should not be empty.  See %s", manifest.FileName)
+			}
+			if len(manifest.config.Header.Opsys) == 0 {
+				t.Fatalf("Opsys should not be empty.  See %s", manifest.FileName)
+			}
+			if len(manifest.config.Header.Arch) == 0 {
+				t.Fatalf("Arch should not be empty.  See %s", manifest.FileName)
+			}
+
+		}
+	})
+
 }

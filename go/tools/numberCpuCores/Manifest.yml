@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides a program that returns number of CPU cores quickly and cross-platform
+  opsys:
+    - any
+  arch:
+    - any
 clean:
   enabled: false
   steps:

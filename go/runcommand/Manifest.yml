@@ -1,4 +1,14 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides an abstraction for executing commands with mocking for tests.
+    (Disclaimer: this was a horrible idea as implemented)
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
 

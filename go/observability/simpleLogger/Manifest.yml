@@ -1,4 +1,14 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides a simpleLogger for short-term needs until observability/logging is
+    completed.
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
 

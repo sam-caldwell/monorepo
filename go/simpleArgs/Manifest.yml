@@ -1,4 +1,13 @@
 ---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  description: |
+    This Golang project provides some simple argument processing (deprecated)
+  opsys:
+    - darwin
+  arch:
+    - amd64
 clean:
   enabled: false
 
