@@ -9,19 +9,31 @@ header:
 
   arch:
     - amd64
+
 clean:
   enabled: false
   steps:
-    - continueOnError: true
-      command: "docker exec -it postgresql /bin/bash -c \"echo 'drop database tracker;' | /usr/bin/psql\" &>/dev/null"
+    - enabled: true
+      continueOnError: true
+      command: |
+        docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql &>/dev/null"
+
 build:
-  enabled: false
+  enabled: true
   steps:
-    - continueOnError: true
-      command: "docker kill postgresql &>/dev/null"
-    - continueOnError: true
-      command: "docker rm postgresql &>/dev/null"
-    - continueOnError: true
+
+    - enabled: true
+      continueOnError: true
+      command: |
+        docker kill postgresql
+
+    - enabled: true
+      continueOnError: true
+      command: |
+        docker rm postgresql
+
+    - enabled: true
+      continueOnError: true
       environment:
         - key: listen
           value: 0.0.0.0
@@ -31,7 +43,9 @@ build:
           value: ./databases/sql
       command: |
         docker run -d --rm --name postgresql -p ${listen}:${port}:${port} -v ${volume}:/opt/ services/postgresql
-    - continueOnError: true
+
+    - enabled: true
+      continueOnError: true
       environment:
         - key: db_host
           value: 192.168.3.190
@@ -47,10 +61,13 @@ build:
           value: false
       command: |
         go run go/db/dbMigrations/main.go
+
 test:
   enabled: true
   steps:
-    - continueOnError: true
+
+    - enabled: true
+      continueOnError: true
       environment:
         - key: db_host
           value: 192.168.3.190
