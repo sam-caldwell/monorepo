@@ -2,18 +2,18 @@ package sqldbtest
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
 	"strings"
 	"testing"
 )
 
 func TestSqlDbFunc_getAvatarById(t *testing.T) {
-
 	const (
 		tableName    = "avatar"
 		functionName = "getAvatarById"
 		testUrl      = "http://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png"
 	)
-	db := database.InitializeTestDbConn(t)
+	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
@@ -21,11 +21,11 @@ func TestSqlDbFunc_getAvatarById(t *testing.T) {
 		_, _ = db.Query("delete from %s where url='%s';", tableName, testUrl)
 
 		err := db.Close()
-		database.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 
 	t.Run("verify the function structure (params, return)", func(t *testing.T) {
-		database.VerifyFunctionStructure(t, db,
+		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
 				"pn:{id},"+

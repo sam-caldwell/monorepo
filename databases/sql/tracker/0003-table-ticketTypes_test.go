@@ -1,26 +1,27 @@
 package sqldbtest
 
 import (
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
 	"testing"
 )
 
 func TestSqlDbTable_TicketTypes(t *testing.T) {
 	const tableName = "tickettypes"
 
-	db := database.InitializeTestDbConn(t)
+	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		err := db.Close()
-		database.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 
 	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
 		_, err := db.Query("select 1 from %s limit 1;", tableName)
-		database.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
-		database.ValidateTable(t, db, tableName, []string{
+		sqldbtest.ValidateTable(t, db, tableName, []string{
 			"ColumnName:id,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:gen_random_uuid()",
 			"ColumnName:name,datatype:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:iconId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
@@ -30,7 +31,7 @@ func TestSqlDbTable_TicketTypes(t *testing.T) {
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {
-		database.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
-		database.ValidateForeignKey(t, db, tableName, "workflow", "workflowId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "workflow", "workflowId", "id")
 	})
 }

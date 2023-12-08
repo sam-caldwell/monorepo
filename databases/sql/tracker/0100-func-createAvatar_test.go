@@ -1,10 +1,11 @@
 package sqldbtest
 
 import (
-    "fmt"
-    "github.com/google/uuid"
-    "strings"
-    "testing"
+	"fmt"
+	"github.com/google/uuid"
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
+	"strings"
+	"testing"
 )
 
 func TestSqlDbFunc_createAvatar(t *testing.T) {
@@ -18,7 +19,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 		badTestUrl3  = "ftp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png"
 		zeroUuid     = "00000000-0000-0000-0000-000000000000"
 	)
-	db := database.InitializeTestDbConn(t)
+	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
@@ -27,11 +28,11 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 		_, _ = db.Query("delete from %s where url='%s';", tableName, testUrl)
 
 		err := db.Close()
-		database.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 
 	t.Run("verify the function structure (params, return)", func(t *testing.T) {
-		database.VerifyFunctionStructure(t, db,
+		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
 				"pn:{avatarurl},"+
@@ -45,7 +46,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 
 		t.Run("execute createAvatar('"+testUrl+"');", func(t *testing.T) {
 			rows, err := db.Query("select createAvatar('%s');", testUrl)
-			database.CheckError(t, err)
+			sqldbtest.CheckError(t, err)
 			t.Run("createAvatar() should return a row", func(t *testing.T) {
 				if !rows.Next() {
 					t.Fatal("no row returned")
@@ -53,16 +54,16 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 			})
 			t.Run("expect result is a uuid", func(t *testing.T) {
 				err = rows.Scan(&avatarId)
-				database.CheckError(t, err)
+				sqldbtest.CheckError(t, err)
 			})
 			t.Run("Query for expected avatarId", func(t *testing.T) {
 				rows, err := db.Query(""+
 					"select id, url "+
 					"from avatars "+
 					"where url='%s';", testUrl)
-				database.CheckError(t, err)
+				sqldbtest.CheckError(t, err)
 				rows.Next()
-				database.CheckError(t, rows.Scan(&avatarId, &avatarUrl))
+				sqldbtest.CheckError(t, rows.Scan(&avatarId, &avatarUrl))
 				if avatarUrl != testUrl {
 					t.Fatalf("url mismatch\n"+
 						"actual:   %s\n"+
@@ -79,7 +80,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 			t.Run("execute createAvatar('"+badUrl+"');", func(t *testing.T) {
 				t.Logf("createAvatar('%s');", badUrl)
 				rows, err := db.Query("select createAvatar('%s');", badUrl)
-				database.CheckError(t, err)
+				sqldbtest.CheckError(t, err)
 				t.Run("createAvatar() should return a row", func(t *testing.T) {
 					if !rows.Next() {
 						t.Fatal("no row returned")
@@ -87,7 +88,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 				})
 				t.Run("expect zeroUuid Result", func(t *testing.T) {
 					err = rows.Scan(&avatarId)
-					database.CheckError(t, err)
+					sqldbtest.CheckError(t, err)
 					if avatarId.String() == zeroUuid {
 						t.Fatalf("invalid AvatarId: %s", avatarId)
 					}
@@ -99,7 +100,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 						"from avatars "+
 						"where url='%s';", badUrl)
 					t.Logf("query returned %s", badUrl)
-					database.CheckError(t, err)
+					sqldbtest.CheckError(t, err)
 					t.Logf("query had no error")
 					if rows.Next() {
 						t.Fatal("We should not have created an avatar entry on invalid url")

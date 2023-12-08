@@ -1,20 +1,21 @@
 package sqldbtest
 
 import (
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
 	"testing"
 )
 
 func TestSqlDbType_logPriority(t *testing.T) {
-	db := database.InitializeTestDbConn(t)
+	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		err := db.Close()
-		database.CheckError(t, err)
+		sqldbtest.CheckError(t, err)
 	})
 	t.Run("verify the enumerated type values", func(t *testing.T) {
-		actual := database.GetEnumValues(t, db, "logpriority")
+		actual := sqldbtest.GetEnumValues(t, db, "logpriority")
 		expected := []string{"critical", "warn", "info", "debug"}
-		database.CompareTwoStringLists(t, actual, expected)
+		sqldbtest.CompareTwoStringLists(t, actual, expected)
 	})
 
 }

@@ -30,7 +30,7 @@ build:
         go run go/db/dbMigrations/main.go --db_host 192.168.3.190 --db_port 5432 --db_user admin --db_pass admin
 
 test:
-  enabled: false
+  enabled: true
   steps:
     - continueOnError: true
       command: |
