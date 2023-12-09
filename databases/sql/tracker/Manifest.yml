@@ -15,8 +15,9 @@ clean:
   steps:
     - enabled: true
       continueOnError: true
+      showOutput: false
       command: |
-        docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql &>/dev/null"
+        docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql"
 
 build:
   enabled: true
@@ -24,16 +25,18 @@ build:
 
     - enabled: true
       continueOnError: true
+      showOutput: false
       command: |
         docker kill postgresql
 
     - enabled: true
       continueOnError: true
+      showOutput: false
       command: |
         docker rm postgresql
 
     - enabled: true
-      continueOnError: true
+      continueOnError: false
       environment:
         - key: listen
           value: 0.0.0.0
@@ -45,7 +48,7 @@ build:
         docker run -d --rm --name postgresql -p ${listen}:${port}:${port} -v ${volume}:/opt/ services/postgresql
 
     - enabled: true
-      continueOnError: true
+      continueOnError: false
       environment:
         - key: db_host
           value: 192.168.3.190
@@ -65,9 +68,33 @@ build:
 test:
   enabled: true
   steps:
+    - enabled: true
+      continueOnError: true
+      showOutput: false
+      command: |
+        docker kill postgresql
 
     - enabled: true
       continueOnError: true
+      showOutput: false
+      command: |
+        docker rm postgresql
+
+    - enabled: true
+      continueOnError: false
+      showOutput: true
+      environment:
+        - key: listen
+          value: 0.0.0.0
+        - key: port
+          value: 5432
+        - key: volume
+          value: ./databases/sql
+      command: |
+        docker run -d --rm --name postgresql -p ${listen}:${port}:${port} -v ${volume}:/opt/ services/postgresql
+
+    - enabled: true
+      continueOnError: false
       environment:
         - key: db_host
           value: 192.168.3.190

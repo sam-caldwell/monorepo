@@ -11,7 +11,7 @@ import (
 )
 
 // Execute - Resolve build parameters and execute build steps
-func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arch *string, debug bool) error {
+func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arch *string, debug bool) (err error) {
 	parameters := map[string]string{
 		"${BUILD_ROOT}":    *rootDir,
 		"${BUILD_VERSION}": version.Version,
@@ -20,6 +20,8 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 		"${PROJECT_NAME}":  *projectName,
 		"${MANIFEST_DIR}":  *manifestDir,
 	}
+
+	var hasError bool
 
 	for _, step := range s.Steps {
 		//if showProjectStatus(step.Enabled, className, projectName, &step.Command) {
@@ -36,9 +38,13 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 			ansi.Cyan().Printf("      └─running: %s, %s", command, strings.Join(args, words.Space)).
 				LF().Reset()
 
-			if err := resolveEnvironment(&step.Environment); err != nil {
+			if err = resolveEnvironment(&step.Environment); err != nil {
 				ansi.Red().Printf("Error setting environment variables. %v", err).Reset()
-				return err
+				if step.ContinueOnError {
+					err = nil
+				} else {
+					return err
+				}
 			}
 
 			shell := exec.Command(command, args...)
@@ -49,26 +55,34 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 				showEnvironment(shell, &step.Environment)
 			}
 
-			output, err := shell.CombinedOutput()
+			var output []byte
+			output, err = shell.CombinedOutput()
 			if err != nil {
-				ansi.
-					Red().
-					Printf("Error (Command shell [output]):%v\n\n%v\n\n", err, string(output)).
-					Reset()
-				return err
+				if step.ShowOutput {
+					ansi.
+						Red().
+						Printf("Error (Command shell [output]):%v\n\n%v\n\n", err, string(output)).
+						Reset()
+				}
+				if step.ContinueOnError {
+					err = nil
+				} else {
+					return err
+				}
+				hasError = strings.Contains(strings.ToLower(string(output)), "error")
 			}
-			hasError := strings.Contains(strings.ToLower(string(output)), "error")
-
-			if debug {
+			if step.ShowOutput {
 				ansi.White().
 					Printf("\tContinueOnError: %v\n", step.ContinueOnError).
-					Print("\tOutput:").
-					Yellow().LF()
+					Printf("\tShowOutput: %v\n", step.ShowOutput).
+					Print("\tOutput:").LF().
+					White().Println("Output:")
 
-				ansi.White().Println("Output:")
 				outputLines := strings.Split(strings.TrimSuffix(string(output), words.NewLine), words.NewLine)
 				for _, lineOut := range outputLines {
+
 					ansi.Yellow().Printf("%s:", time.Now().Format(time.RFC1123))
+
 					lwrcsLn := strings.ToLower(lineOut)
 					if strings.Contains(lwrcsLn, "fail") {
 						ansi.Red()
@@ -78,14 +92,15 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 					}
 					ansi.Printf("%s\n", lineOut)
 				}
-				ansi.Reset()
-
-				if hasError {
-					if !step.ContinueOnError {
-						return fmt.Errorf(string(output))
-					}
+			}
+			if hasError {
+				if step.ContinueOnError {
+					err = nil
+				} else {
+					return fmt.Errorf("failed: %s", output)
 				}
 			}
+			ansi.Reset()
 		}
 	}
 	return nil
