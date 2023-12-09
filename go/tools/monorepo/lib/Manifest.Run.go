@@ -36,17 +36,6 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 		m.config.Header.Arch = []string{runtime.GOARCH}
 	}
 
-	//ansi.
-	//	Magenta().
-	//	Printf("Cleaning %s:%-40s (%s/%s) %s",
-	//		className,
-	//		projectName,
-	//		m.config.Header.Opsys,
-	//		m.config.Header.Arch,
-	//		manifestDir).
-	//	LF().
-	//	Reset()
-
 	for _, opsys := range m.config.Header.Opsys {
 		for _, arch := range m.config.Header.Arch {
 			ansi.
