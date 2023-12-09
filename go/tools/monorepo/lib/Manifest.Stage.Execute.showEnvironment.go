@@ -10,28 +10,35 @@ import (
 
 // showEnvironment - show the key-value environment of the current shell
 func showEnvironment(shell *exec.Cmd, expected *[]EnvironmentVariable) {
+
 	if len(*expected) == 0 {
-		ansi.Println("\t    No expected environment variables defined")
+
+		ansi.Println("\t    OK:No expected environment variables defined")
+
 	} else {
+
 		ansi.Yellow().LF().Printf("Environment Variables:").LF()
+
 		ansi.Printf("\tExpected:\n")
 		for n, env := range *expected {
 			ansi.Printf("\t    %d %s = %s\n", n, env.Key, env.Value)
 		}
-		ansi.Println(strings.Repeat("=", 40)).
-			Printf("\tActual:\n")
+
+		ansi.Println("\t" + strings.Repeat("=", 30))
+
+		ansi.Printf("\tActual:\n")
 		discoveredCount := 0
 		for n, line := range os.Environ() {
 			key, value := splitKeyValue(line)
 			for _, expEnv := range *expected {
-				if expEnv.Key == line {
+				if expEnv.Key == key {
 					ansi.Printf("\t    %3d %s=%s\n", n, key, value)
 					discoveredCount++
 				}
 			}
 		}
 		if discoveredCount == len(*expected) {
-			ansi.Green().Printf("\t    Expected environment variable count matches\n")
+			ansi.Green().Printf("\t    OK:Expected environment variable count matches\n")
 		} else {
 			ansi.Red().Printf("\t    Environment is missing parameters\n")
 		}

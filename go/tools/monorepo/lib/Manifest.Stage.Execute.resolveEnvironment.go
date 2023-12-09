@@ -3,13 +3,17 @@ package monorepo
 import (
 	"fmt"
 	"os"
-	"os/exec"
 )
 
 // resolveEnvironment - Given a list of key-value environment variables and command shell, fix up the environment.
-func resolveEnvironment(shell *exec.Cmd, envList *[]EnvironmentVariable) {
-	for _, env := range *envList {
-		shell.Env = append(os.Environ(),
-			fmt.Sprintf("%s=%s", env.Key, env.Value))
+func resolveEnvironment(envList *[]EnvironmentVariable) error {
+	if len(*envList) == 0 {
+		return nil
 	}
+	for _, env := range *envList {
+		if err := os.Setenv(env.Key, env.Value); err != nil {
+			return fmt.Errorf("error setting %s (value %s): %v", env.Key, env.Value, err)
+		}
+	}
+	return nil
 }

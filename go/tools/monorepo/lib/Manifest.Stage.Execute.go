@@ -36,9 +36,13 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 			ansi.Cyan().Printf("      └─running: %s, %s", command, strings.Join(args, words.Space)).
 				LF().Reset()
 
+			if err := resolveEnvironment(&step.Environment); err != nil {
+				ansi.Red().Printf("Error setting environment variables. %v", err).Reset()
+				return err
+			}
+
 			shell := exec.Command(command, args...)
 			setGolangEnvParams(shell, className, opsys, arch)
-			resolveEnvironment(shell, &step.Environment)
 
 			if debug {
 				//Show the environment variables if debug is set.
