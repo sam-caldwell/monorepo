@@ -8,14 +8,22 @@ import (
 
 // DrawAsciiBox - Draw an ASCII text box of a given width
 func DrawAsciiBox(color *ansi.Color, text []string, width int) {
+
 	barWidth := width - 2
-	color.LF().
-		Print("╔").Printf(strings.Repeat("═", barWidth)).Print("╗").LF()
+
+	color.LF().Print("╔").Printf(strings.Repeat("═", barWidth)).Print("╗").LF()
+
 	for _, line := range text {
+		line = strings.TrimSpace(line)
 		lineWidth := len(line)
+
 		paddingWidth := barWidth - (lineWidth + 2)
+
 		padding := strings.Repeat(words.Space, paddingWidth)
+
 		color.Printf("║ %s%s ║", line, padding).LF()
+
 	}
+
 	color.Printf("╚%s╝", strings.Repeat("═", barWidth)).LF().Reset()
 }
