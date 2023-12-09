@@ -39,17 +39,19 @@ build:
         docker rm postgresql
 
     - enabled: true
-      continueOnError: false
+      continueOnError: true
+      showOutput: true
       environment:
         - key: listen
           value: 0.0.0.0
-        - key: port
+        - key: db_port
           value: 5432
         - key: volume
           value: ./databases/sql
       runAsShell: true
       command: |
-        docker run -d --rm --name postgresql -p ${listen}:${port}:${port} -v ${volume}:/opt/ services/postgresql
+        docker run -d --rm --name postgresql -p ${listen}:${db_port}:${db_port} -v ${volume}:/opt/ services/postgresql
+        sleep 5
 
     - enabled: true
       continueOnError: false

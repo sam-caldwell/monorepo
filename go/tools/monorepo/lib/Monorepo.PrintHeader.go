@@ -5,6 +5,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/convert"
 	"github.com/sam-caldwell/monorepo/go/terminal/geometry"
+	"github.com/sam-caldwell/monorepo/go/terminal/widgets"
 	"time"
 )
 
@@ -12,7 +13,7 @@ import (
 func (m *Monorepo) PrintHeader(title string) {
 	var window geometry.TextWindow
 	width := window.ColumnSize() - 4
-	geometry.DrawAsciiBox(
+	terminal.DrawAsciiBox(
 		ansi.Cyan(),
 		[]string{
 			fmt.Sprintf("%s...  %v",
