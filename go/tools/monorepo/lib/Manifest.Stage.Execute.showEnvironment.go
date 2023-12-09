@@ -1,15 +1,14 @@
 package monorepo
 
 import (
-	"github.com/sam-caldwell/monorepo/go/ansi"
-	"github.com/sam-caldwell/monorepo/go/misc/words"
-	"os"
-	"os/exec"
-	"strings"
+    "github.com/sam-caldwell/monorepo/go/ansi"
+    "github.com/sam-caldwell/monorepo/go/misc/words"
+    "os"
+    "strings"
 )
 
 // showEnvironment - show the key-value environment of the current shell
-func showEnvironment(shell *exec.Cmd, expected *[]EnvironmentVariable) {
+func showEnvironment(expected *[]EnvironmentVariable) {
 
 	if len(*expected) == 0 {
 
