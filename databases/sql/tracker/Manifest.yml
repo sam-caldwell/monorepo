@@ -16,6 +16,7 @@ clean:
     - enabled: true
       continueOnError: true
       showOutput: false
+      runAsShell: false
       command: |
         docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql"
 
@@ -26,12 +27,14 @@ build:
     - enabled: true
       continueOnError: true
       showOutput: false
+      runAsShell: false
       command: |
         docker kill postgresql
 
     - enabled: true
       continueOnError: true
       showOutput: false
+      runAsShell: false
       command: |
         docker rm postgresql
 
@@ -44,11 +47,20 @@ build:
           value: 5432
         - key: volume
           value: ./databases/sql
+      runAsShell: true
       command: |
         docker run -d --rm --name postgresql -p ${listen}:${port}:${port} -v ${volume}:/opt/ services/postgresql
 
     - enabled: true
       continueOnError: false
+      showOutput: true
+      runAsShell: false
+      command: |
+        docker ps
+
+    - enabled: true
+      continueOnError: false
+      showOutput: true
       environment:
         - key: db_host
           value: 192.168.3.190
@@ -62,6 +74,7 @@ build:
           value: admin
         - key: use_tls
           value: false
+      runAsShell: false
       command: |
         go run go/db/dbMigrations/main.go
 
@@ -71,18 +84,21 @@ test:
     - enabled: true
       continueOnError: true
       showOutput: false
+      runAsShell: false
       command: |
         docker kill postgresql
 
     - enabled: true
       continueOnError: true
       showOutput: false
+      runAsShell: false
       command: |
         docker rm postgresql
 
     - enabled: true
       continueOnError: false
       showOutput: true
+      runAsShell: true
       environment:
         - key: listen
           value: 0.0.0.0
@@ -95,6 +111,8 @@ test:
 
     - enabled: true
       continueOnError: false
+      showOutput: true
+      runAsShell: false
       environment:
         - key: db_host
           value: 192.168.3.190

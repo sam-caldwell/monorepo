@@ -6,4 +6,5 @@ type Step struct {
 	Enabled         bool                  `yaml:"enabled"`
 	Environment     []EnvironmentVariable `yaml:"environment"`
 	ShowOutput      bool                  `yaml:"showOutput"`
+	RunAsShell      bool                  `yaml:"runAsShell"`
 }
