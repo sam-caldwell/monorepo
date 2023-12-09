@@ -58,6 +58,12 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 					LF().
 					Reset()
 				err = configStage.Execute(root, &manifestDir, &className, &projectName, &opsys, &arch, debug)
+				if err == nil {
+					ansi.Green().Printf("       └─OK")
+				} else {
+					ansi.Red().Printf("       └─Error: %v", err)
+				}
+				ansi.LF()
 			} else {
 				ansi.
 					Cyan().

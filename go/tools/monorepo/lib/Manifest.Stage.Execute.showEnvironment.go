@@ -1,10 +1,10 @@
 package monorepo
 
 import (
-    "github.com/sam-caldwell/monorepo/go/ansi"
-    "github.com/sam-caldwell/monorepo/go/misc/words"
-    "os"
-    "strings"
+	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"os"
+	"strings"
 )
 
 // showEnvironment - show the key-value environment of the current shell
@@ -12,7 +12,7 @@ func showEnvironment(expected *[]EnvironmentVariable) {
 
 	if len(*expected) == 0 {
 
-		ansi.Println("\t    OK:No expected environment variables defined")
+		ansi.Println("\t ││ └OK:No expected environment variables defined")
 
 	} else {
 
@@ -37,12 +37,12 @@ func showEnvironment(expected *[]EnvironmentVariable) {
 			}
 		}
 		if discoveredCount == len(*expected) {
-			ansi.Green().Printf("\t    OK:Expected environment variable count matches\n")
+			ansi.Green().Printf("\t    └OK:Expected environment variable count matches\n")
 		} else {
-			ansi.Red().Printf("\t    Environment is missing parameters\n")
+			ansi.Red().Printf("\t    └FAIL:Environment is missing parameters\n")
 		}
 	}
-	ansi.LF().Reset()
+	ansi.Reset()
 }
 
 func splitKeyValue(line string) (key, value string) {
