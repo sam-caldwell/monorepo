@@ -27,16 +27,16 @@ build:
     - enabled: true
       continueOnError: true
       showOutput: false
-      runAsShell: false
+      runAsShell: true
       command: |
         docker kill postgresql
 
     - enabled: true
       continueOnError: true
       showOutput: false
-      runAsShell: false
+      runAsShell: true
       command: |
-        docker rm postgresql
+        docker kill postgresql
 
     - enabled: true
       continueOnError: true
@@ -57,12 +57,6 @@ build:
       continueOnError: false
       showOutput: true
       runAsShell: false
-      command: |
-        docker ps
-
-    - enabled: true
-      continueOnError: false
-      showOutput: true
       environment:
         - key: db_host
           value: 192.168.3.190
@@ -76,9 +70,8 @@ build:
           value: admin
         - key: use_tls
           value: false
-      runAsShell: false
       command: |
-        go run go/db/dbMigrations/main.go
+        go run go/tools/dbMigrations/main.go
 
 test:
   enabled: true
@@ -86,14 +79,14 @@ test:
     - enabled: true
       continueOnError: true
       showOutput: false
-      runAsShell: false
+      runAsShell: true
       command: |
         docker kill postgresql
 
     - enabled: true
       continueOnError: true
       showOutput: false
-      runAsShell: false
+      runAsShell: true
       command: |
         docker rm postgresql
 
