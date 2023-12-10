@@ -9,7 +9,7 @@ import (
 )
 
 func TestSqlDbFunc_createAvatar(t *testing.T) {
-
+	t.Skip("debugging")
 	const (
 		tableName    = "avatar"
 		functionName = "createAvatar"

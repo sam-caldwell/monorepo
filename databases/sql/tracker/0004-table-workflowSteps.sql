@@ -15,7 +15,7 @@ create table if not exists workflowSteps
     nextStepId  uuid        not null,
     description text,
     foreign key (workflowId) references workflow (id),
-    foreign key (nextStepId) references workflowSteps (id),
+    foreign key (prevStepId) references workflowSteps (id),
     foreign key (nextStepId) references workflowSteps (id),
     foreign key (iconId) references icons (id)
 );

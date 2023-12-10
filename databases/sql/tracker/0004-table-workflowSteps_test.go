@@ -33,6 +33,9 @@ func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {
-		sqldbtest.ValidateForeignKey(t, db, tableName, "workflowSteps", "workflowStepId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "workflow", "workflowId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "workflowSteps", "prevStepId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "workflowSteps", "nextStepId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
 	})
 }
