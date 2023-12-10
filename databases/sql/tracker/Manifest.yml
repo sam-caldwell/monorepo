@@ -140,3 +140,23 @@ test:
           value: false
       command: |
         go run go/tools/dbMigrations/main.go
+
+    - enabled: true
+      continueOnError: false
+      showOutput: true
+      runAsShell: false
+      environment:
+        - key: db_host
+          value: 192.168.3.190
+        - key: db_port
+          value: 5432
+        - key: db_name
+          value: postgres
+        - key: db_user
+          value: admin
+        - key: db_pass
+          value: admin
+        - key: use_tls
+          value: false
+      command: |
+        go test -v -failfast ./databases/sql/tracker/...
