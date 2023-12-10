@@ -9,9 +9,9 @@ header:
   arch:
     - any
 clean:
-  enabled: false
+  enabled: true
   steps:
-    - enabled: false
+    - enabled: true
       continueOnError: true
       showOutput: true
       runAsShell: false
