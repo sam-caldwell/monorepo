@@ -10,11 +10,17 @@ header:
     - any
 clean:
   enabled: false
+  comment: "reusable golang code projects don't require a clean/build stage"
 build:
   enabled: false
+  comment: "reusable golang code projects don't require a clean/build stage"
 test:
   enabled: true
   steps:
     - enabled: true
+      comment: |
+        ToDo: Implement unit tests for this project.
+              We should be able to test this code and we should be able
+              to ensure tests execute in dependency order.
       continueOnError: true
       command: "go test -v -failfast ./go/db/sqldbtest/..."
