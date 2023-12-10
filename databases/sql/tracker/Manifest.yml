@@ -11,11 +11,33 @@ header:
     - amd64
 
 clean:
-  enabled: false
+  enabled: true
   steps:
     - enabled: true
       continueOnError: true
       showOutput: false
+      runAsShell: true
+      command: |
+        docker kill postgresql
+
+    - enabled: true
+      continueOnError: true
+      showOutput: false
+      environment:
+        - key: listen
+          value: 0.0.0.0
+        - key: db_port
+          value: 5432
+        - key: volume
+          value: ./databases/sql
+      runAsShell: true
+      command: |
+        docker run -d --rm --name postgresql -p ${listen}:${db_port}:${db_port} -v ${volume}:/opt/ services/postgresql
+        sleep 5
+
+    - enabled: true
+      continueOnError: true
+      showOutput: true
       runAsShell: false
       command: |
         docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql"
@@ -23,13 +45,6 @@ clean:
 build:
   enabled: true
   steps:
-
-    - enabled: true
-      continueOnError: true
-      showOutput: false
-      runAsShell: true
-      command: |
-        docker kill postgresql
 
     - enabled: true
       continueOnError: true
