@@ -44,6 +44,9 @@ func (m *Manifest) Run(command string, root *string, debug bool) (err error) {
 				Printf("%s:%s/%s (%s/%s)", command, className, projectName, opsys, arch).
 				Bold().
 				LF()
+
+			showComment(configStage.Comment, 0)
+
 			if configStage.Enabled {
 				ansi.
 					Cyan().

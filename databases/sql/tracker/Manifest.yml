@@ -37,7 +37,7 @@ clean:
 
     - enabled: true
       continueOnError: true
-      showOutput: true
+      showOutput: false
       runAsShell: false
       command: |
         docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql"
