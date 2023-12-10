@@ -4,11 +4,18 @@ import (
 	"fmt"
 )
 
-func (db *Db) CreateDatabase(dbName string, owner string) error {
+// CreateDatabase - Create database if not exists (with option to drop the database first)
+func (db *Db) CreateDatabase(dbName string, owner string, dropIfExists bool) error {
 	if !SanitizeDBName(&dbName) {
 		return fmt.Errorf("invalid database name (%s)", dbName)
 	}
-	if !db.DbExists(dbName) {
+	databaseExists := db.DbExists(dbName)
+	if dropIfExists && databaseExists {
+		if _, err := db.conn.Exec(fmt.Sprintf("drop database %s", dbName)); err != nil {
+			return fmt.Errorf("error dropping database %s (before create): %v\n", dbName, err)
+		}
+	}
+	if !databaseExists {
 		if _, err := db.conn.Exec(fmt.Sprintf("create database %s", dbName)); err != nil {
 			return fmt.Errorf("error creating the database %s: %v\n", dbName, err)
 		}
