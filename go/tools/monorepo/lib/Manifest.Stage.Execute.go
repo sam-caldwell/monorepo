@@ -23,7 +23,7 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 
 	var hasError bool
 
-	for _, step := range s.Steps {
+	for i, step := range s.Steps {
 		//if showProjectStatus(step.Enabled, className, projectName, &step.Command) {
 		//	continue
 		//}
@@ -35,7 +35,18 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 			line := resolveParameter(parameters, rawLine)
 
 			command, args := commandArgs(strings.Split(line, words.Space))
-			ansi.Cyan().Printf("      └┬running: %s, %s", command, strings.Join(args, words.Space)).
+			ansi.Cyan().Printf("      ")
+			if i == 0 {
+				if len(s.Steps) > 0 {
+					ansi.Print("└┬")
+				} else {
+					ansi.Print("└─")
+				}
+			} else {
+				ansi.Print(" ├")
+			}
+
+			ansi.Printf("running: %s, %s", command, strings.Join(args, words.Space)).
 				LF().Reset()
 
 			if err = resolveEnvironment(&step.Environment); err != nil {
@@ -62,25 +73,36 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 			output, err = shell.CombinedOutput()
 			if err != nil {
 				if step.ShowOutput {
-					ansi.Red().Printf("Error (Command [output]):%v\n\n%v\n\n", err, string(output)).Reset()
+					ansi.Red().
+						Printf("       ├─Error (Command [output]):%v\n", err).
+						Reset()
+					outputLines := strings.Split(strings.TrimSuffix(string(output), words.NewLine), words.NewLine)
+					for _, lineOut := range outputLines {
+						ansi.
+							Red().
+							Printf("       ├──%s: ", time.Now().Format(time.RFC1123)).
+							Printf("%s\n", lineOut)
+					}
 				}
 				if step.ContinueOnError {
 					err = nil
 				} else {
 					return err
 				}
-				hasError = strings.Contains(strings.ToLower(string(output)), "error")
 			}
+			hasError = strings.Contains(strings.ToLower(string(output)), "error")
 			if step.ShowOutput {
-				ansi.White().LF().
+				ansi.Cyan().
 					Printf(""+
-						"\tContinueOnError : %v\n"+
-						"\tShowOutput      : %v\n"+
-						"\tOutput:\n", step.ContinueOnError, step.ShowOutput)
+						"       │ContinueOnError : %v\n"+
+						"       │ShowOutput      : %v\n"+
+						"       │Output:\n", step.ContinueOnError, step.ShowOutput)
 
 				outputLines := strings.Split(strings.TrimSuffix(string(output), words.NewLine), words.NewLine)
 				for _, lineOut := range outputLines {
-					ansi.Yellow().Printf("\t\t%s: ", time.Now().Format(time.RFC1123))
+					ansi.
+						Yellow().
+						Printf("       │   %s: ", time.Now().Format(time.RFC1123))
 
 					lwrcsLn := strings.ToLower(lineOut)
 					if strings.Contains(lwrcsLn, "fail") {

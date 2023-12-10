@@ -32,10 +32,10 @@ const (
 	defaultPgUser = "postgres"
 	defaultPgPass = "password"
 
-	envDbHost = "pg_db_host"
-	envDbPort = "pg_db_port"
-	envDbUser = "pg_db_user"
-	envDbPass = "pg_db_pass"
+	envDbHost = "db_host"
+	envDbPort = "db_port"
+	envDbUser = "db_user"
+	envDbPass = "db_pass"
 
 	defaultDatabase = "postgres"
 
