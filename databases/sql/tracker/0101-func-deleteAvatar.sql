@@ -1,5 +1,5 @@
 /*
- * 0100-func-deleteAvatar.sql
+ * 0101-func-deleteAvatar.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 

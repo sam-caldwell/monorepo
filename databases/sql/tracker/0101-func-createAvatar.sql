@@ -1,5 +1,5 @@
 /*
- * 0100-func-createAvatar.sql
+ * 0101-func-createAvatar.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 

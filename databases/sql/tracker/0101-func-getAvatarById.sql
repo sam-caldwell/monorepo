@@ -1,5 +1,5 @@
 /*
- * 0100-func-getAvatarById.sql
+ * 0101-func-getAvatarById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getAvatarById(id uuid) returns jsonb as
