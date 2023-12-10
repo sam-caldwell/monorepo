@@ -6,6 +6,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/sam-caldwell/monorepo/go/version"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -13,7 +14,7 @@ import (
 // Execute - Resolve build parameters and execute build steps
 func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arch *string, debug bool) (err error) {
 	parameters := map[string]string{
-		"${BUILD_ROOT}":    *rootDir,
+		"${BUILD_ROOT}":    filepath.Join(*rootDir, words.Build),
 		"${BUILD_VERSION}": version.Version,
 		"${BUILD_OS}":      *opsys,
 		"${BUILD_ARCH}":    *arch,
