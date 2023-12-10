@@ -79,10 +79,15 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 						Reset()
 					outputLines := strings.Split(strings.TrimSuffix(string(output), words.NewLine), words.NewLine)
 					for _, lineOut := range outputLines {
-						ansi.
-							Red().
-							Printf("       ├──%s: ", time.Now().Format(time.RFC1123)).
-							Printf("%s\n", lineOut)
+						lwrcsLn := strings.ToLower(lineOut)
+						if strings.Contains(lwrcsLn, "fail") {
+							ansi.Red()
+						}
+						if strings.Contains(lwrcsLn, "pass") || strings.Contains(lwrcsLn, "ok") {
+							ansi.Green()
+						}
+						ansi.Printf("       ├──%s: ", time.Now().Format(time.RFC1123)).
+							Printf("        │  %s\n", lineOut)
 					}
 				}
 				if step.ContinueOnError {
