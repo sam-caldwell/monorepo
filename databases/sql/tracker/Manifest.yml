@@ -151,7 +151,7 @@ test:
         - key: db_port
           value: 5432
         - key: db_name
-          value: postgres
+          value: tracker
         - key: db_user
           value: admin
         - key: db_pass
