@@ -1,8 +1,8 @@
-package sqldbtest
+package pgsqlTracker
 
 import (
-    "github.com/sam-caldwell/monorepo/go/db/sqldbtest"
-    "testing"
+	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
+	"testing"
 )
 
 func TestSqlDbTable_Avatars(t *testing.T) {
