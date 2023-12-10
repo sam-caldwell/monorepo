@@ -10,7 +10,7 @@ import (
 
 func (db *Db) ApplyMigration(locations string) error {
 
-	ansi.Blue().Time().Printf("Applying Migrations to database\n").Reset()
+	ansi.Blue().Printf("Applying Migrations to database\n").Reset()
 
 	files, err := filepath.Glob(filepath.Join(locations, fmt.Sprintf("*.sql")))
 	if err != nil {
@@ -21,7 +21,7 @@ func (db *Db) ApplyMigration(locations string) error {
 
 	for _, sqlFile := range files {
 
-		ansi.Blue().Time().Printf(">>SQL File (applying): %s ", sqlFile).Reset()
+		ansi.Blue().Printf(">>SQL File (applying): %s ", sqlFile).Reset()
 
 		content, err := os.ReadFile(sqlFile)
 		if err != nil {
@@ -35,7 +35,7 @@ func (db *Db) ApplyMigration(locations string) error {
 		}
 		ansi.Green().Print("...done\n").Reset()
 	}
-	ansi.Green().Time().Println("Migration applied successfully").Reset()
+	ansi.Green().Println("Migration applied successfully").Reset()
 	return nil
 
 }

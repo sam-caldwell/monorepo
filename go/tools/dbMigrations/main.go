@@ -8,38 +8,9 @@ import (
 	env "github.com/sam-caldwell/monorepo/go/environment"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
+	lib "github.com/sam-caldwell/monorepo/go/tools/dbMigrations/lib"
 	"os"
 	"path/filepath"
-)
-
-const (
-	cliRoot   = "root_dir"
-	cliDbHost = "db_host"
-	cliDbPort = "db_port"
-	cliDbUser = "db_user"
-	cliDbPass = "db_pass"
-	cliDbTls  = "use_tls"
-
-	cliUsageRootDir  = "root directory for SQL projects"
-	cliUsageDbHost   = "database host"
-	cliUsageDbPort   = "database port"
-	cliUsageDbUser   = "database user"
-	cliUsageDbPass   = "database password"
-	cliUsageDbUseTls = "Use TLS"
-
-	defaultPgHost = "localhost"
-	defaultPgPort = 5432
-	defaultPgUser = "postgres"
-	defaultPgPass = "password"
-
-	envDbHost = "db_host"
-	envDbPort = "db_port"
-	envDbUser = "db_user"
-	envDbPass = "db_pass"
-
-	defaultDatabase = "postgres"
-
-	sqlDirectoryPath = "databases/sql"
 )
 
 func main() {
@@ -47,54 +18,51 @@ func main() {
 	/*
 	 * Parse command-line arguments with env variables as backup and defaults thereafter.
 	 */
-	rootDirectory := flag.String(cliRoot, directory.GetCurrent(), cliUsageRootDir)
-	pgDbHost := flag.String(cliDbHost, env.GetStringOrDefault(envDbHost, defaultPgHost), cliUsageDbHost)
-	pgDbPort := flag.Uint(cliDbPort, env.GetUintOrDefault(envDbPort, defaultPgPort), cliUsageDbPort)
-	pgDbUser := flag.String(cliDbUser, env.GetStringOrDefault(envDbUser, defaultPgUser), cliUsageDbUser)
-	pgDbPass := flag.String(cliDbPass, env.GetStringOrDefault(envDbPass, defaultPgPass), cliUsageDbPass)
-	pgDbUseTls := flag.Bool(cliDbTls, false, cliUsageDbUseTls)
+	rootDirectory := flag.String(lib.CliRoot, directory.GetCurrent(), lib.CliUsageRootDir)
+	pgDbHost := flag.String(lib.CliDbHost, env.GetStringOrDefault(lib.EnvDbHost, lib.DefaultPgHost), lib.CliUsageDbHost)
+	pgDbPort := flag.Uint(lib.CliDbPort, env.GetUintOrDefault(lib.EnvDbPort, lib.DefaultPgPort), lib.CliUsageDbPort)
+	pgDbUser := flag.String(lib.CliDbUser, env.GetStringOrDefault(lib.EnvDbUser, lib.DefaultPgUser), lib.CliUsageDbUser)
+	pgDbPass := flag.String(lib.CliDbPass, env.GetStringOrDefault(lib.EnvDbPass, lib.DefaultPgPass), lib.CliUsageDbPass)
+	pgDbUseTls := flag.Bool(lib.CliDbTls, false, lib.CliUsageDbUseTls)
 	flag.Parse()
 
 	ansi.Blue().
-		Printf("%s : %s\n", cliRoot, *rootDirectory).
-		Printf("%s : %v\n", cliDbHost, *pgDbHost).
-		Printf("%s : %v\n", cliDbPort, *pgDbPort).
-		Printf("%s : %v\n", cliDbUser, *pgDbUser).
-		Printf("%s : %v\n", cliDbPass, *pgDbPass).
-		Printf("%s : %v\n", cliDbTls, *pgDbUseTls).
+		Printf("%s : %s\n", lib.CliRoot, *rootDirectory).
+		Printf("%s : %v\n", lib.CliDbHost, *pgDbHost).
+		Printf("%s : %v\n", lib.CliDbPort, *pgDbPort).
+		Printf("%s : %v\n", lib.CliDbUser, *pgDbUser).
+		Printf("%s : <redacted: %d chars>\n", lib.CliDbPass, len(*pgDbPass)).
+		Printf("%s : %v\n", lib.CliDbTls, *pgDbUseTls).
 		LF().
 		Reset()
 
 	/*
 	 * Validate the database directory exists
 	 */
-	databasesDirectory = filepath.Join(*rootDirectory, sqlDirectoryPath)
+	databasesDirectory = filepath.Join(*rootDirectory, lib.SqlDirectoryPath)
 	if !directory.Exists(databasesDirectory) {
 		ansi.Red().
-			Time().
 			Printf("directory does not exist (%s)\n", databasesDirectory).
 			Reset().
 			Fatal(exit.NotFound)
 	}
-	ansi.Green().Time().Printf("Databases Directory confirmed (%s)\n", databasesDirectory).Reset()
+	ansi.Green().Printf("Databases Directory confirmed (%s)\n", databasesDirectory).Reset()
 
 	/*
 	 * Establish a default database connection (postgres)
 	 */
-	postgresDb, err := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, defaultDatabase, *pgDbUser, *pgDbPass, *pgDbUseTls)
+	postgresDb, err := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, lib.DefaultDb, *pgDbUser, *pgDbPass, *pgDbUseTls)
 	if err != nil {
 		ansi.Red().
-			Time().
 			Printf("Error connecting to database (postgres): %v\n", err).
 			Reset().
 			Fatal(exit.ConnectionFailed)
 	}
-	ansi.Green().Time().Println("connection to postgres is established").Reset()
+	ansi.Green().Println("connection to postgres is established").Reset()
 
 	defer func() {
 		if err := postgresDb.Close(); err != nil {
 			ansi.Red().
-				Time().
 				Printf("Error closing database connector: %v\n", err).
 				Reset().
 				Fatal(exit.ConnectionFailed)
@@ -120,7 +88,6 @@ func main() {
 			ansi.Blue().Printf("database not found (%s) ...create one\n", dbName).Reset()
 			if err := postgresDb.CreateDatabase(dbName, *pgDbUser); err != nil {
 				ansi.Red().
-					Time().
 					Printf("Error creating database: %v\n", err).
 					Reset().
 					Fatal(exit.ConnectionFailed)
@@ -130,7 +97,6 @@ func main() {
 		dbConn, err := Postgres.NewDbConnection(*pgDbHost, *pgDbPort, dbName, *pgDbUser, *pgDbPass, *pgDbUseTls)
 		if err != nil {
 			ansi.Red().
-				Time().
 				Printf("Error connecting to database (%s): %v\n", dbName, err).
 				Reset().
 				Fatal(exit.ConnectionFailed)
@@ -138,16 +104,14 @@ func main() {
 		defer func() {
 			if err := dbConn.Close(); err != nil {
 				ansi.Red().
-					Time().
 					Printf("Error closing database connector: %v\n", err).
 					Reset().
 					Fatal(exit.ConnectionFailed)
 			}
-			ansi.Green().Time().Println("Terminating OK").Reset()
+			ansi.Green().Println("Terminating OK").Reset()
 		}()
 		if err := dbConn.ApplyMigration(filepath.Join(databasesDirectory, dbName)); err != nil {
 			ansi.Red().
-				Time().
 				Printf("error applying migration to %s: %v\n", dbName, err).
 				Reset().
 				Fatal(exit.GeneralError)
@@ -155,7 +119,6 @@ func main() {
 		return nil
 	}); err != nil {
 		ansi.Red().
-			Time().
 			Printf("Error: %v\n", err).
 			Reset().
 			Fatal(exit.GeneralError)
