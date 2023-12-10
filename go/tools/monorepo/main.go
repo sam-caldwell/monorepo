@@ -1,7 +1,7 @@
 package main
 
 /*
- * monorepo/main.go
+ * monorepo/sqlTrackerDb.go
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * This is the main program for the monorepo command

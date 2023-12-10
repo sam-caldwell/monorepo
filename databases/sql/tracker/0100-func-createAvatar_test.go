@@ -1,4 +1,4 @@
-package pgsqlTracker
+package psqlTrackerDb
 
 import (
 	"fmt"

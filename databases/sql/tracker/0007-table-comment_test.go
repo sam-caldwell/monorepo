@@ -1,4 +1,4 @@
-package pgsqlTracker
+package psqlTrackerDb
 
 import (
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"

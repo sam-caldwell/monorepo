@@ -86,7 +86,7 @@ func main() {
 			ansi.Yellow().Printf("database exists: %s\n", dbName).Reset()
 		} else {
 			ansi.Blue().Printf("database not found (%s) ...create one\n", dbName).Reset()
-			if err := postgresDb.CreateDatabase(dbName, *pgDbUser); err != nil {
+			if err := postgresDb.CreateDatabase(dbName, *pgDbUser, false); err != nil {
 				ansi.Red().
 					Printf("Error creating database: %v\n", err).
 					Reset().
