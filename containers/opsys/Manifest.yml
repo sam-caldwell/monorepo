@@ -36,4 +36,5 @@ build:
       command: |
         docker build --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04//Dockerfile .
 test:
+  comment: "ToDo: Add tests for the container images"
   enabled: false

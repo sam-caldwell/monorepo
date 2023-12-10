@@ -22,4 +22,5 @@ build:
       command: |
         docker build --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
 test:
+  comment: "ToDo: Add tests for the container image"
   enabled: false

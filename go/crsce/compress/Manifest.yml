@@ -10,13 +10,17 @@ header:
     - amd64
 clean:
   enabled: false
+  comment: "reusable golang code projects don't require a clean/build stage"
 
 build:
   enabled: false
+  comment: "reusable golang code projects don't require a clean/build stage"
 
 test:
   enabled: true
   steps:
     - enabled: true
+      comment: |
+        This project is on-hold until some experiments can be completed.
       continueOnError: true
       command: "go test -v -failfast ./go/crsce/compress/..."

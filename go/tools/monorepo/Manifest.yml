@@ -11,18 +11,22 @@ header:
 clean:
   enabled: false
   steps:
-    - enabled: true
-      continueOnError: false
+    - enabled: false
+      continueOnError: true
+      showOutput: true
+      runAsShell: false
       command: |
         rm -f ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME}
 
 build:
-  enabled: false
+  enabled: true
   steps:
     - enabled: true
       continueOnError: false
+      showOutput: true
+      runAsShell: false
       command: |
-        go build -o ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME} ${MANIFEST_DIR}/${PROJECT_NAME}/main.go
+        go build -o ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME} ${MANIFEST_DIR}/main.go
 
 test:
   enabled: true

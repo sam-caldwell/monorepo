@@ -10,8 +10,11 @@ header:
     - amd64
 clean:
   enabled: false
+  comment: "This is a placeholder for future development"
 build:
   enabled: false
+  comment: "This is a placeholder for future development"
 test:
   enabled: false
+  comment: "This is a placeholder for future development"
 

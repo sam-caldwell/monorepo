@@ -24,4 +24,5 @@ build:
         docker build --tag language/java:21 --file containers/language/java/21/Dockerfile .
 
 test:
+  comment: "ToDo: Add tests for the container image"
   enabled: false

@@ -3,10 +3,9 @@ header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
   description: |
-    This Golang project provides various counter objects
+    This Golang project provides terminal/console widgets.  Eventually this may grow into a terminal framework
   opsys:
     - darwin
-
   arch:
     - amd64
 clean:
@@ -22,4 +21,4 @@ test:
   steps:
     - enabled: true
       continueOnError: true
-      command: "go test -v -failfast ./go/counters/..."
+      command: "go test -v -failfast ./go/terminal/..."
