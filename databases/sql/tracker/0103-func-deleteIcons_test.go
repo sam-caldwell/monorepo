@@ -9,9 +9,9 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_createIcons(t *testing.T) {
+func TestSqlDbFunc_deleteIcons(t *testing.T) {
 	const (
-		functionName = "createIcons"
+		functionName = "deleteIcons"
 		tableName    = "icons"
 		testUrl      = "http://localhost/myfakeicon.jpeg"
 	)
@@ -33,9 +33,9 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{iconurl},"+
-				"pt:{text},"+
-				"rt:uuid", strings.ToLower(functionName)))
+				"pn:{iconid},"+
+				"pt:{uuid},"+
+				"rt:int4", strings.ToLower(functionName)))
 	})
 
 	t.Run("create iconId", func(t *testing.T) {
@@ -72,6 +72,25 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 			t.Fatalf("url mismatch\n"+
 				"Got:      %s\n"+
 				"Expected: %s", url, testUrl)
+		}
+	})
+
+	t.Run("delete the icon", func(t *testing.T) {
+		var rows *sql.Rows
+
+		if rows, err = db.Query("select deleteIcons('%s');", iconId); err != nil {
+			t.Fatal(err)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var count int
+		err = rows.Scan(&count)
+		if err = rows.Scan(&count); err != nil {
+			t.Fatal(err)
+		}
+		if count != 1 {
+			t.Fatalf("deleteIcons() should return 1 but returned %d", count)
 		}
 	})
 }
