@@ -10,9 +10,9 @@ import (
 
 func TestSqlDbFunc_createIntegerProperty(t *testing.T) {
 	const (
-		functionName = "createIntegerProperty"
-		rootTable    = "propertyKeys"
-		//tableName        = "numericProperties"
+		functionName      = "createIntegerProperty"
+		rootTable         = "propertyKeys"
+		tableName         = "numericProperties"
 		testPropertyName  = "testIntegerProperty"
 		testPropertyValue = 1337
 	)
@@ -66,7 +66,7 @@ func TestSqlDbFunc_createIntegerProperty(t *testing.T) {
 		})
 
 		t.Run("expect the propertyValue can be scanned", func(t *testing.T) {
-			rows, err := db.Query("select value from numericProperties where id='%s'", propertyId)
+			rows, err := db.Query("select value from %s where id='%s'", tableName, propertyId)
 			if err != nil {
 				t.Fatalf("failed to select expected value: %v", err)
 			}
