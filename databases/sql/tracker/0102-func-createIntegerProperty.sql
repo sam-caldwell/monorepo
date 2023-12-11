@@ -1,8 +1,8 @@
 /*
- * 0148-func-setIntegerProperty.sql
+ * 0148-func-createIntegerProperty.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function setIntegerProperty(propertyName varchar(64), propertyValue integer) returns uuid as
+create or replace function createIntegerProperty(propertyName varchar(64), propertyValue integer) returns uuid as
 $$
 declare
     propertyId uuid;

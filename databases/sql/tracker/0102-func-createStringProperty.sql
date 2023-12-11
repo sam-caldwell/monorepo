@@ -1,8 +1,8 @@
 /*
- * 0148-func-setStringProperty.sql
+ * 0148-func-createStringProperty.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function setStringProperty(propertyName varchar(64), propertyValue text) returns uuid as
+create or replace function createStringProperty(propertyName varchar(64), propertyValue text) returns uuid as
 $$
 declare
     propertyId uuid;
