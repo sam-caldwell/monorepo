@@ -2,6 +2,7 @@ package psqlTrackerDb
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
 	"strings"
 	"testing"
@@ -15,6 +16,9 @@ func TestSqlDbFunc_createStringProperty(t *testing.T) {
 		testPropertyName  = "testStringProperty"
 		testPropertyValue = "testPropertyValue"
 	)
+
+	var propertyId string
+	var propertyValue string
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -35,23 +39,49 @@ func TestSqlDbFunc_createStringProperty(t *testing.T) {
 				"pt:{text,varchar},"+
 				"rt:uuid", strings.ToLower(functionName)))
 	})
-
 	t.Run("Create the string property", func(t *testing.T) {
 		rows, err := db.Query("select createStringProperty('%s','%s');",
 			testPropertyName, testPropertyValue)
-		sqldbtest.CheckError(t, err)
-		t.Run("createAvatar() should return a row", func(t *testing.T) {
+		if err != nil {
+			t.Fatalf("Failed when calling createStringProperty(): %v", err)
+		}
+		t.Run("createStringProperty() should return a row", func(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
 		})
-		var propertyId string
-		t.Run("expect result is a uuid", func(t *testing.T) {
+		t.Run("expect uuid result", func(t *testing.T) {
 			err = rows.Scan(&propertyId)
 			sqldbtest.CheckError(t, err)
+			if propertyId == "" {
+				t.Fatal("empty propertyId returned")
+			}
+			u, err := uuid.Parse(propertyId)
+			if err != nil {
+				t.Fatalf("Failed: returned value is not uuid\n"+
+					"Expected: %v\n"+
+					"Actual:   %v", propertyId, u)
+			}
 		})
-		if propertyId == "" {
-			t.Fatal("empty propertyId returned")
+	})
+	t.Run("expect the propertyValue can be scanned", func(t *testing.T) {
+		rows, err := db.Query("select value from stringProperties where id='%s'", propertyId)
+		if err != nil {
+			t.Fatalf("failed to select expected value: %v", err)
 		}
+		t.Run("createStringProperty() should return a row", func(t *testing.T) {
+			if !rows.Next() {
+				t.Fatal("no row returned")
+			}
+		})
+		t.Run("createStringProperty() should contain a propertyValue", func(t *testing.T) {
+			err = rows.Scan(&propertyValue)
+			if err != nil {
+				t.Fatalf("Error scanning row value: %v", err)
+			}
+			if propertyValue != testPropertyValue {
+				t.Fatalf("testPropertyValue mismatch")
+			}
+		})
 	})
 }

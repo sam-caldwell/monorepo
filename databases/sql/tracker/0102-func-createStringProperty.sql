@@ -7,7 +7,7 @@ $$
 declare
     propertyId uuid;
 begin
-    propertyId := (select createPropertyKey(gen_random_uuid(),propertyName) as id);
+    propertyId := (select createPropertyKey(propertyName) as id);
     insert into stringProperties(id, value) values (propertyId, propertyValue);
     return propertyId;
 end;
