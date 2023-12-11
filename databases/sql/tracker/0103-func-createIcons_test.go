@@ -56,6 +56,7 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 			t.Fatal(err)
 		}
 	})
+
 	t.Run("verify the icon record", func(t *testing.T) {
 		var rows *sql.Rows
 
