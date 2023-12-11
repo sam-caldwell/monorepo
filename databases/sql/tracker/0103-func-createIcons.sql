@@ -8,7 +8,7 @@ declare
     iconId uuid;
 begin
     iconId := gen_random_uuid();
-    insert into avatars (id,url) values(iconId,iconUrl);
+    insert into icons (id,url) values(iconId,iconUrl);
     return iconId;
 end;
 $$ language plpgsql;
