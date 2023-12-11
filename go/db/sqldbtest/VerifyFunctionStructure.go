@@ -32,7 +32,9 @@ func VerifyFunctionStructure(t *testing.T, db *Postgres.Db, functionName string,
 	}()
 	var fn, pn, pt, rt string
 	_ = rows.Next()
-	CheckError(t, rows.Scan(&fn, &pn, &pt, &rt))
+	if err := rows.Scan(&fn, &pn, &pt, &rt); err != nil {
+		t.Fatalf("Error scanning row: %v", err)
+	}
 	actual := fmt.Sprintf("fn:%s,pn:%s,pt:%s,rt:%s", fn, pn, pt, rt)
 	if actual != strings.ToLower(expected) {
 		t.Fatalf("function structure mismatch\n"+
