@@ -87,7 +87,7 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 							ansi.Green()
 						}
 						if strings.Contains(lwrcsLn, "not implemented") || strings.Contains(lwrcsLn, "disabled") {
-							ansi.Blink().Magenta()
+							ansi.Magenta()
 						}
 						ansi.Printf("       ├──%s: ", time.Now().Format(time.RFC1123)).
 							Printf("        │  %s\n", lineOut)
