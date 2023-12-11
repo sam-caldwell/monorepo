@@ -10,9 +10,6 @@ import (
 func TestSqlDbFunc_isValidUrl(t *testing.T) {
 	const (
 		functionName = "isValidUrl"
-		badTestUrl1  = "this is bad"
-		badTestUrl2  = "http://169.254.169.256/foo.png"
-		badTestUrl3  = "ftp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png"
 		zeroUuid     = "00000000-0000-0000-0000-000000000000"
 	)
 	db := sqldbtest.InitializeTestDbConn(t)
@@ -63,26 +60,32 @@ func TestSqlDbFunc_isValidUrl(t *testing.T) {
 			})
 		}
 	})
-	//t.Run("sad path: test the bad URLs", func(t *testing.T) {
-	//	urls := []string{
-	//		badTestUrl1, badTestUrl2, badTestUrl3,
-	//	}
-	//	for _, url := range urls {
-	//		rows, err := db.Query("select isValidUrl('%s');", url)
-	//		sqldbtest.CheckError(t, err)
-	//		t.Run("isValidUrl() should return a row", func(t *testing.T) {
-	//			if !rows.Next() {
-	//				t.Fatal("no row returned")
-	//			}
-	//		})
-	//		t.Run("isValidUrl() should be sad", func(t *testing.T) {
-	//			var result bool
-	//			err = rows.Scan(&result)
-	//			sqldbtest.CheckError(t, err)
-	//			if result {
-	//				t.Fatalf("Expected false, got true result (%v)", result)
-	//			}
-	//		})
-	//	}
-	//})
+	t.Run("sad path: test the bad URLs", func(t *testing.T) {
+		urls := []string{
+			"this is bad",
+			"ftp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
+			"htp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
+			"smb://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
+			"ssh://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
+			"nfs://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
+			"tftp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
+		}
+		for _, url := range urls {
+			rows, err := db.Query("select isValidUrl('%s');", url)
+			sqldbtest.CheckError(t, err)
+			t.Run("isValidUrl() should return a row", func(t *testing.T) {
+				if !rows.Next() {
+					t.Fatal("no row returned")
+				}
+			})
+			t.Run("isValidUrl() should be sad", func(t *testing.T) {
+				// returning true means a bad url made it through
+				var result bool
+				err = rows.Scan(&result)
+				if result {
+					t.Fatalf("Fail: Expected invalid URL (%s) to fail, returned %v", url, result)
+				}
+			})
+		}
+	})
 }

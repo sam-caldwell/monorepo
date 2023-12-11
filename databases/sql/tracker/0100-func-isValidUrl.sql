@@ -28,18 +28,13 @@
  *     https://happyUrl.tld/good.image.name.png/?query1=param1&query1=param1
  */
 
-CREATE OR REPLACE FUNCTION isValidUrl(url text)
-    RETURNS bool
-AS $$
-BEGIN
-    DECLARE
-        regex text := '^(http|https)?:\/\/(?:www\.|)?([-a-zA-Z0-9@:%._\+~#=]+\.[a-z]+\b)*(\/[\/\d\w\.-]*)*(?:[\?])*(.+)*$';
-    BEGIN
-        IF (select count(*) as c from regexp_match(url, regex)) > 0 THEN
-            RETURN TRUE;
-        ELSE
-            RETURN FALSE;
-        END IF;
-    END;
-END;
-$$ LANGUAGE plpgsql;
+create or replace function isValidUrl(url text)
+    returns boolean
+as
+$$
+declare
+    regex  text := '^(http|https):\/\/(?:www\.|)?([-a-zA-Z0-9@:%._\+~#=]+\.[a-z]+\b)*(\/[\/\d\w\.-]*)*(?:[\?])*(.+)*$';
+begin
+    return (select regexp_match(url, regex,'i') is not null);
+end;
+$$ language plpgsql;
