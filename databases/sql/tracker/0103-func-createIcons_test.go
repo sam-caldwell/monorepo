@@ -15,27 +15,26 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 		tableName    = "icons"
 		testUrl      = "http://localhost/myfakeicon.jpeg"
 	)
+	var err error
 	var iconId uuid.UUID
-	var ownerId uuid.UUID
-	var teamId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
-	//t.Cleanup(func() {
-	//	// Note: we only clean up the avatar we expect to have created.
-	//	//       this should safeguard against an accidental run on prod.
-	//	_, _ = db.Query("delete from %s where name='%s'", tableName, testTeamName)
-	//
-	//	err := db.Close()
-	//	sqldbtest.CheckError(t, err)
-	//})
+	t.Cleanup(func() {
+		// Note: we only clean up the avatar we expect to have created.
+		//       this should safeguard against an accidental run on prod.
+		_, _ = db.Query("delete from %s where url='%s'", tableName, testUrl)
+
+		err := db.Close()
+		sqldbtest.CheckError(t, err)
+	})
 
 	t.Run("verify the function structure (params, return)", func(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{name,iconid,ownerId,owner,team,everyone,description},"+
-				"pt:{text,varchar,uuid,permissions},"+
+				"pn:{iconurl},"+
+				"pt:{text},"+
 				"rt:uuid", strings.ToLower(functionName)))
 	})
 
@@ -44,7 +43,7 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 		 * We need to create an icon for use creating a Workflow and Team
 		 */
 		var rows *sql.Rows
-		var err error
+
 		if rows, err = db.Query("select createIcons('%s');", testUrl); err != nil {
 			t.Fatal(err)
 		}
@@ -55,6 +54,26 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 		err = rows.Scan(&raw)
 		if iconId, err = uuid.Parse(raw); err != nil {
 			t.Fatal(err)
+		}
+	})
+	t.Run("verify the icon record", func(t *testing.T) {
+		var rows *sql.Rows
+
+		if rows, err = db.Query("select url from icons where id='%s';", iconId); err != nil {
+			t.Fatal(err)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var url string
+		err = rows.Scan(&url)
+		if err = rows.Scan(&url); err != nil {
+			t.Fatal(err)
+		}
+		if url != testUrl {
+			t.Fatalf("url mismatch\n"+
+				"Got:      %s\n"+
+				"Expected: %s", url, testUrl)
 		}
 	})
 }
