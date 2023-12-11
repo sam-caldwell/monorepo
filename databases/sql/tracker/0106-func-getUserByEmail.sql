@@ -8,7 +8,7 @@ $$
 declare
     result jsonb;
 begin
-    select jsonb_agg(jsonb_build_object(
+    select jsonb_build_object(
             'id', id,
             'firstName', firstName,
             'lastName', lastName,
@@ -16,9 +16,10 @@ begin
             'email', email,
             'phoneNumber', phoneNumber,
             'description', description
-        ))  as workflow into result
+        )  as workflow into result
     from users
-    where email == emailAddress;
+    where email == emailAddress
+    limit 1;
     return result;
 
 end ;
