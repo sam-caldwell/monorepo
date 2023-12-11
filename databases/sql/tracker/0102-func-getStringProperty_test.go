@@ -1,8 +1,10 @@
 package psqlTrackerDb
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
+	"strings"
 	"testing"
 )
 
@@ -26,6 +28,15 @@ func TestSqlDbFunc_getStringProperty(t *testing.T) {
 
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
+	})
+
+	t.Run("verify the function structure (params, return)", func(t *testing.T) {
+		sqldbtest.VerifyFunctionStructure(t, db,
+			strings.ToLower(functionName),
+			fmt.Sprintf("fn:%s,"+
+				"pn:{propertyname},"+
+				"pt:{varchar},"+
+				"rt:text", strings.ToLower(functionName)))
 	})
 
 	t.Run("create a numeric property", func(t *testing.T) {
