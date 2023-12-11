@@ -2,17 +2,21 @@
  * 0101-func-getAvatarById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function getAvatarById(id uuid) returns jsonb as
+
+create or replace function getAvatarById(avatarId uuid) returns jsonb as
 $$
 declare
     result jsonb;
 begin
-    select jsonb_agg(jsonb_build_object(
-            'id', id,
+
+    select jsonb_build_object(
+            'id', id::text,
             'url', url
-        )) as avatars into result
+        ) as avatars into result
     from avatars
-    where id == id;
+    where id = avatarId
+    limit 1;
+
     return result;
 end;
 $$ language plpgsql;
