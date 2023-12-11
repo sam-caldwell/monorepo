@@ -86,6 +86,9 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 						if strings.Contains(lwrcsLn, "pass") || strings.Contains(lwrcsLn, "ok") {
 							ansi.Green()
 						}
+						if strings.Contains(lwrcsLn, "not implemented") || strings.Contains(lwrcsLn, "disabled") {
+							ansi.Blink().Magenta()
+						}
 						ansi.Printf("       ├──%s: ", time.Now().Format(time.RFC1123)).
 							Printf("        │  %s\n", lineOut)
 					}
@@ -116,6 +119,9 @@ func (s *Stage) Execute(rootDir, manifestDir, className, projectName, opsys, arc
 					}
 					if strings.Contains(lwrcsLn, "pass") || strings.Contains(lwrcsLn, "ok") {
 						ansi.Green()
+					}
+					if strings.Contains(lwrcsLn, "not implemented") || strings.Contains(lwrcsLn, "disabled") {
+						ansi.Magenta()
 					}
 					ansi.Printf("%s\n", lineOut)
 				}
