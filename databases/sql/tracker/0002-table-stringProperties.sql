@@ -11,4 +11,5 @@ create table if not exists stringProperties
     id    uuid primary key not null,
     value text             not null,
     foreign key (id) references propertyKeys (id)
+        on delete cascade
 );
