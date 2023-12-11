@@ -8,7 +8,6 @@ import (
 )
 
 func TestSqlDbFunc_deleteAvatar(t *testing.T) {
-	t.Skip("debugging")
 	const (
 		tableName    = "avatar"
 		functionName = "deleteAvatar"
