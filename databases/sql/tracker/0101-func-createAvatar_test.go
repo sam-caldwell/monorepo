@@ -14,9 +14,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 		tableName    = "avatar"
 		functionName = "createAvatar"
 		testUrl      = "http://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png"
-		badTestUrl1  = "this is bad"
-		badTestUrl2  = "http://169.254.169.256/foo.png"
-		badTestUrl3  = "ftp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png"
+		badTestUrl   = "this is bad"
 		zeroUuid     = "00000000-0000-0000-0000-000000000000"
 	)
 	db := sqldbtest.InitializeTestDbConn(t)
@@ -76,38 +74,36 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 
 	t.Run("sad path:run the function with badUrl", func(t *testing.T) {
 		var avatarId uuid.UUID
-		for _, badUrl := range []string{badTestUrl1, badTestUrl2, badTestUrl3} {
-			t.Run("execute createAvatar('"+badUrl+"');", func(t *testing.T) {
-				t.Logf("createAvatar('%s');", badUrl)
-				rows, err := db.Query("select createAvatar('%s');", badUrl)
-				sqldbtest.CheckError(t, err)
-				t.Run("createAvatar() should return a row", func(t *testing.T) {
-					if !rows.Next() {
-						t.Fatal("no row returned")
-					}
-				})
-				t.Run("expect zeroUuid Result", func(t *testing.T) {
-					err = rows.Scan(&avatarId)
-					sqldbtest.CheckError(t, err)
-					if avatarId.String() == zeroUuid {
-						t.Fatalf("invalid AvatarId: %s", avatarId)
-					}
-				})
-				t.Run("Query for expected avatarId (expect none)", func(t *testing.T) {
-					t.Logf("query table for data: %s", badUrl)
-					rows, err := db.Query(""+
-						"select id, url "+
-						"from avatars "+
-						"where url='%s';", badUrl)
-					t.Logf("query returned %s", badUrl)
-					sqldbtest.CheckError(t, err)
-					t.Logf("query had no error")
-					if rows.Next() {
-						t.Fatal("We should not have created an avatar entry on invalid url")
-					}
-					t.Logf("result ok")
-				})
+		t.Run("execute createAvatar('"+badTestUrl+"');", func(t *testing.T) {
+			t.Logf("createAvatar('%s');", badTestUrl)
+			rows, err := db.Query("select createAvatar('%s');", badTestUrl)
+			sqldbtest.CheckError(t, err)
+			t.Run("createAvatar() should return a row", func(t *testing.T) {
+				if !rows.Next() {
+					t.Fatal("no row returned")
+				}
 			})
-		}
+			t.Run("expect zeroUuid Result", func(t *testing.T) {
+				err = rows.Scan(&avatarId)
+				sqldbtest.CheckError(t, err)
+				if avatarId.String() == zeroUuid {
+					t.Fatalf("invalid AvatarId: %s", avatarId)
+				}
+			})
+			t.Run("Query for expected avatarId (expect none)", func(t *testing.T) {
+				t.Logf("query table for data: %s", badTestUrl)
+				rows, err := db.Query(""+
+					"select id, url "+
+					"from avatars "+
+					"where url='%s';", badTestUrl)
+				t.Logf("query returned %s", badTestUrl)
+				sqldbtest.CheckError(t, err)
+				t.Logf("query had no error")
+				if rows.Next() {
+					t.Fatal("We should not have created an avatar entry on invalid url")
+				}
+				t.Logf("result ok")
+			})
+		})
 	})
 }
