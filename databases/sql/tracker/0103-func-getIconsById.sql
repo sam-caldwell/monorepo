@@ -2,17 +2,14 @@
  * 0103-func-getIconsById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function getIconsById(id uuid) returns jsonb as
+create or replace function getIconsById(iconId uuid) returns text as
 $$
 declare
-    result jsonb;
+    result text;
 begin
-    select jsonb_agg(jsonb_build_object(
-            'id', id,
-            'url', url
-        )) as icons into result
+    select url into result
     from icons
-    where id == id;
+    where id = iconId;
     return result;
-end;
+end
 $$ language plpgsql;
