@@ -12,7 +12,7 @@ import (
 func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	const (
 		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
-		functionName        = "createUser"
+		functionName        = "deleteUsersById"
 		tableName           = "user"
 		expectedFirstName   = "Alan"
 		expectedLastName    = "Turing"
