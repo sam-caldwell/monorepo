@@ -7,9 +7,10 @@ import (
 
 // GetEnumValues - Return a list of enumerated values.
 func GetEnumValues(t *testing.T, db *Postgres.Db, typeName string) (values []string) {
-	_, err := db.Query("SELECT 1 as a FROM pg_type WHERE typname = '%s'AND typtype='e';", typeName)
+	rows, err := db.Query("SELECT 1 as a FROM pg_type WHERE typname = '%s'AND typtype='e';", typeName)
 	CheckError(t, err)
-	rows, err := db.Query("SELECT unnest(enum_range(NULL::%s)) AS enum_value;", typeName)
+	defer func() { _ = rows.Close() }()
+	rows, err = db.Query("SELECT unnest(enum_range(NULL::%s)) AS enum_value;", typeName)
 	CheckError(t, err)
 	defer func() {
 		CheckError(t, rows.Close())
