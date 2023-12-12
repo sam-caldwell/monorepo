@@ -4,17 +4,17 @@
  *
  * Return all userIds in the given team
  */
-create or replace function getUsersInTeam(teamId uuid) returns jsonb as
+create or replace function getUsersInTeam(id uuid) returns jsonb as
 $$
 declare
     result jsonb;
 begin
     select jsonb_agg(jsonb_build_object(
-            'userId', userId
+            'teamId', teamId
         )) as workflow
     into result
     from teamMembership
-    where teamId == teamId;
+    where userId == id;
     return result;
 end;
 $$ language plpgsql;

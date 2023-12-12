@@ -9,7 +9,7 @@ $$
 declare
     result jsonb;
 begin
-    select json_agg(jsonb_build_object(
+    select jsonb_agg(jsonb_build_object(
             'teamId', teamId
         )) as team
     into result
