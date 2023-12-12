@@ -1,5 +1,5 @@
 /*
- * 0107-func-getUsersInTeam.sql
+ * 0108-func-getUsersInTeam.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Return all userIds in the given team

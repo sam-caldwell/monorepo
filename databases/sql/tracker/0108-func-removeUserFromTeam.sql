@@ -1,5 +1,5 @@
 /*
- * 0107-func-removeUserFromTeam.sql
+ * 0108-func-removeUserFromTeam.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function removeUserFromTeam(userId uuid, teamId uuid) returns integer as

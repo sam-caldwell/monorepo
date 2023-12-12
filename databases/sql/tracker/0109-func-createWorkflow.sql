@@ -1,5 +1,5 @@
 /*
- * 0108-func-createWorkflow.sql
+ * 0109-func-createWorkflow.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function createWorkflow(name varchar(64), iconId uuid, ownerId uuid, teamId uuid, owner permissions,

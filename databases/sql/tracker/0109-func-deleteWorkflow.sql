@@ -1,5 +1,5 @@
 /*
- * 0108-func-deleteWorkflow.sql
+ * 0109-func-deleteWorkflow.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deleteWorkflow(workflowId uuid) returns integer as
