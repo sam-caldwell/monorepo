@@ -9,25 +9,15 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_createUser(t *testing.T) {
-	//type TrackerUser struct {
-	//	Id          uuid.UUID `yaml:"id"`
-	//	FirstName   string    `yaml:"firstName"`
-	//	LastName    string    `yaml:"lastName"`
-	//	AvatarId    uuid.UUID `yaml:"avatarId"`
-	//	Email       string    `yaml:"email"`
-	//	PhoneNumber string    `yaml:"phoneNumber"`
-	//	Description string    `yaml:"description"`
-	//}
-
+func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	const (
 		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
 		functionName        = "createUser"
 		tableName           = "user"
-		expectedFirstName   = "Wendell"
-		expectedLastName    = "Fertig"
-		expectedEmail       = "wendell.fertig@example.com"
-		expectedPhone       = "512.123.4567"
+		expectedFirstName   = "Alan"
+		expectedLastName    = "Turing"
+		expectedEmail       = "Alan.Turing@example.com"
+		expectedPhone       = "713.123.4567"
 		expectedDescription = "Test description"
 	)
 	var avatarId uuid.UUID
@@ -157,6 +147,26 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 			t.Fatalf("Description mismatch\n"+
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualDescription, expectedDescription)
+		}
+	})
+
+	t.Run("call deleteUserById(userId)", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select deleteUserById('%s');", userId)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var count int
+		err = rows.Scan(&count)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if count != 1 {
+			t.Fatalf("count expected 1 but got %d", count)
 		}
 	})
 }
