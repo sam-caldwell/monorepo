@@ -174,4 +174,62 @@ func TestSqlDbFunc_updateUserDescription(t *testing.T) {
 			t.Fatalf("expected updated count 1 but got %d", count)
 		}
 	})
+
+	t.Run("verify user update", func(t *testing.T) {
+		/*
+		 * verify the user.
+		 */
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select id,firstName,lastName,avatarId,email,phoneNumber,description "+
+			"from users where id='%s'", userId)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+
+		var actualId, actualAvatarId uuid.UUID
+		var actualFirstName, actualLastName, actualEmail, actualPhone, actualDescription string
+
+		err = rows.Scan(&actualId, &actualFirstName, &actualLastName, &actualAvatarId, &actualEmail, &actualPhone,
+			&actualDescription)
+		if err != nil {
+			t.Fatalf("Failed to read result: %v", err)
+		}
+		if actualId != userId {
+			t.Fatal("UserId mismatch")
+		}
+		if actualFirstName != expectedFirstName {
+			t.Fatalf("FirstName mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualFirstName, expectedFirstName)
+		}
+		if actualLastName != expectedLastName {
+			t.Fatalf("LastName mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualLastName, expectedLastName)
+		}
+		if actualAvatarId != originalAvatarId {
+			t.Fatalf("AvatarId mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualAvatarId, originalAvatarId)
+		}
+		if actualEmail != expectedEmail {
+			t.Fatalf("Email mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualEmail, expectedEmail)
+		}
+		if actualPhone != expectedPhone {
+			t.Fatalf("PhoneNumber mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualPhone, expectedPhone)
+		}
+		if actualDescription != newDescription {
+			t.Fatalf("Description mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualDescription, newDescription)
+		}
+	})
 }

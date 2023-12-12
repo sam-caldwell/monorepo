@@ -9,21 +9,20 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
+func TestSqlDbFunc_updateUserPhone(t *testing.T) {
 	const (
 		originalAvatarUrl   = "http://localhost/myfakeavatar.jpeg"
-		newAvatarUrl        = "http://localhost/mynewfakeavatar.jpeg"
-		functionName        = "updateUserAvatar"
+		functionName        = "updateUserPhone"
 		tableName           = "user"
-		expectedFirstName   = "Grace"
-		expectedLastName    = "Hopper"
-		expectedEmail       = "grace.hopper@example.com"
-		expectedPhone       = "214.123.4567"
-		expectedDescription = "Test description"
+		expectedFirstName   = "Todd"
+		expectedLastName    = "Johnson"
+		expectedEmail       = "todd.johnson@example.com"
+		originalPhone       = "121.123.4567"
+		newPhone            = "999.321.2301"
+		expectedDescription = "original description"
 	)
-	var originalAvatarId uuid.UUID
+	var avatarId uuid.UUID
 	var userId uuid.UUID
-	var newAvatarId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -39,8 +38,8 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{userId,newAvatarId},"+
-				"pt:{uuid},"+
+				"pn:{userId,newPhoneNumber},"+
+				"pt:{varchar,uuid},"+
 				"rt:int4", strings.ToLower(functionName)))
 	})
 
@@ -62,36 +61,10 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if originalAvatarId, err = uuid.Parse(raw); err != nil {
+		if avatarId, err = uuid.Parse(raw); err != nil {
 			t.Fatal(err)
 		}
-		if originalAvatarId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
-
-	t.Run("call createAvatar() to create newAvatarId", func(t *testing.T) {
-		/*
-		 * We need to create an avatar to create a user
-		 */
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createAvatar('%s');", newAvatarUrl)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if newAvatarId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if newAvatarId.String() == "00000000-0000-0000-0000-000000000000" {
+		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
 			t.Fatal("illegal zero uuid")
 		}
 	})
@@ -103,7 +76,7 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
-			expectedFirstName, expectedLastName, originalAvatarId, expectedEmail, expectedPhone, expectedDescription)
+			expectedFirstName, expectedLastName, avatarId, expectedEmail, originalPhone, expectedDescription)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -156,20 +129,20 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualLastName, expectedLastName)
 		}
-		if actualAvatarId != originalAvatarId {
+		if actualAvatarId != avatarId {
 			t.Fatalf("AvatarId mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualAvatarId, originalAvatarId)
+				"expected: '%s'", actualAvatarId, avatarId)
 		}
 		if actualEmail != expectedEmail {
 			t.Fatalf("Email mismatch\n"+
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualEmail, expectedEmail)
 		}
-		if actualPhone != expectedPhone {
+		if actualPhone != originalPhone {
 			t.Fatalf("PhoneNumber mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualPhone, expectedPhone)
+				"expected: '%s'", actualPhone, originalPhone)
 		}
 		if actualDescription != expectedDescription {
 			t.Fatalf("Description mismatch\n"+
@@ -178,17 +151,17 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 		}
 	})
 
-	t.Run("call updateUserAvatar(userId,avatarId)", func(t *testing.T) {
+	t.Run("call updateUserPhone(userId,newPhone)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select updateUserAvatar('%s','%s');", userId, newAvatarId)
+		rows, err = db.Query("select updateUserPhone('%s','%s');", userId, newPhone)
 		if err != nil {
-			t.Fatalf("updateUserAvatar() failed\n"+
-				"userId:           %v\n"+
-				"originalAvatarId: %v\n"+
-				"newAvatarId:      %v\n"+
+			t.Fatalf("updateUserPhone() failed\n"+
+				"userId:        %v\n"+
+				"originalPhone: %v\n"+
+				"newPhone:      %v\n"+
 				"err: %v",
-				userId, originalAvatarId, newAvatarId, err)
+				userId, originalPhone, newPhone, err)
 		}
 		if !rows.Next() {
 			t.Fatal("no row returned")
@@ -238,20 +211,20 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualLastName, expectedLastName)
 		}
-		if actualAvatarId != newAvatarId {
+		if actualAvatarId != avatarId {
 			t.Fatalf("AvatarId mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualAvatarId, newAvatarId)
+				"expected: '%s'", actualAvatarId, avatarId)
 		}
 		if actualEmail != expectedEmail {
 			t.Fatalf("Email mismatch\n"+
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualEmail, expectedEmail)
 		}
-		if actualPhone != expectedPhone {
+		if actualPhone != newPhone {
 			t.Fatalf("PhoneNumber mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualPhone, expectedPhone)
+				"expected: '%s'", actualPhone, newPhone)
 		}
 		if actualDescription != expectedDescription {
 			t.Fatalf("Description mismatch\n"+
