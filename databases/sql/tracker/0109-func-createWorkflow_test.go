@@ -195,9 +195,8 @@ func TestSqlDbFunc_createWorkflow(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query(""+
-			"select id,name, iconId, ownerId, teamId, p_owner,p_team,p_everyone,description"+
-			"from workflow"+
-			"where id='%s';", workflowId)
+			"select id,name,iconId,ownerId,teamId,owner,team,everyone,description "+
+			"from workflow where id = '%s';", workflowId)
 		if err != nil {
 			t.Fatal(err)
 		}
