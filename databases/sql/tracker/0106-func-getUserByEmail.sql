@@ -18,7 +18,7 @@ begin
             'description', description
         )  as workflow into result
     from users
-    where email == emailAddress
+    where email = emailAddress
     limit 1;
     return result;
 
