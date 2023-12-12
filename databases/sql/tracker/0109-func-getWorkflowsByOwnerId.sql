@@ -1,9 +1,11 @@
 /*
- * 0120-func-getWorkflowByName.sql
+ * 0120-func-getWorkflowsByOwnerId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
-create or replace function getWorkflowByName(workflowName varchar(64)) returns jsonb as
+create or replace function getWorkflowsByOwnerId(workflowOwnerId varchar(64),
+                                                pageLimit integer,
+                                                pageOffset integer) returns jsonb as
 $$
 declare
     result jsonb;
@@ -21,7 +23,8 @@ begin
         )) as workflow
     into result
     from workflow
-    where name == workflowName;
+    where ownerId == workflowOwnerId
+    limit pageLimit offset pageOffset;
     return result;
 
 end ;

@@ -1,9 +1,9 @@
 /*
- * 0120-func-getWorkflowByTeamId.sql
+ * 0120-func-getWorkflowsByTeamId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
-create or replace function getWorkflowByTeamId(workflowTeamId varchar(64), pageLimit integer,
+create or replace function getWorkflowsByTeamId(workflowTeamId varchar(64), pageLimit integer,
                                                pageOffset integer) returns jsonb as
 $$
 declare
