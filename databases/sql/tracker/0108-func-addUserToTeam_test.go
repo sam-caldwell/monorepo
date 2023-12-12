@@ -56,6 +56,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -79,6 +80,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -100,6 +102,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -121,6 +124,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -138,6 +142,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -156,11 +161,10 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 			"from teamMembership "+
 			"where userId='%s' "+
 			"and teamId='%s';", userId, teamId)
-
 		if err != nil {
 			t.Fatal(err)
 		}
-
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
