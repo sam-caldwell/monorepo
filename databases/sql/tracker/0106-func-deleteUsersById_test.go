@@ -169,4 +169,22 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 			t.Fatalf("count expected 1 but got %d", count)
 		}
 	})
+
+	t.Run("count the number of matching users (expect zero)", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select count(id) from users where id=('%s');", userId)
+		if err != nil {
+			t.Fatalf("count query failed %v\n"+
+				"teamId:  %v", err, userId)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var count int
+		err = rows.Scan(&count)
+		if count != 0 {
+			t.Fatalf("expected count 0 but got %d", count)
+		}
+	})
 }
