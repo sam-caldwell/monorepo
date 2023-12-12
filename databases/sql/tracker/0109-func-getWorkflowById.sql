@@ -8,7 +8,7 @@ $$
 declare
     result jsonb;
 begin
-    select jsonb_agg(jsonb_build_object(
+    select jsonb_build_object(
             'id', id,
             'name', name,
             'iconId', iconId,
@@ -18,10 +18,10 @@ begin
             'team', team,
             'everyone', everyone,
             'description', description
-        )) as workflow
+        ) as workflow
     into result
     from workflow
-    where id == workflowId;
+    where id = workflowId;
     return result;
 end;
 $$ language plpgsql;
