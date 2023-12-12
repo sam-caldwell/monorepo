@@ -56,6 +56,7 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -79,6 +80,7 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -100,6 +102,7 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -121,6 +124,7 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -137,6 +141,7 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		if rows, err = db.Query("select getTeamById('%s');", teamId); err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
