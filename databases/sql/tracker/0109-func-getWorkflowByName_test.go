@@ -10,18 +10,18 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getWorkflowById(t *testing.T) {
+func TestSqlDbFunc_getWorkflowByName(t *testing.T) {
 	const (
 		avatarUrl            = "http://localhost/myfakeavatar.jpeg"
 		iconUrl              = "http://localhost/myfakeicon.ico"
-		functionName         = "deleteWorkflowById"
-		expectedFirstName    = "Jack"
-		expectedLastName     = "Cook"
-		expectedEmail        = "jack.cook@example.com"
-		expectedPhone        = "321.321.6543"
+		functionName         = "deleteWorkflowByName"
+		expectedFirstName    = "Edward"
+		expectedLastName     = "Teach"
+		expectedEmail        = "blackbeard@example.com"
+		expectedPhone        = "321.321.6969"
 		expectedDescription  = "Test description"
-		expectedTeamName     = "OceanExplorers"
-		expectedWorkflowName = "NavigationProcess"
+		expectedTeamName     = "PiracyInc"
+		expectedWorkflowName = "PillageAndPlunderWorkflow"
 	)
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
@@ -47,8 +47,8 @@ func TestSqlDbFunc_getWorkflowById(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{workflowId},"+
-				"pt:{uuid},"+
+				"pn:{workflowName},"+
+				"pt:{varchar},"+
 				"rt:int4", strings.ToLower(functionName)))
 	})
 
@@ -196,9 +196,12 @@ func TestSqlDbFunc_getWorkflowById(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query(""+
-			"select getWorkflowById('%s');", workflowId)
+			"select getWorkflowByName('%s');", expectedWorkflowName)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("getWorkflowByName() query failed:\n"+
+				"err:  '%v'\n"+
+				"id:   '%v'\n"+
+				"name: '%s'", err, workflowId, expectedWorkflowName)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
