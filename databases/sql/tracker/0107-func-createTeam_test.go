@@ -122,8 +122,8 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createTeam('%s','%s','%s','read','read','read','test team');",
-			testTeamName, iconId, ownerId)
+		rows, err = db.Query("select createTeam('%s','%s','%s','read','read','read','%s');",
+			testTeamName, iconId, ownerId, expectedDescription)
 		if err != nil {
 			t.Fatalf("createTeam() failed %v\n"+
 				"iconId:  %v\n"+
@@ -143,6 +143,60 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		}
 	})
 
-	//ToDo: verify the team record.
+	t.Run("inspect and verify team", func(t *testing.T) {
+		/*
+		 * verify the user.
+		 */
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select id,name,iconId,ownerId,owner,team,everyone,description "+
+			"from teams where id='%s'", teamId)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
 
+		var actualTeamId uuid.UUID
+		var actualTeamName string
+		var actualIconId uuid.UUID
+		var actualOwnerId uuid.UUID
+		var actualPermissionOwner, actualPermissionTeam, actualPermissionEveryone string
+		var actualDescription string
+
+		err = rows.Scan(&actualTeamId, &actualTeamName, &actualIconId, &actualOwnerId,
+			&actualPermissionOwner, &actualPermissionTeam, &actualPermissionEveryone,
+			&actualDescription)
+
+		if err != nil {
+			t.Fatalf("Failed to read result: %v", err)
+		}
+		if teamId != actualTeamId {
+			t.Fatal("teamId mismatch")
+		}
+		if testTeamName != actualTeamName {
+			t.Fatal("team name mismatch")
+		}
+		if iconId != actualIconId {
+			t.Fatalf("iconId mismatch")
+		}
+		if ownerId != actualOwnerId {
+			t.Fatalf("ownerId mismatch")
+		}
+		if actualPermissionOwner != "read" {
+			t.Fatalf("owner permission mismatch")
+		}
+		if actualPermissionTeam != "read" {
+			t.Fatalf("team permission mismatch")
+		}
+		if actualPermissionEveryone != "read" {
+			t.Fatalf("everyone permission mismatch")
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("actualDescription mismatch\n"+
+				"actual: %s\n"+
+				"expected: %s", actualDescription, expectedDescription)
+		}
+	})
 }
