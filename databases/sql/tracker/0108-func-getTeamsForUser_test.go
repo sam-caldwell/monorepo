@@ -58,6 +58,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -81,6 +82,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -102,6 +104,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -126,6 +129,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -142,6 +146,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
+				defer func() { _ = rows.Close() }()
 				if !rows.Next() {
 					t.Fatal("no row returned")
 				}
@@ -162,6 +167,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
+				defer func() { _ = rows.Close() }()
 				if !rows.Next() {
 					t.Fatal("no row returned")
 				}
@@ -177,11 +183,11 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 	t.Run("getTeamsForUser() and verify", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-
 		rows, err = db.Query("select getTeamsForUser('%s');", userId)
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
