@@ -7,7 +7,7 @@ $$
 declare
     result jsonb;
 begin
-    select jsonb_agg(jsonb_build_object(
+    select jsonb_build_object(
             'id', id,
             'name', name,
             'iconId', iconId,
@@ -16,10 +16,10 @@ begin
             'perm_team', team,
             'perm_everyone', everyone,
             'description', description
-        )) as workflow
+        ) as team
     into result
     from teams
-    where teamOwnerId == ownerId;
+    where teamOwnerId = ownerId;
     return result;
 end;
 $$ language plpgsql;

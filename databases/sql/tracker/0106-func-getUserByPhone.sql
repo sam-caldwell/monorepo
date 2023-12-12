@@ -16,7 +16,7 @@ begin
             'email', email,
             'phoneNumber', phoneNumber,
             'description', description
-        )  as workflow into result
+        )  as user into result
     from users
     where phoneNumber = phone
     limit 1;
