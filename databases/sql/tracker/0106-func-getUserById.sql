@@ -18,7 +18,7 @@ begin
             'description', description
         )  as workflow into result
     from users
-    where id == userId
+    where id = userId
     limit 1;
     return result;
 
