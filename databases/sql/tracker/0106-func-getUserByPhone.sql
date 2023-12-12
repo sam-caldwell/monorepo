@@ -18,7 +18,7 @@ begin
             'description', description
         )  as workflow into result
     from users
-    where phoneNumber == phone
+    where phoneNumber = phone
     limit 1;
     return result;
 

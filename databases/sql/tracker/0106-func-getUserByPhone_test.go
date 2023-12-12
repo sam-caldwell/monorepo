@@ -10,15 +10,15 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getUserById(t *testing.T) {
+func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 	const (
 		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
-		functionName        = "getUserById"
+		functionName        = "getUserByPhone"
 		tableName           = "user"
-		expectedFirstName   = "John"
-		expectedLastName    = "Von Neumann"
-		expectedEmail       = "John.vonNeumann@example.com"
-		expectedPhone       = "415.123.4567"
+		expectedFirstName   = "Ada"
+		expectedLastName    = "Lovelace"
+		expectedEmail       = "ada.lovelace@example.com"
+		expectedPhone       = "915.123.4567"
 		expectedDescription = "Test description"
 	)
 	var avatarId uuid.UUID
@@ -38,8 +38,8 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{userId},"+
-				"pt:{uuid},"+
+				"pn:{phone},"+
+				"pt:{varchar},"+
 				"rt:jsonb", strings.ToLower(functionName)))
 	})
 
@@ -151,10 +151,10 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		}
 	})
 
-	t.Run("call getUserById(userId)", func(t *testing.T) {
+	t.Run("call getUserByPhone(expectedPhone)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select getUserById('%s');", userId)
+		rows, err = db.Query("select getUserByPhone('%s');", expectedPhone)
 		if err != nil {
 			t.Fatal(err)
 		}
