@@ -10,16 +10,6 @@ import (
 )
 
 func TestSqlDbFunc_createUser(t *testing.T) {
-	//type TrackerUser struct {
-	//	Id          uuid.UUID `yaml:"id"`
-	//	FirstName   string    `yaml:"firstName"`
-	//	LastName    string    `yaml:"lastName"`
-	//	AvatarId    uuid.UUID `yaml:"avatarId"`
-	//	Email       string    `yaml:"email"`
-	//	PhoneNumber string    `yaml:"phoneNumber"`
-	//	Description string    `yaml:"description"`
-	//}
-
 	const (
 		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
 		functionName        = "createUser"
