@@ -14,7 +14,8 @@ begin
         ) as team
     into result
     from teamMembership
-    where userId = userId;
+    where userId = userId
+    limit 1;
     return result;
 end;
 $$ language plpgsql;
