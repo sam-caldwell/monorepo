@@ -10,7 +10,7 @@ declare
 begin
     workflowId := gen_random_uuid();
     insert into workflow (id, name, iconId, ownerId, teamId, owner, team, everyone, description)
-    values (workflowId, iconId, ownerId, teamId, owner, team, everyone, description);
+    values (workflowId, name, iconId, ownerId, teamId, owner, team, everyone, description);
     return workflowId;
 end;
 $$ language plpgsql;
