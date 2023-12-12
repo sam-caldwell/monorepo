@@ -93,4 +93,22 @@ func TestSqlDbFunc_deleteIcons(t *testing.T) {
 			t.Fatalf("deleteIcons() should return 1 but returned %d", count)
 		}
 	})
+
+	t.Run("count the number of matching icons (expect zero)", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select count(id) from icons where id=('%s');", iconId)
+		if err != nil {
+			t.Fatalf("count query failed %v\n"+
+				"teamId:  %v", err, iconId)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var count int
+		err = rows.Scan(&count)
+		if count != 0 {
+			t.Fatalf("expected count 0 but got %d", count)
+		}
+	})
 }
