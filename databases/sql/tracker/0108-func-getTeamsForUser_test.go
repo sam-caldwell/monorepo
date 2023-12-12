@@ -2,6 +2,7 @@ package psqlTrackerDb
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -46,7 +47,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{userId},"+
+				"pn:{id},"+
 				"pt:{uuid},"+
 				"rt:jsonb", strings.ToLower(functionName)))
 	})
@@ -180,6 +181,11 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 			teams = append(teams, teamId)
 		})
 	}
+
+	type TeamSet struct {
+		TeamID string `json:"teamId"`
+	}
+
 	t.Run("getTeamsForUser() and verify", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
@@ -188,13 +194,21 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 			t.Fatal(err)
 		}
 		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
+
+		var actualTeams []TeamSet
+		for rows.Next() {
+			var raw string
+			if err = rows.Scan(&raw); err != nil {
+				t.Fatal(err)
+			}
+			if err = json.Unmarshal([]byte(raw), &actualTeams); err != nil {
+				t.Fatalf("error: failed to parse: %v\n"+
+					"raw: %v", err, raw)
+			}
 		}
-		var count int
-		err = rows.Scan(&count)
-		if count != len(teams) {
-			t.Fatalf("expected count %d but got %d", len(teams), count)
+
+		if len(actualTeams) != len(teams) {
+			t.Fatalf("Error: expected count %d but got %d", len(teams), len(actualTeams))
 		}
 	})
 }
