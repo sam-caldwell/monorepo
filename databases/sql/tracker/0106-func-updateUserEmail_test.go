@@ -54,6 +54,7 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -81,6 +82,7 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -105,6 +107,7 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -164,6 +167,7 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 				"err: %v",
 				userId, originalEmail, newEmail, err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -187,6 +191,7 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}

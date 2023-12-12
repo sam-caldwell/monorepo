@@ -54,6 +54,7 @@ func TestSqlDbFunc_updateUserName(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -81,6 +82,7 @@ func TestSqlDbFunc_updateUserName(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -105,6 +107,7 @@ func TestSqlDbFunc_updateUserName(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -164,6 +167,7 @@ func TestSqlDbFunc_updateUserName(t *testing.T) {
 				"err: %v",
 				userId, newFirstName, newLastName, err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -187,10 +191,10 @@ func TestSqlDbFunc_updateUserName(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-
 		var actualId, actualAvatarId uuid.UUID
 		var actualFirstName, actualLastName, actualEmail, actualPhone, actualDescription string
 

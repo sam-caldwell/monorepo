@@ -16,8 +16,9 @@ func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
 	})
 
 	t.Run("query the table", func(t *testing.T) {
-		_, err := db.Query("select 1 from %s limit 1;", tableName)
+		rows, err := db.Query("select 1 from %s limit 1;", tableName)
 		sqldbtest.CheckError(t, err)
+		defer func() { _ = rows.Close() }()
 	})
 
 	t.Run("check table schema", func(t *testing.T) {
