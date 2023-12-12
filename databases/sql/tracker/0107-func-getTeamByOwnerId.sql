@@ -1,5 +1,5 @@
 /*
- * 0107-func-getTeamByName.sql
+ * 0107-func-getTeamByOwnerId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTeamByOwnerId(teamOwnerId uuid) returns jsonb as
@@ -12,14 +12,15 @@ begin
             'name', name,
             'iconId', iconId,
             'ownerId', ownerId,
-            'perm_owner', owner,
-            'perm_team', team,
-            'perm_everyone', everyone,
+            'owner', owner,
+            'team', team,
+            'everyone', everyone,
             'description', description
         ) as team
     into result
     from teams
-    where teamOwnerId = ownerId;
+    where teamOwnerId = ownerId
+    limit 1;
     return result;
 end;
 $$ language plpgsql;
