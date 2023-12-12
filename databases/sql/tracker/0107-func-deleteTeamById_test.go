@@ -59,6 +59,7 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 			t.Fatal(err)
 		}
 		defer func() { _ = rows.Close() }()
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -80,6 +81,7 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
@@ -105,6 +107,7 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")

@@ -44,6 +44,7 @@ func TestSqlDbFunc_deleteIcons(t *testing.T) {
 		if rows, err = db.Query("select createIcons('%s');", testUrl); err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -60,6 +61,7 @@ func TestSqlDbFunc_deleteIcons(t *testing.T) {
 		if rows, err = db.Query("select url from icons where id='%s';", iconId); err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -81,6 +83,7 @@ func TestSqlDbFunc_deleteIcons(t *testing.T) {
 		if rows, err = db.Query("select deleteIcons('%s');", iconId); err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -102,6 +105,7 @@ func TestSqlDbFunc_deleteIcons(t *testing.T) {
 			t.Fatalf("count query failed %v\n"+
 				"teamId:  %v", err, iconId)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}

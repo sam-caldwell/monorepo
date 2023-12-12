@@ -21,7 +21,6 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
 		_, _ = db.Query("delete from %s where url='%s';", tableName, testUrl)
-
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -41,6 +40,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to create record: %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 
 		t.Run("createAvatar() should return a row", func(t *testing.T) {
 			if !rows.Next() {
@@ -56,6 +56,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed on call to deleteAvatar(): %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -73,6 +74,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed on call to deleteAvatar(): %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -93,6 +95,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 			t.Fatalf("count query failed %v\n"+
 				"teamId:  %v", err, avatarId)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}

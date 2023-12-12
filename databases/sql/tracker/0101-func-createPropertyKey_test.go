@@ -20,7 +20,6 @@ func TestSqlDbFunc_createPropertyKey(t *testing.T) {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
 		_, _ = db.Query("delete from %s where name='%s' cascade;", tableName, testPropertyName)
-
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -40,6 +39,7 @@ func TestSqlDbFunc_createPropertyKey(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed when calling createPropertyKey(): %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		t.Run("createPropertyKey() should return a row", func(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("no row returned")
@@ -60,6 +60,7 @@ func TestSqlDbFunc_createPropertyKey(t *testing.T) {
 		if err != nil {
 			t.Fatalf("select query failed: %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		t.Run("createPropertyKey() should return a row", func(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("no row returned")

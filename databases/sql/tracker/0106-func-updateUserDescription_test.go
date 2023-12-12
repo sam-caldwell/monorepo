@@ -53,6 +53,7 @@ func TestSqlDbFunc_updateUserDescription(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -80,6 +81,7 @@ func TestSqlDbFunc_updateUserDescription(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -104,6 +106,7 @@ func TestSqlDbFunc_updateUserDescription(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -163,6 +166,7 @@ func TestSqlDbFunc_updateUserDescription(t *testing.T) {
 				"err: %v",
 				userId, originalDescription, newDescription, err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -186,6 +190,7 @@ func TestSqlDbFunc_updateUserDescription(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}

@@ -4,7 +4,7 @@
  *
  * Given a userId, return all matching teams
  */
-create or replace function getTeamsForUser(userId uuid) returns jsonb as
+create or replace function getTeamsForUser(id uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -14,8 +14,7 @@ begin
         )) as team
     into result
     from teamMembership
-    where userId = userId
-    limit 1;
+    where userId = id;
     return result;
 end;
 $$ language plpgsql;

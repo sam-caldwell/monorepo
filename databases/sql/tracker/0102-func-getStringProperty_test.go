@@ -44,6 +44,7 @@ func TestSqlDbFunc_getStringProperty(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to create integer property. %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		t.Run("createStringProperty() should return a row", func(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("no row returned")
@@ -68,6 +69,7 @@ func TestSqlDbFunc_getStringProperty(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to fetch integer property. %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		t.Run("function should return a row", func(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("no row returned")

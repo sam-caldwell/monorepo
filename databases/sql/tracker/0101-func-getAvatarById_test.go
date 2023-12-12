@@ -40,6 +40,7 @@ func TestSqlDbFunc_getAvatarById(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to create record: %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 
 		t.Run("createAvatar() should return a row", func(t *testing.T) {
 			if !rows.Next() {
@@ -56,6 +57,7 @@ func TestSqlDbFunc_getAvatarById(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to get record: %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("Fail: no row returned")
 		}

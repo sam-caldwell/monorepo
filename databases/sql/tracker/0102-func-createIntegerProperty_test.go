@@ -46,6 +46,7 @@ func TestSqlDbFunc_createIntegerProperty(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed when calling createIntegerProperty(): %v", err)
 		}
+		defer func() { _ = rows.Close() }()
 		t.Run("createIntegerProperty() should return a row", func(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("no row returned")
@@ -70,6 +71,7 @@ func TestSqlDbFunc_createIntegerProperty(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to select expected value: %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			t.Run("createIntegerProperty() should return a row", func(t *testing.T) {
 				if !rows.Next() {
 					t.Fatal("no row returned")

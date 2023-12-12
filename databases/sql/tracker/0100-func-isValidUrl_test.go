@@ -1,6 +1,7 @@
 package psqlTrackerDb
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
 	"strings"
@@ -37,10 +38,12 @@ func TestSqlDbFunc_isValidUrl(t *testing.T) {
 			"https://happyUrl.tld/good.image.name.png/?query=param",
 			"https://happyUrl.tld/good.image.name.png/?query1=param1&query1=param1",
 		}
-
+		var err error
+		var rows *sql.Rows
+		defer func() { _ = rows.Close() }()
 		for _, url := range urls {
 
-			rows, err := db.Query("select isValidUrl('%s');", url)
+			rows, err = db.Query("select isValidUrl('%s');", url)
 			if err != nil {
 				t.Fatalf("Fail: Query returned an error %s", err)
 			}
@@ -70,8 +73,11 @@ func TestSqlDbFunc_isValidUrl(t *testing.T) {
 			"nfs://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
 			"tftp://testUrlButNeverReal.tld/thisShouldNeverExistInTheDb.png",
 		}
+		var err error
+		var rows *sql.Rows
+		defer func() { _ = rows.Close() }()
 		for _, url := range urls {
-			rows, err := db.Query("select isValidUrl('%s');", url)
+			rows, err = db.Query("select isValidUrl('%s');", url)
 			sqldbtest.CheckError(t, err)
 			t.Run("isValidUrl() should return a row", func(t *testing.T) {
 				if !rows.Next() {

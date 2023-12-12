@@ -49,6 +49,7 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			if err != nil {
 				t.Fatalf("Failed when calling createStringProperty(): %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -69,6 +70,7 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to select expected value: %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -84,6 +86,7 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			if err != nil {
 				t.Fatalf("Failed when calling deletePropertyByName(): %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -103,6 +106,7 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			if err != nil {
 				t.Fatalf("Failed when calling createIntegerProperty(): %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -123,6 +127,7 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to select expected value: %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -139,6 +144,7 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			if err != nil {
 				t.Fatalf("Failed when calling deletePropertyByName(): %v", err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
@@ -151,5 +157,4 @@ func TestSqlDbFunc_deletePropertyByName(t *testing.T) {
 			}
 		})
 	})
-
 }

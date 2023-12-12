@@ -58,6 +58,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -79,6 +80,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -103,6 +105,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
@@ -130,6 +133,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 				"ownerId: %v",
 				err, iconId, ownerId)
 		}
+		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
