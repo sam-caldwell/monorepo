@@ -67,7 +67,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createIcons('http://localhost/myfakeavatar.jpeg');")
+		rows, err = db.Query("select createAvatar('http://localhost/myfakeavatar.jpeg');")
 		if err != nil {
 			t.Fatal(err)
 		}

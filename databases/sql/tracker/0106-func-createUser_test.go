@@ -10,15 +10,15 @@ import (
 )
 
 func TestSqlDbFunc_createUser(t *testing.T) {
-	type TrackerUser struct {
-		Id          uuid.UUID `yaml:"id"`
-		FirstName   string    `yaml:"firstName"`
-		LastName    string    `yaml:"lastName"`
-		AvatarId    uuid.UUID `yaml:"avatarId"`
-		Email       string    `yaml:"email"`
-		PhoneNumber string    `yaml:"phoneNumber"`
-		Description string    `yaml:"description"`
-	}
+	//type TrackerUser struct {
+	//	Id          uuid.UUID `yaml:"id"`
+	//	FirstName   string    `yaml:"firstName"`
+	//	LastName    string    `yaml:"lastName"`
+	//	AvatarId    uuid.UUID `yaml:"avatarId"`
+	//	Email       string    `yaml:"email"`
+	//	PhoneNumber string    `yaml:"phoneNumber"`
+	//	Description string    `yaml:"description"`
+	//}
 
 	const (
 		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
@@ -102,56 +102,61 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 		}
 	})
 
-	//t.Run("inspect and verify user", func(t *testing.T) {
-	//    /*
-	//     * verify the user.
-	//     */
-	//	var rows *sql.Rows
-	//	var err error
-	//	rows, err = db.Query("select id,firstName,lastName,avatarId,phoneNumber,description "+
-	//		"from users where id='%s'", userId)
-	//	if err != nil {
-	//		t.Fatal(err)
-	//	}
-	//	if !rows.Next() {
-	//		t.Fatal("no row returned")
-	//	}
-	//	var raw string
-	//	if err := rows.Scan(&raw); err != nil {
-	//		t.Fatalf("Failed to read result: %v", err)
-	//	}
-	//	if strings.TrimSpace(raw) == "" {
-	//		t.Fatalf("Fail: unexpected empty rawResult")
-	//	}
-	//	var actualUser TrackerUser
-	//	if err := json.Unmarshal([]byte(raw), &actualUser); err != nil {
-	//		t.Fatalf("Failed to decode expected JSON: %v\n"+
-	//			"expected Id: %v\n"+
-	//			"got: %s",
-	//			err, avatarId, raw)
-	//	}
-	//	if actualUser.Id != avatarId {
-	//		t.Fatalf("Fail: avatarId not as expected.\n"+
-	//			"Wanted: %s\n"+
-	//			"got:    %s", avatarId, actualUser.Id)
-	//	}
-	//	if actualUser.FirstName == expectedFirstName {
-	//		t.Fatal("FirstName mismatch")
-	//	}
-	//	if actualUser.LastName == expectedLastName {
-	//		t.Fatal("LastName mismatch")
-	//	}
-	//	if actualUser.AvatarId == avatarId {
-	//		t.Fatal("AvatarId mismatch")
-	//	}
-	//	if actualUser.Email == expectedEmail {
-	//		t.Fatal("Email mismatch")
-	//	}
-	//	if actualUser.PhoneNumber == expectedPhone {
-	//		t.Fatal("PhoneNumber mismatch")
-	//	}
-	//	if actualUser.Description == expectedDescription {
-	//		t.Fatal("Description mismatch")
-	//	}
-	//})
+	t.Run("inspect and verify user", func(t *testing.T) {
+		/*
+		 * verify the user.
+		 */
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select id,firstName,lastName,avatarId,email,phoneNumber,description "+
+			"from users where id='%s'", userId)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+
+		var actualId, actualAvatarId uuid.UUID
+		var actualFirstName, actualLastName, actualEmail, actualPhone, actualDescription string
+
+		err = rows.Scan(&actualId, &actualFirstName, &actualLastName, &actualAvatarId, &actualEmail, &actualPhone,
+			&actualDescription)
+		if err != nil {
+			t.Fatalf("Failed to read result: %v", err)
+		}
+		if actualId != userId {
+			t.Fatal("UserId mismatch")
+		}
+		if actualFirstName != expectedFirstName {
+			t.Fatalf("FirstName mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualFirstName, expectedFirstName)
+		}
+		if actualLastName != expectedLastName {
+			t.Fatalf("LastName mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualLastName, expectedLastName)
+		}
+		if actualAvatarId != avatarId {
+			t.Fatalf("AvatarId mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualAvatarId, avatarId)
+		}
+		if actualEmail != expectedEmail {
+			t.Fatalf("Email mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualEmail, expectedEmail)
+		}
+		if actualPhone != expectedPhone {
+			t.Fatalf("PhoneNumber mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualPhone, expectedPhone)
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("Description mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualDescription, expectedDescription)
+		}
+	})
 }
