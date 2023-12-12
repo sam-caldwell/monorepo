@@ -153,7 +153,7 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	t.Run("call deleteUserById(userId)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select deleteUserById('%s');", userId)
+		rows, err = db.Query("select deleteUsersById('%s');", userId)
 		if err != nil {
 			t.Fatal(err)
 		}
