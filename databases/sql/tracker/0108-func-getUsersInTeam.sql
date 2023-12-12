@@ -10,11 +10,11 @@ declare
     result jsonb;
 begin
     select jsonb_agg(jsonb_build_object(
-            'teamId', teamId
+            'userId', userId
         )) as workflow
     into result
     from teamMembership
-    where userId == id;
+    where teamId = id;
     return result;
 end;
 $$ language plpgsql;
