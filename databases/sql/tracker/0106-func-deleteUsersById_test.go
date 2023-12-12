@@ -37,9 +37,9 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{firstname,lastname,avatarid,email,phonenumber,description},"+
-				"pt:{text,varchar,uuid},"+
-				"rt:uuid", strings.ToLower(functionName)))
+				"pn:{userId},"+
+				"pt:{uuid},"+
+				"rt:int4", strings.ToLower(functionName)))
 	})
 
 	t.Run("call createAvatar()", func(t *testing.T) {
