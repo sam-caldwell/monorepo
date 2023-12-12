@@ -1,8 +1,8 @@
 /*
- * 0109-func-deleteWorkflow.sql
+ * 0109-func-deleteWorkflowById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function deleteWorkflow(workflowId uuid) returns integer as
+create or replace function deleteWorkflowById(workflowId uuid) returns integer as
 $$
 declare
     count integer;
