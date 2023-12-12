@@ -13,13 +13,13 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 	const (
 		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
 		iconUrl             = "http://localhost/myfakeicon.jpeg"
-		functionName        = "createTeam"
+		functionName        = "deleteTeamById"
 		tableName           = "teams"
-		testTeamName        = "testTeam2"
+		testTeamName        = "testTeam4"
 		expectedFirstName   = "Peter"
 		expectedLastName    = "Norton"
-		expectedEmail       = "peter.norton@example.com"
-		expectedPhone       = "707.444.0988"
+		expectedEmail       = "someuser@example.com"
+		expectedPhone       = "717.444.0988"
 		expectedDescription = "Test description"
 	)
 
@@ -43,9 +43,9 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{name,iconid,ownerId,owner,team,everyone,description},"+
-				"pt:{text,varchar,uuid,permissions},"+
-				"rt:uuid", strings.ToLower(functionName)))
+				"pn:{teamId},"+
+				"pt:{uuid},"+
+				"rt:int4", strings.ToLower(functionName)))
 	})
 
 	t.Run("createIcons()", func(t *testing.T) {
@@ -140,7 +140,7 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		}
 	})
 
-	t.Run("deleteTeam(teamId)", func(t *testing.T) {
+	t.Run("deleteTeamById(teamId)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select deleteTeamById('%s');", teamId)
