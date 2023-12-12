@@ -13,7 +13,7 @@ func TestSqlDbFunc_getIconsById(t *testing.T) {
 	const (
 		functionName = "getIconsById"
 		tableName    = "icons"
-		testUrl      = "http://localhost/myfakeicon.jpeg"
+		testIconUrl  = "http://localhost/myfakeicon.jpeg"
 	)
 	var err error
 	var iconId uuid.UUID
@@ -23,7 +23,7 @@ func TestSqlDbFunc_getIconsById(t *testing.T) {
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where url='%s'", tableName, testUrl)
+		_, _ = db.Query("delete from %s where url='%s'", tableName, testIconUrl)
 
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
@@ -41,7 +41,7 @@ func TestSqlDbFunc_getIconsById(t *testing.T) {
 	t.Run("create iconId", func(t *testing.T) {
 		var rows *sql.Rows
 
-		if rows, err = db.Query("select createIcons('%s');", testUrl); err != nil {
+		if rows, err = db.Query("select createIcons('%s');", testIconUrl); err != nil {
 			t.Fatal(err)
 		}
 		if !rows.Next() {
@@ -68,10 +68,10 @@ func TestSqlDbFunc_getIconsById(t *testing.T) {
 		if err = rows.Scan(&url); err != nil {
 			t.Fatal(err)
 		}
-		if url != testUrl {
+		if url != testIconUrl {
 			t.Fatalf("url mismatch\n"+
 				"Got:      %s\n"+
-				"Expected: %s", url, testUrl)
+				"Expected: %s", url, testIconUrl)
 		}
 	})
 
@@ -84,15 +84,15 @@ func TestSqlDbFunc_getIconsById(t *testing.T) {
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-		var url string
-		err = rows.Scan(&url)
-		if err = rows.Scan(&url); err != nil {
+		var iconUrl string
+		err = rows.Scan(&iconUrl)
+		if err = rows.Scan(&iconUrl); err != nil {
 			t.Fatal(err)
 		}
-		if url != testUrl {
+		if iconUrl != testIconUrl {
 			t.Fatalf("url mismatch\n"+
 				"Got:      %s\n"+
-				"Expected: %s", url, testUrl)
+				"Expected: %s", iconUrl, testIconUrl)
 		}
 	})
 
