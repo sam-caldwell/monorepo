@@ -9,12 +9,12 @@ import (
 	"testing"
 )
 
-type avatar struct {
-	Id  string `json:"id"`
-	Url string `json:"url"`
-}
-
 func TestSqlDbFunc_getAvatarById(t *testing.T) {
+	type TrackerAvatar struct {
+		Id  string `json:"id"`
+		Url string `json:"url"`
+	}
+
 	const (
 		tableName    = "avatar"
 		functionName = "getAvatarById"
@@ -65,19 +65,19 @@ func TestSqlDbFunc_getAvatarById(t *testing.T) {
 		if !rows.Next() {
 			t.Fatal("Fail: no row returned")
 		}
-		var rawResult string
-		if err := rows.Scan(&rawResult); err != nil {
+		var raw string
+		if err := rows.Scan(&raw); err != nil {
 			t.Fatalf("Failed to read result: %v", err)
 		}
-		if strings.TrimSpace(rawResult) == "" {
+		if strings.TrimSpace(raw) == "" {
 			t.Fatalf("Fail: unexpected empty rawResult")
 		}
-		var decodedResult avatar
-		if err := json.Unmarshal([]byte(rawResult), &decodedResult); err != nil {
+		var decodedResult TrackerAvatar
+		if err := json.Unmarshal([]byte(raw), &decodedResult); err != nil {
 			t.Fatalf("Failed to decode expected JSON: %v\n"+
 				"expected Id: %v\n"+
 				"got: %s",
-				err, avatarId, rawResult)
+				err, avatarId, raw)
 		}
 
 		if decodedResult.Id != avatarId.String() {
