@@ -1,14 +1,20 @@
 /*
- * 0120-func-getWorkflowsByTeamId.sql
+ * 0109-func-getWorkflowsByTeamId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
-create or replace function getWorkflowsByTeamId(workflowTeamId varchar(64), pageLimit integer,
-                                               pageOffset integer) returns jsonb as
+create or replace function getWorkflowsByTeamId(workflowTeamId uuid,
+                                                pageLimit  integer,
+                                                pageOffset integer) returns jsonb as
 $$
 declare
+    discard bool;
     result jsonb;
 begin
+    discard:=(select boundsCheck(pageLimit,1,1000));
+
+    discard:=(select boundsCheck(pageOffset,0,1000));
+
     select jsonb_agg(jsonb_build_object(
             'id', id,
             'name', name,
@@ -22,9 +28,8 @@ begin
         )) as workflow
     into result
     from workflow
-    where ownerId == workflowTeamId
+    where teamId = workflowTeamId
     limit pageLimit offset pageOffset;
     return result;
-
 end ;
 $$ language plpgsql;
