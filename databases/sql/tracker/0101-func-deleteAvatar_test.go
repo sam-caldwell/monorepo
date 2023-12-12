@@ -1,6 +1,7 @@
 package psqlTrackerDb
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -81,6 +82,24 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		}
 		if count != 0 {
 			t.Fatal("We shouldn't be able to delete a record twice..")
+		}
+	})
+
+	t.Run("count the number of matching avatars (expect zero)", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select count(id) from avatars where id=('%s');", avatarId)
+		if err != nil {
+			t.Fatalf("count query failed %v\n"+
+				"teamId:  %v", err, avatarId)
+		}
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var count int
+		err = rows.Scan(&count)
+		if count != 0 {
+			t.Fatalf("expected count 0 but got %d", count)
 		}
 	})
 }
