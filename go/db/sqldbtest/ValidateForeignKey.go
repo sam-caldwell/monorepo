@@ -8,6 +8,9 @@ import (
 )
 
 func ValidateForeignKey(t *testing.T, db *Postgres.Db, table, referencedTable, column, referencedColumn string) {
+
+	table = strings.ToLower(table)
+
 	query := fmt.Sprintf(`
        SELECT
 	       count(*)
@@ -26,6 +29,7 @@ func ValidateForeignKey(t *testing.T, db *Postgres.Db, table, referencedTable, c
 		strings.ToLower(referencedTable),
 		strings.ToLower(column),
 		strings.ToLower(referencedColumn))
+
 	rows, err := db.Query(query)
 	CheckError(t, err)
 	defer func() {
