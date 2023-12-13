@@ -1,5 +1,5 @@
 /*
- * 0020-0010-func-createProjects.sql
+ * 0600-0010-func-createProjects.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
