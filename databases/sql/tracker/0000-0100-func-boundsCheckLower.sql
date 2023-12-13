@@ -1,5 +1,5 @@
 /*
- * 0100-func-boundsCheckLower.sql
+ * 0000-0100-func-boundsCheckLower.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function boundsCheckLower(n integer, lowerBound integer) returns boolean as
