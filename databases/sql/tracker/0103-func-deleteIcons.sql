@@ -8,6 +8,7 @@ $$
 declare
     count integer;
 begin
+    -- an icon cannot be deleted if it is in use (project, workflow, ticketType, team, etc)
     delete from icons where id = iconId;
     get diagnostics count = ROW_COUNT;
     return count;

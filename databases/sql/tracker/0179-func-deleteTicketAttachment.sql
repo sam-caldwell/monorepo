@@ -1,5 +1,5 @@
 /*
- * 0148-func-deleteTicketAttachment.sql
+ * 0179-func-deleteTicketAttachment.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deleteTicketAttachment(commentId uuid) returns integer as

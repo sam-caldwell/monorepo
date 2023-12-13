@@ -1,5 +1,5 @@
 /*
- * 0140-func-updateWorkflowPermTeam.sql
+ * 0150-func-updateWorkflowPermTeam.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateWorkflowPermTeam(workflowId uuid, newPermission permissions) returns integer as

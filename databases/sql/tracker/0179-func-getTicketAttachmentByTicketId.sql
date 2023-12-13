@@ -1,5 +1,5 @@
 /*
- * 0148-func-getTicketAttachmentByTicket.sql
+ * 0179-func-getTicketAttachmentByTicket.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketAttachmentByTicket(ticketId uuid,

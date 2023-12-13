@@ -1,5 +1,5 @@
 /*
- * 0125-func-getTicketByPermOwner.sql
+ * 0165-func-getTicketByPermOwner.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByPermOwner(thisPermission permissions, pageLimit integer,

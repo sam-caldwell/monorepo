@@ -1,5 +1,5 @@
 /*
- * 0140-func-updateWorkflowPermOwner.sql
+ * 0150-func-updateWorkflowPermOwner.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateWorkflowPermOwner(workflowId uuid, newPermission permissions) returns integer as

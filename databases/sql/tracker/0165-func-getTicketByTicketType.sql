@@ -1,5 +1,5 @@
 /*
- * 0125-func-getTicketByTicketType.sql
+ * 0165-func-getTicketByTicketType.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByTicketType(ticketTypeId uuid, pageLimit integer,

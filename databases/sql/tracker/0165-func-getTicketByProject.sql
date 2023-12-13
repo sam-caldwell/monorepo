@@ -1,5 +1,5 @@
 /*
- * 0125-func-getTicketByProject.sql
+ * 0165-func-getTicketByProject.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByProject(projectId uuid, pageLimit integer,

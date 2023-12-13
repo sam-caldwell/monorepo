@@ -1,5 +1,5 @@
 /*
- * 0140-func-updateWorkflowDescription.sql
+ * 0150-func-updateWorkflowDescription.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateWorkflowDescription(workflowId uuid, description text) returns integer as

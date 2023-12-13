@@ -7,6 +7,7 @@ $$
 declare
     count integer;
 begin
+    -- we should not be able to delete any workflow if it is mapped to a project
     delete from workflow where name=workflowName;
     get diagnostics count = ROW_COUNT;
     return count;

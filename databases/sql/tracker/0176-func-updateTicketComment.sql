@@ -1,5 +1,5 @@
 /*
- * 0148-func-updateTicketComment.sql
+ * 0176-func-updateTicketComment.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateTicketComment(commentId uuid,

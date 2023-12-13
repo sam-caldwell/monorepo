@@ -7,6 +7,8 @@ $$
 declare
     count integer;
 begin
+    --Note: a user should not be deletable if it is associated with any
+    --      project, ticket, workflow, team (as owner)
     delete from users where id = userId;
     get diagnostics count = ROW_COUNT;
     return count;

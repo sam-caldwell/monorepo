@@ -1,5 +1,5 @@
 /*
- * 0140-func-updateWorkflowName.sql
+ * 0150-func-updateWorkflowName.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateWorkflowName(workflowId uuid, workflowName varchar(64)) returns integer as
