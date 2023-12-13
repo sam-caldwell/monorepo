@@ -22,13 +22,14 @@ func TestSqlDbTable_users(t *testing.T) {
 
 	t.Run("check table schema", func(t *testing.T) {
 		sqldbtest.ValidateTable(t, db, tableName, []string{
-			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:gen_random_uuid()",
+			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
 			"ColumnName:description,DataType:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
 			"ColumnName:email,DataType:character varying,size:256,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:firstName,DataType:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:lastName,DataType:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:avatarId,DataType:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:phonenumber,DataType:character varying,size:20,IsNullable:YES,ColumnDefault:<<null>>",
+			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
 		})
 	})
 
