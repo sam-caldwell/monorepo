@@ -1,5 +1,5 @@
 /*
- * 0005-0040-func-updateTeam.sql
+ * 0200-0040-func-updateTeam.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateTeam(teamId uuid, teamName varchar(64), iconId uuid, ownerId uuid, owner permissions,
