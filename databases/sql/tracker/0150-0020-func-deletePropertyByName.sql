@@ -1,5 +1,5 @@
 /*
- * 0003-0020-func-deletePropertyByName.sql
+ * 0150-0020-func-deletePropertyByName.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deletePropertyByName(propertyName varchar(64)) returns integer as
