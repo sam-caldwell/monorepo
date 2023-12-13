@@ -1,5 +1,5 @@
 /*
- * 0050-0020-func-deleteWorkflowSteps.sql
+ * 0800-0020-func-deleteWorkflowSteps.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deleteWorkflowSteps(stepId uuid) returns integer as
