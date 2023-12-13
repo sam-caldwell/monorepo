@@ -1,5 +1,5 @@
 /*
- * 0008-0040-func-updateWorkflowOwnerId.sql
+ * 0300-0040-func-updateWorkflowOwnerId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function updateWorkflowOwnerId(workflowId uuid, newId uuid) returns integer as
