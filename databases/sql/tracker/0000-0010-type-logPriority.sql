@@ -1,5 +1,5 @@
 /*
- * 0000-1000-type-logPriority.sql
+ * 0000-0010-type-logPriority.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 DO
