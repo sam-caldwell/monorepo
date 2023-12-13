@@ -1,5 +1,5 @@
 /*
- * 0010-0300-table-workflow.sql
+ * 0010-0250-table-workflow.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * This is the top-level table for representing a workflow.
@@ -20,9 +20,12 @@ create table if not exists workflow
     owner       permissions not null default 'delete',
     team        permissions not null default 'read',
     everyone    permissions not null default 'read',
+    -- --
+    created     timestamp   not null default now(),
     -- descriptive text --
     description text,
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
-    foreign key (iconId) references icons (id)
+    foreign key (iconId) references icons (id),
+    foreign key (id) references entity (id) on delete restrict
 );

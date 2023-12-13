@@ -32,12 +32,14 @@ func TestSqlDbTable_workflow(t *testing.T) {
 			"ColumnName:team,datatype:user-defined,size:-1,IsNullable:no,ColumnDefault:'read'::permissions",
 			"ColumnName:everyone,datatype:user-defined,size:-1,IsNullable:no,ColumnDefault:'read'::permissions",
 			"ColumnName:description,DataType:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
+			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
 		})
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {
-		sqldbtest.ValidateForeignKey(t, db, "workflow", "users", "ownerId", "id")
-		sqldbtest.ValidateForeignKey(t, db, "workflow", "teams", "teamId", "id")
-		sqldbtest.ValidateForeignKey(t, db, "workflow", "icons", "iconId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "users", "ownerId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "teams", "teamId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "entity", "id", "id")
 	})
 }
