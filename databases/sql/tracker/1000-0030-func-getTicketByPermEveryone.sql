@@ -1,5 +1,5 @@
 /*
- * 0060-0030-func-getTicketByPermEveryone.sql
+ * 1000-0030-func-getTicketByPermEveryone.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByPermEveryone(thisPermission permissions, pageLimit integer,
