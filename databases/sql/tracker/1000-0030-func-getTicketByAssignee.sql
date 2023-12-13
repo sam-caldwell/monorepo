@@ -1,5 +1,5 @@
 /*
- * 0060-0030-func-getTicketByAssignee.sql
+ * 1000-0030-func-getTicketByAssignee.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByAssignee(assignedUserId uuid) returns jsonb as
