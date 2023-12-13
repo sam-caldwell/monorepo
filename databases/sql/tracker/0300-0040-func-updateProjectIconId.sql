@@ -1,5 +1,5 @@
 /*
- * 0008-0040-func-updateProjectIconId.sql
+ * 0300-0040-func-updateProjectIconId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
