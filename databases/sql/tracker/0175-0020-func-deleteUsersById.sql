@@ -1,5 +1,5 @@
 /*
- * 0004-0020-func-deleteUsersById.sql
+ * 0175-0020-func-deleteUsersById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deleteUsersById(userId uuid) returns integer as
