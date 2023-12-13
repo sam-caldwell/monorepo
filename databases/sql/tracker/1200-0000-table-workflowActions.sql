@@ -1,5 +1,5 @@
 /*
- * 1500-0000-table-workflowActions.sql
+ * 1200-0000-table-workflowActions.sql
  * (c) 2023 Sam Caldwell.  See License.txt.
  */
 create table if not exists workflowActions
