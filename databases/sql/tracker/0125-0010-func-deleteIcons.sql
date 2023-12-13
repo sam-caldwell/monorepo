@@ -1,5 +1,5 @@
 /*
- * 0002-0010-func-deleteIcons.sql
+ * 0125-0010-func-deleteIcons.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
