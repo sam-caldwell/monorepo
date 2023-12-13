@@ -1,5 +1,5 @@
 /*
- * 0020-0020-func-deleteProjects.sql
+ * 0600-0020-func-deleteProjects.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
