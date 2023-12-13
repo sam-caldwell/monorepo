@@ -1,5 +1,5 @@
 /*
- * 0002-0010-func-getIconsById.sql
+ * 0125-0010-func-getIconsById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getIconsById(iconId uuid) returns text as
