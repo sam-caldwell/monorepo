@@ -1,5 +1,5 @@
 /*
- * 0020-0030-func-getProjectsById.sql
+ * 0600-0030-func-getProjectsById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
