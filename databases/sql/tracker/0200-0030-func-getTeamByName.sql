@@ -1,5 +1,5 @@
 /*
- * 0005-0030-func-getTeamByName.sql
+ * 0200-0030-func-getTeamByName.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTeamByName(teamName varchar(64)) returns jsonb as
