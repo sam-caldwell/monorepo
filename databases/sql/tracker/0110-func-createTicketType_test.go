@@ -10,28 +10,36 @@ import (
 )
 
 func TestSqlDbFunc_createTicketType(t *testing.T) {
-	t.Skip("disabled until we can finish tests for the dependencies.")
 	const (
-		functionName     = "createTicketType"
-		tableName        = "ticketTypes"
-		testTicketType   = "testTicketType"
-		testWorkflowName = "testWorkflowName"
+		avatarUrl            = "http://localhost/myfakeavatar.jpeg"
+		iconUrl              = "http://localhost/myfakeicon.ico"
+		functionName         = "createTicketType"
+		expectedFirstName    = "John"
+		expectedLastName     = "Rackham"
+		expectedEmail        = "john.rackham@example.com"
+		expectedPhone        = "100.100.1000"
+		expectedDescription  = "Test description"
+		expectedTeamName     = "CalicoPirates"
+		expectedWorkflowName = "StealPlunderAndSail"
+		expectedTicketType   = "epic"
 	)
-	//var typeId string
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
-	var workflowId uuid.UUID
-	var ownerId uuid.UUID
 	var teamId uuid.UUID
-	//var typeName string
+	var ownerId uuid.UUID
+	var workflowId uuid.UUID
+	var ticketTypeId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where name='%s' cascade;", tableName, testTicketType)
-
+		_, _ = db.Query("delete from users where email='%s'", expectedEmail)
+		_, _ = db.Query("delete from teams where name='%s'", expectedTeamName)
+		_, _ = db.Query("delete from avatars where url='%s'", avatarUrl)
+		_, _ = db.Query("delete from icons where url='%s'", iconUrl)
+		_, _ = db.Query("delete from teamMembership where teamId='%s'", teamId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -45,120 +53,203 @@ func TestSqlDbFunc_createTicketType(t *testing.T) {
 				"rt:uuid", strings.ToLower(functionName)))
 	})
 
-	t.Run("create test data", func(t *testing.T) {
+	t.Run("call createAvatar()", func(t *testing.T) {
+		var rows *sql.Rows
 		var err error
-		t.Run("create avatarId", func(t *testing.T) {
-			/*
-			 * We need to create an avatar to create a user (ownerId)
-			 */
+		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if avatarId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
+			t.Fatal("illegal zero uuid")
+		}
+	})
+
+	t.Run("call createIcons()", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select createIcons('%s');", iconUrl)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if iconId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+	})
+
+	t.Run("call createUser()", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
+			expectedFirstName, expectedLastName, avatarId, expectedEmail, expectedPhone, expectedDescription)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if ownerId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+	})
+
+	t.Run("call createTeam()", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select createTeam('%s','%s','%s','%s','%s','%s','%s');",
+			expectedTeamName, iconId, ownerId, "read", "read", "read", expectedDescription)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if teamId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+		t.Run("call addUserToTeam()", func(t *testing.T) {
 			var rows *sql.Rows
-			rows, err = db.Query("select createIcons('http://localhost/myfakeavatar.jpeg');")
+			var err error
+			rows, err = db.Query("select addUserToTeam('%s','%s');", ownerId, teamId)
 			if err != nil {
 				t.Fatal(err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
-			var raw string
-			err = rows.Scan(&raw)
-			if avatarId, err = uuid.Parse(raw); err != nil {
-				t.Fatal(err)
-			}
-			if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
-				t.Fatal("illegal zero uuid")
+			var count int
+			err = rows.Scan(&count)
+			if count != 1 {
+				t.Fatalf("expected count 1 but got %d", count)
 			}
 		})
-		t.Run("create iconId", func(t *testing.T) {
-			/*
-			 * We need to create an icon for use creating a Workflow and Team
-			 */
+		t.Run("verify user membership", func(t *testing.T) {
 			var rows *sql.Rows
-			rows, err = db.Query("select createIcons('http://localhost/myfakeicon.jpeg');")
-			if err != nil {
-				t.Fatal(err)
-			}
-			if !rows.Next() {
-				t.Fatal("no row returned")
-			}
-			var raw string
-			err = rows.Scan(&raw)
-			if iconId, err = uuid.Parse(raw); err != nil {
-				t.Fatal(err)
-			}
-			if iconId.String() == "00000000-0000-0000-0000-000000000000" {
-				t.Fatal("illegal zero uuid")
-			}
-		})
-		t.Run("create createUser (ownerId)", func(t *testing.T) {
-			/*
-			 * We need to create a user (ownerId) to create a workflow
-			 */
-			var rows *sql.Rows
-			rows, err = db.Query("select createUser('wendell','fertig','%s',"+
-				"'example@example.com','512-123-4567','test user');",
-				avatarId)
-			if err != nil {
-				t.Fatal(err)
-			}
-			if !rows.Next() {
-				t.Fatal("no row returned")
-			}
-			var raw string
-			err = rows.Scan(&raw)
-			if ownerId, err = uuid.Parse(raw); err != nil {
-				t.Fatal(err)
-			}
-			if ownerId.String() == "00000000-0000-0000-0000-000000000000" {
-				t.Fatal("illegal zero uuid")
-			}
-		})
-		t.Run("create createTeam (teamId)", func(t *testing.T) {
-			/*
-			 * We need to create a user (ownerId) to create a workflow
-			 */
-			var rows *sql.Rows
-			rows, err = db.Query("select createTeam('testTeam','%s','%s',"+
-				"'read','read','read','test team');",
-				iconId, ownerId)
-			if err != nil {
-				t.Fatalf("createTeam() failed %v\n"+
-					"iconId:  %v\n"+
-					"ownerId: %v", err, iconId, ownerId)
-			}
-			if !rows.Next() {
-				t.Fatal("no row returned")
-			}
-			var raw string
-			err = rows.Scan(&raw)
-			if teamId, err = uuid.Parse(raw); err != nil {
-				t.Fatal(err)
-			}
-			if teamId.String() == "00000000-0000-0000-0000-000000000000" {
-				t.Fatal("illegal zero uuid")
-			}
-		})
-		t.Run("create workflowId", func(t *testing.T) {
-			/*
-			 * We have to create a workflow to create a ticketType.
-			 */
-			var rows *sql.Rows
+			var err error
 			rows, err = db.Query(""+
-				"select createWorkflow('%s','%s','%s','%s','read','read','read','testDescription');",
-				testWorkflowName, iconId, ownerId, teamId)
+				"select count(userId) "+
+				"from teamMembership "+
+				"where userId='%s' "+
+				"and teamId='%s';", ownerId, teamId)
 			if err != nil {
 				t.Fatal(err)
 			}
+			defer func() { _ = rows.Close() }()
 			if !rows.Next() {
 				t.Fatal("no row returned")
 			}
-			var rawIconId string
-			err = rows.Scan(&rawIconId)
-			if workflowId, err = uuid.Parse(rawIconId); err != nil {
-				t.Fatal(err)
-			}
-			if workflowId.String() == "00000000-0000-0000-0000-000000000000" {
-				t.Fatal("illegal zero uuid")
+			var count int
+			err = rows.Scan(&count)
+			if count != 1 {
+				t.Fatalf("expected count 1 but got %d", count)
 			}
 		})
+	})
+
+	t.Run("createWorkflow()", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select createWorkflow('%s','%s','%s','%s','%s','%s','%s','%s');",
+			expectedWorkflowName, iconId, ownerId, teamId, "read", "read", "read", expectedDescription)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if workflowId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+	})
+
+	t.Run("createTicketType()", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select createTicketType('%s','%s','%s','%s');",
+			expectedTicketType, iconId, workflowId, expectedDescription)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if ticketTypeId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+	})
+
+	t.Run("verify record", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query(""+
+			"select id, name, iconId, workflowId, description "+
+			"from ticketTypes "+
+			"where id='%s'", ticketTypeId)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var actualId uuid.UUID
+		var actualName string
+		var actualIcon uuid.UUID
+		var actualWorkflow uuid.UUID
+		var actualDescription string
+		err = rows.Scan(&actualId, &actualName, &actualIcon, &actualWorkflow, &actualDescription)
+
+		if actualId != ticketTypeId {
+			t.Fatalf("id mismatch\n"+
+				"actual:   %v\n"+
+				"expected: %v", actualId, ticketTypeId)
+		}
+		if actualName != expectedTicketType {
+			t.Fatalf("name mismatch")
+		}
+		if actualIcon != iconId {
+			t.Fatalf("iconId mismatch")
+		}
+		if actualWorkflow != workflowId {
+			t.Fatalf("workflowId mismatch")
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("Description mismatch")
+		}
+
 	})
 }
