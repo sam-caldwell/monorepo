@@ -1,5 +1,5 @@
 /*
- * 0250-0003-table-teamMembership.sql
+ * 0250-0000-table-teamMembership.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Map users to teams to create team memberships.
