@@ -1,10 +1,8 @@
 /*
- * 0148-func-getTicketCommentByTicket.sql
+ * 0176-func-getTicketComment.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function getTicketCommentByTicket(ticketId uuid,
-                                                    pageLimit integer,
-                                                    pageOffset integer) returns jsonb as
+create or replace function getTicketComment(commentId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -17,11 +15,10 @@ begin
             'team', team,
             'everyone', everyone,
             'comment', comment
-        )) as workflow
-    into result
+        )) as workflow into result
     from comment
-    where ticketId == ticketId
-    limit pageLimit offset pageOffset;
+    where id == commentId
+    limit 1;
     return result;
 end;
 $$ language plpgsql;

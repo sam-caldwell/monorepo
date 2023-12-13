@@ -1,5 +1,5 @@
 /*
- * 0148-func-deleteTicketComment.sql
+ * 0176-func-deleteTicketComment.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deleteTicketComment(commentId uuid) returns integer as

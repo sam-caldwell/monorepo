@@ -1,5 +1,5 @@
 /*
- * 0125-func-getTicketByAuthor.sql
+ * 0165-func-getTicketByAuthor.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByAuthor(authorUserId uuid) returns jsonb as
