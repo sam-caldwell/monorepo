@@ -1,5 +1,5 @@
 /*
- * 0060-0020-func-deleteTicket.sql
+ * 1000-0020-func-deleteTicket.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
