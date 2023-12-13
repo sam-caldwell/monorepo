@@ -1,5 +1,5 @@
 /*
- * 0010-0250-table-ticketTypes.sql
+ * 0010-0300-table-ticketTypes.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Identify the ticket classifications.
@@ -13,6 +13,8 @@ create table if not exists ticketTypes
     iconId      uuid        not null,
     -- a project ticketType is mapped to a workflow --
     workflowId  uuid        not null,
+    -- --
+    created  timestamp        not null default now(),
     -- descriptive text --
     description text,
     foreign key (iconId) references icons (id),
