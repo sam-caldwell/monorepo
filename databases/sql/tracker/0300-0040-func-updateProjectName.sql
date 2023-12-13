@@ -1,5 +1,5 @@
 /*
- * 0008-0040-func-updateProjectName.sql
+ * 0300-0040-func-updateProjectName.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
