@@ -1,5 +1,5 @@
 /*
- * 0060-0030-func-getTicketByPermTeam.sql
+ * 1000-0030-func-getTicketByPermTeam.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByPermTeam(thisPermission permissions, pageLimit integer,
