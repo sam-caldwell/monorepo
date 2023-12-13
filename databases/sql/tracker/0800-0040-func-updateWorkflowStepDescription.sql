@@ -1,5 +1,5 @@
 /*
- * 0050-0040-func-updateWorkflowStepDescription.sql
+ * 0800-0040-func-updateWorkflowStepDescription.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
