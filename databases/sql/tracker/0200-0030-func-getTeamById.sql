@@ -1,5 +1,5 @@
 /*
- * 0005-0030-func-getTeamById.sql
+ * 0200-0030-func-getTeamById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTeamById(teamId uuid) returns jsonb as
