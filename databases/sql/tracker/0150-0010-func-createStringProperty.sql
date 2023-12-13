@@ -1,5 +1,5 @@
 /*
- * 0003-0010-func-createStringProperty.sql
+ * 0150-0010-func-createStringProperty.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function createStringProperty(propertyName varchar(64), propertyValue text) returns uuid as
