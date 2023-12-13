@@ -1,5 +1,5 @@
 /*
- * 0050-0040-func-updateTicketAssignee.sql
+ * 1000-0040-func-updateTicketAssignee.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
