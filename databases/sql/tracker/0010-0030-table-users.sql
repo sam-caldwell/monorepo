@@ -1,5 +1,5 @@
 /*
- * 0010-0110-table-users.sql
+ * 0010-0030-table-users.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create user profiles for the tracker.
@@ -23,3 +23,4 @@ create table if not exists users
     foreign key (avatarId) references avatars (id) on delete restrict,
     foreign key (id) references entity (id) on delete restrict
 );
+

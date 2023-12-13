@@ -1,5 +1,5 @@
 /*
- * 0200-0000-table-teams.sql
+ * 0010-0050-table-teams.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create teams of users.
@@ -22,6 +22,6 @@ create table if not exists teams
     -- descriptive text --
     description text,
     foreign key (ownerId) references users (id),
-    foreign key (iconId) references icons(id)
+    foreign key (iconId) references icons(id) on delete restrict,
+    foreign key(id) references entity(id) on delete restrict
 );
-
