@@ -1,5 +1,5 @@
 /*
- * 0005-0020-func-deleteTeamById.sql
+ * 0200-0020-func-deleteTeamById.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function deleteTeamById(teamId uuid) returns integer as
