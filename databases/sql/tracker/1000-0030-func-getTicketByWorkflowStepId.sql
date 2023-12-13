@@ -1,5 +1,5 @@
 /*
- * 0060-0030-func-getTicketByWorkflowStepId.sql
+ * 1000-0030-func-getTicketByWorkflowStepId.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function getTicketByWorkflowStepId(stepId uuid, pageLimit integer,
