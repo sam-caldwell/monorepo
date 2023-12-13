@@ -1,5 +1,5 @@
 /*
- * 0100-func-boundsCheckUpper.sql
+ * 0000-0100-func-boundsCheckUpper.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function boundsCheckUpper(n integer, upperBound integer) returns boolean as
