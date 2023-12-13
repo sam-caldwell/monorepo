@@ -1,5 +1,5 @@
 /*
- * 0003-0001-table-stringProperties.sql
+ * 0150-0001-table-stringProperties.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * A simple key-value property table
