@@ -1,5 +1,5 @@
 /*
- * 0050-0010-func-createWorkflowSteps.sql
+ * 0800-0010-func-createWorkflowSteps.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create or replace function createWorkflowSteps(name varchar(64), iconId uuid, prevStepId uuid, nextStepId uuid,
