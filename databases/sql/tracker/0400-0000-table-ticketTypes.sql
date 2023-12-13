@@ -1,5 +1,5 @@
 /*
- * 0010-0000-table-ticketTypes.sql
+ * 0400-0000-table-ticketTypes.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Identify the ticket classifications.
