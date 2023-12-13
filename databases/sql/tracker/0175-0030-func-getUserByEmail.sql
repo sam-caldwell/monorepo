@@ -1,5 +1,5 @@
 /*
- * 0004-0030-func-getUserByEmail.sql
+ * 0175-0030-func-getUserByEmail.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 
