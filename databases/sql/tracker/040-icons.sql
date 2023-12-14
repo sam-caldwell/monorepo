@@ -18,21 +18,21 @@ create table if not exists icons
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 create index if not exists ndxIconsCreated on icons (created);
-create index if not exists ndxIconsHash on icons (hash);
+create unique index if not exists ndxIconsHash on icons (hash);
 create index if not exists ndxIconsMimeType on icons (mimeType);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * createIcon()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createIcon(Type entityType, Hash varchar(1024)) returns uuid as
+create or replace function createIcon(t mimeType, h varchar(1024)) returns uuid as
 $$
 declare
     Id uuid;
 begin
     -- sanitize avatarHash
     Id := (select createEntity('icon'::entityType));
-    insert into avatars (id, mimeType, hash) values (Id, Type, Hash);
+    insert into icons (id, mimeType, hash) values (Id, t, h);
     return Id;
 end;
 $$ language plpgsql;

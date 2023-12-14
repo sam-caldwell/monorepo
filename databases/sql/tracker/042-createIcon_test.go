@@ -74,23 +74,31 @@ func TestSqlDbFunc_createIcon(t *testing.T) {
 				t.Fatal("Fail: context mismatch")
 			}
 		})
-		//
-		//t.Run("verify the icon record", func(t *testing.T) {
-		//	var thisContext string
-		//	rows, err = db.Query("select id, hash, mimetype from icons where id='%s';", iconId)
-		//	if err != nil {
-		//		t.Fatal(err)
-		//	}
-		//	defer func() { _ = rows.Close() }()
-		//	if !rows.Next() {
-		//		t.Fatal("no row returned")
-		//	}
-		//	if err = rows.Scan(&actualId, &actualHash, &actualMimeType); err != nil {
-		//		t.Fatal(err)
-		//	}
-		//	if thisContext != "icon" {
-		//		t.Fatal("context mismatch")
-		//	}
-		//})
+
+		t.Run("verify the icon record", func(t *testing.T) {
+			rows, err = db.Query("select id, hash, mimetype from icons where id='%s';", iconId)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer func() { _ = rows.Close() }()
+			if !rows.Next() {
+				t.Fatal("no row returned")
+			}
+			var actualId uuid.UUID
+			var actualHash string
+			var actualMimeType string
+			if err = rows.Scan(&actualId, &actualHash, &actualMimeType); err != nil {
+				t.Fatal(err)
+			}
+			if actualId != iconId {
+				t.Fatal("entityId mismatch")
+			}
+			if actualHash != testHash {
+				t.Fatal("actualHash mismatch")
+			}
+			if actualMimeType != testType {
+				t.Fatal("actualMimeType mismatch")
+			}
+		})
 	})
 }

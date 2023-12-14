@@ -26,14 +26,14 @@ create index if not exists ndxAvatarsMimeType on avatars (mimeType);
  * createAvatar() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createAvatar(Type entityType, Hash varchar(1024)) returns uuid as
+create or replace function createAvatar(t mimeType, h varchar(1024)) returns uuid as
 $$
 declare
     Id uuid;
 begin
     -- sanitize avatarHash
     Id := (select createEntity('avatar'::entityType));
-    insert into avatars (id, mimeType, hash) values (Id, Type, Hash);
+    insert into avatars (id, mimeType, hash) values (Id, t, h);
     return Id;
 end;
 $$ language plpgsql;

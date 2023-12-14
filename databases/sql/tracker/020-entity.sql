@@ -6,16 +6,6 @@
  * This is intended as the basis of our accountability system.  The entity system provides
  * a write-only object registry with timestamps and context.
  */
-DO
-$$
-    BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'entityType') THEN
-            CREATE TYPE entityType AS ENUM ('avatar', 'icon', 'user', 'team','workflow','workflow_step',
-                'workflow_action','ticket_type','project','ticket','attachment','comment','other');
-        END IF;
-    END
-$$;
-
 create table if not exists entity
 (
     id      uuid          not null primary key,
@@ -57,6 +47,27 @@ begin
     subject := gen_random_uuid();
     insert into entity (id, type) values (subject, type);
     return subject;
+end;
+$$ language plpgsql;
+/*
+ * getEntityById() function
+ */
+create or replace function getEntityById(entityId uuid) returns jsonb as
+$$
+declare
+    result jsonb;
+begin
+    select json_build_object(
+                    'id', id,
+                    'type',type,
+                    'created',created,
+                    'context',context
+               ) as entity
+    into result
+    from entity
+    where id=entityId
+    limit 1;
+    return result;
 end;
 $$ language plpgsql;
 

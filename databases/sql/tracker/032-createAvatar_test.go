@@ -54,7 +54,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 		})
 
 		t.Run("Verify the entityId", func(t *testing.T) {
-			rows, err = db.Query("select id, type from entity where id='%s';", entityId)
+			rows, err = db.Query("select id, hash, mimetype from avatars where id='%s';", entityId)
 			if err != nil {
 				t.Fatalf("Fail: (query): %v", err)
 			}
@@ -63,31 +63,21 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 				t.Fatal("Fail: no row returned")
 			}
 
-			var entityType string
-			if err = rows.Scan(&entityId, &entityType); err != nil {
+			var actualId uuid.UUID
+			var actualHash string
+			var actualMimeType string
+			if err = rows.Scan(&actualId, &actualHash, &actualMimeType); err != nil {
 				t.Fatal(err)
 			}
-			if entityId != entityId {
-				t.Fatal("Fail: actualId mismatch")
+			if actualId != entityId {
+				t.Fatal("entityId mismatch")
 			}
-			if entityType != "avatar" {
-				t.Fatal("Fail: context mismatch")
+			if actualHash != testHash {
+				t.Fatal("actualHash mismatch")
+			}
+			if actualMimeType != testType {
+				t.Fatal("actualMimeType mismatch")
 			}
 		})
-
-		//t.Run("Verify the avatar record", func(t *testing.T) {
-		//  var actualHash string
-		//  var actualMimeType string
-		//	rows, err = db.Query(""+
-		//		"select id, hash, mimeType"+
-		//		"from avatars "+
-		//		"where hash='%s';", testHash)
-		//	sqldbtest.CheckError(t, err)
-		//	defer func() { _ = rows.Close() }()
-		//	if !rows.Next() {
-		//		t.Fatal("Fail: no rows returned")
-		//	}
-		//	sqldbtest.CheckError(t, rows.Scan(&actualId, &actualHash, &actualMimeType))
-		//})
 	})
 }
