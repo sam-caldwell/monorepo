@@ -34,6 +34,7 @@ func TestSqlDbTable_Ticket(t *testing.T) {
 			"ColumnName:summary,datatype:character varying,size:2048,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:workflowStepId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:description,datatype:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
+			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
 		})
 	})
 

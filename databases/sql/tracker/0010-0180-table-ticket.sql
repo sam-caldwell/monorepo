@@ -1,5 +1,5 @@
 /*
- * 1000-0000-table-ticket.sql
+ * 0010-0700-table-ticket.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
 create table if not exists ticket
@@ -16,6 +16,8 @@ create table if not exists ticket
     -- descriptive text --
     summary        varchar(2048) not null,
     workflowStepId uuid          not null,
+    -- --
+    created  timestamp        not null default now(),
     description    text,
     foreign key (projectId) references projects (id),
     foreign key (authorUserId) references users (id),
