@@ -39,10 +39,10 @@ create index if not exists ndxworkflowsTeam on workflows (team);
 create index if not exists ndxworkflowsEveryone on workflows (everyone);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * createworkflows()
+ * createWorkflows()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createworkflows(name varchar(64), iconId uuid, ownerId uuid, teamId uuid, owner permissions,
+create or replace function createWorkflows(name varchar(64), iconId uuid, ownerId uuid, teamId uuid, owner permissions,
                                           team permissions, everyone permissions, description text) returns uuid as
 $$
 declare
@@ -57,10 +57,10 @@ $$ language plpgsql;
 
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteworkflowsById()
+ * deleteWorkflowsById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteworkflowsById(workflowsId uuid) returns integer as
+create or replace function deleteWorkflowsById(workflowsId uuid) returns integer as
 $$
 declare
     count integer;
@@ -73,10 +73,10 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteworkflowsByName()
+ * deleteWorkflowsByName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteworkflowsByName(workflowsName varchar(64)) returns integer as
+create or replace function deleteWorkflowsByName(workflowsName varchar(64)) returns integer as
 $$
 declare
     count integer;
@@ -89,10 +89,10 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getworkflowsById()
+ * getWorkflowsById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getworkflowsById(workflowsId uuid) returns jsonb as
+create or replace function getWorkflowsById(workflowsId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -116,10 +116,10 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getworkflowsByName()
+ * getWorkflowsByName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getworkflowsByName(workflowsName varchar(64)) returns jsonb as
+create or replace function getWorkflowsByName(workflowsName varchar(64)) returns jsonb as
 $$
 declare
     result jsonb;
