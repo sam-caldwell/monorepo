@@ -1,5 +1,5 @@
 /*
- * 200-table-attachment.sql
+ * 150-attachment.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * A collection of attachments for any ticket.
