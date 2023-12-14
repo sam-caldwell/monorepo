@@ -1,5 +1,5 @@
 /*
- * 70-Properties.sql
+ * 080-Properties.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * A simple key-value property table

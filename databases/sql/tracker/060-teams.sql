@@ -1,5 +1,5 @@
 /*
- * 050-teams.sql
+ * 060-teams.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Create teams of users.
