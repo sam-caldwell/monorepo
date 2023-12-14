@@ -10,7 +10,7 @@ import (
 // ValidateIndex - Verify that a given tableName has an expected index
 //
 //	Follow the indexName convention: ndx${tableName}${columnNames}
-func ValidateIndex(t *testing.T, db *Postgres.Db, tableName string, expectedColumns []string) {
+func ValidateIndex(t *testing.T, db *Postgres.Db, tableName string, expectedColumns []string, unique bool) {
 	tableName = strings.ToLower(tableName)
 	columnsForName := strings.ToLower(strings.Join(expectedColumns, ""))
 	indexName := fmt.Sprintf("ndx%s%s", tableName, columnsForName)
@@ -57,4 +57,37 @@ func ValidateIndex(t *testing.T, db *Postgres.Db, tableName string, expectedColu
 				"actual:'%s'", tableName, indexName, actualIndexDef)
 		}
 	})
+	if unique {
+		t.Run("verify unique indexes", func(t *testing.T) {
+			rows, err := db.Query(`
+                select count(idx.relname) as count
+                from pg_index pgi
+                    join pg_class idx on idx.oid = pgi.indexrelid
+                    join pg_namespace insp on insp.oid = idx.relnamespace
+                    join pg_class tbl on tbl.oid = pgi.indrelid
+                    join pg_namespace tnsp on tnsp.oid = tbl.relnamespace
+                where pgi.indisunique
+                  and tnsp.nspname = 'public'
+                  and idx.relname = '%s'
+                limit 1;`, indexName)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			defer func() { _ = rows.Close() }()
+			if !rows.Next() {
+				t.Fatalf("no expected rows returned\n"+
+					"table: %s\n"+
+					"index: %s\n", tableName, indexName)
+			}
+			var count int
+			if err := rows.Scan(&count); err != nil {
+				t.Fatal(err)
+			}
+			if count != 1 {
+				t.Fatal("Error: expected unique index")
+			}
+		})
+	}
 }
