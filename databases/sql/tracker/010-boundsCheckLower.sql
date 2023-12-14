@@ -6,7 +6,7 @@ create or replace function boundsCheckLower(n integer, lowerBound integer) retur
 $$
 begin
     if (n < lowerBound) then
-        raise exception 'lower bounds check error(boundary: %)(value:%)',lowerBound,n;
+        raise exception 'lower bounds check error';
     end if;
     return true;
 end;

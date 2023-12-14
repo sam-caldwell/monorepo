@@ -20,5 +20,8 @@ func TestSqlDbFunc_boundsCheckLower(t *testing.T) {
 		if err == nil {
 			t.Fatalf("Query error: %v", err)
 		}
+		if msg := err.Error(); msg != "pq: lower bounds check error" {
+			t.Fatalf("error message mismatch: %s", msg)
+		}
 	})
 }
