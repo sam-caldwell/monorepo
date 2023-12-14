@@ -35,7 +35,7 @@ func TestSqlDbTable_Icons(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: hash", func(t *testing.T) {
 		columnNames := []string{
@@ -47,6 +47,6 @@ func TestSqlDbTable_Icons(t *testing.T) {
 		columnNames := []string{
 			"mimeType",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }
