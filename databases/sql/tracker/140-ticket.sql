@@ -309,8 +309,250 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getTicketByWorkflowStepId()
+ * updateTicketAssignee()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-
-
+create or replace function updateTicketAssignee(ticketId uuid, assignee uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticket set assignedUserId=assignee where id=ticketId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketAuthor()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketAuthor(ticketId uuid, authorUserId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticket set authorUserId=authorUserId where id=ticketId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketProject()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketProject(ticketId uuid, projectId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticket set projectId=projectId where id=ticketId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketPermissions()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketPermissions(ticketId uuid, owner permissions, team permissions,
+                                                   everyone permissions) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticket set owner=owner, team=team, everyone=everyone where id = ticketId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketType()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketType(ticketId uuid, ticketTypeId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticket set ticketTypeId=ticketTypeId where id=ticketId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * createTicketAttachment()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function createTicketAttachment(ticketId uuid, authorId uuid,
+                                                  permAuthor permissions, permTeam permissions,
+                                                  permEveryone permissions) returns uuid as
+$$
+declare
+    commentId uuid;
+begin
+    commentId := gen_random_uuid();
+    insert into attachment (id, ticketId, authorId, permAuthor, permTeam, permEveryone, everyone)
+    values (commentId, ticketId, authorId, permAuthor, permTeam, permEveryone, url);
+    return commentId;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteTicketAttachment()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteTicketAttachment(commentId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    delete from attachment where id = commentId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * getTicketAttachmentByTicket()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function getTicketAttachmentByTicket(ticketId uuid,
+                                                       pageLimit integer,
+                                                       pageOffset integer) returns jsonb as
+$$
+declare
+    result jsonb;
+begin
+    select jsonb_agg(jsonb_build_object(
+            'id', id,
+            'ticketId', ticketId,
+            'authorId', authorId,
+            'author', author,
+            'team', team,
+            'everyone', everyone
+        )) as workflow into result
+    from attachment
+    where ticketId == ticketId
+    limit pageLimit offset pageOffset;
+    return result;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * createTicketComment()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function createTicketComment(ticketId uuid, authorId uuid,
+                                               permAuthor permissions, permTeam permissions, permEveryone permissions,
+                                               comment text) returns uuid as
+$$
+declare
+    commentId uuid;
+begin
+    commentId := gen_random_uuid();
+    insert into comment (id, ticketId, authorId, permAuthor, permTeam, permEveryone, everyone, comment)
+    values (commentId, ticketId, authorId, permAuthor, permTeam, permEveryone, comment);
+    return commentId;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteTicketComment()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteTicketComment(commentId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    delete from comment where id = commentId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * getTicketComment()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function getTicketComment(commentId uuid) returns jsonb as
+$$
+declare
+    result jsonb;
+begin
+    select jsonb_agg(jsonb_build_object(
+            'id', id,
+            'ticketId', ticketId,
+            'authorId', authorId,
+            'author', author,
+            'team', team,
+            'everyone', everyone,
+            'comment', comment
+        )) as workflow into result
+    from comment
+    where id == commentId
+    limit 1;
+    return result;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * getTicketCommentByTicket()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function getTicketCommentByTicket(ticketId uuid,
+                                                    pageLimit integer,
+                                                    pageOffset integer) returns jsonb as
+$$
+declare
+    result jsonb;
+begin
+    select jsonb_agg(jsonb_build_object(
+            'id', id,
+            'ticketId', ticketId,
+            'authorId', authorId,
+            'author', author,
+            'team', team,
+            'everyone', everyone,
+            'comment', comment
+        )) as workflow
+    into result
+    from comment
+    where ticketId == ticketId
+    limit pageLimit offset pageOffset;
+    return result;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketComment()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketComment(commentId uuid,
+                                               ticketId uuid,
+                                               authorId uuid,
+                                               author permissions,
+                                               team permissions,
+                                               everyone permissions,
+                                               comment text) returns integer as
+$$
+declare
+    count integer;
+begin
+    update comment
+    set ticketId=ticketId,
+        authorId=authorId,
+        author=author,
+        team=team,
+        everyone=everyone,
+        comment=comment
+    where id = commentId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
