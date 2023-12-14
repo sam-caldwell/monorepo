@@ -8,17 +8,17 @@ create table if not exists ticketTypes
 (
     id          uuid primary key not null,
     -- each workflow has a unique name --
-    name        varchar(64) not null,
+    name        varchar(64)      not null,
     -- a uuid representing the icon for the workflow.
-    iconId      uuid        not null,
+    iconId      uuid             not null,
     -- a project ticketType is mapped to a workflow --
-    workflowId  uuid        not null,
+    workflowId  uuid             not null,
     -- --
-    created  timestamp        not null default now(),
+    created     timestamp        not null default now(),
     -- descriptive text --
     description text,
     foreign key (iconId) references icons (id),
-    foreign key (workflowId) references workflow (id),
+    foreign key (workflowId) references workflows (id),
     foreign key (id) references entity (id) on delete restrict
 );
 /*
@@ -33,15 +33,15 @@ create index if not exists ndxTicketTypesCreated on tickettypes (created);
  * createTicketType()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createTicketType(name varchar(64), iconId uuid, workflowId uuid,
-                                            description text) returns uuid as
+create or replace function createTicketType(typeName varchar(64), typeIconId uuid, wid uuid,
+                                            typeDescription text) returns uuid as
 $$
 declare
     newId uuid;
 begin
     newId := gen_random_uuid();
     insert into ticketTypes (id, name, iconId, workflowId, description)
-    values (newId, name, iconId, workflowId, description);
+    values (newId, typeName, typeIconId, wid, typeDescription);
     return newId;
 end;
 $$ language plpgsql;
@@ -78,7 +78,8 @@ begin
                    'iconId', iconId,
                    'workflowId', workflowId,
                    'description', description
-               )  as data into result
+               ) as data
+    into result
     from ticketTypes
     where id == typeId
     limit 1;
@@ -102,7 +103,8 @@ begin
             'iconId', iconId,
             'workflowId', workflowId,
             'description', description
-        ))  as data into result
+        )) as data
+    into result
     from ticketTypes
     where name == typeName;
     return result;
@@ -114,17 +116,79 @@ $$ language plpgsql;
  * updateTicketType()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateTicketType(typeId uuid, name varchar(64), iconId uuid, workflowId uuid,
-                                            description text) returns integer as
+create or replace function updateTicketType(typeId uuid, typeName varchar(64), typeIconId uuid, wid uuid,
+                                            typeDescription text) returns integer as
 $$
 declare
     count integer;
 begin
-    update ticketTypes set name=name,iconid=iconId,workflowId=workflowId,description=description where id=typeId;
+    update ticketTypes set name=typeName, iconid=typeIconId, workflowId=wid, description=typeDescription
+                       where id = typeId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
 $$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketTypeDescription()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketTypeDescription(typeId uuid, typeDescription text) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticketTypes set description=typeDescription where id = typeId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketTypeIconId()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketTypeIconId(typeId uuid, typeIconId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticketTypes set iconid=typeIconId where id = typeId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketTypeName()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketTypeName(typeId uuid, typeName varchar(64)) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticketTypes set name=typeName where id = typeId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTicketTypeWorkflowId()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTicketTypeWorkflowId(typeId uuid, wid uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update ticketTypes set workflowId=wid where id = typeId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+
 
 
 
