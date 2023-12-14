@@ -20,11 +20,17 @@ func TestSqlDbFunc_boundsCheck(t *testing.T) {
 		if err == nil {
 			t.Fatalf("Query error: %v", err)
 		}
+		if msg := err.Error(); msg != "pq: bounds check error" {
+			t.Fatalf("error message mismatch: %s", msg)
+		}
 	})
 	t.Run("Sad path (upper)", func(t *testing.T) {
 		_, err := db.Query("select boundsCheck(1000,0,100);")
 		if err == nil {
 			t.Fatalf("Query error: %v", err)
+		}
+		if msg := err.Error(); msg != "pq: bounds check error" {
+			t.Fatalf("error message mismatch: %s", msg)
 		}
 	})
 }
