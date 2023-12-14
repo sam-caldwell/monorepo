@@ -24,8 +24,9 @@ func TestSqlDbTable_Entity(t *testing.T) {
 	t.Run("check table schema", func(t *testing.T) {
 		sqldbtest.ValidateTable(t, db, tableName, []string{
 			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
-			"ColumnName:context,DataType:user-defined,size:-1,IsNullable:NO,ColumnDefault:'other'::entityType",
+			"ColumnName:context,DataType:character varying,size:2048,IsNullable:NO,ColumnDefault:''::character varying",
 			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
+			"ColumnName:type,DataType:user-defined,size:-1,IsNullable:NO,ColumnDefault:'other'::entityType",
 		})
 	})
 
