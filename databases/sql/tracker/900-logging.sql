@@ -21,17 +21,33 @@ create table if not exists logs
     foreign key (userId) references users (id)
 );
 /*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * entity indexes
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 create index ndxLogsPriority on logs(priority);
 create index ndxLogsUserId on logs(userId);
 create index ndxLogsMessage on logs(message);
 create index ndxLogsCreated on logs(created);
 /*
- * ensure entity table cannot be deleted...writes only
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * createworkflows()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 create or replace trigger preventEntityDelete
     before delete
     on logs
     for each row
 execute function preventDelete();
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * writeLog()
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function writeLog(p logPriority, uid uuid, msg text) returns bool as
+$$
+begin
+    insert into logs(priority, userId, message) values (p, uid, msg);
+    return true;
+end;
+$$ language plpgsql;
