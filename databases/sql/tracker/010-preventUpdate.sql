@@ -8,6 +8,6 @@
 create or replace function preventUpdate() returns trigger as
 $$
 begin
-    raise exception 'cannot update  records';
+    raise exception 'cannot update records';
 end;
 $$ language plpgsql;
