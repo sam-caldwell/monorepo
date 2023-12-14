@@ -20,5 +20,8 @@ func TestSqlDbFunc_boundsCheckUpper(t *testing.T) {
 		if err == nil {
 			t.Fatalf("Query error: %v", err)
 		}
+		if msg := err.Error(); msg != "pq: upper bounds check error" {
+			t.Fatalf("error message mismatch: %s", msg)
+		}
 	})
 }

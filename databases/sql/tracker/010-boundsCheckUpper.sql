@@ -6,7 +6,7 @@ create or replace function boundsCheckUpper(n integer, upperBound integer) retur
 $$
 begin
     if (n > upperBound) then
-        raise exception 'upper bounds check error(boundary: %)(value:%)',upperBound,n;
+        raise exception 'upper bounds check error';
     end if;
     return true;
 end ;
