@@ -1,5 +1,5 @@
 /*
- * 120-table-comment.sql
+ * 160-comment.sql
  * (c) 2023 Sam Caldwell. See License.txt.
  *
  * A collection of comments for any ticket.
