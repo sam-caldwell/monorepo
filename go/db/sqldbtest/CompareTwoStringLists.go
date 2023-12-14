@@ -12,11 +12,11 @@ func CompareTwoStringLists(t *testing.T, lhs []string, rhs []string) {
 	sort.Strings(rhs)
 	for i := 0; i < len(lhs); i++ {
 		if i >= len(rhs) {
-			t.Fatalf("missing column.\n"+
+			t.Fatalf("Fail: missing column.\n"+
 				"%d %v", i, lhs[i])
 		}
 		if strings.ToLower(lhs[i]) != strings.ToLower(rhs[i]) {
-			t.Fatalf("These two lists are not equal\n"+
+			t.Fatalf("Fail: These two lists are not equal\n"+
 				"lhs: %v\n"+
 				"rhs: %v",
 				strings.ToLower(lhs[i]),
