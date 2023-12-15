@@ -21,13 +21,17 @@ func getEntity(t *testing.T, db *Postgres.Db, entityId uuid.UUID, result *Tracke
 		if !rows.Next() {
 			t.Fatal("Fail: no row returned")
 		}
-		var raw string
+		var raw sql.NullString
 		err = rows.Scan(&raw)
 		if err != nil {
 			t.Fatalf("Fail: error scanning result. %v", err)
 		}
-		if err = json.Unmarshal([]byte(raw), result); err != nil {
-			t.Fatalf("Fail: could not unmarshal result. %v", err)
+		if raw.Valid {
+			if err = json.Unmarshal([]byte(raw.String), result); err != nil {
+				t.Fatalf("Fail: could not unmarshal result. %v", err)
+			}
+		} else {
+			t.Fatalf("Fail: expected record but got NULL")
 		}
 	})
 }
