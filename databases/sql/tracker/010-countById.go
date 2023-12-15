@@ -15,11 +15,11 @@ func countById(t *testing.T, db *Postgres.Db, tableName string, entityId uuid.UU
 	t.Run("count entities by id in table '"+tableName+"';", func(t *testing.T) {
 		rows, err = db.Query("select count(id) from %s where id=('%s');", tableName, entityId)
 		if err != nil {
-			t.Fatalf("count query failed %v teamId:  %v", err, entityId)
+			t.Fatalf("Fail: count query failed %v teamId:  %v", err, entityId)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
-			t.Fatal("no row returned")
+			t.Fatal("Fail: no row returned")
 		}
 		var count int
 		err = rows.Scan(&count)
