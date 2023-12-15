@@ -11,9 +11,10 @@ import (
 
 func TestSqlDbFunc_createUser(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
+		tableName           = "users"
 		functionName        = "createUser"
-		tableName           = "user"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType          = "image/png"
 		expectedFirstName   = "Wendell"
 		expectedLastName    = "Fertig"
 		expectedEmail       = "wendell.fertig@example.com"
@@ -26,8 +27,6 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		// Note: we only clean up the avatar we expect to have created.
-		//       this should safeguard against an accidental run on prod.
 		_, _ = db.Query("delete from %s where email='%s'", tableName, expectedEmail)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
@@ -37,18 +36,15 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{firstname,lastname,avatarid,email,phonenumber,description},"+
+				"pn:{f,l,a,e,p,d},"+
 				"pt:{text,varchar,uuid},"+
 				"rt:uuid", strings.ToLower(functionName)))
 	})
 
 	t.Run("call createAvatar()", func(t *testing.T) {
-		/*
-		 * We need to create an avatar to create a user
-		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
