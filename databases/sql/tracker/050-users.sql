@@ -37,16 +37,16 @@ create unique index if not exists ndxUsersPhoneNumber on users (phoneNumber);
  * createUser() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createUser(firstName varchar(64), lastName varchar(64), avatarId uuid, email varchar(256),
-                                      phoneNumber varchar(20), description text) returns uuid as
+create or replace function createUser(f varchar(64), l varchar(64), a uuid, e varchar(256),
+                                      p varchar(20), d text) returns uuid as
 $$
 declare
-    userId uuid;
+    entityId uuid;
 begin
-    userId := (select createEntity('avatar'::entityType));
+    entityId := (select createEntity('user'::entityType));
     insert into users (id, firstName, lastName, avatarId, email, phoneNumber, description)
-    values (userId, firstName, lastName, avatarId, email, phoneNumber, description);
-    return userId;
+    values (entityId, f, l, a, e, p, d);
+    return entityId;
 end;
 $$ language plpgsql;
 /*
