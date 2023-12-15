@@ -39,7 +39,7 @@ func TestSqlDbFunc_createEntity(t *testing.T) {
 		var actualType string
 		var actualContext string
 
-		entityId = createEntity(t, db)
+		entityId = createEntity(t, db, "other")
 
 		t.Run("Verify the entityId", func(t *testing.T) {
 			rows, err = db.Query("select id, type, context from entity where id='%s';", entityId)
