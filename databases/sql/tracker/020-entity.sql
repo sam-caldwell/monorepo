@@ -31,6 +31,7 @@ create or replace trigger preventEntityDelete
     on entity
     for each row
 execute function preventDelete();
+
 create or replace trigger preventEntityUpdate
     before update
     on entity
