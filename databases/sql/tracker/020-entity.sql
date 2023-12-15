@@ -53,7 +53,7 @@ $$ language plpgsql;
 /*
  * getEntityById() function
  */
-create or replace function getEntityById(entityId uuid) returns jsonb as
+create or replace function getEntity(entityId uuid) returns jsonb as
 $$
 declare
     result jsonb;
