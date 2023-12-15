@@ -28,7 +28,7 @@ func TestSqlDbFunc_deleteIcon(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{targetId},"+
+			"pn:{entityId},"+
 			"pt:{uuid},"+
 			"rt:int4", strings.ToLower(functionName)))
 
