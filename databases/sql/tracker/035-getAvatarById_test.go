@@ -25,7 +25,7 @@ func TestSqlDbFunc_getAvatarById(t *testing.T) {
 	//	sqldbtest.VerifyFunctionStructure(t, db,
 	//		strings.ToLower(functionName),
 	//		fmt.Sprintf("fn:%s,"+
-	//			"pn:{avatarid},"+
+	//			"pn:{targetId},"+
 	//			"pt:{uuid},"+
 	//			"rt:text", strings.ToLower(functionName)))
 	//})

@@ -15,6 +15,10 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		functionName = "deleteAvatar"
 		testUrl      = "http://example.com/itMayExists.png"
 	)
+	var rows *sql.Rows
+	var err error
+	var entityId uuid.UUID
+
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
@@ -29,30 +33,17 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{avatarid},"+
+				"pn:{targetId},"+
 				"pt:{uuid},"+
 				"rt:int4", strings.ToLower(functionName)))
 	})
 
-	var avatarId uuid.UUID
 	t.Run("create an avatar record", func(t *testing.T) {
-		rows, err := db.Query("select createAvatar('%s');", testUrl)
-		if err != nil {
-			t.Fatalf("Failed to create record: %v", err)
-		}
-		defer func() { _ = rows.Close() }()
-
-		t.Run("createAvatar() should return a row", func(t *testing.T) {
-			if !rows.Next() {
-				t.Fatal("no row returned")
-			}
-			if err := rows.Scan(&avatarId); err != nil {
-				t.Fatalf("err: %v", err)
-			}
-		})
+		entityId = createAvatar(t, db)
 	})
 	t.Run("delete the avatar", func(t *testing.T) {
-		rows, err := db.Query("select deleteAvatar('%s');", avatarId)
+		deleteAvatar(t, db, entityId)
+		rows, err = db.Query("select deleteAvatar('%s');", entityId)
 		if err != nil {
 			t.Fatalf("failed on call to deleteAvatar(): %v", err)
 		}
@@ -70,7 +61,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 	})
 
 	t.Run("delete the avatar...again and expect 0 results", func(t *testing.T) {
-		rows, err := db.Query("select deleteAvatar('%s');", avatarId)
+		rows, err = db.Query("select deleteAvatar('%s');", entityId)
 		if err != nil {
 			t.Fatalf("failed on call to deleteAvatar(): %v", err)
 		}
@@ -90,10 +81,10 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 	t.Run("count the number of matching avatars (expect zero)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select count(id) from avatars where id=('%s');", avatarId)
+		rows, err = db.Query("select count(id) from avatars where id=('%s');", entityId)
 		if err != nil {
 			t.Fatalf("count query failed %v\n"+
-				"teamId:  %v", err, avatarId)
+				"teamId:  %v", err, entityId)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {

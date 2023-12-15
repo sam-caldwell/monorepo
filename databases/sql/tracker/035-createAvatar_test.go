@@ -18,7 +18,6 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 	var rows *sql.Rows
 	var err error
 	var entityId uuid.UUID
-	//var avatarId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -38,20 +37,7 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 
 	t.Run("test the create operation", func(t *testing.T) {
 
-		t.Run("call function", func(t *testing.T) {
-			rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", testType, testHash)
-			if err != nil {
-				t.Fatalf("Fail: (query): %v", err)
-			}
-			defer func() { _ = rows.Close() }()
-			if !rows.Next() {
-				t.Fatal("Fail: no row returned")
-			}
-			err = rows.Scan(&entityId)
-			if err != nil {
-				t.Fatalf("row scan failed: %v", err)
-			}
-		})
+		entityId = createAvatar(t, db)
 
 		t.Run("Verify the entityId", func(t *testing.T) {
 			rows, err = db.Query("select id, hash, mimetype from avatars where id='%s';", entityId)
