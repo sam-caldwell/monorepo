@@ -59,7 +59,7 @@ class GitServer(object):
             of a repository name used with our git-sqldbtest and the
             git-server
     """
-    __valid_repo_name_regex = "^[a-zA-Z][a-zA-Z./-_/0-9]+[a-zA-Z0-9]$"
+    __valid_repo_name_regex = "^[a-zA-Z][a-zA-Z.\/-_/0-9]+[a-zA-Z0-9]$"
     """
         __valid_sshkey_regex:
             A regular expression used to evaluate the validity of
