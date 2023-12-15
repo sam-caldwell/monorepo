@@ -14,8 +14,9 @@ func TestSqlDbTable_users(t *testing.T) {
 		sqldbtest.CheckError(t, err)
 	})
 
-	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
-		rows, err := db.Query("select 1 from %s limit 1;", tableName)
+	t.Run("query the table", func(t *testing.T) {
+		rows, err := db.Query("select id,firstName,lastName,avatarId,created,email,phoneNumber,description "+
+			"from %s limit 1;", tableName)
 		sqldbtest.CheckError(t, err)
 		defer func() { _ = rows.Close() }()
 	})
@@ -37,18 +38,21 @@ func TestSqlDbTable_users(t *testing.T) {
 		sqldbtest.ValidateForeignKey(t, db, tableName, "avatars", "avatarId", "id")
 		sqldbtest.ValidateForeignKey(t, db, tableName, "entity", "id", "id")
 	})
+
 	t.Run("verify indexes: created", func(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
 		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
+
 	t.Run("verify indexes: email", func(t *testing.T) {
 		columnNames := []string{
 			"email",
 		}
 		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
 	})
+
 	t.Run("verify indexes: firstName", func(t *testing.T) {
 		columnNames := []string{
 			"firstName",
@@ -62,6 +66,7 @@ func TestSqlDbTable_users(t *testing.T) {
 		}
 		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
+
 	t.Run("verify indexes: phoneNumber", func(t *testing.T) {
 		columnNames := []string{
 			"phoneNumber",
