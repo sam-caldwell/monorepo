@@ -9,33 +9,33 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_addUserToTeam(t *testing.T) {
+func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
-		iconUrl             = "http://localhost/myfakeicon.ico"
-		functionName        = "addUserToTeam"
-		expectedFirstName   = "Isaac"
-		expectedLastName    = "Newton"
-		expectedEmail       = "isaac.newton@example.com"
-		expectedPhone       = "332.152.9246"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType          = "image/png"
+		iconUrl             = "http://localhost/myfakeicon.jpeg"
+		functionName        = "deleteTeamByName"
+		tableName           = "teams"
+		testTeamName        = "testTeam3"
+		expectedFirstName   = "Peter"
+		expectedLastName    = "Norton"
+		expectedEmail       = "anotherUser@example.com"
+		expectedPhone       = "727.444.0988"
 		expectedDescription = "Test description"
-		expectedTeamName    = "Gravity Research"
 	)
+
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
+	var ownerId uuid.UUID
 	var teamId uuid.UUID
-	var userId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where email='%s'", "users", expectedEmail)
-		_, _ = db.Query("delete from %s where name='%s'", "teams", expectedTeamName)
-		_, _ = db.Query("delete from %s where url='%s'", "avatars", avatarUrl)
-		_, _ = db.Query("delete from %s where url='%s'", "icons", iconUrl)
-		_, _ = db.Query("delete from %s where teamId='%s'", "teamMembership", teamId)
+		_, _ = db.Query("delete from %s where name='%s'", tableName, testTeamName)
+
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -44,36 +44,15 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{userId,teamId},"+
-				"pt:{uuid},"+
+				"pn:{teamName},"+
+				"pt:{varchar},"+
 				"rt:int4", strings.ToLower(functionName)))
 	})
 
-	t.Run("call createAvatar()", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if avatarId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
-
-	t.Run("call createIcons()", func(t *testing.T) {
+	t.Run("createIcons()", func(t *testing.T) {
+		/*
+		 * We need to create an icon for use creating a Workflow and Team
+		 */
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select createIcons('%s');", iconUrl)
@@ -86,15 +65,40 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		}
 		var raw string
 		err = rows.Scan(&raw)
-		if err != nil {
-			t.Fatal(err)
-		}
 		if iconId, err = uuid.Parse(raw); err != nil {
 			t.Fatal(err)
 		}
+		t.Logf("iconId created: %v", iconId)
 	})
 
-	t.Run("call createUser()", func(t *testing.T) {
+	t.Run("createAvatars()", func(t *testing.T) {
+		/*
+		 * We need to create an avatar to create a user (ownerId)
+		 */
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var raw string
+		err = rows.Scan(&raw)
+		if avatarId, err = uuid.Parse(raw); err != nil {
+			t.Fatal(err)
+		}
+		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
+			t.Fatal("illegal zero uuid")
+		}
+	})
+
+	t.Run("createUser (ownerId)", func(t *testing.T) {
+		/*
+		 * We need to create a user (ownerId) to create a workflow
+		 */
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
@@ -108,21 +112,24 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		}
 		var raw string
 		err = rows.Scan(&raw)
-		if userId, err = uuid.Parse(raw); err != nil {
+		if ownerId, err = uuid.Parse(raw); err != nil {
 			t.Fatal(err)
 		}
-		if userId.String() == "00000000-0000-0000-0000-000000000000" {
+		if ownerId.String() == "00000000-0000-0000-0000-000000000000" {
 			t.Fatal("illegal zero uuid")
 		}
 	})
 
-	t.Run("call createTeam()", func(t *testing.T) {
+	t.Run("createTeam (teamId)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createTeam('%s','%s','%s','%s','%s','%s','%s');",
-			expectedTeamName, iconId, userId, "read", "read", "read", expectedDescription)
+		rows, err = db.Query("select createTeam('%s','%s','%s','read','read','read','test team');",
+			testTeamName, iconId, ownerId)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("createTeam() failed %v\n"+
+				"iconId:  %v\n"+
+				"ownerId: %v",
+				err, iconId, ownerId)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
@@ -133,14 +140,18 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		if teamId, err = uuid.Parse(raw); err != nil {
 			t.Fatal(err)
 		}
+		if teamId.String() == "00000000-0000-0000-0000-000000000000" {
+			t.Fatal("illegal zero uuid")
+		}
 	})
 
-	t.Run("call addUserToTeam()", func(t *testing.T) {
+	t.Run("deleteTeamByName(teamId)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select addUserToTeam('%s','%s');", userId, teamId)
+		rows, err = db.Query("select deleteTeamByName('%s');", testTeamName)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("deleteTeam() failed %v\n"+
+				"teamName:  %v", err, testTeamName)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
@@ -153,26 +164,22 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		}
 	})
 
-	t.Run("verify user membership", func(t *testing.T) {
+	t.Run("count the number of matching teams (expect zero)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query(""+
-			"select count(userId) "+
-			"from teamMembership "+
-			"where userId='%s' "+
-			"and teamId='%s';", userId, teamId)
+		rows, err = db.Query("select count(id) from teams where name=('%s');", testTeamName)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("count query failed %v\n"+
+				"teamId:  %v", err, teamId)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-
 		var count int
 		err = rows.Scan(&count)
-		if count != 1 {
-			t.Fatalf("expected count 1 but got %d", count)
+		if count != 0 {
+			t.Fatalf("expected count 0 but got %d", count)
 		}
 	})
 }

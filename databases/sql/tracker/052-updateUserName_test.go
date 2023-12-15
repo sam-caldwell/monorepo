@@ -9,16 +9,18 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_deleteUserById(t *testing.T) {
+func TestSqlDbFunc_updateUserName(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
-		functionName        = "deleteUsersById"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		functionName        = "updateUserName"
 		tableName           = "user"
-		expectedFirstName   = "Alan"
-		expectedLastName    = "Turing"
-		expectedEmail       = "Alan.Turing@example.com"
-		expectedPhone       = "713.123.4567"
-		expectedDescription = "Test description"
+		originalFirstName   = "Anthony"
+		newFirstName        = "Hannibal"
+		originalLastName    = "HopKins"
+		newLastName         = "Lecter"
+		emailAddress        = "anthony.hopkins@example.com"
+		expectedPhone       = "866.123.4567"
+		expectedDescription = "original description"
 	)
 	var avatarId uuid.UUID
 	var userId uuid.UUID
@@ -28,7 +30,7 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where email='%s'", tableName, expectedEmail)
+		_, _ = db.Query("delete from %s where email='%s'", tableName, emailAddress)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -37,18 +39,18 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{userId},"+
-				"pt:{uuid},"+
+				"pn:{userId,newFirstName,newLastName},"+
+				"pt:{varchar,uuid},"+
 				"rt:int4", strings.ToLower(functionName)))
 	})
 
-	t.Run("call createAvatar()", func(t *testing.T) {
+	t.Run("call createAvatar() to create the original AvatarId", func(t *testing.T) {
 		/*
 		 * We need to create an avatar to create a user
 		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -76,7 +78,7 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
-			expectedFirstName, expectedLastName, avatarId, expectedEmail, expectedPhone, expectedDescription)
+			originalFirstName, originalLastName, avatarId, emailAddress, expectedPhone, expectedDescription)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -121,25 +123,25 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		if actualId != userId {
 			t.Fatal("UserId mismatch")
 		}
-		if actualFirstName != expectedFirstName {
+		if actualFirstName != originalFirstName {
 			t.Fatalf("FirstName mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualFirstName, expectedFirstName)
+				"expected: '%s'", actualFirstName, originalFirstName)
 		}
-		if actualLastName != expectedLastName {
+		if actualLastName != originalLastName {
 			t.Fatalf("LastName mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualLastName, expectedLastName)
+				"expected: '%s'", actualLastName, originalLastName)
 		}
 		if actualAvatarId != avatarId {
 			t.Fatalf("AvatarId mismatch\n"+
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualAvatarId, avatarId)
 		}
-		if actualEmail != expectedEmail {
+		if actualEmail != emailAddress {
 			t.Fatalf("Email mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualEmail, expectedEmail)
+				"expected: '%s'", actualEmail, emailAddress)
 		}
 		if actualPhone != expectedPhone {
 			t.Fatalf("PhoneNumber mismatch\n"+
@@ -153,43 +155,86 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		}
 	})
 
-	t.Run("call deleteUserById(userId)", func(t *testing.T) {
+	t.Run("call updateUserName(userId,newFirstName,newLastName)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select deleteUsersById('%s');", userId)
+		rows, err = db.Query("select updateUserName('%s','%s','%s');", userId, newFirstName, newLastName)
 		if err != nil {
-			t.Fatal(err)
+			t.Fatalf("updateUserEmail() failed\n"+
+				"userId:        %v\n"+
+				"newFirstName: %v\n"+
+				"newLastName:      %v\n"+
+				"err: %v",
+				userId, newFirstName, newLastName, err)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
 		var count int
-		err = rows.Scan(&count)
-		if err != nil {
+		if err = rows.Scan(&count); err != nil {
 			t.Fatal(err)
 		}
 		if count != 1 {
-			t.Fatalf("count expected 1 but got %d", count)
+			t.Fatalf("expected updated count 1 but got %d", count)
 		}
 	})
 
-	t.Run("count the number of matching users (expect zero)", func(t *testing.T) {
+	t.Run("verify user update", func(t *testing.T) {
+		/*
+		 * verify the user.
+		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select count(id) from users where id=('%s');", userId)
+		rows, err = db.Query("select id,firstName,lastName,avatarId,email,phoneNumber,description "+
+			"from users where id='%s'", userId)
 		if err != nil {
-			t.Fatalf("count query failed %v\n"+
-				"teamId:  %v", err, userId)
+			t.Fatal(err)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-		var count int
-		err = rows.Scan(&count)
-		if count != 0 {
-			t.Fatalf("expected count 0 but got %d", count)
+		var actualId, actualAvatarId uuid.UUID
+		var actualFirstName, actualLastName, actualEmail, actualPhone, actualDescription string
+
+		err = rows.Scan(&actualId, &actualFirstName, &actualLastName, &actualAvatarId, &actualEmail, &actualPhone,
+			&actualDescription)
+		if err != nil {
+			t.Fatalf("Failed to read result: %v", err)
+		}
+		if actualId != userId {
+			t.Fatal("UserId mismatch")
+		}
+		if actualFirstName != newFirstName {
+			t.Fatalf("FirstName mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualFirstName, newFirstName)
+		}
+		if actualLastName != newLastName {
+			t.Fatalf("LastName mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualLastName, newLastName)
+		}
+		if actualAvatarId != avatarId {
+			t.Fatalf("AvatarId mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualAvatarId, avatarId)
+		}
+		if actualEmail != emailAddress {
+			t.Fatalf("Email mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualEmail, emailAddress)
+		}
+		if actualPhone != expectedPhone {
+			t.Fatalf("PhoneNumber mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualPhone, expectedPhone)
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("Description mismatch\n"+
+				"actual:   '%s'\n"+
+				"expected: '%s'", actualDescription, expectedDescription)
 		}
 	})
 }

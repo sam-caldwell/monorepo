@@ -2,7 +2,6 @@ package psqlTrackerDb
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -10,24 +9,26 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getWorkflowByName(t *testing.T) {
+func TestSqlDbFunc_createTicketType(t *testing.T) {
 	const (
 		avatarUrl            = "http://localhost/myfakeavatar.jpeg"
 		iconUrl              = "http://localhost/myfakeicon.ico"
-		functionName         = "deleteWorkflowByName"
-		expectedFirstName    = "Edward"
-		expectedLastName     = "Teach"
-		expectedEmail        = "blackbeard@example.com"
-		expectedPhone        = "321.321.6969"
+		functionName         = "createTicketType"
+		expectedFirstName    = "John"
+		expectedLastName     = "Rackham"
+		expectedEmail        = "john.rackham@example.com"
+		expectedPhone        = "100.100.1000"
 		expectedDescription  = "Test description"
-		expectedTeamName     = "PiracyInc"
-		expectedWorkflowName = "PillageAndPlunderWorkflow"
+		expectedTeamName     = "CalicoPirates"
+		expectedWorkflowName = "StealPlunderAndSail"
+		expectedTicketType   = "epic"
 	)
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
 	var teamId uuid.UUID
 	var ownerId uuid.UUID
 	var workflowId uuid.UUID
+	var ticketTypeId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -47,15 +48,15 @@ func TestSqlDbFunc_getWorkflowByName(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{workflowName},"+
-				"pt:{varchar},"+
-				"rt:int4", strings.ToLower(functionName)))
+				"pn:{name,iconid,workflowid,description},"+
+				"pt:{text,varchar,uuid},"+
+				"rt:uuid", strings.ToLower(functionName)))
 	})
 
 	t.Run("call createAvatar()", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -192,64 +193,63 @@ func TestSqlDbFunc_getWorkflowByName(t *testing.T) {
 		}
 	})
 
-	t.Run("call getWorkflowById", func(t *testing.T) {
+	t.Run("createTicketType()", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query(""+
-			"select getWorkflowByName('%s');", expectedWorkflowName)
+		rows, err = db.Query("select createTicketType('%s','%s','%s','%s');",
+			expectedTicketType, iconId, workflowId, expectedDescription)
 		if err != nil {
-			t.Fatalf("getWorkflowByName() query failed:\n"+
-				"err:  '%v'\n"+
-				"id:   '%v'\n"+
-				"name: '%s'", err, workflowId, expectedWorkflowName)
+			t.Fatal(err)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
 		var raw string
-		if err = rows.Scan(&raw); err != nil {
+		err = rows.Scan(&raw)
+		if ticketTypeId, err = uuid.Parse(raw); err != nil {
 			t.Fatal(err)
 		}
-		var actualWorkflow TrackerWorkflow
-		if err = json.Unmarshal([]byte(raw), &actualWorkflow); err != nil {
+	})
+
+	t.Run("verify record", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query(""+
+			"select id, name, iconId, workflowId, description "+
+			"from ticketTypes "+
+			"where id='%s'", ticketTypeId)
+		if err != nil {
 			t.Fatal(err)
 		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var actualId uuid.UUID
+		var actualName string
+		var actualIcon uuid.UUID
+		var actualWorkflow uuid.UUID
+		var actualDescription string
+		err = rows.Scan(&actualId, &actualName, &actualIcon, &actualWorkflow, &actualDescription)
 
-		if actualWorkflow.Id != workflowId {
-			t.Fatal("Error: workflowId mismatch")
+		if actualId != ticketTypeId {
+			t.Fatalf("id mismatch\n"+
+				"actual:   %v\n"+
+				"expected: %v", actualId, ticketTypeId)
+		}
+		if actualName != expectedTicketType {
+			t.Fatalf("name mismatch")
+		}
+		if actualIcon != iconId {
+			t.Fatalf("iconId mismatch")
+		}
+		if actualWorkflow != workflowId {
+			t.Fatalf("workflowId mismatch")
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("Description mismatch")
 		}
 
-		if actualWorkflow.Name != expectedWorkflowName {
-			t.Fatal("Error: Name mismatch")
-		}
-
-		if actualWorkflow.IconId != iconId {
-			t.Fatal("Error: IconId mismatch")
-		}
-
-		if actualWorkflow.OwnerId != ownerId {
-			t.Fatal("Error: OwnerId mismatch")
-		}
-
-		if actualWorkflow.TeamId != teamId {
-			t.Fatal("Error: TeamId mismatch")
-		}
-
-		if actualWorkflow.Owner != "read" {
-			t.Fatal("Error: Owner mismatch")
-		}
-
-		if actualWorkflow.Team != "read" {
-			t.Fatal("Error: Team mismatch")
-		}
-
-		if actualWorkflow.Everyone != "read" {
-			t.Fatal("Error: Everyone mismatch")
-		}
-
-		if actualWorkflow.Description != expectedDescription {
-			t.Fatal("Error: Description mismatch")
-		}
 	})
 }

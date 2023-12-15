@@ -11,7 +11,8 @@ import (
 
 func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType          = "image/png"
 		iconUrl             = "http://localhost/myfakeicon.jpeg"
 		functionName        = "deleteTeamById"
 		tableName           = "teams"
@@ -77,7 +78,7 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}

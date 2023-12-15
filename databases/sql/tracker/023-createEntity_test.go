@@ -34,23 +34,11 @@ func TestSqlDbFunc_createEntity(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 
-		var entityId uuid.UUID
 		var actualId uuid.UUID
 		var actualType string
 		var actualContext string
 
-		t.Run("call createAvatar();", func(t *testing.T) {
-			rows, err = db.Query("select createEntity('other'::entityType);")
-			if err != nil {
-				t.Fatalf("Fail: function call failed: %v", err)
-			}
-			defer func() { _ = rows.Close() }()
-			if !rows.Next() {
-				t.Fatal("Fail: no row returned")
-			}
-			err = rows.Scan(&entityId)
-			sqldbtest.CheckError(t, err)
-		})
+		entityId := createEntity(t, db)
 
 		t.Run("Verify the entityId", func(t *testing.T) {
 			rows, err = db.Query("select id, type, context from entity where id='%s';", entityId)

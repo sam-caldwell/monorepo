@@ -9,17 +9,18 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
+func TestSqlDbFunc_createTeam(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType          = "image/png"
 		iconUrl             = "http://localhost/myfakeicon.jpeg"
-		functionName        = "deleteTeamByName"
+		functionName        = "createTeam"
 		tableName           = "teams"
-		testTeamName        = "testTeam3"
-		expectedFirstName   = "Peter"
-		expectedLastName    = "Norton"
-		expectedEmail       = "anotherUser@example.com"
-		expectedPhone       = "727.444.0988"
+		testTeamName        = "testTeam1"
+		expectedFirstName   = "Paul"
+		expectedLastName    = "Allen"
+		expectedEmail       = "paul.allen@example.com"
+		expectedPhone       = "737.444.0988"
 		expectedDescription = "Test description"
 	)
 
@@ -43,9 +44,9 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{teamName},"+
-				"pt:{varchar},"+
-				"rt:int4", strings.ToLower(functionName)))
+				"pn:{name,iconid,ownerId,owner,team,everyone,description},"+
+				"pt:{text,varchar,uuid,permissions},"+
+				"rt:uuid", strings.ToLower(functionName)))
 	})
 
 	t.Run("createIcons()", func(t *testing.T) {
@@ -70,13 +71,13 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 		t.Logf("iconId created: %v", iconId)
 	})
 
-	t.Run("createAvatars()", func(t *testing.T) {
+	t.Run("avatarId", func(t *testing.T) {
 		/*
 		 * We need to create an avatar to create a user (ownerId)
 		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -120,10 +121,13 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 	})
 
 	t.Run("createTeam (teamId)", func(t *testing.T) {
+		/*
+		 * We need to create a user (ownerId) to create a workflow
+		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createTeam('%s','%s','%s','read','read','read','test team');",
-			testTeamName, iconId, ownerId)
+		rows, err = db.Query("select createTeam('%s','%s','%s','read','read','read','%s');",
+			testTeamName, iconId, ownerId, expectedDescription)
 		if err != nil {
 			t.Fatalf("createTeam() failed %v\n"+
 				"iconId:  %v\n"+
@@ -144,41 +148,60 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 		}
 	})
 
-	t.Run("deleteTeamByName(teamId)", func(t *testing.T) {
+	t.Run("inspect and verify team", func(t *testing.T) {
+		/*
+		 * verify the user.
+		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select deleteTeamByName('%s');", testTeamName)
+		rows, err = db.Query("select id,name,iconId,ownerId,owner,team,everyone,description "+
+			"from teams where id='%s'", teamId)
 		if err != nil {
-			t.Fatalf("deleteTeam() failed %v\n"+
-				"teamName:  %v", err, testTeamName)
+			t.Fatal(err)
 		}
-		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-		var count int
-		err = rows.Scan(&count)
-		if count != 1 {
-			t.Fatalf("expected count 1 but got %d", count)
-		}
-	})
 
-	t.Run("count the number of matching teams (expect zero)", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select count(id) from teams where name=('%s');", testTeamName)
+		var actualTeamId uuid.UUID
+		var actualTeamName string
+		var actualIconId uuid.UUID
+		var actualOwnerId uuid.UUID
+		var actualPermissionOwner, actualPermissionTeam, actualPermissionEveryone string
+		var actualDescription string
+
+		err = rows.Scan(&actualTeamId, &actualTeamName, &actualIconId, &actualOwnerId,
+			&actualPermissionOwner, &actualPermissionTeam, &actualPermissionEveryone,
+			&actualDescription)
+
 		if err != nil {
-			t.Fatalf("count query failed %v\n"+
-				"teamId:  %v", err, teamId)
+			t.Fatalf("Failed to read result: %v", err)
 		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
+		if teamId != actualTeamId {
+			t.Fatal("teamId mismatch")
 		}
-		var count int
-		err = rows.Scan(&count)
-		if count != 0 {
-			t.Fatalf("expected count 0 but got %d", count)
+		if testTeamName != actualTeamName {
+			t.Fatal("team name mismatch")
+		}
+		if iconId != actualIconId {
+			t.Fatalf("iconId mismatch")
+		}
+		if ownerId != actualOwnerId {
+			t.Fatalf("ownerId mismatch")
+		}
+		if actualPermissionOwner != "read" {
+			t.Fatalf("owner permission mismatch")
+		}
+		if actualPermissionTeam != "read" {
+			t.Fatalf("team permission mismatch")
+		}
+		if actualPermissionEveryone != "read" {
+			t.Fatalf("everyone permission mismatch")
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("actualDescription mismatch\n"+
+				"actual: %s\n"+
+				"expected: %s", actualDescription, expectedDescription)
 		}
 	})
 }

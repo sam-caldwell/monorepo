@@ -2,7 +2,6 @@ package psqlTrackerDb
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -10,18 +9,19 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getWorkflowsByOwnerId(t *testing.T) {
+func TestSqlDbFunc_createWorkflow(t *testing.T) {
 	const (
-		avatarUrl            = "http://localhost/myfakeavatar.jpeg"
+		avatarHash           = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType           = "image/png"
 		iconUrl              = "http://localhost/myfakeicon.ico"
-		functionName         = "getWorkflowsByOwnerId"
-		expectedFirstName    = "William"
-		expectedLastName     = "Kidd"
-		expectedEmail        = "william.kidd@example.com"
-		expectedPhone        = "321.321.6544"
+		functionName         = "createWorkflow"
+		expectedFirstName    = "Alexander"
+		expectedLastName     = "Bell"
+		expectedEmail        = "abell@example.com"
+		expectedPhone        = "001.001.0001"
 		expectedDescription  = "Test description"
-		expectedTeamName     = "OceanExplorers1701"
-		expectedWorkflowName = "NavigationProcess1701"
+		expectedTeamName     = "PhoneGuy"
+		expectedWorkflowName = "ETCallHome"
 	)
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
@@ -36,7 +36,7 @@ func TestSqlDbFunc_getWorkflowsByOwnerId(t *testing.T) {
 		//       this should safeguard against an accidental run on prod.
 		_, _ = db.Query("delete from users where email='%s'", expectedEmail)
 		_, _ = db.Query("delete from teams where name='%s'", expectedTeamName)
-		_, _ = db.Query("delete from avatars where url='%s'", avatarUrl)
+		//_, _ = db.Query("delete from avatars where url='%s'", avatarUrl)
 		_, _ = db.Query("delete from icons where url='%s'", iconUrl)
 		_, _ = db.Query("delete from teamMembership where teamId='%s'", teamId)
 		err := db.Close()
@@ -47,15 +47,15 @@ func TestSqlDbFunc_getWorkflowsByOwnerId(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{workflowOwnerId,pageLimit,pageOffset},"+
-				"pt:{int4,uuid},"+
-				"rt:jsonb", strings.ToLower(functionName)))
+				"pn:{name,iconid,ownerid,teamid,owner,team,everyone,description},"+
+				"pt:{text,varchar,uuid,permissions},"+
+				"rt:uuid", strings.ToLower(functionName)))
 	})
 
 	t.Run("call createAvatar()", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -192,25 +192,12 @@ func TestSqlDbFunc_getWorkflowsByOwnerId(t *testing.T) {
 		}
 	})
 
-	t.Run("call getWorkflowByOwnerId (bad bounds)", func(t *testing.T) {
-		//var rows *sql.Rows
-		var err error
-		if _, err = db.Query("select getWorkflowByOwnerId('%s',0,10);", ownerId); err == nil {
-			t.Fatal(err)
-		}
-	})
-	t.Run("call getWorkflowByOwnerId (bad bounds)", func(t *testing.T) {
-		//var rows *sql.Rows
-		var err error
-		if _, err = db.Query("select getWorkflowByOwnerId('%s',1001,0);", ownerId); err == nil {
-			t.Fatal(err)
-		}
-	})
-
-	t.Run("call getWorkflowByOwnerId", func(t *testing.T) {
+	t.Run("verify workflow", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select getWorkflowsByOwnerId('%s',1,0);", ownerId)
+		rows, err = db.Query(""+
+			"select id,name,iconId,ownerId,teamId,owner,team,everyone,description "+
+			"from workflow where id = '%s';", workflowId)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -218,50 +205,44 @@ func TestSqlDbFunc_getWorkflowsByOwnerId(t *testing.T) {
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-		var raw string
-		if err = rows.Scan(&raw); err != nil {
-			t.Fatal(err)
+		var actualId uuid.UUID
+		var actualName string
+		var actualIconId uuid.UUID
+		var actualOwnerId uuid.UUID
+		var actualTeamId uuid.UUID
+		var actualOwner string
+		var actualTeam string
+		var actualEveryone string
+		var actualDescription string
+		err = rows.Scan(&actualId, &actualName, &actualIconId, &actualOwnerId, &actualTeamId,
+			&actualOwner, &actualTeam, &actualEveryone, &actualDescription)
+
+		if actualId != workflowId {
+			t.Fatalf("workflowId mismatch")
 		}
-		var actualWorkflow []TrackerWorkflow
-		if err = json.Unmarshal([]byte(raw), &actualWorkflow); err != nil {
-			t.Fatal(err)
+		if actualName != expectedWorkflowName {
+			t.Fatalf("workflowName mismatch")
 		}
-		for _, wf := range actualWorkflow {
-			if wf.Id != workflowId {
-				t.Fatal("Error: workflowId mismatch")
-			}
-
-			if wf.Name != expectedWorkflowName {
-				t.Fatal("Error: Name mismatch")
-			}
-
-			if wf.IconId != iconId {
-				t.Fatal("Error: IconId mismatch")
-			}
-
-			if wf.OwnerId != ownerId {
-				t.Fatal("Error: OwnerId mismatch")
-			}
-
-			if wf.TeamId != teamId {
-				t.Fatal("Error: TeamId mismatch")
-			}
-
-			if wf.Owner != "read" {
-				t.Fatal("Error: Owner mismatch")
-			}
-
-			if wf.Team != "read" {
-				t.Fatal("Error: Team mismatch")
-			}
-
-			if wf.Everyone != "read" {
-				t.Fatal("Error: Everyone mismatch")
-			}
-
-			if wf.Description != expectedDescription {
-				t.Fatal("Error: Description mismatch")
-			}
+		if actualIconId != iconId {
+			t.Fatalf("iconId mismatch")
+		}
+		if actualOwnerId != ownerId {
+			t.Fatalf("ownerId mismatch")
+		}
+		if actualTeamId != teamId {
+			t.Fatalf("teamId mismatch")
+		}
+		if actualOwner != "read" {
+			t.Fatalf("owner mismatch")
+		}
+		if actualTeam != "read" {
+			t.Fatalf("team mismatch")
+		}
+		if actualEveryone != "read" {
+			t.Fatalf("everyone mismatch")
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("description mismatch")
 		}
 	})
 }

@@ -2,7 +2,6 @@ package psqlTrackerDb
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -10,15 +9,16 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getUserById(t *testing.T) {
+func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
-		functionName        = "getUserById"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType          = "image/png"
+		functionName        = "deleteUsersById"
 		tableName           = "user"
-		expectedFirstName   = "John"
-		expectedLastName    = "Von Neumann"
-		expectedEmail       = "John.vonNeumann@example.com"
-		expectedPhone       = "415.123.4567"
+		expectedFirstName   = "Alan"
+		expectedLastName    = "Turing"
+		expectedEmail       = "Alan.Turing@example.com"
+		expectedPhone       = "713.123.4567"
 		expectedDescription = "Test description"
 	)
 	var avatarId uuid.UUID
@@ -40,7 +40,7 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 			fmt.Sprintf("fn:%s,"+
 				"pn:{userId},"+
 				"pt:{uuid},"+
-				"rt:jsonb", strings.ToLower(functionName)))
+				"rt:int4", strings.ToLower(functionName)))
 	})
 
 	t.Run("call createAvatar()", func(t *testing.T) {
@@ -49,7 +49,7 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		 */
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -154,10 +154,10 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		}
 	})
 
-	t.Run("call getUserById(userId)", func(t *testing.T) {
+	t.Run("call deleteUserById(userId)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select getUserById('%s');", userId)
+		rows, err = db.Query("select deleteUsersById('%s');", userId)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -165,13 +165,32 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-		var raw string
-		if err = rows.Scan(&raw); err != nil {
+		var count int
+		err = rows.Scan(&count)
+		if err != nil {
 			t.Fatal(err)
 		}
-		var actualUser TrackerUser
-		if err = json.Unmarshal([]byte(raw), &actualUser); err != nil {
-			t.Fatalf("unmarshal failed: %v", err)
+		if count != 1 {
+			t.Fatalf("count expected 1 but got %d", count)
+		}
+	})
+
+	t.Run("count the number of matching users (expect zero)", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query("select count(id) from users where id=('%s');", userId)
+		if err != nil {
+			t.Fatalf("count query failed %v\n"+
+				"teamId:  %v", err, userId)
+		}
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+		var count int
+		err = rows.Scan(&count)
+		if count != 0 {
+			t.Fatalf("expected count 0 but got %d", count)
 		}
 	})
 }

@@ -2,7 +2,6 @@ package psqlTrackerDb
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -10,17 +9,17 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getTeamById(t *testing.T) {
+func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 	const (
-		avatarUrl           = "http://localhost/myfakeavatar.jpeg"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
 		iconUrl             = "http://localhost/myfakeicon.ico"
-		functionName        = "getTeamById"
-		expectedFirstName   = "Klaus"
-		expectedLastName    = "Fuchs"
-		expectedEmail       = "treason.weasel@example.com"
-		expectedPhone       = "314.152.9246"
+		functionName        = "addUserToTeam"
+		expectedFirstName   = "Isaac"
+		expectedLastName    = "Newton"
+		expectedEmail       = "isaac.newton@example.com"
+		expectedPhone       = "332.152.9246"
 		expectedDescription = "Test description"
-		expectedTeamName    = "Manhattan Project"
+		expectedTeamName    = "Gravity Research"
 	)
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
@@ -36,6 +35,7 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		_, _ = db.Query("delete from %s where name='%s'", "teams", expectedTeamName)
 		_, _ = db.Query("delete from %s where url='%s'", "avatars", avatarUrl)
 		_, _ = db.Query("delete from %s where url='%s'", "icons", iconUrl)
+		_, _ = db.Query("delete from %s where teamId='%s'", "teamMembership", teamId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -44,15 +44,15 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{teamId},"+
+				"pn:{userId,teamId},"+
 				"pt:{uuid},"+
-				"rt:jsonb", strings.ToLower(functionName)))
+				"rt:int4", strings.ToLower(functionName)))
 	})
 
 	t.Run("call createAvatar()", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select createAvatar('%s');", avatarUrl)
+		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -135,44 +135,44 @@ func TestSqlDbFunc_getTeamById(t *testing.T) {
 		}
 	})
 
-	t.Run("getTeamById()", func(t *testing.T) {
+	t.Run("call addUserToTeam()", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		if rows, err = db.Query("select getTeamById('%s');", teamId); err != nil {
+		rows, err = db.Query("select addUserToTeam('%s','%s');", userId, teamId)
+		if err != nil {
 			t.Fatal(err)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
-		var raw string
-		var team TrackerTeam
-		if err = rows.Scan(&raw); err != nil {
+		var count int
+		err = rows.Scan(&count)
+		if count != 1 {
+			t.Fatalf("expected count 1 but got %d", count)
+		}
+	})
+
+	t.Run("verify user membership", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		rows, err = db.Query(""+
+			"select count(userId) "+
+			"from teamMembership "+
+			"where userId='%s' "+
+			"and teamId='%s';", userId, teamId)
+		if err != nil {
 			t.Fatal(err)
 		}
-		if err = json.Unmarshal([]byte(raw), &team); err != nil {
-			t.Fatal(err)
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
 		}
-		if team.Id != teamId {
-			t.Fatalf("teamId mismatch")
-		}
-		if team.Name != expectedTeamName {
-			t.Fatalf("Name mismatch")
-		}
-		if team.IconId != iconId {
-			t.Fatalf("IconId mismatch")
-		}
-		if team.OwnerId != userId {
-			t.Fatalf("OwnerId mismatch")
-		}
-		if team.Owner != "read" {
-			t.Fatalf("Owner mismatch. Got '%v'", team.Owner)
-		}
-		if team.Team != "read" {
-			t.Fatalf("Team mismatch Got '%v'", team.Team)
-		}
-		if team.Everyone != "read" {
-			t.Fatalf("Everyone mismatch Got '%v'", team.Everyone)
+
+		var count int
+		err = rows.Scan(&count)
+		if count != 1 {
+			t.Fatalf("expected count 1 but got %d", count)
 		}
 	})
 }
