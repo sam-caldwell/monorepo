@@ -66,9 +66,9 @@ begin
                    'id', id,
                    'hash', hash,
                    'mimeType', mimeType
-               ) as icons
+               ) as icon
     into result
-    from icon
+    from icons
     where id = targetId
     limit 1;
     return result;
