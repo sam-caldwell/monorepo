@@ -57,10 +57,10 @@ $$ language plpgsql;
 * getIconsById()
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
-create or replace function getIconById(targetId uuid) returns text as
+create or replace function getIconById(targetId uuid) returns jsonb as
 $$
 declare
-    result text;
+    result jsonb;
 begin
     select jsonb_build_object(
                    'id', id,
