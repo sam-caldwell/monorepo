@@ -68,7 +68,7 @@ begin
                    'mimeType', mimeType
                ) as icons
     into result
-    from icons
+    from icon
     where id = targetId
     limit 1;
     return result;
