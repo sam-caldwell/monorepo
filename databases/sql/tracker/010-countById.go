@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-// countById - delete a new avatar object
+// countById - count records in a given table (tableName) with matching entityId
 func countById(t *testing.T, db *Postgres.Db, tableName string, entityId uuid.UUID) int {
 	var err error
 	var count int
