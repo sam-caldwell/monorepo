@@ -13,6 +13,10 @@ func TestSqlDbFunc_createEntity(t *testing.T) {
 	const (
 		functionName = "createEntity"
 	)
+	var rows *sql.Rows
+	var err error
+	var entityId uuid.UUID
+
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
@@ -31,14 +35,11 @@ func TestSqlDbFunc_createEntity(t *testing.T) {
 
 	t.Run("test the create operation", func(t *testing.T) {
 
-		var rows *sql.Rows
-		var err error
-
 		var actualId uuid.UUID
 		var actualType string
 		var actualContext string
 
-		entityId := createEntity(t, db)
+		entityId = createEntity(t, db)
 
 		t.Run("Verify the entityId", func(t *testing.T) {
 			rows, err = db.Query("select id, type, context from entity where id='%s';", entityId)

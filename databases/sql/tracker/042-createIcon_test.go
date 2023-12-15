@@ -9,23 +9,23 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_createIcon(t *testing.T) {
+func TestSqlDbFunc_createIcons(t *testing.T) {
 	const (
+		tableName    = "icons"
 		functionName = "createIcon"
 		testHash     = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
 		testType     = "image/png"
 	)
-
 	var rows *sql.Rows
 	var err error
 	var entityId uuid.UUID
-	var iconId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		t.Log("cleanup...")
-		_ = db.Close()
+		_, _ = db.Query("delete from %s where hash='%s';", tableName, testHash)
+		err := db.Close()
+		sqldbtest.CheckError(t, err)
 	})
 
 	t.Run("verify the function structure (params, return)", func(t *testing.T) {
@@ -39,23 +39,10 @@ func TestSqlDbFunc_createIcon(t *testing.T) {
 
 	t.Run("test the create operation", func(t *testing.T) {
 
-		t.Run("call function", func(t *testing.T) {
-			rows, err = db.Query("select createIcon('%s'::mimeType,'%s');", testType, testHash)
-			if err != nil {
-				t.Fatalf("Fail: (query): %v", err)
-			}
-			defer func() { _ = rows.Close() }()
-			if !rows.Next() {
-				t.Fatal("Fail: no row returned")
-			}
-			err = rows.Scan(&entityId)
-			if err != nil {
-				t.Fatalf("row scan failed: %v", err)
-			}
-		})
+		entityId = createIcon(t, db, testType, testHash)
 
 		t.Run("Verify the entityId", func(t *testing.T) {
-			rows, err = db.Query("select id, type from entity where id='%s';", entityId)
+			rows, err = db.Query("select id, hash, mimetype from %s where id='%s';", tableName, entityId)
 			if err != nil {
 				t.Fatalf("Fail: (query): %v", err)
 			}
@@ -63,34 +50,14 @@ func TestSqlDbFunc_createIcon(t *testing.T) {
 			if !rows.Next() {
 				t.Fatal("Fail: no row returned")
 			}
-			var entityType string
-			if err = rows.Scan(&iconId, &entityType); err != nil {
-				t.Fatal(err)
-			}
-			if entityId != iconId {
-				t.Fatal("Fail: iconId mismatch")
-			}
-			if entityType != "icon" {
-				t.Fatal("Fail: context mismatch")
-			}
-		})
 
-		t.Run("verify the icon record", func(t *testing.T) {
-			rows, err = db.Query("select id, hash, mimetype from icons where id='%s';", iconId)
-			if err != nil {
-				t.Fatal(err)
-			}
-			defer func() { _ = rows.Close() }()
-			if !rows.Next() {
-				t.Fatal("no row returned")
-			}
 			var actualId uuid.UUID
 			var actualHash string
 			var actualMimeType string
 			if err = rows.Scan(&actualId, &actualHash, &actualMimeType); err != nil {
 				t.Fatal(err)
 			}
-			if actualId != iconId {
+			if actualId != entityId {
 				t.Fatal("entityId mismatch")
 			}
 			if actualHash != testHash {

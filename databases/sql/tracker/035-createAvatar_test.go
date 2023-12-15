@@ -11,6 +11,7 @@ import (
 
 func TestSqlDbFunc_createAvatar(t *testing.T) {
 	const (
+		tableName    = "avatars"
 		functionName = "createAvatar"
 		testHash     = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
 		testType     = "image/png"
@@ -22,25 +23,24 @@ func TestSqlDbFunc_createAvatar(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		t.Log("cleanup...")
-		_ = db.Close()
+		_, _ = db.Query("delete from %s where hash='%s';", tableName, testHash)
+		err := db.Close()
+		sqldbtest.CheckError(t, err)
 	})
 
-	t.Run("verify the function structure (params, return)", func(t *testing.T) {
-		sqldbtest.VerifyFunctionStructure(t, db,
-			strings.ToLower(functionName),
-			fmt.Sprintf("fn:%s,"+
-				"pn:{t,h},"+
-				"pt:{varchar,mimeType},"+
-				"rt:uuid", strings.ToLower(functionName)))
-	})
+	sqldbtest.VerifyFunctionStructure(t, db,
+		strings.ToLower(functionName),
+		fmt.Sprintf("fn:%s,"+
+			"pn:{t,h},"+
+			"pt:{varchar,mimeType},"+
+			"rt:uuid", strings.ToLower(functionName)))
 
 	t.Run("test the create operation", func(t *testing.T) {
 
-		entityId = createAvatar(t, db)
+		entityId = createAvatar(t, db, testType, testHash)
 
 		t.Run("Verify the entityId", func(t *testing.T) {
-			rows, err = db.Query("select id, hash, mimetype from avatars where id='%s';", entityId)
+			rows, err = db.Query("select id, hash, mimetype from %s where id='%s';", tableName, entityId)
 			if err != nil {
 				t.Fatalf("Fail: (query): %v", err)
 			}
