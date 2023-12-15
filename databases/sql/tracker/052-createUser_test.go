@@ -11,15 +11,15 @@ import (
 
 func TestSqlDbFunc_createUser(t *testing.T) {
 	const (
-		tableName           = "users"
-		functionName        = "createUser"
-		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
-		avatarType          = "image/png"
-		expectedFirstName   = "Wendell"
-		expectedLastName    = "Fertig"
-		expectedEmail       = "wendell.fertig@example.com"
-		expectedPhone       = "512.123.4567"
-		expectedDescription = "Test description"
+		tableName       = "users"
+		functionName    = "createUser"
+		avatarHash      = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarType      = "image/png"
+		userFirstName   = "Wendell"
+		userLastName    = "Fertig"
+		userEmail       = "wendell.fertig@example.com"
+		userPhone       = "512.123.4567"
+		userDescription = "Test description"
 	)
 	var avatarId uuid.UUID
 	var userId uuid.UUID
@@ -27,7 +27,8 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from %s where email='%s'", tableName, expectedEmail)
+		_, _ = db.Query("delete from %s where id='%s'", tableName, userId)
+		_, _ = db.Query("delete from avatar where id='%s'", avatarId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
@@ -41,111 +42,74 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 				"rt:uuid", strings.ToLower(functionName)))
 	})
 
-	t.Run("call createAvatar()", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if avatarId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
+	avatarId = createAvatar(t, db, avatarType, avatarHash)
 
 	t.Run("call createUser()", func(t *testing.T) {
-		/*
-		 * create the user...
-		 */
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
-			expectedFirstName, expectedLastName, avatarId, expectedEmail, expectedPhone, expectedDescription)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if userId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if userId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
+		userId = createUser(t, db, userFirstName, userLastName, avatarId, userEmail, userPhone, userDescription)
 	})
 
-	t.Run("inspect and verify user", func(t *testing.T) {
-		/*
-		 * verify the user.
-		 */
+	t.Run("verify the user record", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
+		var actualId, actualAvatarId uuid.UUID
+		var actualFirstName, actualLastName, actualEmail, actualPhone, actualDescription sql.NullString
+
 		rows, err = db.Query("select id,firstName,lastName,avatarId,email,phoneNumber,description "+
 			"from users where id='%s'", userId)
 		if err != nil {
 			t.Fatal(err)
 		}
+
 		defer func() { _ = rows.Close() }()
+
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
 
-		var actualId, actualAvatarId uuid.UUID
-		var actualFirstName, actualLastName, actualEmail, actualPhone, actualDescription string
-
-		err = rows.Scan(&actualId, &actualFirstName, &actualLastName, &actualAvatarId, &actualEmail, &actualPhone,
-			&actualDescription)
+		err = rows.Scan(&actualId, &actualFirstName, &actualLastName, &actualAvatarId,
+			&actualEmail, &actualPhone, &actualDescription)
 		if err != nil {
 			t.Fatalf("Failed to read result: %v", err)
 		}
+
 		if actualId != userId {
 			t.Fatal("UserId mismatch")
 		}
-		if actualFirstName != expectedFirstName {
+
+		if actualFirstName.String != userFirstName {
 			t.Fatalf("FirstName mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualFirstName, expectedFirstName)
+				"expected: '%s'", actualFirstName.String, userFirstName)
 		}
-		if actualLastName != expectedLastName {
+
+		if actualLastName.String != userLastName {
 			t.Fatalf("LastName mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualLastName, expectedLastName)
+				"expected: '%s'", actualLastName.String, userLastName)
 		}
+
 		if actualAvatarId != avatarId {
 			t.Fatalf("AvatarId mismatch\n"+
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualAvatarId, avatarId)
 		}
-		if actualEmail != expectedEmail {
+
+		if actualEmail.String != userEmail {
 			t.Fatalf("Email mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualEmail, expectedEmail)
+				"expected: '%s'", actualEmail.String, userEmail)
 		}
-		if actualPhone != expectedPhone {
+
+		if actualPhone.String != userPhone {
 			t.Fatalf("PhoneNumber mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualPhone, expectedPhone)
+				"expected: '%s'", actualPhone.String, userPhone)
 		}
-		if actualDescription != expectedDescription {
+
+		if actualDescription.String != userDescription {
 			t.Fatalf("Description mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualDescription, expectedDescription)
+				"expected: '%s'", actualDescription.String, userDescription)
 		}
 	})
 }
