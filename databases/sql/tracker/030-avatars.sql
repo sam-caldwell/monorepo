@@ -42,17 +42,17 @@ $$ language plpgsql;
  * deleteAvatar() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteAvatar(targetId uuid) returns integer as
+create or replace function deleteAvatar(entityId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    count := (select count(id) from users where avatarId = targetId);
+    count := (select count(id) from users where avatarId = entityId);
     if count > 0 then
         count := 0;
         raise exception 'cannot delete avatar if it is in use';
     end if;
-    delete from avatars where id = targetId;
+    delete from avatars where id = entityId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -62,7 +62,7 @@ $$ language plpgsql;
  * getAvatarById() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getAvatarById(avatarId uuid) returns jsonb as
+create or replace function getAvatarById(entityId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -74,7 +74,7 @@ begin
                ) as avatar
     into result
     from avatars
-    where id = avatarId
+    where id = entityId
     limit 1;
     return result;
 end;
