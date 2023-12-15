@@ -41,13 +41,13 @@ $$ language plpgsql;
  * deleteIcons()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteIcon(targetId uuid) returns integer as
+create or replace function deleteIcon(entityId uuid) returns integer as
 $$
 declare
     count integer;
 begin
     -- an icon cannot be deleted if it is in use (project, workflow, ticketType, team, etc)
-    delete from icons where id = targetId;
+    delete from icons where id = entityId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -57,7 +57,7 @@ $$ language plpgsql;
 * getIconsById()
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 */
-create or replace function getIconById(targetId uuid) returns jsonb as
+create or replace function getIconById(entityId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -69,7 +69,7 @@ begin
                ) as icon
     into result
     from icons
-    where id = targetId
+    where id = entityId
     limit 1;
     return result;
 end
