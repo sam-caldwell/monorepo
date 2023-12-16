@@ -13,7 +13,7 @@ func countById(t *testing.T, db *Postgres.Db, tableName string, entityId uuid.UU
 	var count int
 	var rows *sql.Rows
 	t.Run("count entities by id in table '"+tableName+"';", func(t *testing.T) {
-		rows, err = db.Query("select count(id) from %s where id=('%s');", tableName, entityId)
+		rows, err = db.Query("select count(id) from %s where id='%s';", tableName, entityId)
 		if err != nil {
 			t.Fatalf("Fail: count query failed %v teamId:  %v", err, entityId)
 		}
