@@ -15,7 +15,6 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 		iconHash            = "182e31fa48267c22d598dfcddb66e2dffd0b4ec2b0192e28c3b73336b71ea8b4"
 		iconType            = "image/png"
 		functionName        = "deleteTeamByName"
-		tableName           = "teams"
 		testTeamName        = "testTeam3"
 		expectedFirstName   = "Peter"
 		expectedLastName    = "Norton"
