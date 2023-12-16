@@ -73,8 +73,8 @@ func TestSqlDbFunc_getUsersInTeam(t *testing.T) {
 		}
 	}
 
-	type CollectionOfTeams struct {
-		TeamID string `json:"teamId"`
+	type CollectionOfUsers struct {
+		UserId string `json:"userId"`
 	}
 
 	t.Run("getTeamsForUser() and verify", func(t *testing.T) {
@@ -86,7 +86,7 @@ func TestSqlDbFunc_getUsersInTeam(t *testing.T) {
 		}
 		defer func() { _ = rows.Close() }()
 
-		var actualTeams []CollectionOfTeams
+		var actualTeams []CollectionOfUsers
 		for rows.Next() {
 			var raw string
 			if err = rows.Scan(&raw); err != nil {

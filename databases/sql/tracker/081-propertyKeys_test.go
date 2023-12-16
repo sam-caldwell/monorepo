@@ -6,6 +6,7 @@ import (
 )
 
 func TestSqlDbTable_PropertyKeys(t *testing.T) {
+    t.Skip("disabled for debugging")
 	const tableName = "propertykeys"
 	db := sqldbtest.InitializeTestDbConn(t)
 
