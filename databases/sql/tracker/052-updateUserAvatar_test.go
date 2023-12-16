@@ -15,7 +15,6 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 		avatarType          = "image/png"
 		newAvatarHash       = "53cc4ca6f01c300005754f5c790f64bc8d99b2d4bdee6d67d5f03a76abc4a313"
 		functionName        = "updateUserAvatar"
-		tableName           = "user"
 		expectedFirstName   = "Grace"
 		expectedLastName    = "Hopper"
 		expectedEmail       = "grace.hopper@example.com"
@@ -29,9 +28,9 @@ func TestSqlDbFunc_updateUserAvatar(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from avatar where hash='%s';", avatarHash)
-		_, _ = db.Query("delete from avatar where hash='%s';", newAvatarHash)
-		_, _ = db.Query("delete from %s where id='%s'", tableName, userId)
+		_, _ = db.Query("delete from avatars where hash='%s';", avatarHash)
+		_, _ = db.Query("delete from avatars where hash='%s';", newAvatarHash)
+		_, _ = db.Query("delete from users where id='%s'", userId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})

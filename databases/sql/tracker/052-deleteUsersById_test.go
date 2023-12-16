@@ -14,7 +14,6 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd42812f4850b878ae4944c"
 		avatarType          = "image/png"
 		functionName        = "deleteUsersById"
-		tableName           = "user"
 		expectedFirstName   = "Alan"
 		expectedLastName    = "Turing"
 		expectedEmail       = "Alan.Turing@example.com"
@@ -27,8 +26,8 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from avatar where hash='%s';", avatarHash)
-		_, _ = db.Query("delete from %s where id='%s'", tableName, userId)
+		_, _ = db.Query("delete from users where id='%s'", userId)
+		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})

@@ -29,8 +29,8 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from avatar where hash='%s';", avatarHash)
-		_, _ = db.Query("delete from %s where id='%s'", tableName, userId)
+		_, _ = db.Query("delete from users where id='%s'", userId)
+		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
