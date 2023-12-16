@@ -37,10 +37,7 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
-		fmt.Sprintf("fn:%s,"+
-			"pn:{userId},"+
-			"pt:{uuid},"+
-			"rt:jsonb", strings.ToLower(functionName)))
+		fmt.Sprintf("fn:%s,pn:{userId},pt:{uuid},rt:jsonb", strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
 	userId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
