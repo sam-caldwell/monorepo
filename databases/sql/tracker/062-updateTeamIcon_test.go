@@ -16,7 +16,7 @@ func TestSqlDbFunc_updateTeamIcon(t *testing.T) {
 		oIconType       = "image/png"
 		nIconHash       = "19ed4500c67de78533c3b5b66d8279da6d7b119901b68326c9af6e72daad4bfd"
 		nIconType       = "image/png"
-		functionName    = "updateTeamDescription"
+		functionName    = "updateTeamIcon"
 		userFirstName   = "Klaus"
 		userLastName    = "Fuchs"
 		userEmail       = "treason.weasel@example.com"
@@ -47,8 +47,8 @@ func TestSqlDbFunc_updateTeamIcon(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{teamId,d},"+
-			"pt:{text,uuid},"+
+			"pn:{teamId,newIconId},"+
+			"pt:{uuid},"+
 			"rt:int4", strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
