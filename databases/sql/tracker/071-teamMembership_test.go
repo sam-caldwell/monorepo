@@ -6,7 +6,7 @@ import (
 )
 
 func TestSqlDbTable_TeamMembership(t *testing.T) {
-	const tableName = "teamMembership"
+	const tableName = "teamMemberships"
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -23,6 +23,7 @@ func TestSqlDbTable_TeamMembership(t *testing.T) {
 
 	t.Run("check table schema", func(t *testing.T) {
 		sqldbtest.ValidateTable(t, db, tableName, []string{
+			"ColumnName:id,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:userId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:teamId,DataType:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",

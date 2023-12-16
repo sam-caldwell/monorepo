@@ -32,7 +32,7 @@ declare
     associationId uuid;
 begin
     associationId := (select createEntity('user'::entityType));
-    insert into teamMembership (id, userId, teamId) values (associationId, userId, teamId);
+    insert into teamMemberships (id, userId, teamId) values (associationId, userId, teamId);
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -47,7 +47,7 @@ $$
 declare
     count integer;
 begin
-    delete from teamMembership where userId = uid and teamId = tid;
+    delete from teamMemberships where userId = uid and teamId = tid;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -66,7 +66,7 @@ begin
             'teamId', teamId
         )) as team
     into result
-    from teamMembership
+    from teamMemberships
     where userId = id;
     return result;
 end;
@@ -85,7 +85,7 @@ begin
             'userId', userId
         )) as workflow
     into result
-    from teamMembership
+    from teamMemberships
     where teamId = id;
     return result;
 end;
