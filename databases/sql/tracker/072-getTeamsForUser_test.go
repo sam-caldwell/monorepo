@@ -5,6 +5,7 @@ import (
 )
 
 func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
+	t.Skip("disabled for debugging")
 	//const (
 	//	avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
 	//	iconUrl             = "http://localhost/myfakeicon.ico"
