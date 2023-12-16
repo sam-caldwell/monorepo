@@ -13,6 +13,8 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	const (
 		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd42812f4850b878ae4944c"
 		avatarType          = "image/png"
+		iconHash            = "182e31fa48267c22d598dfcddb66e2dffd0b4ec2b0192e28c3b73336b71ea8b4"
+		iconType            = "image/png"
 		functionName        = "deleteUsersById"
 		expectedFirstName   = "Alan"
 		expectedLastName    = "Turing"
@@ -120,22 +122,7 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 		}
 	})
 
-	t.Run("count the number of matching users (expect zero)", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select count(id) from users where id=('%s');", userId)
-		if err != nil {
-			t.Fatalf("count query failed %v\n"+
-				"teamId:  %v", err, userId)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var count int
-		err = rows.Scan(&count)
-		if count != 0 {
-			t.Fatalf("expected count 0 but got %d", count)
-		}
-	})
+	if count := countById(t, db, "users", userId); count != 0 {
+		t.Fatalf("expected count 0 but got %d", count)
+	}
 }
