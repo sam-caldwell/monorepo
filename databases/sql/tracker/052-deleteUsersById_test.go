@@ -11,7 +11,7 @@ import (
 
 func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	const (
-		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd42812f4850b878ae4944c"
 		avatarType          = "image/png"
 		functionName        = "deleteUsersById"
 		tableName           = "user"
@@ -27,78 +27,24 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		// Note: we only clean up the avatar we expect to have created.
-		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where email='%s'", tableName, expectedEmail)
+		_, _ = db.Query("delete from avatar where hash='%s';", avatarHash)
+		_, _ = db.Query("delete from %s where id='%s'", tableName, userId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
 
-	t.Run("verify the function structure (params, return)", func(t *testing.T) {
-		sqldbtest.VerifyFunctionStructure(t, db,
-			strings.ToLower(functionName),
-			fmt.Sprintf("fn:%s,"+
-				"pn:{userId},"+
-				"pt:{uuid},"+
-				"rt:int4", strings.ToLower(functionName)))
-	})
+	sqldbtest.VerifyFunctionStructure(t, db,
+		strings.ToLower(functionName),
+		fmt.Sprintf("fn:%s,"+
+			"pn:{userId},"+
+			"pt:{uuid},"+
+			"rt:int4", strings.ToLower(functionName)))
 
-	t.Run("call createAvatar()", func(t *testing.T) {
-		/*
-		 * We need to create an avatar to create a user
-		 */
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createAvatar('%s'::mimeType,'%s');", avatarHash, avatarType)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if avatarId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
+	avatarId = createAvatar(t, db, avatarType, avatarHash)
+	userId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
+		expectedPhone, expectedDescription)
 
-	t.Run("call createUser()", func(t *testing.T) {
-		/*
-		 * create the user...
-		 */
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
-			expectedFirstName, expectedLastName, avatarId, expectedEmail, expectedPhone, expectedDescription)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if userId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if userId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
-
-	t.Run("inspect and verify user", func(t *testing.T) {
-		/*
-		 * verify the user.
-		 */
+	t.Run("inspect and verify", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select id,firstName,lastName,avatarId,email,phoneNumber,description "+
