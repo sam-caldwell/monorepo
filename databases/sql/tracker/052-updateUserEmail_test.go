@@ -10,7 +10,6 @@ import (
 )
 
 func TestSqlDbFunc_updateUserEmail(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash          = "f5fc32a488d160483076487deaf907b89fd46d76a8055819a0a62dc2fd55b111"
 		avatarType          = "image/png"
