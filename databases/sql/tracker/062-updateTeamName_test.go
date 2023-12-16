@@ -45,7 +45,7 @@ func TestSqlDbFunc_updateTeamTeamName(t *testing.T) {
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
 			"pn:{teamId,teamName},"+
-			"pt:{uuid,varchar},"+
+			"pt:{varchar,uuid},"+
 			"rt:int4", strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
