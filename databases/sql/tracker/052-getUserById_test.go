@@ -11,9 +11,8 @@ import (
 )
 
 func TestSqlDbFunc_getUserById(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
-		avatarHash          = "54742f98d09fdde6dbbb77d912c9e02448cd979590c19ecbf26039715db2e603"
+		avatarHash          = "1262190e91301435e25eb58cc5897a9833b90fef85a1d4f5a1965fb6c070e8f2"
 		avatarType          = "image/png"
 		functionName        = "getUserById"
 		tableName           = "user"
@@ -25,6 +24,7 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 	)
 	var avatarId uuid.UUID
 	var userId uuid.UUID
+	var actualUser TrackerUser
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -58,9 +58,28 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		if err = rows.Scan(&raw); err != nil {
 			t.Fatal(err)
 		}
-		var actualUser TrackerUser
 		if err = json.Unmarshal([]byte(raw), &actualUser); err != nil {
 			t.Fatalf("unmarshal failed: %v", err)
+		}
+	})
+	t.Run("verify", func(t *testing.T) {
+		if actualUser.Id != userId {
+			t.Fatalf("userId mismatch")
+		}
+		if actualUser.FirstName != expectedFirstName {
+			t.Fatalf("firstname mismatch")
+		}
+		if actualUser.LastName != expectedLastName {
+			t.Fatalf("lastname mismatch")
+		}
+		if actualUser.Email != expectedEmail {
+			t.Fatalf("email mismatch")
+		}
+		if actualUser.PhoneNumber != expectedPhone {
+			t.Fatalf("phone mismatch")
+		}
+		if actualUser.Description != expectedDescription {
+			t.Fatalf("description mismatch")
 		}
 	})
 }

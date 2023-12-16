@@ -25,6 +25,7 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 	)
 	var avatarId uuid.UUID
 	var userId uuid.UUID
+	var actualUser TrackerUser
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -58,9 +59,28 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 		if err = rows.Scan(&raw); err != nil {
 			t.Fatal(err)
 		}
-		var actualUser TrackerUser
 		if err = json.Unmarshal([]byte(raw), &actualUser); err != nil {
 			t.Fatalf("unmarshal failed: %v", err)
+		}
+	})
+	t.Run("verify", func(t *testing.T) {
+		if actualUser.Id != userId {
+			t.Fatalf("userId mismatch")
+		}
+		if actualUser.FirstName != expectedFirstName {
+			t.Fatalf("firstname mismatch")
+		}
+		if actualUser.LastName != expectedLastName {
+			t.Fatalf("lastname mismatch")
+		}
+		if actualUser.Email != expectedEmail {
+			t.Fatalf("email mismatch")
+		}
+		if actualUser.PhoneNumber != expectedPhone {
+			t.Fatalf("phone mismatch")
+		}
+		if actualUser.Description != expectedDescription {
+			t.Fatalf("description mismatch")
 		}
 	})
 }
