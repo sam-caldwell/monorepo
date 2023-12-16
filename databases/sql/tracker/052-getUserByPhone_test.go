@@ -16,7 +16,6 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 		avatarHash          = "e8172424cebb838aed7e9278793d3aa46d99a97b5caf16d562ee35f7fb8fdf2c"
 		avatarType          = "image/png"
 		functionName        = "getUserByPhone"
-		tableName           = "user"
 		expectedFirstName   = "Ada"
 		expectedLastName    = "Lovelace"
 		expectedEmail       = "ada.lovelace@example.com"

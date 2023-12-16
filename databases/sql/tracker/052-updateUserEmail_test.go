@@ -14,7 +14,6 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 		avatarHash          = "f5fc32a488d160483076487deaf907b89fd46d76a8055819a0a62dc2fd55b111"
 		avatarType          = "image/png"
 		functionName        = "updateUserEmail"
-		tableName           = "user"
 		expectedFirstName   = "Ken"
 		expectedLastName    = "Thompson"
 		expectedEmail       = "ken.thompson@example.com"

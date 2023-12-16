@@ -15,7 +15,6 @@ func TestSqlDbFunc_getUserById(t *testing.T) {
 		avatarHash          = "1262190e91301435e25eb58cc5897a9833b90fef85a1d4f5a1965fb6c070e8f2"
 		avatarType          = "image/png"
 		functionName        = "getUserById"
-		tableName           = "user"
 		expectedFirstName   = "John"
 		expectedLastName    = "Von Neumann"
 		expectedEmail       = "John.vonNeumann@example.com"
