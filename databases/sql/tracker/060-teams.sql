@@ -246,8 +246,7 @@ $$ language plpgsql;
  * updateTeamName() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateTeamName(teamId uuid, teamName varchar(64), iconId uuid, ownerId uuid, owner permissions,
-                                      team permissions, everyone permissions, description text) returns integer as
+create or replace function updateTeamName(teamId uuid, teamName varchar(64)) returns integer as
 $$
 declare
     count integer;
