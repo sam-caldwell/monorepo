@@ -12,7 +12,7 @@ func deleteById(t *testing.T, db *Postgres.Db, tableName string, entityId uuid.U
 	var err error
 	var count int
 	var rows *sql.Rows
-	t.Run("delete entities by id in table '"+tableName+"';", func(t *testing.T) {
+	t.Run("delete by id in table '"+tableName+"';", func(t *testing.T) {
 		rows, err = db.Query("delete from %s where id=('%s');", tableName, entityId)
 		if err != nil {
 			t.Fatalf("delete query failed %v teamId:  %v", err, entityId)
