@@ -41,7 +41,7 @@ func TestSqlDbTable_Avatars(t *testing.T) {
 		columnNames := []string{
 			"hash",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: mimeType", func(t *testing.T) {
 		columnNames := []string{
