@@ -10,19 +10,20 @@ create table if not exists teams
     -- the teamId used to uniquely identify the team
     id          uuid primary key not null,
     -- the unique team name --
-    name        varchar(64) not null,
+    name        varchar(64)      not null,
     -- a uuid representing the icon for the workflow.
-    iconId      uuid        not null,
+    iconId      uuid             not null,
     -- the owner is the user who created the team or who has team ownership --
-    ownerId     uuid        not null,
+    ownerId     uuid             not null,
     -- permissions are granted to the owner, team and everyone --
-    owner       permissions not null default 'delete'::permissions,
-    team        permissions not null default 'read'::permissions,
-    everyone    permissions not null default 'read'::permissions,
+    owner       permissions      not null default 'delete'::permissions,
+    team        permissions      not null default 'read'::permissions,
+    everyone    permissions      not null default 'read'::permissions,
     -- --
-    created     timestamp   not null default now(),
+    created     timestamp        not null default now(),
     -- descriptive text --
     description text,
+    -- --
     foreign key (ownerId) references users (id),
     foreign key (iconId) references icons (id) on delete restrict,
     foreign key (id) references entity (id) on delete restrict
@@ -66,7 +67,7 @@ $$
 declare
     count integer;
 begin
-    delete from teams where id=teamId;
+    delete from teams where id = teamId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -81,7 +82,7 @@ $$
 declare
     count integer;
 begin
-    delete from teams where name=teamName;
+    delete from teams where name = teamName;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
