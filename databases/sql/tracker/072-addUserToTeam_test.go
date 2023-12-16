@@ -15,7 +15,6 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 		iconHash         = "69357df9edaa759985b300c4d0341cd906bff5519ff55035a04b58c0af5237c3"
 		iconType         = "image/png"
 		functionName     = "addUserToTeam"
-		testTeamName     = "testTeam1"
 		ownerFirstName   = "William"
 		ownerLastName    = "Shakespeare"
 		ownerEmail       = "will.shakespeare@example.com"
@@ -38,7 +37,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from teammemberships where id='%s'", teamId)
+		_, _ = db.Query("delete from teammemberships where teamId='%s'", teamId)
 		_, _ = db.Query("delete from teams where id='%s'", teamId)
 		_, _ = db.Query("delete from users where id='%s'", userId)
 		_, _ = db.Query("delete from users where id='%s'", ownerId)
@@ -58,7 +57,7 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
 	iconId = createIcon(t, db, iconType, iconHash)
 	ownerId = createUser(t, db, ownerFirstName, ownerLastName, avatarId, ownerEmail, ownerPhone, ownerDescription)
-	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, userDescription)
+	teamId = createTeam(t, db, teamName, iconId, ownerId, pRead, pRead, pRead, userDescription)
 	userId = createUser(t, db, userFirstName, userLastName, avatarId, userEmail, userPhone, userDescription)
 
 	if count := addUserToTeam(t, db, userId, teamId); count != 1 {

@@ -57,7 +57,7 @@ $$ language plpgsql;
  * getTeamsForUser()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getTeamsForUser(id uuid) returns jsonb as
+create or replace function getTeamsForUser(thisUserId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -67,7 +67,7 @@ begin
         )) as team
     into result
     from teamMemberships
-    where userId = id;
+    where userId = thisUserId;
     return result;
 end;
 $$ language plpgsql;
