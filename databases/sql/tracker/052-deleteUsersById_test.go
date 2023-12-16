@@ -13,8 +13,6 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 	const (
 		avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd42812f4850b878ae4944c"
 		avatarType          = "image/png"
-		iconHash            = "182e31fa48267c22d598dfcddb66e2dffd0b4ec2b0192e28c3b73336b71ea8b4"
-		iconType            = "image/png"
 		functionName        = "deleteUsersById"
 		expectedFirstName   = "Alan"
 		expectedLastName    = "Turing"
