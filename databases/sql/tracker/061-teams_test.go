@@ -7,6 +7,7 @@ import (
 
 func TestSqlDbTable_teams(t *testing.T) {
 	const tableName = "teams"
+
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
@@ -14,7 +15,7 @@ func TestSqlDbTable_teams(t *testing.T) {
 		sqldbtest.CheckError(t, err)
 	})
 
-	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
+	t.Run("query the table", func(t *testing.T) {
 		rows, err := db.Query("select 1 from %s limit 1;", tableName)
 		sqldbtest.CheckError(t, err)
 		defer func() { _ = rows.Close() }()
@@ -23,7 +24,7 @@ func TestSqlDbTable_teams(t *testing.T) {
 	t.Run("check table schema", func(t *testing.T) {
 		sqldbtest.ValidateTable(t, db, tableName, []string{
 			"ColumnName:description,DataType:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
-			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:gen_random_uuid()",
+			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
 			"ColumnName:name,DataType:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:iconId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:ownerId,DataType:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
@@ -49,36 +50,36 @@ func TestSqlDbTable_teams(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: ownerId", func(t *testing.T) {
 		columnNames := []string{
 			"ownerId",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: iconId", func(t *testing.T) {
 		columnNames := []string{
 			"iconId",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: owner", func(t *testing.T) {
 		columnNames := []string{
 			"owner",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: team", func(t *testing.T) {
 		columnNames := []string{
 			"team",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: everyone", func(t *testing.T) {
 		columnNames := []string{
 			"everyone",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }
