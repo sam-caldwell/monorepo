@@ -4,17 +4,18 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_removeUserFromTeam(t *testing.T) {
+func TestSqlDbFunc_getUsersInTeam(t *testing.T) {
+	t.Skip("disabled for debugging")
 	//const (
 	//	avatarHash          = "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
 	//	iconUrl             = "http://localhost/myfakeicon.ico"
-	//	functionName        = "removeUserFromTeam"
-	//	expectedFirstName   = "Augustus"
+	//	functionName        = "getUsersInTeam"
+	//	expectedFirstName   = "Julius"
 	//	expectedLastName    = "Caesar"
-	//	expectedEmail       = "augustus.caesar%d@example.com"
-	//	expectedPhone       = "222.315.999%d"
+	//	expectedEmail       = "julius.caesar%d@example.com"
+	//	expectedPhone       = "111.315.999%d"
 	//	expectedDescription = "Test description"
-	//	expectedTeamName    = "Coliseum"
+	//	expectedTeamName    = "IdesOfMarch"
 	//)
 	//var avatarId uuid.UUID
 	//var iconId uuid.UUID
@@ -42,9 +43,9 @@ func TestSqlDbFunc_removeUserFromTeam(t *testing.T) {
 	//	sqldbtest.VerifyFunctionStructure(t, db,
 	//		strings.ToLower(functionName),
 	//		fmt.Sprintf("fn:%s,"+
-	//			"pn:{uid,tid},"+
+	//			"pn:{id},"+
 	//			"pt:{uuid},"+
-	//			"rt:int4", strings.ToLower(functionName)))
+	//			"rt:jsonb", strings.ToLower(functionName)))
 	//})
 	//
 	//t.Run("call createAvatar()", func(t *testing.T) {
@@ -164,48 +165,33 @@ func TestSqlDbFunc_removeUserFromTeam(t *testing.T) {
 	//	})
 	//}
 	//
-	//t.Run("Remove users[0] from the team", func(t *testing.T) {
-	//	var err error
-	//	var rows *sql.Rows
-	//	rows, err = db.Query("select removeUserFromTeam('%s','%s');", users[0], teamId)
-	//	if err != nil {
-	//		t.Fatal(err)
-	//	}
-	//	defer func() { _ = rows.Close() }()
-	//	if !rows.Next() {
-	//		t.Fatal("no row returned")
-	//	}
-	//	var count int
-	//	if err = rows.Scan(&count); err != nil {
-	//		t.Fatal(err)
-	//	}
-	//	if count != 1 {
-	//		t.Fatalf("expected count 1 but got %d", count)
-	//	}
-	//})
+	//type UserSet struct {
+	//	UserId string `json:"userId"`
+	//}
 	//
-	//t.Run("confirm count after delete", func(t *testing.T) {
-	//	var err error
+	//t.Run("getUsersInTeam() and verify", func(t *testing.T) {
 	//	var rows *sql.Rows
-	//	rows, err = db.Query(""+
-	//		"select count(*) "+
-	//		"from teamMembership "+
-	//		"where userId='%s' "+
-	//		"and teamId='%s'",
-	//		users[0], teamId)
+	//	var err error
+	//	rows, err = db.Query("select getUsersInTeam('%s');", teamId)
 	//	if err != nil {
 	//		t.Fatal(err)
 	//	}
 	//	defer func() { _ = rows.Close() }()
-	//	if !rows.Next() {
-	//		t.Fatal("no row returned")
+	//
+	//	var actualUsers []UserSet
+	//	for rows.Next() {
+	//		var raw sql.NullString
+	//		if err = rows.Scan(&raw); err != nil {
+	//			t.Fatal(err)
+	//		}
+	//		if err = json.Unmarshal([]byte(raw.String), &actualUsers); err != nil {
+	//			t.Fatalf("error: failed to parse: %v\n"+
+	//				"raw: %v", err, raw)
+	//		}
 	//	}
-	//	var count int
-	//	if err = rows.Scan(&count); err != nil {
-	//		t.Fatal(err)
-	//	}
-	//	if count != 0 {
-	//		t.Fatalf("expected count 0 but got %d", count)
+	//
+	//	if len(actualUsers) != len(users) {
+	//		t.Fatalf("Error: expected count %d but got %d", len(users), len(actualUsers))
 	//	}
 	//})
 }

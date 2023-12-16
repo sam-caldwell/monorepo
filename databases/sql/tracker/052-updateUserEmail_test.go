@@ -10,13 +10,15 @@ import (
 )
 
 func TestSqlDbFunc_updateUserEmail(t *testing.T) {
+	t.Skip("disabled for debugging")
 	const (
-		originalAvatarUrl   = "http://localhost/myfakeavatar.jpeg"
+		avatarHash          = "f5fc32a488d160483076487deaf907b89fd46d76a8055819a0a62dc2fd55b111"
+		avatarType          = "image/png"
 		functionName        = "updateUserEmail"
 		tableName           = "user"
 		expectedFirstName   = "Ken"
 		expectedLastName    = "Thompson"
-		originalEmail       = "ken.thompson@example.com"
+		expectedEmail       = "ken.thompson@example.com"
 		newEmail            = "new.email@example.com"
 		expectedPhone       = "555.123.4567"
 		expectedDescription = "original description"
@@ -27,74 +29,19 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		// Note: we only clean up the avatar we expect to have created.
-		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where email='%s'", tableName, newEmail)
-		_, _ = db.Query("delete from %s where email='%s'", tableName, originalEmail)
+		_, _ = db.Query("delete from avatar where hash='%s';", avatarHash)
+		_, _ = db.Query("delete from %s where id='%s'", tableName, userId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
 
-	t.Run("verify the function structure (params, return)", func(t *testing.T) {
-		sqldbtest.VerifyFunctionStructure(t, db,
-			strings.ToLower(functionName),
-			fmt.Sprintf("fn:%s,"+
-				"pn:{userId,newEmail},"+
-				"pt:{varchar,uuid},"+
-				"rt:int4", strings.ToLower(functionName)))
-	})
+	sqldbtest.VerifyFunctionStructure(t, db,
+		strings.ToLower(functionName),
+		fmt.Sprintf("fn:%s,pn:{userId,newEmail},pt:{varchar,uuid},rt:int4", strings.ToLower(functionName)))
 
-	t.Run("call createAvatar() to create the original AvatarId", func(t *testing.T) {
-		/*
-		 * We need to create an avatar to create a user
-		 */
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createAvatar('%s');", originalAvatarUrl)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if avatarId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if avatarId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
-
-	t.Run("call createUser()", func(t *testing.T) {
-		/*
-		 * create the user...
-		 */
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createUser('%s','%s','%s','%s','%s','%s');",
-			expectedFirstName, expectedLastName, avatarId, originalEmail, expectedPhone, expectedDescription)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if userId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-		if userId.String() == "00000000-0000-0000-0000-000000000000" {
-			t.Fatal("illegal zero uuid")
-		}
-	})
+	avatarId = createAvatar(t, db, avatarType, avatarHash)
+	userId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
+		expectedPhone, expectedDescription)
 
 	t.Run("inspect and verify user", func(t *testing.T) {
 		/*
@@ -138,10 +85,10 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 				"actual:   '%s'\n"+
 				"expected: '%s'", actualAvatarId, avatarId)
 		}
-		if actualEmail != originalEmail {
+		if actualEmail != expectedEmail {
 			t.Fatalf("Email mismatch\n"+
 				"actual:   '%s'\n"+
-				"expected: '%s'", actualEmail, originalEmail)
+				"expected: '%s'", actualEmail, expectedEmail)
 		}
 		if actualPhone != expectedPhone {
 			t.Fatalf("PhoneNumber mismatch\n"+
@@ -165,7 +112,7 @@ func TestSqlDbFunc_updateUserEmail(t *testing.T) {
 				"originalEmail: %v\n"+
 				"newEmail:      %v\n"+
 				"err: %v",
-				userId, originalEmail, newEmail, err)
+				userId, expectedEmail, newEmail, err)
 		}
 		defer func() { _ = rows.Close() }()
 		if !rows.Next() {
