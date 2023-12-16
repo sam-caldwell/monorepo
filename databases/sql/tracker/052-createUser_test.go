@@ -26,8 +26,8 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from user where id='%s'", userId)
-		_, _ = db.Query("delete from avatar where id='%s'", avatarId)
+		_, _ = db.Query("delete from users where id='%s'", userId)
+		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
 		err := db.Close()
 		sqldbtest.CheckError(t, err)
 	})
