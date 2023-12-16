@@ -14,7 +14,7 @@ func updateTeamDescription(t *testing.T, db *Postgres.Db, teamId uuid.UUID, desc
 	var rows *sql.Rows
 	var count int
 
-	t.Run("update description", func(t *testing.T) {
+	t.Run("update record", func(t *testing.T) {
 		rows, err = db.Query("select updateTeamDescription('%s','%s')", teamId, description)
 		if err != nil {
 			t.Fatalf("Fail: Query error: %v", err)
