@@ -14,7 +14,7 @@ func createTeam(t *testing.T, db *Postgres.Db, teamName string, iconId, ownerId 
 	var err error
 	var rows *sql.Rows
 
-	t.Run("call createUser();", func(t *testing.T) {
+	t.Run("call createTeam();", func(t *testing.T) {
 
 		rows, err = db.Query("select createTeam('%s','%s','%s','%s','%s','%s','%s');",
 			teamName, iconId, ownerId, owner, team, everyone, description)
