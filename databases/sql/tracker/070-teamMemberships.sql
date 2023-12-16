@@ -76,7 +76,7 @@ $$ language plpgsql;
  * getUsersInTeam()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getUsersInTeam(id uuid) returns jsonb as
+create or replace function getUsersInTeam(thisTeamId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -86,7 +86,7 @@ begin
         )) as workflow
     into result
     from teamMemberships
-    where teamId = id;
+    where teamId = thisTeamId;
     return result;
 end;
 $$ language plpgsql;

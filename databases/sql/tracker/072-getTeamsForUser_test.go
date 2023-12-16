@@ -29,7 +29,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 		userDescription  = "Test description"
 		teamName         = "Gravity Research"
 		pRead            = "read"
-		numberUsers      = 5
+		numberTeams      = 5
 	)
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
@@ -63,7 +63,7 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 	ownerId = createUser(t, db, ownerFirstName, ownerLastName, avatarId, ownerEmail, ownerPhone, ownerDescription)
 	userId = createUser(t, db, userFirstName, userLastName, avatarId, userEmail, userPhone, userDescription)
 
-	for i := 0; i < numberUsers; i++ {
+	for i := 0; i < numberTeams; i++ {
 		thisName := fmt.Sprintf("%v%d", teamName, i)
 		teamId := createTeam(t, db, thisName, iconId, ownerId, pRead, pRead, pRead, userDescription)
 		teamSet = append(teamSet, teamId)
