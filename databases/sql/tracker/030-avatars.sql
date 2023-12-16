@@ -19,7 +19,7 @@ create table if not exists avatars
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 create index if not exists ndxAvatarsCreated on avatars (created);
-create unique index if not exists ndxAvatarsHash on avatars (hash);
+create index if not exists ndxAvatarsHash on avatars (hash);
 create index if not exists ndxAvatarsMimeType on avatars (mimeType);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
