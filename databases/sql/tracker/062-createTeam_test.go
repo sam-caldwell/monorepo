@@ -22,6 +22,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		expectedEmail       = "paul.allen@example.com"
 		expectedPhone       = "737.444.0988"
 		expectedDescription = "Test description"
+		pRead               = "read"
 	)
 
 	var avatarId uuid.UUID
@@ -51,11 +52,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 	iconId = createIcon(t, db, iconType, iconHash)
 	ownerId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
 		expectedPhone, expectedDescription)
-
-	t.Run("createTeam (teamId)", func(t *testing.T) {
-		teamId = createTeam(t, db, testTeamName, iconId, ownerId,
-			"read", "read", "read", expectedDescription)
-	})
+	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
 
 	t.Run("inspect and verify team", func(t *testing.T) {
 		var err error
@@ -95,13 +92,13 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		if ownerId != actualOwnerId {
 			t.Fatalf("ownerId mismatch")
 		}
-		if actualPermissionOwner != "read" {
+		if actualPermissionOwner != pRead {
 			t.Fatalf("owner permission mismatch")
 		}
-		if actualPermissionTeam != "read" {
+		if actualPermissionTeam != pRead {
 			t.Fatalf("team permission mismatch")
 		}
-		if actualPermissionEveryone != "read" {
+		if actualPermissionEveryone != pRead {
 			t.Fatalf("everyone permission mismatch")
 		}
 		if actualDescription != expectedDescription {

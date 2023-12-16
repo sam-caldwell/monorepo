@@ -22,6 +22,7 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 		expectedEmail       = "anotherUser@example.com"
 		expectedPhone       = "727.444.0988"
 		expectedDescription = "Test description"
+		pRead               = "read"
 	)
 
 	var avatarId uuid.UUID
@@ -51,7 +52,7 @@ func TestSqlDbFunc_deleteTeamByName(t *testing.T) {
 	iconId = createIcon(t, db, iconType, iconHash)
 	ownerId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
 		expectedPhone, expectedDescription)
-	teamId = createTeam(t, db, testTeamName, iconId, ownerId, expectedDescription)
+	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
 
 	t.Run("call deleteTeamByName(teamName)", func(t *testing.T) {
 		var rows *sql.Rows

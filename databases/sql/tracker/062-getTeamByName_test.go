@@ -51,7 +51,8 @@ func TestSqlDbFunc_getTeamByName(t *testing.T) {
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
 	iconId = createIcon(t, db, iconType, iconHash)
 	ownerId = createUser(t, db, userFirstName, userLastName, avatarId, userEmail, userPhone, userDescription)
-	teamId = createTeam(t, db, teamName, iconId, ownerId, teamDescription)
+	teamId = createTeam(t, db, teamName, iconId, ownerId,
+		"read", "read", "read", teamDescription)
 
 	t.Run("getTeamByName()", func(t *testing.T) {
 		var rows *sql.Rows

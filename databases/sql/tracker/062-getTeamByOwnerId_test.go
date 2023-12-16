@@ -24,6 +24,7 @@ func TestSqlDbFunc_getTeamByOwnerId(t *testing.T) {
 		userDescription = "Test description"
 		teamName        = "Amazing Discoverer"
 		teamDescription = "this is the team"
+		pRead           = "read"
 	)
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
@@ -51,7 +52,7 @@ func TestSqlDbFunc_getTeamByOwnerId(t *testing.T) {
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
 	iconId = createIcon(t, db, iconType, iconHash)
 	ownerId = createUser(t, db, userFirstName, userLastName, avatarId, userEmail, userPhone, userDescription)
-	teamId = createTeam(t, db, teamName, iconId, ownerId, teamDescription)
+	teamId = createTeam(t, db, teamName, iconId, ownerId, pRead, pRead, pRead, teamDescription)
 
 	t.Run("getTeamByOwnerId()", func(t *testing.T) {
 		var rows *sql.Rows
