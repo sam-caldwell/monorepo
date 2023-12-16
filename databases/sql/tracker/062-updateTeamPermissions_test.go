@@ -56,5 +56,5 @@ func TestSqlDbFunc_updateTeamPermissions(t *testing.T) {
 	if count := updatePermissions(t, db, teamId, pNone, pNone, pNone); count != 1 {
 		t.Fatalf("expect 1 but got %d", count)
 	}
-	verifyTeamRecord(t, db, teamId, teamName, IconId, ownerId, pRead, pRead, pRead, teamDescription)
+	verifyTeamRecord(t, db, teamId, teamName, IconId, ownerId, pNone, pNone, pNone, teamDescription)
 }
