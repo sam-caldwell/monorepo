@@ -12,6 +12,7 @@ func createAvatar(t *testing.T, db *Postgres.Db, mimeType, hash string) (entityI
 	var err error
 	var rows *sql.Rows
 	t.Run("call createAvatar();", func(t *testing.T) {
+		t.Logf("deleting avatarId: %v", entityId)
 		rows, err = db.Query("select createAvatar('%s','%s');", mimeType, hash)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
