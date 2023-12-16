@@ -170,23 +170,90 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTeam() function
+ * updateTeamDescription() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateTeam(teamId uuid, teamName varchar(64), iconId uuid, ownerId uuid, owner permissions,
+create or replace function updateTeamDescription(teamId uuid, d text) returns integer as
+$$
+declare
+    count integer;
+begin
+    update teams
+    set description=d
+    where id = teamId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updatePermissions() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updatePermissions(teamId uuid, o permissions,t permissions, e permissions) returns integer as
+$$
+declare
+    count integer;
+begin
+    update teams
+    set owner=o,
+        team=t,
+        everyone=e
+    where id = teamId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTeamIcon() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTeamIcon(teamId uuid, newIconId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update teams
+    set iconId=newIconId
+    where id = teamId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTeamOwner() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTeamOwner(teamId uuid, newOwnerId uuid) returns integer as
+$$
+declare
+    count integer;
+begin
+    update teams
+    set ownerId=newOwnerId
+    where id = teamId;
+    get diagnostics count = ROW_COUNT;
+    return count;
+end;
+$$ language plpgsql;
+
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * updateTeamName() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function updateTeamName(teamId uuid, teamName varchar(64), iconId uuid, ownerId uuid, owner permissions,
                                       team permissions, everyone permissions, description text) returns integer as
 $$
 declare
     count integer;
 begin
     update teams
-    set name=teamName,
-        iconId=iconId,
-        ownerId=ownerId,
-        owner=owner,
-        team=team,
-        everyone=everyone,
-        description=description
+    set name=teamName
     where id = teamId;
     get diagnostics count = ROW_COUNT;
     return count;
