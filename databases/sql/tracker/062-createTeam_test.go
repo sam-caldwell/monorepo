@@ -53,7 +53,8 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 		expectedPhone, expectedDescription)
 
 	t.Run("createTeam (teamId)", func(t *testing.T) {
-		teamId = createTeam(t, db, testTeamName, iconId, ownerId, expectedDescription)
+		teamId = createTeam(t, db, testTeamName, iconId, ownerId,
+			"read", "read", "read", expectedDescription)
 	})
 
 	t.Run("inspect and verify team", func(t *testing.T) {
