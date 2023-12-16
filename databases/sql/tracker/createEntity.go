@@ -24,6 +24,7 @@ func createEntity(t *testing.T, db *Postgres.Db, entityType string) (entityId uu
 		if err != nil {
 			t.Fatalf("Failed to scan rows. %v", err)
 		}
+		t.Logf("create entityId: %v", entityId)
 	})
 	return entityId
 }

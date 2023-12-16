@@ -13,6 +13,7 @@ func deleteAvatar(t *testing.T, db *Postgres.Db, entityId uuid.UUID) int {
 	var count int
 	var rows *sql.Rows
 	t.Run("call deleteAvatar();", func(t *testing.T) {
+		t.Logf("deleting avatarId: %v", entityId)
 		rows, err = db.Query("select deleteAvatar('%s');", entityId)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
