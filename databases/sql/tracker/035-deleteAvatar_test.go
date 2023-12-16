@@ -27,10 +27,7 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
-		fmt.Sprintf("fn:%s,"+
-			"pn:{entityId},"+
-			"pt:{uuid},"+
-			"rt:int4", strings.ToLower(functionName)))
+		fmt.Sprintf("fn:%s,pn:{entityId},pt:{uuid},rt:int4", strings.ToLower(functionName)))
 
 	t.Run("create an record", func(t *testing.T) {
 		entityId = createAvatar(t, db, testType, testHash)
