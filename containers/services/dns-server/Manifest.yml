@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This project defines a DNS Server container
   opsys:
