@@ -5,26 +5,25 @@
  */
 create table if not exists projects
 (
-    id          uuid primary key not null,
+    id                uuid primary key not null,
     -- each workflow has a unique name --
-    name        varchar(64) not null,
+    name              varchar(64)      not null,
     -- a uuid representing the icon for the workflow. --
-    iconId        uuid not null,
+    iconId            uuid             not null,
     -- a project will have an owner and team which have permissions --
-    ownerId     uuid        not null,
-    teamId      uuid        not null,
-    owner       permissions not null default 'delete',
-    team        permissions not null default 'none',
-    everyone    permissions not null default 'none',
-    defaultTicketType uuid not null,
+    ownerId           uuid             not null,
+    teamId            uuid             not null,
+    -- permissions --
+    owner             permissions      not null default 'delete',
+    team              permissions      not null default 'none',
+    everyone          permissions      not null default 'none',
     -- --
-    created  timestamp        not null default now(),
+    created           timestamp        not null default now(),
     -- descriptive text --
-    description text,
+    description       text,
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
-    foreign key (iconId) references icons(id),
-    foreign key (defaultTicketType) references ticketTypes(id),
+    foreign key (iconId) references icons (id),
     foreign key (id) references entity (id) on delete restrict
 );
 /*
@@ -39,15 +38,15 @@ create index if not exists ndxProjectsCreated on projects (created);
  * createProjects() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createProjects(name varchar(64), iconId uuid, workflowId uuid,
-                                          description text) returns uuid as
+create or replace function createProjects(projectName varchar(64), projectIconId uuid,
+                                          projectDesc text) returns uuid as
 $$
 declare
     newId uuid;
 begin
     newId := gen_random_uuid();
-    insert into projects (id, name, iconId, workflowId, description)
-    values (newId, name, iconId, workflowId, description);
+    insert into projects (id, name, iconId, description)
+    values (newId, projectName, projectIconId, projectDesc);
     return newId;
 end;
 $$ language plpgsql;
@@ -88,7 +87,8 @@ begin
             'permissionEveryone', everyone,
             'defaultTicketType', defaultTicketType,
             'description', description
-        ))  as data into result
+        )) as data
+    into result
     from projects
     where id == projectId;
     return result;
@@ -116,7 +116,8 @@ begin
             'permissionEveryone', everyone,
             'defaultTicketType', defaultTicketType,
             'description', description
-        ))  as data into result
+        )) as data
+    into result
     from projects
     where name == projectName;
     return result;
@@ -144,7 +145,8 @@ begin
             'permissionEveryone', everyone,
             'defaultTicketType', defaultTicketType,
             'description', description
-        ))  as data into result
+        )) as data
+    into result
     from projects
     where ownerId == OwnerId;
     return result;
@@ -172,7 +174,8 @@ begin
             'permissionEveryone', everyone,
             'defaultTicketType', defaultTicketType,
             'description', description
-        ))  as data into result
+        )) as data
+    into result
     from projects
     where teamId == TeamId;
     return result;

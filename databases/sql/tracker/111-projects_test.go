@@ -30,7 +30,6 @@ func TestSqlDbTable_Projects(t *testing.T) {
 			"ColumnName:owner,datatype:user-defined,size:-1,IsNullable:no,ColumnDefault:'delete'::permissions",
 			"ColumnName:team,datatype:user-defined,size:-1,IsNullable:no,ColumnDefault:'none'::permissions",
 			"ColumnName:everyone,datatype:user-defined,size:-1,IsNullable:no,ColumnDefault:'none'::permissions",
-			"ColumnName:defaultTicketType,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:description,datatype:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
 			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
 		})
@@ -40,7 +39,6 @@ func TestSqlDbTable_Projects(t *testing.T) {
 		sqldbtest.ValidateForeignKey(t, db, tableName, "users", "ownerId", "id")
 		sqldbtest.ValidateForeignKey(t, db, tableName, "teams", "teamId", "id")
 		sqldbtest.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
-		sqldbtest.ValidateForeignKey(t, db, tableName, "ticketTypes", "defaultTicketType", "id")
 		sqldbtest.ValidateForeignKey(t, db, tableName, "entity", "id", "id")
 	})
 	t.Run("verify indexes: name", func(t *testing.T) {
