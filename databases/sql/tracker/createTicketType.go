@@ -29,9 +29,7 @@ func createTicketType(t *testing.T, db *Postgres.Db, name string, iconId, workfl
 			t.Fatal("Fail: no row returned")
 		}
 
-		err = rows.Scan(&entityId)
-
-		if err != nil {
+		if err = rows.Scan(&entityId); err != nil {
 			t.Fatalf("Failed to scan rows. %v", err)
 		}
 
