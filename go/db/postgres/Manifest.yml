@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This Golang project implements some common postgresql tooling (used esp. by dbMigrations)
   opsys:
