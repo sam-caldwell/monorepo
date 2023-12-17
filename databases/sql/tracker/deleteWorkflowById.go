@@ -27,6 +27,5 @@ func deleteWorkflowById(t *testing.T, db *Postgres.Db, workflowId uuid.UUID) (co
 			t.Fatal(err)
 		}
 	})
-
 	return count
 }

@@ -26,6 +26,5 @@ func deleteWorkflowByName(t *testing.T, db *Postgres.Db, workflowName string) (c
 			t.Fatal(err)
 		}
 	})
-
 	return count
 }
