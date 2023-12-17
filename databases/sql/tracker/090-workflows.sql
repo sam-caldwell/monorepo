@@ -9,17 +9,17 @@ create table if not exists workflows
 (
 
     id          uuid primary key not null, -- workflowsId uniquely identifies the workflows --
-    name        varchar(64) not null, -- each workflows has a unique name --
+    name        varchar(64)      not null, -- each workflows has a unique name --
     -- --
-    iconId      uuid        not null, -- a uuid representing the icon for the workflows. --
-    ownerId     uuid        not null, -- a workflows will have an owner and team which have permissions --
-    teamId      uuid        not null, -- permissions are granted to the owner, team and everyone --
+    iconId      uuid             not null, -- a uuid representing the icon for the workflows. --
+    ownerId     uuid             not null, -- a workflows will have an owner and team which have permissions --
+    teamId      uuid             not null, -- permissions are granted to the owner, team and everyone --
     -- --
-    owner       permissions not null default 'delete',
-    team        permissions not null default 'read',
-    everyone    permissions not null default 'read',
+    owner       permissions      not null default 'delete',
+    team        permissions      not null default 'read',
+    everyone    permissions      not null default 'read',
     -- --
-    created     timestamp   not null default now(),
+    created     timestamp        not null default now(),
     -- --
     description text,
     foreign key (ownerId) references users (id),
@@ -39,60 +39,64 @@ create index if not exists ndxWorkflowsTeam on workflows (team);
 create index if not exists ndxWorkflowsEveryone on workflows (everyone);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * createWorkflows()
+ * createWorkflow()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createWorkflows(name varchar(64), iconId uuid, ownerId uuid, teamId uuid, owner permissions,
-                                          team permissions, everyone permissions, description text) returns uuid as
+create or replace function createWorkflow(workflowName varchar(64), workflowIconId uuid, workflowOwnerId uuid,
+                                          workflowTeamId uuid, workflowPermissionOwner permissions,
+                                          workflowPermissionTeam permissions, workflowPermissionEveryone permissions,
+                                          workflowPermissionDescription text) returns uuid as
 $$
 declare
     workflowsId uuid;
 begin
-    workflowsId := (select createEntity('workflows'::entityType));
+    workflowsId := (select createEntity('workflow'::entityType));
     insert into workflows (id, name, iconId, ownerId, teamId, owner, team, everyone, description)
-    values (workflowsId, name, iconId, ownerId, teamId, owner, team, everyone, description);
+    values (workflowsId, workflowName, workflowIconId, workflowOwnerId, workflowTeamId,
+            workflowPermissionOwner, workflowPermissionTeam, workflowPermissionEveryone,
+            workflowPermissionDescription);
     return workflowsId;
 end;
 $$ language plpgsql;
 
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteWorkflowsById()
+ * deleteWorkflowById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteWorkflowsById(workflowsId uuid) returns integer as
+create or replace function deleteWorkflowById(workflowsId uuid) returns integer as
 $$
 declare
     count integer;
 begin
     -- ToDo: we should not be able to delete any workflows if it is mapped to a ticketType
-    delete from workflows where id=workflowsId;
+    delete from workflows where id = workflowsId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteWorkflowsByName()
+ * deleteWorkflowByName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteWorkflowsByName(workflowsName varchar(64)) returns integer as
+create or replace function deleteWorkflowByName(workflowsName varchar(64)) returns integer as
 $$
 declare
     count integer;
 begin
     -- ToDo: we should not be able to delete any workflows if it is mapped to a ticketType
-    delete from workflows where name=workflowsName;
+    delete from workflows where name = workflowsName;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getWorkflowsById()
+ * getWorkflowById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getWorkflowsById(workflowsId uuid) returns jsonb as
+create or replace function getWorkflowById(workflowsId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -116,10 +120,10 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getWorkflowsByName()
+ * getWorkflowByName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getWorkflowsByName(workflowsName varchar(64)) returns jsonb as
+create or replace function getWorkflowByName(workflowsName varchar(64)) returns jsonb as
 $$
 declare
     result jsonb;
@@ -152,10 +156,10 @@ create or replace function getWorkflowsByOwnerId(workflowsOwnerId uuid,
 $$
 declare
     discard bool;
-    result jsonb;
+    result  jsonb;
 begin
-    discard:=(select boundsCheck(pageLimit,1,1000));
-    discard:=(select boundsCheck(pageOffset,0,1000));
+    discard := (select boundsCheck(pageLimit, 1, 1000));
+    discard := (select boundsCheck(pageOffset, 0, 1000));
     select jsonb_agg(jsonb_build_object(
             'id', id,
             'name', name,
@@ -180,15 +184,15 @@ $$ language plpgsql;
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 create or replace function getWorkflowsByTeamId(workflowsTeamId uuid,
-                                                pageLimit  integer,
+                                                pageLimit integer,
                                                 pageOffset integer) returns jsonb as
 $$
 declare
     discard bool;
-    result jsonb;
+    result  jsonb;
 begin
-    discard:=(select boundsCheck(pageLimit,1,1000));
-    discard:=(select boundsCheck(pageOffset,0,1000));
+    discard := (select boundsCheck(pageLimit, 1, 1000));
+    discard := (select boundsCheck(pageOffset, 0, 1000));
     select jsonb_agg(jsonb_build_object(
             'id', id,
             'name', name,
