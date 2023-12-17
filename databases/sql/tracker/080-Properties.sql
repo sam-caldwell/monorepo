@@ -54,7 +54,7 @@ $$
 declare
     propertyId uuid;
 begin
-    propertyId:=gen_random_uuid();
+    propertyId := (select createEntity('property'::entityType));
     insert into propertyKeys (id, name) values (propertyId, propertyName);
     return propertyId;
 end

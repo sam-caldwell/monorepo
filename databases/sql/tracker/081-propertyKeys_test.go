@@ -6,7 +6,6 @@ import (
 )
 
 func TestSqlDbTable_PropertyKeys(t *testing.T) {
-    t.Skip("disabled for debugging")
 	const tableName = "propertykeys"
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -15,7 +14,7 @@ func TestSqlDbTable_PropertyKeys(t *testing.T) {
 		sqldbtest.CheckError(t, err)
 	})
 
-	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {
+	t.Run("query the table", func(t *testing.T) {
 		rows, err := db.Query("select id, name from %s limit 1;", tableName)
 		sqldbtest.CheckError(t, err)
 		defer func() { _ = rows.Close() }()
