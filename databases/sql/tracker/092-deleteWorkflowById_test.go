@@ -33,13 +33,12 @@ func TestSqlDbFunc_deleteWorkflowById(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from workflows where id='%s'", workflowId)
-		_, _ = db.Query("delete from teams where id='%s'", teamId)
-		_, _ = db.Query("delete from users where id='%s'", ownerId)
-		_, _ = db.Query("delete from icons where id='%s'", iconId)
-		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		_ = cleanUpObject(db, "workflows", workflowId)
+		_ = cleanUpObject(db, "teams", teamId)
+		_ = cleanUpObject(db, "users", ownerId)
+		_ = cleanUpObject(db, "icons", iconId)
+		_ = cleanUpObject(db, "avatars", avatarId)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,
