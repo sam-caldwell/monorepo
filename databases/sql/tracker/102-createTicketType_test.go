@@ -60,25 +60,7 @@ func TestSqlDbFunc_createTicketType(t *testing.T) {
 	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
 	workflowId = createWorkflow(t, db, expectedWorkflowName, iconId, ownerId, teamId,
 		pRead, pRead, pRead, expectedDescription)
-
-	t.Run("createTicketType()", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createTicketType('%s','%s','%s','%s');",
-			expectedTicketType, iconId, workflowId, expectedDescription)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if ticketTypeId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-	})
+	ticketTypeId = createTicketType(t, db, expectedTicketType, iconId, workflowId, expectedDescription)
 
 	t.Run("verify record", func(t *testing.T) {
 		var rows *sql.Rows
