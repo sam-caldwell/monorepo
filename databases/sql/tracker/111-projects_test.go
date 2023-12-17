@@ -6,7 +6,6 @@ import (
 )
 
 func TestSqlDbTable_Projects(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const tableName = "projects"
 
 	db := sqldbtest.InitializeTestDbConn(t)
@@ -54,6 +53,6 @@ func TestSqlDbTable_Projects(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }
