@@ -10,10 +10,7 @@ func TestSqlDbTable_stringProperties(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		err := db.Close()
-		if err != nil {
-			t.Fatalf("Error when cleaning up\nerr:%v", err)
-		}
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	t.Run("query the table (verifies permissions of user and existence of table)", func(t *testing.T) {

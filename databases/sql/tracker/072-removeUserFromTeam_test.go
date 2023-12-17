@@ -13,7 +13,7 @@ func TestSqlDbFunc_removeUserFromTeam(t *testing.T) {
 	const (
 		avatarHash       = "a2601e31f65f266a1a94f08ad46918c8d0f9f09f995aa7fbdbfa113ad6911ba6"
 		avatarType       = "image/png"
-		iconHash         = "69357df9edaa759985b300c4d0341cd906bff5519ff55035a04b58c0af5237c3"
+		iconHash         = "69357df9edaa759985b300c4d0341cd906bff5819ff55035a04b58c0af5237c3"
 		iconType         = "image/png"
 		functionName     = "addUserToTeam"
 		ownerFirstName   = "William"
@@ -38,14 +38,14 @@ func TestSqlDbFunc_removeUserFromTeam(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from teammemberships where teamId='%s'", teamId)
-		_, _ = db.Query("delete from teams where id='%s'", teamId)
-		_, _ = db.Query("delete from users where id='%s'", userId)
-		_, _ = db.Query("delete from users where id='%s'", ownerId)
-		_, _ = db.Query("delete from icons where id='%s'", iconId)
-		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		rows, _ := db.Query("delete from teammemberships where teamId='%s'", teamId)
+		defer func() { _ = rows.Close() }()
+		_ = cleanUpObject(db, "teams", teamId)
+		_ = cleanUpObject(db, "icons", iconId)
+		_ = cleanUpObject(db, "users", ownerId)
+		_ = cleanUpObject(db, "users", userId)
+		_ = cleanUpObject(db, "avatars", avatarId)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

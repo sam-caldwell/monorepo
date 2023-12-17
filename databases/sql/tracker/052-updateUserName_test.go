@@ -28,10 +28,9 @@ func TestSqlDbFunc_updateUserName(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from avatars where hash='%s';", avatarHash)
-		_, _ = db.Query("delete from users where id='%s'", userId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		_ = cleanUpObject(db, "users", userId)
+		_ = cleanUpObject(db, "avatars", avatarId)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

@@ -37,14 +37,14 @@ func TestSqlDbFunc_addUserToTeam(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from teammemberships where teamId='%s'", teamId)
-		_, _ = db.Query("delete from teams where id='%s'", teamId)
-		_, _ = db.Query("delete from users where id='%s'", userId)
-		_, _ = db.Query("delete from users where id='%s'", ownerId)
-		_, _ = db.Query("delete from icons where id='%s'", iconId)
-		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		rows, _ := db.Query("delete from teammemberships where teamId='%s'", teamId)
+		defer func() { _ = rows.Close() }()
+		_ = cleanUpObject(db, "teams", teamId)
+		_ = cleanUpObject(db, "icons", iconId)
+		_ = cleanUpObject(db, "users", userId)
+		_ = cleanUpObject(db, "users", ownerId)
+		_ = cleanUpObject(db, "avatars", avatarId)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

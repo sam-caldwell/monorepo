@@ -19,7 +19,7 @@ create table if not exists users
     phoneNumber varchar(20)      null,
     -- descriptive text --
     description text,
-    foreign key (avatarId) references avatars (id) on delete restrict,
+    foreign key (avatarId) references avatars (id) on delete cascade,
     foreign key (id) references entity (id) on delete restrict
 );
 /*

@@ -16,9 +16,8 @@ func TestSqlDbFunc_createPropertyKey(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from propertyKeys where name='%s' cascade;", testPropertyName)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		_, _ = db.Query("delete from propertyKeys where name='%s';", testPropertyName)
+        sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

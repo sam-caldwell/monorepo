@@ -20,9 +20,7 @@ func TestSqlDbFunc_getEntity(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from %s where id='%s';", tableName, entityId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

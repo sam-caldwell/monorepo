@@ -40,17 +40,18 @@ func TestSqlDbFunc_getTeamsForUser(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from teammemberships where userId='%s'", userId)
+		rows, _ := db.Query("delete from teammemberships where userId='%s'", userId)
+		defer func() { _ = rows.Close() }()
 		for _, teamId := range teamSet {
-			_, _ = db.Query("delete from teams where id='%s'", teamId)
+			sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
 		}
-		_, _ = db.Query("delete from users where id='%s'", userId)
-		_, _ = db.Query("delete from users where id='%s'", ownerId)
-		_, _ = db.Query("delete from icons where id='%s'", iconId)
-		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		sqldbtest.CheckError(t, cleanUpObject(db, "icons", iconId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "users", userId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "avatars", avatarId))
+		sqldbtest.CheckError(t, db.Close())
 	})
+
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+

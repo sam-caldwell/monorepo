@@ -25,10 +25,8 @@ func TestSqlDbFunc_createIntegerProperty(t *testing.T) {
 	t.Cleanup(func() {
 		// Note: we only clean up the avatar we expect to have created.
 		//       this should safeguard against an accidental run on prod.
-		_, _ = db.Query("delete from %s where name='%s' cascade;", rootTable, testPropertyName)
-
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		_, _ = db.Query("delete from %s where name='%s';", rootTable, testPropertyName)
+        sqldbtest.CheckError(t, db.Close())
 	})
 
 	t.Run("verify the function structure (params, return)", func(t *testing.T) {

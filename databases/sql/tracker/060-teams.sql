@@ -25,7 +25,7 @@ create table if not exists teams
     description text,
     -- --
     foreign key (ownerId) references users (id),
-    foreign key (iconId) references icons (id) on delete restrict,
+    foreign key (iconId) references icons (id),
     foreign key (id) references entity (id) on delete restrict
 );
 /*

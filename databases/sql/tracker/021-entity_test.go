@@ -11,8 +11,7 @@ func TestSqlDbTable_Entity(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	t.Run("verify we can query the table", func(t *testing.T) {

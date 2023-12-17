@@ -21,9 +21,8 @@ func TestSqlDbFunc_createIcons(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from %s where hash='%s';", tableName, testHash)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		_ = cleanUpObject(db, tableName, entityId)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

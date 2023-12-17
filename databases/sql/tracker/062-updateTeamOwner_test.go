@@ -33,12 +33,11 @@ func TestSqlDbFunc_updateTeamOwner(t *testing.T) {
 
 	t.Cleanup(func() {
 		_, _ = db.Query("delete from teams where id='%s'", teamId)
+		_, _ = db.Query("delete from icons where id='%s'", IconId)
 		_, _ = db.Query("delete from users where id='%s'", originalOwner)
 		_, _ = db.Query("delete from users where id='%s'", newOwner)
-		_, _ = db.Query("delete from icons where id='%s'", IconId)
 		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

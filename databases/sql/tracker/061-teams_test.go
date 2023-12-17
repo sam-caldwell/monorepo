@@ -10,10 +10,9 @@ func TestSqlDbTable_teams(t *testing.T) {
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
-	t.Cleanup(func() {
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
-	})
+    t.Cleanup(func() {
+        sqldbtest.CheckError(t, db.Close())
+    })
 
 	t.Run("query the table", func(t *testing.T) {
 		rows, err := db.Query("select 1 from %s limit 1;", tableName)

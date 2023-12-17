@@ -34,11 +34,10 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 
 	t.Cleanup(func() {
 		_, _ = db.Query("delete from teams where id='%s'", teamId)
-		_, _ = db.Query("delete from users where id='%s'", ownerId)
 		_, _ = db.Query("delete from icons where id='%s'", iconId)
+		_, _ = db.Query("delete from users where id='%s'", ownerId)
 		_, _ = db.Query("delete from avatars where id='%s'", avatarId)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,

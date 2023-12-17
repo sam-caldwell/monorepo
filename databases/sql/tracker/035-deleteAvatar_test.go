@@ -10,7 +10,7 @@ import (
 
 func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 	const (
-		tableName    = "avatar"
+		tableName    = "avatars"
 		functionName = "deleteAvatar"
 		testHash     = "b5bb9d8014a0f9b1d61e21e796d78dccdf1351f23cd32812f4850b878ae4944c"
 		testType     = "image/png"
@@ -20,9 +20,8 @@ func TestSqlDbFunc_deleteAvatar(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_, _ = db.Query("delete from %s where hash='%s';", tableName, testHash)
-		err := db.Close()
-		sqldbtest.CheckError(t, err)
+		_ = cleanUpObject(db, tableName, entityId)
+		sqldbtest.CheckError(t, db.Close())
 	})
 
 	sqldbtest.VerifyFunctionStructure(t, db,
