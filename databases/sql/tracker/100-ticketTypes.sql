@@ -64,10 +64,10 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getTicketTypesById()
+ * getTicketTypeById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getTicketTypesById(typeId uuid) returns jsonb as
+create or replace function getTicketTypeById(typeId uuid) returns jsonb as
 $$
 declare
     result jsonb;
