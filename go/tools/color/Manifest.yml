@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This project creates the 'color' command to allow a person to quickly and consistently use ANSI color and control
     codes across all platforms.
