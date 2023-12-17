@@ -92,13 +92,20 @@ $$ language plpgsql;
  * getTicketTypes()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getTicketTypes(typeName varchar(64),
-                                          pageLimit integer,
-                                          pageOffset integer) returns jsonb as
+create or replace function getTicketTypes(pageLimit integer, pageOffset integer) returns jsonb as
 $$
 declare
     result jsonb;
 begin
+    if pageLimit = 0 then
+    pageLimit = 1000;
+    end if;
+    if not boundsCheck(pageLimit,0,1000) then
+        raise exception 'pageLimit out of bounds';
+    end if;
+    if not boundsCheckLower(pageOffset,0) then
+        raise exception 'pageOffset out of bounds';
+    end if;
     select jsonb_agg(jsonb_build_object(
             'id', id,
             'name', name,
@@ -108,7 +115,6 @@ begin
         )) as data
     into result
     from ticketTypes
-    where name = typeName
     limit pageLimit offset pageOffset;
     return result;
 
