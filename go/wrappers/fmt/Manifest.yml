@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     These are some abstract (deprecated) wrappers
   opsys:
