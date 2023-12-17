@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This Golang project provides some simple argument processing (deprecated)
   opsys:
