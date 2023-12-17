@@ -39,7 +39,7 @@ $$
 declare
     newId uuid;
 begin
-    newId := gen_random_uuid();
+    newId := (select createEntity('workflow'::entityType));
     insert into ticketTypes (id, name, iconId, workflowId, description)
     values (newId, typeName, typeIconId, wid, typeDescription);
     return newId;

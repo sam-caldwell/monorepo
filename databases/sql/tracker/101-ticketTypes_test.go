@@ -6,7 +6,6 @@ import (
 )
 
 func TestSqlDbTable_TicketTypes(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const tableName = "tickettypes"
 
 	db := sqldbtest.InitializeTestDbConn(t)
@@ -34,7 +33,7 @@ func TestSqlDbTable_TicketTypes(t *testing.T) {
 
 	t.Run("check foreign keys", func(t *testing.T) {
 		sqldbtest.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
-		sqldbtest.ValidateForeignKey(t, db, tableName, "workflow", "workflowId", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, "workflows", "workflowId", "id")
 		sqldbtest.ValidateForeignKey(t, db, tableName, "entity", "id", "id")
 	})
 	t.Run("verify indexes: name", func(t *testing.T) {
@@ -47,6 +46,6 @@ func TestSqlDbTable_TicketTypes(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }
