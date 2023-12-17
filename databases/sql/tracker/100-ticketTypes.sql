@@ -122,27 +122,6 @@ end ;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTicketType()
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateTicketType(typeId uuid, typeName varchar(64), typeIconId uuid, wid uuid,
-                                            typeDescription text) returns integer as
-$$
-declare
-    count integer;
-begin
-    update ticketTypes
-    set name=typeName,
-        iconid=typeIconId,
-        workflowId=wid,
-        description=typeDescription
-    where id = typeId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * updateTicketTypeDescription()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
