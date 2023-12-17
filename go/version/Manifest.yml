@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This is a simple Golang version implementation.  Our repo tooling can update the version
     here and this version will be baked into our programs.
