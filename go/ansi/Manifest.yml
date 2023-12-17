@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This project is the Golang ANSI text UI project for printing text with color and special formatting.
     We use this project primarily to interact with stdout and stderr in console/terminal.
