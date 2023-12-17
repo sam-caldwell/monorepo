@@ -6,7 +6,7 @@ import (
 )
 
 func TestSqlDbTable_workflow(t *testing.T) {
-	const tableName = "workflow"
+	const tableName = "workflows"
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -52,24 +52,24 @@ func TestSqlDbTable_workflow(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: owner", func(t *testing.T) {
 		columnNames := []string{
 			"owner",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: team", func(t *testing.T) {
 		columnNames := []string{
 			"team",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: everyone", func(t *testing.T) {
 		columnNames := []string{
 			"everyone",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }

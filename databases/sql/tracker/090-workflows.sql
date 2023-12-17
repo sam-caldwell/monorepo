@@ -32,11 +32,11 @@ create table if not exists workflows
  * entity indexes
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create unique index if not exists ndxworkflowsName on workflows (name);
-create index if not exists ndxworkflowsCreated on workflows (created);
-create index if not exists ndxworkflowsOwner on workflows (owner);
-create index if not exists ndxworkflowsTeam on workflows (team);
-create index if not exists ndxworkflowsEveryone on workflows (everyone);
+create unique index if not exists ndxWorkflowsName on workflows (name);
+create index if not exists ndxWorkflowsCreated on workflows (created);
+create index if not exists ndxWorkflowsOwner on workflows (owner);
+create index if not exists ndxWorkflowsTeam on workflows (team);
+create index if not exists ndxWorkflowsEveryone on workflows (everyone);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * createWorkflows()
