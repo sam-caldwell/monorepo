@@ -57,39 +57,12 @@ func TestSqlDbFunc_createWorkflow(t *testing.T) {
 	ownerId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
 		expectedPhone, expectedDescription)
 	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
-
-	t.Run("createWorkflow()", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select createWorkflow('%s','%s','%s','%s','%s','%s','%s','%s');",
-			expectedWorkflowName, iconId, ownerId, teamId, "read", "read", "read", expectedDescription)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var raw string
-		err = rows.Scan(&raw)
-		if workflowId, err = uuid.Parse(raw); err != nil {
-			t.Fatal(err)
-		}
-	})
+	workflowId = createWorkflow(t, db, expectedWorkflowName, iconId, ownerId, teamId,
+		pRead, pRead, pRead, expectedDescription)
 
 	t.Run("verify workflow", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query(""+
-			"select id,name,iconId,ownerId,teamId,owner,team,everyone,description "+
-			"from workflow where id = '%s';", workflowId)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
 		var actualId uuid.UUID
 		var actualName string
 		var actualIconId uuid.UUID
@@ -99,6 +72,19 @@ func TestSqlDbFunc_createWorkflow(t *testing.T) {
 		var actualTeam string
 		var actualEveryone string
 		var actualDescription string
+
+		rows, err = db.Query(""+
+			"select id,name,iconId,ownerId,teamId,owner,team,everyone,description "+
+			"from workflows where id = '%s';", workflowId)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+
 		err = rows.Scan(&actualId, &actualName, &actualIconId, &actualOwnerId, &actualTeamId,
 			&actualOwner, &actualTeam, &actualEveryone, &actualDescription)
 
@@ -117,13 +103,13 @@ func TestSqlDbFunc_createWorkflow(t *testing.T) {
 		if actualTeamId != teamId {
 			t.Fatalf("teamId mismatch")
 		}
-		if actualOwner != "read" {
+		if actualOwner != pRead {
 			t.Fatalf("owner mismatch")
 		}
-		if actualTeam != "read" {
+		if actualTeam != pRead {
 			t.Fatalf("team mismatch")
 		}
-		if actualEveryone != "read" {
+		if actualEveryone != pRead {
 			t.Fatalf("everyone mismatch")
 		}
 		if actualDescription != expectedDescription {
