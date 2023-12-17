@@ -81,7 +81,7 @@ begin
                ) as data
     into result
     from ticketTypes
-    where id == typeId
+    where id = typeId
     limit 1;
     return result;
 
@@ -108,7 +108,7 @@ begin
         )) as data
     into result
     from ticketTypes
-    where name == typeName
+    where name = typeName
     limit pageLimit offset pageOffset;
     return result;
 
