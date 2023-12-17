@@ -64,13 +64,13 @@ $$ language plpgsql;
  * deleteWorkflowById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteWorkflowById(workflowsId uuid) returns integer as
+create or replace function deleteWorkflowById(workflowId uuid) returns integer as
 $$
 declare
     count integer;
 begin
     -- ToDo: we should not be able to delete any workflows if it is mapped to a ticketType
-    delete from workflows where id = workflowsId;
+    delete from workflows where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -80,13 +80,13 @@ $$ language plpgsql;
  * deleteWorkflowByName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteWorkflowByName(workflowsName varchar(64)) returns integer as
+create or replace function deleteWorkflowByName(workflowName varchar(64)) returns integer as
 $$
 declare
     count integer;
 begin
     -- ToDo: we should not be able to delete any workflows if it is mapped to a ticketType
-    delete from workflows where name = workflowsName;
+    delete from workflows where name = workflowName;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -96,7 +96,7 @@ $$ language plpgsql;
  * getWorkflowById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getWorkflowById(workflowsId uuid) returns jsonb as
+create or replace function getWorkflowById(workflowId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -114,7 +114,7 @@ begin
                ) as workflows
     into result
     from workflows
-    where id = workflowsId;
+    where id = workflowId;
     return result;
 end;
 $$ language plpgsql;
@@ -123,7 +123,7 @@ $$ language plpgsql;
  * getWorkflowByName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getWorkflowByName(workflowsName varchar(64)) returns jsonb as
+create or replace function getWorkflowByName(workflowName varchar(64)) returns jsonb as
 $$
 declare
     result jsonb;
@@ -141,7 +141,7 @@ begin
                ) as workflows
     into result
     from workflows
-    where name = workflowsName;
+    where name = workflowName;
     return result;
 end;
 $$ language plpgsql;
@@ -150,7 +150,7 @@ $$ language plpgsql;
  * getWorkflowsByOwnerId()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getWorkflowsByOwnerId(workflowsOwnerId uuid,
+create or replace function getWorkflowsByOwnerId(workflowOwnerId uuid,
                                                  pageLimit integer,
                                                  pageOffset integer) returns jsonb as
 $$
@@ -173,7 +173,7 @@ begin
         )) as workflows
     into result
     from workflows
-    where ownerId = workflowsOwnerId
+    where ownerId = workflowOwnerId
     limit pageLimit offset pageOffset;
     return result;
 end ;
@@ -183,7 +183,7 @@ $$ language plpgsql;
  * getWorkflowsByTeamId()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getWorkflowsByTeamId(workflowsTeamId uuid,
+create or replace function getWorkflowsByTeamId(workflowTeamId uuid,
                                                 pageLimit integer,
                                                 pageOffset integer) returns jsonb as
 $$
@@ -206,7 +206,7 @@ begin
         )) as workflows
     into result
     from workflows
-    where teamId = workflowsTeamId
+    where teamId = workflowTeamId
     limit pageLimit offset pageOffset;
     return result;
 end ;
@@ -216,12 +216,12 @@ $$ language plpgsql;
  * updateWorkflowsDescription()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsDescription(workflowsId uuid, description text) returns integer as
+create or replace function updateWorkflowsDescription(workflowId uuid, descriptionText text) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set odescriptionwnerId=descriptionText where id = workflowsId;
+    update workflows set odescriptionwnerId=descriptionText where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -231,12 +231,12 @@ $$ language plpgsql;
  * updateWorkflowsIconId()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsIconId(workflowsId uuid, newId uuid) returns integer as
+create or replace function updateWorkflowsIconId(workflowId uuid, newId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set iconId=newId where id = workflowsId;
+    update workflows set iconId=newId where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -246,12 +246,12 @@ $$ language plpgsql;
  * updateWorkflowsName()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsName(workflowsId uuid, workflowsName varchar(64)) returns integer as
+create or replace function updateWorkflowsName(workflowId uuid, workflowName varchar(64)) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set name=workflowsName where id = workflowsId;
+    update workflows set name=workflowName where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -261,12 +261,12 @@ $$ language plpgsql;
  * updateWorkflowsOwnerId()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsOwnerId(workflowsId uuid, newId uuid) returns integer as
+create or replace function updateWorkflowsOwnerId(workflowId uuid, newId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set ownerId=newId where id = workflowsId;
+    update workflows set ownerId=newId where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -276,12 +276,12 @@ $$ language plpgsql;
  * updateWorkflowsPermEveryone()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsPermEveryone(workflowsId uuid, newPermission permissions) returns integer as
+create or replace function updateWorkflowsPermEveryone(workflowId uuid, newPermission permissions) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set everyone=newPermission where id = workflowsId;
+    update workflows set everyone=newPermission where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -291,12 +291,12 @@ $$ language plpgsql;
  * updateWorkflowsPermOwner()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsPermOwner(workflowsId uuid, newPermission permissions) returns integer as
+create or replace function updateWorkflowsPermOwner(workflowId uuid, newPermission permissions) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set owner=newPermission where id = workflowsId;
+    update workflows set owner=newPermission where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -306,12 +306,12 @@ $$ language plpgsql;
  * updateWorkflowsPermTeam()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsPermTeam(workflowsId uuid, newPermission permissions) returns integer as
+create or replace function updateWorkflowsPermTeam(workflowId uuid, newPermission permissions) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set team=newPermission where id = workflowsId;
+    update workflows set team=newPermission where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -321,12 +321,12 @@ $$ language plpgsql;
  * updateWorkflowsTeamId()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateWorkflowsTeamId(workflowsId uuid, newId uuid) returns integer as
+create or replace function updateWorkflowsTeamId(workflowId uuid, newId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflows set teamId=newId where id = workflowsId;
+    update workflows set teamId=newId where id = workflowId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
