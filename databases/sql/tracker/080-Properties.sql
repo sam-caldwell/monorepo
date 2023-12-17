@@ -71,7 +71,6 @@ declare
     propertyId uuid;
 begin
     propertyId := (select createPropertyKey(propertyName) as id);
-
     insert into numericProperties(id, value) values (propertyId, propertyValue);
     return propertyId;
 end;
