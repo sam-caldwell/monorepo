@@ -89,10 +89,12 @@ end ;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getTicketTypesByName()
+ * getTicketTypes()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getTicketTypesByName(typeName varchar(64)) returns jsonb as
+create or replace function getTicketTypes(typeName varchar(64),
+                                          pageLimit integer,
+                                          pageOffset integer) returns jsonb as
 $$
 declare
     result jsonb;
@@ -106,7 +108,8 @@ begin
         )) as data
     into result
     from ticketTypes
-    where name == typeName;
+    where name == typeName
+    limit pageLimit offset pageOffset;
     return result;
 
 end ;
@@ -122,8 +125,12 @@ $$
 declare
     count integer;
 begin
-    update ticketTypes set name=typeName, iconid=typeIconId, workflowId=wid, description=typeDescription
-                       where id = typeId;
+    update ticketTypes
+    set name=typeName,
+        iconid=typeIconId,
+        workflowId=wid,
+        description=typeDescription
+    where id = typeId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
