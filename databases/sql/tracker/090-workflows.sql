@@ -114,7 +114,8 @@ begin
                ) as workflows
     into result
     from workflows
-    where id = workflowId;
+    where id = workflowId
+    limit 1;
     return result;
 end;
 $$ language plpgsql;
@@ -141,7 +142,8 @@ begin
                ) as workflows
     into result
     from workflows
-    where name = workflowName;
+    where name = workflowName
+    limit 1;
     return result;
 end;
 $$ language plpgsql;
