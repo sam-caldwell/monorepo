@@ -1,7 +1,6 @@
 package psqlTrackerDb
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -57,47 +56,10 @@ func TestSqlDbFunc_deleteWorkflowById(t *testing.T) {
 	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
 	workflowId = createWorkflow(t, db, expectedWorkflowName, iconId, ownerId, teamId,
 		pRead, pRead, pRead, expectedDescription)
-
-	t.Run("delete workflow", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query(""+
-			"select deleteWorkflowById('%s');", workflowId)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var count int
-		err = rows.Scan(&count)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if count != 1 {
-			t.Fatalf("expected count 1 but got %d", count)
-		}
-	})
-
-	t.Run("verify delete", func(t *testing.T) {
-		var rows *sql.Rows
-		var err error
-		rows, err = db.Query("select count(*) from workflows where id='%s';", workflowId)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("no row returned")
-		}
-		var count int
-		err = rows.Scan(&count)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if count != 0 {
-			t.Fatalf("expected count 0 but got %d", count)
-		}
-	})
+	if count := deleteWorkflowById(t, db, workflowId); count != 1 {
+		t.Fatalf("expected count 1 but got %d", count)
+	}
+	if count := countById(t, db, "workflows", workflowId); count != 0 {
+		t.Fatalf("expected count 0 but got %d", count)
+	}
 }
