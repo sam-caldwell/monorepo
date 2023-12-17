@@ -2,6 +2,7 @@
 header:
   author: Sam Caldwell
   email: mail@samcaldwell.net
+  publish: "public"
   description: |
     This Golang project provides terminal/console widgets.  Eventually this may grow into a terminal framework
   opsys:
