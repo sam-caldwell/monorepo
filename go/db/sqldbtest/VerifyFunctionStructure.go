@@ -34,7 +34,7 @@ func VerifyFunctionStructure(t *testing.T, db *Postgres.Db, functionName string,
 		if !rows.Next() {
 			t.Fatalf("Fail: expected at least one row returned.")
 		}
-
+		defer func() { _ = rows.Close() }()
 		var functionName, parameterNames, parameterTypes, returnTypes string
 
 		if err = rows.Scan(&functionName, &parameterNames, &parameterTypes, &returnTypes); err != nil {
