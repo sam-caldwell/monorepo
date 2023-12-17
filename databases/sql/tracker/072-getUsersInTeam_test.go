@@ -77,7 +77,7 @@ func TestSqlDbFunc_getUsersInTeam(t *testing.T) {
 		UserId string `json:"userId"`
 	}
 
-	t.Run("getTeamsForUser() and verify", func(t *testing.T) {
+	t.Run("getUsersInTeam() and verify", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
 		rows, err = db.Query("select getUsersInTeam('%s');", teamId)
@@ -86,20 +86,20 @@ func TestSqlDbFunc_getUsersInTeam(t *testing.T) {
 		}
 		defer func() { _ = rows.Close() }()
 
-		var actualTeams []CollectionOfUsers
+		var actual []CollectionOfUsers
 		for rows.Next() {
 			var raw string
 			if err = rows.Scan(&raw); err != nil {
 				t.Fatal(err)
 			}
-			if err = json.Unmarshal([]byte(raw), &actualTeams); err != nil {
+			if err = json.Unmarshal([]byte(raw), &actual); err != nil {
 				t.Fatalf("error: failed to parse: %v\n"+
 					"raw: %v", err, raw)
 			}
 		}
 
-		if len(actualTeams) != len(userSet) {
-			t.Fatalf("Error: expected count %d but got %d", len(userSet), len(actualTeams))
+		if len(actual) != len(userSet) {
+			t.Fatalf("Error: expected count %d but got %d", len(userSet), len(actual))
 		}
 	})
 }
