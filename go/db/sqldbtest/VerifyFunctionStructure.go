@@ -35,14 +35,17 @@ func VerifyFunctionStructure(t *testing.T, db *Postgres.Db, functionName string,
 			t.Fatalf("Fail: expected at least one row returned.")
 		}
 		defer func() { _ = rows.Close() }()
-		var functionName, parameterNames, parameterTypes, returnTypes string
+		var actualName, actualPNames, actualPTypes, actualReturnTypes sql.NullString
 
-		if err = rows.Scan(&functionName, &parameterNames, &parameterTypes, &returnTypes); err != nil {
+		if err = rows.Scan(&actualName, &actualPNames, &actualPTypes, &actualReturnTypes); err != nil {
 			t.Fatalf("failed scanning row: %v", err)
+		}
+		if !actualName.Valid {
+			t.Fatalf("function not found: %v", functionName)
 		}
 
 		actual := fmt.Sprintf("fn:%s,pn:%s,pt:%s,rt:%s",
-			functionName, parameterNames, parameterTypes, returnTypes)
+			actualName.String, actualPNames.String, actualPTypes.String, actualReturnTypes.String)
 
 		if actual != strings.ToLower(expected) {
 			t.Fatalf("fail: function structure mismatch\n"+
