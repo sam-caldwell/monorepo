@@ -10,8 +10,8 @@ create table if not exists workflowSteps
     workflowId  uuid             not null,
     name        varchar(64)      not null,
     -- a uuid representing the icon for the workflow.
-    prevStepId  uuid             not null,
-    nextStepId  uuid             not null,
+    prevStepId  uuid             null,
+    nextStepId  uuid             null,
     -- --
     created     timestamp        not null default now(),
     description text,
@@ -29,32 +29,136 @@ create unique index if not exists ndxWorkflowStepsWorkflowIdName on workflowStep
 create index if not exists ndxWorkflowStepsCreated on workflowSteps (created);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * createWorkflowSteps() function
+ * createWorkflowStep() function
+ *      Create a workflow step.
+ *      Make sure we validate the data.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createWorkflowSteps(stepName varchar(64), workflow uuid, pStepId uuid, nStepId uuid,
-                                               stepDescription text) returns uuid as
+create or replace function createWorkflowStep(stepName varchar(64), workflow uuid,
+                                              pStepId uuid, nStepId uuid,
+                                              stepDescription text) returns uuid as
 $$
 declare
-    teamId uuid;
+    stepId uuid;
 begin
-    teamId := (select createEntity('workflow_step'::entityType));
-    insert into users (id, workflowId, name, prevStepId, nextStepId, description)
-    values (teamId, workflow, stepName, pStepId, nStepId, stepDescription);
-    return teamId;
+    stepId := (select createEntity('workflow_step'::entityType));
+    if (stepId = pStepId) || (stepId = nStepId) then
+        raise exception 'node cannot be its prev or next step id';
+    end if;
+    if pStepId = '00000000-0000-0000-0000-000000000000' then
+        pStepId=null;
+    end if;
+    if nStepId = '00000000-0000-0000-0000-000000000000' then
+        nStepId=null;
+    end if;
+    insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
+    values (stepId, workflow, stepName, pStepId, nStepId, stepDescription);
+    return stepId;
 end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteWorkflowSteps() function
+ * getWorkflowStepId() function
+ *      Get the current full step record as JSON object.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteWorkflowSteps(stepId uuid) returns integer as
+create or replace function getWorkflowStepId(stepId uuid) returns jsonb as
+$$
+declare
+    result jsonb;
+begin
+    select jsonb_build_object(
+                   'id', id,
+                   'workflowId', workflowId,
+                   'name', name,
+                   'prevStepId', prevStepId,
+                   'nextStepId', nextStepId,
+                   'created', created,
+                   'description', description
+               ) as data
+    into result
+    from workflowSteps
+    where id = stepId
+    limit 1;
+    return result::jsonb;
+end ;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * getWorkflowPrevStepId() function
+ *      Get the previous step Id
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function getWorkflowPrevStepId(stepId uuid) returns uuid as
+$$
+declare
+    result jsonb;
+begin
+    select prevStepId
+    into result
+    from workflowSteps
+    where id = stepId
+    limit 1;
+    return coalesce(result, '{}'::jsonb);
+end ;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * getWorkflowNextStepId() function
+ *      Get the next step Id
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function getWorkflowNextStepId(stepId uuid) returns jsonb as
+$$
+declare
+    result jsonb;
+begin
+    select nextStepId
+    into result
+    from workflowSteps
+    where id = stepId
+    limit 1;
+    return coalesce(result, '{}'::jsonb);
+end ;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * linkNodes() function
+ *      * Given two nodes (LHS and RHS) representing a prev node (left hand) and next node (right hand)
+ *        this function will point lhs.nextId->rhs and rhs.prevId->lhs.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+ create or replace function linkNodes(lhs uuid, rhs uuid) returns boolean as
+$$
+begin
+    execute updateWorkflowNextStep(lhs,rhs);
+    execute updateWorkflowPrevStep(rhs,lhs);
+    return true;
+end;
+$$ language plpgsql;
+
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteWorkflowStep() function
+ *      Perform any pre-checks that would preclude a record removal.
+ *      Update the prev and next steps to reference one another and remove the current node from the chain.
+ *      Delete the given workflow step from the database
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteWorkflowStep(currentStepId uuid) returns integer as
 $$
 declare
     count integer;
+    prevId uuid;
+    nextId uuid;
 begin
-    delete from workflowSteps where id = stepId;
+    -- Get the current node's previous and next nodes...
+    prevId:=(select getWorkflowPrevStepId(currentStepId));
+    nextId:=(select getWorkflowNextStepId(currentStepId));
+    -- Update previous and next node's next and prev references to exclude current node.
+    execute linkNodes(prevId,nextId);
+    -- Delete the current node
+    delete from workflowSteps where id = currentStepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -64,91 +168,14 @@ $$ language plpgsql;
  * updateProjectDescription() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateProjectDescription(stepId uuid) returns jsonb as
-$$
-declare
-    result jsonb;
-begin
-    select jsonb_agg(jsonb_build_object(
-            'id', stepId,
-            'name', name,
-            'workflowId', workflowId,
-            'iconId', iconId,
-            'prevStepId', prevStepId,
-            'nextStepId', nextStepId,
-            'description', description
-        )) as workflow
-    into result
-    from workflowSteps
-    where id == stepId;
-    return result;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getWorkflowPrevStepId() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function getWorkflowPrevStepId(stepId uuid) returns jsonb as
-$$
-declare
-    result jsonb;
-begin
-    select jsonb_agg(jsonb_build_object(
-            'id', stepId,
-            'name', name,
-            'workflowId', workflowId,
-            'iconId', iconId,
-            'prevStepId', prevStepId,
-            'nextStepId', nextStepId,
-            'description', description
-        )) as workflow
-    into result
-    from workflowSteps
-    where id in (select prevStepId
-                 from workflowSteps
-                 where id = stepId);
-    return result;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getWorkflowNextStepId() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function getWorkflowNextStepId(stepId uuid) returns jsonb as
-$$
-declare
-    result jsonb;
-begin
-    select jsonb_agg(jsonb_build_object(
-            'id', stepId,
-            'name', name,
-            'workflowId', workflowId,
-            'iconId', iconId,
-            'prevStepId', prevStepId,
-            'nextStepId', nextStepId,
-            'description', description
-        )) as workflow
-    into result
-    from workflowSteps
-    where id in (select nextStepId
-                 from workflowSteps
-                 where id = stepId);
-    return result;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTicketWorkflowStep() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateTicketWorkflowStep(ticketId uuid, workflowStepId uuid) returns integer as
+create or replace function updateStepDescription(stepId uuid, d text) returns integer as
 $$
 declare
     count integer;
 begin
-    update ticket set workflowStepId=workflowStepId where id = ticketId;
+    update teams
+    set description=d
+    where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -185,46 +212,15 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateWorkflowStepDescription() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateWorkflowStepDescription(stepId uuid, description text) returns integer as
-$$
-declare
-    count integer;
-begin
-    update workflowSteps set description=description where id = stepId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateWorkflowStepDescription() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateWorkflowStepDescription(stepId uuid, iconId uuid) returns integer as
-$$
-declare
-    count integer;
-begin
-    update workflowSteps set iconId=iconId where id = stepId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * updateWorkflowStepName() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-
-create or replace function updateWorkflowStepName(stepId uuid, name varchar(64)) returns integer as
+create or replace function updateWorkflowStepName(stepId uuid, newName varchar(64)) returns integer as
 $$
 declare
     count integer;
 begin
-    update workflowSteps set name=name where id = stepId;
+    update workflowSteps set name=newName where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
