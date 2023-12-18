@@ -39,8 +39,8 @@ create index if not exists ndxProjectsCreated on projects (created);
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 create or replace function createProject(projectName varchar(64), projectIconId uuid, projectOwnerId uuid,
-                                          projectTeamId uuid, permissionOwner permissions, permissionTeam permissions,
-                                          permissionEveryone permissions, projectDesc text) returns uuid as
+                                         projectTeamId uuid, permissionOwner permissions, permissionTeam permissions,
+                                         permissionEveryone permissions, projectDesc text) returns uuid as
 $$
 declare
     newId uuid;
@@ -79,17 +79,17 @@ declare
     result jsonb;
 begin
     select jsonb_build_object(
-            'id', id,
-            'name', name,
-            'iconId', iconId,
-            'ownerId', ownerId,
-            'teamId', teamId,
-            'permissionOwner', owner,
-            'permissionTeam', team,
-            'permissionEveryone', everyone,
-            'created', created,
-            'description', description
-        ) as data
+                   'id', id,
+                   'name', name,
+                   'iconId', iconId,
+                   'ownerId', ownerId,
+                   'teamId', teamId,
+                   'permissionOwner', owner,
+                   'permissionTeam', team,
+                   'permissionEveryone', everyone,
+                   'created', created,
+                   'description', description
+               ) as data
     into result
     from projects
     where id == projectId
@@ -109,17 +109,17 @@ declare
     result jsonb;
 begin
     select jsonb_build_object(
-            'id', id,
-            'name', name,
-            'iconId', iconId,
-            'ownerId', ownerId,
-            'teamId', teamId,
-            'permissionOwner', owner,
-            'permissionTeam', team,
-            'permissionEveryone', everyone,
-            'created', created,
-            'description', description
-        ) as data
+                   'id', id,
+                   'name', name,
+                   'iconId', iconId,
+                   'ownerId', ownerId,
+                   'teamId', teamId,
+                   'permissionOwner', owner,
+                   'permissionTeam', team,
+                   'permissionEveryone', everyone,
+                   'created', created,
+                   'description', description
+               ) as data
     into result
     from projects
     where name = projectName
@@ -248,40 +248,26 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateProjectPermEveryone() function
+ * updateProjectPermissions() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateProjectPermEveryone(projectId uuid, everyone permissions) returns integer as
+create or replace function updateProjectPermissions(projectId uuid, pOwner permissions, pTeam permissions,
+                                                    pEveryone permissions) returns integer as
 $$
 declare
     count integer;
 begin
-    update projects set everyone=everyone where id = projectId;
+    update projects set owner=pOwner, team=pTeam, everyone=pEveryone where id = projectId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateProjectPermOwner() function
+ * updateProjectTeam() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateProjectPermOwner(projectId uuid, owner permissions) returns integer as
-$$
-declare
-    count integer;
-begin
-    update projects set owner=owner where id = projectId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateProjectDescription() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateProjectPermTeam(projectId uuid, team permissions) returns integer as
+create or replace function updateProjectTeam(projectId uuid, team permissions) returns integer as
 $$
 declare
     count integer;

@@ -21,10 +21,8 @@ func TestSqlDbFunc_updateProjectOwnerId(t *testing.T) {
 		expectedEmail       = "sam.caldwell@example.com"
 		expectedPhone       = "444.333.2222"
 		expectedDescription = "monorepo coder"
-		newDescription      = "new description"
 		testTeamName        = "Code Monkey"
 		expectedProject     = "TrackerDb"
-		newProjectName      = "newProjectName"
 		pRead               = "read"
 	)
 
