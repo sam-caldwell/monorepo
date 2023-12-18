@@ -31,7 +31,7 @@ declare
     count integer;
     associationId uuid;
 begin
-    associationId := (select createEntity('user'::entityType));
+    associationId := (select createEntity('teamAssociation'::entityType));
     insert into teamMemberships (id, userId, teamId) values (associationId, userId, teamId);
     get diagnostics count = ROW_COUNT;
     return count;
