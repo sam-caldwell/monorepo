@@ -12,7 +12,7 @@ func TestSqlDbFunc_removeTicketTypeFromProject(t *testing.T) {
 	const (
 		avatarHash           = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74e6b8f51"
 		avatarType           = "image/png"
-		iconHash             = "182e31fa48267c22d5988fcddb66e2dafd0b4ec2b0192e28c3b73336b71ea7b4"
+		iconHash             = "182e31fa48267c22d5988fcddb66e5dafd0b4ec2b0192e28c3b73336b71ea7b4"
 		iconType             = "image/png"
 		functionName         = "removeTicketTypeFromProject"
 		expectedFirstName    = "Neils"
@@ -34,10 +34,14 @@ func TestSqlDbFunc_removeTicketTypeFromProject(t *testing.T) {
 	var projectId uuid.UUID
 	var workflowId uuid.UUID
 	var ticketTypeId uuid.UUID
+	var assocId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
+		_ = cleanUpObject(db, "projectTicketTypes", assocId)
+		_ = cleanUpObject(db, "ticketTypes", ticketTypeId)
+		_ = cleanUpObject(db, "workflows", workflowId)
 		_ = cleanUpObject(db, "projects", projectId)
 		_ = cleanUpObject(db, "teams", teamId)
 		_ = cleanUpObject(db, "users", ownerId)
@@ -61,7 +65,7 @@ func TestSqlDbFunc_removeTicketTypeFromProject(t *testing.T) {
 		expectedDescription)
 	ticketTypeId = createTicketType(t, db, expectedTicketType, iconId, workflowId, expectedDescription)
 
-	_ = addTicketTypeToProject(t, db, projectId, ticketTypeId)
+	assocId = addTicketTypeToProject(t, db, projectId, ticketTypeId)
 
 	if count := removeTicketTypeFromProject(t, db, projectId, ticketTypeId); count != 1 {
 		t.Fatalf("expect count 1 but got %d", count)

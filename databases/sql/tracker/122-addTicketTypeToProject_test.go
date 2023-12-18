@@ -40,6 +40,9 @@ func TestSqlDbFunc_addTicketTypeToProject(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
+		_ = cleanUpObject(db, "projectTicketTypes", assocId)
+		_ = cleanUpObject(db, "ticketTypes", ticketTypeId)
+		_ = cleanUpObject(db, "workflows", workflowId)
 		_ = cleanUpObject(db, "projects", projectId)
 		_ = cleanUpObject(db, "teams", teamId)
 		_ = cleanUpObject(db, "users", ownerId)
