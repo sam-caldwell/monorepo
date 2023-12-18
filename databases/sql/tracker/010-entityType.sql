@@ -12,7 +12,7 @@ $$
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'entityType') THEN
             CREATE TYPE entityType AS ENUM ('avatar', 'icon', 'user', 'team','teamAssociation',
                 'workflow','workflow_step','workflow_action','ticket_type','project','ticket','projectTypes',
-                'attachment','comment','property','other');
+                'ticketTypeAssociation','attachment','comment','property','other');
         END IF;
     END
 $$;

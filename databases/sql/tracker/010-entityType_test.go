@@ -16,7 +16,7 @@ func TestSqlDbType_entityType(t *testing.T) {
 		actual := sqldbtest.GetEnumValues(t, db, "entityType")
 		expected := []string{"avatar", "icon", "user", "team", "teamAssociation", "workflow", "workflow_step",
 			"workflow_action", "ticket_type", "project", "projectTypes", "ticket", "attachment", "comment",
-			"property", "other"}
+			"ticketTypeAssociation", "property", "other"}
 		sqldbtest.CompareTwoStringLists(t, actual, expected)
 	})
 
