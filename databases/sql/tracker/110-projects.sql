@@ -267,12 +267,12 @@ $$ language plpgsql;
  * updateProjectDescription() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateProjectTeamId(projectId uuid, teamId uuid) returns integer as
+create or replace function updateProjectTeamId(projectId uuid, newTeamId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    update projects set team=teamId where id = projectId;
+    update projects set teamId=newTeamId where id = projectId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
