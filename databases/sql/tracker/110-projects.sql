@@ -264,21 +264,6 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateProjectTeam() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateProjectTeam(projectId uuid, team permissions) returns integer as
-$$
-declare
-    count integer;
-begin
-    update projects set team=team where id = projectId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * updateProjectDescription() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
