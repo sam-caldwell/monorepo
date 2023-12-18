@@ -78,7 +78,7 @@ $$
 declare
     result jsonb;
 begin
-    select jsonb_agg(jsonb_build_object(
+    select jsonb_build_object(
             'id', id,
             'name', name,
             'iconId', iconId,
@@ -87,8 +87,9 @@ begin
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
+            'created', created,
             'description', description
-        )) as data
+        ) as data
     into result
     from projects
     where id == projectId
@@ -107,7 +108,7 @@ $$
 declare
     result jsonb;
 begin
-    select jsonb_agg(jsonb_build_object(
+    select jsonb_build_object(
             'id', id,
             'name', name,
             'iconId', iconId,
@@ -116,11 +117,12 @@ begin
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
+            'created', created,
             'description', description
-        )) as data
+        ) as data
     into result
     from projects
-    where name == projectName
+    where name = projectName
     limit 1;
     return result;
 
@@ -145,11 +147,12 @@ begin
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
+            'created', created,
             'description', description
         )) as data
     into result
     from projects
-    where ownerId == thisOwnerId;
+    where ownerId = thisOwnerId;
     return result;
 
 end ;
@@ -173,11 +176,12 @@ begin
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
+            'created', created,
             'description', description
         )) as data
     into result
     from projects
-    where teamId == thisTeamId;
+    where teamId = thisTeamId;
     return result;
 
 end ;
