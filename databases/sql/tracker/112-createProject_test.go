@@ -10,20 +10,19 @@ import (
 )
 
 func TestSqlDbFunc_createProject(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash          = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74edb8f51"
 		avatarType          = "image/png"
 		iconHash            = "182e31fa48267c22d598dfcddb66e2dafd0b4ec2b0192e28c3b73336b71ea8b4"
 		iconType            = "image/png"
-		functionName        = "createProjects"
-		expectedFirstName   = "Jack"
-		expectedLastName    = "Cook"
-		expectedEmail       = "jack.cook@example.com"
-		expectedPhone       = "321.321.6543"
+		functionName        = "createProject"
+		expectedFirstName   = "Robert"
+		expectedLastName    = "Oppenheimer"
+		expectedEmail       = "Robert.Oppenheimer@example.com"
+		expectedPhone       = "235.235.0238"
 		expectedDescription = "Test description"
-		testTeamName        = "OceanExplorers"
-		expectedProject     = "testProject"
+		testTeamName        = "Los Alamos Nerds"
+		expectedProject     = "Manhattan Project"
 		pRead               = "read"
 	)
 
@@ -47,16 +46,22 @@ func TestSqlDbFunc_createProject(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{projectName,projectIconId,projectDesc},pt:{text,varchar,uuid},rt:uuid",
+			"pn:{projectname,projecticonid,projectownerid,projectteamid,"+
+			"permissionowner,permissionteam,permissioneveryone,projectdesc},"+
+			"pt:{text,varchar,uuid,permissions},"+
+			"rt:uuid",
 			strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
+
 	iconId = createIcon(t, db, iconType, iconHash)
-	ownerId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
-		expectedPhone, expectedDescription)
+
+	ownerId = createUser(t, db, expectedFirstName, expectedLastName, avatarId,
+		expectedEmail, expectedPhone, expectedDescription)
+
 	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
+
 	projectId = createProject(t, db, expectedProject, iconId, ownerId, teamId, pRead, pRead, pRead, expectedDescription)
-	t.Logf("projectId: %v", projectId)
 
 	t.Run("verify record", func(t *testing.T) {
 		var rows *sql.Rows
@@ -129,6 +134,5 @@ func TestSqlDbFunc_createProject(t *testing.T) {
 				"actual:   %v\n"+
 				"expected: %v", actualDescription, expectedDescription)
 		}
-
 	})
 }

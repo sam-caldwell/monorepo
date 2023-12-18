@@ -35,10 +35,10 @@ create unique index if not exists ndxProjectsName on projects (name);
 create index if not exists ndxProjectsCreated on projects (created);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * createProjects() function
+ * createProject() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createProjects(projectName varchar(64), projectIconId uuid, projectOwnerId uuid,
+create or replace function createProject(projectName varchar(64), projectIconId uuid, projectOwnerId uuid,
                                           projectTeamId uuid, permissionOwner permissions, permissionTeam permissions,
                                           permissionEveryone permissions, projectDesc text) returns uuid as
 $$
@@ -54,10 +54,10 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteProjects() function
+ * deleteProject() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteProjects(projectId uuid) returns integer as
+create or replace function deleteProject(projectId uuid) returns integer as
 $$
 declare
     count integer;
