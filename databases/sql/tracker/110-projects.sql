@@ -236,12 +236,12 @@ $$ language plpgsql;
  * updateProjectOwnerId() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateProjectOwnerId(projectId uuid, ownerId varchar(64)) returns integer as
+create or replace function updateProjectOwnerId(projectId uuid, newOwnerId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    update projects set ownerId=ownerId where id = projectId;
+    update projects set ownerId=newOwnerId where id = projectId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
