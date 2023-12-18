@@ -44,7 +44,7 @@ $$
 declare
     newId uuid;
 begin
-    newId := gen_random_uuid();
+    newId := (select createEntity('workflow'::entityType));
     insert into projects (id, name, iconId, description)
     values (newId, projectName, projectIconId, projectDesc);
     return newId;
