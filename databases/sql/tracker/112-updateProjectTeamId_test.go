@@ -93,7 +93,7 @@ func TestSqlDbFunc_updateProjectTeamId(t *testing.T) {
 		var err error
 		var rows *sql.Rows
 		var actual uuid.UUID
-		rows, err = db.Query("select owner,team,everyone from projects where id='%s';", projectId)
+		rows, err = db.Query("select teamId from projects where id='%s';", projectId)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
 		}
