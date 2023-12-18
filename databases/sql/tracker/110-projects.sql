@@ -203,30 +203,15 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateProjectDefaultTicketType() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateProjectDefaultTicketType(projectId uuid, defaultTicketType uuid) returns integer as
-$$
-declare
-    count integer;
-begin
-    update projects set defaultTicketType=defaultTicketType where id = projectId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * updateProjectIconId() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateProjectIconId(projectId uuid, iconId uuid) returns integer as
+create or replace function updateProjectIconId(projectId uuid, projectIconId uuid) returns integer as
 $$
 declare
     count integer;
 begin
-    update projects set iconId=iconId where id = projectId;
+    update projects set iconId=projectIconId where id = projectId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
