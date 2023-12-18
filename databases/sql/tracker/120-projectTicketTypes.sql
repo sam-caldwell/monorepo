@@ -29,14 +29,13 @@ create table if not exists projectTicketTypes
  * addTicketTypeToProject() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function addTicketTypeToProject(projectId uuid, ticketTypeId uuid) returns uuid as
+create or replace function addTicketTypeToProject(thisPid uuid, thisTid uuid) returns uuid as
 $$
 declare
     associationId uuid;
 begin
-    associationId := (select createEntity('projectTypes'::entityType));
-    insert into projects (id, name, iconId, description)
-    values (associationId, projectId, ticketTypeId);
+    associationId := (select createEntity('ticketTypeAssociation'::entityType));
+    insert into projectTicketTypes (id, projectId, ticketTypeId) values (associationId, thisPid, thisTid);
     return associationId;
 end;
 $$ language plpgsql;
@@ -45,14 +44,13 @@ $$ language plpgsql;
  * removeTicketTypeFromProject() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function removeTicketTypeFromProject(projectId uuid, ticketTypeId uuid) returns uuid as
+create or replace function removeTicketTypeFromProject(thisPid uuid, thisTid uuid) returns integer as
 $$
 declare
-    associationId uuid;
+    count integer;
 begin
-    associationId := (select createEntity('projectType'::entityType));
-    insert into projects (id, name, iconId, description)
-    values (associationId, projectId, ticketTypeId);
-    return associationId;
+    delete from projectTicketTypes where projectId=thisPid and ticketTypeId=thisTid;
+    get diagnostics count = ROW_COUNT;
+    return count;
 end;
 $$ language plpgsql;
