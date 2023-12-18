@@ -70,10 +70,10 @@ $$ language plpgsql;
 
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getProjectsById() function
+ * getProjectById() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getProjectsById(projectId uuid) returns jsonb as
+create or replace function getProjectById(projectId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -91,17 +91,18 @@ begin
         )) as data
     into result
     from projects
-    where id == projectId;
+    where id == projectId
+    limit 1;
     return result;
 
 end ;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getProjectsByName() function
+ * getProjectByName() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getProjectsByName(projectName varchar(64)) returns jsonb as
+create or replace function getProjectByName(projectName varchar(64)) returns jsonb as
 $$
 declare
     result jsonb;
@@ -119,7 +120,8 @@ begin
         )) as data
     into result
     from projects
-    where name == projectName;
+    where name == projectName
+    limit 1;
     return result;
 
 end ;
