@@ -2,7 +2,6 @@ package psqlTrackerDb
 
 import (
 	"github.com/google/uuid"
-	"time"
 )
 
 type TrackerProject struct {
@@ -10,7 +9,7 @@ type TrackerProject struct {
 	IconId      uuid.UUID `yaml:"iconId"`
 	OwnerId     uuid.UUID `yaml:"ownerId"`
 	TeamId      uuid.UUID `yaml:"teamId"`
-	Created     time.Time `yaml:"created"`
+	Created     string    `yaml:"created"`
 	Name        string    `yaml:"name"`
 	Owner       string    `yaml:"owner"`
 	Team        string    `yaml:"team"`
