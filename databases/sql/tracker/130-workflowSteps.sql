@@ -7,19 +7,17 @@
 create table if not exists workflowSteps
 (
     id          uuid primary key not null,
-    workflowId  uuid        not null,
-    name        varchar(64) not null,
+    workflowId  uuid             not null,
+    name        varchar(64)      not null,
     -- a uuid representing the icon for the workflow.
-    iconId      uuid        not null,
-    prevStepId  uuid        not null,
-    nextStepId  uuid        not null,
+    prevStepId  uuid             not null,
+    nextStepId  uuid             not null,
     -- --
-    created  timestamp        not null default now(),
+    created     timestamp        not null default now(),
     description text,
     foreign key (workflowId) references workflows (id),
     foreign key (prevStepId) references workflowSteps (id),
     foreign key (nextStepId) references workflowSteps (id),
-    foreign key (iconId) references icons (id),
     foreign key (id) references entity (id) on delete restrict
 );
 /*
@@ -34,15 +32,15 @@ create index if not exists ndxWorkflowStepsCreated on workflowSteps (created);
  * createWorkflowSteps() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createWorkflowSteps(name varchar(64), iconId uuid, prevStepId uuid, nextStepId uuid,
-                                               description text) returns uuid as
+create or replace function createWorkflowSteps(stepName varchar(64), workflow uuid, pStepId uuid, nStepId uuid,
+                                               stepDescription text) returns uuid as
 $$
 declare
     teamId uuid;
 begin
-    teamId := gen_random_uuid();
-    insert into users (id, name, iconId, prevStepId, nextStepId, description)
-    values (teamId, name, iconId, prevStepId, nextStepId, description);
+    teamId := (select createEntity('workflow_step'::entityType));
+    insert into users (id, workflowId, name, prevStepId, nextStepId, description)
+    values (teamId, workflow, stepName, pStepId, nStepId, stepDescription);
     return teamId;
 end;
 $$ language plpgsql;
@@ -75,10 +73,10 @@ begin
             'id', stepId,
             'name', name,
             'workflowId', workflowId,
-            'iconId',iconId,
-            'prevStepId',prevStepId,
-            'nextStepId',nextStepId,
-            'description',description
+            'iconId', iconId,
+            'prevStepId', prevStepId,
+            'nextStepId', nextStepId,
+            'description', description
         )) as workflow
     into result
     from workflowSteps
@@ -150,7 +148,7 @@ $$
 declare
     count integer;
 begin
-    update ticket set workflowStepId=workflowStepId where id=ticketId;
+    update ticket set workflowStepId=workflowStepId where id = ticketId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -165,7 +163,7 @@ $$
 declare
     count integer;
 begin
-    update workflowSteps set nextStepId=nextStepId where id=stepId;
+    update workflowSteps set nextStepId=nextStepId where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -180,7 +178,7 @@ $$
 declare
     count integer;
 begin
-    update workflowSteps set nextStepId=prevStepId where id=stepId;
+    update workflowSteps set nextStepId=prevStepId where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -195,7 +193,7 @@ $$
 declare
     count integer;
 begin
-    update workflowSteps set description=description where id=stepId;
+    update workflowSteps set description=description where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -210,7 +208,7 @@ $$
 declare
     count integer;
 begin
-    update workflowSteps set iconId=iconId where id=stepId;
+    update workflowSteps set iconId=iconId where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -226,7 +224,7 @@ $$
 declare
     count integer;
 begin
-    update workflowSteps set name=name where id=stepId;
+    update workflowSteps set name=name where id = stepId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
