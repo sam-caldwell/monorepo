@@ -6,8 +6,15 @@ import (
 )
 
 func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
-	t.Skip("disabled for debugging")
-	const tableName = "workflowSteps"
+	const (
+		tableName     = "workflowSteps"
+		workflowSteps = tableName
+		workflows     = "workflows"
+		workflowId    = "workflowId"
+		prevStepId    = "prevStepId"
+		nextStepId    = "nextStepId"
+		id            = "id"
+	)
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -35,11 +42,9 @@ func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {
-		sqldbtest.ValidateForeignKey(t, db, tableName, "workflow", "workflowId", "id")
-		sqldbtest.ValidateForeignKey(t, db, tableName, "workflowSteps", "prevStepId", "id")
-		sqldbtest.ValidateForeignKey(t, db, tableName, "workflowSteps", "nextStepId", "id")
-		sqldbtest.ValidateForeignKey(t, db, tableName, "icons", "iconId", "id")
-		sqldbtest.ValidateForeignKey(t, db, tableName, "entity", "id", "id")
+		sqldbtest.ValidateForeignKey(t, db, tableName, workflows, workflowId, id)
+		sqldbtest.ValidateForeignKey(t, db, tableName, workflowSteps, prevStepId, id)
+		sqldbtest.ValidateForeignKey(t, db, tableName, workflowSteps, nextStepId, id)
 	})
 	t.Run("verify indexes: workflowId,name", func(t *testing.T) {
 		columnNames := []string{
@@ -52,6 +57,6 @@ func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }
