@@ -5,22 +5,22 @@
  */
 create table if not exists projects
 (
-    id                uuid primary key not null,
+    id          uuid primary key not null,
     -- each workflow has a unique name --
-    name              varchar(64)      not null,
+    name        varchar(64)      not null,
     -- a uuid representing the icon for the workflow. --
-    iconId            uuid             not null,
+    iconId      uuid             not null,
     -- a project will have an owner and team which have permissions --
-    ownerId           uuid             not null,
-    teamId            uuid             not null,
+    ownerId     uuid             not null,
+    teamId      uuid             not null,
     -- permissions --
-    owner             permissions      not null default 'delete',
-    team              permissions      not null default 'none',
-    everyone          permissions      not null default 'none',
+    owner       permissions      not null default 'delete',
+    team        permissions      not null default 'none',
+    everyone    permissions      not null default 'none',
     -- --
-    created           timestamp        not null default now(),
+    created     timestamp        not null default now(),
     -- descriptive text --
-    description       text,
+    description text,
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
     foreign key (iconId) references icons (id),
@@ -38,15 +38,17 @@ create index if not exists ndxProjectsCreated on projects (created);
  * createProjects() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createProjects(projectName varchar(64), projectIconId uuid,
-                                          projectDesc text) returns uuid as
+create or replace function createProjects(projectName varchar(64), projectIconId uuid, projectOwnerId uuid,
+                                          projectTeamId uuid, permissionOwner permissions, permissionTeam permissions,
+                                          permissionEveryone permissions, projectDesc text) returns uuid as
 $$
 declare
     newId uuid;
 begin
-    newId := (select createEntity('workflow'::entityType));
-    insert into projects (id, name, iconId, description)
-    values (newId, projectName, projectIconId, projectDesc);
+    newId := (select createEntity('project'::entityType));
+    insert into projects (id, name, iconId, ownerId, teamId, owner, team, everyone, description)
+    values (newId, projectName, projectIconId, projectOwnerId, projectTeamId,
+            permissionOwner, permissionTeam, permissionEveryone, projectDesc);
     return newId;
 end;
 $$ language plpgsql;
@@ -85,7 +87,6 @@ begin
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
-            'defaultTicketType', defaultTicketType,
             'description', description
         )) as data
     into result
@@ -114,7 +115,6 @@ begin
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
-            'defaultTicketType', defaultTicketType,
             'description', description
         )) as data
     into result
@@ -129,7 +129,7 @@ $$ language plpgsql;
  * getProjectsByOwnerId() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getProjectsByOwnerId(OwnerId uuid) returns jsonb as
+create or replace function getProjectsByOwnerId(thisOwnerId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -138,17 +138,16 @@ begin
             'id', id,
             'name', name,
             'iconId', iconId,
-            'ownerId', ownerId,
+            'ownerId', thisOwnerId,
             'teamId', teamId,
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
-            'defaultTicketType', defaultTicketType,
             'description', description
         )) as data
     into result
     from projects
-    where ownerId == OwnerId;
+    where ownerId == thisOwnerId;
     return result;
 
 end ;
@@ -158,7 +157,7 @@ $$ language plpgsql;
  * getProjectsByTeamId() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getProjectsByTeamId(TeamId uuid) returns jsonb as
+create or replace function getProjectsByTeamId(thisTeamId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -168,16 +167,15 @@ begin
             'name', name,
             'iconId', iconId,
             'ownerId', ownerId,
-            'teamId', teamId,
+            'teamId', thisTeamId,
             'permissionOwner', owner,
             'permissionTeam', team,
             'permissionEveryone', everyone,
-            'defaultTicketType', defaultTicketType,
             'description', description
         )) as data
     into result
     from projects
-    where teamId == TeamId;
+    where teamId == thisTeamId;
     return result;
 
 end ;
