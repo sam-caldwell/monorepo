@@ -22,7 +22,7 @@ func TestSqlDbTable_ProjectTicketTypes(t *testing.T) {
 	t.Run("check table schema", func(t *testing.T) {
 		sqldbtest.ValidateTable(t, db, tableName, []string{
 			"ColumnName:id,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:projectid,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:projectId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:ticketTypeId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
 		})
