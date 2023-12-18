@@ -35,8 +35,8 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 	var projectId uuid.UUID
 	var workflowId uuid.UUID
 	var ticketTypeId uuid.UUID
-	var prevStepId uuid.UUID //fake object
-	var nextStepId uuid.UUID //fake object
+	var prevStepId uuid.UUID //fake object (entity uuid only)
+	var nextStepId uuid.UUID //fake object (entity uuid only)
 	var stepId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
