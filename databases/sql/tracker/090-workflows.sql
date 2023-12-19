@@ -21,7 +21,8 @@ create table if not exists workflows
     -- --
     created     timestamp        not null default now(),
     -- --
-    description text,
+    description text,-- --
+    constraint validateWorkflowName check (validName(name)),
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
     foreign key (iconId) references icons (id),
