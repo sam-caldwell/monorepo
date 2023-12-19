@@ -7,13 +7,10 @@ import (
 
 func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
 	const (
-		tableName     = "workflowSteps"
-		workflowSteps = tableName
-		workflows     = "workflows"
-		workflowId    = "workflowId"
-		prevStepId    = "prevStepId"
-		nextStepId    = "nextStepId"
-		id            = "id"
+		tableName  = "workflowSteps"
+		workflows  = "workflows"
+		workflowId = "workflowId"
+		id         = "id"
 	)
 
 	db := sqldbtest.InitializeTestDbConn(t)
@@ -33,7 +30,6 @@ func TestSqlDbTable_WorkFlowSteps(t *testing.T) {
 			"ColumnName:id,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:workflowId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:name,datatype:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:iconId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:prevStepId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:nextStepId,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:description,datatype:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
