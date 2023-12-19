@@ -43,7 +43,7 @@ func TestSqlDbFunc_createTeam(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{name,iconid,ownerId,owner,team,everyone,description},"+
+			"pn:{tName,tIcon,tOwner,pOwner,pTeam,pEveryone,tDescription},"+
 			"pt:{text,varchar,uuid,permissions},"+
 			"rt:uuid", strings.ToLower(functionName)))
 
