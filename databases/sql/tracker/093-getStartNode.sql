@@ -7,7 +7,7 @@
  *
  * - Get the start node (default) for a given workflow.
  */
-create or replace function getStartNode(thisWorkflow uuid) returns jsonb as
+create or replace function getStartNode(thisWorkflow uuid) returns uuid as
 $$
 declare
     entityId uuid := (select id
