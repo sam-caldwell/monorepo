@@ -22,9 +22,6 @@ declare
     p      uuid;
     n      uuid;
 begin
-    if not validName(stepName) then
-        raise exception 'workflow step name is invalid';
-    end if;
     stepId := (select createEntity('workflow_step'::entityType));
     if (stepId = pStepId) or (stepId = nStepId) then
         raise exception 'node cannot be its prev or next step id';
