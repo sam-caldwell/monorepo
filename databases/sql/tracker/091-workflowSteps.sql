@@ -1,8 +1,6 @@
 /*
  * 091-workflowSteps.sql
  * (c) 2023 Sam Caldwell.  See License.txt
- *
- * Create user profiles for the tracker.
  */
 create table if not exists workflowSteps
 (
@@ -17,6 +15,8 @@ create table if not exists workflowSteps
     description text,
     foreign key (workflowId) references workflows (id),
     /*
+     * see 093-verifyWorkFlowPrevNextStepsValid.sql
+     *
      * We have two triggers (below) which enforce referential integrity
      * to ensure prevStepId and nextStepId are in the set of workflowSteps.id
      * if non-null uuid, but taking no action if the prevStepId or nextStepId
@@ -31,110 +31,7 @@ create table if not exists workflowSteps
  */
 create unique index if not exists ndxWorkflowStepsWorkflowIdName on workflowSteps (workflowId, name);
 create index if not exists ndxWorkflowStepsCreated on workflowSteps (created);
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * check_foreign_key_constraints()
- *      Trigger on insert/update to ensure prevStepId and nextStepId are in workflowSteps
- *      unless they are null.
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function check_foreign_key_constraints()
-    returns trigger as
-$$
-declare
-    prevNotInSet boolean;
-    nextNotInSet boolean;
-begin
-    prevNotInSet := (select count(id) from workflowSteps where new.prevStepId in (select id from workflowSteps)) = 0;
-    nextNotInSet := (select count(id) from workflowSteps where new.nextStepId in (select id from workflowSteps)) = 0;
-    if (new.prevStepId is not null) and prevNotInSet then
-        RAISE EXCEPTION 'Foreign key constraint violation: prevStepId must reference existing workflowSteps.id';
-    end if;
-    IF (new.nextStepId is not null) and nextNotInSet then
-        RAISE EXCEPTION 'Foreign key constraint violation: nextStepId must reference existing workflowSteps.id';
-    end if;
-    return new;
-end;
-$$ language plpgsql;
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * check_foreign_key_insert
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create trigger check_foreign_key_insert
-    before insert
-    on workflowSteps
-    for each row
-execute function check_foreign_key_constraints();
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * check_foreign_key_update
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create trigger check_foreign_key_update
-    before update
-    on workflowSteps
-    for each row
-execute function check_foreign_key_constraints();
 
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * initializeWorkflowSteps() function
- *      Create the start and terminate nodes of the workflow.
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function initializeWorkflowSteps(thisWorkflow uuid) returns jsonb as
-$$
-declare
-    startId uuid := (select createEntity('workflow_step'::entityType));
-    stopId  uuid := (select createEntity('workflow_step'::entityType));
-begin
-    insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
-    values (startId, thisWorkflow, 'start', null, null, 'workflow starts here');
-
-    insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
-    values (stopId, thisWorkflow, 'terminate', null, null, 'workflow stops here');
-
-    return jsonb_build_object(
-            'startId', startId,
-            'stopId', stopId);
-end ;
-$$ language plpgsql;
-
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * createWorkflowStep() function
- *      Create a workflow step. Make sure we validate the data.
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function createWorkflowStep(stepName varchar(64), thisworkflow uuid,
-                                              pStepId uuid default null, nStepId uuid default null,
-                                              stepDescription text default '') returns uuid as
-$$
-declare
-    stepId uuid;
-    p      uuid;
-    n      uuid;
-begin
-    stepId := (select createEntity('workflow_step'::entityType));
-    if (stepId = pStepId) or (stepId = nStepId) then
-        raise exception 'node cannot be its prev or next step id';
-    end if;
-    if (pStepId is null) then
-        p := (select id from workflowsteps where workflowid = thisworkflow and name = 'start');
-    else
-        p := pStepId;
-    end if;
-    if (nStepId = '00000000-0000-0000-0000-000000000000'::uuid) then
-        p := (select id from workflowsteps where workflowid = thisworkflow and name = 'start');
-    else
-        n := nStepId;
-    end if;
-    insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
-    values (stepId, workflow, stepName, p, n, stepDescription);
-    return stepId;
-end;
-$$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * getWorkflowStepId() function
