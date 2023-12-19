@@ -24,6 +24,8 @@ create table if not exists teams
     -- descriptive text --
     description text,
     -- --
+    constraint validateTeamName check (validName(name)),
+    -- --
     foreign key (ownerId) references users (id),
     foreign key (iconId) references icons (id),
     foreign key (id) references entity (id) on delete restrict
@@ -45,15 +47,15 @@ create index if not exists ndxTeamsEveryone on teams (everyone);
  * createTeams() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createTeam(name varchar(64), iconId uuid, ownerId uuid, owner permissions,
-                                      team permissions, everyone permissions, description text) returns uuid as
+create or replace function createTeam(tName varchar(64), tIcon uuid, tOwner uuid, pOwner permissions,
+                                      pTeam permissions, pEveryone permissions, pDescription text) returns uuid as
 $$
 declare
     teamId uuid;
 begin
     teamId := (select createEntity('team'::entityType));
     insert into teams (id, name, iconId, ownerId, owner, team, everyone, description)
-    values (teamId, name, iconId, ownerId, owner, team, everyone, description);
+    values (teamId, tName, tIcon, tOwner, pOwner, pTeam, pEveryone, pDescription);
     return teamId;
 end;
 $$ language plpgsql;
