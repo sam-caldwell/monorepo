@@ -22,20 +22,32 @@ declare
     p      uuid;
     n      uuid;
 begin
-    stepId := (select createEntity('workflow_step'::entityType));
-    if (stepId = pStepId) or (stepId = nStepId) then
-        raise exception 'node cannot be its prev or next step id';
-    end if;
+    /*
+     * If our previous step (pStepId) is null, get the start node.
+     */
     if (pStepId is null) then
         p := (select getStartNode(thisWorkflowId));
     else
         p := pStepId;
     end if;
+    /*
+     * If our next step (nStepId) is null, get the terminal node.
+     */
     if (nStepId = '00000000-0000-0000-0000-000000000000'::uuid) then
         p := getTerminalNode(thisWorkflowId);
     else
         n := nStepId;
     end if;
+    /*
+     * Create our entityId.
+     */
+    stepId := (select createEntity('workflow_step'::entityType));
+    if (stepId = pStepId) or (stepId = nStepId) then
+        raise exception 'node cannot be its prev or next step id';
+    end if;
+    /*
+     * insert the new workflow step record.
+     */
     insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
     values (stepId, thisWorkflowId, stepName, p, n, stepDescription);
     return stepId;
