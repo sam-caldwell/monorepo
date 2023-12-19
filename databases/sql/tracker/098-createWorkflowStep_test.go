@@ -56,7 +56,7 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{stepName,thisworkflow,pStepId,nStepId,stepDescription},"+
+			"pn:{stepName,thisWorkflowId,pStepId,nStepId,stepDescription},"+
 			"pt:{text,varchar,uuid},rt:uuid", strings.ToLower(functionName)))
 
 	t.Run("setup", func(t *testing.T) {
