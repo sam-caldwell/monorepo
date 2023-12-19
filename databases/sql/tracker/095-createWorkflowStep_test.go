@@ -56,8 +56,8 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{stepName,workflow,pStepId,nStepId,stepDescription},"+
-			"pt:{varchar,uuid,text},rt:uuid", strings.ToLower(functionName)))
+			"pn:{stepName,thisworkflow,pStepId,nStepId,stepDescription},"+
+			"pt:{text,varchar,uuid},rt:uuid", strings.ToLower(functionName)))
 
 	t.Run("setup", func(t *testing.T) {
 		avatarId = createAvatar(t, db, avatarType, avatarHash)
@@ -68,9 +68,6 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 		projectId = createProject(t, db, expectedProject, iconId, ownerId, teamId, pRead, pRead, pRead, expectedDescription)
 		workflowId = createWorkflow(t, db, expectedWorkflowName, iconId, ownerId, teamId, pRead, pRead, pRead,
 			expectedDescription)
-		prevStepId = createEntity(t, db, "workflow_step")
-		nextStepId = createEntity(t, db, "workflow_step")
-
 		stepId = createWorkflowStep(t, db, workflowId, expectedStepName, prevStepId, nextStepId, expectedDescription)
 	})
 
