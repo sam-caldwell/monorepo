@@ -11,7 +11,8 @@ create table if not exists propertyKeys
     name    varchar(64)      not null,
     -- --
     created timestamp        not null default now(),
-        foreign key (id) references entity (id) on delete restrict
+    foreign key (id) references entity (id) on delete restrict,
+    constraint validatePropertyKeyName check (validName(name))
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
