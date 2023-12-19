@@ -14,13 +14,7 @@ func createWorkflowStep(t *testing.T, db *Postgres.Db, workflowId uuid.UUID, ste
 	t.Run("createWorkflow()", func(t *testing.T) {
 		var err error
 		var rows *sql.Rows
-		rows, err = db.Query("select createWorkflowStep("+
-			"'%s'::varchar,"+
-			"'%s'::uuid,"+
-			"'%s'::uuid,"+
-			"'%s'::uuid,"+
-			"'%s'::text"+
-			");",
+		rows, err = db.Query("select createWorkflowStep('%s'::varchar,'%s'::uuid,'%s','%s','%s'::text);",
 			stepName, workflowId, prevStepId, nextStepId, description)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
