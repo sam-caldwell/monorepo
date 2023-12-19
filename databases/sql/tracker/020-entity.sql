@@ -43,9 +43,8 @@ execute function preventUpdate();
 create or replace function createEntity(type entityType, context varchar(2048) default '') returns uuid as
 $$
 declare
-    subject uuid;
+    subject uuid:= gen_random_uuid();
 begin
-    subject := gen_random_uuid();
     insert into entity (id, type) values (subject, type);
     return subject;
 end;
