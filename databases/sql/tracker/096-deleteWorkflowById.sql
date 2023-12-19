@@ -24,7 +24,7 @@ $$
 declare
     result boolean := true;
 begin
-    -- This is currently a placeholder.  This function should be overridden later
+    -- This is currently a placeholder.  This function should be overloaded later
     -- once ticketTypes are defined so that we can prevent any workflow from being
     -- deleted until all related ticketTypes are removed.
     return result;
