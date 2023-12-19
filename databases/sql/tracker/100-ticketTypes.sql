@@ -19,7 +19,8 @@ create table if not exists ticketTypes
     description text,
     foreign key (iconId) references icons (id),
     foreign key (workflowId) references workflows (id),
-    foreign key (id) references entity (id) on delete restrict
+    foreign key (id) references entity (id) on delete restrict,
+    constraint validateTicketTypesName check (validName(name))
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
