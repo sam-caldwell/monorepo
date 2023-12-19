@@ -24,7 +24,8 @@ create table if not exists projects
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
     foreign key (iconId) references icons (id),
-    foreign key (id) references entity (id) on delete restrict
+    foreign key (id) references entity (id) on delete restrict,
+    constraint validateProjectName check (validName(name))
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
