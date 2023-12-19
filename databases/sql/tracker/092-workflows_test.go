@@ -5,14 +5,19 @@ import (
 	"testing"
 )
 
+/*
+ * Test Objectives:
+ *
+ *      Prove the workflow tables, foreign keys and indexes work.
+ */
 func TestSqlDbTable_workflow(t *testing.T) {
 	const tableName = "workflows"
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
-    t.Cleanup(func() {
-        sqldbtest.CheckError(t, db.Close())
-    })
+	t.Cleanup(func() {
+		sqldbtest.CheckError(t, db.Close())
+	})
 	t.Run("query the table", func(t *testing.T) {
 		rows, err := db.Query("select 1 from %s limit 1;", tableName)
 		sqldbtest.CheckError(t, err)
