@@ -22,8 +22,8 @@ create table if not exists workflowSteps
      * if non-null uuid, but taking no action if the prevStepId or nextStepId
      * are null.
      */
-    foreign key (id) references entity (id) on delete restrict
-    constraint validateWorkflowStepName check (validName(name)),
+    foreign key (id) references entity (id) on delete restrict,
+    constraint validateWorkflowStepName check (validName(name))
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
