@@ -8,10 +8,25 @@ $$
 declare
     count integer;
 begin
-    -- ToDo: we should not be able to delete any workflows if it is mapped to a ticketType
-    delete from workflowsteps where workflowid=thisWorkflowId;
-    delete from workflows where id = thisWorkflowId;
-    get diagnostics count = ROW_COUNT;
-    return count;
+    if deleteWorkflowPreCheck(thisWorkflowId) then
+        delete from workflowsteps where workflowid = thisWorkflowId;
+        delete from workflows where id = thisWorkflowId;
+        get diagnostics count = ROW_COUNT;
+        return count;
+    else
+        return 0; -- error state
+    end if;
+end;
+$$ language plpgsql;
+
+create or replace function deleteWorkflowPreCheck(thisWorkflowId uuid) returns boolean as
+$$
+declare
+    result boolean := true;
+begin
+    -- This is currently a placeholder.  This function should be overridden later
+    -- once ticketTypes are defined so that we can prevent any workflow from being
+    -- deleted until all related ticketTypes are removed.
+    return result;
 end;
 $$ language plpgsql;
