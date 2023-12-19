@@ -23,6 +23,7 @@ create table if not exists workflowSteps
      * are null.
      */
     foreign key (id) references entity (id) on delete restrict
+    constraint validateWorkflowStepName check (validName(name)),
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
