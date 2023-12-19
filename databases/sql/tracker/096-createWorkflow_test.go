@@ -1,6 +1,7 @@
 package psqlTrackerDb
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -59,60 +60,60 @@ func TestSqlDbFunc_createWorkflow(t *testing.T) {
 	workflowId = createWorkflow(t, db, expectedWorkflowName, iconId, ownerId, teamId,
 		pRead, pRead, pRead, expectedDescription)
 
-	//t.Run("verify workflow", func(t *testing.T) {
-	//	var rows *sql.Rows
-	//	var err error
-	//	var actualId uuid.UUID
-	//	var actualName string
-	//	var actualIconId uuid.UUID
-	//	var actualOwnerId uuid.UUID
-	//	var actualTeamId uuid.UUID
-	//	var actualOwner string
-	//	var actualTeam string
-	//	var actualEveryone string
-	//	var actualDescription string
-	//
-	//	rows, err = db.Query(""+
-	//		"select id,name,iconId,ownerId,teamId,owner,team,everyone,description "+
-	//		"from workflows where id = '%s';", workflowId)
-	//	if err != nil {
-	//		t.Fatal(err)
-	//	}
-	//
-	//	defer func() { _ = rows.Close() }()
-	//	if !rows.Next() {
-	//		t.Fatal("no row returned")
-	//	}
-	//
-	//	err = rows.Scan(&actualId, &actualName, &actualIconId, &actualOwnerId, &actualTeamId,
-	//		&actualOwner, &actualTeam, &actualEveryone, &actualDescription)
-	//
-	//	if actualId != workflowId {
-	//		t.Fatalf("workflowId mismatch")
-	//	}
-	//	if actualName != expectedWorkflowName {
-	//		t.Fatalf("workflowName mismatch")
-	//	}
-	//	if actualIconId != iconId {
-	//		t.Fatalf("iconId mismatch")
-	//	}
-	//	if actualOwnerId != ownerId {
-	//		t.Fatalf("ownerId mismatch")
-	//	}
-	//	if actualTeamId != teamId {
-	//		t.Fatalf("teamId mismatch")
-	//	}
-	//	if actualOwner != pRead {
-	//		t.Fatalf("owner mismatch")
-	//	}
-	//	if actualTeam != pRead {
-	//		t.Fatalf("team mismatch")
-	//	}
-	//	if actualEveryone != pRead {
-	//		t.Fatalf("everyone mismatch")
-	//	}
-	//	if actualDescription != expectedDescription {
-	//		t.Fatalf("description mismatch")
-	//	}
-	//})
+	t.Run("verify workflow", func(t *testing.T) {
+		var rows *sql.Rows
+		var err error
+		var actualId uuid.UUID
+		var actualName string
+		var actualIconId uuid.UUID
+		var actualOwnerId uuid.UUID
+		var actualTeamId uuid.UUID
+		var actualOwner string
+		var actualTeam string
+		var actualEveryone string
+		var actualDescription string
+
+		rows, err = db.Query(""+
+			"select id,name,iconId,ownerId,teamId,owner,team,everyone,description "+
+			"from workflows where id = '%s';", workflowId)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		defer func() { _ = rows.Close() }()
+		if !rows.Next() {
+			t.Fatal("no row returned")
+		}
+
+		err = rows.Scan(&actualId, &actualName, &actualIconId, &actualOwnerId, &actualTeamId,
+			&actualOwner, &actualTeam, &actualEveryone, &actualDescription)
+
+		if actualId != workflowId {
+			t.Fatalf("workflowId mismatch")
+		}
+		if actualName != expectedWorkflowName {
+			t.Fatalf("workflowName mismatch")
+		}
+		if actualIconId != iconId {
+			t.Fatalf("iconId mismatch")
+		}
+		if actualOwnerId != ownerId {
+			t.Fatalf("ownerId mismatch")
+		}
+		if actualTeamId != teamId {
+			t.Fatalf("teamId mismatch")
+		}
+		if actualOwner != pRead {
+			t.Fatalf("owner mismatch")
+		}
+		if actualTeam != pRead {
+			t.Fatalf("team mismatch")
+		}
+		if actualEveryone != pRead {
+			t.Fatalf("everyone mismatch")
+		}
+		if actualDescription != expectedDescription {
+			t.Fatalf("description mismatch")
+		}
+	})
 }
