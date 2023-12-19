@@ -24,8 +24,7 @@ create table if not exists ticket
     foreign key (assignedUserId) references users (id),
     foreign key (ticketTypeId) references ticketTypes (id),
     foreign key (workflowStepId) references workflowSteps(id),
-    foreign key (id) references entity (id) on delete restrict,
-    constraint validateTicketName check (validName(name))
+    foreign key (id) references entity (id) on delete restrict
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
