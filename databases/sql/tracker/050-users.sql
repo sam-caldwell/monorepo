@@ -22,7 +22,9 @@ create table if not exists users
     foreign key (avatarId) references avatars (id) on delete cascade,
     foreign key (id) references entity (id) on delete restrict,
     constraint validateFirstName check (validFirstLastName(firstName)),
-    constraint validateFirstName check (validFirstLastName(lastName))
+    constraint validateLastName check (validFirstLastName(lastName)),
+    constraint validateEmail check (validEmailAddress(email)),
+    constraint validatePhone check (validPhoneNumber(phoneNumber))
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
