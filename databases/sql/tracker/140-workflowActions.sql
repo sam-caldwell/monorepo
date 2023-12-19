@@ -11,7 +11,8 @@ create table if not exists workflowActions
     -- --
     created     timestamp        not null default now(),
     description text,
-    foreign key (id) references entity (id) on delete restrict
+    foreign key (id) references entity (id) on delete restrict,
+    constraint validateWorkflowActionName check (validName(name))
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
