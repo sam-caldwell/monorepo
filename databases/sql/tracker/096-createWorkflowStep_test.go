@@ -10,7 +10,6 @@ import (
 )
 
 func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash           = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74e6b8f51"
 		avatarType           = "image/png"
@@ -33,9 +32,7 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 	var iconId uuid.UUID
 	var teamId uuid.UUID
 	var ownerId uuid.UUID
-	var projectId uuid.UUID
 	var workflowId uuid.UUID
-	var ticketTypeId uuid.UUID
 	var prevStepId uuid.UUID //fake object (entity uuid only)
 	var nextStepId uuid.UUID //fake object (entity uuid only)
 	var stepId uuid.UUID
@@ -43,14 +40,12 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_ = cleanUpObject(db, "workflowSteps", stepId)
-		_ = cleanUpObject(db, "ticketTypes", ticketTypeId)
-		_ = cleanUpObject(db, "workflows", workflowId)
-		_ = cleanUpObject(db, "projects", projectId)
-		_ = cleanUpObject(db, "teams", teamId)
-		_ = cleanUpObject(db, "users", ownerId)
-		_ = cleanUpObject(db, "icons", iconId)
-		_ = cleanUpObject(db, "avatars", avatarId)
+		//sqldbtest.CheckError(t, cleanUpObject(db, "workflowSteps", stepId))
+		//sqldbtest.CheckError(t, cleanUpObject(db, "workflows", workflowId))
+		//sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
+		//sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
+		//sqldbtest.CheckError(t, cleanUpObject(db, "icons", iconId))
+		//sqldbtest.CheckError(t, cleanUpObject(db, "avatars", avatarId))
 		sqldbtest.CheckError(t, db.Close())
 	})
 
