@@ -31,19 +31,19 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 	var teamId uuid.UUID
 	var ownerId uuid.UUID
 	var workflowId uuid.UUID
-	var prevStepId uuid.UUID //fake object (entity uuid only)
-	var nextStepId uuid.UUID //fake object (entity uuid only)
+	var prevStepId uuid.UUID
+	var nextStepId uuid.UUID
 	var stepId uuid.UUID
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		//sqldbtest.CheckError(t, cleanUpObject(db, "workflowSteps", stepId))
-		//sqldbtest.CheckError(t, cleanUpObject(db, "workflows", workflowId))
-		//sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
-		//sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
-		//sqldbtest.CheckError(t, cleanUpObject(db, "icons", iconId))
-		//sqldbtest.CheckError(t, cleanUpObject(db, "avatars", avatarId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "workflowSteps", stepId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "workflows", workflowId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "icons", iconId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "avatars", avatarId))
 		sqldbtest.CheckError(t, db.Close())
 	})
 
