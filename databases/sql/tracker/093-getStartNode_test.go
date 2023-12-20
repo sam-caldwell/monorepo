@@ -24,6 +24,7 @@ func TestSqlDbFunc_getStartNode(t *testing.T) {
 		pRead                = "read"
 		expectedWorkflowName = "test workflow"
 	)
+
 	var avatarId uuid.UUID
 	var iconId uuid.UUID
 	var teamId uuid.UUID
