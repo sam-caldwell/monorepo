@@ -13,7 +13,7 @@ declare
     entityId uuid := (select id
                       from workflowSteps
                       where workflowId = thisWorkflow
-                        and name = 'terminate');
+                        and name = 'start');
 begin
     if entityId = '00000000-0000-0000-0000-000000000000' then
         raise exception 'internal error. missing start node for this workflow';

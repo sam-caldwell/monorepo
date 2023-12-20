@@ -9,7 +9,6 @@ import (
 )
 
 func TestSqlDbFunc_getStartNode(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash           = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74edb8f51"
 		avatarType           = "image/png"
@@ -34,11 +33,11 @@ func TestSqlDbFunc_getStartNode(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_ = cleanUpObject(db, "workflows", workflowId)
-		_ = cleanUpObject(db, "teams", teamId)
-		_ = cleanUpObject(db, "users", ownerId)
-		_ = cleanUpObject(db, "icons", iconId)
-		_ = cleanUpObject(db, "avatars", avatarId)
+		//_ = cleanUpObject(db, "workflows", workflowId)
+		//_ = cleanUpObject(db, "teams", teamId)
+		//_ = cleanUpObject(db, "users", ownerId)
+		//_ = cleanUpObject(db, "icons", iconId)
+		//_ = cleanUpObject(db, "avatars", avatarId)
 		sqldbtest.CheckError(t, db.Close())
 	})
 
@@ -60,16 +59,7 @@ func TestSqlDbFunc_getStartNode(t *testing.T) {
 	var startNodeId uuid.UUID
 
 	t.Run("getStartNode", func(t *testing.T) {
-		rows, err := db.Query("select getStartNode('%s');", workflowId)
-		if err != nil {
-			t.Fatalf("Fail: query error: %v", err)
-		}
-		if !rows.Next() {
-			t.Fatalf("Fail: no rows returned")
-		}
-		if err = rows.Scan(&startNodeId); err != nil {
-			t.Fatalf("Fail: scan error: %v", err)
-		}
+		startNodeId = getStartNode(t, db, workflowId)
 	})
 	t.Run("verify node", func(t *testing.T) {
 		rows, err := db.Query("select id from workflowSteps where workflowId='%s' and name ='start'",
@@ -85,7 +75,9 @@ func TestSqlDbFunc_getStartNode(t *testing.T) {
 			t.Fatalf("Fail: scan error: %v", err)
 		}
 		if actualNodeId != startNodeId {
-			t.Fatalf("Fail: node mismatch")
+			t.Fatalf("Fail: node mismatch\n"+
+				"actual   %v\n"+
+				"expected %v", actualNodeId, startNodeId)
 		}
 	})
 }
