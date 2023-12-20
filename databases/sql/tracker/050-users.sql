@@ -226,3 +226,4 @@ begin
     return count;
 end;
 $$ language plpgsql;
+

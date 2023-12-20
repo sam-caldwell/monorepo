@@ -69,9 +69,25 @@ $$
 declare
     count integer;
 begin
-    delete from teams where id = teamId;
-    get diagnostics count = ROW_COUNT;
-    return count;
+    if deleteIconPreCheck(teamId) then
+        delete from teams where id = teamId;
+        get diagnostics count = ROW_COUNT;
+        return count;
+    else
+        return 0; --error state
+    end if;
+
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteIconPreCheck() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteIconPreCheck(entityId uuid) returns boolean as
+$$
+begin
+    return true;
 end;
 $$ language plpgsql;
 /*
@@ -258,5 +274,19 @@ begin
     where id = teamId;
     get diagnostics count = ROW_COUNT;
     return count;
+end;
+$$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteIconPreCheck() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteIconPreCheck(entityId uuid) returns boolean as
+$$
+begin
+    /*
+     * Overloaded by Workflows...
+     */
+    return (select count(id) from teams where iconId = entityId) == 0;
 end;
 $$ language plpgsql;
