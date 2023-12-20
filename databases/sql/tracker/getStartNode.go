@@ -26,6 +26,7 @@ func getStartNode(t *testing.T, db *Postgres.Db, workflowId uuid.UUID) (entityId
 		if err = rows.Scan(&entityId); err != nil {
 			t.Fatal(err)
 		}
+		t.Logf("StartNode: %v", entityId)
 	})
 	return entityId
 }

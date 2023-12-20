@@ -26,7 +26,7 @@ create table if not exists workflows
     foreign key (ownerId) references users (id),
     foreign key (teamId) references teams (id),
     foreign key (iconId) references icons (id),
-    foreign key (id) references entity (id) on delete restrict
+    foreign key (id) references entity (id)
 );
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

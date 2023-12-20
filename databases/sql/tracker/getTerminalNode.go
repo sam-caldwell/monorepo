@@ -26,6 +26,7 @@ func getTerminalNode(t *testing.T, db *Postgres.Db, workflowId uuid.UUID) (entit
 		if err = rows.Scan(&entityId); err != nil {
 			t.Fatal(err)
 		}
+		t.Logf("TerminalNode: %v", entityId)
 	})
 	return entityId
 }

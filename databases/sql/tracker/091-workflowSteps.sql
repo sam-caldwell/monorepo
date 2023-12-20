@@ -13,7 +13,7 @@ create table if not exists workflowSteps
     -- --
     created     timestamp        not null default now(),
     description text,
-    foreign key (workflowId) references workflows (id),
+    foreign key (workflowId) references workflows (id) on delete cascade,
     /*
      * see 093-verifyWorkFlowPrevNextStepsValid.sql
      *
