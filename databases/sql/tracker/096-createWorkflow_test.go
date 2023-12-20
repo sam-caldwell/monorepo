@@ -34,11 +34,11 @@ func TestSqlDbFunc_createWorkflow(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_ = cleanUpObject(db, "workflows", workflowId)
-		_ = cleanUpObject(db, "teams", teamId)
-		_ = cleanUpObject(db, "users", ownerId)
-		_ = cleanUpObject(db, "icons", iconId)
-		_ = cleanUpObject(db, "avatars", avatarId)
+		sqldbtest.CheckError(t, cleanUpObject(db, "workflows", workflowId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "icons", iconId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "avatars", avatarId))
 		sqldbtest.CheckError(t, db.Close())
 	})
 
