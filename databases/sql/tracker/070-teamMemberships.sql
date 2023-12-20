@@ -6,11 +6,11 @@
  */
 create table if not exists teamMemberships
 (
-    id uuid      primary key not null,
+    id      uuid primary key not null,
     -- the userId and teamId used for the mapping --
-    userId        uuid      not null,
-    teamId        uuid      not null,
-    created       timestamp not null default now(),
+    userId  uuid             not null,
+    teamId  uuid             not null,
+    created timestamp        not null default now(),
     foreign key (userId) references users (id),
     foreign key (teamId) references teams (id)
 );
@@ -28,7 +28,7 @@ create unique index if not exists ndxTeamMembershipsUserIdTeamId on teamMembersh
 create or replace function addUserToTeam(userId uuid, teamId uuid) returns integer as
 $$
 declare
-    count integer;
+    count         integer;
     associationId uuid;
 begin
     associationId := (select createEntity('teamAssociation'::entityType));
@@ -39,6 +39,18 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteTeamMembershipPreCheck() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteTeamMembershipPreCheck(uid uuid, tid uuid) returns boolean as
+$$
+begin
+    return true;
+end;
+$$ language plpgsql;
+
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * removeUserFromTeam()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
@@ -47,9 +59,13 @@ $$
 declare
     count integer;
 begin
-    delete from teamMemberships where userId = uid and teamId = tid;
-    get diagnostics count = ROW_COUNT;
-    return count;
+    if deleteTeamMembershipPreCheck(uid, tid) then
+        delete from teamMemberships where userId = uid and teamId = tid;
+        get diagnostics count = ROW_COUNT;
+        return count;
+    else
+        return 0;
+    end if;
 end;
 $$ language plpgsql;
 /*
