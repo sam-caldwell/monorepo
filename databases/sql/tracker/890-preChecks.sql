@@ -51,3 +51,22 @@ begin
            ((select count(id) from workflows where iconId = entityId) = 0);
 end;
 $$ language plpgsql;
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteTeamPreCheck() function
+ *      teams cannot be deleted if any related records exist in...
+ *          - workflows
+ *          - projects
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+create or replace function deleteTeamPreCheck(entityId uuid) returns boolean as
+$$
+begin
+    /*
+     * This is currently a placeholder.  This function should be overloaded later
+     * as record consumers are defined so that we can prevent any record here from being
+     * deleted until all related records are removed.
+     */
+    return true;
+end;
+$$ language plpgsql;
