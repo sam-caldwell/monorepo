@@ -4,23 +4,14 @@
  *
  * Disable a given SQL trigger
  */
-create or replace function disableTrigger(tableName text,triggerName text) returns void as
+create or replace function disableTrigger(tableName text, triggerName text) returns boolean as
 $$
 declare
-    currentState boolean;
+    currentState boolean := isTriggerEnabled(tableName, triggerName);
 begin
-    if isTriggerEnabled(tableName,triggerName) then
-    -- Check if the trigger is currently enabled
-    select trg.tgenabled = 'O' into currentState
-    FROM pg_trigger trg
-             JOIN pg_class tbl ON trg.tgrelid = tbl.oid
-    WHERE trg.tgname = triggerName
-      AND tbl.relname = tableName;
-
-    -- If the trigger is currently enabled, temporarily disable it
-    IF currentState THEN
-        EXECUTE format('ALTER TABLE %I ENABLE TRIGGER %I', tableName, triggerName);
-    END IF;
+    if currentState then
+        execute format('alter table %I enable trigger %I', lower(tableName), lower(triggerName));
     end if;
+    return currentState::boolean;
 end;
 $$ language plpgsql;

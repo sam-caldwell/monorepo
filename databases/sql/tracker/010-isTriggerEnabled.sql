@@ -7,13 +7,13 @@
 create or replace function isTriggerEnabled(tableName text, triggerName text) returns boolean as
 $$
 declare
-    currentState boolean;
+    currentState boolean:=false;
 begin
     select trg.tgenabled = 'O' into currentState
     from pg_trigger trg
              join pg_class tbl on trg.tgrelid = tbl.oid
-    where trg.tgname = triggerName
-      and tbl.relname = tableName;
+    where trg.tgname = lower(triggerName)
+      and tbl.relname = lower(tableName);
     return currentState;
 end;
 $$ language plpgsql;
