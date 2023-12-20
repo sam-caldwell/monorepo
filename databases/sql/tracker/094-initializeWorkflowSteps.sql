@@ -10,12 +10,16 @@ declare
     startId uuid := (select createEntity('workflow_step'::entityType));
     stopId  uuid := (select createEntity('workflow_step'::entityType));
 begin
+    perform disableTrigger('workflowsteps','checkForeignKeyInsert');
+    perform disableTrigger('workflowsteps','checkForeignKeyUpdate');
     insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
-    values (startId, thisWorkflow, 'start', stopId, null, 'workflow starts here');
+    values (startId, thisWorkflow, 'start', null, stopId, 'workflow starts here');
 
     insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
-    values (stopId, thisWorkflow, 'terminate', null, startId, 'workflow stops here');
+    values (stopId, thisWorkflow, 'terminate', startId, null, 'workflow stops here');
 
+    perform enableTrigger('workflowsteps','checkForeignKeyInsert');
+    perform enableTrigger('workflowsteps','checkForeignKeyUpdate');
     return 1;
 end ;
 $$ language plpgsql;
