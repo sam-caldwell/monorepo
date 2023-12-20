@@ -61,7 +61,6 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 		ownerId = createUser(t, db, expectedFirstName, expectedLastName, avatarId,
 			expectedEmail, expectedPhone, expectedDescription)
 		teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
-		projectId = createProject(t, db, expectedProject, iconId, ownerId, teamId, pRead, pRead, pRead, expectedDescription)
 		workflowId = createWorkflow(t, db, expectedWorkflowName, iconId, ownerId, teamId, pRead, pRead, pRead,
 			expectedDescription)
 		stepId = createWorkflowStep(t, db, workflowId, expectedStepName, prevStepId, nextStepId, expectedDescription)
