@@ -81,12 +81,17 @@ end;
 $$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteIconPreCheck() function
+ * deleteTeamPreCheck() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function deleteIconPreCheck(entityId uuid) returns boolean as
+create or replace function deleteTeamPreCheck(entityId uuid) returns boolean as
 $$
 begin
+    /*
+     * This is currently a placeholder.  This function should be overloaded later
+     * as record consumers are defined so that we can prevent any record here from being
+     * deleted until all related records are removed.
+     */
     return true;
 end;
 $$ language plpgsql;
