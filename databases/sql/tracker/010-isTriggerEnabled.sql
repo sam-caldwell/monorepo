@@ -4,16 +4,15 @@
  *
  * return whether the given trigger is enabled
  */
-create or replace function isTriggerEnabled(tableName text, triggerName text) returns boolean as
+create or replace function isTriggerEnabled(triggerName text) returns boolean as
 $$
 declare
-    currentState boolean:=false;
+    currentState varchar;
 begin
-    select trg.tgenabled = 'O' into currentState
-    from pg_trigger trg
-             join pg_class tbl on trg.tgrelid = tbl.oid
-    where trg.tgname = lower(triggerName)
-      and tbl.relname = lower(tableName);
-    return currentState;
+    currentState := (select tgenabled
+                     from pg_trigger
+                     where tgname = lower(triggerName)
+                     limit 1);
+    return currentState = 'O';
 end;
 $$ language plpgsql;

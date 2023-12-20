@@ -6,12 +6,10 @@
  */
 create or replace function disableTrigger(tableName text, triggerName text) returns boolean as
 $$
-declare
-    currentState boolean := isTriggerEnabled(tableName, triggerName);
 begin
-    if currentState then
-        execute format('alter table %I enable trigger %I', lower(tableName), lower(triggerName));
+    if isTriggerEnabled(triggerName) then
+        execute format('alter table %I disable trigger %I', lower(tableName), lower(triggerName));
     end if;
-    return currentState::boolean;
+    return true;
 end;
 $$ language plpgsql;
