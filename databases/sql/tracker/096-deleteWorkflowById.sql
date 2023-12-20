@@ -1,4 +1,10 @@
 /*
+ * 060-deleteWorkflowById.sql
+ * (c) 2023 Sam Caldwell.  See License.txt
+ *
+ * Create teams of users.
+ */
+/*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * deleteWorkflowById()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -19,6 +25,11 @@ begin
 end;
 $$ language plpgsql;
 
+/*
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * deleteWorkflowPreCheck() function
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
 create or replace function deleteWorkflowPreCheck(thisWorkflowId uuid) returns boolean as
 $$
 declare
@@ -32,3 +43,4 @@ begin
     return result;
 end;
 $$ language plpgsql;
+
