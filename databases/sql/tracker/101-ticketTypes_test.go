@@ -6,7 +6,6 @@ import (
 )
 
 func TestSqlDbTable_TicketTypes(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const tableName = "tickettypes"
 
 	db := sqldbtest.InitializeTestDbConn(t)
