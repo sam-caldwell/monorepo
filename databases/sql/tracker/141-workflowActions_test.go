@@ -23,22 +23,20 @@ func TestSqlDbTable_WorkflowActions(t *testing.T) {
 	t.Run("check table schema", func(t *testing.T) {
 		sqldbtest.ValidateTable(t, db, tableName, []string{
 			"ColumnName:id,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
-			"ColumnName:stepid,datatype:uuid,size:-1,IsNullable:no,ColumnDefault:<<null>>",
-			"ColumnName:name,datatype:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:topic,datatype:character varying,size:2048,IsNullable:no,ColumnDefault:<<null>>",
+			"ColumnName:name,datatype:character varying,size:64,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:message,datatype:character varying,size:2048,IsNullable:no,ColumnDefault:<<null>>",
 			"ColumnName:description,datatype:text,size:-1,IsNullable:yes,ColumnDefault:<<null>>",
+			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
 		})
 	})
 
 	t.Run("check foreign keys", func(t *testing.T) {
-		sqldbtest.ValidateForeignKey(t, db, tableName, "workflowSteps", "StepId", "id")
 		sqldbtest.ValidateForeignKey(t, db, tableName, "entity", "id", "id")
+		sqldbtest.ValidateForeignKey(t, db, "workflowsteps", tableName, "action", "id")
 	})
-	t.Run("verify indexes: StepId,name", func(t *testing.T) {
+	t.Run("verify indexes: name", func(t *testing.T) {
 		columnNames := []string{
-			"StepId",
 			"name",
 		}
 		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
@@ -47,12 +45,12 @@ func TestSqlDbTable_WorkflowActions(t *testing.T) {
 		columnNames := []string{
 			"topic",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 	t.Run("verify indexes: created", func(t *testing.T) {
 		columnNames := []string{
 			"created",
 		}
-		sqldbtest.ValidateIndex(t, db, tableName, columnNames, true)
+		sqldbtest.ValidateIndex(t, db, tableName, columnNames, false)
 	})
 }

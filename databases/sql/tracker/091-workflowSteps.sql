@@ -15,6 +15,7 @@ create table if not exists workflowSteps
     action      uuid             null, --if action is mapped, the action uuid will be stored here.
     description text,
     foreign key (workflowId) references workflows (id) on delete cascade,
+    --we add an fk in 140+ after workflowactions exists...
     /*
      * see 093-workflowNodeValidation.sql
      *

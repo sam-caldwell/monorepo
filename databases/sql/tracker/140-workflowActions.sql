@@ -5,7 +5,7 @@
 create table if not exists workflowActions
 (
     id          uuid primary key not null,
-    name        varchar(64)      not null unique,
+    name        varchar(64)      not null,
     topic       varchar(2048)    not null, -- the topic to be published to the message processor
     message     varchar(2048)    not null, -- the message to send (formatting string)
     -- --
@@ -14,6 +14,13 @@ create table if not exists workflowActions
     foreign key (id) references entity (id) on delete restrict,
     constraint validateWorkflowActionName check (validName(name))
 );
+/*
+ * add foreign key to workflowSteps (091-workflowsteps.sql)
+ */
+alter table workflowsteps
+    add constraint fkStepToActions
+        foreign key (action)
+            references workflowActions(id);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * entity indexes
