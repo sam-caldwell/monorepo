@@ -9,8 +9,8 @@ $$
 declare
     result jsonb;
 begin
-    execute boundsCheck(pageLimit, 1, 1000);
-    execute boundsCheck(pageOffset, 0, 1000);
+    perform boundsCheck(pageLimit, 1, 1000);
+    perform boundsCheck(pageOffset, 0, 1000);
     select jsonb_agg(data)
     into result
     from (select jsonb_build_object(

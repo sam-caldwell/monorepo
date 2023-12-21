@@ -10,8 +10,13 @@
 create or replace function linkNodes(lhs uuid, rhs uuid) returns boolean as
 $$
 begin
+
+    update workflowsteps set nextstepid=rhs where id=lhs;
+    update workflowsteps set prevstepid=lhs where id=rhs;
+
     execute updateWorkflowNextStep(lhs, rhs);
     execute updateWorkflowPrevStep(rhs, lhs);
     return true;
 end;
 $$ language plpgsql;
+
