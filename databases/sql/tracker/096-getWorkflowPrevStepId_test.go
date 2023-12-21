@@ -9,13 +9,13 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
+func TestSqlDbFunc_getWorkflowPrevStepId(t *testing.T) {
 	const (
 		avatarHash           = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74e6b8f51"
 		avatarType           = "image/png"
 		iconHash             = "182e31fa48267c22d598dfcddb66e2dafd0b4ec2b0192e28c3b73336b71ea7b4"
 		iconType             = "image/png"
-		functionName         = "getWorkflowNextStepId"
+		functionName         = "getWorkflowPrevStepId"
 		expectedFirstName    = "Billy"
 		expectedLastName     = "Gibbons"
 		expectedEmail        = "billy.gibbons@example.com"
@@ -72,15 +72,15 @@ func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
 
 	var err error
 	var actualStepName string
-	var actualNextStepId uuid.UUID
+	var actualPrevStepId uuid.UUID
 	var targetNodeId uuid.UUID
 	t.Run("fetch actual record", func(t *testing.T) {
 		var rows *sql.Rows
 		/*
 		 * Get a prevStepId, which should be 'start' node.
 		 */
-		targetNodeId = prevStepId
-		rows, err = db.Query("select name, nextStepId from workflowSteps where id='%s'", targetNodeId)
+		targetNodeId = nextStepId
+		rows, err = db.Query("select name, prevStepId from workflowSteps where id='%s'", targetNodeId)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
 		}
@@ -88,12 +88,12 @@ func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
 		if !rows.Next() {
 			t.Fatal("Fail: no row returned")
 		}
-		if err = rows.Scan(&actualStepName, &actualNextStepId); err != nil {
+		if err = rows.Scan(&actualStepName, &actualPrevStepId); err != nil {
 			t.Fatalf("Failed to scan rows. %v", err)
 		}
 	})
 	t.Run("verify starting point", func(t *testing.T) {
-		if actualStepName != "start" {
+		if actualStepName != "terminate" {
 			t.Fatalf("Fail: step name mismatch (starting point)\n"+
 				"workflow:   '%v'\n"+
 				"actualName: '%s'\n"+
@@ -102,7 +102,7 @@ func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
 	})
 	t.Run("get the next node", func(t *testing.T) {
 		var rows *sql.Rows
-		targetNodeId = actualNextStepId
+		targetNodeId = actualPrevStepId
 		rows, err = db.Query("select id,name from workflowSteps where id='%s'", targetNodeId)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
@@ -111,7 +111,7 @@ func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
 		if !rows.Next() {
 			t.Fatal("Fail: no row returned")
 		}
-		if err = rows.Scan(&actualNextStepId, &actualStepName); err != nil {
+		if err = rows.Scan(&actualPrevStepId, &actualStepName); err != nil {
 			t.Fatalf("Failed to scan rows. %v", err)
 		}
 	})
@@ -122,11 +122,11 @@ func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
 				"actualName: '%s'\n"+
 				"expected:   '%s'", workflowId, actualStepName, expectedStepName)
 		}
-		if actualNextStepId != stepId {
+		if actualPrevStepId != stepId {
 			t.Fatalf("Fail: stepId mismatch\n"+
 				"workflow:       '%v'\n"+
 				"ActualNextStep: '%v'\n"+
-				"StepId:         '%v'", workflowId, actualNextStepId, targetNodeId)
+				"StepId:         '%v'", workflowId, actualPrevStepId, targetNodeId)
 		}
 	})
 }

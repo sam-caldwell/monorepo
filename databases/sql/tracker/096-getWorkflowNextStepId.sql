@@ -4,16 +4,16 @@
  *
  * Get the next step Id
  */
-create or replace function getWorkflowNextStepId(stepId uuid) returns jsonb as
+create or replace function getWorkflowNextStepId(stepId uuid) returns uuid as
 $$
 declare
-    result jsonb;
+    result uuid;
 begin
     select nextStepId
     into result
     from workflowSteps
     where id = stepId
     limit 1;
-    return coalesce(result, '{}'::jsonb);
+    return result;
 end ;
 $$ language plpgsql;
