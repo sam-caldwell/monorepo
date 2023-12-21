@@ -116,7 +116,7 @@ func TestSqlDbFunc_getWorkflowNextStepId(t *testing.T) {
 		}
 	})
 	t.Run("verify next node", func(t *testing.T) {
-		if actualStepName != "start" {
+		if actualStepName != expectedStepName {
 			t.Fatalf("Fail: step name mismatch (next point)\n"+
 				"workflow:   '%v'\n"+
 				"actualName: '%s'\n"+
