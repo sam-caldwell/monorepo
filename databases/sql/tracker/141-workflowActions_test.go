@@ -6,14 +6,13 @@ import (
 )
 
 func TestSqlDbTable_WorkflowActions(t *testing.T) {
-    t.Skip("disabled for debugging")
 	const tableName = "workflowactions"
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
-    t.Cleanup(func() {
-        sqldbtest.CheckError(t, db.Close())
-    })
+	t.Cleanup(func() {
+		sqldbtest.CheckError(t, db.Close())
+	})
 
 	t.Run("query the table", func(t *testing.T) {
 		rows, err := db.Query("select 1 from %s limit 1;", tableName)
