@@ -48,7 +48,7 @@ func TestSqlDbFunc_getWorkflowById(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{workflowId},"+
+			"pn:{thisWorkflowId},"+
 			"pt:{uuid},"+
 			"rt:jsonb", strings.ToLower(functionName)))
 
