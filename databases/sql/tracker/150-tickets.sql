@@ -5,25 +5,25 @@
 create table if not exists tickets
 (
     id             uuid primary key not null,
-    projectId      uuid          not null,
-    authorUserId   uuid          not null,
-    assignedUserId uuid          not null,
-    ticketTypeId   uuid          not null,
+    projectId      uuid             not null,
+    authorUserId   uuid             not null,
+    assignedUserId uuid             not null,
+    ticketTypeId   uuid             not null,
     -- permissions are granted to the owner, team and everyone --
-    owner          permissions   not null default 'delete',
-    team           permissions   not null default 'read',
-    everyone       permissions   not null default 'read',
+    owner          permissions      not null default 'delete',
+    team           permissions      not null default 'read',
+    everyone       permissions      not null default 'read',
     -- descriptive text --
-    summary        varchar(2048) not null,
-    workflowStepId uuid          not null,
+    summary        varchar(2048)    not null,
+    workflowStepId uuid             not null,
     -- --
-    created  timestamp        not null default now(),
+    created        timestamp        not null default now(),
     description    text,
     foreign key (projectId) references projects (id),
     foreign key (authorUserId) references users (id),
     foreign key (assignedUserId) references users (id),
     foreign key (ticketTypeId) references ticketTypes (id),
-    foreign key (workflowStepId) references workflowSteps(id),
+    foreign key (workflowStepId) references workflowSteps (id),
     foreign key (id) references entity (id) on delete restrict
 );
 /*
@@ -41,18 +41,18 @@ create index if not exists ndxTicketEveryone on tickets (everyone);
  * createTicketType()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function createTicket(name varchar(64), projectId uuid, authorId uuid, assigneeId uuid,
-                                        ticketTypeId uuid, owner permissions, team permissions, everyone permissions,
-                                        summary varchar(2048), workflowStepId uuid, description text) returns uuid as
+create or replace function createTicket(tName varchar(64), tProject uuid, tAuthor uuid, tAssignee uuid,
+                                        ticketType uuid, pOwner permissions, pTeam permissions, pEveryone permissions,
+                                        tSummary varchar(2048), tWorkflowStepId uuid, tDescription text) returns uuid as
 $$
 declare
     ticketId uuid;
 begin
-    ticketId := gen_random_uuid();
+    ticketId := (select createEntity('team'::entityType));
     insert into tickets (id, name, projectId, authorId, assigneeId, ticketTypeId, owner, team, everyone, summary,
-                       workflowStepId, description)
-    values (ticketId, name, projectId, authorId, assigneeId, owner, team, everyone, summary, workflowStepId,
-            description);
+                         workflowStepId, description)
+    values (ticketId, tName, tProject, tAuthor, tAssignee, ticketType,pOwner, pTeam, pEveryone, tSummary, tWorkflowStepId,
+            tDescription);
     return ticketId;
 end;
 $$ language plpgsql;
@@ -93,7 +93,8 @@ begin
             'summary', summary,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from tickets
     where assignedUserId = assignedUserId;
     return result;
@@ -121,7 +122,8 @@ begin
             'subject', summary,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from tickets
     where authorUserId = authorId;
     return result;
@@ -150,7 +152,8 @@ begin
             'subject', summary,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from tickets
     where everyone = thisPermission
     limit pageLimit offset pageOffset;
@@ -180,7 +183,8 @@ begin
             'subject', subject,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from ticket
     where owner == thisPermission
     limit pageLimit offset pageOffset;
@@ -210,7 +214,8 @@ begin
             'subject', subject,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from ticket
     where team == thisPermission
     limit pageLimit offset pageOffset;
@@ -240,7 +245,8 @@ begin
             'subject', subject,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from ticket
     where projectId == projectId
     limit pageLimit offset pageOffset;
@@ -270,7 +276,8 @@ begin
             'subject', subject,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from ticket
     where ticketTypeId == ticketTypeId
     limit pageLimit offset pageOffset;
@@ -300,7 +307,8 @@ begin
             'subject', subject,
             'workflowStepId', workflowStepId,
             'description', description
-        )) as workflow into result
+        )) as workflow
+    into result
     from ticket
     where workflowStepId == stepId
     limit pageLimit offset pageOffset;
@@ -317,7 +325,7 @@ $$
 declare
     count integer;
 begin
-    update ticket set assignedUserId=assignee where id=ticketId;
+    update ticket set assignedUserId=assignee where id = ticketId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -332,7 +340,7 @@ $$
 declare
     count integer;
 begin
-    update ticket set authorUserId=authorUserId where id=ticketId;
+    update ticket set authorUserId=authorUserId where id = ticketId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -347,7 +355,7 @@ $$
 declare
     count integer;
 begin
-    update ticket set projectId=projectId where id=ticketId;
+    update ticket set projectId=projectId where id = ticketId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -378,7 +386,7 @@ $$
 declare
     count integer;
 begin
-    update ticket set ticketTypeId=ticketTypeId where id=ticketId;
+    update ticket set ticketTypeId=ticketTypeId where id = ticketId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -435,7 +443,8 @@ begin
             'author', author,
             'team', team,
             'everyone', everyone
-        )) as workflow into result
+        )) as workflow
+    into result
     from attachment
     where ticketId == ticketId
     limit pageLimit offset pageOffset;
@@ -493,7 +502,8 @@ begin
             'team', team,
             'everyone', everyone,
             'comment', comment
-        )) as workflow into result
+        )) as workflow
+    into result
     from comment
     where id == commentId
     limit 1;
