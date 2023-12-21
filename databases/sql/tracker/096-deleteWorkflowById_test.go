@@ -33,7 +33,6 @@ func TestSqlDbFunc_deleteWorkflowById(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		sqldbtest.CheckError(t, cleanUpObject(db, "workflowSteps", stepId))
 		sqldbtest.CheckError(t, cleanUpObject(db, "workflows", workflowId))
 		sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
 		sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
@@ -62,4 +61,18 @@ func TestSqlDbFunc_deleteWorkflowById(t *testing.T) {
 	if count := countById(t, db, "workflows", workflowId); count != 0 {
 		t.Fatalf("expected count 0 but got %d", count)
 	}
+	/*
+	 * Creating a workflow should create only a start and terminate step
+	 * deleting the workflow should delete these steps as well.  So we should
+	 * be able to count 0 steps.
+	 */
+	startStepId := getStartNode(t, db, workflowId)
+	stopStepId := getTerminalNode(t, db, workflowId)
+	if count := countById(t, db, "workflowsteps", startStepId); count != 0 {
+		t.Fatalf("expected count 0 but got %d", count)
+	}
+	if count := countById(t, db, "workflowsteps", stopStepId); count != 0 {
+		t.Fatalf("expected count 0 but got %d", count)
+	}
+
 }
