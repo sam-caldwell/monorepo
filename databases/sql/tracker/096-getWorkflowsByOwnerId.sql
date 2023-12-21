@@ -11,22 +11,23 @@ declare
 begin
     execute boundsCheck(pageLimit, 1, 1000);
     execute boundsCheck(pageOffset, 0, 1000);
-    select jsonb_agg(jsonb_build_object(
-            'id', id,
-            'name', name,
-            'iconId', iconId,
-            'ownerId', ownerId,
-            'teamId', teamId,
-            'owner', owner,
-            'team', team,
-            'everyone', everyone,
-            'description', description
-        )) as workflows
+    select jsonb_agg(data)
     into result
-    from workflows
-    where ownerId = workflowOwnerId
-    limit pageLimit offset pageOffset;
-    return result;
+    from (select jsonb_build_object(
+                         'id', id,
+                         'name', name,
+                         'iconId', iconId,
+                         'ownerId', ownerId,
+                         'teamId', teamId,
+                         'owner', owner,
+                         'team', team,
+                         'everyone', everyone,
+                         'description', description
+                     ) as data
+          from workflows
+          where ownerId = workflowOwnerId
+          limit pageLimit offset pageOffset) as subquery;
+    return coalesce(result, '[]'::jsonb);
 end ;
 $$ language plpgsql;
 
