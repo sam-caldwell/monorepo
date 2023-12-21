@@ -1,8 +1,8 @@
 /*
- * 150-ticket.sql
+ * 150-tickets.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create table if not exists ticket
+create table if not exists tickets
 (
     id             uuid primary key not null,
     projectId      uuid          not null,
@@ -31,11 +31,11 @@ create table if not exists ticket
  * entity indexes
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create index if not exists ndxTicketSummary on ticket (summary);
-create index if not exists ndxTicketCreated on ticket (created);
-create index if not exists ndxTicketOwner on ticket (owner);
-create index if not exists ndxTicketTeam on ticket (team);
-create index if not exists ndxTicketEveryone on ticket (everyone);
+create index if not exists ndxTicketSummary on tickets (summary);
+create index if not exists ndxTicketCreated on tickets (created);
+create index if not exists ndxTicketOwner on tickets (owner);
+create index if not exists ndxTicketTeam on tickets (team);
+create index if not exists ndxTicketEveryone on tickets (everyone);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * createTicketType()
@@ -49,7 +49,7 @@ declare
     ticketId uuid;
 begin
     ticketId := gen_random_uuid();
-    insert into users (id, name, projectId, authorId, assigneeId, ticketTypeId, owner, team, everyone, summary,
+    insert into tickets (id, name, projectId, authorId, assigneeId, ticketTypeId, owner, team, everyone, summary,
                        workflowStepId, description)
     values (ticketId, name, projectId, authorId, assigneeId, owner, team, everyone, summary, workflowStepId,
             description);
@@ -66,7 +66,7 @@ $$
 declare
     count integer;
 begin
-    delete from ticket where id = ticketId;
+    delete from tickets where id = ticketId;
     get diagnostics count = ROW_COUNT;
     return count;
 end;
@@ -76,7 +76,7 @@ $$ language plpgsql;
  * getTicketByAssignee()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getTicketByAssignee(assignedUserId uuid) returns jsonb as
+create or replace function getTicketByAssignee(thisUserId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -85,17 +85,17 @@ begin
             'id', id,
             'projectId', projectId,
             'authorUserId', authorUserId,
-            'assignedUserId', assignedUserId,
+            'assignedUserId', thisUserId,
             'ticketTypeId', ticketTypeId,
             'owner', owner,
             'team', team,
             'everyone', everyone,
-            'subject', subject,
+            'summary', summary,
             'workflowStepId', workflowStepId,
             'description', description
         )) as workflow into result
-    from ticket
-    where assignedUserId == assignedUserId;
+    from tickets
+    where assignedUserId = assignedUserId;
     return result;
 end;
 $$ language plpgsql;
@@ -104,7 +104,7 @@ $$ language plpgsql;
  * getTicketByAuthor()
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function getTicketByAuthor(authorUserId uuid) returns jsonb as
+create or replace function getTicketByAuthor(authorId uuid) returns jsonb as
 $$
 declare
     result jsonb;
@@ -118,12 +118,12 @@ begin
             'owner', owner,
             'team', team,
             'everyone', everyone,
-            'subject', subject,
+            'subject', summary,
             'workflowStepId', workflowStepId,
             'description', description
         )) as workflow into result
-    from ticket
-    where authorUserId == authorUserId;
+    from tickets
+    where authorUserId = authorId;
     return result;
 end;
 $$ language plpgsql;
@@ -147,12 +147,12 @@ begin
             'owner', owner,
             'team', team,
             'everyone', everyone,
-            'subject', subject,
+            'subject', summary,
             'workflowStepId', workflowStepId,
             'description', description
         )) as workflow into result
-    from ticket
-    where everyone == thisPermission
+    from tickets
+    where everyone = thisPermission
     limit pageLimit offset pageOffset;
     return result;
 end;

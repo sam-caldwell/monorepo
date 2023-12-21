@@ -16,7 +16,7 @@ create table if not exists attachment
     everyone permissions not null default 'read',
     -- --
     created  timestamp        not null default now(),
-    foreign key (ticketId) references ticket (id),
+    foreign key (ticketId) references tickets (id),
     foreign key (authorId) references users (id),
     foreign key (id) references entity (id) on delete restrict
 );

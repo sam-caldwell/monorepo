@@ -15,7 +15,7 @@ create table if not exists comment
     -- --
     created  timestamp        not null default now(),
     comment  text not null,
-    foreign key (ticketId) references ticket (id),
+    foreign key (ticketId) references tickets (id),
     foreign key (authorId) references users (id),
     foreign key (id) references entity (id) on delete restrict
 );
