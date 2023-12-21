@@ -10,7 +10,6 @@ import (
 )
 
 func TestSqlDbFunc_updateProjectName(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash          = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74edb8f51"
 		avatarType          = "image/png"
@@ -22,7 +21,6 @@ func TestSqlDbFunc_updateProjectName(t *testing.T) {
 		expectedEmail       = "sam.caldwell@example.com"
 		expectedPhone       = "444.333.2222"
 		expectedDescription = "monorepo coder"
-		newDescription      = "new description"
 		testTeamName        = "Code Monkey"
 		expectedProject     = "TrackerDb"
 		newProjectName      = "newProjectName"

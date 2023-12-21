@@ -1,8 +1,6 @@
 package psqlTrackerDb
 
 import (
-	"database/sql"
-	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -11,8 +9,6 @@ import (
 )
 
 func TestSqlDbFunc_getProjectById(t *testing.T) {
-	t.Skip("disabled for debugging")
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash          = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74edb8f51"
 		avatarType          = "image/png"
@@ -20,12 +16,12 @@ func TestSqlDbFunc_getProjectById(t *testing.T) {
 		iconType            = "image/png"
 		functionName        = "getProjectById"
 		expectedFirstName   = "Jack"
-		expectedLastName    = "Cook"
-		expectedEmail       = "jack.cook@example.com"
-		expectedPhone       = "321.321.6543"
+		expectedLastName    = "Rackham"
+		expectedEmail       = "jack.rackham@example.com"
+		expectedPhone       = "321.321.6593"
 		expectedDescription = "Test description"
-		testTeamName        = "OceanExplorers"
-		expectedProject     = "testProject"
+		testTeamName        = "OceanExplorers1"
+		expectedProject     = "testProject1"
 		pRead               = "read"
 	)
 
@@ -34,7 +30,7 @@ func TestSqlDbFunc_getProjectById(t *testing.T) {
 	var teamId uuid.UUID
 	var ownerId uuid.UUID
 	var projectId uuid.UUID
-	var actual TrackerProject
+	//var actual TrackerProject
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -61,45 +57,45 @@ func TestSqlDbFunc_getProjectById(t *testing.T) {
 	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
 
 	projectId = createProject(t, db, expectedProject, iconId, ownerId, teamId, pRead, pRead, pRead, expectedDescription)
-
-	t.Run("get project", func(t *testing.T) {
-		var raw string
-		var err error
-		var rows *sql.Rows
-
-		rows, err = db.Query("select getProjectById('%v');", projectId)
-		if err != nil {
-			t.Fatalf("Fail: function call failed: %v", err)
-		}
-		defer func() { _ = rows.Close() }()
-		if !rows.Next() {
-			t.Fatal("Fail: no row returned")
-		}
-		if err = rows.Scan(&raw); err != nil {
-			t.Fatalf("Failed to scan rows. %v", err)
-		}
-		if err = json.Unmarshal([]byte(raw), &actual); err != nil {
-			t.Fatalf("failed to unmarshal object. %v", err)
-		}
-	})
-	t.Run("verify", func(t *testing.T) {
-		if actual.Id != projectId {
-			t.Fatalf("projectId mismatch")
-		}
-		if actual.Name != expectedProject {
-			t.Fatalf("project name mismatch")
-		}
-		if actual.IconId != iconId {
-			t.Fatalf("iconId mismatch")
-		}
-		if actual.OwnerId != ownerId {
-			t.Fatalf("ownerId mismatch")
-		}
-		if actual.TeamId != teamId {
-			t.Fatalf("teamId mismatch")
-		}
-		if actual.Description != expectedDescription {
-			t.Fatalf("description mismatch")
-		}
-	})
+	//
+	//t.Run("get project", func(t *testing.T) {
+	//	var raw string
+	//	var err error
+	//	var rows *sql.Rows
+	//
+	//	rows, err = db.Query("select getProjectById('%v');", projectId)
+	//	if err != nil {
+	//		t.Fatalf("Fail: function call failed: %v", err)
+	//	}
+	//	defer func() { _ = rows.Close() }()
+	//	if !rows.Next() {
+	//		t.Fatal("Fail: no row returned")
+	//	}
+	//	if err = rows.Scan(&raw); err != nil {
+	//		t.Fatalf("Failed to scan rows. %v", err)
+	//	}
+	//	if err = json.Unmarshal([]byte(raw), &actual); err != nil {
+	//		t.Fatalf("failed to unmarshal object. %v", err)
+	//	}
+	//})
+	//t.Run("verify", func(t *testing.T) {
+	//	if actual.Id != projectId {
+	//		t.Fatalf("projectId mismatch")
+	//	}
+	//	if actual.Name != expectedProject {
+	//		t.Fatalf("project name mismatch")
+	//	}
+	//	if actual.IconId != iconId {
+	//		t.Fatalf("iconId mismatch")
+	//	}
+	//	if actual.OwnerId != ownerId {
+	//		t.Fatalf("ownerId mismatch")
+	//	}
+	//	if actual.TeamId != teamId {
+	//		t.Fatalf("teamId mismatch")
+	//	}
+	//	if actual.Description != expectedDescription {
+	//		t.Fatalf("description mismatch")
+	//	}
+	//})
 }

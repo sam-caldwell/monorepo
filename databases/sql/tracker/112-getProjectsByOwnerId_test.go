@@ -11,7 +11,6 @@ import (
 )
 
 func TestSqlDbFunc_getProjectsByOwnerId(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash          = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74edb8f51"
 		avatarType          = "image/png"
