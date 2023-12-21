@@ -8,10 +8,11 @@ create table if not exists workflowSteps
     workflowId  uuid             not null,
     name        varchar(64)      not null,
     -- a uuid representing the icon for the workflow.
-    prevStepId  uuid             null,  -- see checkForeignKeyInsert/Update (must be in workflowSteps.id)
-    nextStepId  uuid             null,  -- see checkForeignKeyInsert/Update (must be in workflowSteps.id)
+    prevStepId  uuid             null, -- see checkForeignKeyInsert/Update (must be in workflowSteps.id)
+    nextStepId  uuid             null, -- see checkForeignKeyInsert/Update (must be in workflowSteps.id)
     -- --
     created     timestamp        not null default now(),
+    action      uuid             null, --if action is mapped, the action uuid will be stored here.
     description text,
     foreign key (workflowId) references workflows (id) on delete cascade,
     /*
