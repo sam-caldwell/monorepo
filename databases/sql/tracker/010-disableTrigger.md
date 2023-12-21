@@ -1,0 +1,4 @@
+disableTrigger function
+=======================
+
+no notes

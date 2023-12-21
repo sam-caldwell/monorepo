@@ -1,0 +1,4 @@
+isTriggerEnabled function
+==========================
+
+no notes
