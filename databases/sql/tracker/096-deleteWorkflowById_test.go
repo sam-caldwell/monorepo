@@ -9,7 +9,6 @@ import (
 )
 
 func TestSqlDbFunc_deleteWorkflowById(t *testing.T) {
-	t.Skip("disabled for debugging")
 	const (
 		avatarHash           = "4ab7b2cbfa7a2120025400e1d08ace0ec81b9a27a5411b00e1ec75e74edb8f51"
 		avatarType           = "image/png"
@@ -34,11 +33,12 @@ func TestSqlDbFunc_deleteWorkflowById(t *testing.T) {
 	db := sqldbtest.InitializeTestDbConn(t)
 
 	t.Cleanup(func() {
-		_ = cleanUpObject(db, "workflows", workflowId)
-		_ = cleanUpObject(db, "teams", teamId)
-		_ = cleanUpObject(db, "users", ownerId)
-		_ = cleanUpObject(db, "icons", iconId)
-		_ = cleanUpObject(db, "avatars", avatarId)
+		sqldbtest.CheckError(t, cleanUpObject(db, "workflowSteps", stepId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "workflows", workflowId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "teams", teamId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "users", ownerId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "icons", iconId))
+		sqldbtest.CheckError(t, cleanUpObject(db, "avatars", avatarId))
 		sqldbtest.CheckError(t, db.Close())
 	})
 
