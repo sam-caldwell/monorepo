@@ -50,6 +50,19 @@ begin
      */
     insert into workflowSteps (id, workflowId, name, prevStepId, nextStepId, description)
     values (stepId, thisWorkflowId, stepName, p, n, stepDescription);
+    /*
+     * update previous node's next node pointer
+     */
+    update workflowsteps set nextstepid=stepId where workflowid=thisWorkflowId and id=p;
+    /*
+     * update the next node's prev node pointer
+     */
+    update workflowsteps set prevstepid=stepId where workflowid=thisWorkflowId and id=n;
+    /*
+     *  Now our records should create a double-linked list like this--
+     *
+     *      (p)<--->(stepId)<--->(n)
+     */
     return stepId;
 end;
 $$ language plpgsql;

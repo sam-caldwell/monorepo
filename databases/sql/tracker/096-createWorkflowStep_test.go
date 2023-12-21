@@ -1,6 +1,7 @@
 package psqlTrackerDb
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/db/sqldbtest"
@@ -69,83 +70,83 @@ func TestSqlDbFunc_createWorkflowStep(t *testing.T) {
 		t.Logf("stepId: %v", stepId)
 	})
 
-	//var err error
-	//var actualStepId uuid.UUID
-	//var actualWorkflowId uuid.UUID
-	//var actualName string
-	//var actualPrevStepId uuid.UUID
-	//var actualNextStepId uuid.UUID
-	//var actualDescription string
-	//t.Run("fetch actual record", func(t *testing.T) {
-	//
-	//	var rows *sql.Rows
-	//	rows, err = db.Query(""+
-	//		"select id, workflowId, name, prevStepId, nextStepId, description "+
-	//		"from workflowSteps "+
-	//		"where id='%s'", stepId)
-	//
-	//	if err != nil {
-	//		t.Fatalf("Fail: function call failed: %v", err)
-	//	}
-	//
-	//	defer func() { _ = rows.Close() }()
-	//
-	//	if !rows.Next() {
-	//		t.Fatal("Fail: no row returned")
-	//	}
-	//
-	//	err = rows.Scan(&actualStepId, &actualWorkflowId, &actualName,
-	//		&actualPrevStepId, &actualNextStepId, &actualDescription)
-	//
-	//})
-	//t.Run("verify", func(t *testing.T) {
-	//	if err != nil {
-	//		t.Fatalf("Failed to scan rows. %v", err)
-	//	}
-	//
-	//	if actualStepId != stepId {
-	//		t.Fatalf("Fail: stepId mismatch\nGot: %v\nExpected: %v",
-	//			actualStepId, stepId)
-	//	}
-	//
-	//	if actualWorkflowId != workflowId {
-	//		t.Fatalf("Fail: workflowId mismatch\nGot: %v\nExpected: %v",
-	//			actualWorkflowId, workflowId)
-	//	}
-	//
-	//	if actualName != expectedStepName {
-	//		t.Fatalf("Fail: expectedStepName mismatch\nGot: %v\nExpected: %v",
-	//			actualName, expectedStepName)
-	//	}
-	//
-	//	var defaultId uuid.UUID
-	//	if prevStepId == defaultId {
-	//		if expectedId := getStartNode(t, db, workflowId); actualPrevStepId != expectedId {
-	//			t.Fatalf("Fail: prevStepId mismatch\nGot: %v\nExpected: %v",
-	//				actualPrevStepId, expectedId)
-	//		}
-	//	} else {
-	//		if actualPrevStepId != prevStepId {
-	//			t.Fatalf("Fail: prevStepId mismatch\nGot: %v\nExpected: %v",
-	//				actualPrevStepId, prevStepId)
-	//		}
-	//	}
-	//
-	//	if nextStepId == defaultId {
-	//		if expectedId := getTerminalNode(t, db, workflowId); actualPrevStepId != expectedId {
-	//			t.Fatalf("Fail: nextStepId mismatch\nGot: %v\nExpected: %v",
-	//				actualPrevStepId, expectedId)
-	//		}
-	//	} else {
-	//		if actualNextStepId != nextStepId {
-	//			t.Fatalf("Fail: nextStepId mismatch\nGot: %v\nExpected: %v",
-	//				actualNextStepId, nextStepId)
-	//		}
-	//	}
-	//
-	//	if actualDescription != expectedDescription {
-	//		t.Fatalf("Fail: expectedDescription mismatch\nGot: %v\nExpected: %v",
-	//			actualDescription, expectedDescription)
-	//	}
-	//})
+	var err error
+	var actualStepId uuid.UUID
+	var actualWorkflowId uuid.UUID
+	var actualName string
+	var actualPrevStepId uuid.UUID
+	var actualNextStepId uuid.UUID
+	var actualDescription string
+	t.Run("fetch actual record", func(t *testing.T) {
+
+		var rows *sql.Rows
+		rows, err = db.Query(""+
+			"select id, workflowId, name, prevStepId, nextStepId, description "+
+			"from workflowSteps "+
+			"where id='%s'", stepId)
+
+		if err != nil {
+			t.Fatalf("Fail: function call failed: %v", err)
+		}
+
+		defer func() { _ = rows.Close() }()
+
+		if !rows.Next() {
+			t.Fatal("Fail: no row returned")
+		}
+
+		err = rows.Scan(&actualStepId, &actualWorkflowId, &actualName,
+			&actualPrevStepId, &actualNextStepId, &actualDescription)
+
+	})
+	t.Run("verify", func(t *testing.T) {
+		if err != nil {
+			t.Fatalf("Failed to scan rows. %v", err)
+		}
+
+		if actualStepId != stepId {
+			t.Fatalf("Fail: stepId mismatch\nGot: %v\nExpected: %v",
+				actualStepId, stepId)
+		}
+
+		if actualWorkflowId != workflowId {
+			t.Fatalf("Fail: workflowId mismatch\nGot: %v\nExpected: %v",
+				actualWorkflowId, workflowId)
+		}
+
+		if actualName != expectedStepName {
+			t.Fatalf("Fail: expectedStepName mismatch\nGot: %v\nExpected: %v",
+				actualName, expectedStepName)
+		}
+
+		var defaultId uuid.UUID
+		if prevStepId == defaultId {
+			if expectedId := getStartNode(t, db, workflowId); actualPrevStepId != expectedId {
+				t.Fatalf("Fail: prevStepId mismatch\nGot: %v\nExpected: %v",
+					actualPrevStepId, expectedId)
+			}
+		} else {
+			if actualPrevStepId != prevStepId {
+				t.Fatalf("Fail: prevStepId mismatch\nGot: %v\nExpected: %v",
+					actualPrevStepId, prevStepId)
+			}
+		}
+
+		if nextStepId == defaultId {
+			if expectedId := getTerminalNode(t, db, workflowId); actualPrevStepId != expectedId {
+				t.Fatalf("Fail: nextStepId mismatch\nGot: %v\nExpected: %v",
+					actualPrevStepId, expectedId)
+			}
+		} else {
+			if actualNextStepId != nextStepId {
+				t.Fatalf("Fail: nextStepId mismatch\nGot: %v\nExpected: %v",
+					actualNextStepId, nextStepId)
+			}
+		}
+
+		if actualDescription != expectedDescription {
+			t.Fatalf("Fail: expectedDescription mismatch\nGot: %v\nExpected: %v",
+				actualDescription, expectedDescription)
+		}
+	})
 }
