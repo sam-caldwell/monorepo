@@ -1,5 +1,5 @@
 /*
- * 098-deleteWorkflowStep.sql
+ * 096-deleteWorkflowStep.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Perform any pre-checks that would preclude a record removal.
