@@ -19,26 +19,14 @@
             "id": "8342c401f7c44708",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "7840b11ed704b2b1",
-            "type": "leaf",
-            "state": {
               "type": "excalidraw",
               "state": {
-                "file": "Excalidraw/Drawing 2023-12-21 19.35.14.excalidraw.md"
+                "file": "Humor/stages-of-software-grief.md"
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -104,7 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Excalidraw/Drawing 2023-12-21 19.35.14.excalidraw.md",
+                "file": "Humor/stages-of-software-grief.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,7 +109,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Excalidraw/Drawing 2023-12-21 19.35.14.excalidraw.md",
+                "file": "Humor/stages-of-software-grief.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -144,7 +132,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Excalidraw/Drawing 2023-12-21 19.35.14.excalidraw.md"
+                "file": "Humor/stages-of-software-grief.md"
               }
             }
           }
@@ -166,9 +154,14 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "7840b11ed704b2b1",
+  "active": "ad97ed22d724956b",
   "lastOpenFiles": [
+    "Humor",
     "Untitled.md",
+    "Humor/stages-of-software-grief.md",
+    "dev notes (misc)/trackerDB/trackerDb.er.diagram.md",
+    "dev notes (misc)/Untitled 1.md",
+    "dev notes (misc)/trackerDB",
     "Excalidraw/Drawing 2023-12-21 19.35.14.excalidraw.md",
     "Excalidraw",
     "git/hooks.md",
