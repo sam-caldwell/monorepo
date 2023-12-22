@@ -3,6 +3,10 @@
 *.iml
 # ---
 
+# Obsideian/excalidraw files
+.obsidian
+
+
 # The directory where we build artifacts...
 build/
 **/builds/
