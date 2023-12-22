@@ -60,6 +60,15 @@ A single-language, single source for both the client
 and server side of the contract eliminates the 
 need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 
+TrackerDB ^zLZgWMGS
+
+The TrackerDB database is
+implemented in PostgreSQL. API
+Server calls to the DB invoke
+functions or query views. Direct
+access table access is not 
+allowed. ^dA7mnlIo
+
 %%
 # Drawing
 ```json
@@ -89,8 +98,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 3
 			},
 			"seed": 1013561967,
-			"version": 152,
-			"versionNonce": 571603791,
+			"version": 153,
+			"versionNonce": 476069967,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -106,7 +115,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"type": "arrow"
 				}
 			],
-			"updated": 1703253847250,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false
 		},
@@ -115,7 +124,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"type": "rectangle",
 			"x": 534.1141357421875,
 			"y": -280.68272399902344,
-			"width": 226.12939453125003,
+			"width": 181.5476888020835,
 			"height": 247.53236389160156,
 			"angle": 0,
 			"strokeColor": "#1e1e1e",
@@ -131,8 +140,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 3
 			},
 			"seed": 437059279,
-			"version": 200,
-			"versionNonce": 1396224911,
+			"version": 231,
+			"versionNonce": 489475617,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -146,9 +155,17 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				{
 					"id": "5uvCaNjERtguYSTsrhfOp",
 					"type": "arrow"
+				},
+				{
+					"id": "bX9VqXXR4CPuscnobA8_H",
+					"type": "arrow"
+				},
+				{
+					"id": "Eoko89AegP3fkRkMBuZNv",
+					"type": "arrow"
 				}
 			],
-			"updated": 1703253847250,
+			"updated": 1703254593880,
 			"link": null,
 			"locked": false
 		},
@@ -173,8 +190,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 3
 			},
 			"seed": 285302575,
-			"version": 424,
-			"versionNonce": 1353118735,
+			"version": 425,
+			"versionNonce": 36789871,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -186,17 +203,17 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"type": "arrow"
 				}
 			],
-			"updated": 1703253847250,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false
 		},
 		{
 			"id": "ealnSVPz8ygJtn0sM73gb",
 			"type": "arrow",
-			"x": -217.41278076171875,
-			"y": -232.4355942429433,
-			"width": 742.8244018554688,
-			"height": 1.163505626167364,
+			"x": -233.44983673095703,
+			"y": -223.69794654790022,
+			"width": 758.861457824707,
+			"height": 9.44468116759694,
 			"angle": 0,
 			"strokeColor": "#2f9e44",
 			"backgroundColor": "transparent",
@@ -211,8 +228,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"seed": 599344737,
-			"version": 562,
-			"versionNonce": 520734511,
+			"version": 619,
+			"versionNonce": 2062369793,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -220,7 +237,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"id": "EMN7EErM"
 				}
 			],
-			"updated": 1703254313521,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -229,20 +246,20 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					742.8244018554688,
-					-1.163505626167364
+					758.861457824707,
+					-9.44468116759694
 				]
 			],
 			"lastCommittedPoint": null,
 			"startBinding": {
 				"elementId": "WJDBYFUU",
-				"focus": -0.9181493631511545,
-				"gap": 28.191246032714844
+				"gap": 28.191246032714844,
+				"focus": -0.9181493631511545
 			},
 			"endBinding": {
 				"elementId": "4ButMRsNXZHJs-n3fHUl1",
-				"focus": 0.6202295611574598,
-				"gap": 8.7025146484375
+				"gap": 8.7025146484375,
+				"focus": 0.6202295611574598
 			},
 			"startArrowhead": null,
 			"endArrowhead": "arrow"
@@ -266,11 +283,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 1872642479,
-			"version": 21,
-			"versionNonce": 2090807233,
+			"version": 22,
+			"versionNonce": 1752807567,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254295237,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"text": "API Request",
@@ -288,9 +305,9 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"id": "luJ0tR6evb5TXczE30Wg4",
 			"type": "arrow",
 			"x": 529.6973876953125,
-			"y": -91.29058837890625,
-			"width": 744.5504150390625,
-			"height": 0.35498046875,
+			"y": -91.75726227273506,
+			"width": 760.5874710083008,
+			"height": 7.989113348152074,
 			"angle": 0,
 			"strokeColor": "#2f9e44",
 			"backgroundColor": "transparent",
@@ -305,8 +322,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"seed": 129204495,
-			"version": 480,
-			"versionNonce": 79480641,
+			"version": 537,
+			"versionNonce": 1065819105,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -314,7 +331,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"id": "yPn27QsQ"
 				}
 			],
-			"updated": 1703254313521,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -323,20 +340,20 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					-744.5504150390625,
-					-0.35498046875
+					-760.5874710083008,
+					-7.989113348152074
 				]
 			],
 			"lastCommittedPoint": null,
 			"startBinding": {
 				"elementId": "4ButMRsNXZHJs-n3fHUl1",
-				"focus": -0.5304629205113109,
-				"gap": 4.416748046875
+				"gap": 4.416748046875,
+				"focus": -0.5304629205113109
 			},
 			"endBinding": {
 				"elementId": "WJDBYFUU",
-				"focus": 0.8496790340860947,
-				"gap": 30.750999450683594
+				"gap": 30.750999450683594,
+				"focus": 0.8496790340860947
 			},
 			"startArrowhead": null,
 			"endArrowhead": "arrow"
@@ -360,11 +377,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 414076417,
-			"version": 15,
-			"versionNonce": 1401261985,
+			"version": 16,
+			"versionNonce": 888262319,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254295237,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"text": "API Response",
@@ -381,10 +398,10 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		{
 			"id": "bholOcMk",
 			"type": "text",
-			"x": 550.870203387664,
-			"y": -206.7092566112564,
-			"width": 196.09193420410156,
-			"height": 90,
+			"x": 545.9243793549259,
+			"y": -193.7180689252444,
+			"width": 154.91258239746094,
+			"height": 71.11804780505956,
 			"angle": 0,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "transparent",
@@ -397,20 +414,29 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 936487937,
-			"version": 267,
-			"versionNonce": 592526497,
+			"version": 405,
+			"versionNonce": 1340862607,
 			"isDeleted": false,
-			"boundElements": null,
-			"updated": 1703254371109,
+			"boundElements": [
+				{
+					"id": "bX9VqXXR4CPuscnobA8_H",
+					"type": "arrow"
+				},
+				{
+					"id": "Eoko89AegP3fkRkMBuZNv",
+					"type": "arrow"
+				}
+			],
+			"updated": 1703254584916,
 			"link": null,
 			"locked": false,
 			"text": "Tracker\nAPI Server",
 			"rawText": "Tracker\nAPI Server",
-			"fontSize": 36,
+			"fontSize": 28.447219122023824,
 			"fontFamily": 1,
 			"textAlign": "center",
 			"verticalAlign": "top",
-			"baseline": 77,
+			"baseline": 60,
 			"containerId": null,
 			"originalText": "Tracker\nAPI Server",
 			"lineHeight": 1.25
@@ -434,8 +460,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 1035925569,
-			"version": 309,
-			"versionNonce": 1077092001,
+			"version": 310,
+			"versionNonce": 37888207,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -463,7 +489,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"type": "arrow"
 				}
 			],
-			"updated": 1703254359876,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"text": "Tracker\nAPI Client\n(WASM)",
@@ -496,11 +522,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 283183009,
-			"version": 347,
-			"versionNonce": 236665647,
+			"version": 348,
+			"versionNonce": 1393055649,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703253847250,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"text": "Common GoLang Code",
@@ -517,10 +543,10 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		{
 			"id": "5uvCaNjERtguYSTsrhfOp",
 			"type": "arrow",
-			"x": 436.773193359375,
+			"x": 432.5153041879112,
 			"y": 154.3935546875,
-			"width": 108.9365234375,
-			"height": 170.63275146484375,
+			"width": 100.05091692157151,
+			"height": 170.70374242447275,
 			"angle": 0,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "transparent",
@@ -535,11 +561,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"seed": 688197185,
-			"version": 432,
-			"versionNonce": 486857153,
+			"version": 489,
+			"versionNonce": 33763055,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703253847599,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -548,20 +574,20 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					108.9365234375,
-					-170.63275146484375
+					100.05091692157151,
+					-170.70374242447275
 				]
 			],
 			"lastCommittedPoint": null,
 			"startBinding": {
 				"elementId": "EfXWR_LtsoHtq5WeUVueO",
-				"focus": 0.3912643002188475,
-				"gap": 5.102783203125
+				"gap": 5.102783203125,
+				"focus": 0.3912643002188475
 			},
 			"endBinding": {
 				"elementId": "4ButMRsNXZHJs-n3fHUl1",
-				"focus": 0.06068776667442528,
-				"gap": 16.911163330078125
+				"gap": 16.911163330078125,
+				"focus": 0.06068776667442528
 			},
 			"startArrowhead": null,
 			"endArrowhead": "arrow"
@@ -587,11 +613,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"seed": 1955667201,
-			"version": 527,
-			"versionNonce": 1893211521,
+			"version": 528,
+			"versionNonce": 1983822721,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703253847599,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -637,11 +663,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 1203811681,
-			"version": 549,
-			"versionNonce": 219690383,
+			"version": 550,
+			"versionNonce": 515733775,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703253847250,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"text": "The API client is a compiled WASM\nbinary which is built off of a common \nGolang code base.  This allows the\nclient-server contract to be maintained\nwith less effort.",
@@ -657,8 +683,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "text",
-			"version": 855,
-			"versionNonce": 448310191,
+			"version": 872,
+			"versionNonce": 813979361,
 			"isDeleted": false,
 			"id": "E0rBnx6j",
 			"fillStyle": "solid",
@@ -667,8 +693,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"roughness": 1,
 			"opacity": 100,
 			"angle": 0,
-			"x": 469.1844482421875,
-			"y": -418.38726697360516,
+			"x": 423.36262439546135,
+			"y": -407.4229986979355,
 			"strokeColor": "#f08c00",
 			"backgroundColor": "#b2f2bb",
 			"width": 393.31231689453125,
@@ -678,7 +704,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"boundElements": [],
-			"updated": 1703253847250,
+			"updated": 1703254601234,
 			"link": null,
 			"locked": false,
 			"fontSize": 21.18120082217864,
@@ -694,8 +720,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "rectangle",
-			"version": 319,
-			"versionNonce": 1087316335,
+			"version": 320,
+			"versionNonce": 1575583535,
 			"isDeleted": false,
 			"id": "J8zRWTOKp6v8SQuUjkCzy",
 			"fillStyle": "solid",
@@ -730,7 +756,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"type": "arrow"
 				}
 			],
-			"updated": 1703253924200,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false
 		},
@@ -753,11 +779,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"seed": 2132401359,
-			"version": 176,
-			"versionNonce": 879172495,
+			"version": 177,
+			"versionNonce": 1859424065,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703253924200,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"text": "ReactJS User-\nInterface",
@@ -775,9 +801,9 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"id": "gZL1xK2KSVA2uzhIKE18W",
 			"type": "arrow",
 			"x": -674.1082153320312,
-			"y": -233.13582162301304,
-			"width": 196.68023681640625,
-			"height": 0.5929683062335585,
+			"y": -233.13582162301373,
+			"width": 212.74365790312652,
+			"height": 5.485293628063005,
 			"angle": 0,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "#ffec99",
@@ -792,11 +818,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"seed": 514074305,
-			"version": 284,
-			"versionNonce": 1011529089,
+			"version": 287,
+			"versionNonce": 1603669505,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254231125,
+			"updated": 1703254605849,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -805,8 +831,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					196.68023681640625,
-					-0.5929683062335585
+					212.74365790312652,
+					5.485293628063005
 				]
 			],
 			"lastCommittedPoint": null,
@@ -826,10 +852,10 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		{
 			"id": "SXuqwALW8DHOJYe8WuKgd",
 			"type": "arrow",
-			"x": -476.77880859375,
-			"y": -191.76678199143416,
-			"width": 202.18104600549088,
-			"height": 2.3999752435127846,
+			"x": -460.7417526245117,
+			"y": -188.3628048594722,
+			"width": 218.21810197472917,
+			"height": 0.08757133578620824,
 			"angle": 0,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "#ffec99",
@@ -844,11 +870,11 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"seed": 1895171951,
-			"version": 333,
-			"versionNonce": 162138433,
+			"version": 336,
+			"versionNonce": 1532576193,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254231126,
+			"updated": 1703254605849,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -857,8 +883,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					-202.18104600549088,
-					2.3999752435127846
+					-218.21810197472917,
+					-0.08757133578620824
 				]
 			],
 			"lastCommittedPoint": null,
@@ -877,8 +903,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "text",
-			"version": 720,
-			"versionNonce": 715169217,
+			"version": 721,
+			"versionNonce": 1814609775,
 			"isDeleted": false,
 			"id": "DJvzbV6m",
 			"fillStyle": "solid",
@@ -898,7 +924,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"boundElements": [],
-			"updated": 1703253967754,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"fontSize": 21.18120082217864,
@@ -914,8 +940,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "rectangle",
-			"version": 357,
-			"versionNonce": 1700728911,
+			"version": 358,
+			"versionNonce": 1465414401,
 			"isDeleted": false,
 			"id": "hOScbiSmlGW9SGp7Q3Fyh",
 			"fillStyle": "solid",
@@ -950,14 +976,14 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					"type": "arrow"
 				}
 			],
-			"updated": 1703253997105,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false
 		},
 		{
 			"type": "text",
-			"version": 276,
-			"versionNonce": 635064591,
+			"version": 277,
+			"versionNonce": 1054669199,
 			"isDeleted": false,
 			"id": "k3vlRznz",
 			"fillStyle": "solid",
@@ -977,7 +1003,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"boundElements": [],
-			"updated": 1703254022029,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"fontSize": 28,
@@ -993,8 +1019,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "arrow",
-			"version": 365,
-			"versionNonce": 1117220097,
+			"version": 368,
+			"versionNonce": 590513537,
 			"isDeleted": false,
 			"id": "41oPMtF4HJFiXWnQyESPI",
 			"fillStyle": "solid",
@@ -1003,12 +1029,12 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"roughness": 1,
 			"opacity": 100,
 			"angle": 0,
-			"x": -469.0528694532372,
-			"y": -66.83782733211652,
+			"x": -413.26599573700275,
+			"y": -75.91614484500178,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "#ffec99",
-			"width": 208.99683333937918,
-			"height": 2.4808788814943625,
+			"width": 264.7837070556136,
+			"height": 9.051229341485964,
 			"seed": 425972161,
 			"groupIds": [],
 			"frameId": null,
@@ -1016,7 +1042,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"boundElements": [],
-			"updated": 1703254231126,
+			"updated": 1703254605849,
 			"link": null,
 			"locked": false,
 			"startBinding": {
@@ -1038,15 +1064,15 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					-208.99683333937918,
-					2.4808788814943625
+					-264.7837070556136,
+					9.051229341485964
 				]
 			]
 		},
 		{
 			"type": "arrow",
-			"version": 327,
-			"versionNonce": 1187963073,
+			"version": 330,
+			"versionNonce": 350083393,
 			"isDeleted": false,
 			"id": "1vrW6FDHf6sfxI5AF49lw",
 			"fillStyle": "solid",
@@ -1059,8 +1085,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"y": -100.57941375478214,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "#ffec99",
-			"width": 196.68023681640625,
-			"height": 0.5929683121425455,
+			"width": 212.71729278564453,
+			"height": 5.3236773345986705,
 			"seed": 367888687,
 			"groupIds": [],
 			"frameId": null,
@@ -1068,7 +1094,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 				"type": 2
 			},
 			"boundElements": [],
-			"updated": 1703254231126,
+			"updated": 1703254605850,
 			"link": null,
 			"locked": false,
 			"startBinding": {
@@ -1090,15 +1116,15 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 					0
 				],
 				[
-					196.68023681640625,
-					-0.5929683121425455
+					212.71729278564453,
+					-5.3236773345986705
 				]
 			]
 		},
 		{
 			"type": "text",
-			"version": 969,
-			"versionNonce": 1217988783,
+			"version": 970,
+			"versionNonce": 2005296833,
 			"isDeleted": false,
 			"id": "8KsmXKP0",
 			"fillStyle": "solid",
@@ -1118,7 +1144,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"boundElements": [],
-			"updated": 1703254101266,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"fontSize": 21.18120082217864,
@@ -1134,8 +1160,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "text",
-			"version": 1258,
-			"versionNonce": 126324321,
+			"version": 1259,
+			"versionNonce": 2005475791,
 			"isDeleted": false,
 			"id": "9ebx82FR",
 			"fillStyle": "solid",
@@ -1155,7 +1181,7 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"frameId": null,
 			"roundness": null,
 			"boundElements": [],
-			"updated": 1703254223287,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
 			"fontSize": 21.18120082217864,
@@ -1171,8 +1197,8 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		},
 		{
 			"type": "text",
-			"version": 1506,
-			"versionNonce": 950943503,
+			"version": 1608,
+			"versionNonce": 2054022817,
 			"isDeleted": false,
 			"id": "cuaHkAyk",
 			"fillStyle": "solid",
@@ -1181,21 +1207,21 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"roughness": 1,
 			"opacity": 100,
 			"angle": 0,
-			"x": -91.99915955747645,
-			"y": -6.534037555690418,
+			"x": -80.53303697563103,
+			"y": -49.84330559884512,
 			"strokeColor": "#f08c00",
 			"backgroundColor": "#b2f2bb",
-			"width": 529.2666015625,
-			"height": 79.42950308316989,
+			"width": 510.52496337890625,
+			"height": 76.63484765274751,
 			"seed": 851795599,
 			"groupIds": [],
 			"frameId": null,
 			"roundness": null,
 			"boundElements": [],
-			"updated": 1703254285804,
+			"updated": 1703254576882,
 			"link": null,
 			"locked": false,
-			"fontSize": 21.18120082217864,
+			"fontSize": 20.435959374066,
 			"fontFamily": 1,
 			"text": "A single-language, single source for both the client\nand server side of the contract eliminates the \nneed for special tooling (e.g. OpenAPI/Swagger).",
 			"rawText": "A single-language, single source for both the client\nand server side of the contract eliminates the \nneed for special tooling (e.g. OpenAPI/Swagger).",
@@ -1204,7 +1230,227 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 			"containerId": null,
 			"originalText": "A single-language, single source for both the client\nand server side of the contract eliminates the \nneed for special tooling (e.g. OpenAPI/Swagger).",
 			"lineHeight": 1.25,
-			"baseline": 71
+			"baseline": 68
+		},
+		{
+			"id": "Dwb2tJ8hRmSnqIMPHrJpr",
+			"type": "ellipse",
+			"x": 795.9722162784133,
+			"y": -261.9389001439689,
+			"width": 221.0165337136362,
+			"height": 205,
+			"angle": 0,
+			"strokeColor": "#2f9e44",
+			"backgroundColor": "#ffec99",
+			"fillStyle": "solid",
+			"strokeWidth": 4,
+			"strokeStyle": "solid",
+			"roughness": 1,
+			"opacity": 100,
+			"groupIds": [],
+			"frameId": null,
+			"roundness": {
+				"type": 2
+			},
+			"seed": 574564975,
+			"version": 300,
+			"versionNonce": 481784527,
+			"isDeleted": false,
+			"boundElements": [
+				{
+					"type": "text",
+					"id": "zLZgWMGS"
+				},
+				{
+					"id": "bX9VqXXR4CPuscnobA8_H",
+					"type": "arrow"
+				},
+				{
+					"id": "Eoko89AegP3fkRkMBuZNv",
+					"type": "arrow"
+				}
+			],
+			"updated": 1703254596302,
+			"link": null,
+			"locked": false
+		},
+		{
+			"id": "zLZgWMGS",
+			"type": "text",
+			"x": 836.7333583441691,
+			"y": -204.41734521559005,
+			"width": 139.2119598388672,
+			"height": 90,
+			"angle": 0,
+			"strokeColor": "#2f9e44",
+			"backgroundColor": "#ffec99",
+			"fillStyle": "solid",
+			"strokeWidth": 4,
+			"strokeStyle": "solid",
+			"roughness": 1,
+			"opacity": 100,
+			"groupIds": [],
+			"frameId": null,
+			"roundness": null,
+			"seed": 1778835201,
+			"version": 361,
+			"versionNonce": 100548847,
+			"isDeleted": false,
+			"boundElements": null,
+			"updated": 1703254596302,
+			"link": null,
+			"locked": false,
+			"text": "Tracker\nDB",
+			"rawText": "TrackerDB",
+			"fontSize": 36,
+			"fontFamily": 1,
+			"textAlign": "center",
+			"verticalAlign": "middle",
+			"baseline": 77,
+			"containerId": "Dwb2tJ8hRmSnqIMPHrJpr",
+			"originalText": "TrackerDB",
+			"lineHeight": 1.25
+		},
+		{
+			"id": "bX9VqXXR4CPuscnobA8_H",
+			"type": "arrow",
+			"x": 719.5819285333953,
+			"y": -196.36464973286712,
+			"width": 73.45770818045867,
+			"height": 0.3505141597699719,
+			"angle": 0,
+			"strokeColor": "#2f9e44",
+			"backgroundColor": "#ffec99",
+			"fillStyle": "solid",
+			"strokeWidth": 4,
+			"strokeStyle": "solid",
+			"roughness": 1,
+			"opacity": 100,
+			"groupIds": [],
+			"frameId": null,
+			"roundness": {
+				"type": 2
+			},
+			"seed": 553371279,
+			"version": 515,
+			"versionNonce": 1326923009,
+			"isDeleted": false,
+			"boundElements": null,
+			"updated": 1703254605850,
+			"link": null,
+			"locked": false,
+			"points": [
+				[
+					0,
+					0
+				],
+				[
+					73.45770818045867,
+					-0.3505141597699719
+				]
+			],
+			"lastCommittedPoint": null,
+			"startBinding": {
+				"elementId": "4ButMRsNXZHJs-n3fHUl1",
+				"gap": 3.9201039891243,
+				"focus": -0.3144957257601399
+			},
+			"endBinding": {
+				"elementId": "Dwb2tJ8hRmSnqIMPHrJpr",
+				"gap": 9.756734586658581,
+				"focus": 0.36894695474323264
+			},
+			"startArrowhead": null,
+			"endArrowhead": "arrow"
+		},
+		{
+			"id": "Eoko89AegP3fkRkMBuZNv",
+			"type": "arrow",
+			"x": 800.0392066332741,
+			"y": -115.29085627345327,
+			"width": 79.41204237053194,
+			"height": 0.898839092975237,
+			"angle": 0,
+			"strokeColor": "#2f9e44",
+			"backgroundColor": "#ffec99",
+			"fillStyle": "solid",
+			"strokeWidth": 4,
+			"strokeStyle": "solid",
+			"roughness": 1,
+			"opacity": 100,
+			"groupIds": [],
+			"frameId": null,
+			"roundness": {
+				"type": 2
+			},
+			"seed": 118277825,
+			"version": 460,
+			"versionNonce": 1905963201,
+			"isDeleted": false,
+			"boundElements": null,
+			"updated": 1703254605850,
+			"link": null,
+			"locked": false,
+			"points": [
+				[
+					0,
+					0
+				],
+				[
+					-79.41204237053194,
+					0.898839092975237
+				]
+			],
+			"lastCommittedPoint": null,
+			"startBinding": {
+				"elementId": "Dwb2tJ8hRmSnqIMPHrJpr",
+				"gap": 6.012512094405338,
+				"focus": -0.4187787242248105
+			},
+			"endBinding": {
+				"elementId": "4ButMRsNXZHJs-n3fHUl1",
+				"gap": 4.965339718471228,
+				"focus": 0.34944226333582146
+			},
+			"startArrowhead": null,
+			"endArrowhead": "arrow"
+		},
+		{
+			"type": "text",
+			"version": 1336,
+			"versionNonce": 241273071,
+			"isDeleted": false,
+			"id": "dA7mnlIo",
+			"fillStyle": "solid",
+			"strokeWidth": 4,
+			"strokeStyle": "dashed",
+			"roughness": 1,
+			"opacity": 100,
+			"angle": 0,
+			"x": 760.404254407995,
+			"y": -40.853210792371726,
+			"strokeColor": "#f08c00",
+			"backgroundColor": "#b2f2bb",
+			"width": 298.5704650878906,
+			"height": 142.942184785621,
+			"seed": 372084239,
+			"groupIds": [],
+			"frameId": null,
+			"roundness": null,
+			"boundElements": [],
+			"updated": 1703254725887,
+			"link": null,
+			"locked": false,
+			"fontSize": 19.058957971416135,
+			"fontFamily": 1,
+			"text": "The TrackerDB database is\nimplemented in PostgreSQL. API\nServer calls to the DB invoke\nfunctions or query views. Direct\naccess table access is not \nallowed.",
+			"rawText": "The TrackerDB database is\nimplemented in PostgreSQL. API\nServer calls to the DB invoke\nfunctions or query views. Direct\naccess table access is not \nallowed.",
+			"textAlign": "left",
+			"verticalAlign": "top",
+			"containerId": null,
+			"originalText": "The TrackerDB database is\nimplemented in PostgreSQL. API\nServer calls to the DB invoke\nfunctions or query views. Direct\naccess table access is not \nallowed.",
+			"lineHeight": 1.25,
+			"baseline": 135
 		}
 	],
 	"appState": {
@@ -1222,10 +1468,10 @@ need for special tooling (e.g. OpenAPI/Swagger). ^cuaHkAyk
 		"currentItemTextAlign": "left",
 		"currentItemStartArrowhead": null,
 		"currentItemEndArrowhead": "arrow",
-		"scrollX": 1026.6329523098616,
-		"scrollY": 599.9107687894174,
+		"scrollX": 1072.0602158649776,
+		"scrollY": 602.8005913155613,
 		"zoom": {
-			"value": 1.0202160686891322
+			"value": 1.05
 		},
 		"currentItemRoundness": "round",
 		"gridSize": null,
