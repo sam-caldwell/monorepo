@@ -1,4 +1,4 @@
-sql (databases)
+SQL (Databases)
 ===============
 
 ## Objectives
@@ -11,5 +11,4 @@ sql (databases)
    the SQL code.
 
 ## Database Documentation
-
-[trackerDB](tracker/README.md)
+* [ER Diagram](../../../docs/projects/Tracker/trackerDB/trackerDb.er.diagram)

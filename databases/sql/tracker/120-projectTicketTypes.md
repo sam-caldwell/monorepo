@@ -2,5 +2,4 @@ Project Ticket Types
 ====================
 
 ## Objectives
-* Given a collection of `projects` and a collection of `ticketTypes`, this table will associate a given `project`
-  with the subset of `ticketTypes` supported by that project.
+1. Given a collection of `tickets` as a `project` and a `workflow` `ticketType`, we use the `projectTicketTypes` records to map `project` to a `ticketType`.

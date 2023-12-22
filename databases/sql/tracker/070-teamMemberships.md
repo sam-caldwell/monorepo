@@ -1,4 +1,5 @@
-Teams Memberships
+Team Memberships
 =================
 
-no notes
+## Objectives
+1. The `TeamMemberships` table associates a `user` with a `team` to represent a user membership in a given team.

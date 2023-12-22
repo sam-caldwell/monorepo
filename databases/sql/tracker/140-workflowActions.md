@@ -2,6 +2,5 @@ Workflow Actions
 ================
 
 ## Objectives
-* For every `workflow` there are `workflowSteps` representing the state of a `ticket` at a given time.  These steps 
-  may represent a state in the workflow, or they may represent a state when an action should be taken in the 
-  background.  These actions are represented as actions in `workflowActions` as reusable objects.
+* A `workflowAction` may be `null` if it does nothing.
+* But a non-null `workflowAction` describes a topic and message template which Tracker will publish to the message queues used to execute integration logic.  For example, this could cause a message to be sent (emails, chat messages) or other actions (CI/CD logic).
