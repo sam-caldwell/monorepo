@@ -34,5 +34,4 @@ func TestSqlDbType_entityType(t *testing.T) {
 		}
 		sqldbtest.CompareTwoStringLists(t, actual, expected)
 	})
-
 }
