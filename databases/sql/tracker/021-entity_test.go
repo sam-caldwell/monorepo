@@ -25,7 +25,7 @@ func TestSqlDbTable_Entity(t *testing.T) {
 			"ColumnName:id,DataType:uuid,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
 			"ColumnName:context,DataType:character varying,size:2048,IsNullable:NO,ColumnDefault:''::character varying",
 			"ColumnName:created,DataType:timestamp without time zone,size:-1,IsNullable:NO,ColumnDefault:now()",
-			"ColumnName:type,DataType:user-defined,size:-1,IsNullable:NO,ColumnDefault:'other'::entityType",
+			"ColumnName:type,DataType:user-defined,size:-1,IsNullable:NO,ColumnDefault:<<null>>",
 		})
 	})
 

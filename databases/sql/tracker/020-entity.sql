@@ -37,37 +37,4 @@ create or replace trigger preventEntityUpdate
     on entity
     for each row
 execute function preventUpdate();
-/*
- * createEntity() function
- */
-create or replace function createEntity(type entityType, context varchar(2048) default '') returns uuid as
-$$
-declare
-    subject uuid:= gen_random_uuid();
-begin
-    insert into entity (id, type) values (subject, type);
-    return subject;
-end;
-$$ language plpgsql;
-/*
- * getEntityById() function
- */
-create or replace function getEntity(entityId uuid) returns jsonb as
-$$
-declare
-    result jsonb;
-begin
-    select json_build_object(
-                    'id', id,
-                    'type',type,
-                    'created',created,
-                    'context',context
-               ) as entity
-    into result
-    from entity
-    where id=entityId
-    limit 1;
-    return result;
-end;
-$$ language plpgsql;
 
