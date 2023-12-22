@@ -40,7 +40,7 @@ $$
 declare
     newId uuid;
 begin
-    newId := (select createEntity('workflow'::entityType));
+    newId := (select createEntity('ticketType'::entityType));
     insert into ticketTypes (id, name, iconId, workflowId, description)
     values (newId, typeName, typeIconId, wid, typeDescription);
     return newId;
