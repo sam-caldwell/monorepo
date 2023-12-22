@@ -1,8 +1,5 @@
-comparePermissions()
-====================
+isPermissionSubset()
+=============================
 
-```postgresql
-create or replace function isPermissionSubset(lhs permissions, rhs permissions) returns boolean as
-```
-1. Assume the caller has a permission (lhs) and a permission (rhs)
-2. The user wants to know if lhs is a subset of the permissions rhs defines.
+1. Given a [`permissions`](./010-permissions.md) object (`lhs`) representing an actor's permission claim and a second [`permissions`](./010-permissions.md) (`rhs`) object representing the set of expected [`permissions`](./010-permissions.md), return `true` if `lhs` is a subset of `rhs` or false otherwise.
+2. An exception is thrown if the function has not been updated by any new [`permissions`](./010-permissions.md) values.
