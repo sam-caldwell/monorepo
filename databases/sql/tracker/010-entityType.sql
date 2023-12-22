@@ -10,9 +10,9 @@ DO
 $$
     BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'entityType') THEN
-            CREATE TYPE entityType AS ENUM ('avatar', 'icon', 'user', 'team','teamAssociation',
-                'workflow','workflowStep','workflowAction','ticketType','project','ticket','projectTypes',
-                'ticketType','ticketTypeAssociation','attachment','comment','property', 'other');
+            CREATE TYPE entityType AS ENUM ('attachment', 'avatar', 'comment', 'icon', 'project', 'projectTypes',
+                'property', 'team', 'teamAssociation', 'ticket', 'ticketType', 'ticketTypeAssociation', 'user',
+                'workflow', 'workflowAction', 'workflowStep');
         END IF;
     END
 $$;
