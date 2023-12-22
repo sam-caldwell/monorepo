@@ -69,6 +69,8 @@ functions or query views. Direct
 access table access is not 
 allowed. ^dA7mnlIo
 
+[[trackerDb.er.diagram]] ^MhwUOLD7
+
 %%
 # Drawing
 ```json
@@ -811,7 +813,7 @@ allowed. ^dA7mnlIo
 			"x": -674.1082153320312,
 			"y": -233.13582162301373,
 			"width": 197.91333563750152,
-			"height": 0.9645819764756425,
+			"height": 0.9645819764756709,
 			"angle": 0,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "#ffec99",
@@ -826,11 +828,11 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"seed": 514074305,
-			"version": 338,
-			"versionNonce": 725967887,
+			"version": 340,
+			"versionNonce": 1675131215,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254786274,
+			"updated": 1703254878513,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -840,19 +842,19 @@ allowed. ^dA7mnlIo
 				],
 				[
 					197.91333563750152,
-					-0.9645819764756425
+					-0.9645819764756709
 				]
 			],
 			"lastCommittedPoint": null,
 			"startBinding": {
 				"elementId": "J8zRWTOKp6v8SQuUjkCzy",
-				"focus": -0.2780202170845725,
-				"gap": 9.97772216796875
+				"gap": 9.97772216796875,
+				"focus": -0.2780202170845725
 			},
 			"endBinding": {
 				"elementId": "DFhbEQfUd_O2npsIhLqxn",
-				"focus": 0.6081087292273974,
-				"gap": 6.497736139842232
+				"gap": 6.497736139842232,
+				"focus": 0.6081087292273974
 			},
 			"startArrowhead": null,
 			"endArrowhead": "arrow"
@@ -878,11 +880,11 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"seed": 1895171951,
-			"version": 367,
-			"versionNonce": 1476041505,
+			"version": 369,
+			"versionNonce": 1475850639,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254780490,
+			"updated": 1703254878513,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -898,13 +900,13 @@ allowed. ^dA7mnlIo
 			"lastCommittedPoint": null,
 			"startBinding": {
 				"elementId": "DFhbEQfUd_O2npsIhLqxn",
-				"focus": 0.21721895812641104,
-				"gap": 6.6099108741397
+				"gap": 6.6099108741397,
+				"focus": 0.21721895812641104
 			},
 			"endBinding": {
 				"elementId": "J8zRWTOKp6v8SQuUjkCzy",
-				"focus": 0.39575379757443846,
-				"gap": 5.1260829007591155
+				"gap": 5.1260829007591155,
+				"focus": 0.39575379757443846
 			},
 			"startArrowhead": null,
 			"endArrowhead": "arrow"
@@ -1027,8 +1029,8 @@ allowed. ^dA7mnlIo
 		},
 		{
 			"type": "arrow",
-			"version": 415,
-			"versionNonce": 1858476303,
+			"version": 466,
+			"versionNonce": 51265313,
 			"isDeleted": false,
 			"id": "41oPMtF4HJFiXWnQyESPI",
 			"fillStyle": "solid",
@@ -1037,12 +1039,12 @@ allowed. ^dA7mnlIo
 			"roughness": 1,
 			"opacity": 100,
 			"angle": 0,
-			"x": -471.9071787727171,
-			"y": -68.16008783235304,
+			"x": -475.7534399161105,
+			"y": -67.25128076896665,
 			"strokeColor": "#1e1e1e",
 			"backgroundColor": "#ffec99",
-			"width": 206.14252401989927,
-			"height": 1.295172328837225,
+			"width": 206.59697437204153,
+			"height": 0.5050059834568117,
 			"seed": 425972161,
 			"groupIds": [],
 			"frameId": null,
@@ -1050,18 +1052,18 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"boundElements": [],
-			"updated": 1703254774472,
+			"updated": 1703255025684,
 			"link": null,
 			"locked": false,
 			"startBinding": {
 				"elementId": "WJDBYFUU",
-				"focus": -1.3263196301557143,
-				"gap": 27.854169739513964
+				"focus": -1.353204953126443,
+				"gap": 31.70043088290737
 			},
 			"endBinding": {
 				"elementId": "hOScbiSmlGW9SGp7Q3Fyh",
-				"focus": 0.036840099969699294,
-				"gap": 9.013651699571142
+				"focus": 0.031446594349824435,
+				"gap": 4.712940204035476
 			},
 			"lastCommittedPoint": null,
 			"startArrowhead": null,
@@ -1072,15 +1074,15 @@ allowed. ^dA7mnlIo
 					0
 				],
 				[
-					-206.14252401989927,
-					1.295172328837225
+					-206.59697437204153,
+					0.5050059834568117
 				]
 			]
 		},
 		{
 			"type": "arrow",
-			"version": 361,
-			"versionNonce": 559835151,
+			"version": 363,
+			"versionNonce": 1459024399,
 			"isDeleted": false,
 			"id": "1vrW6FDHf6sfxI5AF49lw",
 			"fillStyle": "solid",
@@ -1102,18 +1104,18 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"boundElements": [],
-			"updated": 1703254789890,
+			"updated": 1703254878514,
 			"link": null,
 			"locked": false,
 			"startBinding": {
 				"elementId": "hOScbiSmlGW9SGp7Q3Fyh",
-				"focus": -0.47687015898997365,
-				"gap": 8.57657181981017
+				"gap": 8.57657181981017,
+				"focus": -0.47687015898997365
 			},
 			"endBinding": {
 				"elementId": "WJDBYFUU",
-				"focus": -0.8081577030651503,
-				"gap": 30.83856279177371
+				"gap": 30.83856279177371,
+				"focus": -0.8081577030651503
 			},
 			"lastCommittedPoint": null,
 			"startArrowhead": null,
@@ -1241,7 +1243,7 @@ allowed. ^dA7mnlIo
 			"baseline": 68
 		},
 		{
-			"id": "Dwb2tJ8hRmSnqIMPHrJpr",
+			"id": "MhwUOLD7",
 			"type": "ellipse",
 			"x": 795.91036732008,
 			"y": -261.9389001439689,
@@ -1261,8 +1263,8 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"seed": 574564975,
-			"version": 301,
-			"versionNonce": 1260479919,
+			"version": 302,
+			"versionNonce": 857078739,
 			"isDeleted": false,
 			"boundElements": [
 				{
@@ -1278,8 +1280,8 @@ allowed. ^dA7mnlIo
 					"type": "arrow"
 				}
 			],
-			"updated": 1703254863846,
-			"link": null,
+			"updated": 1703254878364,
+			"link": "[[trackerDb.er.diagram]]",
 			"locked": false
 		},
 		{
@@ -1315,7 +1317,7 @@ allowed. ^dA7mnlIo
 			"textAlign": "center",
 			"verticalAlign": "middle",
 			"baseline": 77,
-			"containerId": "Dwb2tJ8hRmSnqIMPHrJpr",
+			"containerId": "MhwUOLD7",
 			"originalText": "TrackerDB",
 			"lineHeight": 1.25
 		},
@@ -1323,9 +1325,9 @@ allowed. ^dA7mnlIo
 			"id": "bX9VqXXR4CPuscnobA8_H",
 			"type": "arrow",
 			"x": 719.5819285333953,
-			"y": -196.38851116517466,
-			"width": 73.40126252439927,
-			"height": 0.3409762178168876,
+			"y": -196.40111870839974,
+			"width": 73.40415398247342,
+			"height": 0.33603103517384625,
 			"angle": 0,
 			"strokeColor": "#2f9e44",
 			"backgroundColor": "#ffec99",
@@ -1340,11 +1342,11 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"seed": 553371279,
-			"version": 517,
-			"versionNonce": 39874575,
+			"version": 521,
+			"versionNonce": 316602959,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254863846,
+			"updated": 1703254878515,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -1353,8 +1355,8 @@ allowed. ^dA7mnlIo
 					0
 				],
 				[
-					73.40126252439927,
-					-0.3409762178168876
+					73.40415398247342,
+					-0.33603103517384625
 				]
 			],
 			"lastCommittedPoint": null,
@@ -1364,7 +1366,7 @@ allowed. ^dA7mnlIo
 				"focus": -0.3144957257601399
 			},
 			"endBinding": {
-				"elementId": "Dwb2tJ8hRmSnqIMPHrJpr",
+				"elementId": "MhwUOLD7",
 				"gap": 9.756734586658581,
 				"focus": 0.36894695474323264
 			},
@@ -1374,10 +1376,10 @@ allowed. ^dA7mnlIo
 		{
 			"id": "Eoko89AegP3fkRkMBuZNv",
 			"type": "arrow",
-			"x": 799.97445963987,
-			"y": -115.29691652768591,
-			"width": 79.34729537712781,
-			"height": 0.9018659450847224,
+			"x": 799.9734188762668,
+			"y": -115.29909317395544,
+			"width": 79.34625461352448,
+			"height": 0.9030653393531622,
 			"angle": 0,
 			"strokeColor": "#2f9e44",
 			"backgroundColor": "#ffec99",
@@ -1392,11 +1394,11 @@ allowed. ^dA7mnlIo
 				"type": 2
 			},
 			"seed": 118277825,
-			"version": 462,
-			"versionNonce": 880867407,
+			"version": 466,
+			"versionNonce": 1175581327,
 			"isDeleted": false,
 			"boundElements": null,
-			"updated": 1703254863846,
+			"updated": 1703254878515,
 			"link": null,
 			"locked": false,
 			"points": [
@@ -1405,13 +1407,13 @@ allowed. ^dA7mnlIo
 					0
 				],
 				[
-					-79.34729537712781,
-					0.9018659450847224
+					-79.34625461352448,
+					0.9030653393531622
 				]
 			],
 			"lastCommittedPoint": null,
 			"startBinding": {
-				"elementId": "Dwb2tJ8hRmSnqIMPHrJpr",
+				"elementId": "MhwUOLD7",
 				"gap": 6.012512094405338,
 				"focus": -0.4187787242248105
 			},
@@ -1459,6 +1461,43 @@ allowed. ^dA7mnlIo
 			"originalText": "The TrackerDB database is\nimplemented in PostgreSQL. API\nServer calls to the DB invoke\nfunctions or query views. Direct\naccess table access is not \nallowed.",
 			"lineHeight": 1.25,
 			"baseline": 135
+		},
+		{
+			"id": "4xJmFdw5",
+			"type": "text",
+			"x": -233.9649777697399,
+			"y": -527.4583294107994,
+			"width": 18,
+			"height": 45,
+			"angle": 0,
+			"strokeColor": "#2f9e44",
+			"backgroundColor": "#ffec99",
+			"fillStyle": "solid",
+			"strokeWidth": 4,
+			"strokeStyle": "solid",
+			"roughness": 1,
+			"opacity": 100,
+			"groupIds": [],
+			"frameId": null,
+			"roundness": null,
+			"seed": 1735575727,
+			"version": 2,
+			"versionNonce": 1497841057,
+			"isDeleted": true,
+			"boundElements": null,
+			"updated": 1703254881179,
+			"link": null,
+			"locked": false,
+			"text": "",
+			"rawText": "",
+			"fontSize": 36,
+			"fontFamily": 1,
+			"textAlign": "left",
+			"verticalAlign": "top",
+			"baseline": 32,
+			"containerId": null,
+			"originalText": "",
+			"lineHeight": 1.25
 		}
 	],
 	"appState": {
