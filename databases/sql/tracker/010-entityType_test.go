@@ -14,9 +14,9 @@ func TestSqlDbType_entityType(t *testing.T) {
 	})
 	t.Run("verify the enumerated type values", func(t *testing.T) {
 		actual := sqldbtest.GetEnumValues(t, db, "entityType")
-		expected := []string{"avatar", "icon", "user", "team", "teamAssociation", "workflow", "workflow_step",
-			"workflow_action", "ticket_type", "project", "projectTypes", "ticket", "attachment", "comment",
-			"ticketTypeAssociation", "property", "other"}
+		expected := []string{"avatar", "icon", "user", "team", "teamAssociation", "workflow", "workflowStep",
+			"workflowAction", "ticketType", "project", "projectTypes", "ticket", "attachment", "comment",
+			"ticketType", "ticketTypeAssociation", "property", "other"}
 		sqldbtest.CompareTwoStringLists(t, actual, expected)
 	})
 
