@@ -12,7 +12,7 @@ create table if not exists entity
     /*
      * The context is a text description of the action the subject took on the object.
      */
-    type    entityType    not null default 'other',
+    type    entityType    not null,
     created timestamp     not null default now(),
     context varchar(2048) not null default '',
     constraint prohibit_zero_uuid check (id <> '00000000-0000-0000-0000-000000000000')
