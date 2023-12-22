@@ -1,46 +1,35 @@
 {
   "main": {
-    "id": "1bd016b0a70a74e7",
+    "id": "66138276ca467d07",
     "type": "split",
     "children": [
       {
-        "id": "c37e248bb9d8c995",
+        "id": "e6f844f43ddfa0c9",
         "type": "tabs",
         "children": [
           {
-            "id": "3a878b08e8a392e5",
+            "id": "2406af7e54f3aeab",
             "type": "leaf",
             "state": {
               "type": "empty",
               "state": {}
             }
-          },
-          {
-            "id": "8342c401f7c44708",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "Humor/stages-of-software-grief.md"
-              }
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "622fc838dc5edcb4",
+    "id": "1febc759d3d9ffe3",
     "type": "split",
     "children": [
       {
-        "id": "d99da034f7839f4b",
+        "id": "4422c09e2f11bc17",
         "type": "tabs",
         "children": [
           {
-            "id": "ad97ed22d724956b",
+            "id": "00243923efe9fa56",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -50,7 +39,7 @@
             }
           },
           {
-            "id": "0964b86277cf9257",
+            "id": "28fb08de4fa69aa8",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -65,7 +54,7 @@
             }
           },
           {
-            "id": "7ad9082588259c8f",
+            "id": "c5ea54ba455589aa",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -79,20 +68,19 @@
     "width": 300
   },
   "right": {
-    "id": "95c82259ea52ebf6",
+    "id": "be6465a1b879c6d4",
     "type": "split",
     "children": [
       {
-        "id": "9456a047240bcab0",
+        "id": "5d5170429abd6158",
         "type": "tabs",
         "children": [
           {
-            "id": "5aa48d829fa1d2ad",
+            "id": "8d0035ef3a1a47d5",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Humor/stages-of-software-grief.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,19 +92,18 @@
             }
           },
           {
-            "id": "49e55ad620f003ef",
+            "id": "85a1943f5783e5ae",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Humor/stages-of-software-grief.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "25001c6911dd4cec",
+            "id": "77081ade30947c40",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -127,13 +114,11 @@
             }
           },
           {
-            "id": "95afc964b91cd099",
+            "id": "d8ae2c5194c9bba7",
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Humor/stages-of-software-grief.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -150,28 +135,9 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "obsidian-excalidraw-plugin:Create new drawing": false
+      "command-palette:Open command palette": false
     }
   },
-  "active": "ad97ed22d724956b",
-  "lastOpenFiles": [
-    "Humor",
-    "Untitled.md",
-    "Humor/stages-of-software-grief.md",
-    "dev notes (misc)/trackerDB/trackerDb.er.diagram.md",
-    "dev notes (misc)/Untitled 1.md",
-    "dev notes (misc)/trackerDB",
-    "Excalidraw/Drawing 2023-12-21 19.35.14.excalidraw.md",
-    "Excalidraw",
-    "git/hooks.md",
-    "dev notes (misc)/tests/README.md",
-    "projects",
-    "monorepo/README.md",
-    "dev notes (misc)/references/security/oauth/authorization_flow.md",
-    "dev notes (misc)/references/ascii-extended.md",
-    "dev notes (misc)/references/amd64_cpu/2023AmdArchitectureProgrammersManualVol1to5.pdf",
-    "monorepo/monorepo command (clean, build, test, install)/Building projects.md",
-    "dev notes (misc)"
-  ]
+  "active": "00243923efe9fa56",
+  "lastOpenFiles": []
 }
