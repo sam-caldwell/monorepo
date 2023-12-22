@@ -30,7 +30,8 @@ func TestSqlDbType_entityType(t *testing.T) {
 			"user",
 			"workflow",
 			"workflowAction",
-			"workflowStep"}
+			"workflowStep",
+		}
 		sqldbtest.CompareTwoStringLists(t, actual, expected)
 	})
 
