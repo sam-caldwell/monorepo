@@ -7,10 +7,9 @@ create or replace function createTicket(project uuid, author uuid, assignee uuid
                                         ticketSummary varchar(2048), ticketDescription text) returns uuid as
 $$
 declare
-    ticketId       uuid := (select createEntity('team'::entityType));
-
+    ticketId       uuid := (select createEntity('ticket'::entityType));
     /*
-     * for a given new ticket, we expect to find the starting step in its type-specific workflow
+     * For a given new ticket, we expect to find the starting step in its type-specific workflow
      * and then to use that value when initializing our ticket state.
      */
     startingStepId uuid := (select id
