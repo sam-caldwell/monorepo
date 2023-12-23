@@ -5,9 +5,9 @@
 create or replace function createEntity(type entityType, context varchar(2048) default '') returns uuid as
 $$
 declare
-    subject uuid := gen_random_uuid();
+    entityId uuid := gen_random_uuid();
 begin
-    insert into entity (id, type, context) values (subject, type, context);
-    return subject;
+    insert into entity (id, type, context) values (entityId, type, context);
+    return entityId;
 end;
 $$ language plpgsql;

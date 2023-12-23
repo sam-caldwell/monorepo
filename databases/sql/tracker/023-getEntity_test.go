@@ -11,7 +11,6 @@ import (
 
 func TestSqlDbFunc_getEntity(t *testing.T) {
 	const (
-		tableName    = "entity"
 		functionName = "getEntity"
 		entityType   = "user"
 	)

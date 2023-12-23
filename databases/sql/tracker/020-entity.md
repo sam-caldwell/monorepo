@@ -1,5 +1,4 @@
-Entity Table
-================
+###  Table: `entity`
 
 1. The [`entity`](./020-entity.sql) table identifies all objects in the database with a required [`entityType`](./010-entityType.md) and optional `context`.
 2. There are two goals for the [`entity`](./020-entity.sql) table:
@@ -11,3 +10,15 @@ Entity Table
 3. Once an `entity` is created, it cannot be deleted or updated, as protected by two trigger objects:
 	1. [`preventEntityDelete`](./010-preventDelete.sql) and 
 	2. [`preventEntityUpdate`](./010-preventUpdate.sql).
+
+### Functions:
+#### `createEntity()`
+* Generate an `entityId` (UUID)
+* Create `entity` record
+* Return `entityId` to caller.
+#### `getEntity()`
+* lookup a single `entity` record and return as a JSON object.
+
+
+#### <span style="color:yellow">Todo:</span>
+1. We need an ability to get a list of entities based on type and/or context.
