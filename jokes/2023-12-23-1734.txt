@@ -1,0 +1,3 @@
+Software functions are like a cat.
+
+You can call it, but that doesn't mean it is gonna do what you want.
