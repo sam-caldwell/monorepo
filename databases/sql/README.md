@@ -11,4 +11,4 @@ SQL (Databases)
    the SQL code.
 
 ## Database Documentation
-* [ER Diagram](../../../docs/projects/Tracker/trackerDB/trackerDb.er.diagram)
+* [ER Diagram](trackerDb.er.diagram.md)
