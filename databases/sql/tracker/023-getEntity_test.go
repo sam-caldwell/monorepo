@@ -31,7 +31,7 @@ func TestSqlDbFunc_getEntity(t *testing.T) {
 			"rt:jsonb", strings.ToLower(functionName)))
 
 	t.Run("create an record", func(t *testing.T) {
-		entityId = createEntity(t, db, entityType)
+		entityId = createEntity(t, db, entityType, "getEntity() context")
 	})
 
 	t.Run("Verify the entityId [sanity check before calling getEntity()]", func(t *testing.T) {
@@ -58,7 +58,7 @@ func TestSqlDbFunc_getEntity(t *testing.T) {
 		if actualType != "other" {
 			t.Fatal("Fail: actualType mismatch")
 		}
-		if actualContext != "" {
+		if actualContext != "getEntity() context" {
 			t.Fatal("Fail: context mismatch")
 		}
 	})

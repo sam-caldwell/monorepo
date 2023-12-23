@@ -38,29 +38,38 @@ func TestSqlDbFunc_createEntity(t *testing.T) {
 		var actualType string
 		var actualContext string
 
-		entityId = createEntity(t, db, "other")
+		for _, expectedContext := range []string{"", "test context"} {
+			for _, expectedType := range []string{"user", "project", "ticket"} {
 
-		t.Run("Verify the entityId", func(t *testing.T) {
-			rows, err = db.Query("select id, type, context from entity where id='%s';", entityId)
-			if err != nil {
-				t.Fatalf("Fail: (query): %v", err)
+				entityId = createEntity(t, db, expectedType, expectedContext)
+
+				testName := fmt.Sprintf("Verify the entityId (context %s, type: %v)",
+					expectedContext, expectedType)
+				t.Run(testName, func(t *testing.T) {
+					rows, err = db.Query("select id, type, context from entity where id='%s';", entityId)
+					if err != nil {
+						t.Fatalf("Fail: (query): %v", err)
+					}
+					defer func() { _ = rows.Close() }()
+					if !rows.Next() {
+						t.Fatalf("Fail: no row returned")
+					}
+					if err = rows.Scan(&actualId, &actualType, &actualContext); err != nil {
+						t.Fatalf("Fail: scan error: %v", err)
+					}
+					if actualId != entityId {
+						t.Fatalf("Fail: actualId mismatch")
+					}
+					if actualType != expectedType {
+						t.Fatalf("Fail: actualType mismatch")
+					}
+					if actualContext != expectedContext {
+						t.Fatalf("Fail: context mismatch\n"+
+							"expected: %v\n"+
+							"actual:   %v", expectedContext, actualContext)
+					}
+				})
 			}
-			defer func() { _ = rows.Close() }()
-			if !rows.Next() {
-				t.Fatal("Fail: no row returned")
-			}
-			if err = rows.Scan(&actualId, &actualType, &actualContext); err != nil {
-				t.Fatal(err)
-			}
-			if actualId != entityId {
-				t.Fatal("Fail: actualId mismatch")
-			}
-			if actualType != "other" {
-				t.Fatal("Fail: actualType mismatch")
-			}
-			if actualContext != "" {
-				t.Fatal("Fail: context mismatch")
-			}
-		})
+		}
 	})
 }
