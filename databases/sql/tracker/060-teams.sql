@@ -43,17 +43,6 @@ create index if not exists ndxTeamsOwner on teams (owner);
 create index if not exists ndxTeamsTeam on teams (team);
 create index if not exists ndxTeamsEveryone on teams (everyone);
 
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTeamOwner() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * deleteIconPreCheck() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
 create or replace function deleteIconPreCheck(entityId uuid) returns boolean as
 $$
 begin

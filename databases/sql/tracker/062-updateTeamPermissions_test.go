@@ -14,7 +14,7 @@ func TestSqlDbFunc_updateTeamPermissions(t *testing.T) {
 		avatarType      = "image/png"
 		oIconHash       = "880f67ded3d5c953348039c0bd575919455fc3e0a5cbcf1ac408c493cf53cdd4"
 		oIconType       = "image/png"
-		functionName    = "updatePermissions"
+		functionName    = "updateTeamPermissions"
 		userFirstName   = "Amy"
 		userLastName    = "Budwit"
 		userEmail       = "amy.budwitt1@example.com"

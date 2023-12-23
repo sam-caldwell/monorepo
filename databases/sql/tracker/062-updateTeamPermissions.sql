@@ -1,8 +1,8 @@
 /*
- * 062-updatePermissions.sql
+ * 062-updateTeamPermissions.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  */
-create or replace function updatePermissions(teamId uuid, o permissions, t permissions, e permissions) returns integer as
+create or replace function updateTeamPermissions(teamId uuid, o permissions, t permissions, e permissions) returns integer as
 $$
 declare
     count integer;
