@@ -41,7 +41,7 @@ $$
 declare
     entityId uuid;
 begin
-    entityId := (select createEntity('workflow_action'::entityType));
+    entityId := (select createEntity('workflowAction'::entityType));
     insert into workflowActions (id, name, topic, message, description)
     values (entityId, actionName, actionTopic, actionMessage, actionDescription);
     return entityId;

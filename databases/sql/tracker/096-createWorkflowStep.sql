@@ -41,7 +41,7 @@ begin
     /*
      * Create our entityId.
      */
-    stepId := (select createEntity('workflow_step'::entityType));
+    stepId := (select createEntity('workflowStep'::entityType));
     if (stepId = pStepId) or (stepId = nStepId) then
         raise exception 'node cannot be its prev or next step id';
     end if;

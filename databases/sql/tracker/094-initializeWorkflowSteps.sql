@@ -7,8 +7,8 @@
 create or replace function initializeWorkflowSteps(thisWorkflow uuid) returns integer as
 $$
 declare
-    startId uuid := (select createEntity('workflow_step'::entityType));
-    stopId  uuid := (select createEntity('workflow_step'::entityType));
+    startId uuid := (select createEntity('workflowStep'::entityType));
+    stopId  uuid := (select createEntity('workflowStep'::entityType));
 begin
     perform disableTrigger('workflowsteps','checkForeignKeyInsert');
     perform disableTrigger('workflowsteps','checkForeignKeyUpdate');
