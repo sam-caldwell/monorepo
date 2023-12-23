@@ -1,5 +1,5 @@
 /*
- * 097-linkNodes.sql
+ * 094-linkNodes.sql
  * (c) 2023 Sam Caldwell.  See License.txt
  *
  * Given two nodes (LHS and RHS) representing a prev node (left hand) and next node (right hand)
@@ -13,10 +13,6 @@ begin
 
     update workflowsteps set nextstepid=rhs where id=lhs;
     update workflowsteps set prevstepid=lhs where id=rhs;
-
-    execute updateWorkflowNextStep(lhs, rhs);
-    execute updateWorkflowPrevStep(rhs, lhs);
     return true;
 end;
 $$ language plpgsql;
-
