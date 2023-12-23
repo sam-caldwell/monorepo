@@ -35,7 +35,7 @@ func TestSqlDbFunc_createUser(t *testing.T) {
 		sqldbtest.VerifyFunctionStructure(t, db,
 			strings.ToLower(functionName),
 			fmt.Sprintf("fn:%s,"+
-				"pn:{f,l,a,e,p,d},"+
+				"pn:{newFirstName,newLastName,newAvatarId,newEmailAddress,newPhoneNumber,newDescription},"+
 				"pt:{text,varchar,uuid},"+
 				"rt:uuid", strings.ToLower(functionName)))
 	})
