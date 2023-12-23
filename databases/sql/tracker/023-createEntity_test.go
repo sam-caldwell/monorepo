@@ -65,8 +65,8 @@ func TestSqlDbFunc_createEntity(t *testing.T) {
 					}
 					if actualContext != expectedContext {
 						t.Fatalf("Fail: context mismatch\n"+
-							"expected: %v\n"+
-							"actual:   %v", expectedContext, actualContext)
+							"actual:   '%v'\n"+
+							"expected: '%v'", actualContext, expectedContext)
 					}
 				})
 			}

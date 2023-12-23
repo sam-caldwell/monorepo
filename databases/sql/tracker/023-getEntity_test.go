@@ -13,7 +13,7 @@ func TestSqlDbFunc_getEntity(t *testing.T) {
 	const (
 		tableName    = "entity"
 		functionName = "getEntity"
-		entityType   = "other"
+		entityType   = "user"
 	)
 	var entityId uuid.UUID
 
@@ -55,7 +55,7 @@ func TestSqlDbFunc_getEntity(t *testing.T) {
 		if actualId != entityId {
 			t.Fatal("Fail: actualId mismatch")
 		}
-		if actualType != "other" {
+		if actualType != "user" {
 			t.Fatal("Fail: actualType mismatch")
 		}
 		if actualContext != "getEntity() context" {
