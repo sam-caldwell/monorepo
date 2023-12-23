@@ -48,36 +48,7 @@ create index if not exists ndxTeamsEveryone on teams (everyone);
  * updateTeamOwner() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateTeamOwner(teamId uuid, newOwnerId uuid) returns integer as
-$$
-declare
-    count integer;
-begin
-    update teams
-    set ownerId=newOwnerId
-    where id = teamId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
 
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTeamName() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateTeamName(teamId uuid, teamName varchar(64)) returns integer as
-$$
-declare
-    count integer;
-begin
-    update teams
-    set name=teamName
-    where id = teamId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * deleteIconPreCheck() function

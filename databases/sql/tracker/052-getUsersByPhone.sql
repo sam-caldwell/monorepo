@@ -3,8 +3,8 @@
  * (c) 2023 Sam Caldwell. See License.txt
  */
 create or replace function getUsersByPhone(thisPhone varchar(20),
-                                           pageLimit integer,
-                                           pageOffset integer) returns jsonb as
+                                           pageLimit integer default 1000,
+                                           pageOffset integer default 0) returns jsonb as
 $$
 declare
     result jsonb;

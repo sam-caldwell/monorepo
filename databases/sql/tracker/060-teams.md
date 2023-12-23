@@ -23,3 +23,9 @@
 * Given a `teamId` (UUID) and description text string, update the matching record description.
 #### [`updatePermissions()`](./062-updatePermissions.sql)
 * Given a `teamId` (UUID) and permission set (`owner`, `team`, `everyone`), update the record with the new permission set after validating that the new permission set meets the expected rules.
+### [`updateTeamIcon()`](062-updateTeamIcon.sql)
+* Given a `teamId` (UUID) and a new `iconId` (UUID) update the matching team record with the new icon reference.
+#### [`updateTeamName()`](./062-updateTeamName.sql)
+* Given a `teamId` (UUID) and a new name (varchar), validate the name and update the team's name field.
+#### [`updateTeamOwner()`](./062-updateTeamOwner.sql)
+* Given a `teamId` and `newOwnerId` (UUIDs), update the associated team record `ownerId` field.

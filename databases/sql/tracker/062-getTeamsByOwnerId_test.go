@@ -44,8 +44,8 @@ func TestSqlDbFunc_getTeamsByOwnerId(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{teamOwnerId},"+
-			"pt:{uuid},"+
+			"pn:{teamOwnerId,pageLimit,pageOffset},"+
+			"pt:{int4,uuid},"+
 			"rt:jsonb", strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
