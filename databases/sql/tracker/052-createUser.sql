@@ -9,11 +9,11 @@ $$
 declare
     entityId uuid;
 begin
-    if not validName(newFirstName) then
+    if not validFirstLastName(newFirstName) then
         raise exception 'invalid firstname';
     end if;
 
-    if not validName(newLastName) then
+    if not validFirstLastName(newLastName) then
         raise exception 'invalid lastname';
     end if;
 
