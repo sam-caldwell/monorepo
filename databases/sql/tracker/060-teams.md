@@ -15,3 +15,5 @@
 	* creating a team must deconflict the given permissions and validate the team properties.
 #### [`deleteTeam()`](./062-deleteTeam.sql)
 	*  given a `teamId` (UUID) delete the matching record.
+#### [`getTeamById()`](./060-deleteTeam.sql)
+* Given a `teamId` (UUID) return a JSON object containing the matching record.
