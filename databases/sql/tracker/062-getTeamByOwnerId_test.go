@@ -10,13 +10,13 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getTeamByOwnerId(t *testing.T) {
+func TestSqlDbFunc_getTeamsByOwnerId(t *testing.T) {
 	const (
 		avatarHash      = "7470786da2026111d353918be67c48f136706d64ed176ae02237daa274ec1faf"
 		avatarType      = "image/png"
 		iconHash        = "6a7d7cbaa5472de7d1376829ccaf334bd8837084fab1218214e0107950585745"
 		iconType        = "image/png"
-		functionName    = "getTeamByOwnerId"
+		functionName    = "getTeamsByOwnerId"
 		userFirstName   = "Marie"
 		userLastName    = "Curie"
 		userEmail       = "glowing.physicist@example.com"
@@ -53,17 +53,17 @@ func TestSqlDbFunc_getTeamByOwnerId(t *testing.T) {
 	ownerId = createUser(t, db, userFirstName, userLastName, avatarId, userEmail, userPhone, userDescription)
 	teamId = createTeam(t, db, teamName, iconId, ownerId, pRead, pRead, pRead, teamDescription)
 
-	t.Run("getTeamByOwnerId()", func(t *testing.T) {
+	t.Run("getTeamsByOwnerId()", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		if rows, err = db.Query("select getTeamByOwnerId('%s');", ownerId); err != nil {
+		if rows, err = db.Query("select getTeamsByOwnerId('%s');", ownerId); err != nil {
 			t.Fatal(err)
 		}
 		if !rows.Next() {
 			t.Fatal("no row returned")
 		}
 		var raw string
-		var team TrackerTeam
+		var team []TrackerTeam
 		if err = rows.Scan(&raw); err != nil {
 			t.Fatal(err)
 		}
@@ -71,26 +71,26 @@ func TestSqlDbFunc_getTeamByOwnerId(t *testing.T) {
 		if err = json.Unmarshal([]byte(raw), &team); err != nil {
 			t.Fatal(err)
 		}
-		if team.Id != teamId {
+		if team[0].Id != teamId {
 			t.Fatalf("teamId mismatch")
 		}
-		if team.Name != teamName {
+		if team[0].Name != teamName {
 			t.Fatalf("Name mismatch")
 		}
-		if team.IconId != iconId {
+		if team[0].IconId != iconId {
 			t.Fatalf("IconId mismatch")
 		}
-		if team.OwnerId != ownerId {
+		if team[0].OwnerId != ownerId {
 			t.Fatalf("OwnerId mismatch")
 		}
-		if team.Owner != "read" {
-			t.Fatalf("Owner mismatch. Got %v", team.Owner)
+		if team[0].Owner != "read" {
+			t.Fatalf("Owner mismatch. Got %v", team[0].Owner)
 		}
-		if team.Team != "read" {
-			t.Fatalf("Team mismatch Got %v", team.Team)
+		if team[0].Team != "read" {
+			t.Fatalf("Team mismatch Got %v", team[0].Team)
 		}
-		if team.Everyone != "read" {
-			t.Fatalf("Everyone mismatch Got %v", team.Everyone)
+		if team[0].Everyone != "read" {
+			t.Fatalf("Everyone mismatch Got %v", team[0].Everyone)
 		}
 	})
 }

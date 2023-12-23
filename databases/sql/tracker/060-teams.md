@@ -21,3 +21,5 @@
 * Given an `ownerId` (user UUID) return a list of matching JSON team objects.
 #### [`updateTeamDescription()`](./062-updateTeamDescription.sql)
 * Given a `teamId` (UUID) and description text string, update the matching record description.
+#### [`updatePermissions()`](./062-updatePermissions.sql)
+* Given a `teamId` (UUID) and permission set (`owner`, `team`, `everyone`), update the record with the new permission set after validating that the new permission set meets the expected rules.

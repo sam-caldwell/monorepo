@@ -42,49 +42,6 @@ create index if not exists ndxTeamsIconId on teams (iconId);
 create index if not exists ndxTeamsOwner on teams (owner);
 create index if not exists ndxTeamsTeam on teams (team);
 create index if not exists ndxTeamsEveryone on teams (everyone);
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTeamDescription() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updatePermissions() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updatePermissions(teamId uuid, o permissions,t permissions, e permissions) returns integer as
-$$
-declare
-    count integer;
-begin
-    update teams
-    set owner=o,
-        team=t,
-        everyone=e
-    where id = teamId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
-
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * updateTeamIcon() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-create or replace function updateTeamIcon(teamId uuid, newIconId uuid) returns integer as
-$$
-declare
-    count integer;
-begin
-    update teams
-    set iconId=newIconId
-    where id = teamId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
 
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
