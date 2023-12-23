@@ -110,8 +110,7 @@ func TestSqlDbFunc_deleteUserById(t *testing.T) {
 			t.Fatal("no row returned")
 		}
 		var count int
-		err = rows.Scan(&count)
-		if err != nil {
+		if err = rows.Scan(&count); err != nil {
 			t.Fatal(err)
 		}
 		if count != 1 {

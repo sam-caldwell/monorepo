@@ -2,8 +2,7 @@
  * 052-getUsersByPhone.sql
  * (c) 2023 Sam Caldwell. See License.txt
  */
-create or replace function
-    getUsersByPhone(thisPhone varchar(20),
+create or replace function getUsersByPhone(thisPhone varchar(20),
                                            pageLimit integer,
                                            pageOffset integer) returns jsonb as
 $$

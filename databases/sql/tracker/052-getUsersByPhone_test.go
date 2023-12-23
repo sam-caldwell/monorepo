@@ -23,7 +23,7 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 	)
 	var avatarId uuid.UUID
 	var userId uuid.UUID
-	var actualUser TrackerUser
+	var actualUser []TrackerUser
 
 	db := sqldbtest.InitializeTestDbConn(t)
 
@@ -36,7 +36,7 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
 		fmt.Sprintf("fn:%s,"+
-			"pn:{phone,pageLimit,pageOffset},"+
+			"pn:{thisPhone,pageLimit,pageOffset},"+
 			"pt:{int4,varchar},rt:jsonb", strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
@@ -63,22 +63,22 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 		}
 	})
 	t.Run("verify", func(t *testing.T) {
-		if actualUser.Id != userId {
+		if actualUser[0].Id != userId {
 			t.Fatalf("userId mismatch")
 		}
-		if actualUser.FirstName != expectedFirstName {
+		if actualUser[0].FirstName != expectedFirstName {
 			t.Fatalf("firstname mismatch")
 		}
-		if actualUser.LastName != expectedLastName {
+		if actualUser[0].LastName != expectedLastName {
 			t.Fatalf("lastname mismatch")
 		}
-		if actualUser.Email != expectedEmail {
+		if actualUser[0].Email != expectedEmail {
 			t.Fatalf("email mismatch")
 		}
-		if actualUser.PhoneNumber != expectedPhone {
+		if actualUser[0].PhoneNumber != expectedPhone {
 			t.Fatalf("phone mismatch")
 		}
-		if actualUser.Description != expectedDescription {
+		if actualUser[0].Description != expectedDescription {
 			t.Fatalf("description mismatch")
 		}
 	})

@@ -24,6 +24,5 @@ begin
           where email = emailAddress
           limit pageLimit offset pageOffset) as subquery;
     return result;
-
 end ;
 $$ language plpgsql;
