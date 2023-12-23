@@ -9,9 +9,6 @@ $$
 declare
     entityId uuid;
 begin
-
-    entityId := (select createEntity('user'::entityType));
-
     if not validName(newFirstName) then
         raise exception 'invalid firstname';
     end if;
@@ -27,6 +24,8 @@ begin
     if not validphonenumber(newPhoneNumber) then
         raise exception 'invalid phone number';
     end if;
+
+    entityId := (select createEntity('user'::entityType,newEmailAddress));
 
     insert into users (id, firstName, lastName, avatarId, email, phoneNumber, description)
     values (entityId, newFirstName, newLastName, newAvatarId, newEmailAddress, newPhoneNumber, newDescription);
