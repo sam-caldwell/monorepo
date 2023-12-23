@@ -17,3 +17,5 @@
 	*  given a `teamId` (UUID) delete the matching record.
 #### [`getTeamById()`](./060-deleteTeam.sql)
 * Given a `teamId` (UUID) return a JSON object containing the matching record.
+#### [`getTeamsByOwnerId()`](./062-getTeamsByOwnerId.sql)
+* Given an `ownerId` (user UUID) return a list of matching JSON team objects.
