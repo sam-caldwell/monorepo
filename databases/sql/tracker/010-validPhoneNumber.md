@@ -1,5 +1,4 @@
-`validPhoneNumber()`
-================================
+### `validPhoneNumber()`
 * Given a string, return `true`/`false` whether the string is a valid phone number
 
 ```text

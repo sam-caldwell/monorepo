@@ -1,6 +1,4 @@
-permissions
-=================
-
+### Permissions
 An enumerated type which defines permissions which can be assigned to a user, team or everyone:
 
 | permission | description | 

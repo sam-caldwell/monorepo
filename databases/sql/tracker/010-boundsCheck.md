@@ -1,5 +1,4 @@
-boundsCheck Functions
-=================================
+### boundsCheck Functions
 
 * Ensure the inputs for the following functions are within the specified bounds:
 	* [`boundsCheck()`](./010-boundsCheck.sql)
