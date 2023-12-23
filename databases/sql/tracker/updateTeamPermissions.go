@@ -7,8 +7,8 @@ import (
 	"testing"
 )
 
-// updateTeamName - update the team name fields
-func updatePermissions(t *testing.T, db *Postgres.Db, teamId uuid.UUID, po, pt, pe string) int {
+// updateTeamPermissions - update the team permissions
+func updateTeamPermissions(t *testing.T, db *Postgres.Db, teamId uuid.UUID, po, pt, pe string) int {
 
 	var err error
 	var rows *sql.Rows
