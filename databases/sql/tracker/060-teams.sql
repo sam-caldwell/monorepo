@@ -44,26 +44,10 @@ create index if not exists ndxTeamsTeam on teams (team);
 create index if not exists ndxTeamsEveryone on teams (everyone);
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * getTeamByOwnerId() function
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * updateTeamDescription() function
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-create or replace function updateTeamDescription(teamId uuid, d text) returns integer as
-$$
-declare
-    count integer;
-begin
-    update teams
-    set description=d
-    where id = teamId;
-    get diagnostics count = ROW_COUNT;
-    return count;
-end;
-$$ language plpgsql;
+
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * updatePermissions() function

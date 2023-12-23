@@ -19,3 +19,5 @@
 * Given a `teamId` (UUID) return a JSON object containing the matching record.
 #### [`getTeamsByOwnerId()`](./062-getTeamsByOwnerId.sql)
 * Given an `ownerId` (user UUID) return a list of matching JSON team objects.
+#### [`updateTeamDescription()`](./062-updateTeamDescription.sql)
+* Given a `teamId` (UUID) and description text string, update the matching record description.
