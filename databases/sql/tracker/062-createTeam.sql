@@ -11,7 +11,7 @@ begin
     if not validName(newTeamName) then
         raise exception 'invalid team name';
     end if;
-    if validatePermissionSet(pOwner, pTeam, pEveryone) then
+    if not validatePermissionSet(pOwner, pTeam, pEveryone) then
         raise exception 'invalid permission set';
     end if;
     teamId := (select createEntity('team'::entityType));
