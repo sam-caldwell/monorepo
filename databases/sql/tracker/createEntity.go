@@ -8,11 +8,12 @@ import (
 )
 
 // createEntity - create a new entity object
-func createEntity(t *testing.T, db *Postgres.Db, entityType string) (entityId uuid.UUID) {
+func createEntity(t *testing.T, db *Postgres.Db, entityType, context string) (entityId uuid.UUID) {
 	var err error
 	var rows *sql.Rows
 	t.Run("call createEntity();", func(t *testing.T) {
-		rows, err = db.Query("select createEntity('%s'::entityType);", entityType)
+		t.Logf("Create entity type:'%v' context:'%v'", entityType, context)
+		rows, err = db.Query("select createEntity('%s'::entityType, '%s');", entityType, context)
 		if err != nil {
 			t.Fatalf("Fail: function call failed: %v", err)
 		}

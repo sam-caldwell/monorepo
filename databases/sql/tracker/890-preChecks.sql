@@ -47,7 +47,7 @@ create or replace function deleteUsersByIdPreCheck(entityId uuid) returns boolea
 $$
 begin
     return ((select count(id) from teams where ownerId = entityId) = 0) and
-           ((select count(id) from teammemberships where userId = entityId)) and
+           ((select count(id) from teammemberships where userId = entityId)=0) and
            ((select count(id) from workflows where iconId = entityId) = 0);
 end;
 $$ language plpgsql;

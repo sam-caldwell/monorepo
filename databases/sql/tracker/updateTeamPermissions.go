@@ -15,7 +15,7 @@ func updatePermissions(t *testing.T, db *Postgres.Db, teamId uuid.UUID, po, pt, 
 	var count int
 
 	t.Run("update record", func(t *testing.T) {
-		rows, err = db.Query("select updatePermissions('%s','%s','%s','%s')", teamId, po, pt, pe)
+		rows, err = db.Query("select updateTeamPermissions('%s','%s','%s','%s')", teamId, po, pt, pe)
 		if err != nil {
 			t.Fatalf("Fail: Query error: %v", err)
 		}
