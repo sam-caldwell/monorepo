@@ -10,15 +10,15 @@ import (
 	"testing"
 )
 
-func TestSqlDbFunc_getUserByPhone(t *testing.T) {
+func TestSqlDbFunc_getUsersByEmail(t *testing.T) {
 	const (
-		avatarHash          = "e8172424cebb838aed7e9278793d3aa46d99a97b5caf16d562ee35f7fb8fdf2c"
+		avatarHash          = "153398fef5f49ace88d82f0bb2f19ffa05f794904adeff6e54441326e2a7714c"
 		avatarType          = "image/png"
-		functionName        = "getUserByPhone"
-		expectedFirstName   = "Ada"
-		expectedLastName    = "Lovelace"
-		expectedEmail       = "ada.lovelace@example.com"
-		expectedPhone       = "915.123.4567"
+		functionName        = "getUsersByEmail"
+		expectedFirstName   = "Alan"
+		expectedLastName    = "Turing"
+		expectedEmail       = "Alan.Turing@example.com"
+		expectedPhone       = "713.123.4567"
 		expectedDescription = "Test description"
 	)
 	var avatarId uuid.UUID
@@ -35,16 +35,19 @@ func TestSqlDbFunc_getUserByPhone(t *testing.T) {
 
 	sqldbtest.VerifyFunctionStructure(t, db,
 		strings.ToLower(functionName),
-		fmt.Sprintf("fn:%s,pn:{phone},pt:{varchar},rt:jsonb", strings.ToLower(functionName)))
+		fmt.Sprintf("fn:%s,"+
+			"pn:{emailaddress,pageLimit,pageOffset},"+
+			"pt:{int4,varchar},"+
+			"rt:jsonb", strings.ToLower(functionName)))
 
 	avatarId = createAvatar(t, db, avatarType, avatarHash)
 	userId = createUser(t, db, expectedFirstName, expectedLastName, avatarId, expectedEmail,
 		expectedPhone, expectedDescription)
 
-	t.Run("call getUserByPhone(expectedPhone)", func(t *testing.T) {
+	t.Run("call getUsersByEmail(emailAddress)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select getUserByPhone('%s');", expectedPhone)
+		rows, err = db.Query("select getUsersByEmail('%s',1000,0);", expectedEmail)
 		if err != nil {
 			t.Fatal(err)
 		}
