@@ -4,7 +4,7 @@
  */
 create or replace function createUser(newFirstName varchar(64), newLastName varchar(64), newAvatarId uuid,
                                       newEmailAddress varchar(256), newPhoneNumber varchar(20),
-                                      newDescription text) returns uuid as
+                                      newDescription text default ''::text) returns uuid as
 $$
 declare
     entityId uuid;

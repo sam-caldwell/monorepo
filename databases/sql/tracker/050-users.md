@@ -4,6 +4,13 @@
 3. The [`user`](./050-users.md) records contain user-identifying information but *NEVER* authentication information.
 ### Functions:
 #### `createUser()`
+* Create a new user object, identifying its first and last name, phone number, email address and and optional description.
+#### `deleteUserById()`
 
+#### `getUserById()`
+
+#### `getUsersByEmail()`
+
+#### `getUsersByPhone()`
 
 
