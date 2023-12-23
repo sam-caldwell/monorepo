@@ -15,7 +15,7 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		avatarType          = "image/png"
 		iconHash            = "182e31fa48267c22d598dfcddb66e2dffd0b4ec2b0192e28c3b73336b71ea8b4"
 		iconType            = "image/png"
-		functionName        = "deleteTeamById"
+		functionName        = "deleteTeam"
 		testTeamName        = "testTeam4"
 		expectedFirstName   = "Peter"
 		expectedLastName    = "Norton"
@@ -53,10 +53,10 @@ func TestSqlDbFunc_deleteTeamById(t *testing.T) {
 		expectedPhone, expectedDescription)
 	teamId = createTeam(t, db, testTeamName, iconId, ownerId, pRead, pRead, pRead, expectedDescription)
 
-	t.Run("call deleteTeamById(teamId)", func(t *testing.T) {
+	t.Run("call deleteTeam(teamId)", func(t *testing.T) {
 		var rows *sql.Rows
 		var err error
-		rows, err = db.Query("select deleteTeamById('%s');", teamId)
+		rows, err = db.Query("select deleteTeam('%s');", teamId)
 		if err != nil {
 			t.Fatal(err)
 		}

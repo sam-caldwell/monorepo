@@ -1,5 +1,4 @@
-Teams Table
-=================
+#### Table: Teams
 1. A [`team`](./060-teams.md) is an object representing a group of [`users`](./050-users.md) objects which represents the collective permissions of the group and communications with the group.
 2. The [`team`](./060-teams.md) table only identifies the `team`.
 3. A [`team`](./060-teams.md) object has the following characteristics:
@@ -11,6 +10,8 @@ Teams Table
 		2. `team`
 		3. `everyone`
 
-### Related Functions
-* [createTeam()](./062-createTeams.sql)
+#### Functions
+* [`createTeam()`](./062-createTeams.sql)
 	* creating a team must deconflict the given permissions and validate the team properties.
+* [`deleteTeamById()`](./062-createTeams.sql)
+	*  
