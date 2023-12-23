@@ -29,3 +29,6 @@
 * Given a `teamId` (UUID) and a new name (varchar), validate the name and update the team's name field.
 #### [`updateTeamOwner()`](./062-updateTeamOwner.sql)
 * Given a `teamId` and `newOwnerId` (UUIDs), update the associated team record `ownerId` field.
+#### [`updateTeamPermissions()`](062-updateTeamPermissions.sql)
+* Given a`teamId` (UUID) and `owner`, `team` and `everyone` `permissions`, update the matching team record permission fields.
+
