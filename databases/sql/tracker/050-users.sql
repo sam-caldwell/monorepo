@@ -18,7 +18,7 @@ create table if not exists users
     -- an optional phone number --
     phoneNumber varchar(20)      null,
     -- descriptive text --
-    description text,
+    description text             null,
     foreign key (avatarId) references avatars (id) on delete cascade,
     foreign key (id) references entity (id) on delete restrict,
     constraint validateFirstName check (validFirstLastName(firstName)),
