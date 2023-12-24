@@ -263,3 +263,48 @@
 3. `bluestore` is recommended over `btrfs`.
 4. Kernel >5.3 recommended for RBD and CRUSH tunables.
 ---
+## Deployment Options
+1. Well supported options (assuming ceph `reef` version):
+	1. `cephadm` - a tool for deploying and managing a ceph cluster
+		1. Supported only on `Octopus` version or newer
+		2. Fully integrated with orchestration API
+		3. Requires python3 and docker/podman.
+		4. Requires `systemd`
+		5. Cephadm works only with BlueStore OSDs.
+		6. <span style="color:red">Uses root logins and ssh connections as root user</span>
+	2. `rook` - a tool for deploying clusters in Kubernetes
+		1. Recommended when deploying in Kubernetes
+		2. Recommended to connect existing ceph clusters to Kubernetes
+		3. Supported only on `Nautilus` and newer ceph versions
+		4. Supports the orchestrator API and management features in the CLI and dashboard.
+		5. <span style="color:red">Needs deep-dive security review.</span>
+	3. Manual Deployment
+		1. Will allow security hardening
+		2. Will allow Dockerfile development for our planned use-case.
+		3. Avoids the assumptions of `rook` and `cephadm`.
+		4. This will require a lot more effort.
+2. <span style="color:green"><b>Selected Deployment Option:</b></span>
+	1. We will use a manual deployment to aid in the development of a `Dockerfile` with our approved base images to avoid pulling in any questionable practices (like root user ssh connections).
+	2. Our planned use-case will deploy container-based ceph nodes to Rock64/Raspberry PI OSD nodes.
+	5. We will consider `rook` later for integration of the cluster with Kubernetes when we begin building out ceph services on the Kubernetes cluster for the `datacollectors` project.
+---
+## Initial Container Development
+1. Steps that should be in `Manifest.yml`:
+	1. Create `ceph` source code submodule: `git submodule add -f --name ceph git@github.com:ceph/ceph.git containers/services/ceph/src/ceph`
+	2. Update the submodule: 
+		1. `git submodule update --force --init --recursive --progress`
+		2. `(cd containers/services/ceph/src/ceph && git clean -fdx)`
+		3.  `git submodule foreach git clean -fdx`
+1. Checkout the version (v18.2.1) by tag
+2. The Dockerfile:
+	1. base image: `opsys/ubuntu:22.04` (can be overridden by ARG `BASE_UBUNTU_VERSION`)
+	2. 
+```Dockerfile
+ARG BASE_UBUNTU_VERSION=22.04  
+FROM opsys/ubuntu:${BASE_UBUNTU_VERSION}
+```
+2. Build this base: 
+```bash
+docker build --tag ceph:dev -f containers/services/ceph/Dockerfile .
+```
+4. Run the base image and manually walk through the instructions 
