@@ -22,7 +22,7 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --tag language/node:20.10.0 --file containers/language/node/20.10.0/Dockerfile .
+        docker build --compress --tag language/node:20.10.0 --file containers/language/node/20.10.0/Dockerfile .
 
 test:
   comment: "ToDo: Add tests for the container image"

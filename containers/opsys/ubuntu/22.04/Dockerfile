@@ -2,7 +2,9 @@ FROM ubuntu:22.04
 
 RUN apt-get update -y --fix-missing && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends ca-certificates apt-transport-https
+    apt-get install -y --no-install-recommends ca-certificates apt-transport-https && \
+    apt-get autoremove && \
+    apt-get clean
 
 WORKDIR /opt/
 

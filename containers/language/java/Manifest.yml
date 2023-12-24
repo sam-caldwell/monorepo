@@ -22,7 +22,7 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --tag language/java:21 --file containers/language/java/21/Dockerfile .
+        docker build --compress --tag language/java:21 --file containers/language/java/21/Dockerfile .
 
 test:
   comment: "ToDo: Add tests for the container image"
