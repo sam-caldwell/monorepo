@@ -22,7 +22,7 @@ create table if not exists teams
     -- --
     created     timestamp        not null default now(),
     -- descriptive text --
-    description text,
+    description text             null,
     -- --
     constraint validateTeamName check (validName(name)),
     -- --
