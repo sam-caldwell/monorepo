@@ -60,9 +60,7 @@ rust/**/target
 *.mpg
 *.mpeg
 *.avi
-*.tar
 *.cpio
-*.gz
 *.bz
 *.bzip
 *.bzip2
