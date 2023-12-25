@@ -1,0 +1,33 @@
+---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  publish: "public"
+  description: |
+    This project will build all of the ceph service containers.
+  opsys:
+    - any
+  arch:
+    - any
+clean:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: true
+      command: "docker rmi -f services/ceph-builder:18.2.1"
+build:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: false
+      command: |
+        git submodule update --force --init --recursive --progress
+        git submodule foreach --recursive git clean -fdx
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --tag services/ceph-builder:18.2.1 --file containers/services/ceph/Dockerfile .
+
+test:
+  comment: "ToDo: Add tests for the container image"
+  enabled: false
