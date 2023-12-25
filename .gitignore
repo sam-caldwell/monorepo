@@ -24,9 +24,6 @@ projects/fakeProject/
 # Snyk cache
 .dccache
 
-systems/iso/
-*.iso
-
 # Node/Typescript stuff
 node_modules/
 
@@ -63,7 +60,6 @@ rust/**/target
 *.cpio
 *.bz
 *.bzip
-*.bzip2
 *.gzip
 *.xz
 *.exe
