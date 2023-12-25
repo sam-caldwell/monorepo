@@ -1,3 +1,6 @@
 [submodule "boost"]
 	path = cpp/boost
 	url = git@github.com:boostorg/boost.git
+[submodule "ceph"]
+	path = cpp/ceph
+	url = git@github.com:ceph/ceph.git
