@@ -289,22 +289,20 @@
 	5. We will consider `rook` later for integration of the cluster with Kubernetes when we begin building out ceph services on the Kubernetes cluster for the `datacollectors` project.
 ---
 ## Initial Container Development
+#### Prerequisites
+1. We really need a c++ builder that has boost, etc. already installed to reduce the time required to build ceph.
+2. The `monorepo` command needs to build only projects which have changed if a "skip if unchanged" flag is set to true.  This will allow other projects to build/test and ensure forgotten dependencies are tested while allowing the minority of time-consuming projects to skip a rebuild (e.g. building and installing boost) with each change...
+
+#### Building Ceph from sources...
+
+
 1. Steps that should be in `Manifest.yml`:
 	1. Create `ceph` source code submodule: `git submodule add -f --name ceph git@github.com:ceph/ceph.git containers/services/ceph/src/ceph`
-	2. Update the submodule: 
-		1. `git submodule update --force --init --recursive --progress`
-		2. `(cd containers/services/ceph/src/ceph && git clean -fdx)`
-		3.  `git submodule foreach git clean -fdx`
-1. Checkout the version (v18.2.1) by tag
-2. The Dockerfile:
-	1. base image: `opsys/ubuntu:22.04` (can be overridden by ARG `BASE_UBUNTU_VERSION`)
-	2. 
-```Dockerfile
-ARG BASE_UBUNTU_VERSION=22.04  
-FROM opsys/ubuntu:${BASE_UBUNTU_VERSION}
 ```
 2. Build this base: 
 ```bash
-docker build --tag ceph:dev -f containers/services/ceph/Dockerfile .
+docker build --compress --tag ceph:dev -f containers/services/ceph/Dockerfile .
 ```
-4. Run the base image and manually walk through the instructions 
+4. Run the base image and manually walk through the instructions [ceph docs](https://docs.ceph.com/en/latest/install/clone-source/) and [building-ceph](https://github.com/ceph/ceph#building-ceph)
+5. Consider running `cmake -DDIAGNOSTICS_COLOR=always` to keep color coded logging.
+6. 
