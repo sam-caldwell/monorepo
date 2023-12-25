@@ -1,3 +1,0 @@
-[submodule "ceph"]
-	path = containers/services/ceph/src/ceph
-	url = git@github.com:ceph/ceph.git
