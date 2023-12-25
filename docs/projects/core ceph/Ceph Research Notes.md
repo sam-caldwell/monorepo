@@ -319,4 +319,23 @@ docker build --compress --tag ceph:dev -f containers/services/ceph/Dockerfile .
 ```
 4. Run the base image and manually walk through the instructions [ceph docs](https://docs.ceph.com/en/latest/install/clone-source/) and [building-ceph](https://github.com/ceph/ceph#building-ceph)
 5. Consider running `cmake -DDIAGNOSTICS_COLOR=always` to keep color coded logging.
-6. 
+
+
+current failure...
+```
+-- Installing: /opt/ceph-18.2.1/build/src/arrow/include/parquet/encryption/two_level_cache_with_expiration.h
+[42/2146] Building CXX object src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o
+FAILED: src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o 
+/usr/bin/g++-11 -DBOOST_ASIO_DISABLE_THREAD_KEYWORD_EXTENSION -DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -D_THREAD_SAFE -D__CEPH__ -D__STDC_FORMAT_MACROS -D__linux__ -I/opt/ceph-18.2.1/build/src/include -I/opt/ceph-18.2.1/src -isystem /opt/ceph-18.2.1/build/boost/include -isystem /opt/ceph-18.2.1/build/include -isystem /opt/ceph-18.2.1/src/xxHash -O2 -g -DNDEBUG -fPIC   -U_FORTIFY_SOURCE -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free -Wall -fno-strict-aliasing -fsigned-char -Wtype-limits -Wignored-qualifiers -Wpointer-arith -Werror=format-security -Winit-self -Wno-unknown-pragmas -Wnon-virtual-dtor -Wno-ignored-qualifiers -ftemplate-depth-1024 -Wpessimizing-move -Wredundant-move -Wstrict-null-sentinel -Woverloaded-virtual -fstack-protector-strong -fdiagnostics-color=auto -std=c++20 -MD -MT src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o -MF src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o.d -o src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o -c /opt/ceph-18.2.1/src/librados/snap_set_diff.cc
+In file included from /opt/ceph-18.2.1/src/common/config_values.h:59,
+                 from /opt/ceph-18.2.1/src/common/config.h:27,
+                 from /opt/ceph-18.2.1/src/common/config_proxy.h:6,
+                 from /opt/ceph-18.2.1/src/common/ceph_context.h:41,
+                 from /opt/ceph-18.2.1/src/librados/snap_set_diff.cc:7:
+/opt/ceph-18.2.1/src/common/options/legacy_config_opts.h:1:10: fatal error: global_legacy_options.h: No such file or directory
+    1 | #include "global_legacy_options.h"
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+ninja: build stopped: subcommand failed.
+
+```
