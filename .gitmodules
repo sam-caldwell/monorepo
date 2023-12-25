@@ -1,7 +1,8 @@
 [submodule "boost"]
 	path = cpp/boost
 	url = git@github.com:sam-caldwell/boost
+	branch = 1.82.0
 [submodule "ceph"]
 	path = cpp/ceph
 	url = git@github.com:sam-caldwell/ceph.git
-
+	branch = 18.2.1
