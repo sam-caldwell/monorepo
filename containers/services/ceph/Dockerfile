@@ -14,22 +14,24 @@ RUN apt-get update -y --fix-missing && \
 
 FROM base as ceph-builder
 ARG CEPH_VERSION
-RUN apt-get install -y build-essential git cmake nodejs python3-routes curl wget
+RUN apt-get install -y build-essential git cmake nodejs python3-routes curl wget openssl libssl-dev \
+                       jq libzstd-dev libre2-dev libre2-9 zlib1g-dev
 WORKDIR /opt/
-RUN wget https://download.ceph.com/tarballs/ceph_${CEPH_VERSION}.orig.tar.gz && \
-    tar -xvsf ceph_${CEPH_VERSION}.orig.tar.gz && \
-    mv ceph_${CEPH_VERSION} ceph
-WORKDIR /opt/ceph
-
-#RUN rm -rf .git
-#RUN ./install-deps.sh
-#RUN rm -rf build || true
-#RUN ./do_cmake.sh -Wno-dev \
-#                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-#                  -DENABLE_GIT_VERSION=OFF \
-#                  -DCEPH_GIT_VER=v18.2.1 \
-#                  -DCEPH_GIT_NICE_VER=production && \
-#    cd build && \
+COPY containers/services/ceph/ceph_${CEPH_VERSION}.orig.tar.gz /opt/
+RUN tar -xvzf ceph_${CEPH_VERSION}.orig.tar.gz
+RUN rm ceph_${CEPH_VERSION}.orig.tar.gz
+WORKDIR /opt/ceph-${CEPH_VERSION}
+RUN ./install-deps.sh
+# we should probably set CMAKE_CROSSCOMPILING=false
+RUN ./do_cmake.sh -Wno-dev \
+                  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                  -DENABLE_GIT_VERSION=OFF \
+                  -DCEPH_GIT_VER=${CEPH_VERSION} \
+                  -DCEPH_GIT_NICE_VER=production \
+                  -DCMAKE_CXX_STANDARD=11 \
+                  -DCMAKE_INSTALL_LIBDIR=/opt/ceph-${CEPH_VERSION}/build/ \
+                  -DHAVE_UNALIGNED_ACCESS=true
+#RUN cd build && \
 #    ninja
 
 

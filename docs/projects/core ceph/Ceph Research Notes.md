@@ -298,6 +298,20 @@
 
 1. Steps that should be in `Manifest.yml`:
 	1. Create `ceph` source code submodule: `git submodule add -f --name ceph git@github.com:ceph/ceph.git containers/services/ceph/src/ceph`
+	2. Update the submodule: 
+			```		
+```
+		1. `(cd containers/services/ceph/src/ceph && git checkout -b tags/v18.2.1)`
+		2. `git submodule update --force --init --recursive --progress --checkout 7fe91d5d5842e04be3b4f514d6dd990c54b29c76`
+		3.  `git submodule foreach --recursive git clean -fdx`
+		4. `git submodule set-branch containers/services/ceph/src/ceph`
+2. Checkout the version (v18.2.1) by tag
+3. The Dockerfile:
+	1. base image: `opsys/ubuntu:22.04` (can be overridden by ARG `BASE_UBUNTU_VERSION`)
+	2. 
+```Dockerfile
+ARG BASE_UBUNTU_VERSION=22.04  
+FROM opsys/ubuntu:${BASE_UBUNTU_VERSION}
 ```
 2. Build this base: 
 ```bash
