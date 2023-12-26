@@ -15,3 +15,15 @@
 [submodule "zstd"]
 	path = cpp/zstd
 	url = git@github.com:sam-caldwell/zstd.git
+[submodule "rocksdb"]
+	path = cpp/rocksdb
+	url = git@github.com:sam-caldwell/rocksdb.git
+[submodule "cpp/ceph-object-corpus"]
+	path = cpp/ceph-object-corpus
+	url = git@github.com:sam-caldwell/ceph-object-corpus.git
+[submodule "cpp/jerasure"]
+	path = cpp/jerasure
+	url = git@github.com:sam-caldwell/jerasure.git
+[submodule "cpp/gf-complete"]
+	path = cpp/gf-complete
+	url = git@github.com:sam-caldwell/gf-complete.git
