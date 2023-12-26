@@ -45,7 +45,7 @@ RUN rm -rf /opt/ceph-${CEPH_VERSION}
 
 FROM base AS ceph-artifacts
 WORKDIR /opt/
-COPY --from:ceph-builder=/opt/ceph-${CEPH_VERSION}/build/bin/* /usr/local/bin/
+COPY --from=ceph-builder /opt/ceph-${CEPH_VERSION}/build/bin/* /usr/local/bin/
 
 
 
