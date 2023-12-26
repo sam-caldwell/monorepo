@@ -6,11 +6,11 @@ header:
   description: |
     This project will build all of the ceph service containers.
   opsys:
-    - any
+    - linux
   arch:
-    - any
+    - amd64
 clean:
-  enabled: true
+  enabled: false
   steps:
     - enabled: true
       continueOnError: true
@@ -18,7 +18,7 @@ clean:
         docker rmi -f services/ceph-builder:18.2.1
         rm -f ${BUILD_ROOT}/ceph-builder.tar.gz
 build:
-  enabled: true
+  enabled: false
   steps:
     - enabled: true
       continueOnError: false

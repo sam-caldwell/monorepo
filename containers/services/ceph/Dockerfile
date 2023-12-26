@@ -8,12 +8,12 @@
 ARG CEPH_VERSION=18.2.1
 ARG BASE_UBUNTU_VERSION=22.04
 
-FROM opsys/ubuntu:${BASE_UBUNTU_VERSION} as base
+FROM opsys/ubuntu:${BASE_UBUNTU_VERSION} AS base
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y --fix-missing && \
     apt-get upgrade -y
 
-FROM base as ceph-builder
+FROM base AS ceph-builder
 ARG CEPH_VERSION
 RUN apt-get install -y build-essential git cmake nodejs python3-routes curl wget openssl libssl-dev \
                        jq libzstd-dev libre2-dev libre2-9 zlib1g-dev cryptsetup libthrift-dev ccache
@@ -33,14 +33,19 @@ RUN ./do_cmake.sh -Wno-dev \
                   -DCMAKE_INSTALL_LIBDIR=/opt/ceph-${CEPH_VERSION}/build/ \
                   -DHAVE_UNALIGNED_ACCESS=true \
                   -DWITH_CCACHE=ON \
-                  -DWITH_MANPAGE=OFF \
+                  -DWITH_MANPAGE=ON \
                   -DWITH_BABELTRACE=ON \
                   -DWITH_MGR_DASHBOARD_FRONTEND=ON \
                   -DWITH_RBD=ON \
                   -DWITH_KRBD=ON \
                   -DWITH_RADOSGW=ON
-RUN cd build && \
-    ninja
+RUN cd build && ninja
+WORKDIR /opt/
+RUN rm -rf /opt/ceph-${CEPH_VERSION}
+
+FROM base AS ceph-artifacts
+WORKDIR /opt/
+COPY --from:ceph-builder=/opt/ceph-${CEPH_VERSION}/build/bin/* /usr/local/bin/
 
 
 

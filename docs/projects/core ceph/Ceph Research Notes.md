@@ -8,6 +8,8 @@
 4. Hardware requirements are modest, and we can build a `Ceph` cluster across a fleet of heterogenous hardware--including Rock64, Raspberry PI and other devices.
 
 ---
+## References
+* [Installing Ceph on a Raspberry Pi 4 Cluster](https://ceph.io/en/news/blog/2022/install-ceph-in-a-raspberrypi-4-cluster/)
 ## Architectural Concepts...
 
 1. General Architecture and Storage Types: ![[Pasted image 20231224015840.png]]
@@ -294,48 +296,44 @@
 2. The `monorepo` command needs to build only projects which have changed if a "skip if unchanged" flag is set to true.  This will allow other projects to build/test and ensure forgotten dependencies are tested while allowing the minority of time-consuming projects to skip a rebuild (e.g. building and installing boost) with each change...
 
 #### Building Ceph from sources...
-
-
-1. Steps that should be in `Manifest.yml`:
-	1. Create `ceph` source code submodule: `git submodule add -f --name ceph git@github.com:ceph/ceph.git containers/services/ceph/src/ceph`
-	2. Update the submodule: 
-			```		
 ```
-		1. `(cd containers/services/ceph/src/ceph && git checkout -b tags/v18.2.1)`
-		2. `git submodule update --force --init --recursive --progress --checkout 7fe91d5d5842e04be3b4f514d6dd990c54b29c76`
-		3.  `git submodule foreach --recursive git clean -fdx`
-		4. `git submodule set-branch containers/services/ceph/src/ceph`
-2. Checkout the version (v18.2.1) by tag
-3. The Dockerfile:
-	1. base image: `opsys/ubuntu:22.04` (can be overridden by ARG `BASE_UBUNTU_VERSION`)
-	2. 
-```Dockerfile
+ARG CEPH_VERSION=18.2.1  
 ARG BASE_UBUNTU_VERSION=22.04  
-FROM opsys/ubuntu:${BASE_UBUNTU_VERSION}
+  
+FROM opsys/ubuntu:${BASE_UBUNTU_VERSION} as base  
+ENV DEBIAN_FRONTEND=noninteractive  
+RUN apt-get update -y --fix-missing && \  
+apt-get upgrade -y  
+  
+FROM base as ceph-builder  
+ARG CEPH_VERSION  
+RUN apt-get install -y build-essential git cmake nodejs python3-routes curl wget openssl libssl-dev \  
+jq libzstd-dev libre2-dev libre2-9 zlib1g-dev cryptsetup libthrift-dev ccache  
+WORKDIR /opt/  
+COPY containers/services/ceph/ceph_${CEPH_VERSION}.orig.tar.gz /opt/  
+RUN tar -xvzf ceph_${CEPH_VERSION}.orig.tar.gz  
+RUN rm ceph_${CEPH_VERSION}.orig.tar.gz  
+WORKDIR /opt/ceph-${CEPH_VERSION}  
+RUN ./install-deps.sh  
+# we should probably set CMAKE_CROSSCOMPILING=false  
+RUN ./do_cmake.sh -Wno-dev \  
+-DCMAKE_BUILD_TYPE=RelWithDebInfo \  
+-DENABLE_GIT_VERSION=OFF \  
+-DCEPH_GIT_VER=${CEPH_VERSION} \  
+-DCEPH_GIT_NICE_VER=production \  
+-DCMAKE_CXX_STANDARD=11 \  
+-DCMAKE_INSTALL_LIBDIR=/opt/ceph-${CEPH_VERSION}/build/ \  
+-DHAVE_UNALIGNED_ACCESS=true \  
+-DWITH_CCACHE=ON \  
+-DWITH_MANPAGE=OFF \  
+-DWITH_BABELTRACE=OFF \  
+-DWITH_MGR_DASHBOARD_FRONTEND=OFF \  
+-DWITH_RBD=ON \  
+-DWITH_KRBD=ON \  
+-DWITH_RADOSGW=ON  
+RUN cd build && ninja
 ```
-2. Build this base: 
-```bash
-docker build --compress --tag ceph:dev -f containers/services/ceph/Dockerfile .
-```
-4. Run the base image and manually walk through the instructions [ceph docs](https://docs.ceph.com/en/latest/install/clone-source/) and [building-ceph](https://github.com/ceph/ceph#building-ceph)
-5. Consider running `cmake -DDIAGNOSTICS_COLOR=always` to keep color coded logging.
-
-
-current failure...
-```
--- Installing: /opt/ceph-18.2.1/build/src/arrow/include/parquet/encryption/two_level_cache_with_expiration.h
-[42/2146] Building CXX object src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o
-FAILED: src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o 
-/usr/bin/g++-11 -DBOOST_ASIO_DISABLE_THREAD_KEYWORD_EXTENSION -DBOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -D_THREAD_SAFE -D__CEPH__ -D__STDC_FORMAT_MACROS -D__linux__ -I/opt/ceph-18.2.1/build/src/include -I/opt/ceph-18.2.1/src -isystem /opt/ceph-18.2.1/build/boost/include -isystem /opt/ceph-18.2.1/build/include -isystem /opt/ceph-18.2.1/src/xxHash -O2 -g -DNDEBUG -fPIC   -U_FORTIFY_SOURCE -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free -Wall -fno-strict-aliasing -fsigned-char -Wtype-limits -Wignored-qualifiers -Wpointer-arith -Werror=format-security -Winit-self -Wno-unknown-pragmas -Wnon-virtual-dtor -Wno-ignored-qualifiers -ftemplate-depth-1024 -Wpessimizing-move -Wredundant-move -Wstrict-null-sentinel -Woverloaded-virtual -fstack-protector-strong -fdiagnostics-color=auto -std=c++20 -MD -MT src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o -MF src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o.d -o src/CMakeFiles/rados_snap_set_diff_obj.dir/librados/snap_set_diff.cc.o -c /opt/ceph-18.2.1/src/librados/snap_set_diff.cc
-In file included from /opt/ceph-18.2.1/src/common/config_values.h:59,
-                 from /opt/ceph-18.2.1/src/common/config.h:27,
-                 from /opt/ceph-18.2.1/src/common/config_proxy.h:6,
-                 from /opt/ceph-18.2.1/src/common/ceph_context.h:41,
-                 from /opt/ceph-18.2.1/src/librados/snap_set_diff.cc:7:
-/opt/ceph-18.2.1/src/common/options/legacy_config_opts.h:1:10: fatal error: global_legacy_options.h: No such file or directory
-    1 | #include "global_legacy_options.h"
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-ninja: build stopped: subcommand failed.
-
-```
+NOTES:
+* We have a tarball in the monorepo using `git lfs` in addition to our submodule for `ceph` and `boost` in `monorepo/cpp/`.  Eventually it would be nice to merge the `ceph`, `boost` and other stuff into the monorepo properly.
+* We've disabled the `monorepo` manifest for the `services/ceph` project for now.
+* The build works on the `linux` laptop but not on my mac os, though both builds are in the containers.  Not sure why yet.
