@@ -15,7 +15,7 @@ RUN apt-get update -y --fix-missing && \
 FROM base as ceph-builder
 ARG CEPH_VERSION
 RUN apt-get install -y build-essential git cmake nodejs python3-routes curl wget openssl libssl-dev \
-                       jq libzstd-dev libre2-dev libre2-9 zlib1g-dev
+                       jq libzstd-dev libre2-dev libre2-9 zlib1g-dev cryptsetup libthrift-dev ccache
 WORKDIR /opt/
 COPY containers/services/ceph/ceph_${CEPH_VERSION}.orig.tar.gz /opt/
 RUN tar -xvzf ceph_${CEPH_VERSION}.orig.tar.gz
@@ -30,9 +30,16 @@ RUN ./do_cmake.sh -Wno-dev \
                   -DCEPH_GIT_NICE_VER=production \
                   -DCMAKE_CXX_STANDARD=11 \
                   -DCMAKE_INSTALL_LIBDIR=/opt/ceph-${CEPH_VERSION}/build/ \
-                  -DHAVE_UNALIGNED_ACCESS=true
-#RUN cd build && \
-#    ninja
+                  -DHAVE_UNALIGNED_ACCESS=true \
+                  -DWITH_CCACHE=ON \
+                  -DWITH_MANPAGE=OFF \
+                  -DWITH_BABELTRACE=ON \
+                  -DWITH_MGR_DASHBOARD_FRONTEND=ON \
+                  -DWITH_RBD=ON \
+                  -DWITH_KRBD=ON \
+                  -DWITH_RADOSGW=ON
+RUN cd build && \
+    ninja
 
 
 
