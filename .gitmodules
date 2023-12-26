@@ -6,3 +6,12 @@
 	path = cpp/ceph
 	url = git@github.com:sam-caldwell/ceph.git
 	branch = 18.2.1
+[submodule "postgresql"]
+	path = cpp/postgresql
+	url = git@github.com:sam-caldwell/postgres.git
+[submodule "kernel"]
+	path = cpp/linux
+	url = git@github.com:sam-caldwell/linux.git
+[submodule "zstd"]
+	path = cpp/zstd
+	url = git@github.com:sam-caldwell/zstd.git
