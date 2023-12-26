@@ -1,3 +1,8 @@
+---------------
+This license file applies to any directory of its subdirectories which do not have a conflicting license file.
+For example: in ./cpp/boost/LICENSE_1.0.txt, a project specific 'Boost Software License' is defined which applies
+to this project directory and its subdirectories.
+---------------
 MIT License
 (c) 2023 Sam Caldwell. MIT License.
 
