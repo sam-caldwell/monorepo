@@ -9,6 +9,7 @@ ARG CEPH_VERSION=18.2.1
 ARG BASE_UBUNTU_VERSION=22.04
 
 FROM opsys/ubuntu:${BASE_UBUNTU_VERSION} as base
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y --fix-missing && \
     apt-get upgrade -y
 
