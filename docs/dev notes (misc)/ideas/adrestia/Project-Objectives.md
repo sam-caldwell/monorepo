@@ -1,0 +1,4 @@
+* Develop a decentralized, highly available object store, written in Golang which can provide the storage backend for a wide variety of applications, including the [[Adrestia-GraphDb]] and an s3-compatible object storage solution capable of running limited-resource systems (e.g. Rock64, Raspberry PI, etc.)
+* Ensure the solution is easily cross platform, supporting MacOS, Linux and Windows transparently as well as both AMD64 and ARM64.
+* Maintain a zero-point-of-failure (ZPF) architecture with self-healing properties.
+* Implement block storage using cryptographic authentication, authorization and tamper-proofing strategies.
