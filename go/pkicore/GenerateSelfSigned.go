@@ -36,8 +36,10 @@ func GenerateSelfSigned(caCertFile, commonName, organization, organizationUnit,
 		BasicConstraintsValid: true,
 		IsCA:                  true,
 	}
+
 	certificateDer, err = x509.CreateCertificate(rand.Reader, caTemplate, caTemplate,
 		&caPrivateKey.PublicKey, caPrivateKey)
+
 	if err != nil {
 		log.Fatalf("Error creating certificate: %v", err)
 	}
@@ -46,11 +48,14 @@ func GenerateSelfSigned(caCertFile, commonName, organization, organizationUnit,
 	if err != nil {
 		log.Fatalf("error saving CA certificate to file: %v", err)
 	}
+
 	if err = pem.Encode(fh, &pem.Block{Type: "CERTIFICATE", Bytes: certificateDer}); err != nil {
 		log.Fatalf("error encoding cert: %v", err)
 	}
+
 	if err = fh.Close(); err != nil {
 		log.Fatalf("error closing file: %v", err)
 	}
+
 	return caPrivateKey, certificateDer
 }
