@@ -12,6 +12,7 @@
 [submodule "kernel"]
 	path = cpp/linux
 	url = git@github.com:sam-caldwell/linux.git
+	branch = sam
 [submodule "zstd"]
 	path = cpp/zstd
 	url = git@github.com:sam-caldwell/zstd.git
