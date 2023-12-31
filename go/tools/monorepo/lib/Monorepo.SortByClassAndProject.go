@@ -7,12 +7,11 @@ import (
 )
 
 // SortByClassAndProject - Sort all manifests by class and project names.
-func (m *Monorepo) SortByClassAndProject() {
+func (m *Monorepo) SortByClassAndProject(debug bool) {
 	if len(m.manifestList) < 2 {
 		return
 	}
-
-	ansi.Cyan().Println("starting sort...").LF().Reset()
+	ansi.Blue().Println("Sorting manifests alphabetically").Reset()
 	sort.Slice(m.manifestList, func(i, j int) bool {
 		a := m.manifestList[i]
 		b := m.manifestList[j]
