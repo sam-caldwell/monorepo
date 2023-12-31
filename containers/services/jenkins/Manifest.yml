@@ -9,6 +9,8 @@ header:
     - any
   arch:
     - any
+  dependencies:
+    - containers/language/java
 clean:
   enabled: false
   steps:

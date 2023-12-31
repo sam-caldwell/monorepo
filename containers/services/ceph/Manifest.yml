@@ -9,6 +9,8 @@ header:
     - linux
   arch:
     - amd64
+  dependencies:
+    - containers/opsys
 clean:
   enabled: false
   steps:

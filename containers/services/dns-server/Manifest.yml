@@ -9,6 +9,8 @@ header:
     - any
   arch:
     - any
+  dependencies:
+    - containers/opsys
 clean:
   enabled: true
   steps:
