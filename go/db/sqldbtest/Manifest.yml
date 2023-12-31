@@ -9,6 +9,9 @@ header:
     - any
   arch:
     - any
+  dependencies:
+    - go/ansi
+    - go/db/postgres
 clean:
   enabled: false
   comment: "reusable golang code projects don't require a clean/build stage"

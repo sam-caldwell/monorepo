@@ -9,6 +9,9 @@ header:
     - any
   arch:
     - any
+  dependencies:
+    - go/version
+    - go/ansi
 clean:
   enabled: true
   steps:

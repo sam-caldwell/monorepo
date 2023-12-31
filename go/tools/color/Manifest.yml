@@ -12,6 +12,8 @@ header:
     - windows
   arch:
     - amd64
+  dependencies:
+    - go/version
 clean:
   enabled: true
   steps:

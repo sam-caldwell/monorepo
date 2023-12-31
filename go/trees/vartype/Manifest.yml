@@ -7,10 +7,10 @@ header:
     This golang project provides a variable type
   opsys:
     - darwin
-
   arch:
     - amd64
-
+  dependencies:
+    - go/version
 clean:
   enabled: false
   comment: "reusable golang code projects don't require a clean/build stage"

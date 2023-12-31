@@ -9,6 +9,8 @@ header:
     - any
   arch:
     - any
+  dependencies:
+    - go/version
 clean:
   enabled: false
   comment: "reusable golang code projects don't require a clean/build stage"

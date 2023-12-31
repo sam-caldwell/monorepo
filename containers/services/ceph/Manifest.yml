@@ -10,6 +10,7 @@ header:
   arch:
     - amd64
   dependencies:
+    - go/version
     - containers/opsys
 clean:
   enabled: false

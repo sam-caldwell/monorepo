@@ -9,6 +9,8 @@ header:
     - darwin
   arch:
     - amd64
+  dependencies:
+    - go/ansi
 clean:
   enabled: false
   comment: "reusable golang code projects don't require a clean/build stage"
