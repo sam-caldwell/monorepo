@@ -10,6 +10,7 @@ header:
   arch:
     - any
   dependencies:
+    - go/version
     - go/ansi
     - go/db/postgres
 clean:

@@ -11,8 +11,9 @@ header:
   arch:
     - amd64
   dependencies:
-    - go/ansi
     - go/db/postgres
+    - go/ansi
+    - go/db/sqldbtest
     - containers/services/postgresql
 clean:
   enabled: true

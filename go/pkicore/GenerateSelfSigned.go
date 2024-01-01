@@ -13,8 +13,7 @@ import (
 	"time"
 )
 
-func GenerateSelfSigned(caCertFile, commonName, organization, organizationUnit,
-	location string) (caPrivateKey *ecdsa.PrivateKey, certificateDer []byte) {
+func GenerateSelfSigned(commonName, organization, organizationUnit, location string) (caPrivateKey *ecdsa.PrivateKey, certificateDer []byte) {
 
 	var err error
 	var fh *os.File

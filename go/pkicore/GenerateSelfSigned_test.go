@@ -27,7 +27,8 @@ func TestGenerateSelfSigned(t *testing.T) {
 	})
 
 	t.Run("Generate self-signed certificate and private key", func(t *testing.T) {
-		caPrivateKey, certificateDer = GenerateSelfSigned(caCertFile, commonName, organization, organizationUnit, location)
+		caPrivateKey, certificateDer = GenerateSelfSigned(caCertFile, commonName, organization,
+			organizationUnit, location)
 		if caPrivateKey == nil {
 			t.Fatalf("Expected non-nil caPrivateKey, but got nil")
 		}

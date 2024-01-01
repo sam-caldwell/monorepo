@@ -10,7 +10,6 @@ header:
   arch:
     - any
   dependencies:
-    - go/version
 clean:
   enabled: true
   steps:

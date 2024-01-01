@@ -10,7 +10,6 @@ header:
   arch:
     - any
   dependencies:
-    - go/version
     - containers/language/java
 clean:
   enabled: false

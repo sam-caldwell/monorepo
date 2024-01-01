@@ -7,7 +7,7 @@ header:
   opsys:
     - darwin
   arch:
-    - amd64
+    - arm64
 clean:
   enabled: false
 build:

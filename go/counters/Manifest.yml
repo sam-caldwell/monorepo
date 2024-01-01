@@ -11,7 +11,7 @@ header:
   arch:
     - amd64
   dependencies:
-    - go/ansi
+    - go/version
 clean:
   enabled: false
   comment: "reusable golang code projects don't require a clean/build stage"
