@@ -15,6 +15,9 @@ clean:
   steps:
     - enabled: true
       continueOnError: true
+      command: "docker rmi -f opsys/ubuntu:latest"
+    - enabled: true
+      continueOnError: true
       command: "docker rmi -f opsys/ubuntu:20.04"
     - enabled: true
       continueOnError: true
@@ -37,6 +40,10 @@ build:
       continueOnError: false
       command: |
         docker build --compress --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04//Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker tag opsys/ubuntu:23.04 opsys/ubuntu:latest
 test:
   comment: "ToDo: Add tests for the container images"
   enabled: false
