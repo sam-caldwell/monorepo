@@ -34,4 +34,13 @@ func (m *Monorepo) SortManifestsByDependencies(debug bool) {
 			ansi.Blue().Printf(" %d : %s", pos, row).LF().Reset()
 		}
 	}
+	var manifestList []Manifest
+	for _, project := range sortedList {
+		for _, original := range m.manifestList {
+			if m.projectShortName(original) == project {
+				manifestList = append(manifestList, original)
+			}
+		}
+	}
+	m.manifestList = manifestList
 }

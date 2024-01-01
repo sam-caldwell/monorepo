@@ -38,14 +38,14 @@ func main() {
 
 	ansi.Cyan().Printf("%d records loaded", Monorepo.ManifestCount()).LF().Reset()
 
+	Monorepo.SortManifestsByDependencies(*debug)
+
 	for _, command := range commands {
 		Monorepo.PrintHeader(convert.Capitalize(command))
 		switch strings.ToLower(strings.TrimSpace(command)) {
 		case "build":
-			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.Build()
 		case "clean":
-			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.Clean()
 		case "help":
 			ansi.Blue().LF().Println("Usage:").LF().
@@ -54,11 +54,9 @@ func main() {
 			flag.PrintDefaults()
 			ansi.LF().Reset()
 		case "list":
-			//Monorepo.SortByClassAndProject(debug)
-			Monorepo.SortManifestsByDependencies(*debug)
+			Monorepo.SortByClassAndProject(*debug)
 			err = Monorepo.List()
 		case "test":
-			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.Test()
 		default:
 			ansi.Red().
