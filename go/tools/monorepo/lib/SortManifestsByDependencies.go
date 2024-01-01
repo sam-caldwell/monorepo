@@ -17,20 +17,16 @@ func (m *Monorepo) SortManifestsByDependencies(debug bool) {
 				if (subDepName == projectName) || (depName == projectName) || list.Contains(sortedList, subDepName) {
 					continue
 				}
-				ansi.Yellow().Printf("Adding project %s dep %s subDep %s", projectName, depName, subDepName).
-					LF().Reset()
 				sortedList = append(sortedList, subDepName)
 			}
 			if (depName == projectName) || list.Contains(sortedList, depName) {
 				continue
 			}
-			ansi.Yellow().Printf("Adding project %s dep %s", projectName, depName).LF().Reset()
 			sortedList = append(sortedList, depName)
 		}
 		if list.Contains(sortedList, projectName) {
 			continue
 		}
-		ansi.Yellow().Printf("Adding project %s", projectName).LF().Reset()
 		sortedList = append(sortedList, projectName)
 	}
 	if debug {
@@ -39,13 +35,3 @@ func (m *Monorepo) SortManifestsByDependencies(debug bool) {
 		}
 	}
 }
-
-//
-//func itemInList(item string, list []string) bool {
-//	for _, i := range list {
-//		if item == i {
-//			return true
-//		}
-//	}
-//	return false
-//}
