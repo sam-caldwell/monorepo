@@ -20,35 +20,32 @@ import (
 )
 
 func main() {
-
 	var err error
-
 	rootPath := directory.GetCurrent()
 	if !directory.Exists(rootPath) {
 		ansi.Red().
 			Printf("This must be run from the root of the monorepo").
 			LF().Fatal(exit.GeneralError)
 	}
-
 	commands, debug := monorepo.GetArgs()
-
 	Monorepo := monorepo.Monorepo{
 		StartTime: time.Now(),
 		Debug:     *debug,
 		Root:      rootPath,
 	}
-
 	Monorepo.PrintHeader("Monorepo command")
 	Monorepo.LoadManifests()
+
 	ansi.Cyan().Printf("%d records loaded", Monorepo.ManifestCount()).LF().Reset()
-	Monorepo.SortByClassAndProject()
 
 	for _, command := range commands {
 		Monorepo.PrintHeader(convert.Capitalize(command))
 		switch strings.ToLower(strings.TrimSpace(command)) {
 		case "build":
+			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.Build()
 		case "clean":
+			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.Clean()
 		case "help":
 			ansi.Blue().LF().Println("Usage:").LF().
@@ -57,8 +54,11 @@ func main() {
 			flag.PrintDefaults()
 			ansi.LF().Reset()
 		case "list":
+			//Monorepo.SortByClassAndProject(debug)
+			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.List()
 		case "test":
+			Monorepo.SortManifestsByDependencies(*debug)
 			err = Monorepo.Test()
 		default:
 			ansi.Red().
