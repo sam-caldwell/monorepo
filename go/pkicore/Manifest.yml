@@ -1,0 +1,27 @@
+---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  publish: "public"
+  description: |
+    Public Key Infrastructure (PKI) core library provides functionality for creating, revoking and maintaining
+    certificates, keys and such.
+  opsys:
+    - darwin
+  arch:
+    - amd64
+  dependencies:
+    - go/version
+    - go/ansi
+clean:
+  enabled: false
+  comment: "reusable golang code projects don't require a clean/build stage"
+build:
+  enabled: false
+  comment: "reusable golang code projects don't require a clean/build stage"
+test:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: true
+      command: "go test -v -failfast ./go/pkicore/..."
