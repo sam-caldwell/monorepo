@@ -1,4 +1,4 @@
-## Why use `Ceph`?
+# Why Use `Ceph`?
 1. `Ceph` is a petabyte scale, flexible solution for providing--
 	1. S3-compatible `Ceph Object Storage`
 	2. Distributed Block Storage (similar to iSCSI-DRBD clusters of old)
@@ -8,9 +8,9 @@
 4. Hardware requirements are modest, and we can build a `Ceph` cluster across a fleet of heterogenous hardware--including Rock64, Raspberry PI and other devices.
 
 ---
-## References
+# References
 * [Installing Ceph on a Raspberry Pi 4 Cluster](https://ceph.io/en/news/blog/2022/install-ceph-in-a-raspberrypi-4-cluster/)
-## Architectural Concepts...
+# Architectural Concepts...
 
 1. General Architecture and Storage Types: ![[Pasted image 20231224015840.png]]
 2. `Ceph` deploys as a cluster of microservices (discussed later).
@@ -84,7 +84,7 @@
 		 2. RGW-->RADOS Gateway
 		 3. Requires one (1) at a minimum but three (3) are recommended for HA.
 ---
-## Hardware Requirements
+# Hardware Requirements
 * Generally `ceph` is intended to run on commodity hardware ranging from Raspberry Pi / Rock64 to top-line servers.
 * The cluster scales horizontally, making a thin layer of lighter hardware possible.
 * ***CPU Notes:***
@@ -162,9 +162,6 @@
 | | RAM | 2GB | 2GB | |
 | | Disks| ??? | ??? | |
 | | Network |1x1Gb/s | 1x1Gb/s |  |
-
-
-
 
  2. More about those three (3) storage methods...
 		1. `Ceph Object Storage`
@@ -259,13 +256,13 @@
 ---
 
 ---
-## Operating System Requirements
+# Operating System Requirements
 1. ubuntu 20.04 and 22.04 are well tested and well supported with Ceph Reef 18.2.xx
 2. `btrfs` is not supported on `centos 7`...but who wants `CentOS` given their recent issues with container support?
 3. `bluestore` is recommended over `btrfs`.
 4. Kernel >5.3 recommended for RBD and CRUSH tunables.
 ---
-## Deployment Options
+# Deployment Options
 1. Well supported options (assuming ceph `reef` version):
 	1. `cephadm` - a tool for deploying and managing a ceph cluster
 		1. Supported only on `Octopus` version or newer
@@ -290,12 +287,12 @@
 	2. Our planned use-case will deploy container-based ceph nodes to Rock64/Raspberry PI OSD nodes.
 	5. We will consider `rook` later for integration of the cluster with Kubernetes when we begin building out ceph services on the Kubernetes cluster for the `datacollectors` project.
 ---
-## Initial Container Development
-#### Prerequisites
+# Initial Container Development
+## Prerequisites
 1. We really need a c++ builder that has boost, etc. already installed to reduce the time required to build ceph.
 2. The `monorepo` command needs to build only projects which have changed if a "skip if unchanged" flag is set to true.  This will allow other projects to build/test and ensure forgotten dependencies are tested while allowing the minority of time-consuming projects to skip a rebuild (e.g. building and installing boost) with each change...
 
-#### Building Ceph from sources...
+## Building Ceph from Sources...
 ```
 ARG CEPH_VERSION=18.2.1  
 ARG BASE_UBUNTU_VERSION=22.04  
