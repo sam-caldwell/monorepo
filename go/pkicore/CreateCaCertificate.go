@@ -13,11 +13,11 @@ import (
 	"time"
 )
 
-// GenerateSelfSigned - Create a self-signed certificate CA.
-func GenerateSelfSigned(location string, validDays int) (caPrivateKeyPem []byte, caPEM []byte, err error) {
+// CreateCaCertificate - Create a self-signed certificate CA.
+func CreateCaCertificate(location string, validDays uint) (caPrivateKeyPem []byte, caPEM []byte, err error) {
 
 	const (
-		caKeySize        = 16384
+		caKeySize        = 4096
 		rootDomain       = "samcaldwell.net"
 		organization     = "pkicore"
 		organizationUnit = "certificateAuthorityRoot"
@@ -26,10 +26,6 @@ func GenerateSelfSigned(location string, validDays int) (caPrivateKeyPem []byte,
 	var caBytes []byte
 	var caPrivateKey *rsa.PrivateKey
 	var commonName = fmt.Sprintf("%s.%s", uuid.New().String(), rootDomain)
-
-	if validDays < 0 {
-		return nil, nil, fmt.Errorf("ttlDays must be greater than 0")
-	}
 
 	ca := &x509.Certificate{
 		SerialNumber: big.NewInt(time.Now().Unix()),
@@ -51,7 +47,7 @@ func GenerateSelfSigned(location string, validDays int) (caPrivateKeyPem []byte,
 
 	caBytes, err = x509.CreateCertificate(rand.Reader, ca, ca, &caPrivateKey.PublicKey, caPrivateKey)
 	if err != nil {
-		return caPrivateKey, caBytes, err
+		return nil, nil, err
 	}
 
 	caPemBuffer := new(bytes.Buffer)
