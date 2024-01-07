@@ -4,7 +4,7 @@
 * **Authentication and Authorization**
 	* The [[Adrestia-Daemon]] provides client-to-server authentication and authorization using certificates issued by the cluster public-key infrastructure (PKI) service.
 	* A client is presumed to be authorized to access any object it has created or for which it possesses knowledge.  This assumption is made because all objects are encrypted, and the encryption keys must be shared for them to be readable by the client application.
-	* The [[Adrestia-Daemon]] receives its authentication/authorization PKI certificates by submitting an "Adoption Request" to [[Adrestia-PKI]].  
+	* The [[Adrestia-Daemon]] receives its authentication/authorization PKI certificates by submitting an "Adoption Request" to [[docs/dev notes (misc)/ideas/adrestia/Adrestia-PKI Service/Requirements]].  
 		* This "Adoption Request" comes in the form of a certificate-signing request (CSR).
 		* When the request is approved, the PKI service will sign the CSR and return the signed certificate.
 		* The [[Adrestia-Daemon]] will use the signed certificate for all subsequent communications with the cluster.
