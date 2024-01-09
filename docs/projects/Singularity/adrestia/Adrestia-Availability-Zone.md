@@ -14,7 +14,7 @@
 		* [[Adrestia-Edge]] nodes which provide front-end authentication, routing, and exposed API endpoints for the Availability Zone.
 		* [[Adrestia-Meta]] nodes which provide metadata search and storage functionality for the Availability Zone.
 		* [[Adrestia-Data]] nodes which provide object storage, replication and re-balancing services for the Availability Zone.
-		* [[docs/dev notes (misc)/ideas/adrestia/Adrestia-PKI Service/Requirements]] nodes which provide public-key cryptography services for the Availability Zone and cluster.
+		* [[docs/projects/Singularity/adrestia/Adrestia-PKI Service/README]] nodes which provide public-key cryptography services for the Availability Zone and cluster.
 * **Capacity versus Redundancy**
 	* The Availability Zone provides no data redundancy
 	* Each [[Adrestia-Meta]] and [[Adrestia-Data]] node stores a unique set of data entities.
@@ -38,11 +38,11 @@
 			* Allowing the leader to poll members reduces the network traffic required to health check the cluster.
 	* Data Redundancy and Replication
 		* There are three (3) node types that require data replication:
-			* [[docs/dev notes (misc)/ideas/adrestia/Adrestia-PKI Service/Requirements]] nodes - store/maintain encryption keys.
+			* [[docs/projects/Singularity/adrestia/Adrestia-PKI Service/README]] nodes - store/maintain encryption keys.
 			* [[Adrestia-Meta]] nodes - store/maintain key-value metadata records.
 			* [[Adrestia-Data]] nodes - store/maintain user data objects.
 		* Each node type has different minimum requirements:
-			* [[docs/dev notes (misc)/ideas/adrestia/Adrestia-PKI Service/Requirements]] 
+			* [[docs/projects/Singularity/adrestia/Adrestia-PKI Service/README]] 
 				* Must have at least one (1) instance per AZ.
 				* If PKI instance is not available, the cluster cannot create/sign new certificates or revoke existing certificates.
 				* Data objects and metadata are still available for read/write operations.
@@ -58,7 +58,7 @@
 				* Adding more data object service nodes per AZ will increase the total storage capacity and load capacity of the cluster.
 				* Data object service nodes must be added to the cluster in cryptographically paired nodes across the AZs.  For example, given three AZs, the data object service must be scaled three nodes at a time to maintain a balanced replication.
 		* **Joining the Cluster:** When a replicating node is added to the cluster--
-			* The node must be adopted by the [[docs/dev notes (misc)/ideas/adrestia/Adrestia-PKI Service/Requirements]] instance.
+			* The node must be adopted by the [[docs/projects/Singularity/adrestia/Adrestia-PKI Service/README]] instance.
 				* This will result in the node receiving its signed certificate pairs and the cluster CA/ICA certificates.
 				* At this point, the node will be added to the ClusterMap.
 				* The edge nodes will learn about the node from this ClusterMap registration.
