@@ -1,7 +1,6 @@
 package nettools
 
 import (
-	"github.com/sam-caldwell/monorepo/go/misc"
 	"net"
 )
 
@@ -15,12 +14,4 @@ func GetNetworkAddress(cidr string) (string, error) {
 	// Get the network address from the parsed CIDR
 	networkAddr := ip.Mask(ipnet.Mask).String()
 	return networkAddr, nil
-}
-
-func GetNetworkAddressTrimmed(cidr string) (string, error) {
-	addr, err := GetNetworkAddress(cidr)
-	if err != nil {
-		return "", err
-	}
-	return misc.TrimAllSuffix(addr, ".0"), nil
 }
