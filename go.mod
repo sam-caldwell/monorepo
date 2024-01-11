@@ -1,16 +1,15 @@
 module github.com/sam-caldwell/monorepo
 
-go 1.21.0
+go 1.21.5
 
 replace github.com/sam-caldwell/monorepo => ./
 
 require (
-	github.com/aws/aws-sdk-go v1.49.10
 	github.com/go-git/go-git/v5 v5.11.0
-	github.com/google/uuid v1.3.1
+	github.com/google/uuid v1.5.0
 	github.com/lib/pq v1.10.9
-	github.com/spf13/cobra v1.7.0
-	golang.org/x/sys v0.15.0
+	github.com/spf13/cobra v1.8.0
+	golang.org/x/sys v0.16.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -27,7 +26,6 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
