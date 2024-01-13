@@ -16,14 +16,17 @@ clean:
   steps:
     - enabled: true
       continueOnError: true
-      command: "docker rmi -f services/postgresql:latest"
+      command: |
+        kubectl delete deployment postgres-deployment
+        docker rmi -f services/postgresql:latest
 build:
   enabled: true
   steps:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
+        eval $(minikube -p minikube docker-env)
+        docker build --compress --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
 test:
   comment: "ToDo: Add tests for the container image"
   enabled: false

@@ -65,3 +65,5 @@ rust/**/target
 *.exe
 *.bin
 *.o
+
+logs.txt

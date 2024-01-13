@@ -17,23 +17,23 @@ clean:
     - enabled: true
       continueOnError: true
       command: |
-        docker rmi -f services/ceph-builder:18.2.1
+        minikube image rm -f services/ceph-builder:18.2.1
         rm -f ${BUILD_ROOT}/ceph-builder.tar.gz
 build:
   enabled: false
   steps:
-    - enabled: true
+    - enabled: false
       continueOnError: false
       command: |
         git submodule update --force --init --recursive --progress
         git submodule foreach --recursive git clean -fdx
-    - enabled: true
+    - enabled: false
       continueOnError: false
       command: |
-        docker build --compress --tag services/ceph-builder:18.2.1 --file containers/services/ceph/Dockerfile .
-        #docker save -o ${BUILD_ROOT}/ceph-builder.tar ceph-builder:18.2.1
-        #tar -cvzf ${BUILD_ROOT}/ceph-builder.tar.gz ${BUILD_ROOT}/ceph-builder.tar
-        #rm ${BUILD_ROOT}/ceph-builder.tar
+        minikube image build --compress --tag services/ceph-builder:18.2.1 --file containers/services/ceph/Dockerfile .
+        # docker save -o ${BUILD_ROOT}/ceph-builder.tar ceph-builder:18.2.1
+        # tar -cvzf ${BUILD_ROOT}/ceph-builder.tar.gz ${BUILD_ROOT}/ceph-builder.tar
+        # rm ${BUILD_ROOT}/ceph-builder.tar
 
 test:
   comment: "ToDo: Add tests for the container image"

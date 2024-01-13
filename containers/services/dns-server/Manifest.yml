@@ -23,7 +23,7 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --tag services/dns-server:latest --file containers/services/dns-server/Dockerfile .
+        docker build --compress --tag services/dns-server:latest --file containers/services/dns-server/Dockerfile .
 test:
   comment: "ToDo: Add tests for the container image"
   enabled: false

@@ -23,29 +23,7 @@ clean:
       showOutput: false
       runAsShell: true
       command: |
-        docker kill postgresql
-
-    - enabled: true
-      continueOnError: true
-      showOutput: false
-      environment:
-        - key: listen
-          value: 0.0.0.0
-        - key: db_port
-          value: 5432
-        - key: volume
-          value: ./databases/sql
-      runAsShell: true
-      command: |
-        docker run -d --rm --name postgresql -p ${listen}:${db_port}:${db_port} -v ${volume}:/opt/ services/postgresql
-        sleep 5
-
-    - enabled: true
-      continueOnError: true
-      showOutput: false
-      runAsShell: false
-      command: |
-        docker exec -it postgresql /bin/bash -c "echo 'drop database tracker;' | /usr/bin/psql"
+        kubectl delete deployment my-deployment
 
 build:
   enabled: true
@@ -70,7 +48,7 @@ build:
           value: ./databases/sql
       runAsShell: true
       command: |
-        docker run -d --rm --name postgresql -p ${listen}:${db_port}:${db_port} -v ${volume}:/opt/ services/postgresql
+        kubectl apply -f go/minikube/postgresql-deployment.yaml
         sleep 5
 
     - enabled: true
@@ -99,20 +77,6 @@ test:
 
     - enabled: true
       continueOnError: true
-      showOutput: false
-      runAsShell: true
-      command: |
-        docker kill postgresql
-
-    - enabled: true
-      continueOnError: true
-      showOutput: false
-      runAsShell: true
-      command: |
-        docker kill postgresql
-
-    - enabled: true
-      continueOnError: true
       showOutput: true
       environment:
         - key: listen
@@ -123,7 +87,7 @@ test:
           value: ./databases/sql
       runAsShell: true
       command: |
-        docker run -d --rm --name postgresql -p ${listen}:${db_port}:${db_port} -v ${volume}:/opt/ services/postgresql
+        kubectl apply -f go/minikube/postgresql-deployment.yaml
         sleep 5
 
     - enabled: true

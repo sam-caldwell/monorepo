@@ -31,14 +31,17 @@ build:
     - enabled: true
       continueOnError: false
       command: |
+        eval $(minikube -p minikube docker-env)
         docker build --compress --tag opsys/ubuntu:20.04 --file containers/opsys/ubuntu/20.04/Dockerfile .
     - enabled: true
       continueOnError: false
       command: |
+        eval $(minikube -p minikube docker-env)
         docker build --compress --tag opsys/ubuntu:22.04 --file containers/opsys/ubuntu/22.04/Dockerfile .
     - enabled: true
       continueOnError: false
       command: |
+        eval $(minikube -p minikube docker-env)
         docker build --compress --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04//Dockerfile .
     - enabled: true
       continueOnError: false

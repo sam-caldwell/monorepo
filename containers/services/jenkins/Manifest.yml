@@ -23,7 +23,7 @@ build:
     - enabled: false
       continueOnError: false
       command: |
-        docker build --tag services/jenkins:latest --file containers/services/jenkins/Dockerfile .
+        docker build --compress --tag services/jenkins:latest --file containers/services/jenkins/Dockerfile .
 test:
   comment: "ToDo: Add tests for the container image"
   enabled: false
