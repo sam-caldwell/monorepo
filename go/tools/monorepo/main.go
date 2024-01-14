@@ -14,10 +14,26 @@ import (
 	"github.com/sam-caldwell/monorepo/go/convert"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/fs/directory"
+	"github.com/sam-caldwell/monorepo/go/minikube"
 	monorepo "github.com/sam-caldwell/monorepo/go/tools/monorepo/lib"
 	"strings"
 	"time"
 )
+
+const helpText = `
+    command: build, clean, list, test, init, teardown
+
+        build - compile or otherwise build the project artifacts
+
+        clean - clean any artifacts or state
+
+        init - initialize the environment (e.g. start minikube)
+
+        teardown - destroy the environment (e.g. stop minikube)
+
+        test - build and run tests for all projects.
+
+`
 
 func main() {
 	var err error
@@ -43,13 +59,17 @@ func main() {
 	for _, command := range commands {
 		Monorepo.PrintHeader(convert.Capitalize(command))
 		switch strings.ToLower(strings.TrimSpace(command)) {
+		case "init":
+			minikube.Start()
+		case "teardown":
+			defer minikube.Stop()
 		case "build":
 			err = Monorepo.Build()
 		case "clean":
 			err = Monorepo.Clean()
 		case "help":
 			ansi.Blue().LF().Println("Usage:").LF().
-				Println("Command (build, clean,list,test)").LF().
+				Println("Command (build, clean,list,test,init,teardown)").LF().
 				Println("Options:").LF()
 			flag.PrintDefaults()
 			ansi.LF().Reset()
