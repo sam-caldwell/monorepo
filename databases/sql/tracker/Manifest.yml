@@ -23,7 +23,7 @@ clean:
       showOutput: false
       runAsShell: true
       command: |
-        kubectl delete deployment my-deployment
+        kubectl delete deployment postgres-deployment
 
 build:
   enabled: true
@@ -49,6 +49,7 @@ build:
       runAsShell: true
       command: |
         kubectl apply -f go/minikube/postgresql-deployment.yaml
+
         sleep 5
 
     - enabled: true
@@ -57,7 +58,7 @@ build:
       runAsShell: false
       environment:
         - key: db_host
-          value: 192.168.3.190
+          value: 127.0.0.1
         - key: db_port
           value: 5432
         - key: db_name
@@ -96,7 +97,7 @@ test:
       runAsShell: false
       environment:
         - key: db_host
-          value: 192.168.3.190
+          value: 127.0.0.1
         - key: db_port
           value: 5432
         - key: db_name
@@ -116,7 +117,7 @@ test:
       runAsShell: false
       environment:
         - key: db_host
-          value: 192.168.3.190
+          value: 127.0.0.1
         - key: db_port
           value: 5432
         - key: db_name

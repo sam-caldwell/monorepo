@@ -9,7 +9,7 @@ import (
 // Stop - stop the minikube service.
 func Stop() {
 	ansi.Cyan().Println("Stopping minikube").Reset()
-	cmd := exec.Command("minikube", "stop")
+	cmd := exec.Command("minikube", "delete", "--all")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

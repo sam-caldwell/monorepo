@@ -25,7 +25,6 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        eval $(minikube -p minikube docker-env)
         docker build --compress --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
 test:
   comment: "ToDo: Add tests for the container image"

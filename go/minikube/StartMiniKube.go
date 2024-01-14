@@ -1,3 +1,5 @@
+//go:build darwin || windows
+
 package minikube
 
 import (
@@ -9,7 +11,7 @@ import (
 // Start - Start the minikube service
 func Start() {
 	ansi.Cyan().Println("Starting minikube").Reset()
-	cmd := exec.Command("minikube", "start")
+	cmd := exec.Command("minikube", "start", "--driver=docker")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

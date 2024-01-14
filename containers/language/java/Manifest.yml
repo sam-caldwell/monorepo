@@ -24,7 +24,6 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        eval $(minikube -p minikube docker-env)
         docker build --compress --tag language/java:21 --file containers/language/java/21/Dockerfile .
 
 test:

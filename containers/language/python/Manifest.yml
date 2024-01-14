@@ -24,7 +24,6 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        eval $(minikube -p minikube docker-env)
         docker build --compress --tag language/python:3 --file containers/language/python/3/Dockerfile .
 
 test:
