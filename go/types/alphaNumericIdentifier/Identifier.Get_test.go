@@ -1,13 +1,13 @@
-package vmname
+package alphaNumericIdentifier
 
 import (
 	"testing"
 )
 
-// TestVmName_Get - Test the VmName.Get() method
-func TestVmName_Get(t *testing.T) {
+// TestAlphaNumericIdentifier_Get - Test the Identifier.Get() method
+func TestAlphaNumericIdentifier_Get(t *testing.T) {
 	testFunc := func(nameValue string, expectedState string) {
-		name := VmName(nameValue)
+		name := Identifier(nameValue)
 
 		if actual := name.Get(); actual != expectedState {
 			t.Fatalf("invalid name should not be stored (got: %s) (expected:%s)", actual, expectedState)

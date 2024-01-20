@@ -1,14 +1,14 @@
-package vmname
+package alphaNumericIdentifier
 
 import (
 	"testing"
 )
 
-// TestVmName - verify the basic methods and structure of the VmName type
-func TestVmName(t *testing.T) {
+// TestAlphaNumericIdentifier - verify the basic methods and structure of the Identifier type
+func TestAlphaNumericIdentifier(t *testing.T) {
 	const initialState = "initial state"
-	var name VmName
-	name = VmName(initialState)
+	var name Identifier
+	name = Identifier(initialState)
 	if string(name) != initialState {
 		t.Fatal("failed to set initial state")
 	}
