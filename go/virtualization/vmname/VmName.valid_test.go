@@ -1,33 +1,27 @@
-package virtualization
+package vmname
 
 import (
 	"fmt"
-	"regexp"
 	"testing"
 )
 
-// TestVmName_Set - Test the VmName.Set() method
-func TestVmName_Set(t *testing.T) {
-	testFunc := func(index int, nameValue string, expectedError error) {
+func TestVmName_valid(t *testing.T) {
+
+	testFunc := func(index int, expected string, expectedError error) {
 		var name VmName
 
-		//If the Set() method doesn't return the expected error, fail like a banana republic election.
-		if err := name.Set(nameValue); (err != nil) && err.Error() != expectedError.Error() {
-			t.Fatalf("%d: name (%s) expected error (%v) mismatch (%v)", index, nameValue, expectedError, err)
+		if err := name.valid(&expected); (err != nil) && err.Error() != expectedError.Error() {
+			t.Fatalf("name (%s) expected error state (%v) mismatch (%v)", expected, err, expectedError)
 		}
-		//If the Set() method returns the expected error...
+
 		if expectedError == nil {
-			//If expectedError is nil (no expected error) we expect our name to be properly stored.
-			if string(name) != nameValue {
-				t.Fatalf("%d: value mismatch (expected %s, got %s)", index, nameValue, string(name))
+			if string(name) != "" {
+				t.Fatalf("we should not have set any value since no error was returned.")
 			}
-
 		} else {
-			pattern := regexp.MustCompile("^[a-zA-Z][a-zA-Z0-9]+$")
-			if !pattern.MatchString(string(name)) {
-				t.Fatalf("%d: default name (%s) failed expected pattern", index, name)
+			if string(name) != "" {
+				t.Fatalf("%d: given (%s) default name (%s) failed expected pattern", index, expected, name)
 			}
-
 		}
 	}
 	type TestData struct {
@@ -119,7 +113,7 @@ func TestVmName_Set(t *testing.T) {
 		{"9999vmName", fmt.Errorf(errInvalidName)},
 	}
 
-	for index, row := range testData {
-		testFunc(index, row.actual, row.err)
+	for n, row := range testData {
+		testFunc(n, row.actual, row.err)
 	}
 }

@@ -1,4 +1,4 @@
-package virtualization
+package vmname
 
 import (
 	"testing"
