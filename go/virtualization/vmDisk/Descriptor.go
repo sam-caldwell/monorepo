@@ -1,10 +1,13 @@
 package vmDisk
 
-import "github.com/sam-caldwell/monorepo/go/types/alphaNumericIdentifier"
+import (
+	"github.com/sam-caldwell/monorepo/go/types/alphaNumericIdentifier"
+	"github.com/sam-caldwell/monorepo/go/types/size"
+)
 
 type DiskDescriptor struct {
 	name alphaNumericIdentifier.Identifier
-	size uint //size in MB
+	size size.Memory
 	//ToDo: Add other things...?
 }
 
@@ -13,14 +16,14 @@ func (disk *DiskDescriptor) GetName() string {
 }
 
 func (disk *DiskDescriptor) GetSize() uint {
-	return disk.size
+	return uint(disk.size)
 }
 
 func (disk *DiskDescriptor) Name(n string) error {
 	return disk.name.Set(n)
 }
 
-func (disk *DiskDescriptor) Size(sz uint) error {
+func (disk *DiskDescriptor) Size(sz size.Memory) error {
 	disk.size = sz
 	return nil
 }

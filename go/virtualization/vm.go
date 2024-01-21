@@ -4,6 +4,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"github.com/sam-caldwell/monorepo/go/types/alphaNumericIdentifier"
 	"github.com/sam-caldwell/monorepo/go/types/errorQueue"
+	"github.com/sam-caldwell/monorepo/go/types/size"
 	"github.com/sam-caldwell/monorepo/go/virtualization/vmDisk"
 	"github.com/sam-caldwell/monorepo/go/virtualization/vmNet"
 )
@@ -14,7 +15,7 @@ type VM struct {
 	image             file.File                         // file and path to the resulting image.
 	iso               file.File                         // file and path to the input ISO image.
 	cpuCount          uint                              // number CPU cores.
-	ram               uint                              // RAM in MB
+	ram               size.Memory
 	disks             []vmDisk.DiskDescriptor
 	networkInterfaces []vmNet.NetworkInterfaceDescriptor
 	errors            errorQueue.ErrorQueue

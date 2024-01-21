@@ -1,6 +1,9 @@
 package virtualization
 
-import "testing"
+import (
+	"github.com/sam-caldwell/monorepo/go/types/size"
+	"testing"
+)
 
 func TestVM_Disk(t *testing.T) {
 	var vm VM
@@ -10,8 +13,8 @@ func TestVM_Disk(t *testing.T) {
 	if vm.errors.Size() != 0 {
 		t.Fatal("expected zero reported errors initially")
 	}
-	vm.Disk("disk0", 10).
-		Disk("disk1", 20)
+	vm.Disk("disk0", 10*size.MB).
+		Disk("disk1", 20*size.GB)
 	if vm.errors.Size() != 0 {
 		t.Fatal("expected zero reported errors after adding disks")
 	}
