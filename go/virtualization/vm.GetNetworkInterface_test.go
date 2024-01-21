@@ -12,9 +12,9 @@ func TestVM_GetNetworkInterface(t *testing.T) {
 	}
 	networkInterfaces := make([]vmNet.NetworkInterfaceDescriptor, 2)
 	_ = networkInterfaces[0].Name("eth0")
-	_ = networkInterfaces[0].Size(vmNet.Bridge)
+	_ = networkInterfaces[0].Type(vmNet.Bridge)
 	_ = networkInterfaces[1].Name("eth1")
-	_ = networkInterfaces[1].Size(vmNet.NAT)
+	_ = networkInterfaces[1].Type(vmNet.NAT)
 	vm.networkInterfaces = networkInterfaces
 
 	if d := vm.GetNetworkInterface(0); (d.GetName() != "eth0") && (d.GetType() != vmNet.Bridge) {
