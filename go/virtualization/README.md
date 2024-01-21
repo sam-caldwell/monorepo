@@ -10,12 +10,12 @@ system provides a native virtualization solution.
 vm:=NewVm().
 	Name("myVM").
 	Iso("~/iso/ubuntu.iso").
-	Cpus(4).
+	Cpu(4).
 	Ram(1024).
 	Disk(0, "opsysRoot",64).
 	Disk(1, "swap",1).
-	NetIface(0,"eth0",NetworkBridge).
-	NetIface(1,"eth1",NetworkNat).
+    NetworkInterface(0,"eth0",NetworkBridge).
+    NetworkInterface(1,"eth1",NetworkNat).
 	FailOnError().
 	Create().
 	Start().
