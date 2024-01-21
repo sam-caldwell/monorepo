@@ -3,7 +3,7 @@ package diskFormat
 type DiskFormat uint
 
 const (
-	Undefined = iota
+	Undefined DiskFormat = iota
 	Ext4
 	Swap
 )

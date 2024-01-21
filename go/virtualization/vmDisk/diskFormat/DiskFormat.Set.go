@@ -2,6 +2,7 @@ package diskFormat
 
 import "fmt"
 
+// Set - Set the DiskFormat from a string
 func (format *DiskFormat) Set(f string) error {
 	switch f {
 	case "ext4":
