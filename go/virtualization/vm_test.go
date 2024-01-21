@@ -9,7 +9,6 @@ import (
 func TestVm(t *testing.T) {
 
 	t.Run("Setup the vm object only", func(t *testing.T) {
-
 		vm := NewVm().
 			Name("myTestVm").
 			Cpu(2).
@@ -18,16 +17,15 @@ func TestVm(t *testing.T) {
 			Iso("{{home}}/iso/ubuntu.iso").
 			Disk("opsysRoot", 10*size.GB, diskFormat.Ext4).
 			Disk("swap", 1*size.GB, diskFormat.Swap)
-
 		errors := vm.GetErrors()
-
 		for n, err := range errors {
 			t.Errorf("error[%d]: %v", n, err)
 		}
-
 		if len(errors) != 0 {
 			t.Fatal("has errors")
 		}
-
 	})
+	//ToDo: Add Create test
+	//ToDo: Add Start/Stop test
+	//ToDo: Add Destroy test
 }
