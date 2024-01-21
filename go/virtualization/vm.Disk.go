@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/types/size"
 	"github.com/sam-caldwell/monorepo/go/virtualization/vmDisk"
+	"github.com/sam-caldwell/monorepo/go/virtualization/vmDisk/diskFormat"
 )
 
-func (vm *VM) Disk(name string, sz size.Memory) *VM {
+func (vm *VM) Disk(name string, sz size.Memory, format diskFormat.DiskFormat) *VM {
 	if vm.readOnly {
 		vm.errors.Push(fmt.Errorf("readonly violation (disk)"))
 	} else {
@@ -15,6 +16,9 @@ func (vm *VM) Disk(name string, sz size.Memory) *VM {
 			vm.errors.Push(err)
 		}
 		if err := disk.Size(sz * size.MB); err != nil {
+			vm.errors.Push(err)
+		}
+		if err := disk.Format(format); err != nil {
 			vm.errors.Push(err)
 		}
 		vm.disks = append(vm.disks, disk)
