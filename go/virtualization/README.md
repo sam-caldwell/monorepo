@@ -13,8 +13,8 @@ vm:=NewVm().
 	Iso("~/iso/ubuntu.iso").
 	Cpu(4).
 	Ram(1024).
-	Disk("opsysRoot",64).
-	Disk("swap",1).
+	Disk("opsysRoot",64*size.GB, diskFormat.Ext4).
+	Disk("swap",1*size.GB, diskFormat.Swap).
     NetworkInterface("eth0",NetworkBridge).
     NetworkInterface("eth1",NetworkNat).
 	FailOnError().

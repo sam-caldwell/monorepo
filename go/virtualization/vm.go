@@ -11,6 +11,7 @@ import (
 
 // VM - An object that represents a single virtual machine
 type VM struct {
+	readOnly          bool                              // indicate whether properties can change
 	name              alphaNumericIdentifier.Identifier // vm name.
 	image             file.File                         // file and path to the resulting image.
 	iso               file.File                         // file and path to the input ISO image.

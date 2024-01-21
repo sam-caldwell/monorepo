@@ -13,6 +13,7 @@ func NewVm() *VM {
 	_ = vm.name.Set(fmt.Sprintf("vmName%d", time.Now().UnixNano()))
 	vm.ram = 4 * size.GB
 	vm.cpuCount = 1
+	vm.readOnly = false
 
 	// Return the address of the new VM object
 	return &vm
