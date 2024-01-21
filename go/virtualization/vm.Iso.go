@@ -26,10 +26,9 @@ func (vm *VM) Iso(fileName string) *VM {
 
 		fileName = strings.Replace(fileName, "{{home}}", envHome, -1)
 
-		if err := vm.iso.SetWithExtension(fileName, []string{extensions.ISO}); err != nil {
+		if err := vm.iso.SetIfHasExtension(fileName, []string{extensions.ISO}); err != nil {
 			vm.errors.Push(err)
 		}
-
 	}
 
 	return vm
