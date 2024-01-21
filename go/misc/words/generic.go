@@ -14,6 +14,7 @@ const (
 	Space      = " "
 	Tab        = "\t"
 	Underscore = "_"
+	Undefined  = "undefined"
 )
 const (
 	Yes = "yes"
