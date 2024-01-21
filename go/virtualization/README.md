@@ -9,6 +9,7 @@ system provides a native virtualization solution.
 ```go 
 vm:=NewVm().
 	Name("myVM").
+    Image("~/vm_images/{{name}}").
 	Iso("~/iso/ubuntu.iso").
 	Cpu(4).
 	Ram(1024).
@@ -19,7 +20,6 @@ vm:=NewVm().
 	FailOnError().
 	Create().
 	Start().
-	Image("~/vm_images/{{name}}").
 	Stop().
 	Destroy()
 	
