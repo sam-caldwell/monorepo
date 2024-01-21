@@ -1,9 +1,9 @@
 package vmNet
 
-type NetworkInterfaceType uint
+type InterfaceType uint
 
 const (
-    Undefined = iota
+    Undefined InterfaceType = iota
     Bridge
     NAT
 )
