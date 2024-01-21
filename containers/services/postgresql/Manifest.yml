@@ -26,6 +26,7 @@ build:
       continueOnError: false
       command: |
         docker build --compress --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
+        kubectl apply -f go/minikube/postgresql-deployment.yaml
 test:
   comment: "ToDo: Add tests for the container image"
   enabled: false

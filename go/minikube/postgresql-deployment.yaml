@@ -3,29 +3,13 @@ kind: Service
 metadata:
   name: postgres-service
 spec:
-  ports:
-    - port: 5432
-      targetPort: 5432
   selector:
-    app: postgres
-  type: NodePort  # Change the service type to NodePort
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: postgres-ingress
-spec:
-  rules:
-    - host: postgres-ingress
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: postgres-service
-                port:
-                  number: 5432
+    app: postgres  # Update to match the labels in the deployment
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,7 +19,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgres  # Ensure this matches the labels used in the service selector
   template:
     metadata:
       labels:
@@ -44,5 +28,8 @@ spec:
       containers:
         - name: postgres-container
           image: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "admin"
           ports:
             - containerPort: 5432
