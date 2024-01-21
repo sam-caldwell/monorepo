@@ -7,11 +7,16 @@ func TestVM_GetIso(t *testing.T) {
 	if vm.iso != "" {
 		t.Fatal("expect vm.iso empty initially")
 	}
-	vm.iso = "testValue"
-	if vm.iso != "testValue" {
-		t.Fatal("expect vm.iso mismatch")
+	if sz := vm.errors.Size(); sz != 0 {
+		t.Fatal("error occurred initially")
 	}
-	if iso := vm.GetIso(); iso != "testValue" {
-		t.Fatal("expect VM.GetIso() mismatch")
+	if err := vm.iso.Set("testValue"); err != nil {
+		t.Fatal(err)
+	}
+	if sz := vm.errors.Size(); sz != 0 {
+		t.Fatal("error occurred when setting Iso")
+	}
+	if i := vm.GetIso(); i != "testValue" {
+		t.Fatalf("expect VM.GetIso() mismatch. Got '%s' state: '%s'", i, vm.iso.Get())
 	}
 }
