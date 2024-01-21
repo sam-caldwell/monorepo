@@ -12,10 +12,10 @@ vm:=NewVm().
 	Iso("~/iso/ubuntu.iso").
 	Cpu(4).
 	Ram(1024).
-	Disk(0, "opsysRoot",64).
-	Disk(1, "swap",1).
-    NetworkInterface(0,"eth0",NetworkBridge).
-    NetworkInterface(1,"eth1",NetworkNat).
+	Disk("opsysRoot",64).
+	Disk("swap",1).
+    NetworkInterface("eth0",NetworkBridge).
+    NetworkInterface("eth1",NetworkNat).
 	FailOnError().
 	Create().
 	Start().
