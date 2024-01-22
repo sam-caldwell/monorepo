@@ -4,6 +4,9 @@ virtualization/vmDarwin
 ## Description
 Create a CGO interface between our virtualization project and Apple's virtualization framework
 
+## Helpful Resources
+* [Code-Hex/vz/wiki](https://github.com/Code-Hex/vz/wiki)
+
 ## WARNING: You will need this.
 1. There is a `vz.entitlements.xml` file (granting both access to the virtualization api and network api.)
 
