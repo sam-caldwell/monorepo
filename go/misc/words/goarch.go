@@ -2,8 +2,10 @@ package words
 
 const (
 	Intel386 = "386"
+	Amd32    = "386"
 	Amd64    = "amd64"
 	Arm      = "arm"
+	Arm32    = "arm"
 	Arm64    = "arm64"
 	Loong64  = "loong64"
 	Mips     = "mips"
