@@ -4,11 +4,12 @@ import (
 	"fmt"
 	cs "github.com/knightsc/gapstone"
 	"github.com/sam-caldwell/monorepo/go/fs/file"
+	"github.com/sam-caldwell/monorepo/go/types"
 	"os"
 )
 
 // Disassemble - Given a source and output file, disassemble the source binary and write the assembly instructions.
-func Disassemble(sourceFile, outFile *os.File, method DisassemblerMethod, arch, mode int) (err error) {
+func Disassemble(sourceFile, outFile *os.File, method types.DisassemblerMethod, arch, mode int) (err error) {
 	//
 	// arch, mode should be something like cs.CS_ARCH_X86, cs.CS_MODE_64
 	//
@@ -36,9 +37,9 @@ func Disassemble(sourceFile, outFile *os.File, method DisassemblerMethod, arch, 
 	defer func() { _ = engine.Close() }()
 
 	switch method {
-	case linear:
+	case types.Linear:
 		disassembleFunc = linearDisassembly
-	case recursive:
+	case types.Recursive:
 		disassembleFunc = recursiveDisassembly
 	default:
 		return fmt.Errorf("invalid disassembly method. Please choose 'linear' or 'recursive'")

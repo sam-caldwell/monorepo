@@ -4,7 +4,7 @@ import (
 	cs "github.com/knightsc/gapstone"
 )
 
-// recursiveDisassembly performs recursive disassembly
+// recursiveDisassembly performs Recursive disassembly
 func recursiveDisassembly(binary []byte, arch int, mode int, entryPoint uint64) (result []cs.Instruction, err error) {
 
 	var engine cs.Engine

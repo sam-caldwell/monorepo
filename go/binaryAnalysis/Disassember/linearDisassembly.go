@@ -4,7 +4,7 @@ import (
 	cs "github.com/knightsc/gapstone"
 )
 
-// linearDisassembly performs linear disassembly
+// linearDisassembly performs Linear disassembly
 func linearDisassembly(binary []byte, arch int, mode int, entryPoint uint64) (result []cs.Instruction, err error) {
 
 	var engine cs.Engine
