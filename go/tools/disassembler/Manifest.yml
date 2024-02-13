@@ -1,0 +1,36 @@
+---
+header:
+  author: Sam Caldwell
+  email: mail@samcaldwell.net
+  publish: "public"
+  description: |
+    This Golang project provides a simple linear or recursive disassembler program.
+  opsys:
+    - darwin
+  arch:
+    - amd64
+  dependencies:
+    - go/version
+clean:
+  enabled: true
+  steps:
+    - continueOnError: false
+      command: |
+        rm -f ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME}
+
+build:
+  enabled: true
+  steps:
+    - continueOnError: false
+      command: |
+        go build -o ${BUILD_ROOT}/${BUILD_VERSION}/${BUILD_OS}/${BUILD_ARCH}/${PROJECT_NAME} ${MANIFEST_DIR}/main.go
+
+test:
+  enabled: true
+  steps:
+    - enabled: true
+      continueOnError: false
+      command: "go test -v -failfast ./go/binaryAnalysis/..."
+    - enabled: true
+      continueOnError: false
+      command: "go test -v -failfast ./go/tools/disassembler/..."
