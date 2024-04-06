@@ -14,12 +14,12 @@ const usage = `
 `
 
 func main() {
-
+	ansi.Blue().Println("Starting").Reset()
 	var args argument.Data
-
+	//var metadata executables.Headers
 	args.Parse(usage)
 
-	err := Disassember.Disassemble(args.SourceFile(), args.OutFile(), args.Method(), args.Arch(), args.Mode())
+	err := Disassember.Disassemble(args.Debug(), args.SourceFile(), args.OutFile(), args.Method(), args.Arch(), args.Mode())
 	if err != nil {
 		ansi.Red().Println(err.Error()).Reset().Fatal(exit.GeneralError)
 	}

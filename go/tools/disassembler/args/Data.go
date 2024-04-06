@@ -11,4 +11,5 @@ type Data struct {
 	method types.DisassemblerMethod
 	arch   int
 	mode   int
+	debug  bool
 }

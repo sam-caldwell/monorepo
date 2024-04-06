@@ -1,0 +1,179 @@
+jg	0x1047
+add	r8b, byte ptr [rcx]
+add	dword ptr [rax], eax
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	al, byte ptr [rax]
+add	byte ptr ds:[rcx], al
+add	byte ptr [rax], al
+add	byte ptr [rax + 0x24], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+enter	0x2aa1, 0
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], dil
+add	byte ptr [rsi], cl
+add	byte ptr [rax], al
+sub	eax, 0x6002c00
+add	byte ptr [rax], al
+add	byte ptr [rax + rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], dl
+add	eax, dword ptr [rax]
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], dl
+add	eax, dword ptr [rax]
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], cl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rbx], al
+add	byte ptr [rax], al
+add	byte ptr [rax + rax], al
+add	byte ptr [rax], al
+push	rax
+add	eax, dword ptr [rax]
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax + 3], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax + 3], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax + rax], bl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+sbb	al, 0
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	dword ptr [rax], eax
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	dword ptr [rax], eax
+add	byte ptr [rax], al
+add	al, 0
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+cmp	byte ptr [rsi], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+cmp	byte ptr [rsi], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	dword ptr [rax], eax
+add	byte ptr [rax], al
+add	eax, 0
+and	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+and	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], ah
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rcx + 0xc21], bl
+add	byte ptr [rax], al
+add	byte ptr [rcx + 0xc21], bl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+adc	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rcx], al
+add	byte ptr [rax], al
+add	byte ptr [rax + rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax + 0xc], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+push	rax
+add	byte ptr [rax], r8b
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+push	rax
+add	byte ptr [rax], r8b
+add	byte ptr [rax], al
+add	byte ptr [rdi + rsi + 0xe], cl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rdi + rsi + 0xe], cl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+adc	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rcx], al
+add	byte ptr [rax], al
+add	byte ptr [rsi], al
+add	byte ptr [rax], al
+add	al, bh
+lea	ebx, [rdx]
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	al, bh
+popfq	
+pop	rdx
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	al, bh
+popfq	
+pop	rdx
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax - 0x64], ch
+add	dword ptr [rax], eax
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+fdivr	dword ptr [rdi + 4]
+add	byte ptr [rax], al
+add	byte ptr [rax], dl
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	byte ptr [rax], al
+add	al, byte ptr [rax]
+add	byte ptr [rax], al
