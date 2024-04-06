@@ -24,7 +24,7 @@ RUN groupadd -g "${gid}" "${group}" \
     -g "${gid}" \
     -m "${user}"
 
-RUN apt clean && rm -rf /tmp/* /var/cache/* /var/lib/apt/lists/*
+RUN apt clean && rm -rf /tmp/* /var/cache/* /var/application/apt/lists/*
 
 ADD --chown="${user}":"${group}" "https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar" /usr/share/jenkins/agent.jar
 RUN chmod 0644 /usr/share/jenkins/agent.jar \
