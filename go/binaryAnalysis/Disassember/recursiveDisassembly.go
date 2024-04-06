@@ -2,12 +2,17 @@ package Disassember
 
 import (
 	cs "github.com/knightsc/gapstone"
+	"github.com/sam-caldwell/monorepo/go/ansi"
 )
 
 // recursiveDisassembly performs Recursive disassembly
-func recursiveDisassembly(binary []byte, arch int, mode int, entryPoint uint64) (result []cs.Instruction, err error) {
+func recursiveDisassembly(debug bool, binary []byte, arch int, mode int, entryPoint uint64) (result []cs.Instruction, err error) {
 
 	var engine cs.Engine
+
+	if debug {
+		ansi.Cyan().Println("using recursive disassembly").Reset()
+	}
 
 	engine, err = cs.New(arch, mode)
 	if err != nil {

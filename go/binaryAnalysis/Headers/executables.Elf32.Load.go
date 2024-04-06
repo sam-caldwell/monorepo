@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-// Load loads Elf64 header from the given file handle.
-func (elf *Elf64) Load(fh *os.File) error {
+// Load loads Elf32 header from the given file handle.
+func (elf *Elf32) Load(fh *os.File) error {
 	// Read the ELF identification field to verify it's an ELF file
 	var ident [16]byte
 	if _, err := fh.ReadAt(ident[:], 0); err != nil {
@@ -15,7 +15,7 @@ func (elf *Elf64) Load(fh *os.File) error {
 	}
 	// Verify ELF magic number
 	if ident[0] != 0x7f || ident[1] != 'E' || ident[2] != 'L' || ident[3] != 'F' || ident[4] != 2 {
-		return errors.New("not an ELF 64-bit binary")
+		return errors.New("not an ELF 32-bit binary")
 	}
 
 	// Reset the file position to the start of the file

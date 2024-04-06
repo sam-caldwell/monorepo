@@ -2,8 +2,8 @@ package executables
 
 // Elf64 - 64-bit executable binary format header structure
 type Elf64 struct {
-	eIdent     [16]byte // Magic number and other info
-	eType      uint16   // eType : Object file type
+	eIdent     [16]byte // e_ident : Magic number and other info
+	eType      uint16   // e_type : Object file type
 	eMachine   uint16   // e_machine : Architecture
 	eVersion   uint32   // e_version : Object file version
 	eEntry     uint64   // e_entry : Entry point virtual address
