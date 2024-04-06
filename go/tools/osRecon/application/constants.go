@@ -1,6 +1,6 @@
 package application
 
 const (
-	defaultEventQueueSz = 128
-	defaultQueryQueueSz = 128
+	defaultEventQueueSz uint16 = 128
+	defaultQueryQueueSz uint16 = 128
 )
