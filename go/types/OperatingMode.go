@@ -15,6 +15,20 @@ const (
 	Server
 )
 
+// FromFlags - Given client and server Boolean flags, verify and store operating mode.
+func (o *OperatingMode) FromFlags(client, server bool) error {
+	if client && server {
+		return fmt.Errorf("-client and -server cannot be specified at the same time")
+	}
+	if client {
+		*o = Client
+	}
+	if server {
+		*o = Server
+	}
+	return nil
+}
+
 // FromString - Convert string to operating mode
 func (o *OperatingMode) FromString(v string) error {
 	switch strings.ToLower(v) {
