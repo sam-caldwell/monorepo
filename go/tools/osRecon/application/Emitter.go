@@ -1,7 +1,13 @@
 package application
 
+// Emitter - Start the go routine which will emit messages to the server
 func (app *Application) Emitter() error {
-	// The Emitter will receive message structures from eventQueue
-	// Each eventQueue message will be sent over the network to the server.
+	//ToDo: initialize emitter stats
+	go func() {
+		//Loop indefinitely to poll the
+		for {
+
+		}
+	}()
 	return nil
 }

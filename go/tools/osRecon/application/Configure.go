@@ -16,8 +16,6 @@ func (app *Application) Configure() error {
 	bannerText := "(c) 2024 Sam Caldwell.  <mail@samcaldwell.net>"
 	programName := filepath.Base(os.Args[0])
 	// Process command-line args
-	// setup channel for collecting events from monitors (eventQueue)
-	// setup channel for receiving queries from the server (queryQueue)
 
 	argMode := simpleArgs.GetCommand(fmt.Sprintf(commandUsage, bannerText, programName))
 	argServerHost, err := simpleArgs.GetOptionValue("--host")
@@ -44,6 +42,26 @@ func (app *Application) Configure() error {
 			Fatal(exit.GeneralError).
 			Reset()
 	}
+	app.eventQueueSz, err = simpleArgs.GetOptionUint16Value("--eventQueueSz", false)
+	if err != nil {
+		ansi.Red().Printf("Parsing error (%s): %v", "--eventQueueSz", err).
+			LF().
+			Fatal(exit.GeneralError).
+			Reset()
+	}
+	app.queryQueueSz, err = simpleArgs.GetOptionUint16Value("--queryQueueSz", false)
+	if err != nil {
+		ansi.Red().Printf("Parsing error (%s): %v", "--queryQueueSz", err).
+			LF().
+			Fatal(exit.GeneralError).
+			Reset()
+	}
+	if app.queryQueueSz == 0 {
+		app.queryQueueSz = defaultQueryQueueSz
+	}
+	if app.eventQueueSz == 0 {
+		app.eventQueueSz = defaultEventQueueSz
+	}
 	var serverHost net.Fqdn
 	var serverPort net.PortNumber
 	var serverApiKey types.ApiKey
@@ -54,5 +72,9 @@ func (app *Application) Configure() error {
 	exit.TerminateOnError(serverApiKey.FromString(&argServerApiKey))
 	app.server = *server.New(serverHost, serverPort, serverApiKey)
 
+	// setup channel for collecting events from monitors (eventQueue)
+	app.eventQueue = make(chan types.Event, app.eventQueueSz)
+	// setup channel for receiving queries from the server (queryQueue)
+	app.queryQueue = make(chan types.ThreatQlQuery, app.queryQueueSz)
 	return nil
 }
