@@ -76,5 +76,6 @@ func (app *Application) Configure() error {
 	app.eventQueue = make(chan types.Event, app.eventQueueSz)
 	// setup channel for receiving queries from the server (queryQueue)
 	app.queryQueue = make(chan types.ThreatQlQuery, app.queryQueueSz)
+
 	return nil
 }
