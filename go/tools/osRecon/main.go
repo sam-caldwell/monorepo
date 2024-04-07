@@ -26,8 +26,7 @@ func main() {
 		exit.TerminateOnError(app.SysMon())
 		exit.TerminateOnError(app.Query())
 	case types.Server:
-		exit.TerminateOnError(app.Collector())
-		exit.TerminateOnError(app.QuerySender())
+		exit.TerminateOnError(app.Server())
 	default:
 		ansi.Red().Println("Error: Invalid Mode").Fatal(exit.GeneralError).Reset()
 	}
