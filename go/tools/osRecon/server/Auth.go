@@ -20,11 +20,3 @@ func (svr *Server) Auth(apiFunc HttpHandlerFunc) HttpHandlerFunc {
 		}
 	}
 }
-
-func (svr *Server) ApiV1CheckIn(w http.ResponseWriter, r *http.Request) {
-
-}
-
-func (svr *Server) ApiV1Collect(w http.ResponseWriter, r *http.Request) {
-
-}
