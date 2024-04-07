@@ -15,6 +15,9 @@ import (
 func (app *Application) Configure() error {
 	bannerText := "(c) 2024 Sam Caldwell.  <mail@samcaldwell.net>"
 	programName := filepath.Base(os.Args[0])
+
+	ansi.Green().Println("configuring application...")
+
 	// Process command-line args
 
 	argMode := simpleArgs.GetCommand(fmt.Sprintf(commandUsage, bannerText, programName))
@@ -56,11 +59,21 @@ func (app *Application) Configure() error {
 			Fatal(exit.GeneralError).
 			Reset()
 	}
+	app.queryQueuePollInterval, err = simpleArgs.GetOptionUint16Value("--queryQueuePollInterval", false)
+	if err != nil {
+		ansi.Red().Printf("Parsing error (%s): %v", "--queryQueuePollInterval", err).
+			LF().
+			Fatal(exit.GeneralError).
+			Reset()
+	}
 	if app.queryQueueSz == 0 {
 		app.queryQueueSz = defaultQueryQueueSz
 	}
 	if app.eventQueueSz == 0 {
 		app.eventQueueSz = defaultEventQueueSz
+	}
+	if app.queryQueuePollInterval == 0 {
+		app.queryQueuePollInterval = defaultQueryQueuePollInterval
 	}
 	var serverHost net.Fqdn
 	var serverPort net.PortNumber

@@ -19,6 +19,9 @@ type Application struct {
 	eventQueueSz uint16
 	queryQueueSz uint16
 
+	//How often do we poll the server for queries to run
+	queryQueuePollInterval uint16
+
 	//Server configuration
 	server server.Server
 }
