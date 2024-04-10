@@ -31,6 +31,7 @@ func main() {
 		ansi.Red().Println("Error: Invalid Mode").Fatal(exit.GeneralError).Reset()
 	}
 
+	// Blocking signal handler
 	exit.TerminateOnError(app.SignalHandler())
 
 	ansi.Green().Println("Terminating").Reset()
