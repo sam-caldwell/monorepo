@@ -13,3 +13,10 @@ func Sha512(input string) string {
 	hashString := hex.EncodeToString(hashInBytes)
 	return hashString
 }
+
+// Sha512Bytes - Return Sha512 hash of an input byte slice
+func Sha512Bytes(input []byte) []byte {
+	hash := sha512.New()
+	hash.Write(input)
+	return hash.Sum(nil)
+}
