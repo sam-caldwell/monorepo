@@ -2,13 +2,14 @@ package crypto
 
 import (
 	"bytes"
+	"github.com/sam-caldwell/monorepo/go/random"
 	"testing"
 )
 
 func TestEncryptWithPassphrase(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		passphrase, _ := GenerateRandomBytes(16)
-		plainText, _ := GenerateRandomBytes(4096)
+		passphrase, _ := random.GenerateRandomBytes(16)
+		plainText, _ := random.GenerateRandomBytes(4096)
 		cipherText, err := EncryptWithPassphrase(plainText, passphrase)
 		if err != nil {
 			t.Fatal(err)
