@@ -2,36 +2,47 @@ package secrets
 
 import (
 	"github.com/sam-caldwell/monorepo/go/crypto"
+	"github.com/sam-caldwell/monorepo/go/types/hashes"
 	"runtime"
 )
 
+const (
+	paddingA = 11
+	paddingB = 13
+	paddingC = 9
+	keySz    = hashes.Sha512Length * 2 // 64 bytes * 2char/byte = 128
+)
+
 // Password - stores a password in memory as an encrypted object.
-// it's not a perfect secrecy strategy but it makes it harder to dump secrets from memory
+// it's not a perfect secrecy strategy, but it makes it harder to dump secrets from memory
 type Password struct {
 	data []byte
-	key  []byte
 }
 
 // NewPassword - create and return a new password object which will keep the secret as a cipher in memory.
 // No, this is not perfectly secure.  But it makes it a lot harder to dump the secret.  After all, you don't
 // always have to beat the bear, ya just gotta run faster than everyone else running from the bear.
 func NewPassword(passphrase []byte, secret []byte) *Password {
-	p := Password{}
-	p.SetKey(passphrase)
+	var err error
+	var p Password
+
+	//Create a random field over which we will write our secrets...
+	p.data, err = crypto.GenerateRandomBytes(paddingA + keySz + paddingB + len(secret) + paddingC)
+	if err != nil {
+		panic(err)
+	}
+	keyStart := paddingA + keySz - 1
+	copy(p.data[keyStart:(keyStart+keySz)], crypto.Sha512Bytes(passphrase)[:])
 	p.SetBytes(secret)
 	return &p
 }
 
-// Clear - Overwrite memory and free it.
-func (p *Password) Clear() {
-	for i := 0; i < len(p.data); i++ {
+// Destroy - Overwrite memory and free it.
+func (p *Password) Destroy() {
+	for i := range p.data {
 		p.data[i] = 0x00
 	}
-	for i := 0; i < len(p.key); i++ {
-		p.key[i] = 0x00
-	}
 	p.data = nil
-	p.key = nil
 	runtime.GC()
 }
 
