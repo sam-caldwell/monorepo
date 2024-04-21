@@ -7,6 +7,9 @@ import (
 )
 
 // Emitter - Start the go routine which will emit messages to the server
+//
+//	The emitter will consume messages from eventQueue and send them
+//	to the server.
 func (app *Application) Emitter() (err error) {
 	ansi.Green().Println("starting Emitter()")
 	//ToDo: initialize emitter stats
