@@ -1,6 +1,6 @@
 package volatileSecrets
 
-// secureDelete - overwrite RAM
+// secureDelete - overwrite RAM with 0x00 then free the memory
 func secureDelete(b *[]byte) {
 	if *b != nil {
 		for i := range *b {

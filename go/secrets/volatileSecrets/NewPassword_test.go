@@ -21,6 +21,18 @@ func TestNewPassword(t *testing.T) {
 	 * Create a new secret (encrypted with the passphrase)
 	 */
 	p := NewPassword(passphrase, secret)
+	t.Run("Verify passphrase and secret are removed from memory after NewPassword() call", func(t *testing.T) {
+		for i := range passphrase {
+			if passphrase[i] != 0x00 {
+				t.Fatalf("passphrase no zeroed on %d", i)
+			}
+		}
+		for i := range secret {
+			if secret[i] != 0x00 {
+				t.Fatalf("secret no zeroed on %d", i)
+			}
+		}
+	})
 	/*
 	 * Verify the secret size uint32 is properly encoded.
 	 */

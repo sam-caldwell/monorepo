@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"github.com/sam-caldwell/monorepo/go/crypto"
 	"github.com/sam-caldwell/monorepo/go/random"
+	"log"
 	"runtime"
 )
 
@@ -43,11 +44,11 @@ func NewPassword(passphrase []byte, secret []byte) *Password {
 	//
 	key = crypto.Sha512Bytes(passphrase)
 	secureDelete(&passphrase)
-	//log.Printf("key: %02x", key)
+	log.Printf("key: %02x", key)
 	if cipher, err = crypto.EncryptWithPassphrase(secret, key); err != nil {
 		panic(err)
 	}
-	//log.Printf("secret: %02x", secret)
+	log.Printf("secret: %02x", secret)
 	secureDelete(&secret)
 	//
 	//Create a random field over which we will write our secrets...
@@ -58,32 +59,33 @@ func NewPassword(passphrase []byte, secret []byte) *Password {
 	if p.data, err = random.GenerateRandomBytes(bitfieldSz); err != nil {
 		panic(err)
 	}
-	//log.Printf("bitfieldSz: %d", bitfieldSz)
-	//log.Printf("bitfield: %02x", p.data)
-
+	log.Printf("bitfieldSz: %d", bitfieldSz)
+	log.Printf("bitfield: %02x", p.data)
 	//
 	//Overlay the length of the cipher on our bitfield
 	//
 	startByte := uint(0)
 	stopByte := secretSzLen
 	binary.BigEndian.PutUint32(p.data[startByte:stopByte], uint32(secretSz))
-	//log.Printf("startByte: %d stopByte: %d  [secretSzLen:%d] pA:%d, pB:%d, pC:%d,", startByte, stopByte, secretSzLen, paddingA, paddingB, paddingC)
-	//log.Printf("bitfield: %02x", p.data)
+	log.Printf("startByte: %d stopByte: %d  [secretSzLen:%d] pA:%d, pB:%d, pC:%d,", startByte, stopByte, secretSzLen, paddingA, paddingB, paddingC)
+	log.Printf("bitfield: %02x", p.data)
 	//
 	//Overlay the key on the bitfield
 	//
 	startByte += paddingA + stopByte
 	stopByte = startByte + keySz
 	copy(p.data[startByte:stopByte], key[:])
-	//log.Printf("startByte: %d stopByte: %d  [keySz:%d] pA:%d, pB:%d, pC:%d,", startByte, stopByte, keySz, paddingA, paddingB, paddingC)
-	//log.Printf("bitfield: %02x", p.data)
+	log.Printf("startByte: %d stopByte: %d  [keySz:%d] pA:%d, pB:%d, pC:%d,", startByte, stopByte, keySz, paddingA, paddingB, paddingC)
+	log.Printf("bitfield: %02x", p.data)
+	log.Printf("     key: %02x", key[:])
 	//
 	//Copy the cipher over the random bit field
 	//
 	startByte = stopByte + paddingB
 	stopByte = startByte + uint(len(cipher))
 	copy(p.data[startByte:stopByte], cipher[:])
-	//log.Printf("startByte: %d stopByte: %d  [secretSz:%d] pA:%d, pB:%d, pC:%d,", startByte, stopByte, secretSz, paddingA, paddingB, paddingC)
-	//log.Printf("bitfield: %02x", p.data)
+	log.Printf("startByte: %d stopByte: %d  [secretSz:%d] pA:%d, pB:%d, pC:%d,", startByte, stopByte, secretSz, paddingA, paddingB, paddingC)
+	log.Printf("   cipher: %02x", cipher[:])
+	log.Printf(" bitfield: %02x", p.data)
 	return &p
 }

@@ -44,7 +44,7 @@ func (p *Password) GetBytes() []byte {
 		len(p.data[keyStart:keyStop]),
 		p.data[keyStart:keyStop],
 		p.data[secretStart:secretStop])
-	s, err := crypto.DecryptWithPassphrase(p.data[keyStart:keyStop], p.data[secretStart:secretStop])
+	s, err := crypto.DecryptWithPassphrase(p.data[secretStart:secretStop], p.data[keyStart:keyStop])
 	if err != nil {
 		panic(err)
 	}
