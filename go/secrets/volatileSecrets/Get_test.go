@@ -1,15 +1,18 @@
 package volatileSecrets
 
-import "testing"
+import (
+	"bytes"
+	"testing"
+)
 
 func TestGet(t *testing.T) {
-	t.Skip("skip while debugging")
 	passphrase := []byte("myPassphrase")
 	secret := []byte("this is my secret")
+	expected := bytes.Clone(secret)
 	p := NewPassword(passphrase, secret)
-	if actual := p.Get(); actual != string(secret) {
+	if actual := p.Get(); actual != string(expected) {
 		t.Fatalf("actual secret does not match expected\n"+
 			"actual  : %v\n"+
-			"expected: %v", actual, string(secret))
+			"expected: %v", actual, string(expected))
 	}
 }
