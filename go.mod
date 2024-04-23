@@ -5,12 +5,14 @@ go 1.21.5
 replace github.com/sam-caldwell/monorepo => ./
 
 require (
+	github.com/ProtonMail/gopenpgp/v2 v2.7.5
+	github.com/fsnotify/fsnotify v1.7.0
 	github.com/go-git/go-git/v5 v5.11.0
 	github.com/google/uuid v1.5.0
 	github.com/knightsc/gapstone v4.0.1+incompatible
 	github.com/lib/pq v1.10.9
 	github.com/spf13/cobra v1.8.0
-	golang.org/x/net v0.21.0
+	golang.org/x/net v0.23.0
 	golang.org/x/sys v0.19.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -20,12 +22,10 @@ require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
 	github.com/ProtonMail/go-mime v0.0.0-20230322103455-7d82a3887f2f // indirect
-	github.com/ProtonMail/gopenpgp/v2 v2.7.5 // indirect
 	github.com/cloudflare/circl v1.3.7 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
-	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.5.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
