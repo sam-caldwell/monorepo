@@ -1,4 +1,4 @@
-package server
+package connector
 
 import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
@@ -23,6 +23,5 @@ func (svr *Server) SendEvent(event types.Event) *Server {
 		//ToDo: set err state if error occurred in send.
 		svr.err = nil
 	}
-
 	return svr
 }

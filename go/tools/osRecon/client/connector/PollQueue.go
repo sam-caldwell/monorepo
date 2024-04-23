@@ -1,17 +1,18 @@
-package server
+package connector
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/exit"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/server"
 	"github.com/sam-caldwell/monorepo/go/types"
 	"net/http"
 )
 
 // PollQueue - Poll server for queries in queue
 func (svr *Server) PollQueue(queue chan<- types.ThreatQlQuery) *Server {
-	response, err := http.Get(fmt.Sprintf("https://%s:%d%s", svr.host, svr.port, ApiV1CheckIn))
+	response, err := http.Get(fmt.Sprintf("https://%s:%d%s", svr.host, svr.port, server.ApiV1CheckIn))
 	if err == nil {
 		switch response.StatusCode {
 		case http.StatusOK:

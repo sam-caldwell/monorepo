@@ -10,7 +10,7 @@ import (
 //
 //	The emitter will consume messages from eventQueue and send them
 //	to the server.
-func (app *Application) Emitter() (err error) {
+func (app *Client) Emitter() (err error) {
 	ansi.Green().Println("starting Emitter()")
 	//ToDo: initialize emitter stats
 

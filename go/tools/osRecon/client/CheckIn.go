@@ -6,7 +6,7 @@ import (
 )
 
 // CheckIn - Performs network request (healthcheck) which also polls server for pending queries to execute
-func (app *Application) CheckIn() error {
+func (app *Client) CheckIn() error {
 	ansi.Green().Println("starting CheckIn()")
 	go func() {
 		// This go routine will call to the server and both perform a healthcheck

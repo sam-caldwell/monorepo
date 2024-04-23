@@ -1,11 +1,11 @@
-package client
+package server
 
 import (
 	"os"
 	"os/signal"
 )
 
-func (app *Client) SignalHandler() error {
+func (svr *Server) SignalHandler() error {
 	// This method handles signals (SIGINT) from the operating system
 	// and cleanly terminates the system.
 

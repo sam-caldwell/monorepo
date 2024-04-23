@@ -6,7 +6,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/types"
 )
 
-func (app *Application) Configure() error {
+func (app *Client) Configure() error {
 
 	var err error
 	var eventQueueSz uint16

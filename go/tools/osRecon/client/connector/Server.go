@@ -1,4 +1,4 @@
-package client
+package connector
 
 import (
 	"github.com/sam-caldwell/monorepo/go/net"
@@ -7,7 +7,8 @@ import (
 
 // Server - This is the application server connection information.
 type Server struct {
-	Host   net.Fqdn
-	Port   net.PortNumber
-	ApiKey types.ApiKey
+	host   net.Fqdn
+	port   net.PortNumber
+	apiKey types.ApiKey
+	err    error
 }

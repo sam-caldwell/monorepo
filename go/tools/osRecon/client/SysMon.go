@@ -1,6 +1,6 @@
 package client
 
-func (app *Application) SysMon() error {
+func (app *Client) SysMon() error {
 
 	// This go routine monitors the operating system and software environment, then
 	// pushes the events out to eventQueue.

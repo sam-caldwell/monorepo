@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/client/connector"
 	"github.com/sam-caldwell/monorepo/go/types"
 )
 
@@ -17,5 +18,5 @@ type Client struct {
 	queryQueuePollInterval uint16
 
 	//The client's server connection information
-	server Server
+	server connector.Server
 }
