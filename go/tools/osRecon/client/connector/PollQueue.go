@@ -11,7 +11,7 @@ import (
 )
 
 // PollQueue - Poll server for queries in queue
-func (svr *Server) PollQueue(queue chan<- types.ThreatQlQuery) *Server {
+func (svr *Connector) PollQueue(queue chan<- types.ThreatQlQuery) *Connector {
 	response, err := http.Get(fmt.Sprintf("https://%s:%d%s", svr.host, svr.port, server.ApiV1CheckIn))
 	if err == nil {
 		switch response.StatusCode {

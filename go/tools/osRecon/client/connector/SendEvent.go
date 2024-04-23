@@ -12,7 +12,7 @@ import (
  */
 
 // SendEvent - Send an event object to the server
-func (svr *Server) SendEvent(event types.Event) *Server {
+func (svr *Connector) SendEvent(event types.Event) *Connector {
 	//Only attempt to send if error state is clear
 	if svr.err == nil {
 		//ToDo: Send the event to the server

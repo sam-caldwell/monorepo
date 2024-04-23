@@ -14,20 +14,9 @@ func (app *Client) Configure() error {
 
 	ansi.Green().Println("configuring application...")
 	//
-	// Process command-line args
+	// Get server connection Host, port, ApiKey
 	//
-	// Get the mode (client, server)
-	//
-	app.Mode, err = cli.GetMode()
-	if err != nil {
-		return err
-	}
-	//
-	// Get server Host, port, ApiKey
-	//
-	app.server.Host = cli.GetHost()
-	app.server.Port = cli.GetPort()
-	app.server.ApiKey = cli.GetApiKey()
+	app.server.Configure(cli.GetHost(), cli.GetPort(), cli.GetApiKey())
 	//
 	// Get the queue sizes
 	//

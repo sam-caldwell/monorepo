@@ -5,8 +5,8 @@ import (
 	"github.com/sam-caldwell/monorepo/go/types"
 )
 
-// Server - This is the application server connection information.
-type Server struct {
+// Connector - This is the application server connection information.
+type Connector struct {
 	host   net.Fqdn
 	port   net.PortNumber
 	apiKey types.ApiKey

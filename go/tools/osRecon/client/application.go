@@ -5,6 +5,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/types"
 )
 
+// Client - osRecon Client
 type Client struct {
 	// This is the configuration and message queues (channels)
 	// shared between the asynchronous processes
@@ -18,5 +19,5 @@ type Client struct {
 	queryQueuePollInterval uint16
 
 	//The client's server connection information
-	server connector.Server
+	server connector.Connector
 }

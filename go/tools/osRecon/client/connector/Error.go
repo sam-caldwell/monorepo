@@ -1,5 +1,6 @@
 package connector
 
-func (svr *Server) Error() error {
+// Error - Return the error state
+func (svr *Connector) Error() error {
 	return svr.err
 }

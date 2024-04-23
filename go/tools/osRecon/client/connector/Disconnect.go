@@ -1,6 +1,6 @@
 package connector
 
 // Disconnect - Terminate client-server connection
-func (svr *Server) Disconnect() *Server {
+func (svr *Connector) Disconnect() *Connector {
 	return svr
 }
