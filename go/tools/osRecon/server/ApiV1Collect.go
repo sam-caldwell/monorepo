@@ -1,7 +1,12 @@
 package server
 
-import "net/http"
+import (
+	"github.com/sam-caldwell/monorepo/go/types"
+	"net/http"
+)
 
+// ApiV1Collect - Provide payload for the Server Event Collection API endpoint (ApiV1Collect).
+// Given a directory where this endpoint can write events (svr.eventCollectionDirectory)
 func (svr *Server) ApiV1Collect(w http.ResponseWriter, r *http.Request) {
 
 	//ToDo: create API endpoint to handle event collection
@@ -11,4 +16,9 @@ func (svr *Server) ApiV1Collect(w http.ResponseWriter, r *http.Request) {
 	 * an incrementing serial number.
 	 */
 
+}
+
+func (svr *Server) WriteEvent(event types.Event) error {
+
+	return nil
 }

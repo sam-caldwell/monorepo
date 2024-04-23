@@ -1,4 +1,4 @@
-package application
+package client
 
 const (
 	defaultEventQueueSz           uint16 = 128

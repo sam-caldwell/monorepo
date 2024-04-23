@@ -1,4 +1,4 @@
-package application
+package client
 
 func (app *Application) FsMon() error {
 	// This go routine monitors the file system and disk storage systems and

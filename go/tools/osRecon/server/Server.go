@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/sam-caldwell/monorepo/go/net"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/server/persistence"
 	"github.com/sam-caldwell/monorepo/go/types"
 	"golang.org/x/net/http2"
 )
@@ -14,4 +15,6 @@ type Server struct {
 	//Todo: add some stats
 
 	server http2.ClientConnPool
+
+	eventCollector persistence.EventCollector
 }

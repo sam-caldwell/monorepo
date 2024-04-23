@@ -1,22 +1,53 @@
 package main
 
 import (
-	"github.com/sam-caldwell/monorepo/go/ansi"
-	"github.com/sam-caldwell/monorepo/go/exit"
-	"github.com/sam-caldwell/monorepo/go/tools/osRecon/application"
-	"github.com/sam-caldwell/monorepo/go/types"
+    "fmt"
+    "github.com/sam-caldwell/monorepo/go/ansi"
+    "github.com/sam-caldwell/monorepo/go/exit"
+    "github.com/sam-caldwell/monorepo/go/tools/osRecon/cli"
+    "github.com/sam-caldwell/monorepo/go/tools/osRecon/client"
+    "github.com/sam-caldwell/monorepo/go/tools/osRecon/server"
+    "github.com/sam-caldwell/monorepo/go/types"
+    "os"
+    "path/filepath"
+)
+
+const (
+	bannerText   = "(c) 2024 Sam Caldwell.  <mail@samcaldwell.net>"
+	commandUsage = `
+%s
+
+Syntax:
+    %s [mode]
+
+modes:
+    Run as client mode:
+
+        <cmd> client --host <hostname> --port <portNumber> --apiKey <base64 key string>
+
+    Run as server mode:
+
+        <cmd> server --host <hostname> --port <portNumber> --apiKey <base64 key string>
+
+Options:
+    -h | --help displays this message
+`
 )
 
 func main() {
+	programName := filepath.Base(os.Args[0])
 
-	var app application.Application
+	cli.GetHelp(fmt.Sprintf(commandUsage, bannerText, programName))
 
 	ansi.Blue().Println("Starting...").Reset()
 
-	exit.TerminateOnError(app.Configure())
+	mode, err := cli.GetMode()
+	exit.TerminateOnError(err)
 
-	switch app.Mode {
+	switch mode {
 	case types.Client:
+		var app client.Client
+		exit.TerminateOnError(app.Configure())
 		exit.TerminateOnError(app.Emitter())
 		exit.TerminateOnError(app.CheckIn())
 		exit.TerminateOnError(app.ProcMon())
@@ -25,15 +56,15 @@ func main() {
 		exit.TerminateOnError(app.FsMon())
 		exit.TerminateOnError(app.SysMon())
 		exit.TerminateOnError(app.Query())
+		exit.TerminateOnError(app.SignalHandler())
 	case types.Server:
-		exit.TerminateOnError(app.Server())
+		var app server.Server
+		exit.TerminateOnError(app.Configure())
+		exit.TerminateOnError(app.Listener().Error())
+		exit.TerminateOnError(app.SignalHandler())
+
 	default:
 		ansi.Red().Println("Error: Invalid Mode").Fatal(exit.GeneralError).Reset()
 	}
-
-	// Blocking signal handler
-	exit.TerminateOnError(app.SignalHandler())
-
 	ansi.Green().Println("Terminating").Reset()
-
 }

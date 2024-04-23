@@ -1,4 +1,4 @@
-package application
+package client
 
 import (
 	"github.com/sam-caldwell/monorepo/go/ansi"

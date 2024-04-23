@@ -1,4 +1,4 @@
-package application
+package client
 
 func (app *Application) SysMon() error {
 

@@ -1,4 +1,4 @@
-package application
+package client
 
 func (app *Application) ProcMon() error {
 	// This go routine monitors the process table and related structures

@@ -1,4 +1,4 @@
-package application
+package client
 
 func (app *Application) NetMon() error {
 	// This go routine monitors the network state and related structures then
