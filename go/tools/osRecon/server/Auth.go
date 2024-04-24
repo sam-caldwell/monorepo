@@ -8,15 +8,16 @@ type HttpHandlerFunc func(http.ResponseWriter, *http.Request)
 
 // Auth - Perform API Key authentication for the server listener
 func (svr *Server) Auth(apiFunc HttpHandlerFunc) HttpHandlerFunc {
-	//ToDo: inspect the API Key and request metadata
-	var authenticated bool
-
-	if authenticated {
-		return apiFunc
-	} else {
-		return func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var authenticated bool
+		//ToDo: inspect the request (r) for apiKey
+		if authenticated {
+			apiFunc(w, r)
+			return
+		} else {
 			w.WriteHeader(http.StatusUnauthorized)
-			_, svr.err = w.Write([]byte("not authorized"))
+			_, _ = w.Write([]byte("not authorized"))
+			return
 		}
 	}
 }
