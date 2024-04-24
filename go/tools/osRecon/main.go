@@ -1,15 +1,15 @@
 package main
 
 import (
-    "fmt"
-    "github.com/sam-caldwell/monorepo/go/ansi"
-    "github.com/sam-caldwell/monorepo/go/exit"
-    "github.com/sam-caldwell/monorepo/go/tools/osRecon/cli"
-    "github.com/sam-caldwell/monorepo/go/tools/osRecon/client"
-    "github.com/sam-caldwell/monorepo/go/tools/osRecon/server"
-    "github.com/sam-caldwell/monorepo/go/types"
-    "os"
-    "path/filepath"
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/exit"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/cli"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/client"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/server"
+	"github.com/sam-caldwell/monorepo/go/types"
+	"os"
+	"path/filepath"
 )
 
 const (
@@ -60,7 +60,7 @@ func main() {
 	case types.Server:
 		var app server.Server
 		exit.TerminateOnError(app.Configure())
-		exit.TerminateOnError(app.Listener().Error())
+		exit.TerminateOnError(app.Listener())
 		exit.TerminateOnError(app.SignalHandler())
 
 	default:
