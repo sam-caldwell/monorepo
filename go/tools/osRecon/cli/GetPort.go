@@ -10,11 +10,13 @@ import (
 // GetPort - return the port number (uint16) from --port
 func GetPort() net.PortNumber {
 
-	argServerPort, err := simpleArgs.GetOptionIntValue("--port", true)
+	const argString = "--port"
+
+	argServerPort, err := simpleArgs.GetOptionIntValue(argString, true)
 
 	if err != nil {
 		ansi.Red().
-			Printf("Parsing error (%s): %v", "--port", err.Error()).
+			Printf("Parsing error (%s): %v", argString, err.Error()).
 			LF().
 			Fatal(exit.GeneralError).
 			Reset()

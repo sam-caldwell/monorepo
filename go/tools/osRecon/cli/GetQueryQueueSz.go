@@ -9,10 +9,11 @@ import (
 // GetQueryQueueSz - Get the value of --queryQueueSz
 func GetQueryQueueSz(defaultQueryQueueSz uint16) (uint16, error) {
 
-	queryQueueSz, err := simpleArgs.GetOptionUint16Value("--queryQueueSz", false)
+	const argString = "--queryQueueSz"
+	queryQueueSz, err := simpleArgs.GetOptionUint16Value(argString, false)
 
 	if err != nil {
-		ansi.Red().Printf("Parsing error (%s): %v", "--queryQueueSz", err).
+		ansi.Red().Printf("Parsing error (%s): %v", argString, err).
 			LF().
 			Fatal(exit.GeneralError).
 			Reset()

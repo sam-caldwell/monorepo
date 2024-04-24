@@ -9,10 +9,12 @@ import (
 // GetQueryQueuePollInterval - Get the value of --queryQueuePollInterval
 func GetQueryQueuePollInterval(defaultQueryQueuePollInterval uint16) (uint16, error) {
 
-	queryQueuePollInterval, err := simpleArgs.GetOptionUint16Value("--queryQueuePollInterval", false)
+	const argString = "--queryQueuePollInterval"
+
+	queryQueuePollInterval, err := simpleArgs.GetOptionUint16Value(argString, false)
 
 	if err != nil {
-		ansi.Red().Printf("Parsing error (%s): %v", "--queryQueuePollInterval", err).
+		ansi.Red().Printf("Parsing error (%s): %v", argString, err).
 			LF().
 			Fatal(exit.GeneralError).
 			Reset()

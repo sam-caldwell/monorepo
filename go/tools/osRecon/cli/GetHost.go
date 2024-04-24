@@ -9,13 +9,13 @@ import (
 
 // GetHost - Return the value from --host
 func GetHost() net.Fqdn {
-
-	argServerHost, err := simpleArgs.GetOptionValue("--host")
+	const argString = "--host"
+	argServerHost, err := simpleArgs.GetOptionValue(argString)
 
 	if err != nil {
 
 		ansi.Red().
-			Printf("Parsing error (%s): %v", "--host", err.Error()).
+			Printf("Parsing error (%s): %v", argString, err.Error()).
 			LF().
 			Fatal(exit.GeneralError).
 			Reset()
