@@ -7,12 +7,12 @@ import (
 	"github.com/sam-caldwell/monorepo/go/simpleArgs"
 )
 
-// GetEventCollectorDir - get the cli arg for --eventCollectorDir
-func GetEventCollectorDir() (result *directory.Path, err error) {
+// GetQueryCollectorDir - get the cli arg --queryCollectorDir
+func GetQueryCollectorDir() (result *directory.Path, err error) {
 
-	const argString = "--eventCollectorDir"
+	const argString = "--queryCollectorDir"
 
-	argEventCollectorDir, err := simpleArgs.GetOptionValue(argString)
+	argRaw, err := simpleArgs.GetOptionValue(argString)
 
 	if err != nil {
 		ansi.Red().
@@ -22,7 +22,7 @@ func GetEventCollectorDir() (result *directory.Path, err error) {
 			Reset()
 	}
 
-	result, err = directory.NewPath(argEventCollectorDir, true)
+	result, err = directory.NewPath(argRaw, true)
 
 	return result, err
 
