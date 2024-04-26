@@ -11,6 +11,7 @@ const (
 	RecursiveDelete DeleteRule = true
 )
 
+// Delete - Remove directory (empty or not) based on a delete rule.
 func Delete(path string, deleteContents DeleteRule) (err error) {
 	if deleteContents {
 		return os.RemoveAll(path)
