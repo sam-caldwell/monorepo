@@ -8,3 +8,7 @@ func (e *Sequence) Get() Sequence {
 	*e++
 	return *e
 }
+
+func (e *Sequence) Current() uint64 {
+	return uint64(*e)
+}
