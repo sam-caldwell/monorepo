@@ -7,7 +7,7 @@ import (
 
 // DeleteTempFile - Delete the temporary file
 func DeleteTempFile(t *testing.T, file *os.File) {
-	if err := os.Remove(file.Name()); err != nil {
+	if err := Delete(file.Name()); err != nil {
 		t.Fatalf("Failed to remove file: %v", err)
 	}
 }
