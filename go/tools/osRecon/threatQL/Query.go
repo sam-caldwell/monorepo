@@ -1,15 +1,16 @@
 package threatQL
 
 import (
-    "github.com/sam-caldwell/monorepo/go/fs/file"
-    "github.com/sam-caldwell/monorepo/go/types"
+	"github.com/sam-caldwell/monorepo/go/types"
 )
 
-// Query - A query received from the server's check-in API.
+// Query - A threat query object representing the query.
+//
+//	This is used in QueryFile but also this is the raw struct
+//	sent across the wire between client and server.
 type Query struct {
-	Resource types.ResourceId
-	Field    types.FieldId
-	Operator types.OperatorId
-	Operand  types.Operand
-	fileName file.File
+	Resource types.ResourceId `json:"Resource"`
+	Field    types.FieldId    `json:"Field"`
+	Operator types.OperatorId `json:"Operator"`
+	Operand  types.Operand    `json:"Operand"`
 }
