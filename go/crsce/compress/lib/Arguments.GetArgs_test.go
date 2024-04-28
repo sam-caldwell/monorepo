@@ -5,6 +5,7 @@ package crsce
  */
 
 import (
+	"github.com/sam-caldwell/monorepo/go/fs/file"
 	"os"
 	"testing"
 )
@@ -22,7 +23,7 @@ func TestArguments_GetArgs(t *testing.T) {
 		}
 		oName := outFile.Name()
 		_ = outFile.Close()
-		_ = os.Remove(oName)
+		_ = file.Delete(oName)
 
 		os.Args = os.Args[0:]
 		os.Args = append(os.Args, "--in")
