@@ -23,7 +23,7 @@ func TestEventWrite(t *testing.T) {
 	eventTime := time.Now()
 	sendTime := time.Now()
 	testField := types.FieldId(0xFF)
-	testResource := types.ResourceId((0xEA))
+	testResource := types.ResourceId(0xEA)
 
 	evt := types.Event{
 		EventTime: eventTime,
