@@ -14,7 +14,7 @@ import (
 //	Query files are written to <path>/<client>/<timestamp>.tql
 func NewQueryFile(path directory.Path, clientId types.ClientId, query Query) (queryFile *QueryFile, err error) {
 	fullPath := filepath.Join(path.String(), clientId.String())
-	fileName, err := file.GenerateUniqueFileName(fullPath, ".tql", 3)
+	fileName, err := file.GenerateUniqueFileName(fullPath, queryFileExtension, maxRetries)
 	if err != nil {
 		return nil, err
 	}
