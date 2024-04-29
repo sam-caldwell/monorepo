@@ -1,5 +1,12 @@
 all: build-client build-server build-query-compile
 
+BUILD_DIR:=../../../build/osRecon
+
+setup:
+	@echo "initializing ${BUILD_DIR}"
+	@rm -rf ${BUILD_DIR} || true
+	@mkdir -p ${BUILD_DIR}
+
 lint:
 	@echo 'linter not implemented yet'
 
