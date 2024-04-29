@@ -1,7 +1,7 @@
 package simpleArgs
 
 import (
-	"strconv"
+	"github.com/sam-caldwell/monorepo/go/strconv"
 )
 
 func GetOptionIntValue(name string, required bool) (value int, err error) {
@@ -12,6 +12,5 @@ func GetOptionIntValue(name string, required bool) (value int, err error) {
 		}
 		return 0, nil
 	}
-	value, err = strconv.Atoi(tmp)
-	return value, err
+	return strconv.ParseInt(tmp)
 }
