@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/sam-caldwell/monorepo/go/tools/osRecon/client/connector"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/threatQL"
 	"github.com/sam-caldwell/monorepo/go/types"
 )
 
@@ -13,7 +14,7 @@ type Client struct {
 
 	// Message Queue Channels
 	eventQueue chan types.Event
-	queryQueue chan types.ThreatQlQuery
+	queryQueue chan threatQL.Query
 
 	//How often do we poll the server for queries to run
 	queryQueuePollInterval uint16

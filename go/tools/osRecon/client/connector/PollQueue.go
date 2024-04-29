@@ -6,19 +6,19 @@ import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/tools/osRecon/server"
-	"github.com/sam-caldwell/monorepo/go/types"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/threatQL"
 	"net/http"
 )
 
 // PollQueue - Poll server for queries in queue
-func (svr *Connector) PollQueue(queue chan<- types.ThreatQlQuery) *Connector {
+func (svr *Connector) PollQueue(queue chan<- threatQL.Query) *Connector {
 	response, err := http.Get(fmt.Sprintf("https://%s:%d%s", svr.host, svr.port, server.ApiV1CheckIn))
 	if err == nil {
 		switch response.StatusCode {
 		case http.StatusOK:
 			//Todo: update stats
 			decoder := json.NewDecoder(response.Body)
-			var query types.ThreatQlQuery
+			var query threatQL.Query
 			err := decoder.Decode(&query)
 			if err != nil {
 				//Todo: update stats
