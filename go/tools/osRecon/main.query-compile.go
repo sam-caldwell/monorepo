@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
-	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/tools/osRecon/cli"
-	"github.com/sam-caldwell/monorepo/go/tools/osRecon/client"
 	"os"
 	"path/filepath"
 )
@@ -27,19 +25,9 @@ Options:
 
 func main() {
 	programName := filepath.Base(os.Args[0])
-	cli.GetHelp(fmt.Sprintf(clientUsage, programName))
+	cli.GetHelp(fmt.Sprintf(queryCompileUsage, programName))
 
 	ansi.Blue().Println("Starting...").Reset()
-	var app client.Client
-	exit.TerminateOnError(app.Configure())
-	exit.TerminateOnError(app.Emitter())
-	exit.TerminateOnError(app.CheckIn())
-	exit.TerminateOnError(app.ProcMon())
-	exit.TerminateOnError(app.NetMon())
-	exit.TerminateOnError(app.HwMon())
-	exit.TerminateOnError(app.FsMon())
-	exit.TerminateOnError(app.SysMon())
-	exit.TerminateOnError(app.Query())
-	exit.TerminateOnError(app.SignalHandler())
+	//Todo: implement query-compile
 	ansi.Green().Println("Terminating").Reset()
 }
