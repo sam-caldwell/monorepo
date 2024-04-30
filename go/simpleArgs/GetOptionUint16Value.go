@@ -5,7 +5,7 @@ import "github.com/sam-caldwell/monorepo/go/strconv"
 func GetOptionUint16Value(name string, required bool) (value uint16, err error) {
 	var tmp string
 	if tmp, err = GetOptionValue(name); err != nil {
-		if required || (err.Error() != "option not found") {
+		if required || (err.Error() != OptionNotFound) {
 			return 0, err
 		}
 		return 0, nil

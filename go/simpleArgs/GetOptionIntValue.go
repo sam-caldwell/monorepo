@@ -8,7 +8,7 @@ import (
 func GetOptionIntValue(name string, required bool) (value int, err error) {
 	var tmp string
 	if tmp, err = GetOptionValue(name); err != nil {
-		if required || (err.Error() != "option not found") {
+		if required || (err.Error() != OptionNotFound) {
 			return 0, err
 		}
 		return 0, nil

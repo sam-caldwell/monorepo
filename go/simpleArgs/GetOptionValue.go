@@ -9,11 +9,8 @@ import (
 
 // GetOptionValue returns the value (next arg) if the named option exists.
 func GetOptionValue(name string) (value string, err error) {
-	const (
-		doubleHyphen     = "--"
-		optionHasNoValue = "option has no value"
-		optionNotFound   = "option not found"
-	)
+
+	const doubleHyphen = "--"
 
 	args := os.Args[1:]
 
@@ -25,7 +22,7 @@ func GetOptionValue(name string) (value string, err error) {
 
 			if i+1 >= len(args) || strings.HasPrefix(args[i+1], doubleHyphen) {
 
-				return words.EmptyString, fmt.Errorf(optionHasNoValue)
+				return words.EmptyString, fmt.Errorf(OptionHasNoValue)
 
 			}
 
@@ -35,6 +32,6 @@ func GetOptionValue(name string) (value string, err error) {
 
 	}
 
-	return "", fmt.Errorf(optionNotFound)
+	return "", fmt.Errorf(OptionNotFound)
 
 }
