@@ -23,4 +23,5 @@ func main() {
 	ansi.Blue().Println("Starting...").Reset()
 	var app cli.JiraClient
 	exit.TerminateOnError(app.Configure())
+	exit.TerminateOnError(app.Execute())
 }
