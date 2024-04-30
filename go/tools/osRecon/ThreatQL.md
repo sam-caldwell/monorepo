@@ -2,83 +2,34 @@ ThreatQL
 ========
 
 ## Objectives:
+
 * Define a Threat Intelligence Query Language (ThreatQL).
 
-## Assumptions
-1. The query language exists as a set of pre-defined binary query patterns.
-2. The query language returns a set of pre-defined binary result-set patterns.
-3. The query language is statically defined in the client binary, and its integrity
-   can be verified by executable hash.
-
 ## Query Pattern (Theory)
+
 The theoretical pattern for a ThreatQL query is:
 
-   ```text
-    <table> where <operator> <arguments>
-   ```
-
-where `<arguments>` may be--
-
-   ```
-      <table>.<field> <operator> <value>
-   ```
-
-or--
-
-   ```
-      <table>.<field> regex <regular expression>
-   ```
-
-and--
-
-1. A `<table>` is a "virtual table" that maps to some real resource on the system (e.g. 
-   process table) and a `<field>` is a "virtual field" in that table mapping to a 
-   specific value in that resource (e.g. process id -- PID).
-2. An operator is `==`, `!=`, `<`, `>`, `<=`, `>=`, `contains`, `not contains` or
-   `regex`
-
-## Result Sets (Theory)
-The result set for a query from ThreatQL is the entire record for a resource.
-Thus, if we query for a process with a given process id, the query in theory would be--
-
 ```text
-process where process.id == 1234
+    <table>.<columnA>[,<columnB>,<columnC>,...,<columnZ>]|<column><operator><value>
 ```
 
-but the result set would not be able to specify anything less than the full process
-record.  This is a bit more expensive, but it would require a threat actor to exert
-more effort to deliver misleading data.
+For example:
 
-## Query Pattern (Actual)
-Let us assume that--
-1. Because all queries are a subset of data from a "virtual table" we know that the actual
-   query structure can be stated as a numeric *resource identifier* and some conditional 
-   structure.
-2. Because each field identifier of the resource is fairly static (differing only across
-   operating systems), the field identifier can also be expressed as a numeric value.
-3. Likewise, the operator can be expressed as a numeric value.
-4. This leaves only the comparison value which may be expressed as an arbitrary value.
+| Query                                       | Description                                                         |
+|---------------------------------------------|---------------------------------------------------------------------|
+| `cpu.loadavg1`                              | Query returns 1m load average.                                      |
+| `cpu.loadavg1,loadavg5,loadavg15`           | The following query will return the 1m, 5m and 15m load average     |
+| `cpu.user`                                  | The following query will show %user cpu load                        |
+| `cpu.wait`                                  | return wait time                                                    |
+| `cpu.idle`                                  | return idle time                                                    |
+| `cpu.cores`                                 | return number cores                                                 |
+| `mem.total`                                 | total memory (KB)                                                   |
+| `mem.free`                                  | free memory (KB)                                                    |
+| `mem.swap`                                  | virtual memory (KB)                                                 |
+| `process.pid,user,command\| pid==3312`      | return the process Id, user and command of a process with pid 3312  |
+| `file.name,size,hash\|name="/usr/bin/foo*"` | return the file name, size and hash for a file with a given pattern |
 
-This means, the actual query is a struct:
-
-```text
-type ResourceId uint32
-
-type FieldId uint32
-
-type OperatorId uint8  //e.g. 0=equals, 1=notEquals, ... n=regex
-
-type ValueType uint8 //e.g. 0=string, 1=int, 2=bool
-
-type OperandType struct {
-    Type ValueType
-    Value any
-}
-
-type Query struct {
-    Resource ResourceId
-    Field FieldId
-    Operator OperatorId
-    Operand OperandType
-}
-```
+1. Note that the query only selects fields and filters the results with a 'where' clause (represented to the 
+   right of a pipe '|' character).
+2. The query language does not sort, aggregate or paginate query results.  Instead, the client is allowed to paginate
+   results before emitting them to the server.

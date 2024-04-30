@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/tools/osRecon/cli"
+	"github.com/sam-caldwell/monorepo/go/tools/osRecon/threatQL"
 	"os"
 	"path/filepath"
 )
@@ -26,7 +28,10 @@ Options:
 func main() {
 	programName := filepath.Base(os.Args[0])
 	cli.GetHelp(fmt.Sprintf(queryCompileUsage, programName))
-
+	var app threatQL.Compiler
+	exit.TerminateOnError(app.Configure())
+	exit.TerminateOnError(app.Compile())
+	exit.TerminateOnError(app.SignalHandler())
 	ansi.Blue().Println("Starting...").Reset()
 	//Todo: implement query-compile
 	ansi.Green().Println("Terminating").Reset()

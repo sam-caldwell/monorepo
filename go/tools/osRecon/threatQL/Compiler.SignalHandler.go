@@ -1,12 +1,12 @@
-package server
+package threatQL
 
 import (
 	"os"
 	"os/signal"
 )
 
-// SignalHandler - The osRecon server signal handler
-func (svr *Server) SignalHandler() error {
+// SignalHandler - The Query Compiler signal handler
+func (compiler *Compiler) SignalHandler() error {
 	// This method handles signals (SIGINT) from the operating system
 	// and cleanly terminates the system.
 
