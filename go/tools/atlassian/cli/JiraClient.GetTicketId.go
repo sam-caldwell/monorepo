@@ -5,13 +5,13 @@ import (
 	"github.com/sam-caldwell/monorepo/go/simpleArgs"
 )
 
-func (jira *JiraClient) GetProjectName() (project string) {
-	value, err := simpleArgs.GetOptionValue("--project")
+func (jira *JiraClient) GetTicketId() AtlassianJira.TicketId {
+	value, err := simpleArgs.GetOptionValue("--ticket")
 
 	if err != nil {
 		if err.Error() != simpleArgs.OptionNotFound {
 			value = AtlassianJira.DefaultJqlQuery
 		}
 	}
-	return value
+	return AtlassianJira.TicketId(value)
 }

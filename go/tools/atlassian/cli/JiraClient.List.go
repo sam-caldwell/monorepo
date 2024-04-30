@@ -14,7 +14,7 @@ func (jira *JiraClient) List() (err error) {
 		return ticket.List(jira.apiKey, jira.GetJqlQuery())
 	case Project:
 		var project AtlassianJira.Project
-		return project.List(jira.apiKey, jira.GetProjectName())
+		return project.List(jira.apiKey)
 	default:
 		err = fmt.Errorf(errors.InvalidCommand)
 	}
