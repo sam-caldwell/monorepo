@@ -17,5 +17,8 @@ func (jira *JiraClient) Configure() (err error) {
 
 	}
 	os.Args = list.DeleteElement(os.Args, 1)
+	jira.GetApiKey()
+	jira.GetDescriptor()
+
 	return err
 }
