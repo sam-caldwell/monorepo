@@ -1,7 +1,7 @@
 package cli
 
 const (
-	jiraClientUsage = `
+    JiraClientUsage = `
 jira create {ticket,project} <name> --descriptor <filename.yaml> [--api-key <string>]
 
 jira read {ticket, project} <name> [--api-key <string>]
@@ -15,5 +15,5 @@ jira list ticket <jql> [--api-key <string>]
 jira list projects --offset <int> --count <int> [--api-key <string>]
 `
 
-	helpText = "Use -h | --help for usage"
+    HelpText = "Use -h | --help for usage"
 )
