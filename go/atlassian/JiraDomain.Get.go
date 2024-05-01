@@ -1,14 +1,13 @@
-package AtlassianTypes
+package Atlassian
 
 import (
-    "github.com/sam-caldwell/monorepo/go/atlassian"
     "github.com/sam-caldwell/monorepo/go/misc/words"
 )
 
 //Get - Return the Jira domain
-func (jira *AtlassianDomain) Get() string {
+func (jira *Domain) Get() string {
     if string(*jira) == words.EmptyString {
-        panic(atlassian.JiraDomainNotInitialized)
+        panic(JiraDomainNotInitialized)
     }
     return string(*jira)
 }
