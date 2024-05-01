@@ -11,4 +11,5 @@ type JiraClient[T Atlassian.Descriptor] struct {
     apiKey     types.ApiKey // aka atlassian_token
     descriptor T            // A JSON/YAML descriptor for an issue or project
     domain     Atlassian.Domain
+    debug      bool
 }

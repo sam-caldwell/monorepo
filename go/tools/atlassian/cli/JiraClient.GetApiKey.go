@@ -2,6 +2,7 @@ package cli
 
 import (
     "fmt"
+    "github.com/sam-caldwell/monorepo/go/ansi"
     env "github.com/sam-caldwell/monorepo/go/environment"
     "github.com/sam-caldwell/monorepo/go/simpleArgs"
 )
@@ -29,6 +30,10 @@ func (client *JiraClient[T]) GetApiKey() (err error) {
 
         err = client.client.SetApiKey(argServerApiKey)
 
+    }
+
+    if client.debug {
+        ansi.Blue().Printf("ApiKey: %v", client.apiKey).LF().Reset()
     }
 
     return err
