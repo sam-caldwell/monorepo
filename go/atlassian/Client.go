@@ -1,4 +1,4 @@
-package Client
+package Atlassian
 
 import (
     AtlassianTypes "github.com/sam-caldwell/monorepo/go/atlassian/types"
