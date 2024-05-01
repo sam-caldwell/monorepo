@@ -42,23 +42,3 @@ type Issue struct {
         } `json:"issuetype"`
     } `json:"fields"`
 }
-
-func (jira Issue) Create() (any, error) {
-    return nil, nil
-}
-
-func (jira Issue) Read() (any, error) {
-    return nil, nil
-}
-
-func (jira Issue) Update() (any, error) {
-    return nil, nil
-}
-
-func (jira Issue) Delete() (any, error) {
-    return nil, nil
-}
-
-func (jira Issue) List() (any, error) {
-    return nil, nil
-}

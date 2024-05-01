@@ -1,4 +1,4 @@
-package atlassian
+package Atlassian
 
 const (
     // DefaultJqlQuery
