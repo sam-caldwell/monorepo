@@ -18,6 +18,7 @@ func main() {
     var app cli.JiraClient[JiraIssue.Issue]
 
     cli.GetHelp(usage)
+    app.SetDebug(cli.GetDebugFlag())
     exit.TerminateOnError(app.GetApiKey())
     exit.TerminateOnError(app.GetDescriptor())
     exit.TerminateOnError(app.GetDomain())
