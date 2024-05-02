@@ -10,30 +10,24 @@ import (
 // GetApiKey - Get the API key from the commandline --apiKey value
 func (client *JiraClient[T]) GetApiKey() (err error) {
 
-    if argServerApiKey, err := simpleArgs.GetOptionValue("--apiKey"); err != nil {
+    argServerApiKey, err := simpleArgs.GetOptionValue("--apiKey")
 
+    if err != nil {
         if err.Error() != simpleArgs.OptionNotFound {
-
             err = fmt.Errorf("parsing error (--apiKey): %v", err)
-
         } else {
-
             if argServerApiKey, err = env.RequireString("ATLASSIAN_TOKEN"); err != nil {
-
                 err = fmt.Errorf("expected --apiKey or ATLASSIAN_TOKEN env var. %v", err)
-
             }
-
         }
-
-    } else {
-
-        err = client.client.SetApiKey(argServerApiKey)
-
     }
+    err = client.client.SetApiKey(argServerApiKey)
 
     if client.debug {
-        ansi.Blue().Printf("ApiKey: %v", client.apiKey).LF().Reset()
+        ansi.Blue().
+            Printf("argServerApiKey: %v", argServerApiKey).LF().
+            Printf("ApiKey: '%s' error: %v", client.client.GetApiKey(), err).LF().
+            Reset()
     }
 
     return err
