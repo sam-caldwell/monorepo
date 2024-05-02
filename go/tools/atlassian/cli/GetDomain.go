@@ -15,5 +15,5 @@ func (client *JiraClient[T]) GetDomain() error {
         return fmt.Errorf(errors.MissingArguments)
     }
 
-    return client.client.SetApiKey(thisDescriptor)
+    return client.client.SetDomain(thisDescriptor)
 }
