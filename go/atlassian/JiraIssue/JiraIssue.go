@@ -1,7 +1,9 @@
 package JiraIssue
 
+// Issue - a structure representing a JIRA issue
 type Issue struct {
-    Fields struct {
+    IssueKey string `json:"issueKey,omitempty"`
+    Fields   struct {
         Project struct {
             Key string `json:"key"`
         } `json:"project"`
