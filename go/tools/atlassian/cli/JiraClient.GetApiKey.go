@@ -13,20 +13,19 @@ func (client *JiraClient[T]) GetApiKey() (err error) {
     argServerApiKey, err := simpleArgs.GetOptionValue("--apiKey")
 
     if err != nil {
-        if err.Error() != simpleArgs.OptionNotFound {
-            err = fmt.Errorf("parsing error (--apiKey): %v", err)
-        } else {
+        if err.Error() == simpleArgs.OptionNotFound {
             if argServerApiKey, err = env.RequireString("ATLASSIAN_TOKEN"); err != nil {
                 err = fmt.Errorf("expected --apiKey or ATLASSIAN_TOKEN env var. %v", err)
             }
         }
     }
+
     err = client.client.SetApiKey(argServerApiKey)
 
     if client.debug {
         ansi.Blue().
-            Printf("argServerApiKey: %v", argServerApiKey).LF().
-            Printf("ApiKey: '%s' error: %v", client.client.GetApiKey(), err).LF().
+            Printf("ApiKey: '%s' "+
+                "error: %v", client.client.GetApiKey(), err).LF().
             Reset()
     }
 

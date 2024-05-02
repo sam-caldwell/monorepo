@@ -7,8 +7,15 @@ const (
 )
 
 const (
-    MalformedJiraDomain      = "JiraDomain malformed"
-    JiraDomainRegEx          = `[a-zA-Z][a-zA-Z0-9\-_]+[a-zA-Z0-9]`
+    atlassianTokenRegex = `^[A-Za-z0-9+/\-=_]{192}$`
+
+    errInvalidAtlassianToken = "invalid apiKey"
+
+    MalformedJiraDomain = "JiraDomain malformed"
+
+    JiraDomainRegEx = `[a-zA-Z][a-zA-Z0-9\-_]+[a-zA-Z0-9]`
+
     JiraDomainNotInitialized = "JiraDomain not initialized"
-    JiraUrlPattern           = "https://%s.atlassian.net/rest/api/2/issue/"
+
+    JiraUrlPattern = "https://%s.atlassian.net/rest/api/2/issue/"
 )
