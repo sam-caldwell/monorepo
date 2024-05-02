@@ -6,7 +6,7 @@ func (client *Client) Init(domain, apiKey string) *Client {
     if client.err = client.domain.Set(&domain); client.err != nil {
         return client
     }
-    client.err = client.apiKey.FromString(&apiKey)
+    client.err = client.apiKey.Set(&apiKey)
     return client
 
 }
