@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/sam-caldwell/monorepo/go/ansi"
     Atlassian "github.com/sam-caldwell/monorepo/go/atlassian"
+    "github.com/sam-caldwell/monorepo/go/misc/words"
     "github.com/sam-caldwell/monorepo/go/tools/atlassian/commands"
     "net/http"
 )
@@ -49,6 +50,8 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
         }
         return err
     }
+
+    request.Header.Set(words.ContentType, words.ApplicationJson)
 
     if resp, err = web.Do(request); err != nil {
         return fmt.Errorf("error sending request (%v)", err)
