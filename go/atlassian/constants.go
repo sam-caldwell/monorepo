@@ -13,7 +13,7 @@ const (
 
     MalformedJiraDomain = "JiraDomain malformed"
 
-    JiraDomainRegEx = `[a-zA-Z][a-zA-Z0-9\-_]+[a-zA-Z0-9]`
+    JiraDomainRegEx = `^[a-zA-Z][a-zA-Z0-9\-_]+[a-zA-Z0-9]$`
 
     JiraDomainNotInitialized = "JiraDomain not initialized"
 
