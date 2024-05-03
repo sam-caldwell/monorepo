@@ -18,5 +18,6 @@ const (
     JiraDomainNotInitialized = "JiraDomain not initialized"
 
     JiraUrlPattern = "https://%s.atlassian.net/%s"
-    JiraApiIssue   = "/rest/api/2/issue/"
+
+    JiraApiIssue = "/rest/api/2/issue/"
 )
