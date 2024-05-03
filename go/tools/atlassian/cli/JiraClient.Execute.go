@@ -3,15 +3,26 @@ package cli
 import (
     "fmt"
     "github.com/sam-caldwell/monorepo/go/ansi"
+    Atlassian "github.com/sam-caldwell/monorepo/go/atlassian"
     "github.com/sam-caldwell/monorepo/go/tools/atlassian/commands"
     "net/http"
 )
 
 // Execute Given all context, execute the API action
 func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
+    var (
+        resp         *http.Response
+        responseBody []byte
+        web          *http.Client
+        request      *http.Request
+        actionFunc   Atlassian.ActionFunc
+    )
 
-    var results *http.Request
-    var web *http.Client
+    defer func() {
+        if resp != nil {
+            _ = resp.Body.Close()
+        }
+    }()
 
     if client.debug {
         ansi.Blue().Printf("action: %s", action.String()).LF().Reset()
@@ -19,33 +30,43 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
 
     switch action {
     case commands.Create:
-        results, err = client.descriptor.Create(&client.domain, web)
-
+        actionFunc = client.descriptor.Create
     case commands.Read:
-        results, err = client.descriptor.Read(&client.domain, web)
-
+        actionFunc = client.descriptor.Read
     case commands.Update:
-        results, err = client.descriptor.Update(&client.domain, web)
-
+        actionFunc = client.descriptor.Update
     case commands.Delete:
-        results, err = client.descriptor.Delete(&client.domain, web)
-
+        actionFunc = client.descriptor.Delete
     case commands.List:
-        results, err = client.descriptor.List(&client.domain, web)
-
+        actionFunc = client.descriptor.List
     default:
-        results, err = nil, fmt.Errorf("unknown/unexpected command")
+        return fmt.Errorf("unknown/unexpected command")
     }
-    if client.debug {
-        ansi.Blue().Printf("err: %v", err).LF().Reset()
-    }
-    if err != nil {
+
+    if request, err = actionFunc(&client.domain); err != nil {
+        if client.debug {
+            ansi.Blue().Printf("err: %v", err).LF().Reset()
+        }
         return err
     }
 
-    //ToDo: better output formatting...
-    if results != nil {
-        ansi.Reset().Printf("%v", results).LF().Reset()
+    if resp, err = web.Do(request); err != nil {
+        return fmt.Errorf("error sending request (%v)", err)
     }
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("atlassian API responds %d (%s)", resp.StatusCode, resp.Status)
+    }
+
+    if _, err = resp.Body.Read(responseBody); err != nil {
+        return fmt.Errorf("error reading response body (%v)", err)
+    }
+
+    if responseBody != nil {
+        //ToDo: better output formatting...
+        ansi.Reset().Printf("%v", responseBody).LF().Reset()
+    }
+
     return err
+
 }

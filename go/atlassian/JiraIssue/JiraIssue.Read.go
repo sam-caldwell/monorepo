@@ -7,7 +7,7 @@ import (
 )
 
 // Read - read the specified issue
-func (jira Issue) Read(domain *Atlassian.Domain, web *http.Client) (*http.Request, error) {
+func (jira Issue) Read(domain *Atlassian.Domain) (*http.Request, error) {
     ansi.Blue().Print("Read issue").LF().Reset()
     return nil, nil
 }

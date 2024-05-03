@@ -7,7 +7,7 @@ import (
 )
 
 // Delete the specified issue
-func (jira Issue) Delete(domain *Atlassian.Domain, web *http.Client) (*http.Request, error) {
+func (jira Issue) Delete(domain *Atlassian.Domain) (*http.Request, error) {
     ansi.Blue().Print("Delete issue").LF().Reset()
     return nil, nil
 }

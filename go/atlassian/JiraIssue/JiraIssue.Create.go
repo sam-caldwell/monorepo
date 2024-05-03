@@ -8,10 +8,19 @@ import (
 )
 
 // Create - create issue defined by the internal Issue struct state
-func (jira Issue) Create(domain *Atlassian.Domain, web *http.Client) (*http.Request, error) {
+func (jira Issue) Create(domain *Atlassian.Domain) (*http.Request, error) {
 
-    url := fmt.Sprintf(Atlassian.JiraUrlPattern, domain.Get(), Atlassian.JiraApiIssue)
+    req, err := http.NewRequest(
+        http.MethodPost,
+        fmt.Sprintf(Atlassian.JiraUrlPattern, domain.Get(), Atlassian.JiraApiIssue),
+        bytes.NewBuffer(jira.Marshall()))
 
-    return http.NewRequest("POST", url, bytes.NewBuffer(jira.Marshall()))
+    if err != nil {
+        return nil, err
+    }
+
+    req.Header.Set("Content-Type", "application/json")
+
+    return req, err
 
 }
