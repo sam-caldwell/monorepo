@@ -4,6 +4,7 @@ import (
     "bytes"
     "fmt"
     Atlassian "github.com/sam-caldwell/monorepo/go/atlassian"
+    "github.com/sam-caldwell/monorepo/go/misc/words"
     "net/http"
 )
 
@@ -19,7 +20,7 @@ func (jira Issue) Create(domain *Atlassian.Domain) (*http.Request, error) {
         return nil, err
     }
 
-    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set(words.ContentType, words.ApplicationJson)
 
     return req, err
 
