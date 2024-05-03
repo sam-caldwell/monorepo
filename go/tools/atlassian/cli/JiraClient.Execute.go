@@ -45,9 +45,6 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
     }
 
     if request, err = actionFunc(&client.domain); err != nil {
-        if client.debug {
-            ansi.Blue().Printf("err: %v", err).LF().Reset()
-        }
         return err
     }
 
@@ -60,7 +57,7 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
     }
 
     if resp.StatusCode != http.StatusOK {
-        return fmt.Errorf("atlassian API responds %d (%s)", resp.StatusCode, resp.Status)
+        return fmt.Errorf("error in response: %d (%s)", resp.StatusCode, resp.Status)
     }
 
     if _, err = resp.Body.Read(responseBody); err != nil {
