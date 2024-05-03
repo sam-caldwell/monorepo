@@ -11,5 +11,3 @@ type Descriptor interface {
     Delete(domain *Domain) (*http.Request, error)
     List(domain *Domain) (*http.Request, error)
 }
-
-type ActionFunc func(domain *Domain) (*http.Request, error)
