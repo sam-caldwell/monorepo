@@ -1,7 +1,8 @@
 package AtlassianTypes
 
 // Set - Setter for Jira issue summary
-func (jira *JiraSummary) Set(s string) {
+func (jira *JiraIssueSummary) Set(s string) error {
     //ToDo: Validate the issue summary
-    *jira = JiraSummary(s)
+    *jira = JiraIssueSummary(s)
+    return nil
 }

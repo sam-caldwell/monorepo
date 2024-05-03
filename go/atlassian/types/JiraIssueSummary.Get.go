@@ -1,6 +1,6 @@
 package AtlassianTypes
 
 // Get - Getter for Jira issue summary
-func (jira *JiraSummary) Get() (s string) {
+func (jira *JiraIssueSummary) Get() (s string) {
     return string(*jira)
 }
