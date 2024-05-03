@@ -2,7 +2,7 @@ package Atlassian
 
 import "testing"
 
-func TestJiraDomain_Get(t *testing.T) {
+func TestDomain_Get(t *testing.T) {
     var d Domain
     d = Domain("testDomain")
     if v := d.Get(); v != string(d) {
