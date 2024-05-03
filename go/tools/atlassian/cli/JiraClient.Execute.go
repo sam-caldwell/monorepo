@@ -49,8 +49,9 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
     }
 
     request.Header.Set(words.ContentType, words.ApplicationJson)
-    //ToDo: Double-check that the apiKey is base64-encoded properly.
-    request.Header.Set(words.Authorization, words.Basic+client.client.GetApiKey())
+    if err := client.client.SetAuthHeader(request); err != nil {
+        return err
+    }
 
     if resp, err = web.Do(request); err != nil {
         return fmt.Errorf("error sending request (%v)", err)
