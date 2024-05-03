@@ -6,12 +6,12 @@ import (
 )
 
 // Load - Load the Jira Project JSON file
-func (project JiraProject) Load(fileName string) error {
+func (jira Project) Load(fileName string) error {
     content, err := os.ReadFile(fileName)
     if err != nil {
         return err
     }
-    if err = json.Unmarshal(content, &project); err != nil {
+    if err = json.Unmarshal(content, &jira); err != nil {
         return err
     }
     return nil
