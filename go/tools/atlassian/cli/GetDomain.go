@@ -2,6 +2,7 @@ package cli
 
 import (
     "fmt"
+    "github.com/sam-caldwell/monorepo/go/ansi"
     "github.com/sam-caldwell/monorepo/go/exit/errors"
     "github.com/sam-caldwell/monorepo/go/simpleArgs"
 )
@@ -9,11 +10,14 @@ import (
 // GetDomain Get the --domain cli parameter
 func (client *JiraClient[T]) GetDomain() error {
 
-    thisDescriptor, err := simpleArgs.GetOptionValue("--domain")
+    d, err := simpleArgs.GetOptionValue("--domain")
 
     if err != nil {
         return fmt.Errorf(errors.MissingArguments)
     }
 
-    return client.client.SetDomain(thisDescriptor)
+    if client.debug {
+        ansi.Blue().Printf("Domain: %s [%v]", d, err).LF().Reset()
+    }
+    return client.client.SetDomain(d)
 }

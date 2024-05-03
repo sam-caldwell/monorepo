@@ -11,6 +11,10 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
 
     var results any
 
+    if client.debug {
+        ansi.Blue().Printf("action: %s", action.String()).LF().Reset()
+    }
+
     switch action {
 
     case commands.Create:
@@ -31,12 +35,16 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
     default:
         results, err = "", fmt.Errorf("unknown/unexpected command")
     }
-
+    if client.debug {
+        ansi.Blue().Printf("err: %v", err).LF().Reset()
+    }
     if err != nil {
         return err
     }
 
     //ToDo: better output formatting...
-    ansi.Reset().Printf("%v", results).LF().Reset()
+    if results != nil {
+        ansi.Reset().Printf("%v", results).LF().Reset()
+    }
     return err
 }
