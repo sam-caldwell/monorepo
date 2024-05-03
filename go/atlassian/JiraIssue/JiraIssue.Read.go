@@ -1,9 +1,13 @@
 package JiraIssue
 
-import "github.com/sam-caldwell/monorepo/go/ansi"
+import (
+    "github.com/sam-caldwell/monorepo/go/ansi"
+    Atlassian "github.com/sam-caldwell/monorepo/go/atlassian"
+    "net/http"
+)
 
 // Read - read the specified issue
-func (jira Issue) Read() (any, error) {
+func (jira Issue) Read(domain *Atlassian.Domain, web *http.Client) (*http.Request, error) {
     ansi.Blue().Print("Read issue").LF().Reset()
     return nil, nil
 }
