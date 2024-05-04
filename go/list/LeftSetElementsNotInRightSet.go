@@ -3,7 +3,7 @@ package list
 import "fmt"
 
 // LeftSetElementsNotInRightSet - Verify that all elements of *a are in *b
-func LeftSetElementsNotInRightSet(a *[]any, b *[]any) error {
+func LeftSetElementsNotInRightSet[T comparable](a *[]T, b *[]T) error {
 	for _, elementA := range *a {
 		found := false
 		for _, elementB := range *b {
@@ -13,7 +13,7 @@ func LeftSetElementsNotInRightSet(a *[]any, b *[]any) error {
 			}
 		}
 		if !found {
-			return fmt.Errorf("invalid element '%s'", elementA)
+			return fmt.Errorf("invalid element '%v'", elementA)
 		}
 	}
 	return nil
