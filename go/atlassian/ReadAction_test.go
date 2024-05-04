@@ -7,21 +7,21 @@ import (
 	"testing"
 )
 
-func TestActionFunc(t *testing.T) {
+func TestReadAction(t *testing.T) {
 	var d Domain
-	var fn ActionFunc
+	var fn ReadAction
 
 	s := "test"
 	if err := d.Set(&s); err != nil {
 		t.Fatal(err)
 	}
-	fn = func(td *Domain) (*http.Request, error) {
+	fn = func(td *Domain, n string) (*http.Request, error) {
 		request, err := http.NewRequest(
 			http.MethodPost,
 			fmt.Sprintf(JiraUrlPattern, td.Get(), atlassianFqdn, JiraApiIssue), bytes.NewBuffer([]byte("")))
 		return request, err
 	}
-	if request, err := fn(&d); err != nil {
+	if request, err := fn(&d, ""); err != nil {
 		t.Fatal(err)
 	} else {
 		if request == nil {
