@@ -7,7 +7,7 @@ import (
 )
 
 // Create - create issue defined by the internal Issue struct state
-func (jira *Issue) Create(domain *Atlassian.Domain) (*http.Request, error) {
+func (jira Issue) Create(domain *Atlassian.Domain) (*http.Request, error) {
 	const path = "/rest/api/2/issue/"
 
 	return http.NewRequest(

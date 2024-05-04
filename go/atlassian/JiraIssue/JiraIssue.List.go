@@ -8,7 +8,7 @@ import (
 )
 
 // List - list issues given a JQL Query object
-func (jira *Issue) List(domain *Atlassian.Domain, jql *AtlassianTypes.JqlQuery) (*http.Request, error) {
+func (jira Issue) List(domain *Atlassian.Domain, jql *AtlassianTypes.JqlQuery) (*http.Request, error) {
 	const path = "/rest/api/2/issue/"
 
 	return http.NewRequest(

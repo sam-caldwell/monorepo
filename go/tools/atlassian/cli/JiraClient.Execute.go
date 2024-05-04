@@ -15,7 +15,7 @@ func (client *JiraClient[T]) Execute(action commands.Commands) (err error) {
 		issueOrKey   string
 		resp         *http.Response
 		responseBody []byte
-		web          *http.Client
+		web          http.Client
 		request      *http.Request
 		jql          *AtlassianTypes.JqlQuery
 	)

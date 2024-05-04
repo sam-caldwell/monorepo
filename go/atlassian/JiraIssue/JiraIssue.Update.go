@@ -8,7 +8,7 @@ import (
 )
 
 // Update -  Update the identified issue as defined by the internal Issue struct state
-func (jira *Issue) Update(domain *Atlassian.Domain, issueIdOrKey string) (*http.Request, error) {
+func (jira Issue) Update(domain *Atlassian.Domain, issueIdOrKey string) (*http.Request, error) {
 	const path = "/rest/api/3/issue/%s" // %s is {issueIdOrKey}
 
 	return http.NewRequest(

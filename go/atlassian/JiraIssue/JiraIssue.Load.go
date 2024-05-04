@@ -8,7 +8,7 @@ import (
 )
 
 // Load - Load the Jira Issue JSON file
-func (jira *Issue) Load(fileName string) error {
+func (jira Issue) Load(fileName string) error {
 	if !file.Exists(fileName) {
 		return fmt.Errorf("descriptor file does not exist")
 	}
