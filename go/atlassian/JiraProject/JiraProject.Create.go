@@ -6,6 +6,6 @@ import (
 )
 
 // Create - Create the given project using the internal state
-func (jira Project) Create(domain *Atlassian.Domain) (*http.Request, error) {
+func (jira *Project) Create(domain *Atlassian.Domain) (*http.Request, error) {
 	return nil, nil
 }

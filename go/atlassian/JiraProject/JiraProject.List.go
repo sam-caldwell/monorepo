@@ -7,6 +7,6 @@ import (
 )
 
 // List - List all projects (paginated)
-func (jira Project) List(domain *Atlassian.Domain, jql *AtlassianTypes.JqlQuery) (*http.Request, error) {
+func (jira *Project) List(domain *Atlassian.Domain, jql *AtlassianTypes.JqlQuery) (*http.Request, error) {
 	return nil, nil
 }
