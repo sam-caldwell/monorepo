@@ -8,7 +8,7 @@ import (
 )
 
 // Delete the specified issue
-func (jira Issue) Delete(domain *Atlassian.Domain, issueIdOrKey string) (*http.Request, error) {
+func (jira *Issue) Delete(domain *Atlassian.Domain, issueIdOrKey string) (*http.Request, error) {
 	const path = "/rest/api/3/issue/%s" // %s is {issueIdOrKey}
 	return http.NewRequest(
 		http.MethodDelete,
