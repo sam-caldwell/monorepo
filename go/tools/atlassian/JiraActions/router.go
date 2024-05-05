@@ -54,6 +54,23 @@ func Router(command *string, object *string) error {
 		}
 		flag.Parse()
 
+		if *debug {
+			ansi.Blue().
+				Println("debugging...").
+				Line("-", 40).
+				Printf("       debug: %v", *debug).LF().
+				Printf("        noop:  %v", *noop).LF().
+				Printf("     command: %s", *command).LF().
+				Printf("      object: %s", *object).LF().
+				Printf("      apiKey: %s", *apiKey).LF().
+				Printf("      domain: %s", *domain).LF().
+				Printf("  descriptor: %s", *descriptor).LF().
+				Printf("  issueOrKey: '%s'", *issueOrKey).LF().
+				Printf("  JsqlString: '%s'", *jqlString).LF().
+				Line("-", 40).LF().
+				Reset()
+		}
+
 		if err := app.Init(*debug, *noop, apiKey, domain, descriptor, issueOrKey, jqlString); err != nil {
 			return err
 		}

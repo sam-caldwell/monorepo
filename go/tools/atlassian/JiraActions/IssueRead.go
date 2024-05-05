@@ -8,7 +8,7 @@ import (
 // IssueRead - Read a new jira issue/ticket
 func IssueRead(app *JiraIssue.Issue) error {
 
-	output, err := app.Read(issueIdOrKey)
+	output, err := app.Read()
 	if err != nil {
 		return err
 	}
