@@ -1,19 +1,15 @@
 package JiraIssue
 
 import (
-	"bytes"
-	Atlassian "github.com/sam-caldwell/monorepo/go/atlassian"
 	AtlassianTypes "github.com/sam-caldwell/monorepo/go/atlassian/types"
 	"net/http"
 )
 
 // List - list issues given a JQL Query object
-func (jira Issue) List(domain *Atlassian.Domain, jql *AtlassianTypes.JqlQuery) (*http.Request, error) {
+func (jira *Issue) List(jql *AtlassianTypes.JqlQuery) (output []byte, err error) {
 	const path = "/rest/api/2/issue/"
 
-	return http.NewRequest(
-		http.MethodPost,
-		Atlassian.JiraUrlFactory(Atlassian.JiraUrlPattern, domain.Get(), path),
-		bytes.NewBuffer(jql.Bytes()))
+	//ToDo: how do we send the JQL?
 
+	return jira.client.Send(http.MethodPost, path, jira.Marshall())
 }
