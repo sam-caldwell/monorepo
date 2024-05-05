@@ -9,11 +9,11 @@ func (jira *Issue) Init(debug bool, noop bool, apiKey, domain, descriptor, issue
 
 	jira.client.SetNoop(noop)
 
-	if err = jira.client.SetApiKey(apiKey); err != nil {
+	if err = jira.client.SetDomain(domain); err != nil {
 		return err
 	}
 
-	if err = jira.client.SetDomain(domain); err != nil {
+	if err = jira.client.SetApiKey(apiKey); err != nil {
 		return err
 	}
 
