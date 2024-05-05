@@ -42,7 +42,7 @@ func Issue(command, object *string) error {
 			Println("debugging...").
 			Line("-", 40).
 			Printf("       debug: '%v'", *debug).LF().
-			Printf("        noop:  '%v'", *noop).LF().
+			Printf("        noop: '%v'", *noop).LF().
 			Printf("     command: '%s'", *command).LF().
 			Printf("      object: '%s'", *object).LF().
 			Printf("      apiKey: '%s'", *apiKey).LF().
