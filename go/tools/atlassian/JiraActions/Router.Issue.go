@@ -94,4 +94,5 @@ func Issue(command, object *string) error {
 	default:
 		return fmt.Errorf("cannot execute invalid command")
 	}
+	return nil
 }
