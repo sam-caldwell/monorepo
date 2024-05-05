@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"io"
+	"log"
 	"net/http"
 )
 
+// Send - Send HTTP request for client and return an error and []byte serialized output.
 func (client *Client) Send(method string, path string, body []byte) (output []byte, err error) {
 
 	var (
@@ -31,9 +34,21 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 		return nil, err
 	}
 
-	request.Header.Set(words.ContentType, words.ApplicationJson)
+	request.Header.Set(words.ContentType, ContentType)
+
 	if err = client.SetAuthHeader(request); err != nil {
 		return nil, err
+	}
+
+	if client.debug {
+		ansi.Blue().
+			Line("-", 40).
+			Println("request headers")
+		for key, value := range request.Header {
+			ansi.Blue().Printf("  %s  : %s", key, value).LF().Reset()
+		}
+		ansi.Line("-", 40).
+			LF().Reset()
 	}
 
 	if client.noop {
@@ -45,17 +60,15 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 		return nil, fmt.Errorf("error sending request (%v)", err)
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return nil, fmt.Errorf("error in response: %d (%s)", resp.StatusCode, resp.Status)
 	}
 
-	if _, err = resp.Body.Read(responseBody); err != nil {
-		return nil, fmt.Errorf("error reading response body (%v)", err)
+	if responseBody, err = io.ReadAll(resp.Body); err != nil {
+		log.Fatalln(err)
 	}
 
-	if responseBody != nil {
-		//ToDo: better output formatting...
-		ansi.Reset().Printf("%v", responseBody).LF().Reset()
-	}
+	ansi.Reset().Printf("%s", responseBody).LF().Reset()
+
 	return output, err
 }

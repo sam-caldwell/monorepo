@@ -9,6 +9,8 @@ const (
 const (
 	atlassianTokenRegex = `^[A-Za-z0-9+/\-=_]{192}$`
 
+	ContentType = "application/json;charset=UTF-8"
+
 	errInvalidAtlassianToken = "invalid apiKey"
 
 	MalformedJiraDomain = "JiraDomain malformed"

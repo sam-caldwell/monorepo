@@ -6,10 +6,15 @@ import env "github.com/sam-caldwell/monorepo/go/environment"
 func (client *Client) SetApiKey(apiKey *string) (err error) {
 
 	if (apiKey == nil) || (*apiKey == "") {
+
 		*apiKey, err = env.RequireString("ATLASSIAN_TOKEN")
+
 		if err != nil {
+
 			return err
+
 		}
+
 	}
 
 	return client.apiKey.Set(apiKey)

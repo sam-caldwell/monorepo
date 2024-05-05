@@ -1,7 +1,7 @@
 package JiraIssue
 
 // Init - Initialize the state of the Jira Issue object
-func (jira *Issue) Init(debug bool, noop bool, apiKey, domain, descriptor, issueOrKey, jqlString *string) error {
+func (jira *Issue) Init(debug bool, noop bool, username, apiKey, domain, descriptor, issueOrKey, jqlString *string) error {
 
 	var err error
 
@@ -10,6 +10,10 @@ func (jira *Issue) Init(debug bool, noop bool, apiKey, domain, descriptor, issue
 	jira.client.SetNoop(noop)
 
 	if err = jira.client.SetDomain(domain); err != nil {
+		return err
+	}
+
+	if err = jira.client.SetUsername(username); err != nil {
 		return err
 	}
 

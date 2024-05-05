@@ -11,9 +11,10 @@ import (
 func Issue(command, object *string) error {
 	var app JiraIssue.Issue
 	var debug, noop *bool
-	var apiKey, descriptor, domain, issueOrKey, jqlString *string
+	var apiKey, descriptor, domain, issueOrKey, jqlString, username *string
 	debug = flag.Bool("debug", false, "enable debug output")
 	noop = flag.Bool("noop", false, "run command with no effect")
+	username = flag.String("username", "", "Jira user name")
 	apiKey = flag.String("apiKey", "", "Jira API key")
 	domain = flag.String("domain", "", "Jira domain")
 	GetDescriptor := func() *string {
@@ -66,7 +67,7 @@ func Issue(command, object *string) error {
 			Reset()
 	}
 
-	if err := app.Init(*debug, *noop, apiKey, domain, descriptor, issueOrKey, jqlString); err != nil {
+	if err := app.Init(*debug, *noop, username, apiKey, domain, descriptor, issueOrKey, jqlString); err != nil {
 		return err
 	}
 
