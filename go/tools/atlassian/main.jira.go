@@ -9,7 +9,9 @@ import (
 func main() {
 
 	command := simpleArgs.GetCommand("command (create,read,update,delete,list")
+
 	object := simpleArgs.GetCommand("object (issue,project)")
+
 	exit.TerminateOnError(JiraActions.Router(&command, &object))
 
 }
