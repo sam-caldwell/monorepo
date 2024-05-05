@@ -57,5 +57,5 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 		//ToDo: better output formatting...
 		ansi.Reset().Printf("%v", responseBody).LF().Reset()
 	}
-
+	return output, err
 }
