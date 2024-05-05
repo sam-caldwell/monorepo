@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
+	"github.com/sam-caldwell/monorepo/go/list"
 	"github.com/sam-caldwell/monorepo/go/version"
 	"os"
 )
@@ -17,5 +18,6 @@ func GetCommand(helpText string) (command string) {
 		fmt.Println(version.Version)
 		os.Exit(0)
 	}
+	list.DeleteElement(os.Args, 1)
 	return command
 }
