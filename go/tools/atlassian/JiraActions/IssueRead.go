@@ -5,10 +5,10 @@ import (
 	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
 )
 
-// CreateIssue - Create a new jira issue/ticket
-func CreateIssue(app *JiraIssue.Issue) error {
+// IssueRead - Read a new jira issue/ticket
+func IssueRead(app *JiraIssue.Issue, issueIdOrKey string) error {
 
-	output, err := app.Create()
+	output, err := app.Read(issueIdOrKey)
 	if err != nil {
 		return err
 	}
