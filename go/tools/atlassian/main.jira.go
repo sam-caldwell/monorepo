@@ -1,13 +1,13 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"github.com/sam-caldwell/monorepo/go/ansi"
-	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
-	"github.com/sam-caldwell/monorepo/go/exit"
-	"github.com/sam-caldwell/monorepo/go/simpleArgs"
-	"github.com/sam-caldwell/monorepo/go/tools/atlassian/JiraActions"
+    "flag"
+    "fmt"
+    "github.com/sam-caldwell/monorepo/go/ansi"
+    "github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
+    "github.com/sam-caldwell/monorepo/go/exit"
+    "github.com/sam-caldwell/monorepo/go/simpleArgs"
+    "github.com/sam-caldwell/monorepo/go/tools/atlassian/JiraActions"
 )
 
 type action func() error
@@ -47,8 +47,26 @@ func main() {
 			if err := app.Init(*debug, *noop, apiKey, domain, descriptor, issueOrKey, jqlString); err != nil {
 				return err
 			}
-			if err := JiraActions.CreateIssue(&app); err != nil {
-				return err
+			switch command {
+			case "create":
+				if err := JiraActions.IssueCreate(&app); err != nil {
+					return err
+				}
+			case "read":
+				if err := JiraActions.IssueRead(&app); err != nil {
+					return err
+				}
+			case "update":
+				if err := JiraActions.IssueUpdate(&app); err != nil {
+					return err
+				}
+			case "delete":
+				if err := JiraActions.IssueDelete(&app); err != nil {
+					return err
+				}
+			case "list":
+			default:
+				return fmt.Errorf("cannot execute invalid command")
 			}
 			return nil
 		}

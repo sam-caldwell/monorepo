@@ -5,10 +5,10 @@ import (
 	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
 )
 
-// UpdateIssue - Update a new jira issue/ticket
-func UpdateIssue(app *JiraIssue.Issue, issueIdOrKey string) error {
+// IssueUpdate - Update a new jira issue/ticket
+func IssueUpdate(app *JiraIssue.Issue) error {
 
-	output, err := app.Update(issueIdOrKey)
+	output, err := app.Update()
 	if err != nil {
 		return err
 	}

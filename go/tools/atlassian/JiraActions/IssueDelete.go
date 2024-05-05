@@ -5,10 +5,10 @@ import (
 	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
 )
 
-// DeleteIssue - Delete a new jira issue/ticket
-func DeleteIssue(app *JiraIssue.Issue, issueIdOrKey string) error {
+// IssueDelete - Delete a new jira issue/ticket
+func IssueDelete(app *JiraIssue.Issue) error {
 
-	output, err := app.Delete(issueIdOrKey)
+	output, err := app.Delete()
 	if err != nil {
 		return err
 	}

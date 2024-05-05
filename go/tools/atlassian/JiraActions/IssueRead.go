@@ -6,7 +6,7 @@ import (
 )
 
 // IssueRead - Read a new jira issue/ticket
-func IssueRead(app *JiraIssue.Issue, issueIdOrKey string) error {
+func IssueRead(app *JiraIssue.Issue) error {
 
 	output, err := app.Read(issueIdOrKey)
 	if err != nil {
