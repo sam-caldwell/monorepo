@@ -26,6 +26,10 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 		}
 	}()
 
+	if client.debug {
+		ansi.Blue().Printf("path: %s", path).LF().Reset()
+	}
+
 	request, err = http.NewRequest(
 		method,
 		JiraUrlFactory(JiraUrlPattern, client.domain.Get(), path),
@@ -68,7 +72,10 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 		log.Fatalln(err)
 	}
 
-	ansi.Reset().Printf("%s", responseBody).LF().Reset()
+	ansi.Reset().
+		Printf("Result:OK").LF().
+		Printf("%s", responseBody).LF().
+		Reset()
 
 	return output, err
 }
