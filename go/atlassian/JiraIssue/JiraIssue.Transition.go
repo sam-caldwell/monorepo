@@ -2,6 +2,7 @@ package JiraIssue
 
 import (
 	"fmt"
+	AtlassianTypes "github.com/sam-caldwell/monorepo/go/atlassian/JiraTransition"
 	"net/http"
 )
 
@@ -10,47 +11,23 @@ func (jira *Issue) Transition(step *string) (output []byte, err error) {
 
 	const path = "/rest/api/3/issue/%s/transitions"
 
+	var transition AtlassianTypes.JiraTransition
+	if err = transition.Init(&jira.client); err != nil {
+		return nil, err
+	}
+	if err = transition.GetTransitionIdByName(&jira.IssueKey, step); err != nil {
+		return nil, err
+	}
+
 	return jira.client.Send(
 		http.MethodPost,
 		fmt.Sprintf(path, jira.IssueKey),
-		jira.Marshall())
+		transition.JsonMarshall())
 
 }
 
 /*
    {
-     "fields": {
-       "assignee": {
-         "name": "bob"
-       },
-       "resolution": {
-         "name": "Fixed"
-       }
-     },
-     "historyMetadata": {
-       "activityDescription": "Complete order processing",
-       "actor": {
-         "avatarUrl": "http://mysystem/avatar/tony.jpg",
-         "displayName": "Tony",
-         "id": "tony",
-         "type": "mysystem-user",
-         "url": "http://mysystem/users/tony"
-       },
-       "cause": {
-         "id": "myevent",
-         "type": "mysystem-event"
-       },
-       "description": "From the order testing process",
-       "extraData": {
-         "Iteration": "10a",
-         "Step": "4"
-       },
-       "generator": {
-         "id": "mysystem-1",
-         "type": "mysystem-application"
-       },
-       "type": "myplugin:type"
-     },
      "transition": {
        "id": "5"
      },

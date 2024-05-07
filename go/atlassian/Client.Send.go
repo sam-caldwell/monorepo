@@ -14,10 +14,9 @@ import (
 func (client *Client) Send(method string, path string, body []byte) (output []byte, err error) {
 
 	var (
-		request      *http.Request
-		resp         *http.Response
-		responseBody []byte
-		web          http.Client
+		request *http.Request
+		resp    *http.Response
+		web     http.Client
 	)
 
 	defer func() {
@@ -68,13 +67,13 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 		return nil, fmt.Errorf("error in response: %d (%s)", resp.StatusCode, resp.Status)
 	}
 
-	if responseBody, err = io.ReadAll(resp.Body); err != nil {
+	if output, err = io.ReadAll(resp.Body); err != nil {
 		log.Fatalln(err)
 	}
 
 	ansi.Reset().
 		Printf("Result:OK").LF().
-		Printf("%s", responseBody).LF().
+		Printf("%s", output).LF().
 		Reset()
 
 	return output, err

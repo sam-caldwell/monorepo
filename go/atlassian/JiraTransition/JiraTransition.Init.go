@@ -1,4 +1,4 @@
-package AtlassianTypes
+package JiraTransition
 
 import (
 	"fmt"
