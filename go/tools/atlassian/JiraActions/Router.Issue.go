@@ -32,6 +32,7 @@ func Issue(command, object *string) error {
 	case listCmd:
 		jqlString = flag.String("jql", "", "jira jql string")
 	case transitionCmd:
+		issueOrKey = getIssueOrKey()
 		workflowStep = getWorkflowStep()
 	default:
 		return fmt.Errorf("invalid command")
@@ -103,7 +104,7 @@ func Issue(command, object *string) error {
 		}
 	case transitionCmd:
 		if err := IssueTransition(&app, workflowStep); err != nil {
-
+			return err
 		}
 	default:
 		return fmt.Errorf("cannot execute invalid command")
