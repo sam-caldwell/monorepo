@@ -21,8 +21,10 @@ func (jira *Issue) Init(debug bool, noop bool, username, apiKey, domain, descrip
 		return err
 	}
 
-	if err = jira.Load(descriptor); err != nil {
-		return err
+	if descriptor != nil {
+		if err = jira.Load(descriptor); err != nil {
+			return err
+		}
 	}
 
 	if (issueOrKey != nil) && (*issueOrKey != "") {

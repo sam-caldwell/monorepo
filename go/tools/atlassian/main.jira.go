@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	command := simpleArgs.GetCommand("command (create,read,update,delete,list")
+	command := simpleArgs.GetCommand("command (create,read,update,delete,list,transition")
 
 	object := simpleArgs.GetCommand("object (issue,project)")
 

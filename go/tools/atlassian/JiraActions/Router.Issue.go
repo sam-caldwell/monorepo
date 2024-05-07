@@ -5,34 +5,34 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
+	"github.com/sam-caldwell/monorepo/go/fs/file"
 )
 
 // Issue - Route issue-related operation
 func Issue(command, object *string) error {
 	var app JiraIssue.Issue
 	var debug, noop *bool
-	var apiKey, descriptor, domain, issueOrKey, jqlString, username *string
+	var apiKey, descriptor, domain, issueOrKey,
+		jqlString, username, workflowStep *string
+
 	debug = flag.Bool("debug", false, "enable debug output")
 	noop = flag.Bool("noop", false, "run command with no effect")
 	username = flag.String("username", "", "Jira user name")
 	apiKey = flag.String("apiKey", "", "Jira API key")
 	domain = flag.String("domain", "", "Jira domain")
-	GetDescriptor := func() *string {
-		return flag.String("descriptor", "", "Jira issue descriptor file")
-	}
-	GetIssueOrKey := func() *string {
-		return flag.String("issue", "", "jira issue id or key")
-	}
+
 	switch *command {
 	case createCmd:
-		descriptor = GetDescriptor()
+		descriptor = getDescriptor()
 	case updateCmd:
-		descriptor = GetDescriptor()
-		issueOrKey = GetIssueOrKey()
+		descriptor = getDescriptor()
+		issueOrKey = getIssueOrKey()
 	case readCmd, deleteCmd:
-		issueOrKey = GetIssueOrKey()
+		issueOrKey = getIssueOrKey()
 	case listCmd:
 		jqlString = flag.String("jql", "", "jira jql string")
+	case transitionCmd:
+		workflowStep = getWorkflowStep()
 	default:
 		return fmt.Errorf("invalid command")
 	}
@@ -73,6 +73,9 @@ func Issue(command, object *string) error {
 
 	switch *command {
 	case createCmd:
+		if err := requireDescriptorFile(descriptor); err != nil {
+			return err
+		}
 		if err := IssueCreate(&app); err != nil {
 			return err
 		}
@@ -81,6 +84,9 @@ func Issue(command, object *string) error {
 			return err
 		}
 	case updateCmd:
+		if err := requireDescriptorFile(descriptor); err != nil {
+			return err
+		}
 		if err := IssueUpdate(&app); err != nil {
 			return err
 		}
@@ -89,8 +95,15 @@ func Issue(command, object *string) error {
 			return err
 		}
 	case listCmd:
+		if !file.Existsp(descriptor) {
+			return fmt.Errorf("missing descriptor file")
+		}
 		if err := IssueList(&app); err != nil {
 			return err
+		}
+	case transitionCmd:
+		if err := IssueTransition(&app, workflowStep); err != nil {
+
 		}
 	default:
 		return fmt.Errorf("cannot execute invalid command")

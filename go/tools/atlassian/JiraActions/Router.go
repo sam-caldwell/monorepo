@@ -6,11 +6,12 @@ import (
 )
 
 const (
-	createCmd = "create"
-	readCmd   = "read"
-	updateCmd = "update"
-	deleteCmd = "delete"
-	listCmd   = "list"
+	createCmd     = "create"
+	readCmd       = "read"
+	updateCmd     = "update"
+	deleteCmd     = "delete"
+	listCmd       = "list"
+	transitionCmd = "transition"
 )
 
 const (
