@@ -1,6 +1,10 @@
 package JiraTransition
 
-type JiraTransitionResponse struct {
+type Transitions struct {
+	Transitions []Transition `json:"transitions"`
+}
+
+type Transition struct {
 	Fields        map[string]Field `json:"fields"`
 	HasScreen     bool             `json:"hasScreen"`
 	ID            string           `json:"id"`
@@ -61,8 +65,4 @@ type StatusCategory struct {
 	Key       string `json:"key"`
 	Name      string `json:"name"`
 	Self      string `json:"self"`
-}
-
-type Transitions struct {
-	Transitions []Transition `json:"transitions"`
 }
