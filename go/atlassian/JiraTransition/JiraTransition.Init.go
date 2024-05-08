@@ -10,4 +10,5 @@ func (jira *JiraTransition) Init(client *Atlassian.Client) error {
 		return fmt.Errorf("client is nil")
 	}
 	jira.client = client
+	return nil
 }
