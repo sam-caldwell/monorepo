@@ -17,7 +17,7 @@ func GetCommand(helpText string) (command string) {
 	exit.OnCondition((command == "--help") || (command == "-h"), 0, "help", helpText)
 	if command == "--version" {
 		fmt.Println(version.Version)
-		os.Exit(0)
+		os.Exit(exit.Success)
 	}
 	list.DeleteElement(os.Args, 1)
 	return command
