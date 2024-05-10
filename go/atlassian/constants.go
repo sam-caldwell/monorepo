@@ -19,7 +19,7 @@ const (
 
 	JiraDomainNotInitialized = "JiraDomain not initialized"
 
-	JiraUrlPattern = "https://%s.%s/"
+	JiraUrlPattern = "https://%s.%s/%s"
 
 	JiraApiIssue = "/rest/api/2/issue/"
 )

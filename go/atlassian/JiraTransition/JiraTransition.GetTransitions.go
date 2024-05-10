@@ -11,7 +11,7 @@ func (jira *JiraTransition) GetTransitions(issueKey *string) (*Transitions, erro
 	const path = "/rest/api/3/issue/%s/transitions"
 
 	response, err := jira.client.Send(
-		http.MethodPost,
+		http.MethodGet,
 		fmt.Sprintf(path, *issueKey),
 		jira.Marshall())
 	if err != nil {
