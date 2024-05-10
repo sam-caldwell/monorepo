@@ -4,9 +4,9 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/Tester/TestBase/main.h"
-#include "projects/common/Parser/src/fetchNextLine.cpp"
-#include "projects/common/exceptions/exceptions.h"
+#include "../../../Tester/Tester/main.h"
+#include "../src/fetchNextLine.cpp"
+#include "../../../exceptions/exceptions.h"
 
 class TestParserFetchNextLinePreserve : public TestBase {
 private:

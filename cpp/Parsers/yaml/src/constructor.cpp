@@ -4,7 +4,7 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/common/Parser/src/validate.cpp"
+#include "validate.cpp"
 
 /**
  * @name Class Constructor

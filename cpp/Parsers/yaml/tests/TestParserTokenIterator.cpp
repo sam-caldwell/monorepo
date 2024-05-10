@@ -4,9 +4,9 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/Tester/TestBase/main.h"
-#include "projects/common/Parser/src/Parser.h"
-#include "projects/common/exceptions/exceptions.h"
+#include "../../../Tester/Tester/main.h"
+#include "../src/Parser.h"
+#include "../../../exceptions/exceptions.h"
 
 class TestParserTokenIterator : public TestBase {
 private:

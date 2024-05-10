@@ -8,7 +8,7 @@
 #define Parser_stripComment_H
 
 #include <string>
-#include "projects/common/formatter/formatter.h"
+#include "../../../formatter/formatter.h"
 
 /**
  * @name stripComment

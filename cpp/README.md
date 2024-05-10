@@ -23,4 +23,4 @@ spans multiple projects.
 * [`types`](types/README.md)
 * [`Validators`](Validators/README.md)
 * [`Breadcrumbs`](Breadcrumbs/README.md)
-* [`Parser`](Parser/README.md)
+* [`Parser`](Parsers/yaml/README.md)

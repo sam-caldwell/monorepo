@@ -13,8 +13,8 @@
  * @name parse
  * @brief Parse the configured file and store results in the shared tree
  *
- * @throws exception if there are problems parsing the data.  See projects/Parser
- * @throws exception if there are problems accessing the source file.  See projects/Parser.
+ * @throws exception if there are problems parsing the data.  See projects/Parsers
+ * @throws exception if there are problems accessing the source file.  See projects/Parsers.
  *
  * @param *filename string by reference
  * @return bool

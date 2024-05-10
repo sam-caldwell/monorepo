@@ -6,10 +6,10 @@
 
 #include <string>
 #include <vector>
-#include "projects/common/formatter/formatter.h"
-#include "projects/common/Parser/src/TokenType.cpp"
-#include "projects/common/Breadcrumbs/src/Breadcrumbs.h"
-#include "projects/common/Parser/src/extractTagOnly.cpp"
+#include "../../../formatter/formatter.h"
+#include "TokenType.cpp"
+#include "../../../Breadcrumbs/src/Breadcrumbs.h"
+#include "extractTagOnly.cpp"
 
 /**
  * @name parse

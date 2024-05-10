@@ -4,10 +4,10 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/Tester/TestBase/main.h"
-#include "projects/common/formatter/formatter.h"
-#include "projects/common/exceptions/exceptions.h"
-#include "projects/common/Parser/src/extractTagOnly.cpp"
+#include "../../../Tester/Tester/main.h"
+#include "../../../formatter/formatter.h"
+#include "../../../exceptions/exceptions.h"
+#include "../src/extractTagOnly.cpp"
 
 
 class TestParserExtractTagOnly : public TestBase {

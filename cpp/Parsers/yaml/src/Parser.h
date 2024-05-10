@@ -18,10 +18,10 @@
 #include <string>
 #include "tokens.h"
 #include "TokenType.cpp"
-#include "projects/common/system/file.h"
-#include "projects/common/types/FileFormats.h"
-#include "projects/common/formatter/formatter.h"
-#include "projects/common/Breadcrumbs/src/Breadcrumbs.h"
+#include "../../../system/file.h"
+#include "../../../types/src/FileFormats.h"
+#include "../../../formatter/formatter.h"
+#include "../../../Breadcrumbs/src/Breadcrumbs.h"
 
 using namespace std;
 

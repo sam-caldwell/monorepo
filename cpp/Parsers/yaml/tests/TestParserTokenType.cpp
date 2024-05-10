@@ -4,9 +4,9 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/Tester/TestBase/main.h"
-#include "projects/common/Parser/src/TokenType.cpp"
-#include "projects/common/exceptions/exceptions.h"
+#include "../../../Tester/Tester/main.h"
+#include "../src/TokenType.cpp"
+#include "../../../exceptions/exceptions.h"
 
 class TestParserTokenType : public TestBase {
 public:

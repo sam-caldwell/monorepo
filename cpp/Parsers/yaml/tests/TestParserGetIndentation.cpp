@@ -4,8 +4,8 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/Tester/TestBase/main.h"
-#include "projects/common/Parser/src/getIndentation.cpp"
+#include "../../../Tester/Tester/main.h"
+#include "../src/getIndentation.cpp"
 
 class TestParserGetIndentation : public TestBase {
 private:

@@ -4,10 +4,10 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/Tester/TestBase/main.h"
-#include "projects/common/types/FileFormats.h"
-#include "projects/common/Parser/src/validate.cpp"
-#include "projects/common/system/file.h"
+#include "../../../Tester/Tester/main.h"
+#include "../../../types/src/FileFormats.h"
+#include "../src/validate.cpp"
+#include "../../../system/file.h"
 
 class TestParserValidate : public TestBase {
 private:

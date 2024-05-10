@@ -6,9 +6,9 @@
 #ifndef Parser_fetchNextLine_H
 #define Parser_fetchNextLine_H
 
-#include "projects/common/formatter/formatter.h"
-#include "projects/common/Parser/src/stripComment.cpp"
-#include "projects/common/Parser/src/getIndentation.cpp"
+#include "../../../formatter/formatter.h"
+#include "stripComment.cpp"
+#include "getIndentation.cpp"
 
 inline bool isEmpty(string *inp) {
     string s(*inp);

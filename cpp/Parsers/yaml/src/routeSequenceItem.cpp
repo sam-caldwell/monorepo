@@ -4,7 +4,7 @@
  * @author Sam Caldwell <mail@samcaldwell.net>
  */
 
-#include "projects/common/Parser/src/extractKvValue.cpp"
+#include "extractKvValue.cpp"
 
 /**
  * @name routeSequenceItem

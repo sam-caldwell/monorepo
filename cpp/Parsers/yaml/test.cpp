@@ -7,7 +7,7 @@
 #define TESTING_ONLY
 
 #include <iostream>
-#include "projects/Tester/Tester/main.h"
+#include "../../../Tester/Tester/main.h"
 
 /**
  * Base tests
