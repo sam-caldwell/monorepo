@@ -26,7 +26,9 @@ func (client *Client) Send(method string, path string, body []byte) (output []by
 	}()
 
 	if client.debug {
+		ansi.Blue().Printf("domain: %s", client.domain.Get()).LF().Reset()
 		ansi.Blue().Printf("path: %s", path).LF().Reset()
+		ansi.Blue().Printf("url: %s", JiraUrlFactory(JiraUrlPattern, client.domain.Get(), path)).LF().Reset()
 	}
 
 	request, err = http.NewRequest(

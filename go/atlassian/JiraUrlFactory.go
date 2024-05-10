@@ -1,10 +1,12 @@
 package Atlassian
 
-import "fmt"
+import (
+	"fmt"
+	"path"
+)
 
 // JiraUrlFactory - form the JIRA URL
 func JiraUrlFactory(pattern, tenant, apiPath string) string {
 
-	return fmt.Sprintf(pattern, tenant, atlassianFqdn, apiPath)
-
+	return path.Join(fmt.Sprintf(pattern, tenant, atlassianFqdn), apiPath)
 }
