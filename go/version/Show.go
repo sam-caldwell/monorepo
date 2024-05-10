@@ -24,11 +24,11 @@ package version
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/exit"
 	"os"
 )
 
 func Show() {
 	fmt.Println(Version)
-	os.Exit(exit.Success)
+	//os.Exit(exit.Success)
+	os.Exit(0) //cannot use exit.Success due to circular reference
 }
