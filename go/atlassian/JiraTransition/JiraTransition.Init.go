@@ -12,9 +12,10 @@ func (jira *JiraTransition) Init(client *Atlassian.Client, issueKey *string) err
 	}
 	jira.client = client
 
-	if err := jira.GetTransitions(issueKey); err != nil {
+	if transitions, err := jira.GetTransitions(issueKey); err != nil {
 		return err
+	} else {
+		jira.transitions = *transitions
 	}
-
 	return nil
 }

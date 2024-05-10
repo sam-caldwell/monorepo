@@ -29,11 +29,11 @@ func main() {
 		ansi.Red().Println("Issue key cannot be empty or blank.  Use --issueKey").
 			Fatal(exit.MissingArg).Reset()
 	}
-
-	if apiKey == nil || *apiKey == "" {
-		ansi.Red().Println("apiKey cannot be empty or blank.  Use --apiKey").
-			Fatal(exit.MissingArg).Reset()
-	}
+	//
+	//if apiKey == nil || *apiKey == "" {
+	//	ansi.Red().Println("apiKey cannot be empty or blank.  Use --apiKey").
+	//		Fatal(exit.MissingArg).Reset()
+	//}
 
 	client.SetDebug(*debug)
 	client.SetNoop(*noop)
