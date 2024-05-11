@@ -12,6 +12,7 @@ import (
 func main() {
 	var app JiraTransition.JiraTransition
 	var client Atlassian.Client
+
 	debug := flag.Bool("debug", false, "enable debug output")
 	noop := flag.Bool("noop", false, "run command with no effect")
 	ver := flag.Bool("version", false, "print version and exit")
@@ -25,18 +26,13 @@ func main() {
 		ansi.Blue().Println(version.Version).Fatal(exit.Success).Reset()
 	}
 
+	client.SetDebug(*debug)
+	client.SetNoop(*noop)
+
 	if issueKey == nil || *issueKey == "" {
 		ansi.Red().Println("Issue key cannot be empty or blank.  Use --issueKey").
 			Fatal(exit.MissingArg).Reset()
 	}
-	//
-	//if apiKey == nil || *apiKey == "" {
-	//	ansi.Red().Println("apiKey cannot be empty or blank.  Use --apiKey").
-	//		Fatal(exit.MissingArg).Reset()
-	//}
-
-	client.SetDebug(*debug)
-	client.SetNoop(*noop)
 
 	if err := client.SetDomain(domain); err != nil {
 		ansi.Red().Println(err.Error()).Fatal(exit.GeneralError).Reset()
