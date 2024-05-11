@@ -19,6 +19,7 @@ func main() {
 	apiKey := flag.String("apiKey", "", "Jira API key")
 	issueKey := flag.String("issueKey", "", "Jira issue key")
 	domain := flag.String("domain", "", "Jira domain")
+	username := flag.String("username", "", "Jira user name")
 
 	flag.Parse()
 
@@ -33,18 +34,10 @@ func main() {
 		ansi.Red().Println("Issue key cannot be empty or blank.  Use --issueKey").
 			Fatal(exit.MissingArg).Reset()
 	}
-
-	if err := client.SetDomain(domain); err != nil {
-		ansi.Red().Println(err.Error()).Fatal(exit.GeneralError).Reset()
-	}
-
-	if err := client.SetApiKey(apiKey); err != nil {
-		ansi.Red().Println(err.Error()).Fatal(exit.GeneralError).Reset()
-	}
-
-	if err := app.Init(&client, issueKey); err != nil {
-		ansi.Red().Println(err.Error()).Fatal(exit.GeneralError).Reset()
-	}
+	exit.TerminateOnError(client.SetUsername(username))
+	exit.TerminateOnError(client.SetDomain(domain))
+	exit.TerminateOnError(client.SetApiKey(apiKey))
+	exit.TerminateOnError(app.Init(&client, issueKey))
 
 	if transitions, err := app.GetTransitionNames(); err != nil {
 		ansi.Red().Println(err.Error()).Fatal(exit.GeneralError).Reset()
