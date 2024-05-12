@@ -10,24 +10,24 @@ type Issue struct {
 	IssueKey string `json:"issueKey,omitempty"`
 	Fields   struct {
 		Project struct {
-			Key string `json:"key"`
-		} `json:"project"`
-		Summary     string `json:"summary"`
+			Key string `json:"key,omitempty"`
+		} `json:"project,omitempty"`
+		Summary     string `json:"summary,omitempty"`
 		Description struct {
-			Type    string `json:"type"`
-			Version int    `json:"version"`
+			Type    string `json:"type,omitempty"`
+			Version int    `json:"version,omitempty"`
 			Content []struct {
-				Type    string `json:"type"`
+				Type    string `json:"type,omitempty"`
 				Content []struct {
-					Type string `json:"type"`
-					Text string `json:"text"`
-				} `json:"content"`
-			} `json:"content"`
-		} `json:"description"`
+					Type string `json:"type,omitempty"`
+					Text string `json:"text,omitempty"`
+				} `json:"content,omitempty"`
+			} `json:"content,omitempty"`
+		} `json:"description,omitempty"`
 		IssueType struct {
-			Name string `json:"name"`
-		} `json:"issuetype"`
-	} `json:"fields"`
+			Name string `json:"name,omitempty"`
+		} `json:"issuetype,omitempty"`
+	} `json:"fields,omitempty"`
 	client Atlassian.Client
 	jql    AtlassianTypes.JqlQuery
 }
