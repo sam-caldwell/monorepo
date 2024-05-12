@@ -44,7 +44,7 @@ func main() {
 	} else {
 		ansi.Blue()
 		for key, value := range *transitions {
-			ansi.Printf("'%s': '%s'", key, value).LF()
+			ansi.Printf("' %s': '%s'", key, value).LF()
 		}
 		ansi.Reset()
 	}
