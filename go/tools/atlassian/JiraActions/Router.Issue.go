@@ -95,7 +95,7 @@ func Issue(command, object *string) error {
 			return err
 		}
 	case listCmd:
-		if err := IssueList(&app); err != nil {
+		if err := IssueList(&app, jqlString); err != nil {
 			return err
 		}
 	case transitionCmd:

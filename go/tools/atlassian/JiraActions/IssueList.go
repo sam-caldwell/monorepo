@@ -1,14 +1,14 @@
 package JiraActions
 
 import (
-    "github.com/sam-caldwell/monorepo/go/ansi"
-    "github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
+	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
 )
 
 // IssueList - List a new jira issue/ticket
-func IssueList(app *JiraIssue.Issue) error {
+func IssueList(app *JiraIssue.Issue, jqlString *string) error {
 
-	output, err := app.List()
+	output, err := app.List(jqlString)
 	if err != nil {
 		return err
 	}
