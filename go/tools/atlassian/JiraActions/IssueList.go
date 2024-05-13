@@ -6,9 +6,10 @@ import (
 )
 
 // IssueList - List a new jira issue/ticket
-func IssueList(app *JiraIssue.Issue, jqlString *string) error {
+func IssueList(app *JiraIssue.Issue, jqlString *string,
+	expand, fields *[]string, maxResults, startAt uint) error {
 
-	output, err := app.List(jqlString)
+	output, err := app.List(jqlString, expand, fields, maxResults, startAt)
 	if err != nil {
 		return err
 	}

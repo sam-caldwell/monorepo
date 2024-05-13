@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
+	"github.com/sam-caldwell/monorepo/go/exit"
+	"github.com/sam-caldwell/monorepo/go/list"
+	"github.com/sam-caldwell/monorepo/go/misc"
+	"github.com/sam-caldwell/monorepo/go/misc/words"
 )
 
 // Issue - Route issue-related operation
@@ -13,6 +17,8 @@ func Issue(command, object *string) error {
 	var debug, noop *bool
 	var apiKey, descriptor, domain, issueOrKey,
 		jqlString, username, workflowStep *string
+	var expand, fields *string
+	var maxResults, startAt *uint
 
 	debug = flag.Bool("debug", false, "enable debug output")
 	noop = flag.Bool("noop", false, "run command with no effect")
@@ -29,7 +35,11 @@ func Issue(command, object *string) error {
 	case readCmd, deleteCmd:
 		issueOrKey = getIssueOrKey()
 	case listCmd:
-		jqlString = flag.String("jql", "", "jira jql string")
+		fields = getFieldsList()
+		expand = getExpand()
+		maxResults = getMaxResults()
+		startAt = getStartAt()
+		jqlString = getJQLQuery()
 	case transitionCmd:
 		issueOrKey = getIssueOrKey()
 		workflowStep = getWorkflowStep()
@@ -67,7 +77,7 @@ func Issue(command, object *string) error {
 			Reset()
 	}
 
-	if err := app.Init(*debug, *noop, username, apiKey, domain, descriptor, issueOrKey, jqlString); err != nil {
+	if err := app.Init(*debug, *noop, username, apiKey, domain, descriptor, issueOrKey); err != nil {
 		return err
 	}
 
@@ -95,9 +105,20 @@ func Issue(command, object *string) error {
 			return err
 		}
 	case listCmd:
-		if err := IssueList(&app, jqlString); err != nil {
+		if err := exit.ExpectNonEmptyStringP(jqlString); err != nil {
+			return nil
+		}
+		expandFields := list.FromStringP(expand, words.Comma, true)
+		fieldList := list.FromStringP(fields, words.Comma, true)
+
+		err := IssueList(&app, jqlString, &expandFields, &fieldList,
+			misc.PreventNilDereference(maxResults),
+			misc.PreventNilDereference(startAt))
+
+		if err != nil {
 			return err
 		}
+
 	case transitionCmd:
 		if err := IssueTransition(&app, workflowStep); err != nil {
 			return err
