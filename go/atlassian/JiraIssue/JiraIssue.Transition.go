@@ -25,9 +25,6 @@ func (jira *Issue) Transition(step *string) (output []byte, err error) {
 
 	if stepId, ok := (*steps)[*step]; ok {
 
-		//var action JiraTransition.TransitionAction
-		//action.Transition.ID = stepId
-
 		payload := []byte(fmt.Sprintf("{\"transition\":\"%s\"}", stepId))
 
 		if jira.client.GetDebug() {
