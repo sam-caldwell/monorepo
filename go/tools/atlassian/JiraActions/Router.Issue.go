@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/atlassian/JiraIssue"
-	"github.com/sam-caldwell/monorepo/go/fs/file"
 )
 
 // Issue - Route issue-related operation
@@ -96,9 +95,6 @@ func Issue(command, object *string) error {
 			return err
 		}
 	case listCmd:
-		if !file.Existsp(descriptor) {
-			return fmt.Errorf("missing descriptor file")
-		}
 		if err := IssueList(&app); err != nil {
 			return err
 		}
