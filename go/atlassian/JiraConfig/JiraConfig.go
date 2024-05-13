@@ -6,8 +6,6 @@ import (
 
 // JiraConfig - Global Jira Configuration
 type JiraConfig struct {
-	client           *Atlassian.Client
-	AdvancedSettings map[string]string
-	GlobalSettings   map[string]string
-	err              error
+	client     *Atlassian.Client
+	Properties []Property
 }

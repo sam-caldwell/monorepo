@@ -6,10 +6,10 @@ import (
 )
 
 // Print - Return a pretty-print string from the JIRA configuration
-func (config *JiraConfig) String() (output string) {
+func (jira *JiraConfig) String() (output string) {
 	return fmt.Sprintf("settings:{\n%s,\n%s}\n",
-		globalSettingsToString(&config.GlobalSettings),
-		advancedSettingsToString(&config.AdvancedSettings))
+		globalSettingsToString(&jira.GlobalSettings),
+		advancedSettingsToString(&jira.AdvancedSettings))
 }
 
 func globalSettingsToString(settings *map[string]string) string {
