@@ -108,7 +108,9 @@ func Issue(command, object *string) error {
 		if err := exit.ExpectNonEmptyStringP(jqlString); err != nil {
 			return nil
 		}
+
 		expandFields := list.FromStringP(expand, words.Comma, true)
+
 		fieldList := list.FromStringP(fields, words.Comma, true)
 
 		err := IssueList(&app, jqlString, &expandFields, &fieldList,

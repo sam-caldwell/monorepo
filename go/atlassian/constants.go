@@ -22,4 +22,12 @@ const (
 	JiraUrlPattern = "https://%s.%s/%s"
 
 	JiraApiIssue = "/rest/api/2/issue/"
+
+	// Search(List) query defaults
+	MaxResults     uint = 1000
+	DefaultStartAt uint = 0
+	//Note: this should be a comma-delimited list
+	DefaultExpand string = ""
+	//Note: this should be a comma-delimited list
+	DefaultFields string = ""
 )

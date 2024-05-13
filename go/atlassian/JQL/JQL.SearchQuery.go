@@ -6,6 +6,6 @@ type SearchQuery struct {
 	Fields       []string `json:"fields"`
 	FieldsByKeys bool     `json:"fieldsByKeys"`
 	Jql          string   `json:"jql"`
-	MaxResults   int      `json:"maxResults"`
-	StartAt      int      `json:"startAt"`
+	MaxResults   uint     `json:"maxResults"`
+	StartAt      uint     `json:"startAt"`
 }

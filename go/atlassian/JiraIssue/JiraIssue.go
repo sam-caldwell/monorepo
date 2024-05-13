@@ -2,7 +2,6 @@ package JiraIssue
 
 import (
 	Atlassian "github.com/sam-caldwell/monorepo/go/atlassian"
-	AtlassianTypes "github.com/sam-caldwell/monorepo/go/atlassian/types"
 )
 
 // Issue - a structure representing a JIRA issue
@@ -29,5 +28,4 @@ type Issue struct {
 		} `json:"issuetype,omitempty"`
 	} `json:"fields,omitempty"`
 	client Atlassian.Client
-	jql    AtlassianTypes.JqlQuery
 }
