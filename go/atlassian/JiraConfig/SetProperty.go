@@ -7,7 +7,7 @@ import (
 )
 
 // SetProperty - Set a specific property-value on the JIRA server
-func (jira *JiraConfig) SetProperty(property *string, value *string, refreshLocal bool) (err error) {
+func (jira *JiraConfig) SetProperty(property *string, value *string) (err error) {
 	const path = "/rest/api/3/application-properties/%s"
 
 	var response Property
