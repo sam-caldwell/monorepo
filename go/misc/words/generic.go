@@ -4,17 +4,17 @@ package words
  * Generic Words
  */
 const (
-	EmptyString = ""
-	EqualSign   = "="
+	Ampersand   = "&"
 	Colon       = ":"
 	Comma       = ","
+	EmptyString = ""
+	EqualSign   = "="
 	Hyphen      = "-"
-
-	Period     = "."
-	Space      = " "
-	Tab        = "\t"
-	Underscore = "_"
-	Undefined  = "undefined"
+	Period      = "."
+	Space       = " "
+	Tab         = "\t"
+	Underscore  = "_"
+	Undefined   = "undefined"
 )
 const (
 	Yes = "yes"
