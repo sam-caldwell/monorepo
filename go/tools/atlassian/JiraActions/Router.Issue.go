@@ -15,9 +15,8 @@ import (
 func Issue(command, object *string) error {
 	var app JiraIssue.Issue
 	var debug, noop *bool
-	var apiKey, descriptor, domain, issueOrKey,
-		jqlString, username, workflowStep *string
-	var expand, fields *string
+	var apiKey, descriptor, domain, issueOrKey, jqlString, username,
+		workflowStep, expand, fields *string
 	var maxResults, startAt *uint
 
 	debug = flag.Bool("debug", false, "enable debug output")
@@ -69,9 +68,9 @@ func Issue(command, object *string) error {
 			ansi.Printf("  issueOrKey: ''").LF()
 		}
 		if jqlString != nil {
-			ansi.Printf("  JsqlString: '%s'", *jqlString).LF()
+			ansi.Printf("  JqlString: '%s'", *jqlString).LF()
 		} else {
-			ansi.Printf("  JsqlString: ''").LF()
+			ansi.Printf("  JqlString: ''").LF()
 		}
 		ansi.Line("-", 40).LF().
 			Reset()
@@ -106,7 +105,7 @@ func Issue(command, object *string) error {
 		}
 	case listCmd:
 		if err := exit.ExpectNonEmptyStringP(jqlString); err != nil {
-			return nil
+			return err
 		}
 
 		expandFields := list.FromStringP(expand, words.Comma, true)
