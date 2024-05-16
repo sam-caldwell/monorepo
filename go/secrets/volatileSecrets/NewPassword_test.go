@@ -2,7 +2,8 @@ package volatileSecrets
 
 import (
 	"encoding/binary"
-	"github.com/sam-caldwell/monorepo/go/crypto"
+	"github.com/sam-caldwell/monorepo/go/crypto/hashes"
+	"github.com/sam-caldwell/monorepo/go/crypto/symmetricgpg"
 	"testing"
 )
 
@@ -15,8 +16,8 @@ func TestNewPassword(t *testing.T) {
 	/*
 	 * Calculate our expected encoded forms for passphrase and secret
 	 */
-	key := crypto.Sha512Bytes(passphrase)
-	cipher, _ := crypto.EncryptWithPassphrase(secret, key)
+	key := hashes.Sha512Bytes(passphrase)
+	cipher, _ := symmetricgpg.EncryptWithPassphrase(secret, key)
 	/*
 	 * Create a new secret (encrypted with the passphrase)
 	 */
@@ -47,7 +48,7 @@ func TestNewPassword(t *testing.T) {
 				"",
 				secretSz, expectedSecretSz, p.data[0:4])
 		}
-		actualCipher, err := crypto.EncryptWithPassphrase(secret, crypto.Sha512Bytes(passphrase))
+		actualCipher, err := symmetricgpg.EncryptWithPassphrase(secret, hashes.Sha512Bytes(passphrase))
 		if err != nil {
 			panic(err)
 		}

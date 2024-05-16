@@ -2,7 +2,7 @@ package volatileSecrets
 
 import (
 	"encoding/binary"
-	"github.com/sam-caldwell/monorepo/go/crypto"
+	"github.com/sam-caldwell/monorepo/go/crypto/symmetricgpg"
 )
 
 // GetBytes - Retrieve the secret in memory (yeah...this will put it in cleartext in memory for a time).
@@ -42,7 +42,7 @@ func (p *Password) GetBytes() []byte {
 	//	len(p.data[keyStart:keyStop]),
 	//	p.data[keyStart:keyStop],
 	//	p.data[secretStart:secretStop])
-	s, err := crypto.DecryptWithPassphrase(p.data[secretStart:secretStop], p.data[keyStart:keyStop])
+	s, err := symmetricgpg.DecryptWithPassphrase(p.data[secretStart:secretStop], p.data[keyStart:keyStop])
 	if err != nil {
 		panic(err)
 	}

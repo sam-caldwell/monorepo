@@ -2,7 +2,8 @@ package volatileSecrets
 
 import (
 	"encoding/binary"
-	"github.com/sam-caldwell/monorepo/go/crypto"
+	"github.com/sam-caldwell/monorepo/go/crypto/hashes"
+	"github.com/sam-caldwell/monorepo/go/crypto/symmetricgpg"
 	"github.com/sam-caldwell/monorepo/go/random"
 	"runtime"
 )
@@ -41,10 +42,10 @@ func NewPassword(passphrase []byte, secret []byte) *Password {
 	//
 	//secure the passphrase and secret then free the cleartext.
 	//
-	key = crypto.Sha512Bytes(passphrase)
+	key = hashes.Sha512Bytes(passphrase)
 	secureDelete(&passphrase)
 	//log.Printf("key: %02x", key)
-	if cipher, err = crypto.EncryptWithPassphrase(secret, key); err != nil {
+	if cipher, err = symmetricgpg.EncryptWithPassphrase(secret, key); err != nil {
 		panic(err)
 	}
 	//log.Printf("secret: %02x", secret)

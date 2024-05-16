@@ -1,4 +1,4 @@
-package crypto
+package symmetricgpg
 
 import (
 	"github.com/ProtonMail/gopenpgp/v2/helper"
