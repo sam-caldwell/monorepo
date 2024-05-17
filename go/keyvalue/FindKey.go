@@ -8,7 +8,7 @@ package keyvalue
  */
 
 // FindKey -Return boolean result and value for a given key in the key-value set
-func (kv *KeyValue) FindKey(key string) (value any, found bool) {
+func (kv *KeyValue[KeyType, ValueType]) FindKey(key KeyType) (value ValueType, found bool) {
 	value, found = kv.data[key]
 	return value, found
 }
