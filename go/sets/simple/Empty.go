@@ -1,5 +1,5 @@
 package simple
 
-func (set *Set) Empty() bool {
-	return set.Count() <= 0
+func (set *Set[T]) Empty() bool {
+	return set.Count() == 0
 }
