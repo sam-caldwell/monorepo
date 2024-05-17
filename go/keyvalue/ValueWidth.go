@@ -1,5 +1,7 @@
 package keyvalue
 
+import "fmt"
+
 /*
  * keyvalue.ValueWidth
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
@@ -8,14 +10,13 @@ package keyvalue
  */
 
 // ValueWidth - Return the maximum width of all values in the current KeyValue struct
-func (kv *KeyValue) ValueWidth() (width int) {
+func (kv *KeyValue[KeyType, ValueType]) ValueWidth() (width int) {
+	kv.lock.Lock()
+	defer kv.lock.Unlock()
 	if kv.data != nil {
 		for _, value := range kv.data {
-			switch v := value.(type) {
-			case string:
-				if len(v) > width {
-					width = len(v)
-				}
+			if sz := len(fmt.Sprintf("%v", value)); sz > width {
+				return sz
 			}
 		}
 	}
