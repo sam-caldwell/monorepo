@@ -1,8 +1,8 @@
 package pair
 
 // Add - Append a
-func (o *OrderedPair) Add(key string, value any) {
-	o.data = append(o.data, Pair{
+func (o *OrderedPair[KeyType, ValueType]) Add(key KeyType, value ValueType) {
+	o.data = append(o.data, Pair[KeyType, ValueType]{
 		Key:   key,
 		Value: value,
 	})
