@@ -3,18 +3,11 @@ package ordered
 /*
  * projects/sets/ordered/Has.go
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
 // Has scan the set and see if an item (data) has been seen before.
-func (set *Set) Has(data any) bool {
-	if data == nil {
-		return false
-	}
-
+func (set *Set[T]) Has(data T) bool {
 	set.lock.RLock()
 	defer set.lock.RUnlock()
-
 	return set.seenBefore(&data)
 }
