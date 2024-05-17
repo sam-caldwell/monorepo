@@ -4,6 +4,7 @@ const (
 	ArraySizeError   = "array size error"
 	BoundsCheckError = "bounds check error"
 	CannotOpenFile   = "cannot open file"
+	CannotReadFile   = "cannot read file"
 	// Details - Modifier (any) to add Details to an error
 	Details = "(%v)"
 
