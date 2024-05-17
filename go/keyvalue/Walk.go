@@ -13,10 +13,12 @@ import "fmt"
  * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
-func (kv *KeyValue) Walk(fn func(key string, value interface{}) error) error {
+func (kv *KeyValue[KeyType, ValueType]) Walk(fn func(key KeyType, value ValueType) error) error {
 	if kv.data == nil {
 		return fmt.Errorf("keyvalue uninitialized")
 	}
+	kv.lock.Lock()
+	defer kv.lock.Unlock()
 	for key, value := range kv.data {
 		if err := fn(key, value); err != nil {
 			return err
