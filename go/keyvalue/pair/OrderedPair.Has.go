@@ -1,5 +1,6 @@
 package pair
 
+// Has - Return boolean value indicating if ordered pair set has the given key
 func (o *OrderedPair[KeyType, ValueType]) Has(key KeyType) bool {
 	o.lock.Lock()
 	defer o.lock.Unlock()
