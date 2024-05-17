@@ -19,18 +19,21 @@ import (
 )
 
 // ToStringArray - Return a list of strings where each row represents a key-value line
-func (kv *KeyValue) ToStringArray(columnDelimiter string, pretty bool) (output []string) {
+func (kv *KeyValue[KeyType, ValueType]) ToStringArray(columnDelimiter string, pretty bool) (output []string) {
 	const rowFormat = "%*s%s%s"
+	defer kv.lock.Unlock()
 	if kv.data != nil {
 		keyWidth := 0
 		if pretty {
 			keyWidth = kv.KeyWidth()
 		}
 		// Format each key-value pair with uniform columns
+		kv.lock.Lock()
 		for key, value := range kv.data {
 			line := fmt.Sprintf(rowFormat, keyWidth, key, columnDelimiter, value)
 			output = append(output, line)
 		}
+		kv.lock.Unlock()
 	}
 	sort.Strings(output)
 	return output
