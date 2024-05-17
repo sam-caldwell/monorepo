@@ -1,7 +1,6 @@
 package keyvalue
 
 import (
-	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"reflect"
 )
 
@@ -16,7 +15,8 @@ import (
  */
 
 // FindValue - Return the key where a given value exists in the key-value store and boolean true if found.
-func (kv *KeyValue) FindValue(target any) (key any, found bool) {
+func (kv *KeyValue[KeyType, ValueType]) FindValue(target any) (key KeyType, found bool) {
+	var empty KeyType
 	if kv.data != nil {
 		for key, value := range kv.data {
 			if reflect.DeepEqual(value, target) {
@@ -24,5 +24,5 @@ func (kv *KeyValue) FindValue(target any) (key any, found bool) {
 			}
 		}
 	}
-	return words.EmptyString, found
+	return empty, found
 }
