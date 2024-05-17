@@ -6,7 +6,7 @@ import (
 )
 
 func TestSet_ListString(t *testing.T) {
-	var set Set
+	var set Set[int]
 	_ = set.Add(0)
 	_ = set.Add(1)
 	_ = set.Add(2)
@@ -18,5 +18,4 @@ func TestSet_ListString(t *testing.T) {
 			t.Fatalf("failed on %v actual:%v expected:%v", i, actual, expected)
 		}
 	}
-
 }
