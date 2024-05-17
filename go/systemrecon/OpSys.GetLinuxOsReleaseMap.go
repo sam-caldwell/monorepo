@@ -6,7 +6,7 @@ import (
 	"github.com/sam-caldwell/monorepo/go/wrappers/os"
 )
 
-func GetLinuxOsReleaseMap() (output keyvalue.KeyValue, err error) {
+func GetLinuxOsReleaseMap() (output keyvalue.KeyValue[string, string], err error) {
 	var bytes []byte
 
 	if bytes, err = os.ReadFile("/etc/os-release"); err != nil {

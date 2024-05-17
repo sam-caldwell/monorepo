@@ -55,7 +55,7 @@ func main() {
 		output, err = systemrecon.CpuCache()
 
 	case "cpu-info":
-		output, err = keyvalue.Interceptor(systemrecon.CpuInfo)
+		output, err = keyvalue.Interceptor[string, any](systemrecon.CpuInfo)
 	/*
 	 * operating system stuff
 	 */
