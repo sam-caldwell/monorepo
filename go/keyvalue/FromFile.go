@@ -53,7 +53,9 @@ func (kv *KeyValue[KeyType, ValueType]) FromFile(fileName string, colDelimiter, 
 			if _, err := fmt.Sscanf(valueStr, "%v", &value); err != nil {
 				return fmt.Errorf("Error parsing key(%d): %v\n", lineNumber, err)
 			}
+			kv.lock.Lock()
 			kv.data[key] = value
+			kv.lock.Unlock()
 		}
 	}
 	return nil
