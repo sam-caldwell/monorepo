@@ -34,7 +34,7 @@ func (kv *KeyValue[KeyType, ValueType]) FromBytes(data *[]byte, lineEnding, colu
 			var value ValueType
 
 			keyStr := fields[keyColumn]
-			valueStr := fields[valueColumn]
+			valueStr := strings.Join(fields[valueColumn:], columnDelimiter)
 
 			// Use fmt.Sscanf to convert the string to the appropriate type
 			if _, err := fmt.Sscanf(keyStr, "%v", &key); err != nil {
