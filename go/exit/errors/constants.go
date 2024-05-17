@@ -33,6 +33,7 @@ const (
 	TypeMismatch               = "type mismatch"
 	UnableToDetectFamily       = "unable to detect operating system family"
 	UnknownCommand             = "Unknown command"
+	UnsupportedType            = "UnsupportedType"
 	UnsupportedOpsys           = "unsupported operating system"
 	UnsupportedCpuArchitecture = "unsupported cpu architecture"
 	UnsupportedLanguage        = "unsupported language"
