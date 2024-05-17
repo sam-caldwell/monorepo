@@ -1,45 +1,61 @@
 package simple
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestSet_Delete(t *testing.T) {
-	// Create a new set
-	set := Set{}
-
-	const numberRows = 4
-	for i := 1; i <= numberRows; i++ {
-		// Add items to the set
-		if err := set.Add(fmt.Sprintf("test%d", i)); err != nil {
-			t.Fatal(err)
-		}
-	}
-	if set.Count() != numberRows {
-		t.Errorf("Expected count %d, got: %d", numberRows, set.Count())
-	}
-
-	// Delete an existing item
-	if err := set.Delete("test1"); err != nil {
-		t.Errorf("Expected no error, got: %v", err)
-	}
-
-	// Verify that the item is removed from the set
-	if set.Has("test1") {
-		t.Error("Expected 'test1' to be deleted from the set, but it still exists")
-	}
-	// Verify that the item is removed from the set
-	if !set.Has("test2") {
-		t.Error("Expected 'test2' should exist")
-	}
-	// Verify that the item is removed from the set
-	if !set.Has("test3") {
-		t.Error("Expected 'test3' should exist")
-	}
-
-	// Verify that the set remains unchanged
-	if set.Count() != (numberRows - 1) {
-		t.Errorf("Expected count %d, got: %d", numberRows-1, set.Count())
-	}
+	t.Run("test int", func(t *testing.T) {
+		var set Set[int]
+		t.Run("Add data", func(t *testing.T) {
+			_ = set.Add(1)
+			_ = set.Add(2)
+			_ = set.Add(3)
+			_ = set.Add(4)
+			_ = set.Add(5)
+			_ = set.Add(6)
+			_ = set.Add(7)
+		})
+		t.Run("verify data[3] exists and has() method works", func(t *testing.T) {
+			if !set.Has(3) {
+				t.Fatal("record data[3] does not exist or Has() method fails")
+			}
+		})
+		t.Run("Delete data[3]", func(t *testing.T) {
+			set.Delete(3)
+		})
+		t.Run("verify data[3] exists and has() method works", func(t *testing.T) {
+			if set.Has(3) {
+				t.Fatal("record data[3] should have been deleted, but it still exists")
+			}
+		})
+	})
+	t.Run("test int", func(t *testing.T) {
+		var set Set[string]
+		t.Run("Add data", func(t *testing.T) {
+			_ = set.Add("1")
+			_ = set.Add("2")
+			_ = set.Add("3")
+			_ = set.Add("4")
+			_ = set.Add("5")
+			_ = set.Add("6")
+			_ = set.Add("7")
+		})
+		t.Run("verify data[3] exists and has() method works", func(t *testing.T) {
+			if !set.Has("3") {
+				t.Fatal("record data[3] does not exist or Has() method fails")
+			}
+		})
+		t.Run("Delete data[3]", func(t *testing.T) {
+			set.Delete("3")
+		})
+		t.Run("verify data[3] exists and has() method works", func(t *testing.T) {
+			if set.Has("3") {
+				t.Fatal("record data[3] should have been deleted, but it still exists")
+			}
+		})
+		t.Run("delete non-existent record", func(t *testing.T) {
+			set.Delete("this doesn't exist")
+		})
+	})
 }

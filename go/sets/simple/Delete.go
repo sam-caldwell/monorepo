@@ -1,20 +1,6 @@
 package simple
 
-import (
-	"fmt"
-	"github.com/sam-caldwell/monorepo/go/exit/errors"
-)
-
-// Delete - delete an item from the set
-func (set *Set) Delete(item interface{}) error {
-	if set.data == nil {
-		return fmt.Errorf(errors.NotInitialized)
-	}
-
-	if !set.Has(item) {
-		return fmt.Errorf(errors.NotFound)
-	}
-
+// Delete - delete an item from the set if it exists (or noop if it doesn't exist).
+func (set *Set[T]) Delete(item T) {
 	delete(set.data, item)
-	return nil
 }
