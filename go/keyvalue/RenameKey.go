@@ -3,12 +3,12 @@ package keyvalue
 /*
  * keyvalue.RenameKey
  * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * 	Given a set of key-value data, rename an existing key to a new name.
  */
 
 // RenameKey - Return the maximum width of all values in the current KeyValue struct
-func (kv *KeyValue) RenameKey(currKey, newKey string) bool {
+func (kv *KeyValue[KeyType, ValueType]) RenameKey(currKey, newKey KeyType) bool {
+	kv.lock.Lock()
+	defer kv.lock.Unlock()
 	if kv.data != nil {
 		if _, ok := kv.data[currKey]; ok {
 			kv.data[newKey] = kv.data[currKey]
