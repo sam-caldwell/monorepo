@@ -3,7 +3,7 @@ package simple
 import "testing"
 
 func TestSet_Init(t *testing.T) {
-	var set Set
+	var set Set[int]
 	if set.data != nil {
 		t.Fatal("expect nil data initially")
 	}
