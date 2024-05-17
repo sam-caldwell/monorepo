@@ -1,11 +1,19 @@
 package simple
 
-func (set *Set) GetFirst() any {
-	if set.data == nil {
-		return nil //Return nil on uninitialized set.
+import (
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
+)
+
+// GetFirst - Return the first element (not guaranteed ordering)
+func (set *Set[T]) GetFirst() (item T, err error) {
+
+	if set.data != nil {
+
+		for k := range set.data {
+			return k, nil //Exit and return the first record
+		}
+
 	}
-	for k := range set.data {
-		return k //Exit and return the first record
-	}
-	return nil // Return nil on empty set
+	return item, fmt.Errorf(errors.EmptySet)
 }
