@@ -5,7 +5,7 @@ import (
 )
 
 func TestSet_List(t *testing.T) {
-	var set Set
+	var set Set[int]
 
 	for i := 1; i <= 10; i++ {
 		if err := set.Add(i); err != nil {
