@@ -20,4 +20,3 @@ when you really just want to solve problems?
 | Init()       | `.Init()`                                  | Initialize the state's internal data structure               |
 | List()       | `.List() (result []any)`                   | Return a list of items                                       |
 | ListString() | `.ListString(sort bool) (result []string)` | Return the set as a list of strings.                         |
-| TypeCheck()  | `.TypeCheck(item any) bool`                | Return bool true if set empty or of same type                |

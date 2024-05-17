@@ -38,11 +38,3 @@ elements were received.
 ### `.Push(item any)`
 
 > Push an element to the top of the set.
-
-## Build / test
-
-> For local builds, there is a `Makefile` but there is also a GitHub action for this
-> project.
-
-`make test` - run tests 
-
