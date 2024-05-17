@@ -11,24 +11,44 @@ package keyvalue
  */
 
 import (
-	"github.com/sam-caldwell/monorepo/go/misc/words"
+	"fmt"
 	"strings"
 )
 
 // FromBytes - Given a reference to a byte-array, parse by lines and key-value columns, storing internally.
-func (kv *KeyValue) FromBytes(data *[]byte, lineEnding, columnDelimiter string) {
-
+//
+//	data *[]byte represents the raw data, which we will turn into a string and parse.
+//	The lineEnding is any string representing a line delimiter.
+//	The columnDelimiter is any string representing a column delimiter.
+func (kv *KeyValue[KeyType, ValueType]) FromBytes(data *[]byte, lineEnding, columnDelimiter string) error {
 	lines := strings.Split(string(*data), lineEnding)
 
 	kv.Initialize(len(lines), overwrite)
 
-	for _, line := range lines {
+	for lineNumber, line := range lines {
 		fields := strings.SplitN(strings.TrimSpace(line), columnDelimiter, columnCount)
 
-		//Note: we only keep things with 2 columns
+		//Note: we only keep things with 2 columns (key and value)
 		if len(fields) == columnCount {
-			kv.data[strings.TrimSpace(fields[keyColumn])] =
-				strings.TrimRight(strings.TrimSpace(fields[valueColumn]), words.Period)
+			var key KeyType
+			var value ValueType
+
+			keyStr := fields[keyColumn]
+			valueStr := fields[valueColumn]
+
+			// Use fmt.Sscanf to convert the string to the appropriate type
+			if _, err := fmt.Sscanf(keyStr, "%v", &key); err != nil {
+				return fmt.Errorf("Error parsing key(%d): %v\n", lineNumber, err)
+			}
+
+			if _, err := fmt.Sscanf(valueStr, "%v", &value); err != nil {
+				return fmt.Errorf("Error parsing key(%d): %v\n", lineNumber, err)
+			}
+
+			kv.lock.Lock()
+			kv.data[key] = value
+			kv.lock.Unlock()
 		}
 	}
+	return nil
 }
