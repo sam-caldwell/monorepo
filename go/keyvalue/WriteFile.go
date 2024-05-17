@@ -2,6 +2,7 @@ package keyvalue
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/monorepo/go/keyvalue/pair"
 	"os"
 )
 
@@ -19,11 +20,11 @@ func (kv *KeyValue[KeyType, ValueType]) WriteFile(fileName string, columnDelimit
 	for key, value := range kv.data {
 		var keyBytes, valueBytes []byte
 
-		if keyBytes, err = KeyToBytes(key); err != nil {
+		if keyBytes, err = pair.KeyToBytes(key); err != nil {
 			return fmt.Errorf("error converting key to bytes: %w", err)
 		}
 
-		if valueBytes, err = ValueToBytes(value); err != nil {
+		if valueBytes, err = pair.ValueToBytes(value); err != nil {
 			return fmt.Errorf("error converting value to bytes: %w", err)
 		}
 
