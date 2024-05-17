@@ -1,13 +1,14 @@
 package pair
 
 import (
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
 	"github.com/sam-caldwell/monorepo/go/misc"
 	"reflect"
 	"sort"
 	"unsafe"
 )
 
-func (o *OrderedPair) SortByValue() {
+func (o *OrderedPair[KeyType, ValueType]) SortByValue() {
 	compareSlice := func(valueI, valueJ reflect.Value) bool {
 		// Handle []byte or other slice types
 		// You can define your own comparison logic here
@@ -38,8 +39,7 @@ func (o *OrderedPair) SortByValue() {
 		case reflect.Struct:
 			return compareStruct(valueI, valueJ)
 		default:
-			// Handle unsupported types or custom comparisons
-			// You can define your own comparison logic here
+			panic(errors.UnsupportedType)
 			return false
 		}
 	})
