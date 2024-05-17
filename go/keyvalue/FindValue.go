@@ -16,6 +16,8 @@ import (
 
 // FindValue - Return the key where a given value exists in the key-value store and boolean true if found.
 func (kv *KeyValue[KeyType, ValueType]) FindValue(target any) (key KeyType, found bool) {
+	kv.lock.Lock()
+	defer kv.lock.Unlock()
 	var empty KeyType
 	if kv.data != nil {
 		for key, value := range kv.data {
