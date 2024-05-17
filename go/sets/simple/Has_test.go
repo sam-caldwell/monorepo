@@ -6,9 +6,8 @@ import (
 )
 
 func TestSet_Has(t *testing.T) {
-	t.Skip("debugging")
 
-	t.Run("expect int", func(t *testing.T) {
+	t.Run("test int", func(t *testing.T) {
 		var set Set[int]
 		t.Run("uninitialized test", func(t *testing.T) {
 			if set.Has(-42) {
@@ -30,7 +29,7 @@ func TestSet_Has(t *testing.T) {
 			}
 		})
 	})
-	t.Run("expect uint", func(t *testing.T) {
+	t.Run("test uint", func(t *testing.T) {
 		var set Set[uint]
 		t.Run("uninitialized test", func(t *testing.T) {
 			if set.Has(42) {
@@ -52,7 +51,7 @@ func TestSet_Has(t *testing.T) {
 			}
 		})
 	})
-	t.Run("expect bool", func(t *testing.T) {
+	t.Run("test bool", func(t *testing.T) {
 		var set Set[bool]
 		t.Run("uninitialized test", func(t *testing.T) {
 			if set.Has(true) {
@@ -73,7 +72,7 @@ func TestSet_Has(t *testing.T) {
 			}
 		})
 	})
-	t.Run("expect string", func(t *testing.T) {
+	t.Run("test string", func(t *testing.T) {
 		var set Set[string]
 		t.Run("uninitialized test", func(t *testing.T) {
 			// Check if the set has no items initially
@@ -91,13 +90,13 @@ func TestSet_Has(t *testing.T) {
 			if !set.Has("apple") {
 				t.Fatal("Expected 'apple' to exist in the set, but it didn't")
 			}
-			if set.Has("orange") {
+			if !set.Has("orange") {
 				t.Fatal("Expected 'orange' to not exist in the set, but it does")
 			}
-			if set.Has("banana") {
+			if !set.Has("banana") {
 				t.Fatal("Expected 'banana' to not exist in the set, but it does")
 			}
-			if !set.Has("kiwi") {
+			if set.Has("kiwi") {
 				t.Fatal("Expected 'kiwi' to not exist in the set, but it did")
 			}
 		})
