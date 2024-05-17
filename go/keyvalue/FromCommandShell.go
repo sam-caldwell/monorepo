@@ -10,7 +10,5 @@ func (kv *KeyValue[KeyType, ValueType]) FromCommandShell(columnDelimiter, lineDe
 	if out, err = exec.Command(command, args...).Output(); err != nil {
 		return err
 	}
-	kv.lock.Lock()
-	defer kv.lock.Unlock()
 	return kv.FromBytes(&out, lineDelimiter, columnDelimiter)
 }
