@@ -9,6 +9,7 @@ const (
 
 	// DuplicateEntry - indicates that an operation failed because a duplicate was created.
 	DuplicateEntry             = "duplicate entry"
+	EmptySet                   = "empty set"
 	IndexOutOfRange            = "index out of range"
 	InternalError              = "internal error"
 	InvalidCommand             = "unknown command"
