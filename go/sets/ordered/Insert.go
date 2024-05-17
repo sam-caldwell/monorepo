@@ -1,12 +1,16 @@
 package ordered
 
+/*
+ * projects/sets/ordered
+ * (c) 2023 Sam Caldwell.  See LICENSE.txt
+ */
+
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
 )
 
 // Insert - a simple (unexported insert method)
-
 func (set *Set[T]) Insert(item T, pos int) error {
 	set.lock.Lock()
 	defer set.lock.Unlock()
