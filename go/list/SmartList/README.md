@@ -34,7 +34,7 @@ list.Add(1)
 ```
 
 ### Add Records: `.Add()`
-The `.Add()` method will typecheck your input and if ok, append it to the list
+The `.Add()` method will type check your input and if ok, append it to the list
 of records in the list:
 ```text
 list.Add("foo")  // Add record to list (and set the list to be strings only.
