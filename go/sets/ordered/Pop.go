@@ -7,8 +7,13 @@ package ordered
  * See OpSys.Network.software.Memory.Disk.Cpu.README.md
  */
 
+import (
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
+)
+
 // Pop - return the item at the head of the set.
-func (set *Set) Pop() any {
+func (set *Set[T]) Pop() (item T, err error) {
 	if len(set.data) > 0 {
 		set.lock.Lock()
 		//popping item from set
@@ -18,7 +23,9 @@ func (set *Set) Pop() any {
 				set.data = set.data[1:]
 			}
 		}()
-		return set.data[0]
+		item = set.data[0]
+	} else {
+		err = fmt.Errorf(errors.EmptySet)
 	}
-	return nil
+	return item, err
 }
