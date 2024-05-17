@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/convert"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
 )
 
 // KeyToBytes converts a key of KeyType to a []byte.
@@ -21,7 +22,7 @@ func KeyToBytes[KeyType comparable](key KeyType) ([]byte, error) {
 	case bool:
 		buf.WriteByte(convert.BoolToByte(v))
 	default:
-		return nil, fmt.Errorf("unsupported key type: %T", key)
+		return nil, fmt.Errorf(errors.UnsupportedType)
 	}
 	return buf.Bytes(), nil
 }

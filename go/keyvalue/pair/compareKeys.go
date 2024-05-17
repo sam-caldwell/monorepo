@@ -9,7 +9,7 @@ import "bytes"
 //	 0 if left == right,
 //	-1 if left < right, and
 //	+1 if left > right
-func CompareKey[KeyValue comparable](left, right KeyValue[KeyValue]) int {
+func CompareKey[KeyType comparable](left, right KeyType) int {
 	var lhs []byte
 	var rhs []byte
 	var err error
