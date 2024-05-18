@@ -23,7 +23,8 @@ func CompareKey[KeyType comparable](left, right KeyType) int {
 	var err error
 	getModifier := func(k KeyType) int {
 		switch any(k).(type) {
-		case int, int8, int16, int32, int64:
+		case int, int8, int16, int32, int64,
+			*int, *int8, *int16, *int32, *int64:
 			return -1
 		default:
 			return 1

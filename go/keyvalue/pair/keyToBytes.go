@@ -63,7 +63,7 @@ func writeValue(buf *bytes.Buffer, value any) error {
 			return fmt.Errorf("error converting key to bytes: %w", err)
 		}
 	case *uint:
-		if err := binary.Write(buf, binary.LittleEndian, *v); err != nil {
+		if err := binary.Write(buf, binary.LittleEndian, uint64(*v)); err != nil {
 			return fmt.Errorf("error converting key to bytes: %w", err)
 		}
 	case *uint8:
