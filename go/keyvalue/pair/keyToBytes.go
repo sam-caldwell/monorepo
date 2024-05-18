@@ -29,7 +29,12 @@ func writeValue(buf *bytes.Buffer, value any) error {
 		if err := binary.Write(buf, binary.LittleEndian, int64(v)); err != nil {
 			return fmt.Errorf("error converting key to bytes: %w", err)
 		}
-	case int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64:
+	case uint:
+		// Decodes any uint to 64-bit unsigned-integer to avoid non-fixed int problem
+		if err := binary.Write(buf, binary.LittleEndian, uint64(v)); err != nil {
+			return fmt.Errorf("error converting key to bytes: %w", err)
+		}
+	case int8, int16, int32, int64, uint8, uint16, uint32, uint64, float32, float64:
 		if err := binary.Write(buf, binary.LittleEndian, v); err != nil {
 			return fmt.Errorf("error converting key to bytes: %w", err)
 		}
