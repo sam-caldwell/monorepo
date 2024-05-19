@@ -1,43 +1,43 @@
 package keyvalue
 
 import (
+	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"testing"
 )
 
-func TestFindKey_KeyExists(t *testing.T) {
-	kv := KeyValue{
-		data: Map{
+func TestFindKey(t *testing.T) {
+	const (
+		keyExists      = "key3"
+		valueExists    = "value3"
+		keyNotExists   = "key9"
+		valueNotExists = "value9"
+	)
+	kv := KeyValue[string, string]{
+		data: map[string]string{
 			"key1": "value1",
 			"key2": "value2",
+			"key3": "value3",
+			"key4": "value4",
+			"key5": "value5",
+			"key6": "value6",
 		},
 	}
-
-	value, found := kv.FindKey("key1")
-
-	if !found {
-		t.Errorf("Expected key 'key1' to be found, but it was not found")
-	}
-
-	if value != "value1" {
-		t.Errorf("Expected value 'value1', but got '%v'", value)
-	}
-}
-
-func TestFindKey_KeyDoesNotExist(t *testing.T) {
-	kv := KeyValue{
-		data: Map{
-			"key1": "value1",
-			"key2": "value2",
-		},
-	}
-
-	value, found := kv.FindKey("key3")
-
-	if found {
-		t.Errorf("Expected key 'key3' to not be found, but it was found")
-	}
-
-	if value != nil {
-		t.Errorf("Expected value to be nil, but got '%v'", value)
-	}
+	t.Run("Test: expect key is found", func(t *testing.T) {
+		value, found := kv.FindKey(keyExists)
+		if !found {
+			t.Errorf("Expected key '%s' to be found, but it was not found", keyExists)
+		}
+		if value != valueExists {
+			t.Errorf("Expected value '%s', but got '%s'", valueExists, value)
+		}
+	})
+	t.Run("Test: expect key is not found", func(t *testing.T) {
+		value, found := kv.FindKey(keyNotExists)
+		if found {
+			t.Errorf("Expected key '%s' not to be found, but it was found", keyNotExists)
+		}
+		if value != words.EmptyString {
+			t.Errorf("Expected value '%s', but got '%s'", valueNotExists, value)
+		}
+	})
 }
