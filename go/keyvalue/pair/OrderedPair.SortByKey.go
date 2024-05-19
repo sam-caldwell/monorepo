@@ -6,6 +6,8 @@ import (
 )
 
 // SortByKey - Sort OrderedPair by key.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (o *OrderedPair[KeyType, ValueType]) SortByKey() {
 	o.lock.Lock()
 	defer o.lock.Unlock()

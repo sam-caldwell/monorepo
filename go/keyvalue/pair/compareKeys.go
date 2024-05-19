@@ -17,6 +17,8 @@ const (
 //	 0 if left == right,
 //	+1 if left < right, and
 //	-1 if left > right
+//
+//	  (c) 2023 Sam Caldwell.  MIT License
 func CompareKey[KeyType comparable](left, right KeyType) int {
 	var lhs []byte
 	var rhs []byte
