@@ -9,11 +9,11 @@ func TestNewTrackerTable(t *testing.T) {
 
 	// Check if the patches map is initialized
 	if table.patches == nil {
-		t.Errorf("Patches map is not initialized")
+		t.Fatalf("Patches map is not initialized")
 	}
 
 	// Check if the patches map is empty
 	if len(table.patches) != 0 {
-		t.Errorf("Patches map is not empty")
+		t.Fatalf("Patches map is not empty")
 	}
 }

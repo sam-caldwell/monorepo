@@ -15,7 +15,7 @@ func TestGetPtr(t *testing.T) {
 	// Verify that the obtained pointer matches the expected value
 	expectedPtr := unsafe.Pointer(&value)
 	if ptr != expectedPtr {
-		t.Errorf("Expected pointer: %p, Got: %p", expectedPtr, ptr)
+		t.Fatalf("Expected pointer: %p, Got: %p", expectedPtr, ptr)
 	}
 
 	// Sad path test case
@@ -25,6 +25,6 @@ func TestGetPtr(t *testing.T) {
 
 	// Verify that the obtained pointer is nil
 	if ptr != nil {
-		t.Errorf("Expected nil pointer, Got: %p", ptr)
+		t.Fatalf("Expected nil pointer, Got: %p", ptr)
 	}
 }

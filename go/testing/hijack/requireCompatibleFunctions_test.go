@@ -15,7 +15,7 @@ package hijack
 //
 //	// Check if an error occurred
 //	if err != nil {
-//		t.Errorf("Expected compatible functions, but got an error: %v", err)
+//		t.Fatalf("Expected compatible functions, but got an error: %v", err)
 //	}
 //
 //	// Define a non-function object
@@ -27,7 +27,7 @@ package hijack
 //	// Check if an error occurred
 //	expectedErrorMessage := fmt.Sprintf("%s has to be a function", getNameOfFunction(nonFunction))
 //	if err == nil || err.Error() != expectedErrorMessage {
-//		t.Errorf("Expected error: %s, but got: %v", expectedErrorMessage, err)
+//		t.Fatalf("Expected error: %s, but got: %v", expectedErrorMessage, err)
 //	}
 //
 //	// Define a different function type
@@ -41,6 +41,6 @@ package hijack
 //	// Check if an error occurred
 //	expectedErrorMessage = fmt.Sprintf("both %s and %s must be of the same type", getNameOfFunction(functionA), getNameOfFunction(functionC))
 //	if err == nil || err.Error() != expectedErrorMessage {
-//		t.Errorf("Expected error: %s, but got: %v", expectedErrorMessage, err)
+//		t.Fatalf("Expected error: %s, but got: %v", expectedErrorMessage, err)
 //	}
 //}

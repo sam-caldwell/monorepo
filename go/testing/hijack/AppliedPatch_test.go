@@ -20,12 +20,12 @@ func TestAppliedPatch(t *testing.T) {
 
 	// Assert the fields of the AppliedPatch instance
 	if !reflect.DeepEqual(patch.originalBytes, originalBytes) {
-		t.Errorf("AppliedPatch originalBytes field does not match")
+		t.Fatalf("AppliedPatch originalBytes field does not match")
 	}
 	if !reflect.DeepEqual(patch.target, &targetFunc) {
-		t.Errorf("AppliedPatch target field does not match")
+		t.Fatalf("AppliedPatch target field does not match")
 	}
 	if !reflect.DeepEqual(patch.imposter, &imposterFunc) {
-		t.Errorf("AppliedPatch imposter field does not match")
+		t.Fatalf("AppliedPatch imposter field does not match")
 	}
 }

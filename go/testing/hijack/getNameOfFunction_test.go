@@ -20,6 +20,6 @@ func TestGetNameOfFunction(t *testing.T) {
 
 	// Compare the expected and actual names
 	if actualName != expectedName {
-		t.Errorf("Function name mismatch. Expected: %s, Got: %s", expectedName, actualName)
+		t.Fatalf("Function name mismatch. Expected: %s, Got: %s", expectedName, actualName)
 	}
 }

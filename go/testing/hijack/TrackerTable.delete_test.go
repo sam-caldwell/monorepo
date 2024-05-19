@@ -21,12 +21,12 @@ func TestGlobalPatchTable_Delete(t *testing.T) {
 
 	// Check if an error occurred
 	if err != nil {
-		t.Errorf("Unexpected error while deleting record: %v", err)
+		t.Fatalf("Unexpected error while deleting record: %v", err)
 	}
 
 	// Check if the record is deleted from the map
 	_, exists := table.patches[recordKey]
 	if exists {
-		t.Errorf("Record with key %v still exists in the map", recordKey)
+		t.Fatalf("Record with key %v still exists in the map", recordKey)
 	}
 }

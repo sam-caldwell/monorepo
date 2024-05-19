@@ -23,7 +23,7 @@ func TestRollback(t *testing.T) {
 
 	// Assert the error
 	if err != nil {
-		t.Errorf("rollback returned an error: %v", err)
+		t.Fatalf("rollback returned an error: %v", err)
 	}
 
 	// Additional assertions if needed

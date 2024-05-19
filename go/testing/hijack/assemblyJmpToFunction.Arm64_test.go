@@ -56,7 +56,7 @@ func TestAssemblyJmpToFunction(t *testing.T) {
 
 	// Verify that the generated instructions match the expected instructions
 	//if !reflect.DeepEqual(instructions, expectedInstructions) {
-	//	t.Errorf("Generated instructions do not match expected instructions")
+	//	t.Fatalf("Generated instructions do not match expected instructions")
 	//}
 
 	// Test case: Destination is 0 (null address)
@@ -69,6 +69,6 @@ func TestAssemblyJmpToFunction(t *testing.T) {
 
 	// Verify that the generated instructions match the expected instructions
 	//if !reflect.DeepEqual(instructions, expectedInstructions) {
-	//	t.Errorf("Generated instructions do not match expected instructions")
+	//	t.Fatalf("Generated instructions do not match expected instructions")
 	//}
 }
