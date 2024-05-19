@@ -28,7 +28,7 @@ func TestOrderedPair_SortByKey(t *testing.T) {
 			t.Fatalf("expected length 10 got %d", len(o.data))
 		}
 	})
-	t.Run("Test SortKeys", func(t *testing.T) {
+	t.Run("Test SortByKey", func(t *testing.T) {
 		o.SortByKey()
 	})
 	t.Run("Verify length after sort", func(t *testing.T) {
