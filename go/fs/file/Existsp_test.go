@@ -16,7 +16,7 @@ func TestExistsp(t *testing.T) {
 		defer func() {
 			// Clean up the temporary file after the test
 			if err := os.Remove(tempFile.Name()); err != nil {
-				t.Errorf("Failed to remove the temporary file: %v", err)
+				t.Fatalf("Failed to remove the temporary file: %v", err)
 			}
 		}()
 		tf := tempFile.Name()
@@ -45,7 +45,7 @@ func TestExistsp(t *testing.T) {
 		defer func() {
 			// Clean up the temporary directory after the test
 			if err := os.RemoveAll(tempDir); err != nil {
-				t.Errorf("Failed to remove the temporary directory: %v", err)
+				t.Fatalf("Failed to remove the temporary directory: %v", err)
 			}
 		}()
 

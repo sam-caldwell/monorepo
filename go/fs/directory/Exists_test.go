@@ -17,13 +17,13 @@ func TestExists(t *testing.T) {
 	// Test when directory exists
 	exists := Exists(tempDir)
 	if !exists {
-		t.Errorf("Expected directory to exist, but it does not.")
+		t.Fatalf("Expected directory to exist, but it does not.")
 	}
 
 	// Test when directory does not exist
 	nonExistentDir := "/tmp/non_existent_dir"
 	exists = Exists(nonExistentDir)
 	if exists {
-		t.Errorf("Expected directory to not exist, but it does.")
+		t.Fatalf("Expected directory to not exist, but it does.")
 	}
 }

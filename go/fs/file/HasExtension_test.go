@@ -8,7 +8,7 @@ func TestHasExtension(t *testing.T) {
 	testFunc := func(index int, fileName, extension string, expectedResult bool) {
 		t.Run("File with matching extension", func(t *testing.T) {
 			if actualResult := HasExtension(fileName, extension); actualResult != expectedResult {
-				t.Errorf("%d Expected %v, but got %v on '%s' with '%v'",
+				t.Fatalf("%d Expected %v, but got %v on '%s' with '%v'",
 					index, expectedResult, actualResult, fileName, extension)
 			}
 		})

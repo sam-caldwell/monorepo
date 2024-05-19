@@ -19,7 +19,7 @@ func TestCreateCa(t *testing.T) {
 	caPrivateKey, caCertificate, err := CreateCa(country, state, city, org, ou, cn, email)
 
 	if err != nil {
-		t.Errorf("Error creating CA: %v", err)
+		t.Fatalf("Error creating CA: %v", err)
 	}
 
 	// Decode private key and certificate from PEM
@@ -30,7 +30,7 @@ func TestCreateCa(t *testing.T) {
 
 	decodedPrivateKey, err := x509.ParseECPrivateKey(block.Bytes)
 	if err != nil {
-		t.Errorf("Failed to parse private key: %v", err)
+		t.Fatalf("Failed to parse private key: %v", err)
 	}
 
 	block, _ = pem.Decode(caCertificate)
@@ -40,7 +40,7 @@ func TestCreateCa(t *testing.T) {
 
 	decodedCert, err := x509.ParseCertificate(block.Bytes)
 	if err != nil {
-		t.Errorf("Failed to parse certificate: %v", err)
+		t.Fatalf("Failed to parse certificate: %v", err)
 	}
 
 	// Perform assertions

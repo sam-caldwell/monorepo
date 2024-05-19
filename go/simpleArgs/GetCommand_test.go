@@ -29,7 +29,7 @@ func TestGetCommand(t *testing.T) {
 
 		// Verify the returned command
 		if actualCmd != testCase.expectedCmd {
-			t.Errorf("Expected command: %s, but got: %s", testCase.expectedCmd, actualCmd)
+			t.Fatalf("Expected command: %s, but got: %s", testCase.expectedCmd, actualCmd)
 		}
 	}
 }

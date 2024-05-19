@@ -113,6 +113,6 @@ func TestSortManifestsByDependencies(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(actualOrder, expectedOrder) {
-		t.Errorf("Unexpected order after sorting. Expected: %v, Actual: %v", expectedOrder, actualOrder)
+		t.Fatalf("Unexpected order after sorting. Expected: %v, Actual: %v", expectedOrder, actualOrder)
 	}
 }

@@ -54,7 +54,7 @@ func TestWriteUint32(t *testing.T) {
 		// Check if the content of the file matches the expected value
 		expected := []byte{64, 226, 1, 0} // Little-endian representation of 123456
 		if !bytes.Equal(actual[0:len(expected)], expected) {
-			t.Errorf("Unexpected content in temp file.\n"+
+			t.Fatalf("Unexpected content in temp file.\n"+
 				"Expected: %v\n"+
 				"Actual:   %v",
 				expected, actual)

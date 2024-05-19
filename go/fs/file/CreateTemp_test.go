@@ -15,12 +15,12 @@ func TestCreateTempFile(t *testing.T) {
 				t.Fatal("temp file should not be nil")
 			}
 			if err = os.Remove(tempFile.Name()); err != nil {
-				t.Errorf("Failed to remove the temporary file: %v", err)
+				t.Fatalf("Failed to remove the temporary file: %v", err)
 			}
 		}()
 
 		if err != nil {
-			t.Errorf("Expected no error, but got: %v", err)
+			t.Fatalf("Expected no error, but got: %v", err)
 		}
 
 		// Add any additional assertions for the successful case

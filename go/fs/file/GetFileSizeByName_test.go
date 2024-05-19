@@ -27,6 +27,6 @@ func TestGetFileSizeByName(t *testing.T) {
 	// Verify the file size
 	expectedSize := int64(len(content))
 	if fileSize != expectedSize {
-		t.Errorf("Expected file size: %d, but got: %d", expectedSize, fileSize)
+		t.Fatalf("Expected file size: %d, but got: %d", expectedSize, fileSize)
 	}
 }

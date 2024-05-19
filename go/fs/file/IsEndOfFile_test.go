@@ -20,11 +20,11 @@ func TestIsEndOfFile(t *testing.T) {
 		isEOF, err := IsEndOfFile(err)
 
 		if !isEOF {
-			t.Errorf("Expected IsEndOfFile to return true for io.EOF, but got false")
+			t.Fatalf("Expected IsEndOfFile to return true for io.EOF, but got false")
 		}
 
 		if err != nil {
-			t.Errorf("Expected error to be nil for io.EOF, but got %v", err)
+			t.Fatalf("Expected error to be nil for io.EOF, but got %v", err)
 		}
 
 	}()
@@ -34,11 +34,11 @@ func TestIsEndOfFile(t *testing.T) {
 		isEOF, err := IsEndOfFile(err)
 
 		if isEOF {
-			t.Errorf("Expected IsEndOfFile to return false for non-io.EOF error, but got true")
+			t.Fatalf("Expected IsEndOfFile to return false for non-io.EOF error, but got true")
 		}
 
 		if err == nil {
-			t.Errorf("Expected error to be non-nil for non-io.EOF error, but got %v", err)
+			t.Fatalf("Expected error to be non-nil for non-io.EOF error, but got %v", err)
 		}
 	}()
 }

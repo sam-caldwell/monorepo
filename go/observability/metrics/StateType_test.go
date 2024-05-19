@@ -22,7 +22,7 @@ func TestStateMetric_StateType_struct(t *testing.T) {
 		result := mockState.ToSlice()
 		var expectedResult = []byte("test slice") // replace with the expected result
 		if !reflect.DeepEqual(result, expectedResult) {
-			t.Errorf("ToSlice() = %v, want %v", result, expectedResult)
+			t.Fatalf("ToSlice() = %v, want %v", result, expectedResult)
 		}
 
 		// Test FromSlice method
@@ -33,12 +33,12 @@ func TestStateMetric_StateType_struct(t *testing.T) {
 		size := mockState.SizeOf()
 		expectedSize := uint(10) // replace with the expected size
 		if size != expectedSize {
-			t.Errorf("SizeOf() = %d, want %d", size, expectedSize)
+			t.Fatalf("SizeOf() = %d, want %d", size, expectedSize)
 		}
 
 		expectedString := "test string"
 		if actual := mockState.String(); actual != expectedString {
-			t.Errorf("String() failed")
+			t.Fatalf("String() failed")
 		}
 
 	})

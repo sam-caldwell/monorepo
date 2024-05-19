@@ -11,7 +11,7 @@ func TestGetExtension(t *testing.T) {
 		expected := ".txt"
 
 		if extension != expected {
-			t.Errorf("Expected extension '%s', but got '%s'", expected, extension)
+			t.Fatalf("Expected extension '%s', but got '%s'", expected, extension)
 		}
 	})
 
@@ -21,7 +21,7 @@ func TestGetExtension(t *testing.T) {
 		expected := ""
 
 		if extension != expected {
-			t.Errorf("Expected extension '%s', but got '%s'", expected, extension)
+			t.Fatalf("Expected extension '%s', but got '%s'", expected, extension)
 		}
 	})
 
@@ -31,7 +31,7 @@ func TestGetExtension(t *testing.T) {
 		expected := ".txt"
 
 		if extension != expected {
-			t.Errorf("Expected extension '%s', but got '%s'", expected, extension)
+			t.Fatalf("Expected extension '%s', but got '%s'", expected, extension)
 		}
 	})
 
@@ -41,7 +41,7 @@ func TestGetExtension(t *testing.T) {
 		expected := ".gz"
 
 		if extension != expected {
-			t.Errorf("Expected extension '%s', but got '%s'", expected, extension)
+			t.Fatalf("Expected extension '%s', but got '%s'", expected, extension)
 		}
 	})
 }
