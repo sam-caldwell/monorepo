@@ -15,16 +15,21 @@ func (kv *KeyValue[KeyType, ValueType]) Initialize(sz int, allowOverwrite Overwr
 	//
 	// Only allocate memory if not allocated or 'overwrite' flag is set.
 	//
-	kv.lock.Lock()
-	defer kv.lock.Unlock()
-	if (kv.data == nil) || allowOverwrite {
+	if allowOverwrite {
+		kv.lock.Lock()
+		kv.data = nil
+		//Force garbage collection in case of reallocation to ensure we don't leave stuff in memory.
+		runtime.GC()
+		kv.lock.Unlock()
+	}
+	if kv.data == nil {
 		//A less-than-zero length memory allocation sounds like a fantasy from Dilber's Mr. PointyHead
 		//Let's not allow that.
 		if sz < 0 {
 			sz = 0
 		}
+		kv.lock.Lock()
 		kv.data = make(map[KeyType]ValueType, sz)
-		//Force garbage collection in case of reallocation to ensure we don't leave stuff in memory.
-		runtime.GC()
+		kv.lock.Unlock()
 	}
 }
