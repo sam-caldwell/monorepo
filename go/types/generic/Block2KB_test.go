@@ -27,7 +27,7 @@ func TestBlock2KB_FromSlice(t *testing.T) {
 		copy(expected, testInput)
 
 		if !reflect.DeepEqual(block[:], expected) {
-			t.Errorf("data mismatch.\n"+
+			t.Fatalf("data mismatch.\n"+
 				"Actual:   %v (%d)\n"+
 				"Expected: %v (%d)",
 				block[:], len(block[:]), expected, len(expected))
@@ -46,7 +46,7 @@ func TestBlock2KB_FromSlice(t *testing.T) {
 		// Ensure that only the available data is copied, and the rest is zero-filled
 		expectedData := append(insufficientData, make([]byte, len(block)-len(insufficientData))...)
 		if !reflect.DeepEqual(block[:], expectedData) {
-			t.Errorf("data mismatch. Expected: %v, Got: %v", expectedData, block[:])
+			t.Fatalf("data mismatch. Expected: %v, Got: %v", expectedData, block[:])
 		}
 	})
 
@@ -63,7 +63,7 @@ func TestBlock2KB_FromSlice(t *testing.T) {
 		// Ensure that only the first len(block) bytes are copied
 		expectedData := excessiveData[:len(block)]
 		if !reflect.DeepEqual(block[:], expectedData) {
-			t.Errorf("data mismatch. Expected: %v, Got: %v", expectedData, block[:])
+			t.Fatalf("data mismatch. Expected: %v, Got: %v", expectedData, block[:])
 		}
 	})
 }
@@ -77,7 +77,7 @@ func TestBlock2KB_SizeOf(t *testing.T) {
 
 		expectedSize := uint(blockSize)
 		if size != expectedSize {
-			t.Errorf("size mismatch. Expected: %d, Got: %d", expectedSize, size)
+			t.Fatalf("size mismatch. Expected: %d, Got: %d", expectedSize, size)
 		}
 	})
 
@@ -92,7 +92,7 @@ func TestBlock2KB_SizeOf(t *testing.T) {
 		// The size should still be 'blockSize', as modifying the contents doesn't change the size
 		expectedSize := uint(blockSize)
 		if size != expectedSize {
-			t.Errorf("size mismatch. Expected: %d, Got: %d", expectedSize, size)
+			t.Fatalf("size mismatch. Expected: %d, Got: %d", expectedSize, size)
 		}
 	})
 }
@@ -123,7 +123,7 @@ func TestBlock2KB_String(t *testing.T) {
 		expectedString := hex.EncodeToString([]byte(testInput)[:blockSize])
 
 		if result != expectedString {
-			t.Errorf("String() mismatch.\n"+
+			t.Fatalf("String() mismatch.\n"+
 				"Expected: %s\n"+
 				"Got: %s",
 				expectedString, result)
@@ -141,7 +141,7 @@ func TestBlock2KB_String(t *testing.T) {
 		result := block.String()
 
 		if result != expectedString {
-			t.Errorf("String() mismatch.\n"+
+			t.Fatalf("String() mismatch.\n"+
 				"Expected: %s\n"+
 				"Got: %s",
 				expectedString, result)
@@ -160,7 +160,7 @@ func TestBlock2KB_ToSlice(t *testing.T) {
 		result := block.ToSlice()
 
 		if !reflect.DeepEqual(result, expectedSlice) {
-			t.Errorf("Block1KB ToSlice() mismatch. Expected: %v, Got: %v", expectedSlice, result)
+			t.Fatalf("Block1KB ToSlice() mismatch. Expected: %v, Got: %v", expectedSlice, result)
 		}
 	})
 
@@ -177,7 +177,7 @@ func TestBlock2KB_ToSlice(t *testing.T) {
 		result := block.ToSlice()
 
 		if !reflect.DeepEqual(result, expectedSlice) {
-			t.Errorf("Block1KB ToSlice() mismatch. Expected: %v, Got: %v", expectedSlice, result)
+			t.Fatalf("Block1KB ToSlice() mismatch. Expected: %v, Got: %v", expectedSlice, result)
 		}
 	})
 }
