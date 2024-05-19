@@ -21,7 +21,7 @@ func TestRoundFloat32(t *testing.T) {
 		const tolerance = 1e-6
 		result := RoundFloat32(test.value, test.position)
 		if math.Abs(float64(result-test.expected)) > tolerance {
-			t.Errorf("RoundFloat64(%f, %d) = %f, expected %f", test.value, test.position, result, test.expected)
+			t.Fatalf("RoundFloat64(%f, %d) = %f, expected %f", test.value, test.position, result, test.expected)
 		}
 	}
 }

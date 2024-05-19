@@ -20,7 +20,7 @@ func TestRoundFloat64(t *testing.T) {
 	for _, test := range tests {
 		result := RoundFloat64(test.value, test.position)
 		if math.Abs(result-test.expected) > 1e-6 {
-			t.Errorf("RoundFloat64(%f, %d) = %f, expected %f", test.value, test.position, result, test.expected)
+			t.Fatalf("RoundFloat64(%f, %d) = %f, expected %f", test.value, test.position, result, test.expected)
 		}
 	}
 }

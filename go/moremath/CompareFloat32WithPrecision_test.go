@@ -23,7 +23,7 @@ func TestCompareFloat32WithPrecision(t *testing.T) {
 	for _, test := range tests {
 		result := CompareFloat32WithPrecision(test.a, test.b, test.numberDecimalPlaces)
 		if result != test.expectedResult {
-			t.Errorf("CompareFloat64WithPrecision(%f, %f, %d) = %t, expected %t", test.a, test.b, test.numberDecimalPlaces, result, test.expectedResult)
+			t.Fatalf("CompareFloat64WithPrecision(%f, %f, %d) = %t, expected %t", test.a, test.b, test.numberDecimalPlaces, result, test.expectedResult)
 		}
 	}
 }
