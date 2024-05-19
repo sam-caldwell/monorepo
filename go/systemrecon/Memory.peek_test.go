@@ -15,7 +15,7 @@ package systemrecon
 //		actualValue := Peek(addr, length)
 //		// Verify that the peeked data matches the original data
 //		if string(*actualValue) != expectedValue {
-//			t.Errorf("Peeked data does not match the original data")
+//			t.Fatalf("Peeked data does not match the original data")
 //		}
 //	}()
 //
@@ -28,7 +28,7 @@ package systemrecon
 //
 //		// Verify that peeking into an empty memory address returns an empty slice
 //		if len(*actualValue) != emptyLength {
-//			t.Errorf("Peeked data is not empty for an empty memory address")
+//			t.Fatalf("Peeked data is not empty for an empty memory address")
 //		}
 //	}()
 //
@@ -40,7 +40,7 @@ package systemrecon
 //
 //		// Verify that peeking into an empty memory address returns an empty slice
 //		if len(*actualValue) != emptyLength {
-//			t.Errorf("Peeked data is not empty for an empty memory address\n"+
+//			t.Fatalf("Peeked data is not empty for an empty memory address\n"+
 //				"actualValue size:  %d\n"+
 //				"     actualValue: '%0x'", len(*actualValue), actualValue)
 //		}

@@ -33,14 +33,14 @@ func TestCpuCache(t *testing.T) {
 	cache, err := CpuCache()
 
 	if cache != expectedCache {
-		t.Errorf("Unexpected cache size.\n"+
+		t.Fatalf("Unexpected cache size.\n"+
 			"\tExpected: %v,\n"+
 			"\tGot: %v",
 			expectedCache, cache)
 	}
 
 	if !errors.Is(err, expectedErr) {
-		t.Errorf("Unexpected error.\n"+
+		t.Fatalf("Unexpected error.\n"+
 			"\tExpected: %v,\n"+
 			"\tGot: %v",
 			expectedErr, err)

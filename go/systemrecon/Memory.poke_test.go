@@ -34,7 +34,7 @@ package systemrecon
 //	 */
 //	//Overwrite targetFunc with alteredFunc
 //	if err = poke(targetFuncPtr, alteredBytes); err != nil {
-//		t.Errorf("Unexpected error: %v", err)
+//		t.Fatalf("Unexpected error: %v", err)
 //	}
 //	targetFunc()
 //	if actualValue != alteredValue {
@@ -50,7 +50,7 @@ package systemrecon
 //
 //	// Verify that no error occurred
 //	if err != nil {
-//		t.Errorf("Unexpected error: %v", err)
+//		t.Fatalf("Unexpected error: %v", err)
 //	}
 //}()
 //}

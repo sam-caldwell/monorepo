@@ -18,7 +18,7 @@ func TestChangeMemoryProtectionFlags(t *testing.T) {
 	//
 	//	// Verify that no error occurred
 	//	if err != nil {
-	//		t.Errorf("Unexpected error: %v", err)
+	//		t.Fatalf("Unexpected error: %v", err)
 	//	}
 	//
 	//	// Test case: Change memory protection flags for invalid memory address
@@ -27,6 +27,6 @@ func TestChangeMemoryProtectionFlags(t *testing.T) {
 	//
 	//	// Verify that an error occurred
 	//	if err == nil {
-	//		t.Errorf("Expected an error, but got nil")
+	//		t.Fatalf("Expected an error, but got nil")
 	//	}
 }

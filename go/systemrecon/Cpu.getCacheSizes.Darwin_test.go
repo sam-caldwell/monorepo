@@ -35,11 +35,11 @@ func TestGetCacheSizes(t *testing.T) {
 	size, err := getCacheSizes(level)
 
 	if size != expectedSize {
-		t.Errorf("Unexpected cache size. Expected: %d, got: %d", expectedSize, size)
+		t.Fatalf("Unexpected cache size. Expected: %d, got: %d", expectedSize, size)
 	}
 
 	if !errors.Is(err, expectedErr) {
-		t.Errorf("Unexpected error. Expected: %v, got: %v", expectedErr, err)
+		t.Fatalf("Unexpected error. Expected: %v, got: %v", expectedErr, err)
 	}
 
 	// Test case 2: Invalid cache level
@@ -50,10 +50,10 @@ func TestGetCacheSizes(t *testing.T) {
 	size, err = getCacheSizes(level)
 
 	if size != expectedSize {
-		t.Errorf("Unexpected cache size. Expected: %d, got: %d", expectedSize, size)
+		t.Fatalf("Unexpected cache size. Expected: %d, got: %d", expectedSize, size)
 	}
 
 	if err.Error() != expectedErr.Error() {
-		t.Errorf("Unexpected error. Expected: %v, got: %v", expectedErr, err)
+		t.Fatalf("Unexpected error. Expected: %v, got: %v", expectedErr, err)
 	}
 }

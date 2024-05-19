@@ -12,7 +12,7 @@ func TestPageStart(t *testing.T) {
 
 	// Verify that the calculated start address matches the expected start address
 	if start != expectedStart {
-		t.Errorf("Expected start address: %#x, but got: %#x", expectedStart, start)
+		t.Fatalf("Expected start address: %#x, but got: %#x", expectedStart, start)
 	}
 
 	// Test case: Pointer at the start of a page
@@ -22,7 +22,7 @@ func TestPageStart(t *testing.T) {
 
 	// Verify that the calculated start address matches the expected start address
 	if start != expectedStart {
-		t.Errorf("Expected start address: %#x, but got: %#x", expectedStart, start)
+		t.Fatalf("Expected start address: %#x, but got: %#x", expectedStart, start)
 	}
 
 	// Test case: Pointer at the end of a page
@@ -32,6 +32,6 @@ func TestPageStart(t *testing.T) {
 
 	// Verify that the calculated start address matches the expected start address
 	if start != expectedStart {
-		t.Errorf("Expected start address: %#x, but got: %#x", expectedStart, start)
+		t.Fatalf("Expected start address: %#x, but got: %#x", expectedStart, start)
 	}
 }
