@@ -1,8 +1,8 @@
 package pair
 
 import (
-    "bytes"
-    "fmt"
+	"bytes"
+	"fmt"
 )
 
 // KeyToBytes converts a key of KeyType to a []byte.

@@ -18,7 +18,7 @@ func TestOrderedPair_Has(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			key := fmt.Sprintf("test%d", i)
 			if !o.Has(key) {
-				t.Errorf("key %s should exist", key)
+				t.Fatalf("key %s should exist", key)
 			}
 		}
 	})
