@@ -2,7 +2,9 @@ package keyvalue
 
 import (
 	"fmt"
+	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"sort"
+	"strings"
 )
 
 // ToStringArray - Return a list of strings where each row represents a key-value line
@@ -20,7 +22,7 @@ import (
 //
 //		  (c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) ToStringArray(columnDelimiter, lineDelimiter string, pretty bool) []string {
-	const rowFormat = "%*v%v%v%s"
+	const rowFormat = "%v%s%v%v%s"
 	var (
 		keyWidth = 0
 		output   []string
@@ -36,7 +38,12 @@ func (kv *KeyValue[KeyType, ValueType]) ToStringArray(columnDelimiter, lineDelim
 	kv.lock.Lock()
 	// Format each key-value pair with uniform columns
 	for key, value := range kv.data {
-		line := fmt.Sprintf(rowFormat, keyWidth, key, columnDelimiter, value, lineDelimiter)
+		sz := keyWidth - len(fmt.Sprintf("%v", key))
+		if sz < 0 {
+			sz = 0
+		}
+		spacer := strings.Repeat(words.Space, sz)
+		line := fmt.Sprintf(rowFormat, key, spacer, columnDelimiter, value, lineDelimiter)
 		output = append(output, line)
 	}
 	kv.lock.Unlock()
