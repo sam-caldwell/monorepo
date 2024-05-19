@@ -2,13 +2,13 @@ package keyvalue
 
 import "sync"
 
-/*
- * keyvalue
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * Create a key-value struct and methods to make working with KV data easier.
- */
-
+// KeyValue - a generic key-value struct.
+//
+//	    This struct has methods which should make it easier to work with
+//	    any generic key-value use-case, including parsing key-value files
+//	    command shell inputs, etc.
+//
+//		(c) 2023 Sam Caldwell.  MIT License
 type KeyValue[KeyType comparable, ValueType any] struct {
 	lock sync.RWMutex
 	data map[KeyType]ValueType
