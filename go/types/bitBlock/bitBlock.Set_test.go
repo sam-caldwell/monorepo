@@ -23,7 +23,7 @@ func TestSet(t *testing.T) {
 
 		expectedBuffer := []byte("Hello")
 		if !bytes.Equal(blk.buffer, expectedBuffer) {
-			t.Errorf("Expected buffer %v, got %v", expectedBuffer, blk.buffer)
+			t.Fatalf("Expected buffer %v, got %v", expectedBuffer, blk.buffer)
 		}
 	})
 
@@ -35,7 +35,7 @@ func TestSet(t *testing.T) {
 		blk.Set(nil)
 
 		if len(blk.buffer) != 0 {
-			t.Errorf("Expected 0-length buffer on nil input")
+			t.Fatalf("Expected 0-length buffer on nil input")
 		}
 	})
 
@@ -49,7 +49,7 @@ func TestSet(t *testing.T) {
 
 		expectedBuffer := []byte("Hello")
 		if !bytes.Equal(blk.buffer, expectedBuffer) {
-			t.Errorf("Expected buffer %v, got %v", expectedBuffer, blk.buffer)
+			t.Fatalf("Expected buffer %v, got %v", expectedBuffer, blk.buffer)
 		}
 	})
 }

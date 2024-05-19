@@ -18,7 +18,7 @@ func TestNewBlock(t *testing.T) {
 		block := NewBlock(size)
 
 		if len(block.buffer) != int(size) {
-			t.Errorf("Expected buffer size %d, got %d", size, len(block.buffer))
+			t.Fatalf("Expected buffer size %d, got %d", size, len(block.buffer))
 		}
 	})
 
@@ -28,7 +28,7 @@ func TestNewBlock(t *testing.T) {
 		blk := NewBlock(size)
 
 		if len(blk.buffer) != int(size) {
-			t.Errorf("Expected buffer size %d, got %d", size, len(blk.buffer))
+			t.Fatalf("Expected buffer size %d, got %d", size, len(blk.buffer))
 		}
 	})
 }
