@@ -15,7 +15,7 @@ import (
 )
 
 // ToString - Return a flattened set (string) using the given rowFormat
-func (kv *KeyValue[KeyType, ValueType]) ToString(columnDelimiter string, lineEnding string) (output string) {
+func (kv *KeyValue[KeyType, ValueType]) ToString(columnDelimiter, lineEnding string) (output string) {
 	const pretty = true
 	return strings.Join(kv.ToStringArray(columnDelimiter, pretty), lineEnding)
 }
