@@ -15,11 +15,11 @@ func TestApiKey_FromString(t *testing.T) {
 					t.Fatalf("unexpected error (%v) on '%s'", err, inp)
 				}
 				if err.Error() != expected.Error() {
-					t.Errorf("Expected error: %v, got: %v", expected, err)
+					t.Fatalf("Expected error: %v, got: %v", expected, err)
 				}
 			}
 			if expected != nil && err == nil {
-				t.Errorf("Expected error: %v, got nil", expected)
+				t.Fatalf("Expected error: %v, got nil", expected)
 			}
 		})
 	}
