@@ -4,57 +4,83 @@ import (
 	"testing"
 )
 
-func TestGetBool_KeyExistsAndIsBool(t *testing.T) {
-	kv := KeyValue{
-		data: Map{
-			"key1": true,
-			"key2": false,
-		},
-	}
-
-	value, err := kv.GetBool("key1")
-
-	if err != nil {
-		t.Errorf("Expected no error, but got: %v", err)
-	}
-
-	if value != true {
-		t.Errorf("Expected value 'true', but got '%v'", value)
-	}
-}
-
-func TestGetBool_KeyExistsButIsNotBool(t *testing.T) {
-	kv := KeyValue{
-		data: Map{
-			"key1": "value1",
-		},
-	}
-
-	value, err := kv.GetBool("key1")
-
-	if err == nil {
-		t.Errorf("Expected an error, but got no error")
-	}
-
-	if value != false {
-		t.Errorf("Expected value 'false', but got '%v'", value)
-	}
-}
-
-func TestGetBool_KeyDoesNotExist(t *testing.T) {
-	kv := KeyValue{
-		data: Map{
-			"key1": true,
-		},
-	}
-
-	value, err := kv.GetBool("key2")
-
-	if err == nil {
-		t.Errorf("Expected an error, but got no error")
-	}
-
-	if value != false {
-		t.Errorf("Expected value 'false', but got '%v'", value)
-	}
+func TestGet(t *testing.T) {
+	t.Run("test with string:bool pair", func(t *testing.T) {
+		kv := KeyValue[string, bool]{
+			data: map[string]bool{
+				"key1": true,
+				"key2": false,
+			},
+		}
+		t.Run("test with value: true", func(t *testing.T) {
+			if value, err := kv.Get("key1"); err != nil {
+				t.Errorf("Expected no error, but got: %v", err)
+			} else {
+				if !value {
+					t.Errorf("Expected value to be true, but got %v", value)
+				}
+			}
+		})
+		t.Run("test with value: false", func(t *testing.T) {
+			if value, err := kv.Get("key2"); err != nil {
+				t.Errorf("Expected no error, but got: %v", err)
+			} else {
+				if value {
+					t.Errorf("Expected value to be false, but got %v", value)
+				}
+			}
+		})
+	})
+	t.Run("test with int:bool pair", func(t *testing.T) {
+		kv := KeyValue[int, bool]{
+			data: map[int]bool{
+				1: true,
+				2: false,
+			},
+		}
+		t.Run("test with value: true", func(t *testing.T) {
+			if value, err := kv.Get(1); err != nil {
+				t.Errorf("Expected no error, but got: %v", err)
+			} else {
+				if !value {
+					t.Errorf("Expected value to be true, but got %v", value)
+				}
+			}
+		})
+		t.Run("test with value: false", func(t *testing.T) {
+			if value, err := kv.Get(2); err != nil {
+				t.Errorf("Expected no error, but got: %v", err)
+			} else {
+				if value {
+					t.Errorf("Expected value to be false, but got %v", value)
+				}
+			}
+		})
+	})
+	t.Run("test with int:float32 pair", func(t *testing.T) {
+		kv := KeyValue[int, float32]{
+			data: map[int]float32{
+				1: 1.12,
+				2: 3.1415,
+			},
+		}
+		t.Run("test with value1: 1.12", func(t *testing.T) {
+			if value, err := kv.Get(1); err != nil {
+				t.Errorf("Expected no error, but got: %v", err)
+			} else {
+				if value != 1.12 {
+					t.Errorf("Expected value to be 1.12, but got %v", value)
+				}
+			}
+		})
+		t.Run("test with value2: 3.1415", func(t *testing.T) {
+			if value, err := kv.Get(2); err != nil {
+				t.Errorf("Expected no error, but got: %v", err)
+			} else {
+				if value != 3.1415 {
+					t.Errorf("Expected value to be 3.1415, but got %v", value)
+				}
+			}
+		})
+	})
 }
