@@ -6,6 +6,11 @@ package keyvalue
  */
 
 // RenameKey - Return the maximum width of all values in the current KeyValue struct
+//
+//	     If the KeyValue internal state is nil, return false.
+//	     If the KeyValue does not exist, return is false.
+//
+//				(c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) RenameKey(currKey, newKey KeyType) bool {
 	kv.lock.Lock()
 	defer kv.lock.Unlock()
