@@ -1,21 +1,16 @@
 package keyvalue
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/sam-caldwell/monorepo/go/exit/errors"
+)
 
-/*
- * projects/keyvalue/Walk.go
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * This file defines the keyvalue.Walk() method which will
- * allow us to 'walk' over a key-value store and execute a given
- * function for each key-value pair.
- *
- * See OpSys.Network.software.Memory.Disk.Cpu.README.md
- */
-
+// Walk - For each record in KeyValue, execute the provided walker function to process the record.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) Walk(fn func(key KeyType, value ValueType) error) error {
 	if kv.data == nil {
-		return fmt.Errorf("keyvalue uninitialized")
+		return fmt.Errorf(errors.UninitializedValue)
 	}
 	kv.lock.Lock()
 	defer kv.lock.Unlock()
