@@ -112,11 +112,11 @@ func TestIssueUnmarshall(t *testing.T) {
 	// Unmarshal the JSON data into the issue
 	err := issue.Unmarshall(jsonData)
 	if err != nil {
-		t.Errorf("Error unmarshalling JSON: %v", err)
+		t.Fatalf("Error unmarshalling JSON: %v", err)
 	}
 
 	// Compare expected and actual structures
 	if !reflect.DeepEqual(expected, issue) {
-		t.Errorf("Expected:\n%+v\n\nActual:\n%+v", expected, issue)
+		t.Fatalf("Expected:\n%+v\n\nActual:\n%+v", expected, issue)
 	}
 }

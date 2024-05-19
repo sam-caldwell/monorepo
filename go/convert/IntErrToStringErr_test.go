@@ -34,11 +34,11 @@ func TestIntErrToStringErr(t *testing.T) {
 			gotStr, gotErr := IntErrToStringErr(tc.n, tc.err)
 
 			if gotStr != tc.wantStr {
-				t.Errorf("Expected string %q, got %q", tc.wantStr, gotStr)
+				t.Fatalf("Expected string %q, got %q", tc.wantStr, gotStr)
 			}
 
 			if (gotErr == nil) != (tc.wantErr == nil) || (gotErr != nil && gotErr.Error() != tc.wantErr.Error()) {
-				t.Errorf("Expected error %v, got %v", tc.wantErr, gotErr)
+				t.Fatalf("Expected error %v, got %v", tc.wantErr, gotErr)
 			}
 		})
 	}

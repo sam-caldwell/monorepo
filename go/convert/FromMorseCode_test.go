@@ -11,11 +11,11 @@ func TestFromMorseCode(t *testing.T) {
 	output, err := FromMorseCode(morseCode)
 
 	if err != nil {
-		t.Errorf("FromMorseCode() test failed with error: %v", err)
+		t.Fatalf("FromMorseCode() test failed with error: %v", err)
 	}
 
 	if output != expectedOutput {
-		t.Errorf("FromMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
+		t.Fatalf("FromMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
 	}
 
 	t.Run("EmptyString", func(t *testing.T) {
@@ -25,11 +25,11 @@ func TestFromMorseCode(t *testing.T) {
 		output, err := FromMorseCode(morseCode)
 
 		if err != nil {
-			t.Errorf("FromMorseCode() test failed with error: %v", err)
+			t.Fatalf("FromMorseCode() test failed with error: %v", err)
 		}
 
 		if output != expectedOutput {
-			t.Errorf("FromMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
+			t.Fatalf("FromMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
 		}
 	})
 
@@ -44,11 +44,11 @@ func TestFromMorseCode(t *testing.T) {
 		}
 
 		if err.Error() != expectedError {
-			t.Errorf("FromMorseCode() test failed: expected error '%s', got '%s'", expectedError, err.Error())
+			t.Fatalf("FromMorseCode() test failed: expected error '%s', got '%s'", expectedError, err.Error())
 		}
 
 		if output != "" {
-			t.Errorf("FromMorseCode() test failed: expected empty output, got '%s'", output)
+			t.Fatalf("FromMorseCode() test failed: expected empty output, got '%s'", output)
 		}
 	})
 }

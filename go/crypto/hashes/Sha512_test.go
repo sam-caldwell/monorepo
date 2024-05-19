@@ -12,7 +12,7 @@ func TestSha512(t *testing.T) {
 	hash := Sha512(input)
 
 	if hash != expectedHash {
-		t.Errorf("Expected hash %s, got %s", expectedHash, hash)
+		t.Fatalf("Expected hash %s, got %s", expectedHash, hash)
 	}
 }
 
@@ -22,7 +22,7 @@ func TestSha512Bytes(t *testing.T) {
 	hash := Sha512Bytes(input)
 
 	if !reflect.DeepEqual(hash, expectedHash[:]) {
-		t.Errorf("Expected hash %x, got %x", expectedHash, hash)
+		t.Fatalf("Expected hash %x, got %x", expectedHash, hash)
 	}
 }
 
@@ -32,7 +32,7 @@ func TestSha512EmptyString(t *testing.T) {
 	hash := Sha512(input)
 
 	if hash != expectedHash {
-		t.Errorf("Expected hash %s, got %s", expectedHash, hash)
+		t.Fatalf("Expected hash %s, got %s", expectedHash, hash)
 	}
 }
 
@@ -42,6 +42,6 @@ func TestSha512BytesEmptySlice(t *testing.T) {
 	hash := Sha512Bytes(input)
 
 	if !reflect.DeepEqual(hash, expectedHash[:]) {
-		t.Errorf("Expected hash %x, got %x", expectedHash, hash)
+		t.Fatalf("Expected hash %x, got %x", expectedHash, hash)
 	}
 }

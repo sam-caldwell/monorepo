@@ -24,14 +24,14 @@ func TestInt64ToIntSafe(t *testing.T) {
 		if tc.isError {
 			// Expected error
 			if err == nil {
-				t.Errorf("Expected error for input %d, but got no error", tc.input)
+				t.Fatalf("Expected error for input %d, but got no error", tc.input)
 			}
 		} else {
 			// Expected result
 			if err != nil {
-				t.Errorf("Unexpected error for input %d: %v", tc.input, err)
+				t.Fatalf("Unexpected error for input %d: %v", tc.input, err)
 			} else if result != tc.expected {
-				t.Errorf("Expected %d for input %d, but got %d", tc.expected, tc.input, result)
+				t.Fatalf("Expected %d for input %d, but got %d", tc.expected, tc.input, result)
 			}
 		}
 	}

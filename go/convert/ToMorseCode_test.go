@@ -14,7 +14,7 @@ func TestToMorseCode(t *testing.T) {
 	}
 
 	if output != expectedOutput {
-		t.Errorf("ToMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
+		t.Fatalf("ToMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
 	}
 
 	t.Run("EmptyString", func(t *testing.T) {
@@ -27,7 +27,7 @@ func TestToMorseCode(t *testing.T) {
 		}
 
 		if output != expectedOutput {
-			t.Errorf("ToMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
+			t.Fatalf("ToMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
 		}
 	})
 
@@ -41,7 +41,7 @@ func TestToMorseCode(t *testing.T) {
 		}
 
 		if output != expectedOutput {
-			t.Errorf("ToMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
+			t.Fatalf("ToMorseCode() test failed: expected '%s', got '%s'", expectedOutput, output)
 		}
 	})
 }

@@ -23,7 +23,7 @@ func TestNewJqlQuery(t *testing.T) {
 		jqlQuery, err := NewJqlQuery(expand, fields, FieldByKeys, Jql, MaxResults, startAt)
 
 		if err != nil {
-			t.Errorf("Expected no error, got %v", err)
+			t.Fatalf("Expected no error, got %v", err)
 		}
 
 		// Validate the generated JqlQuery object

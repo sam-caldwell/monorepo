@@ -26,7 +26,7 @@ func TestUintPtrToByteSlice(t *testing.T) {
 		binary.LittleEndian.PutUint32(expected32, uint32(ptr32))
 		result32 := UintPtrToByteSlice(ptr32)
 		if !reflect.DeepEqual(result32, expected32) {
-			t.Errorf("UintPtrToByteSlice failed: expected %v, got %v", expected32, result32)
+			t.Fatalf("UintPtrToByteSlice failed: expected %v, got %v", expected32, result32)
 		}
 	}
 	test64bit := func(ptr64 uintptr) {
@@ -35,7 +35,7 @@ func TestUintPtrToByteSlice(t *testing.T) {
 		binary.LittleEndian.PutUint64(expected64, uint64(ptr64))
 		result64 := UintPtrToByteSlice(ptr64)
 		if !reflect.DeepEqual(result64, expected64) {
-			t.Errorf("UintPtrToByteSlice failed: expected %v, got %v", expected64, result64)
+			t.Fatalf("UintPtrToByteSlice failed: expected %v, got %v", expected64, result64)
 		}
 	}
 
@@ -51,6 +51,6 @@ func TestUintPtrToByteSlice(t *testing.T) {
 		test64bit((18446744073709551615 - 1) / 2)
 		test64bit(18446744073709551615)
 	default:
-		t.Errorf("UintPtrToByteSlice cannot be tested for size: %d", size)
+		t.Fatalf("UintPtrToByteSlice cannot be tested for size: %d", size)
 	}
 }

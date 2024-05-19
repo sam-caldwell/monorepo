@@ -25,7 +25,7 @@ func TestLargeCounterString(t *testing.T) {
 
 		// Check if the actual result matches the expected result
 		if actual != expected {
-			t.Errorf("String() comparsion(1) failed\n"+
+			t.Fatalf("String() comparsion(1) failed\n"+
 				"actual:  %s,\n"+
 				"expected %s",
 				actual, expected)
@@ -41,7 +41,7 @@ func TestLargeCounterString(t *testing.T) {
 		actual := counter.String()
 		// Check if the actual result matches the expected result
 		if actual != expected {
-			t.Errorf("String() comparsion(2) failed\n"+
+			t.Fatalf("String() comparsion(2) failed\n"+
 				"actual:  %s,\n"+
 				"expected %s",
 				actual, expected)

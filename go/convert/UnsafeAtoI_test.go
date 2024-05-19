@@ -30,7 +30,7 @@ func TestUnsafeAtoI(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := UnsafeAtoI(tt.arg); got != tt.want {
-				t.Errorf("UnsafeAtoI() = %v, want %v", got, tt.want)
+				t.Fatalf("UnsafeAtoI() = %v, want %v", got, tt.want)
 			}
 		})
 	}

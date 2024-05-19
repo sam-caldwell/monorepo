@@ -34,13 +34,13 @@ func TestDecodeHexByte64(t *testing.T) {
 
 		if test.shouldError {
 			if ok {
-				t.Errorf("Expected failure for input '%s', but got ok", test.input)
+				t.Fatalf("Expected failure for input '%s', but got ok", test.input)
 			}
 		} else {
 			if !ok {
-				t.Errorf("Expected ok but failed for input '%s'", test.input)
+				t.Fatalf("Expected ok but failed for input '%s'", test.input)
 			} else if !reflect.DeepEqual(result, test.expected) {
-				t.Errorf("Unexpected result for input '%s'. Expected: %v, Got: %v",
+				t.Fatalf("Unexpected result for input '%s'. Expected: %v, Got: %v",
 					test.input, test.expected, result)
 			}
 		}

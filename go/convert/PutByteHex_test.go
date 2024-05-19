@@ -14,6 +14,6 @@ func TestPutByteHex(t *testing.T) {
 	PutByteHex(hexOutput, byteSource)
 
 	if !reflect.DeepEqual(hexOutput, expectedHexOutput) {
-		t.Errorf("Unexpected hex output. Expected: %v, Got: %v", expectedHexOutput, hexOutput)
+		t.Fatalf("Unexpected hex output. Expected: %v, Got: %v", expectedHexOutput, hexOutput)
 	}
 }

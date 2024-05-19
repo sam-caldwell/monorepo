@@ -111,11 +111,11 @@ func TestIssueStruct(t *testing.T) {
 	var actual Issue
 	err := json.Unmarshal(jsonData, &actual)
 	if err != nil {
-		t.Errorf("Error unmarshalling JSON: %v", err)
+		t.Fatalf("Error unmarshalling JSON: %v", err)
 	}
 
 	// Compare expected and actual structs
 	if !reflect.DeepEqual(expected, actual) {
-		t.Errorf("Expected:\n%+v\n\nActual:\n%+v", expected, actual)
+		t.Fatalf("Expected:\n%+v\n\nActual:\n%+v", expected, actual)
 	}
 }

@@ -23,7 +23,7 @@ func TestLargeCounter_Sha1(t *testing.T) {
 
 	// Check if the actual result matches the expected result
 	if actual != expected {
-		t.Errorf("Sha1() returned\n"+
+		t.Fatalf("Sha1() returned\n"+
 			"actual:   %s,\n"+
 			"expected: %s",
 			actual, expected)

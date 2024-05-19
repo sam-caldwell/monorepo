@@ -85,11 +85,11 @@ func TestIssueMarshall(t *testing.T) {
 	var unmarshaledIssue Issue
 	err := json.Unmarshal(marshaledIssue, &unmarshaledIssue)
 	if err != nil {
-		t.Errorf("Error unmarshalling JSON: %v", err)
+		t.Fatalf("Error unmarshalling JSON: %v", err)
 	}
 
 	// Compare the original and unmarshaled issues
 	if !reflect.DeepEqual(issue, unmarshaledIssue) {
-		t.Errorf("Expected:\n%+v\n\nActual:\n%+v", issue, unmarshaledIssue)
+		t.Fatalf("Expected:\n%+v\n\nActual:\n%+v", issue, unmarshaledIssue)
 	}
 }

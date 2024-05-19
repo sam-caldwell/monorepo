@@ -13,6 +13,6 @@ func TestHexTableContainsAllHexDigits(t *testing.T) {
 		}
 	}
 	if missingDigits != "" {
-		t.Errorf("hexTable is missing the following hex digits: %s", missingDigits)
+		t.Fatalf("hexTable is missing the following hex digits: %s", missingDigits)
 	}
 }

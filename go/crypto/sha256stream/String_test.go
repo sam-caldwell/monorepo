@@ -26,6 +26,6 @@ func TestSha256Stream_HashValue(t *testing.T) {
 
 	// Compare the actual and expected hash values
 	if actualHashValue != expectedHashValue {
-		t.Errorf("HashValue test failed. Expected: %s, Got: %s", expectedHashValue, actualHashValue)
+		t.Fatalf("HashValue test failed. Expected: %s, Got: %s", expectedHashValue, actualHashValue)
 	}
 }

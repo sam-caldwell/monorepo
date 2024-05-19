@@ -17,7 +17,7 @@ func TestSha256Stream_Output_Empty(t *testing.T) {
 
 	// Compare the actual and expected hashes
 	if !bytesEqual(actualHash, expectedHash[:]) {
-		t.Errorf("Output test failed. Expected: %x, Got: %x", expectedHash[:], actualHash)
+		t.Fatalf("Output test failed. Expected: %x, Got: %x", expectedHash[:], actualHash)
 	}
 }
 func TestSha256Stream_Output_NonEmpty(t *testing.T) {
@@ -42,7 +42,7 @@ func TestSha256Stream_Output_NonEmpty(t *testing.T) {
 
 	// Compare the actual and expected hashes
 	if !bytesEqual(actualHash, expectedHash[:]) {
-		t.Errorf("Output test failed. Expected: %x, Got: %x", expectedHash[:], actualHash)
+		t.Fatalf("Output test failed. Expected: %x, Got: %x", expectedHash[:], actualHash)
 	}
 }
 

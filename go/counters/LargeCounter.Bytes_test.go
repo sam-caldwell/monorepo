@@ -31,7 +31,7 @@ func TestLargeCounter_Bytes(t *testing.T) {
 		// Check if the actual result matches the expected result
 
 		if !reflect.DeepEqual(actual, expected) {
-			t.Errorf("Bytes() returned\n"+
+			t.Fatalf("Bytes() returned\n"+
 				"actual   %v,\n"+
 				"expected %v",
 				actual, expected)

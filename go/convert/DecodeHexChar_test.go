@@ -24,13 +24,13 @@ func TestDecodeHexChar(t *testing.T) {
 
 		if test.shouldError {
 			if ok {
-				t.Errorf("Expected failure on input '%c', but got ok", test.hexByte)
+				t.Fatalf("Expected failure on input '%c', but got ok", test.hexByte)
 			}
 		} else {
 			if !ok {
-				t.Errorf("Expected ok but failed on '%c'", test.hexByte)
+				t.Fatalf("Expected ok but failed on '%c'", test.hexByte)
 			} else if result != test.expected {
-				t.Errorf("Unexpected result for input '%c'. Expected: %d, Got: %d",
+				t.Fatalf("Unexpected result for input '%c'. Expected: %d, Got: %d",
 					test.hexByte, test.expected, result)
 			}
 		}

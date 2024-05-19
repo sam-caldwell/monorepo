@@ -34,10 +34,10 @@ func TestIntToString(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := IntToStringFuncWrapper(tt.fn)
 			if got != tt.want {
-				t.Errorf("IntToStringFuncWrapper() = %v, want %v", got, tt.want)
+				t.Fatalf("IntToStringFuncWrapper() = %v, want %v", got, tt.want)
 			}
 			if (err != nil && tt.err == nil) || (err == nil && tt.err != nil) || (err != nil && tt.err != nil && err.Error() != tt.err.Error()) {
-				t.Errorf("IntToStringFuncWrapper() error = %v, wantErr %v", err, tt.err)
+				t.Fatalf("IntToStringFuncWrapper() error = %v, wantErr %v", err, tt.err)
 			}
 		})
 	}

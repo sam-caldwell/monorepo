@@ -29,6 +29,6 @@ func TestJqlQuery_Bytes(t *testing.T) {
 
 	// Compare the marshalled bytes with the result of the Bytes method
 	if !reflect.DeepEqual(actualBytes, expectedBytes) {
-		t.Errorf("Bytes method result does not match expected bytes.\nExpected: %s\nActual: %s", expectedBytes, actualBytes)
+		t.Fatalf("Bytes method result does not match expected bytes.\nExpected: %s\nActual: %s", expectedBytes, actualBytes)
 	}
 }

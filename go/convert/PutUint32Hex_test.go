@@ -13,6 +13,6 @@ func TestPutUint32Hex(t *testing.T) {
 	PutUint32Hex(b, v)
 
 	if !reflect.DeepEqual(b, expected) {
-		t.Errorf("Unexpected result. Expected: %v, Got: %v", expected, b)
+		t.Fatalf("Unexpected result. Expected: %v, Got: %v", expected, b)
 	}
 }
