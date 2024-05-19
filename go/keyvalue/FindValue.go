@@ -4,17 +4,12 @@ import (
 	"reflect"
 )
 
-/*
- * keyvalue.FindValue()
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * Return boolean result and the name of the key where a given value
- * is found.
- *
- * Warning: This is a linear search.
- */
-
-// FindValue - Return the key where a given value exists in the key-value store and boolean true if found.
+// FindValue - Return the key and boolean true where a given value exists
+//
+//	 Note: this is a linear search.  If you're using a larger data set, you may want to
+//	 find a better means of searching values.
+//
+//		(c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) FindValue(target any) (key KeyType, found bool) {
 	kv.lock.Lock()
 	defer kv.lock.Unlock()
