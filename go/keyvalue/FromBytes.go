@@ -1,15 +1,5 @@
 package keyvalue
 
-/*
- * keyvalue.FromBytes
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * 	Consume []bytes and parse by lineEnding and columnDelimiter into a keyvalue.Map
- *  internal state.
- *
- *  Note: this is destructive of any existing state
- */
-
 import (
 	"fmt"
 	"strings"
