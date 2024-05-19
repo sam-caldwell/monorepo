@@ -83,7 +83,7 @@ func main() {
 
 	default:
 		output = ""
-		err = fmt.Errorf(errors.MissingArgWithDetail, command)
+		err = fmt.Errorf(errors.MissingArguments+errors.Details, command)
 	}
 
 	if err != nil {

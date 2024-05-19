@@ -9,20 +9,17 @@ const (
 	Details = "(%v)"
 
 	// DuplicateEntry - indicates that an operation failed because a duplicate was created.
-	DuplicateEntry             = "duplicate entry"
-	EmptySet                   = "empty set"
-	IndexOutOfRange            = "index out of range"
-	InternalError              = "internal error"
-	InvalidCommand             = "unknown command"
-	InvalidCommandWithDetail   = InvalidCommand + Details
-	InvalidContextId           = "invalid contextId"
-	InvalidContextIdWithDetail = InvalidContextId + Details
-	InvalidInput               = "invalid input"
-	LockCheckFailed            = "lock check failed"
-	MalformedGuid              = "malformed GUID"
+	DuplicateEntry   = "duplicate entry"
+	EmptySet         = "empty set"
+	IndexOutOfRange  = "index out of range"
+	InternalError    = "internal error"
+	InvalidCommand   = "unknown command"
+	InvalidContextId = "invalid contextId"
+	InvalidInput     = "invalid input"
+	LockCheckFailed  = "lock check failed"
+	MalformedGuid    = "malformed GUID"
 	//MissingArguments - One or more expected inputs are missing
 	MissingArguments           = "missing argument"
-	MissingArgWithDetail       = MissingArguments + Details
 	MissingColor               = "Missing color"
 	MissingContextId           = "missing contextId (uuid)"
 	MissingField               = "missing field"
