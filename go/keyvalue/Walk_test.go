@@ -11,8 +11,14 @@ func TestKeyValue_Walk(t *testing.T) {
 		fn := func(key string, value string) error {
 			return nil
 		}
+		if kv.data != nil {
+			t.Fatal("expected nil data")
+		}
 		err := kv.Walk(fn)
-		if err != nil && err.Error() != errors.UninitializedValue {
+		if err == nil {
+			t.Fatalf("walk should return an error")
+		}
+		if err.Error() != errors.UninitializedValue {
 			t.Fatalf("expected UninitializedValue")
 		}
 	})
@@ -23,6 +29,7 @@ func TestKeyValue_Walk(t *testing.T) {
 			"key2": "value2",
 			"key3": "value3",
 			"key4": "value4",
+			"key5": "value5",
 		}
 		count := 0
 		fn := func(key string, value string) error {
@@ -30,8 +37,11 @@ func TestKeyValue_Walk(t *testing.T) {
 			return nil
 		}
 		err := kv.Walk(fn)
-		if err != nil && err.Error() != errors.UninitializedValue {
-			t.Fatalf("expected UninitializedValue")
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if count != 5 {
+			t.Fatalf("expected 5 items, got %d", count)
 		}
 	})
 }
