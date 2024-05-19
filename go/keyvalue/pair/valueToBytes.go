@@ -8,6 +8,8 @@ import (
 )
 
 // ValueToBytes converts a value of ValueType to a []byte.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func ValueToBytes[ValueType any](value ValueType) ([]byte, error) {
 	var buf bytes.Buffer
 	switch v := any(value).(type) {
