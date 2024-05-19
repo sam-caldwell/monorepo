@@ -11,9 +11,16 @@ import (
 func ValueToBytes[ValueType any](value ValueType) ([]byte, error) {
 	var buf bytes.Buffer
 	switch v := any(value).(type) {
-	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64:
-		err := binary.Write(&buf, binary.LittleEndian, v)
-		if err != nil {
+	case int:
+		if err := binary.Write(&buf, binary.LittleEndian, int64(v)); err != nil {
+			return nil, fmt.Errorf("error converting value to bytes: %w", err)
+		}
+	case uint:
+		if err := binary.Write(&buf, binary.LittleEndian, uint64(v)); err != nil {
+			return nil, fmt.Errorf("error converting value to bytes: %w", err)
+		}
+	case int8, int16, int32, int64, uint8, uint16, uint32, uint64, float32, float64:
+		if err := binary.Write(&buf, binary.LittleEndian, v); err != nil {
 			return nil, fmt.Errorf("error converting value to bytes: %w", err)
 		}
 	case string:
