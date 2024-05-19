@@ -11,7 +11,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []string{"mango", "banana", "orange", "apple", "grape"}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 		t.Run("Sad path scenario", func(t *testing.T) {
@@ -20,7 +20,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			expectedError := "invalid element 'apple'"
 			if err == nil || err.Error() != expectedError {
-				t.Errorf("Expected error: %s, got: %v", expectedError, err)
+				t.Fatalf("Expected error: %s, got: %v", expectedError, err)
 			}
 		})
 		t.Run("Additional sad path scenario", func(t *testing.T) {
@@ -28,7 +28,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []string{"apple", "banana", "orange"}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 	})
@@ -38,7 +38,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []int{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 		t.Run("Sad path scenario", func(t *testing.T) {
@@ -47,7 +47,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			expectedError := "invalid element '1'"
 			if err == nil || err.Error() != expectedError {
-				t.Errorf("Expected error: %s, got: %v", expectedError, err)
+				t.Fatalf("Expected error: %s, got: %v", expectedError, err)
 			}
 		})
 		t.Run("Additional sad path scenario", func(t *testing.T) {
@@ -55,7 +55,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []int{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 	})
@@ -65,7 +65,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []uint{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 		t.Run("Sad path scenario", func(t *testing.T) {
@@ -74,7 +74,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			expectedError := "invalid element '1'"
 			if err == nil || err.Error() != expectedError {
-				t.Errorf("Expected error: %s, got: %v", expectedError, err)
+				t.Fatalf("Expected error: %s, got: %v", expectedError, err)
 			}
 		})
 		t.Run("Additional sad path scenario", func(t *testing.T) {
@@ -82,7 +82,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []uint{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 	})
@@ -92,7 +92,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []bool{true, false}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 		t.Run("Sad path scenario", func(t *testing.T) {
@@ -101,7 +101,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			expectedError := "invalid element 'true'"
 			if err == nil || err.Error() != expectedError {
-				t.Errorf("Expected error: %s, got: %v", expectedError, err)
+				t.Fatalf("Expected error: %s, got: %v", expectedError, err)
 			}
 		})
 		t.Run("Additional sad path scenario", func(t *testing.T) {
@@ -109,7 +109,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []bool{true, false}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 	})
@@ -119,7 +119,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []float32{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 		t.Run("Sad path scenario", func(t *testing.T) {
@@ -128,7 +128,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			expectedError := "invalid element '1.01'"
 			if err == nil || err.Error() != expectedError {
-				t.Errorf("Expected error: %s, got: %v", expectedError, err)
+				t.Fatalf("Expected error: %s, got: %v", expectedError, err)
 			}
 		})
 		t.Run("Additional sad path scenario", func(t *testing.T) {
@@ -136,7 +136,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []float32{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 	})
@@ -146,7 +146,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []float64{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 		t.Run("Sad path scenario", func(t *testing.T) {
@@ -155,7 +155,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			expectedError := "invalid element '1.01'"
 			if err == nil || err.Error() != expectedError {
-				t.Errorf("Expected error: %s, got: %v", expectedError, err)
+				t.Fatalf("Expected error: %s, got: %v", expectedError, err)
 			}
 		})
 		t.Run("Additional sad path scenario", func(t *testing.T) {
@@ -163,7 +163,7 @@ func TestLeftSetElementsNotInRightSet(t *testing.T) {
 			b := []float64{1, 2, 3, 4, 5}
 			err := LeftSetElementsNotInRightSet(&a, &b)
 			if err != nil {
-				t.Errorf("Expected nil error, got: %v", err)
+				t.Fatalf("Expected nil error, got: %v", err)
 			}
 		})
 	})
