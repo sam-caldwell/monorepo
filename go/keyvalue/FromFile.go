@@ -1,12 +1,5 @@
 package keyvalue
 
-/*
- * keyvalue.FromFile()
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * Read a key-value file and store the contents in the keyvalue Struct
- */
-
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
@@ -16,6 +9,8 @@ import (
 )
 
 // FromFile - Read a key-value file and process it into the KeyValue struct.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) FromFile(fileName string, colDelimiter, lineEnding, comment rune) (err error) {
 	var data []byte
 
