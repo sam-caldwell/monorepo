@@ -19,7 +19,7 @@ func TestVm(t *testing.T) {
 			Disk("swap", 1*size.GB, diskFormat.Swap)
 		errors := vm.GetErrors()
 		for n, err := range errors {
-			t.Errorf("error[%d]: %v", n, err)
+			t.Fatalf("error[%d]: %v", n, err)
 		}
 		if len(errors) != 0 {
 			t.Fatal("has errors")
