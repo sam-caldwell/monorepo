@@ -1,48 +1,38 @@
 package keyvalue
 
-//
-//func TestToStringArrayHappyPath(t *testing.T) {
-//	kv := KeyValue{
-//		data: Map{
-//			"key1": "value1",
-//			"key2": "value2",
-//		},
-//	}
-//
-//	output := kv.ToStringArray(" : ", true)
-//
-//	expectedOutput := []string{
-//		"key1 : value1",
-//		"key2 : value2",
-//	}
-//
-//	if len(output) != len(expectedOutput) {
-//		t.Fatalf("Expected %d lines, but got %d", len(expectedOutput), len(output))
-//	}
-//
-//	for i, line := range output {
-//		if line != expectedOutput[i] {
-//			t.Fatalf("Incorrect line. Expected '%s', but got '%s'", expectedOutput[i], line)
-//		}
-//	}
-//}
-//
-//func TestToStringArrayWithEmptyMap(t *testing.T) {
-//	kv := KeyValue{}
-//
-//	output := kv.ToStringArray(" : ", true)
-//
-//	if len(output) != 0 {
-//		t.Fatalf("Expected no lines, but got %d", len(output))
-//	}
-//}
-//
-//func TestToStringArrayWithNilMap(t *testing.T) {
-//	kv := KeyValue{}
-//
-//	output := kv.ToStringArray(" : ", true)
-//
-//	if len(output) != 0 {
-//		t.Fatalf("Expected no lines, but got %d", len(output))
-//	}
-//}
+import (
+	"fmt"
+	"testing"
+)
+
+func TestKeyValueToStringArray(t *testing.T) {
+	t.Run("test with nil KeyValue", func(t *testing.T) {
+		var kv KeyValue[string, string]
+		t.Run("test with pretty:true", func(t *testing.T) {
+			output := kv.ToStringArray(":", "\n", false)
+			if v := fmt.Sprintf("%v", output); v != "[]" {
+				t.Fatalf("expect empty result.  Got %v", output)
+			}
+		})
+		t.Run("test with pretty:false", func(t *testing.T) {
+			output := kv.ToStringArray(":", "\n", true)
+			if v := fmt.Sprintf("%v", output); v != "[]" {
+				t.Fatalf("expect empty result.  Got %v", output)
+			}
+		})
+	})
+	t.Run("test with sorted data and pretty:false", func(t *testing.T) {
+		var kv KeyValue[string, string]
+		kv.data = map[string]string{
+			"key1": "value1",
+			"key2": "value2",
+			"key3": "value3",
+			"key4": "value4",
+		}
+		expected := "[key1:value1\n key2:value2\n key3:value3\n key4:value4\n]"
+		output := kv.ToStringArray(":", "\n", false)
+		if v := fmt.Sprintf("%v", output); v != expected {
+			t.Fatalf("expected result not found.\n\tGot\n'%v'\n\tExpected\n'%v'\n", output, expected)
+		}
+	})
+}

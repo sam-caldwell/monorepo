@@ -13,5 +13,6 @@ import (
 //		 (c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) ToString(columnDelimiter, lineEnding string) (output string) {
 	const pretty = true
-	return strings.Join(kv.ToStringArray(columnDelimiter, pretty), lineEnding)
+	return strings.Join(kv.ToStringArray(columnDelimiter, lineEnding, pretty), "")
+
 }
