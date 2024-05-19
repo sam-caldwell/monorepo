@@ -20,6 +20,8 @@ import (
 //	data *[]byte represents the raw data, which we will turn into a string and parse.
 //	The lineEnding is any string representing a line delimiter.
 //	The columnDelimiter is any string representing a column delimiter.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (kv *KeyValue[KeyType, ValueType]) FromBytes(data *[]byte, lineEnding, columnDelimiter string) error {
 	lines := strings.Split(string(*data), lineEnding)
 
