@@ -27,7 +27,7 @@ func TestTrimSuffixCount(t *testing.T) {
 		result := TrimSuffixCount(test.input, test.suffix, test.count)
 
 		if result != test.expected {
-			t.Errorf("For input %s with count %d, expected %s, but got %s", test.input, test.count, test.expected, result)
+			t.Fatalf("For input %s with count %d, expected %s, but got %s", test.input, test.count, test.expected, result)
 		}
 	}
 }

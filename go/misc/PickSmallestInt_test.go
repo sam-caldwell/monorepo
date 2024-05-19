@@ -7,7 +7,7 @@ func TestPickSmallestInt(t *testing.T) {
 		result := PickSmallestInt(5, 2, 9, 3)
 		expected := 2
 		if result != expected {
-			t.Errorf("Expected %d, but got %d", expected, result)
+			t.Fatalf("Expected %d, but got %d", expected, result)
 		}
 	})
 
@@ -15,7 +15,7 @@ func TestPickSmallestInt(t *testing.T) {
 		result := PickSmallestInt(8, 8, 8, 8)
 		expected := 8
 		if result != expected {
-			t.Errorf("Expected %d, but got %d", expected, result)
+			t.Fatalf("Expected %d, but got %d", expected, result)
 		}
 	})
 
@@ -23,7 +23,7 @@ func TestPickSmallestInt(t *testing.T) {
 		result := PickSmallestInt()
 		expected := 0
 		if result != expected {
-			t.Errorf("Expected %d, but got %d", expected, result)
+			t.Fatalf("Expected %d, but got %d", expected, result)
 		}
 	})
 }
