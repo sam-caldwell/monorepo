@@ -13,7 +13,7 @@ func TestSet_GetFirst(t *testing.T) {
 			if err.Error() != errors.EmptySet {
 				t.Fatal("error mismatch")
 			} else {
-				t.Errorf("Set.GetFirst() unexpected error: %v", err)
+				t.Fatalf("Set.GetFirst() unexpected error: %v", err)
 			}
 		}
 	})
