@@ -18,7 +18,7 @@ func TestKeyValue_Exists(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		key := fmt.Sprintf("test%d", i)
 		if !kv.Exists(key) {
-			t.Errorf("key %s not exists", key)
+			t.Fatalf("key %s not exists", key)
 		}
 	}
 

@@ -25,6 +25,6 @@ func TestFromBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(kv.data, expectedData.data) {
-		t.Errorf("Parsed data does not match expected data")
+		t.Fatalf("Parsed data does not match expected data")
 	}
 }

@@ -25,7 +25,7 @@ func TestFindValue(t *testing.T) {
 	t.Run("Test: expect value is found", func(t *testing.T) {
 		key, found := kv.FindValue(valueExists)
 		if !found {
-			t.Errorf("Expected value '%s' to be found, but it was not found", valueExists)
+			t.Fatalf("Expected value '%s' to be found, but it was not found", valueExists)
 		}
 		if key != keyExists {
 			t.Fatalf("Expected key to be '%s', but it was '%s'", keyExists, key)
@@ -35,7 +35,7 @@ func TestFindValue(t *testing.T) {
 	t.Run("Test: expect value is not found", func(t *testing.T) {
 		key, found := kv.FindValue(valueNotExists)
 		if found {
-			t.Errorf("Expected value '%s' to be found, but it was found", valueNotExists)
+			t.Fatalf("Expected value '%s' to be found, but it was found", valueNotExists)
 		}
 		if key != words.EmptyString {
 			t.Fatalf("Expected key not to be '%s', but it was '%s'", keyNotExists, key)

@@ -22,7 +22,7 @@ func TestFromString(t *testing.T) {
 			},
 		}
 		if !misc.EqualMap(&kv.data, &expectedData.data) {
-			t.Errorf("Parsed data does not match expected data")
+			t.Fatalf("Parsed data does not match expected data")
 		}
 	})
 

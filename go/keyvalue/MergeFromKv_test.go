@@ -34,10 +34,10 @@ func TestMergeFromKv(t *testing.T) {
 	t.Run("Check if the data in kv1 matches the expected result", func(t *testing.T) {
 		for expectedKey, expectedValue := range expected.data {
 			if actualValue, ok := kv1.data[expectedKey]; !ok {
-				t.Errorf("key %s not found in kv1", expectedKey)
+				t.Fatalf("key %s not found in kv1", expectedKey)
 			} else {
 				if actualValue != expectedValue {
-					t.Errorf("key %s found in kv1 but value is wrong", expectedKey)
+					t.Fatalf("key %s found in kv1 but value is wrong", expectedKey)
 				}
 			}
 		}

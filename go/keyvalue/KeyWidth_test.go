@@ -36,7 +36,7 @@ func TestKeyValue_KeyWidth(t *testing.T) {
 				width := kv.KeyWidth()
 
 				if width != expectedWidth {
-					t.Errorf("Expected width %d, but got %d", expectedWidth, width)
+					t.Fatalf("Expected width %d, but got %d", expectedWidth, width)
 				}
 			})
 		}
@@ -44,7 +44,7 @@ func TestKeyValue_KeyWidth(t *testing.T) {
 	t.Run("test KeyWidth() with empty/nil map", func(t *testing.T) {
 		var kv KeyValue[string, int]
 		if width := kv.KeyWidth(); width != 0 {
-			t.Errorf("Expected width 0, but got %d", width)
+			t.Fatalf("Expected width 0, but got %d", width)
 		}
 	})
 }

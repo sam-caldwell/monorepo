@@ -33,7 +33,7 @@ func TestKeyValueFromFile(t *testing.T) {
 	})
 	t.Run("Test import of file content to KeyValue", func(t *testing.T) {
 		if err := kv.FromFile(fileName, ':', '\n', '#'); err != nil {
-			t.Errorf("FromFile returned an error: %s", err)
+			t.Fatalf("FromFile returned an error: %s", err)
 		}
 	})
 	t.Run("Confirm the KeyValue (kv) data is valid", func(t *testing.T) {
@@ -41,10 +41,10 @@ func TestKeyValueFromFile(t *testing.T) {
 			expectedValue := "value1"
 			actualValue, exists := kv.FindKey("key1")
 			if !exists {
-				t.Errorf("Expected key1 to exist in keyvalue")
+				t.Fatalf("Expected key1 to exist in keyvalue")
 			}
 			if actualValue != expectedValue {
-				t.Errorf("Expected value for key1: %s, but got: %s", expectedValue, actualValue)
+				t.Fatalf("Expected value for key1: %s, but got: %s", expectedValue, actualValue)
 			}
 		})
 		t.Run("confirm comment is not found", func(t *testing.T) {
@@ -66,10 +66,10 @@ func TestKeyValueFromFile(t *testing.T) {
 			for key, value := range expected {
 				actualValue, exists := kv.FindKey(key)
 				if !exists {
-					t.Errorf("Expected %s to exist in keyvalue", key)
+					t.Fatalf("Expected %s to exist in keyvalue", key)
 				}
 				if actualValue != value {
-					t.Errorf("Expected value for %s: %s, but got: %s", key, value, actualValue)
+					t.Fatalf("Expected value for %s: %s, but got: %s", key, value, actualValue)
 				}
 			}
 		})
