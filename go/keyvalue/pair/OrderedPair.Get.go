@@ -2,7 +2,6 @@ package pair
 
 import (
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
 )
 
@@ -13,7 +12,6 @@ func (o *OrderedPair[KeyType, ValueType]) Get(pos int) (result Pair[KeyType, Val
 	o.lock.Lock()
 	defer o.lock.Unlock()
 	endPosition := len(o.data) - 1
-	ansi.Red().Printf("pos: %d endPosition: %d", pos, endPosition).LF().Reset()
 	if pos > endPosition || pos < 0 {
 		return Pair[KeyType, ValueType]{}, fmt.Errorf(errors.IndexOutOfRange)
 	}
