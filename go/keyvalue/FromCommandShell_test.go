@@ -6,8 +6,8 @@ import (
 
 func TestFromCommandShell(t *testing.T) {
 	// Initialize a new keyvalue instance
-	kv := &KeyValue{
-		data: make(Map),
+	kv := &KeyValue[string, string]{
+		data: make(map[string]string),
 	}
 
 	// The command to be tested is `echo "key:value"`
