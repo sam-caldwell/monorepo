@@ -19,15 +19,15 @@ func TestGetNetworkAddressTrimmed(t *testing.T) {
 		result, err := GetNetworkAddressTrimmed(test.input)
 
 		if test.wantErr && err == nil {
-			t.Errorf("Expected an error for input %s, but got none.", test.input)
+			t.Fatalf("Expected an error for input %s, but got none.", test.input)
 		}
 
 		if !test.wantErr && err != nil {
-			t.Errorf("Unexpected error for input %s: %s", test.input, err)
+			t.Fatalf("Unexpected error for input %s: %s", test.input, err)
 		}
 
 		if result != test.expected {
-			t.Errorf("For input %s, expected %s, but got %s", test.input, test.expected, result)
+			t.Fatalf("For input %s, expected %s, but got %s", test.input, test.expected, result)
 		}
 	}
 }

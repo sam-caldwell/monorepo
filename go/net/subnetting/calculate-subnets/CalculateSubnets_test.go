@@ -962,13 +962,13 @@ func TestCalculateSubnets(t *testing.T) {
 			subnets, err := CalculateSubnets(testCase.parentCIDR, subnetSize)
 			if testCase.expectError {
 				if err == nil {
-					t.Errorf("Expected an error for parentCIDR: %s "+
+					t.Fatalf("Expected an error for parentCIDR: %s "+
 						"and subnetSizes: %v, but got no error",
 						testCase.parentCIDR,
 						testCase.subnetSizes)
 				}
 			} else if err != nil {
-				t.Errorf("Unexpected error for parentCIDR: %s and subnetSizes: %d: %s",
+				t.Fatalf("Unexpected error for parentCIDR: %s and subnetSizes: %d: %s",
 					testCase.parentCIDR,
 					subnetSize,
 					err)
@@ -978,7 +978,7 @@ func TestCalculateSubnets(t *testing.T) {
 				actualSubnet = strings.TrimSpace(actualSubnet)
 				expectedSubnet := testCase.expectedSubnets[0][i]
 				if !reflect.DeepEqual(actualSubnet, expectedSubnet) {
-					t.Errorf("Mismatch in subnets for parentCIDR: %s and subnetSizes: %d.\n"+
+					t.Fatalf("Mismatch in subnets for parentCIDR: %s and subnetSizes: %d.\n"+
 						"Expected: '%s'\n"+
 						"Got     : '%s'",
 						testCase.parentCIDR,
