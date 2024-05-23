@@ -2,8 +2,8 @@ package logger
 
 import (
 	"github.com/sam-caldwell/monorepo/go/logger/LogEvent"
+	logLevel "github.com/sam-caldwell/monorepo/go/logger/LogLevel"
 	"github.com/sam-caldwell/monorepo/go/logger/LogTarget"
-	"github.com/sam-caldwell/monorepo/go/logger/logLevel"
 )
 
 // Logger - Top-level logging object
