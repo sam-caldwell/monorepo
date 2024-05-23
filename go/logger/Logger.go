@@ -7,6 +7,5 @@ import (
 
 // Logger - Top-level logging object
 type Logger[TGT LogTarget.LogTarget, FMT LogEvent.LogFormat] struct {
-	target TGT
-	format FMT
+	target TGT[FMT]
 }
