@@ -4,7 +4,7 @@ import "time"
 
 type LogFormat interface {
 	ToJson() ([]byte, error)
-	FromJson([]byte, error)
+	FromJson([]byte) error
 }
 
 // RFC5424Message represents an RFC5424 syslog message
