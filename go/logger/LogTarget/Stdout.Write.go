@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-// WriteString - Write a formatted log string to stdout.
-func (out Stdout[LogFormat]) WriteString(p LogEvent.LogFormat) {
+// Write - Write a formatted log string to stdout.
+func (out Stdout[LogFormat]) Write(p LogEvent.LogFormat) {
 	var buf []byte
 	var err error
 	buf, err = p.ToJson()
