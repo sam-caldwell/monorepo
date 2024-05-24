@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (log *Logger[T, F]) Debug(message LogEvent.MessageValue) *Logger[T, F] {
+func (log *Logger[T]) Debug(message LogEvent.MessageValue) *Logger[T] {
 	if log.level.Evaluate(LogLevel.Debug) {
 		var (
 			err      error
@@ -20,7 +20,7 @@ func (log *Logger[T, F]) Debug(message LogEvent.MessageValue) *Logger[T, F] {
 			hostname = "not_available"
 		}
 		payload, err = LogEvent.RFC5424Message{
-			Priority:  uint(log.level),
+			Priority:  uint(LogLevel.Debug),
 			Version:   version.Version,
 			Timestamp: time.Now(),
 			Hostname:  hostname,
@@ -32,6 +32,7 @@ func (log *Logger[T, F]) Debug(message LogEvent.MessageValue) *Logger[T, F] {
 		if err != nil {
 			panic("log message serialization error")
 		}
+		log.target.SetLevel(LogLevel.Debug)
 		log.target.Write(&payload)
 		log.target.Flush()
 	}

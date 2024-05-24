@@ -1,9 +1,9 @@
 package logger
 
-import "github.com/sam-caldwell/monorepo/go/logger/logLevel"
+import "github.com/sam-caldwell/monorepo/go/logger/LogLevel"
 
 // SetLevel - Define the log level
-func (log *Logger[T, F]) SetLevel(level logLevel.Value) *Logger[T, F] {
+func (log *Logger[T]) SetLevel(level LogLevel.Value) *Logger[T] {
 	log.level = level
 	return log
 }
