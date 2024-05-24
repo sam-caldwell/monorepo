@@ -6,17 +6,17 @@ const (
 	errMissingExtension = "missing extension"
 )
 
-// SetIfHasExtension - Set the given file/path name if the given name has one of the allowed extensions.
-// Extensions must start with periods.
-func (fp *File) SetIfHasExtension(name string, allowedExtensions []string) error {
+// ValidIfHasExtension - Return nil if the file name is valid and has an allowed extension.
+//
+//	     Note: any error returned indicates a validation issue.  Nil returns indicate valid input
+//
+//			(c) 2023 Sam Caldwell.  MIT License
+func (fp *File) ValidIfHasExtension(name string, allowedExtensions []string) error {
 	if err := fp.valid(&name); err != nil {
-		*fp = ""
 		return err
 	}
 	if !HasExtensions(name, allowedExtensions) {
-		*fp = ""
 		return fmt.Errorf(errMissingExtension)
 	}
-	*fp = File(name)
 	return nil
 }

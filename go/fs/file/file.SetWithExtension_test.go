@@ -16,13 +16,10 @@ func TestFile_SetWithExtension(t *testing.T) {
 			func(t *testing.T) {
 
 				var f File
-				if string(f) != "" {
-					t.Fatal("expect initial empty value")
-				}
 
 				ansi.Cyan().Printf("test with '%s' and %v ", fileName, extensions).Reset()
 
-				err := f.SetIfHasExtension(fileName, extensions)
+				err := f.ValidIfHasExtension(fileName, extensions)
 
 				if expectedError == nil {
 					if err != nil {
