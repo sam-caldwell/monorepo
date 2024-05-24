@@ -1,3 +1,3 @@
-package logLevel
+package LogLevel
 
 type Value uint

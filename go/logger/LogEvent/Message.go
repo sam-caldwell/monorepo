@@ -9,12 +9,12 @@ type LogFormat interface {
 
 // RFC5424Message represents an RFC5424 syslog message
 type RFC5424Message struct {
-	Priority  int          `json:"priority"`
-	Version   int          `json:"version"`
+	Priority  uint         `json:"priority"`
+	Version   string       `json:"version"`
 	Timestamp time.Time    `json:"timestamp"`
 	Hostname  string       `json:"hostname"`
 	AppName   string       `json:"appName"`
-	ProcID    string       `json:"procID"`
+	ProcID    int          `json:"procID"`
 	MsgID     string       `json:"msgID"`
 	Message   MessageValue `json:"message,omitempty"`
 }

@@ -8,6 +8,8 @@ import (
 
 // Logger - Top-level logging object
 type Logger[TGT LogTarget.LogTarget, FMT LogEvent.LogFormat] struct {
-	target TGT[FMT]
-	level  logLevel.Value
+	target  TGT[FMT]
+	level   logLevel.Value
+	appName string
+	MsgId   string
 }
