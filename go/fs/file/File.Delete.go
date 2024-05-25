@@ -16,6 +16,8 @@ func (fp *File) Delete() error {
 	if fp.handle == nil {
 		return fmt.Errorf(errors.NotInitialized)
 	}
+	fp.lock.Lock()
+	defer fp.lock.Unlock()
 	name := fp.handle.Name()
 	if err := fp.handle.Close(); err != nil {
 		return err
