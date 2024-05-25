@@ -24,12 +24,12 @@ func (fp *File) CreateTemp(perm os.FileMode) (err error) {
 	if fp.handle != nil {
 		return fmt.Errorf("file is already open")
 	}
+	fp.lock.Lock()
+	defer fp.lock.Unlock()
 	name := filepath.Join(tmpDir, uuid.New().String())
 	if err := fp.valid(&name); err != nil {
 		return err
 	}
-	fp.lock.Lock()
-	defer fp.lock.Unlock()
 	(*fp).handle, err = os.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_TRUNC, perm)
 	return nil
 }
