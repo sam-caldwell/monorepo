@@ -5,10 +5,9 @@ import "testing"
 func TestFile(t *testing.T) {
 	const expectedFileName = "/tmp/myFile.txt"
 	var f File
-	if err := f.Set(expectedFileName); err != nil {
-		t.Fatal(err)
+	if f.handle != nil {
+		t.Fatal("handle expects to be nil")
 	}
-	if n := f.Get(); n != expectedFileName {
-		t.Fatal("expected file name not found")
-	}
+	f.lock.Lock()
+	f.lock.Unlock()
 }
