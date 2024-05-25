@@ -3,7 +3,6 @@ package file
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
-	"io"
 )
 
 // GetSize - Return file size (in bytes)
@@ -18,17 +17,9 @@ func (fp *File) GetSize() (sz int64, err error) {
 	}
 	fp.lock.Lock()
 	defer fp.lock.Unlock()
-	pos, err := fp.handle.Seek(0, SeekFromCurrent)
+	fileInfo, err := fp.handle.Stat()
 	if err != nil {
 		return 0, err
 	}
-	sz, err = fp.handle.Seek(0, SeekFromEnd)
-	if err != nil {
-		return 0, err
-	}
-	_, err = fp.handle.Seek(pos, io.SeekStart)
-	if err != nil {
-		return 0, err
-	}
-	return sz, err
+	return fileInfo.Size(), err
 }
