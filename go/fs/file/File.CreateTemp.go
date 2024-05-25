@@ -2,11 +2,12 @@ package file
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"os"
 	"path/filepath"
 )
 
-// CreateTemp - Create a temporary file (e.g. /tmp/<name>)
+// CreateTemp - Create a temporary file (e.g. /tmp/<name>) using uuid.
 //
 //		 The goal is to create an abstraction layer so changes to golang will not require
 //		 significant effort to update all projects.
@@ -23,7 +24,7 @@ func (fp *File) CreateTemp(perm os.FileMode) (err error) {
 	if fp.handle != nil {
 		return fmt.Errorf("file is already open")
 	}
-	name := filepath.Join(tmpDir)
+	name := filepath.Join(tmpDir, uuid.New().String())
 	if err := fp.valid(&name); err != nil {
 		return err
 	}
