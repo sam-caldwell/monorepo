@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	configuration "github.com/sam-caldwell/monorepo/go/configuration/Map"
 	"github.com/sam-caldwell/monorepo/go/logger"
 	"github.com/sam-caldwell/monorepo/go/logger/LogLevel"
 	"github.com/sam-caldwell/monorepo/go/logger/LogTarget"
@@ -15,10 +16,10 @@ import (
 func main() {
 	ansi.White().Println("Test starting...")
 	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
-	var log logger.Logger[LogTarget.File]
+	var log logger.Logger[LogTarget.FileTarget]
 
 	// Configure the log level and other parameters
-	log.Configure(LogTarget.ConfigureTarget{
+	log.Configure(configuration.Map[string, string]{
 		"filename":   "/tmp/test.log",
 		"permission": "0600",
 		"rateLimit":  "100",

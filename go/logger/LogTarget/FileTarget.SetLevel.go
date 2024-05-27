@@ -5,6 +5,6 @@ import (
 )
 
 // SetLevel - Configure the file log target with the given log level
-func (out File) SetLevel(p logLevel.Value) {
+func (out FileTarget) SetLevel(p logLevel.Value) {
 	//Noop
 }
