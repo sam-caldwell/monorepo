@@ -20,6 +20,9 @@ const (
 	Dll64
 )
 
+// GetFileType - return the file type
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func GetFileType(fh *os.File, debug bool) (FileFormat, error) {
 	var header [20]byte
 

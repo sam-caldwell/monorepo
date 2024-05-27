@@ -10,6 +10,8 @@ import (
 )
 
 // Disassemble - Given a source and output file, disassemble the source binary and write the assembly instructions.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Disassemble(debug bool, sourceFile, outFile *os.File, method types.DisassemblerMethod, arch, mode int) (err error) {
 	//
 	// arch, mode should be something like cs.CS_ARCH_X86, cs.CS_MODE_64

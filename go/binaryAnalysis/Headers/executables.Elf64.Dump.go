@@ -5,6 +5,8 @@ import (
 )
 
 // Dump - Print a string slice of the ELF64 header fields
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (elf *Elf64) Dump() []string {
 	return []string{
 		fmt.Sprintf("e_ident:     %02x", elf.eIdent),

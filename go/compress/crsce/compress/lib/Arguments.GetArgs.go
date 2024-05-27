@@ -17,6 +17,8 @@ import (
 )
 
 // GetArgs - Parse cli arguments and validate the values.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (args *Arguments) GetArgs() {
 	const (
 		MinSize = 1048576 //Bytes (1MB) ( 8,388,608 bits) sqrt(1MB) => 1024

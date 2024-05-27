@@ -7,6 +7,8 @@ import (
 
 // StreamDecompress reads gzip-compressed data from the 'in' io.Reader,
 // decompresses it, and writes the decompressed data to the 'out' io.Writer.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func StreamDecompress(in io.Reader, out io.Writer) error {
 
 	gzipReader, err := gzip.NewReader(in)

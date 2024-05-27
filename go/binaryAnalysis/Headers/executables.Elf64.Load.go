@@ -7,6 +7,8 @@ import (
 )
 
 // Load loads Elf64 header from the given file handle.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (elf *Elf64) Load(fh *os.File) error {
 	// Read the ELF identification field to verify it's an ELF file
 	var ident [16]byte

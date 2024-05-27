@@ -1,6 +1,8 @@
 package executables
 
 // Elf32 - 32-bit executable binary format header structure
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 type Elf32 struct {
 }
 

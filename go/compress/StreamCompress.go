@@ -7,6 +7,8 @@ import (
 
 // StreamCompress reads raw data from the 'in' io.Reader,
 // compresses it, and writes the compressed data to the 'out' io.Writer.
+//
+//	    (c) 2023 Sam Caldwell.  MIT License
 func StreamCompress(in io.Reader, out io.Writer) (err error) {
 
 	gzipWriter := gzip.NewWriter(out)

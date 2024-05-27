@@ -1,6 +1,8 @@
 package executables
 
 // Dump - Print a string slice of the ELF32 header fields
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (elf *Elf32) Dump() []string {
 	return []string{
 		//fmt.Sprintf("e_ident:     %02x", elf.eIdent),

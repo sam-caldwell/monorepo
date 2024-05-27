@@ -1,6 +1,8 @@
 package executables
 
 // Elf64 - 64-bit executable binary format header structure
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 type Elf64 struct {
 	eIdent     [16]byte // e_ident : Magic number and other info
 	eType      uint16   // e_type : Object file type

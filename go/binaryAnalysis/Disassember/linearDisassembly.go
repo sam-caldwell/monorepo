@@ -6,6 +6,8 @@ import (
 )
 
 // linearDisassembly performs Linear disassembly
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func linearDisassembly(debug bool, binary []byte, arch int, mode int, entryPoint uint64) (result []cs.Instruction, err error) {
 
 	var engine cs.Engine

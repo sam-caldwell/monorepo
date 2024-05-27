@@ -14,6 +14,8 @@ const (
 )
 
 // Arguments - Struct representing parsed command-line args.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 type Arguments struct {
 	In        string
 	Out       string
