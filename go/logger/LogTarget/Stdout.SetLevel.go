@@ -6,7 +6,7 @@ import (
 )
 
 // SetLevel - Set ANSI color codes when writing log messages.
-func (out Stdout) SetLevel(p logLevel.Value) {
+func (out *StdoutTarget) SetLevel(p logLevel.Value) {
 	switch p {
 	case logLevel.Debug, logLevel.Info:
 		ansi.Blue()

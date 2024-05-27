@@ -16,7 +16,7 @@ import (
 func main() {
 	ansi.White().Println("Test starting...")
 	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
-	var log logger.Logger[LogTarget.Stdout]
+	var log logger.Logger[LogTarget.StdoutTarget]
 	// Configure the log level and other parameters
 	log.SetLevel(LogLevel.Debug).
 		Debug("debug message (expect blue text)").

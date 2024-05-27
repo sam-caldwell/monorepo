@@ -1,12 +1,8 @@
 package LogTarget
 
-import (
-	configuration "github.com/sam-caldwell/monorepo/go/configuration/Map"
-)
-
-// LogTarget - The target to which logs will be written
+// TargetSet - A type of all LogTargetTypes
 //
 //	(c) 2023 Sam Caldwell.  MIT License
-type LogTarget interface {
-	Configure(cfg configuration.Map[string, string])
+type TargetSet interface {
+	StdoutTarget | FileTarget | HttpTarget | SyslogTarget
 }

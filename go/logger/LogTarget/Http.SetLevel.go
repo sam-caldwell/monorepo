@@ -5,6 +5,6 @@ import (
 )
 
 // SetLevel - Configure the http target with the given log level
-func (out Http) SetLevel(p logLevel.Value) {
-	//Noop
+func (out *HttpTarget) SetLevel(p logLevel.Value) {
+	out.level = p
 }

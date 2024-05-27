@@ -5,6 +5,6 @@ import (
 )
 
 // SetLevel - Configure the syslog target with the given log level
-func (out Syslog) SetLevel(p logLevel.Value) {
+func (out *SyslogTarget) SetLevel(p logLevel.Value) {
 	//Noop
 }

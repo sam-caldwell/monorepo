@@ -5,6 +5,7 @@ import (
 )
 
 // Write - Write a formatted log string to stdout.
-func (out Stdout) Write(p *[]byte) {
+func (out *StdoutTarget) Write(p *[]byte) error {
 	ansi.Println(string(*p))
+	return nil
 }
