@@ -19,8 +19,10 @@ const (
 	Lint       = "lint"
 	List       = "list"
 	Parameters = "parameters"
+	Permission = "permission"
 	Platform   = "platform"
 	Project    = "project"
+	RateLimit  = "ratelimit"
 	Show       = "show"
 	Test       = "test"
 )
