@@ -12,12 +12,10 @@ import (
 //
 //		(c) 2023 Sam Caldwell.  MIT License
 func (cfg *Map[K, V]) ExpectOrError(name K) (V, error) {
-	if cfg.data == nil {
+	if cfg == nil {
 		panic(errors.NotInitialized)
 	}
-	cfg.lock.Lock()
-	record, ok := cfg.Data[name]
-	cfg.lock.Unlock()
+	record, ok := (*cfg)[name]
 	if !ok {
 		var emptyValue V
 		return emptyValue, fmt.Errorf("missing %s", name)
