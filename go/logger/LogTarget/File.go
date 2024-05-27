@@ -8,5 +8,6 @@ import (
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 type File struct {
-	file file.File
+	file      file.File
+	rateLimit uint
 }
