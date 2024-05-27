@@ -7,6 +7,12 @@ import (
 	"github.com/sam-caldwell/monorepo/go/logger/LogTarget"
 )
 
+// main - Simple stdout logging implementation
+//
+//	 This log implementation is the minimum configuration possible
+//	 and uses stdout as the log target.
+//
+//		(c) 2023 Sam Caldwell.  MIT License
 func main() {
 	ansi.White().Println("Test starting...")
 	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
