@@ -1,28 +1,25 @@
 package convert
 
-/*
- * projects/convert/UintPtrToByteSlice.go
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * This file creates a function which will convert an uintptr address to a []byte slice.
- *
- * In golang uintptr could vary in size depending on the system.  It could be a 32-bit
- * system with 32-bit addresses or a 64-bit system with 64-bit addresses.  We cannot
- * make an assumption here.  We need to determine the appropriate size then both
- * create our final byte slice and encode 'destination' (uintptr) into that resulting
- * byte slice.  We also need to future-proof for the day when 128-bit CPUs are a thing
- *
- * How big is destination?  ("Size does matter...ask a programmer" --Monica <redacted>)
- */
-
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/sam-caldwell/monorepo/go/convert/Endianness"
+	endianness "github.com/sam-caldwell/monorepo/go/convert/Endianness"
 	"unsafe"
 )
 
 // UintPtrToByteSlice - Convert a uintptr of arbitrary size to a []byte slice
+//
+//	     This file creates a function which will convert an uintptr address to a []byte slice.
+//
+//	     In golang uintptr could vary in size depending on the system.  It could be a 32-bit
+//	     system with 32-bit addresses or a 64-bit system with 64-bit addresses.  We cannot
+//	     make an assumption here.  We need to determine the appropriate size then both
+//	     create our final byte slice and encode 'destination' (uintptr) into that resulting
+//	     byte slice.  We also need to future-proof for the day when 128-bit CPUs are a thing
+//
+//	     How big is destination?  ("Size does matter...ask a programmer" --Monica <redacted>)
+//
+//		    (c) 2023 Sam Caldwell.  MIT License
 func UintPtrToByteSlice(addr uintptr) (result []byte) {
 	/*
 	 * In golang uintptr could vary in size depending on the system.  It could be a 32-bit

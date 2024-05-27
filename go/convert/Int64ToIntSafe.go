@@ -3,6 +3,8 @@ package convert
 import "fmt"
 
 // Int64ToIntSafe - safely convert int64 to integer
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Int64ToIntSafe(num int64) (int, error) {
 	const maxInt = int(^uint(0) >> 1)
 	const minInt = -maxInt - 1

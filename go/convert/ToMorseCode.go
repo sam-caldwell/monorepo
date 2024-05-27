@@ -1,17 +1,13 @@
 package convert
 
-/*
- * convert.ToMorseCode()
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * A simple function that converts a message string to
- * morse code and returns the result as dots and dashes.
- */
 import (
 	"fmt"
 	"strings"
 )
 
+// ToMorseCode - Write an ASCII string in morse code.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func ToMorseCode(input string) (string, error) {
 	output := ""
 

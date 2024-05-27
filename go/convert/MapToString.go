@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+// MapToString - Given a map of generic types as a string.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func MapToString[K string, V any](tags map[K]V) string {
 	var tagPairs []string
 

@@ -1,18 +1,14 @@
 package convert
 
-/*
- * convert.FromMorseCode()
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * A simple function that converts a morse code string
- * into an ASCII string.
- */
 import (
 	"fmt"
 	ansi2 "github.com/sam-caldwell/monorepo/go/ansi"
 	"strings"
 )
 
+// FromMorseCode - Convert morse code to an ASCII string.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func FromMorseCode(morseCode string) (string, error) {
 	morseCode = strings.TrimSpace(morseCode)
 	morseWords := strings.Split(morseCode, "/")

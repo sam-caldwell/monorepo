@@ -1,6 +1,8 @@
 package convert
 
 // PutUint64Hex - write a 64-bit value into a hexadecimal byte array
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func PutUint64Hex(b []byte, v uint64) {
 	/*
 	 * To convert an Uint64 to a byte slice in hexadecimal

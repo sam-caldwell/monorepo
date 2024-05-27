@@ -1,6 +1,8 @@
 package convert
 
-// DecodeHexUint32 - decode a 32-bit hexidecimal byte string as uint32
+// DecodeHexUint32 - decode a 32-bit hexadecimal byte string as uint32
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func DecodeHexUint32(value *uint32, src []byte) (ok bool) {
 	/*
 	 * decodeHexUint32()

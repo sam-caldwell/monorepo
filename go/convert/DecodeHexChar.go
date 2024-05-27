@@ -1,6 +1,8 @@
 package convert
 
 // DecodeHexChar - decode a single byte representing a hexadecimal digit and return the numeric equivalent as a byte
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func DecodeHexChar(value *byte, c byte) (ok bool) {
 	if value == nil {
 		return false

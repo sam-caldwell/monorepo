@@ -1,6 +1,8 @@
 package convert
 
 // DecodeHexUint16 - Decode a hexadecimal 2-byte slice into a 16-bit unsigned-integer
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func DecodeHexUint16(value *uint16, src []byte) (ok bool) {
 	var b1, b2 byte
 

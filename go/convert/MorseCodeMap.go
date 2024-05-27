@@ -1,13 +1,8 @@
 package convert
 
-/*
- * Morse Code Tables
- * (c) 2023 Sam Caldwell.  See LICENSE.txt
- *
- * A map used by ToMorseCode() and FromMorseCode()
- * with all supported characters.
- */
-
+// AsciiToMorseCode - A map used by ToMorseCode() and FromMorseCode() with all supported characters.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 var AsciiToMorseCode = map[string]string{
 	"A":  ".-",
 	"B":  "-...",

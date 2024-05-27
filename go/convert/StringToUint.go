@@ -7,6 +7,8 @@ import (
 )
 
 // StringToUint - Convert the string value to an unsigned-integer.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func StringToUint(value string) (n uint) {
 	number, err := strconv.ParseUint(value, 10, 64)
 	if err != nil {

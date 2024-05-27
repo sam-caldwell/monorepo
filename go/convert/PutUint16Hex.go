@@ -1,6 +1,8 @@
 package convert
 
 // PutUint16Hex - Write uint16 to a byte array as hex
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func PutUint16Hex(b []byte, v uint16) {
 	/*
 	 * To convert an Uint16 to a byte slice in hexadecimal
