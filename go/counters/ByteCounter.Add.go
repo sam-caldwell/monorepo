@@ -5,13 +5,9 @@ import (
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
 )
 
-/*
- * ByteCounter
- * (c) 2023 Sam Caldwell.  See License.txt
- *
- * ByteCounter Adder Function
- */
-
+// Add - Add value to the ByteCounter
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *ByteCounter) Add(value int) (err error) {
 
 	if value < 0 {
