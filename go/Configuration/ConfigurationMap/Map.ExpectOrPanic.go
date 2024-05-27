@@ -16,7 +16,7 @@ func (cfg *Map[K, V]) ExpectOrError(name K) (V, error) {
 		panic(errors.NotInitialized)
 	}
 	cfg.lock.Lock()
-	record, ok := cfg.data[name]
+	record, ok := cfg.Data[name]
 	cfg.lock.Unlock()
 	if !ok {
 		var emptyValue V
