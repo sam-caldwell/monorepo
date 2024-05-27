@@ -27,5 +27,6 @@ func (fp *File) IsEndOfFile() (eof bool, err error) {
 	if err != nil {
 		return true, err
 	}
+	currentPosition++
 	return currentPosition == fileInfo.Size(), nil
 }
