@@ -12,7 +12,10 @@ func main() {
 	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
 	var log logger.Logger[LogTarget.File]
 	// Configure the log level and other parameters
-	log.Configure("filename", "/tmp/test.log").
+	log.Configure(LogTarget.ConfigureTarget{
+		"filename":   "/tmp/test.log",
+		"permission": "0600",
+	}).
 		SetLevel(LogLevel.Debug).
 		Debug("debug message (expect blue text)").
 		Info("info message (expect blue text)").
