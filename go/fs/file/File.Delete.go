@@ -19,8 +19,6 @@ func (fp *File) Delete() error {
 	fp.lock.Lock()
 	defer fp.lock.Unlock()
 	name := fp.handle.Name()
-	if err := fp.handle.Close(); err != nil {
-		return err
-	}
+	_ = fp.handle.Close()
 	return os.Remove(name)
 }
