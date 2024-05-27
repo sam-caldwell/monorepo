@@ -8,8 +8,10 @@ import (
 )
 
 func TestFile_struct(t *testing.T) {
-	var expectedFileName = filepath.Join("/tmp/", uuid.New().String())
-	var f File
+	var (
+		expectedFileName = filepath.Join("/tmp/", uuid.New().String())
+		f                File
+	)
 	t.Run("pre-test", func(t *testing.T) {
 		if f.handle != nil {
 			t.Fatal("handle expects to be nil")
