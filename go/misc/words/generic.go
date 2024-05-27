@@ -1,47 +1,18 @@
 package words
 
-/*
- * Generic Words
- */
-const (
-	Ampersand   = "&"
-	Colon       = ":"
-	Comma       = ","
-	EmptyString = ""
-	EqualSign   = "="
-	Hyphen      = "-"
-	Period      = "."
-	Space       = " "
-	Tab         = "\t"
-	Underscore  = "_"
-	Undefined   = "undefined"
-)
-const (
-	Yes = "yes"
-	No  = "no"
-)
-const (
-	True  = "true"
-	False = "false"
-)
-
-const (
-	Command = "command"
-	Create  = "create"
-	Check   = "check"
-
-	Free = "free"
-
-	Help = "help"
-)
-
 const (
 	Build      = "build"
+	Check      = "check"
+	Command    = "command"
 	Config     = "config"
+	Create     = "create"
 	Cri        = "cri"
 	Delete     = "delete"
 	Exec       = "exec"
+	FileName   = "filename"
+	Free       = "free"
 	Group      = "group"
+	Help       = "help"
 	Host       = "host"
 	Hypervisor = "hypervisor"
 	Language   = "language"
