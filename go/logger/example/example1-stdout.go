@@ -14,6 +14,10 @@ import (
 //
 //		(c) 2023 Sam Caldwell.  MIT License
 func main() {
+	LoggerExampleStdout()
+}
+
+func LoggerExampleStdout() {
 	ansi.White().Println("Test starting...")
 	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
 	var log logger.Logger[LogTarget.StdoutTarget]

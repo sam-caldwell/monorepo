@@ -31,49 +31,9 @@ func (log *Logger[T]) Configure(cfg configuration.Map[string, string]) *Logger[T
 	return log
 }
 
-// SetLevel - Define the log level
-//
-//	(c) 2023 Sam Caldwell.  MIT License
-func (log *Logger[T]) SetLevel(level LogLevel.Value) *Logger[T] {
-	log.target.SetLevel(level)
-	return log
-}
-
-// SetAppName - Set the application name for the log messages
-//
-//	(c) 2023 Sam Caldwell.  MIT License
-func (log *Logger[T]) SetAppName(appName string) *Logger[T] {
-	//ToDo: sanitize app name
-	log.appName = appName
-	return log
-}
-
 func (log *Logger[T]) Critical(message LogEvent.MessageValue) *Logger[T] {
 	if log.level.Evaluate(LogLevel.Critical) {
-		var (
-			err      error
-			hostname string
-			payload  []byte
-		)
-		hostname, err = os.Hostname()
-		if err != nil {
-			hostname = "not_available"
-		}
-		payload, err = LogEvent.RFC5424Message{
-			Priority:  uint(LogLevel.Critical),
-			Version:   version.Version,
-			Timestamp: time.Now(),
-			Hostname:  hostname,
-			AppName:   log.appName,
-			ProcID:    os.Getpid(),
-			MsgID:     log.MsgId,
-			Message:   message,
-		}.ToJson()
-		if err != nil {
-			panic("log message serialization error")
-		}
-		log.target.SetLevel(LogLevel.Critical)
-		_ = log.target.Write(&payload)
+		_ = log.target.Write(LogLevel.Critical, &message)
 	}
 	return log
 }
@@ -102,7 +62,6 @@ func (log *Logger[T]) Error(message LogEvent.MessageValue) *Logger[T] {
 		if err != nil {
 			panic("log message serialization error")
 		}
-		log.target.SetLevel(LogLevel.Error)
 		_ = log.target.Write(&payload)
 	}
 	return log
@@ -132,7 +91,6 @@ func (log *Logger[T]) Fatal(message LogEvent.MessageValue) *Logger[T] {
 		if err != nil {
 			panic("log message serialization error")
 		}
-		log.target.SetLevel(LogLevel.Fatal)
 		_ = log.target.Write(&payload)
 	}
 	defer func() {
@@ -165,7 +123,6 @@ func (log *Logger[T]) Warning(message LogEvent.MessageValue) *Logger[T] {
 		if err != nil {
 			panic("log message serialization error")
 		}
-		log.target.SetLevel(LogLevel.Warning)
 		_ = log.target.Write(&payload)
 	}
 	return log
@@ -195,7 +152,6 @@ func (log *Logger[T]) Info(message LogEvent.MessageValue) *Logger[T] {
 		if err != nil {
 			panic("log message serialization error")
 		}
-		log.target.SetLevel(LogLevel.Info)
 		_ = log.target.Write(&payload)
 	}
 	return log
@@ -225,7 +181,6 @@ func (log *Logger[T]) Debug(message LogEvent.MessageValue) *Logger[T] {
 		if err != nil {
 			panic("log message serialization error")
 		}
-		log.target.SetLevel(LogLevel.Debug)
 		_ = log.target.Write(&payload)
 	}
 	return log

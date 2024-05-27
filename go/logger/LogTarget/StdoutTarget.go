@@ -7,5 +7,7 @@ import "github.com/sam-caldwell/monorepo/go/logger/LogLevel"
 //	(c) 2023 Sam Caldwell.  MIT License
 type StdoutTarget struct {
 	level     LogLevel.Value
+	appName   string
+	msgId     string
 	rateLimit uint
 }

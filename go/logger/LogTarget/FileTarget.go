@@ -11,5 +11,7 @@ import (
 type FileTarget struct {
 	file      file.File
 	level     LogLevel.Value
+	appName   string
+	msgId     string
 	rateLimit uint
 }
