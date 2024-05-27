@@ -58,7 +58,7 @@ func TestFile_GetSize(t *testing.T) {
 			t.Fatal(err)
 		}
 		if n != sz {
-			t.Fatal("position mismatch")
+			t.Fatal("size mismatch")
 		}
 	})
 }
