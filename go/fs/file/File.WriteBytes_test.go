@@ -3,7 +3,6 @@ package file
 import (
 	"github.com/google/uuid"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
-	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"os"
 	"path/filepath"
 	"testing"
@@ -33,7 +32,7 @@ func TestFile_WriteBytes(t *testing.T) {
 
 		t.Cleanup(func() {
 			_ = f.handle.Close()
-			_ = os.Remove(name)
+			_ = os.Remove(expectedFileName)
 		})
 
 		t.Run("test create test file", func(t *testing.T) {
@@ -45,8 +44,8 @@ func TestFile_WriteBytes(t *testing.T) {
 				t.Fatal("handle is nil")
 			}
 			name = f.handle.Name()
-			if name == words.EmptyString {
-				t.Fatal("name is empty")
+			if name != expectedFileName {
+				t.Fatal("name mismatch")
 			}
 		})
 
