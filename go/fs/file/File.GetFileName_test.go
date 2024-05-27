@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestFileGet(t *testing.T) {
+func TestFile_GetFileName(t *testing.T) {
 	const expectedFileName = "/tmp/myFile.txt"
 	var f File
 	t.Run("Test with uninitialized file", func(t *testing.T) {
