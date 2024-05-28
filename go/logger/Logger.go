@@ -1,12 +1,13 @@
 package logger
 
 import (
-	"github.com/sam-caldwell/monorepo/go/logger/LogTarget"
+	"io"
 )
 
 // Logger - Top-level logging object
 //
 //	(c) 2023 Sam Caldwell.  MIT License
-type Logger[TGT LogTarget.TargetSet] struct {
-	target TGT
+type Logger struct {
+	target    io.Writer
+	rateLimit uint
 }
