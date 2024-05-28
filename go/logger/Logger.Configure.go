@@ -1,6 +1,7 @@
 package logger
 
 import (
+	ratelimiter "github.com/sam-caldwell/monorepo/go/RateLimiter"
 	configuration "github.com/sam-caldwell/monorepo/go/configuration/Map"
 	"github.com/sam-caldwell/monorepo/go/convert"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
@@ -27,7 +28,7 @@ func (log *Logger) Configure(cfg *configuration.Map[string, string]) *Logger {
 	default:
 		log.ConfigureStdout(cfg)
 	}
-	log.rateLimit = convert.StringToUint(cfg.ExpectOrIgnore(words.RateLimit))
+	log.ratelimit = ratelimiter.NewRateLimiter(int(convert.StringToUint(cfg.ExpectOrIgnore(words.RateLimit))))
 	log.appName = strings.TrimSpace(strings.ToLower(cfg.ExpectOrIgnore(words.AppName)))
 	log.msgId = cfg.ExpectOrIgnore(words.MsgId)
 	return log
