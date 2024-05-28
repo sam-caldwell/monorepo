@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"github.com/sam-caldwell/monorepo/go/logger/LogLevel"
 	"io"
 )
 
@@ -8,6 +9,9 @@ import (
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 type Logger struct {
-	target    io.Writer
+	appName   string
+	msgId     string
+	level     LogLevel.Value
 	rateLimit uint
+	target    io.Writer
 }
