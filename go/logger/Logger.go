@@ -1,8 +1,8 @@
 package logger
 
 import (
-	ratelimiter "github.com/sam-caldwell/monorepo/go/RateLimiter"
 	"github.com/sam-caldwell/monorepo/go/logger/LogLevel"
+	"github.com/sam-caldwell/monorepo/go/ratelimiter/tokensPerSecond"
 	"io"
 )
 
@@ -14,6 +14,6 @@ type Logger struct {
 	appName   string
 	msgId     string
 	level     LogLevel.Value
-	ratelimit ratelimiter.RateLimiter
+	ratelimit tokensPerSecond.RateLimiter
 	target    io.Writer
 }

@@ -1,4 +1,4 @@
-package ratelimiter
+package tokensPerSecond
 
 // IsActive - return active state of the rate limiter.
 //

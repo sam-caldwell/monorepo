@@ -1,4 +1,4 @@
-package ratelimiter
+package tokensPerSecond
 
 // GetLimit - Return the current rate limit (number allowed tokens per second)
 //

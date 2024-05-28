@@ -1,4 +1,4 @@
-package ratelimiter
+package tokensPerSecond
 
 // SetRateLimit - Set the number of tokens allowed per second
 //

@@ -1,8 +1,8 @@
 package LogEvent
 
 import (
-	ratelimiter "github.com/sam-caldwell/monorepo/go/RateLimiter"
 	"github.com/sam-caldwell/monorepo/go/logger/LogLevel"
+	"github.com/sam-caldwell/monorepo/go/ratelimiter/tokensPerSecond"
 	"github.com/sam-caldwell/monorepo/go/version"
 	"os"
 	"time"
@@ -12,7 +12,7 @@ import (
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func (e *RFC5424Message) Create(messagePriority LogLevel.Value, appName, msgId *string,
-	ratelimit *ratelimiter.RateLimiter, message *MessageValue) *RFC5424Message {
+	ratelimit *tokensPerSecond.RateLimiter, message *MessageValue) *RFC5424Message {
 
 	var err error
 	e.Priority = uint(messagePriority)

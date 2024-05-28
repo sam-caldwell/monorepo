@@ -1,4 +1,4 @@
-package ratelimiter
+package tokensPerSecond
 
 import "time"
 

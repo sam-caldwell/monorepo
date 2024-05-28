@@ -1,4 +1,4 @@
-package ratelimiter
+package tokensPerSecond
 
 // Activate - Enable rate limiting
 //
