@@ -5,7 +5,7 @@ import "fmt"
 // TopLeft - Move cursor to top left
 func (c *Color) TopLeft() *Color {
 	if !disabled {
-		fmt.Print(setTopLeft)
+		fmt.Print(CodeSetTopLeft)
 	}
 	return c
 }

@@ -5,7 +5,7 @@ import "fmt"
 // White - set color
 func (c *Color) White() *Color {
 	if !disabled {
-		fmt.Print(fgWhite)
+		fmt.Print(CodeFgWhite)
 	}
 	return c
 }

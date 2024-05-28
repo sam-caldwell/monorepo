@@ -9,7 +9,7 @@ import (
 func (c *Color) Reset() *Color {
 	defer func() { _ = os.Stdout.Sync() }()
 	if !disabled {
-		fmt.Print(reset) // Reset color
+		fmt.Print(CodeReset) // Reset color
 	}
 	return c
 }

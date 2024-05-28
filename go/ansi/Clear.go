@@ -5,7 +5,7 @@ import "fmt"
 // Clear - Set format attribute
 func (c *Color) Clear() *Color {
 	if !disabled {
-		fmt.Print(clear)
+		fmt.Print(CodeClear)
 	}
 	return c
 }

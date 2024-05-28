@@ -5,7 +5,7 @@ import "fmt"
 // Dim - decrease intensity
 func (c *Color) Dim() *Color {
 	if !disabled {
-		fmt.Print(dim)
+		fmt.Print(CodeDim)
 	}
 	return c
 }

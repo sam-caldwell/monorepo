@@ -5,7 +5,7 @@ import "fmt"
 // BgRed - Set color
 func (c *Color) BgRed() *Color {
 	if !disabled {
-		fmt.Print(bgRed)
+		fmt.Print(CodeBgRed)
 	}
 	return c
 }
