@@ -17,7 +17,7 @@ func main() {
 }
 
 func LoggerExampleStdout() {
-	ansi.White().Println("Test starting...")
+	ansi.White().Println("Test starting...").LF()
 
 	var log logger.Logger
 	log.DefaultConfiguration().
@@ -51,5 +51,5 @@ func LoggerExampleStdout() {
 		Warning("warning message (expect yellow text)").
 		Error("error message (expect red text)").
 		Critical("critical message (expect red text)")
-	ansi.White().Println("test finishing").Reset()
+	ansi.White().LF().Println("test finishing").Reset()
 }
