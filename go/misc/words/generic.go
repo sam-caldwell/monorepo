@@ -1,6 +1,7 @@
 package words
 
 const (
+	AppName    = "appName"
 	Build      = "build"
 	Check      = "check"
 	Command    = "command"
@@ -20,6 +21,7 @@ const (
 	Language   = "language"
 	Lint       = "lint"
 	List       = "list"
+	MsgId      = "msgId"
 	Parameters = "parameters"
 	Permission = "permission"
 	Platform   = "platform"
