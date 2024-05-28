@@ -1,4 +1,4 @@
 package LogLevel
 
 // Error - An elevated error state
-const Error Value = 2
+const Error Value = 3
