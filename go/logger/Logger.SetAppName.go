@@ -1,13 +1,15 @@
 package logger
 
+import "github.com/sam-caldwell/monorepo/go/exit/errors"
+
 // SetAppName - Set the application name for the log messages
 //
 //	(c) 2023 Sam Caldwell.  MIT License
-func (log *Logger[T]) SetAppName(appName string) *Logger[T] {
+func (log *Logger) SetAppName(appName string) *Logger {
 	if ValidAppName(&appName) {
-		log.target.SetAppName(&appName)
+		log.appName = appName
 	} else {
-		panic("invalid application name")
+		panic(errors.InvalidApplicationName)
 	}
 	return log
 }
