@@ -12,11 +12,13 @@ import (
 func (log *Logger) Critical(message LogEvent.MessageValue) *Logger {
 	textColor, textReset := log.color(ansi.CodeFgRed)
 	if log.level.Evaluate(LogLevel.Critical) {
-		if _, err := log.target.Write(
-			append(append(textColor,
-				(&LogEvent.RFC5424Message{}).
-					Create(LogLevel.Critical, &log.appName, &log.msgId, &message).ToJson()...), textReset...)); err != nil {
-			panic(err)
+		payload := append(append(textColor,
+			(&LogEvent.RFC5424Message{}).
+				Create(LogLevel.Critical, &log.appName, &log.msgId, &log.ratelimit, &message).ToJson()...), textReset...)
+		if allowed := log.ratelimit.NonBlockingCheck(len(payload)); allowed {
+			if _, err := log.target.Write(payload); err != nil {
+				panic(err)
+			}
 		}
 	}
 	return log
