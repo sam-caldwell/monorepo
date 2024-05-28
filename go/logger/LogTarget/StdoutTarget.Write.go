@@ -8,12 +8,14 @@ import (
 
 // Write - Write a formatted log string to stdout.
 func (out *StdoutTarget) Write(messagePriority LogLevel.Value, message *LogEvent.MessageValue) error {
-	var event LogEvent.RFC5424Message
-	event.Create(messagePriority, &out.appName, &out.msgId, message)
-	if payload, err := event.ToJsonString(); err != nil {
-		return err
-	} else {
-		ansi.Println(payload)
+	if out.level.Evaluate(messagePriority) {
+		var event LogEvent.RFC5424Message
+		event.Create(messagePriority, &out.appName, &out.msgId, message)
+		if payload, err := event.ToJsonString(); err != nil {
+			return err
+		} else {
+			ansi.Println(payload)
+		}
 	}
 	return nil
 }

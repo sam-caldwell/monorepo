@@ -4,7 +4,10 @@ package logger
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func (log *Logger[T]) SetAppName(appName string) *Logger[T] {
-	//ToDo: sanitize app name
-	log.appName = appName
+	if ValidAppName(&appName) {
+		log.target.SetAppName(&appName)
+	} else {
+		panic("invalid application name")
+	}
 	return log
 }
