@@ -2,12 +2,9 @@ package LogEvent
 
 import "time"
 
-type LogFormat interface {
-	ToJson() ([]byte, error)
-	FromJson([]byte) error
-}
-
 // RFC5424Message represents an RFC5424 syslog message
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 type RFC5424Message struct {
 	Priority  uint         `json:"priority"`
 	Version   string       `json:"version"`
