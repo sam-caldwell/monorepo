@@ -10,5 +10,6 @@ import (
 //	(c) 2023 Sam Caldwell.  MIT License
 func (log *Logger) ConfigureSyslog(cfg *configuration.Map[string, string]) {
 	//ToDo: implement syslog network io.writer
+	log.useColor = false
 	panic(errors.NotImplemented)
 }

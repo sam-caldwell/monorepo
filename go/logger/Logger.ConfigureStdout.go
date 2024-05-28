@@ -12,5 +12,6 @@ func (log *Logger) ConfigureStdout(cfg *configuration.Map[string, string]) {
 	if cfg != nil {
 		//Do something to use the configuration
 	}
+	log.useColor = true
 	log.target = os.Stdout
 }

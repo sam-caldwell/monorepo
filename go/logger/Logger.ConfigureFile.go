@@ -19,5 +19,6 @@ func (log *Logger) ConfigureFile(cfg *configuration.Map[string, string]) {
 	if err := logFile.Open(fileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, permission); err != nil {
 		panic(errors.FailedToOpenLogFile)
 	}
+	log.useColor = false
 	log.target = logFile.GetWriter()
 }

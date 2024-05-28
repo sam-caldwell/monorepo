@@ -10,12 +10,12 @@ import (
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func (log *Logger) Warning(message LogEvent.MessageValue) *Logger {
-	textColor := []byte(ansi.CodeFgYellow)
+	textColor, textReset := log.color(ansi.CodeFgYellow)
 	if log.level.Evaluate(LogLevel.Warning) {
 		if _, err := log.target.Write(
 			append(append(textColor,
 				(&LogEvent.RFC5424Message{}).
-					Create(LogLevel.Warning, &log.appName, &log.msgId, &message).ToJson()...), []byte(ansi.CodeReset)...)); err != nil {
+					Create(LogLevel.Warning, &log.appName, &log.msgId, &message).ToJson()...), textReset...)); err != nil {
 			panic(err)
 		}
 	}
