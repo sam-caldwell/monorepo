@@ -28,5 +28,7 @@ func (log *Logger) Configure(cfg *configuration.Map[string, string]) *Logger {
 		log.ConfigureStdout(cfg)
 	}
 	log.rateLimit = convert.StringToUint(cfg.ExpectOrIgnore(words.RateLimit))
+	log.appName = strings.TrimSpace(strings.ToLower(cfg.ExpectOrIgnore(words.AppName)))
+	log.msgId = cfg.ExpectOrIgnore(words.MsgId)
 	return log
 }
