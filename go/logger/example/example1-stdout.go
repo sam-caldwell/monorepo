@@ -4,7 +4,6 @@ import (
 	"github.com/sam-caldwell/monorepo/go/ansi"
 	"github.com/sam-caldwell/monorepo/go/logger"
 	"github.com/sam-caldwell/monorepo/go/logger/LogLevel"
-	"github.com/sam-caldwell/monorepo/go/logger/LogTarget"
 )
 
 // main - Simple stdout logging implementation
@@ -19,10 +18,10 @@ func main() {
 
 func LoggerExampleStdout() {
 	ansi.White().Println("Test starting...")
-	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
-	var log logger.Logger[LogTarget.StdoutTarget]
-	// Configure the log level and other parameters
-	log.SetLevel(LogLevel.Debug).
+
+	var log logger.Logger
+	log.DefaultConfiguration().
+		SetLevel(LogLevel.Debug).
 		Debug("debug message (expect blue text)").
 		Info("info message (expect blue text)").
 		Warning("warning message (expect yellow text)").

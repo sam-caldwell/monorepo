@@ -12,5 +12,5 @@ func (e *RFC5424Message) ToJson() []byte {
 	if err != nil {
 		panic(err)
 	}
-	return b
+	return append(b, []byte("\n")...)
 }

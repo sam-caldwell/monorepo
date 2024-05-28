@@ -13,7 +13,7 @@ import (
 func (log *Logger) Configure(cfg *configuration.Map[string, string]) *Logger {
 	if cfg == nil {
 		//Just accept default state (syslog logging)
-		return log.SetDefaults()
+		return log.DefaultConfiguration()
 	}
 	switch target := cfg.ExpectOrIgnore(words.Target); strings.TrimSpace(strings.ToLower(target)) {
 	case words.File:

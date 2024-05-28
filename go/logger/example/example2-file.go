@@ -5,7 +5,6 @@ import (
 	configuration "github.com/sam-caldwell/monorepo/go/configuration/Map"
 	"github.com/sam-caldwell/monorepo/go/logger"
 	"github.com/sam-caldwell/monorepo/go/logger/LogLevel"
-	"github.com/sam-caldwell/monorepo/go/logger/LogTarget"
 )
 
 // main - File-based logging solution
@@ -19,15 +18,17 @@ func main() {
 
 func LoggerExampleFile() {
 	ansi.White().Println("Test starting...")
-	// Declare the logger and specify the output target (e.g. stdout, file, http,...)
-	var log logger.Logger[LogTarget.FileTarget]
 
+	var log logger.Logger
 	// Configure the log level and other parameters
-	log.Configure(configuration.Map[string, string]{
+	log.Configure(&(configuration.Map[string, string]{
+		"appName":    "example2",
+		"msgId":      "99",
+		"target":     "file",
 		"filename":   "/tmp/test.log",
-		"permission": "0600",
+		"permission": "0600", //file permission
 		"rateLimit":  "100",
-	}).
+	})).
 		SetLevel(LogLevel.Debug).
 		Debug("debug message (expect blue text)").
 		Info("info message (expect blue text)").

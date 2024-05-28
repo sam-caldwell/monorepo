@@ -8,7 +8,14 @@ import (
 // Critical - Write a message as a critical event.
 //
 //	(c) 2023 Sam Caldwell.  MIT License
-func (log *Logger[T]) Critical(message LogEvent.MessageValue) *Logger[T] {
-	_ = log.target.Write(LogLevel.Critical, &message)
+func (log *Logger) Critical(message LogEvent.MessageValue) *Logger {
+	if log.level.Evaluate(LogLevel.Critical) {
+		if _, err := log.target.Write(
+			(&LogEvent.RFC5424Message{}).
+				Create(LogLevel.Critical, &log.appName, &log.msgId, &message).
+				ToJson()); err != nil {
+			panic(err)
+		}
+	}
 	return log
 }

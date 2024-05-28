@@ -9,5 +9,8 @@ import (
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func (log *Logger) ConfigureStdout(cfg *configuration.Map[string, string]) {
+	if cfg != nil {
+		//Do something to use the configuration
+	}
 	log.target = os.Stdout
 }
