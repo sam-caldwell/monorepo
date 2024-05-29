@@ -8,10 +8,10 @@ import (
 
 // main - Simple stdout logging implementation
 //
-//	 This log implementation is the minimum configuration possible
-//	 and uses stdout as the log target.
+//	This log implementation is the minimum configuration possible
+//	and uses stdout as the log target.
 //
-//		(c) 2023 Sam Caldwell.  MIT License
+//	(c) 2023 Sam Caldwell.  MIT License
 func main() {
 	LoggerExampleStdout()
 }

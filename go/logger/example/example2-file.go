@@ -9,9 +9,9 @@ import (
 
 // main - File-based logging solution
 //
-//	 This log implementation writes logs to the file.
+//	This log implementation writes logs to the file.
 //
-//		(c) 2023 Sam Caldwell.  MIT License
+//	(c) 2023 Sam Caldwell.  MIT License
 func main() {
 	LoggerExampleFile()
 }

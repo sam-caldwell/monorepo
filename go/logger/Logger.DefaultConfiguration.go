@@ -5,6 +5,8 @@ import (
 )
 
 // DefaultConfiguration - Set the default values.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (log *Logger) DefaultConfiguration() *Logger {
 	log.level = DefaultLogLevel
 	log.appName = DefaultLogAppName
