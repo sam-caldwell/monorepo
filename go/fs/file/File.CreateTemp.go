@@ -30,6 +30,6 @@ func (fp *File) CreateTemp(perm os.FileMode) (err error) {
 	if err := fp.valid(&name); err != nil {
 		return err
 	}
-	(*fp).handle, err = os.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_TRUNC, perm)
+	(*fp).handle, err = os.OpenFile(name, FlagReadWrite|FlagCreate|FlagTruncate, perm)
 	return nil
 }
