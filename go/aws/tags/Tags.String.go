@@ -6,6 +6,8 @@ import (
 )
 
 // String - return a delimited list of key:value pairs
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (tags *Tags) String(kvDelimiter, termDelimiter string) (output string) {
 	var result []string
 	for key, value := range tags.data {
