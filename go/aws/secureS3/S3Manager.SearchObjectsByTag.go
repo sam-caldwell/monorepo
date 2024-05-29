@@ -3,14 +3,16 @@ package secureS3
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
+	awsS3 "github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
 // SearchObjectsByTag searches for objects with specific tags.
-func (s *S3Manager) SearchObjectsByTag(tagKey, tagValue string) ([]string, error) {
+//
+//	(c) 2023 Sam Caldwell.  MIT License
+func (s3 *Manager) SearchObjectsByTag(tagKey, tagValue string) ([]string, error) {
 	var keys []string
-	paginator := s3.NewListObjectsV2Paginator(s.Client, &s3.ListObjectsV2Input{
-		Bucket: aws.String(s.Bucket),
+	paginator := awsS3.NewListObjectsV2Paginator(s3.Client, &awsS3.ListObjectsV2Input{
+		Bucket: aws.String(s3.Bucket),
 	})
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(context.TODO())
@@ -18,8 +20,8 @@ func (s *S3Manager) SearchObjectsByTag(tagKey, tagValue string) ([]string, error
 			return nil, err
 		}
 		for _, obj := range page.Contents {
-			tags, err := s.Client.GetObjectTagging(context.TODO(), &s3.GetObjectTaggingInput{
-				Bucket: aws.String(s.Bucket),
+			tags, err := s3.Client.GetObjectTagging(context.TODO(), &awsS3.GetObjectTaggingInput{
+				Bucket: aws.String(s3.Bucket),
 				Key:    obj.Key,
 			})
 			if err != nil {
