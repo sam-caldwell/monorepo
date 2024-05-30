@@ -27,13 +27,11 @@ func main() {
 		return p
 	}()
 
-	// Parse the .kbx file
 	if records, err = gpgCrypto.ParseKBXFile(kbxFilePath); err != nil {
 		ansi.Red().Printf("Error:%s", err).LF().Fatal(exit.GeneralError)
 		return
 	}
 
-	// Print information about each record
 	for _, record := range records {
 		fmt.Printf(""+
 			"Record Type: %d,\n"+
