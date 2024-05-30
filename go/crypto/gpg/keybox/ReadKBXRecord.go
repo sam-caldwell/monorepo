@@ -11,6 +11,11 @@ import (
 //	(c) 2023 Sam Caldwell.  MIT License
 func ReadKBXRecord(file *os.File) (record KBXRecord, err error) {
 
+	ansi.Green().Println("Reading DataSize").Reset()
+	if err = binary.Read(file, binary.BigEndian, &record.DataSize); err != nil {
+		return KBXRecord{}, err
+	}
+
 	ansi.Green().Println("Reading RecordType").Reset()
 	if err = binary.Read(file, binary.BigEndian, &record.RecordType); err != nil {
 		return KBXRecord{}, err
@@ -18,11 +23,6 @@ func ReadKBXRecord(file *os.File) (record KBXRecord, err error) {
 
 	ansi.Green().Println("Reading Flags").Reset()
 	if err = binary.Read(file, binary.BigEndian, &record.Flags); err != nil {
-		return KBXRecord{}, err
-	}
-
-	ansi.Green().Println("Reading DataSize").Reset()
-	if err = binary.Read(file, binary.BigEndian, &record.DataSize); err != nil {
 		return KBXRecord{}, err
 	}
 

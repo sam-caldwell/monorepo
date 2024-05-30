@@ -16,6 +16,8 @@ func (header *KBXHeader) Print() {
 		Blue().Printf("%d.%d\n", header.VersionMajor, header.VersionMajor).
 		Green().Printf("\t     Flags: ").
 		Blue().Printf("0x%04x (%d)\n", header.Flags, header.Flags).
+		Green().Printf("\t     RecordType: ").
+		Blue().Printf("0x%04x (%d)\n", header.RecordType, header.RecordType).
 		Green().Printf("\t CreatedAt: ").
 		Blue().Printf("0x%02x (%d)\n", header.CreatedAt, header.CreatedAt).
 		Green().Printf("\t LastMaint: ").

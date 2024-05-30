@@ -14,7 +14,8 @@ type KBXHeader struct {
 	RecordSize   uint32
 	VersionMajor uint8
 	VersionMinor uint8
-	Flags        uint16
+	RecordType   uint8
+	Flags        uint8
 	Magic        [8]byte
 	CreatedAt    uint32
 	LastMaint    uint32
