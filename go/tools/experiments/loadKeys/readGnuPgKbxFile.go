@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
-	gpgCrypto "github.com/sam-caldwell/monorepo/go/crypto/gpg/keybox"
+	"github.com/sam-caldwell/monorepo/go/crypto/gpg/keybox"
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"os"
 )
@@ -13,10 +13,12 @@ import (
 */
 
 func main() {
-	var err error
-	var records []gpgCrypto.KBXRecord
-	// Path to your .kbx file
-	kbxFilePath := func() string {
+	var (
+		err     error
+		records []keybox.KBXRecord
+		header  keybox.KBXHeader
+	)
+	kbxFilePath := func() string { // Path to your .kbx file
 		if len(os.Args) < 2 {
 			ansi.Red().
 				Println("Usage: readGnuPgKbxFile <pathFileName.kbx>").
@@ -27,11 +29,17 @@ func main() {
 		return p
 	}()
 
-	if records, err = gpgCrypto.ParseKBXFile(kbxFilePath); err != nil {
-		ansi.Red().Printf("Error:%s", err).LF().Fatal(exit.GeneralError)
-		return
+	if header, records, err = keybox.ParseKBXFile(kbxFilePath); err != nil {
+		header.Print()
+		if err.Error() == "EOF" {
+			ansi.Green().Println("OK").Reset()
+		} else {
+			ansi.Red().Printf("Error:%s", err).LF().Reset().Fatal(exit.GeneralError)
+		}
 	}
 
+	header.Print()
+	return
 	for _, record := range records {
 		fmt.Printf(""+
 			"Record Type: %d,\n"+
