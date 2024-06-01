@@ -1,6 +1,6 @@
 package persistentSecrets
 
-import "github.com/google/uuid"
+import configuration "github.com/sam-caldwell/monorepo/go/configuration/EncryptedMap"
 
 // Vault - A persistent secret connector based on 1password.
 //
@@ -10,7 +10,8 @@ import "github.com/google/uuid"
 //
 //			(c) 2023 Sam Caldwell.  MIT License
 type Vault struct {
-	connectHost string
-	token       string
-	vault       uuid.UUID
+	data configuration.EncryptedMap
+	//connectHost string
+	//token       string
+	//vault       uuid.UUID
 }

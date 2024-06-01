@@ -22,8 +22,10 @@ func (header *KBXHeader) Print() {
 		Blue().Printf("0x%02x (%d)\n", header.CreatedAt, header.CreatedAt).
 		Green().Printf("\t LastMaint: ").
 		Blue().Printf("0x%02x (%d)\n", header.LastMaint, header.LastMaint).
-		Green().Printf("\t  Reserved: ").
-		Blue().Printf("0x%02x (%d)\n", header.Reserved, header.Reserved).
+		Green().Printf("\t  Reserved1: ").
+		Blue().Printf("0x%02x (%d)\n", header.Reserved1, header.Reserved1).
+		Green().Printf("\t  Reserved2: ").
+		Blue().Printf("0x%02x (%d)\n", header.Reserved2, header.Reserved2).
 		LF().
 		Reset()
 }

@@ -23,19 +23,17 @@ func ParseKBXFile(filePath string) (header KBXHeader, records []KBXRecord, err e
 		return header, records, err
 	}
 	if !bytes.Equal(header.Magic[:len([]byte(MagicNumbers.GnuPgKbx))], []byte(MagicNumbers.GnuPgKbx)) {
-		ansi.Red().
-			Printf("   magic:%02x", header.Magic[:len([]byte(MagicNumbers.GnuPgKbx))]).LF().
-			Printf("expected:%02x", []byte(MagicNumbers.GnuPgKbx)).LF().
-			Reset()
 		return header, records, fmt.Errorf("invalid KBX file")
 	}
-	//for i := 0; i < int(header.NumRecords); i++ { // Read each record
-	//	record, err := ReadKBXRecord(file)
-	//	if err != nil {
-	//		return header, records, err
-	//	}
-	//	records = append(records, record)
-	//}
+	for i := 0; err == nil; i++ { // Read each record
+		var record KBXRecord
+		ansi.Blue().Printf("record %d", i).LF().Reset()
+		record, err = ReadKBXRecord(file)
+		if err != nil {
+			return header, records, err
+		}
+		records = append(records, record)
+	}
 
 	return header, records, err
 }

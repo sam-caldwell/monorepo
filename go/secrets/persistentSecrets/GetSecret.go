@@ -27,18 +27,3 @@ func (vault *Vault) GetSecret(name, section, field string) (value string, err er
 	}
 	return value, fmt.Errorf(errors.NotFound)
 }
-
-/*
-type ItemField struct {
-    ID       string           `json:"id"`
-    Section  *ItemSection     `json:"section,omitempty"`
-    Type     ItemFieldType    `json:"type"`
-    Purpose  ItemFieldPurpose `json:"purpose,omitempty"`
-    Label    string           `json:"label,omitempty"`
-    Value    string           `json:"value,omitempty"`
-    Generate bool             `json:"generate,omitempty"`
-    Recipe   *GeneratorRecipe `json:"recipe,omitempty"`
-    Entropy  float64          `json:"entropy,omitempty"`
-    TOTP     string           `json:"totp,omitempty"`
-}
-*/
