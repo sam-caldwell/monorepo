@@ -2,6 +2,7 @@ package simpleArgs
 
 import (
 	"fmt"
+	cliArgs "github.com/sam-caldwell/monorepo/go/misc/cli"
 	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"os"
 	"strings"
@@ -9,8 +10,6 @@ import (
 
 // GetOptionValue returns the value (next arg) if the named option exists.
 func GetOptionValue(name string) (value string, err error) {
-
-	const doubleHyphen = "--"
 
 	args := os.Args[1:]
 
@@ -20,7 +19,7 @@ func GetOptionValue(name string) (value string, err error) {
 
 		if option == name {
 
-			if i+1 >= len(args) || strings.HasPrefix(args[i+1], doubleHyphen) {
+			if i+1 >= len(args) || strings.HasPrefix(args[i+1], cliArgs.DoubleHyphen) {
 
 				return words.EmptyString, fmt.Errorf(OptionHasNoValue)
 

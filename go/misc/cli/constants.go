@@ -1,7 +1,11 @@
 package cliArgs
 
 const (
-	H       = "-h"
-	Help    = "--help"
-	Version = "--version"
+	SingleHyphen = "-"
+	DoubleHyphen = "--"
+	H            = "-h"
+	Q            = "-q"
+	Help         = "--help"
+	Quiet        = "--quiet"
+	Version      = "--version"
 )
