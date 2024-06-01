@@ -4,5 +4,8 @@ package huffman
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func (pq *priorityQueue) Swap(i, j int) {
-	(*pq)[i], (*pq)[j] = (*pq)[j], (*pq)[i]
+    if len(*pq) == 0 {
+        return
+    }
+    (*pq)[i], (*pq)[j] = (*pq)[j], (*pq)[i]
 }

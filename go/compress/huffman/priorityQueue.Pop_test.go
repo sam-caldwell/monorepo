@@ -1,7 +1,7 @@
 package huffman
 
 import (
-    "testing"
+	"testing"
 )
 
 func TestPriorityQueue_Pop(t *testing.T) {
@@ -51,7 +51,7 @@ func TestPriorityQueue_Pop(t *testing.T) {
 			}
 			for i := range tt.pq {
 				if tt.pq[i].Character != tt.afterPop[i].Character || tt.pq[i].Frequency != tt.afterPop[i].Frequency {
-					t.Errorf("After Pop(), pq[%d] = %v, expected %v", i, tt.pq[i], tt.afterPop[i])
+					t.Fatalf("After Pop(), pq[%d] = %v, expected %v", i, tt.pq[i], tt.afterPop[i])
 				}
 			}
 		})

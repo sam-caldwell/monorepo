@@ -18,15 +18,33 @@ func TestIsEquivalentTree(t *testing.T) {
 			expected: true,
 		},
 		{
-			name:     "One tree is nil, the other is not",
-			tree1:    &node{Character: 'a', Frequency: 1},
+			name: "A tree is nil, B is not",
+			tree1: &node{
+				Character: 'a',
+				Frequency: 1,
+			},
 			tree2:    nil,
 			expected: false,
 		},
 		{
-			name:     "Trees with same structure and values",
-			tree1:    &node{Character: 'a', Frequency: 1},
-			tree2:    &node{Character: 'a', Frequency: 1},
+			name:  "B tree is nil, A is not",
+			tree1: nil,
+			tree2: &node{
+				Character: 'a',
+				Frequency: 1,
+			},
+			expected: false,
+		},
+		{
+			name: "Trees with same structure and values",
+			tree1: &node{
+				Character: 'a',
+				Frequency: 1,
+			},
+			tree2: &node{
+				Character: 'a',
+				Frequency: 1,
+			},
 			expected: true,
 		},
 		{
@@ -34,13 +52,22 @@ func TestIsEquivalentTree(t *testing.T) {
 			tree1: &node{
 				Character: 'a',
 				Frequency: 1,
-				Left:      &node{Character: 'b', Frequency: 2},
-				Right:     &node{Character: 'c', Frequency: 3},
+				Left: &node{
+					Character: 'b',
+					Frequency: 2,
+				},
+				Right: &node{
+					Character: 'c',
+					Frequency: 3,
+				},
 			},
 			tree2: &node{
 				Character: 'a',
 				Frequency: 1,
-				Left:      &node{Character: 'b', Frequency: 2},
+				Left: &node{
+					Character: 'b',
+					Frequency: 2,
+				},
 			},
 			expected: false,
 		},
@@ -49,14 +76,26 @@ func TestIsEquivalentTree(t *testing.T) {
 			tree1: &node{
 				Character: 'a',
 				Frequency: 1,
-				Left:      &node{Character: 'b', Frequency: 2},
-				Right:     &node{Character: 'c', Frequency: 3},
+				Left: &node{
+					Character: 'b',
+					Frequency: 2,
+				},
+				Right: &node{
+					Character: 'c',
+					Frequency: 3,
+				},
 			},
 			tree2: &node{
 				Character: 'a',
 				Frequency: 1,
-				Left:      &node{Character: 'b', Frequency: 2},
-				Right:     &node{Character: 'd', Frequency: 3},
+				Left: &node{
+					Character: 'b',
+					Frequency: 2,
+				},
+				Right: &node{
+					Character: 'd',
+					Frequency: 3,
+				},
 			},
 			expected: false,
 		},
@@ -68,10 +107,19 @@ func TestIsEquivalentTree(t *testing.T) {
 				Left: &node{
 					Character: 'b',
 					Frequency: 3,
-					Left:      &node{Character: 'd', Frequency: 1},
-					Right:     &node{Character: 'e', Frequency: 2},
+					Left: &node{
+						Character: 'd',
+						Frequency: 1,
+					},
+					Right: &node{
+						Character: 'e',
+						Frequency: 2,
+					},
 				},
-				Right: &node{Character: 'c', Frequency: 3},
+				Right: &node{
+					Character: 'c',
+					Frequency: 3,
+				},
 			},
 			tree2: &node{
 				Character: 'a',
@@ -79,10 +127,19 @@ func TestIsEquivalentTree(t *testing.T) {
 				Left: &node{
 					Character: 'b',
 					Frequency: 3,
-					Left:      &node{Character: 'd', Frequency: 1},
-					Right:     &node{Character: 'e', Frequency: 2},
+					Left: &node{
+						Character: 'd',
+						Frequency: 1,
+					},
+					Right: &node{
+						Character: 'e',
+						Frequency: 2,
+					},
 				},
-				Right: &node{Character: 'c', Frequency: 3},
+				Right: &node{
+					Character: 'c',
+					Frequency: 3,
+				},
 			},
 			expected: true,
 		},
