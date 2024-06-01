@@ -9,6 +9,8 @@ import (
 )
 
 // GetOptionValue returns the value (next arg) if the named option exists.
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func GetOptionValue(name string) (value string, err error) {
 
 	args := os.Args[1:]

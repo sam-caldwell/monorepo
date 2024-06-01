@@ -13,6 +13,8 @@ import (
 )
 
 // GetCommand - Given commandline args (os.Args) return the parsed command or handle --help and --version
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func GetCommand(helpText string) (command string) {
 	exit.OnCondition(len(os.Args) < 2, exit.InvalidInput, errors.MissingArguments, helpText)
 	command = strings.ToLower(os.Args[1])

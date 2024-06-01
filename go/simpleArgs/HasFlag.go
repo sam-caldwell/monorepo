@@ -6,6 +6,8 @@ import (
 )
 
 // HasFlag - For a given name return a boolean if this name exists in os.Args[2:]
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func HasFlag(name string) bool {
 	if len(os.Args) < 3 {
 		return false

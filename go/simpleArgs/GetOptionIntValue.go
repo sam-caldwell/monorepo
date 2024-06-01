@@ -5,6 +5,8 @@ import (
 )
 
 // GetOptionIntValue - Get a commandline option, expecting an integer value
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func GetOptionIntValue(name string, required bool) (value int, err error) {
 	var tmp string
 	if tmp, err = GetOptionValue(name); err != nil {

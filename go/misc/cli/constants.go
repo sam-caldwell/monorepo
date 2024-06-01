@@ -3,9 +3,16 @@ package cliArgs
 const (
 	SingleHyphen = "-"
 	DoubleHyphen = "--"
-	H            = "-h"
-	Q            = "-q"
-	Help         = "--help"
-	Quiet        = "--quiet"
-	Version      = "--version"
+)
+
+const (
+	H = "-h"
+	Q = "-q"
+)
+
+const (
+	Color   = "--color"
+	Help    = "--help"
+	Quiet   = "--quiet"
+	Version = "--version"
 )
