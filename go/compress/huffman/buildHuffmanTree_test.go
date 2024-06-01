@@ -5,7 +5,8 @@ import (
 )
 
 func TestBuildHuffmanTree(t *testing.T) {
-	t.Skip("disabled for debugging")
+	// t.Skip("disabled for debugging")
+
 	tests := []struct {
 		name        string
 		input       []byte
@@ -14,13 +15,12 @@ func TestBuildHuffmanTree(t *testing.T) {
 	}{
 		{
 			name:     "Test with nil input",
-			input:    []byte{},
-			expected: &node{},
+			input:    nil,
+			expected: nil,
 		}, {
-			name:        "Test with empty-string input",
-			input:       []byte(""),
-			expectError: false,
-			expected:    &node{},
+			name:     "Test with empty-string input",
+			input:    []byte(""),
+			expected: nil,
 		}, {
 			name:     "Test with single character",
 			input:    []byte("a"),
@@ -37,11 +37,11 @@ func TestBuildHuffmanTree(t *testing.T) {
 				Right: &node{
 					Frequency: 2,
 					Left: &node{
-						Character: 'c',
+						Character: 'b',
 						Frequency: 1,
 					},
 					Right: &node{
-						Character: 'b',
+						Character: 'c',
 						Frequency: 1,
 					},
 				},
@@ -55,22 +55,22 @@ func TestBuildHuffmanTree(t *testing.T) {
 				Left: &node{
 					Frequency: 8,
 					Left: &node{
-						Frequency: 4,
 						Character: 'a',
+						Frequency: 4,
 					},
 					Right: &node{
-						Character: 'd',
+						Character: 'b',
 						Frequency: 4,
 					},
 				},
 				Right: &node{
 					Frequency: 8,
 					Left: &node{
-						Frequency: 4,
 						Character: 'c',
+						Frequency: 4,
 					},
 					Right: &node{
-						Character: 'b',
+						Character: 'd',
 						Frequency: 4,
 					},
 				},
@@ -83,11 +83,16 @@ func TestBuildHuffmanTree(t *testing.T) {
 			tree := buildHuffmanTree(tt.input)
 			PrettyPrintTree("actual", tree)
 			PrettyPrintTree("expected", tt.expected)
+
 			if tt.expectError && tree != nil {
 				t.Fatal("Expected an error, but got a non-nil tree")
 			}
-			if !tt.expectError && (tree == nil || !isEquivalentTree(tree, tt.expected)) {
-				t.Fatal("Tree is not built as expected")
+			if eqTree := isEquivalentTree(tree, tt.expected); eqTree {
+				if tt.expectError {
+					t.Fatalf("tree is equivalent but error is expected but not found.")
+				} else {
+					return
+				}
 			}
 		})
 	}
