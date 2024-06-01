@@ -12,13 +12,18 @@ func TestGenerateHuffmanCodes(t *testing.T) {
 		expected map[byte]string
 	}{
 		{
+			name: "Empty",
+			tree: &node{},
+			expected: map[byte]string{
+				0: "0",
+			},
+		}, {
 			name: "Single character",
 			tree: &node{Character: 'a', Frequency: 1},
 			expected: map[byte]string{
 				'a': "0",
 			},
-		},
-		{
+		}, {
 			name: "Two characters",
 			tree: &node{
 				Frequency: 2,
@@ -35,8 +40,7 @@ func TestGenerateHuffmanCodes(t *testing.T) {
 				'a': "0",
 				'b': "1",
 			},
-		},
-		{
+		}, {
 			name: "Three characters with different frequencies",
 			tree: &node{
 				Frequency: 5,
