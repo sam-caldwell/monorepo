@@ -5,8 +5,6 @@ import (
 )
 
 func TestBuildHuffmanTree(t *testing.T) {
-	// t.Skip("disabled for debugging")
-
 	tests := []struct {
 		name        string
 		input       []byte
@@ -77,7 +75,6 @@ func TestBuildHuffmanTree(t *testing.T) {
 			},
 		},
 	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tree := buildHuffmanTree(tt.input)
