@@ -5,6 +5,8 @@ import (
 	"github.com/sam-caldwell/monorepo/go/exit"
 	"github.com/sam-caldwell/monorepo/go/exit/errors"
 	"github.com/sam-caldwell/monorepo/go/list"
+	cliArgs "github.com/sam-caldwell/monorepo/go/misc/cli"
+	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/sam-caldwell/monorepo/go/version"
 	"os"
 	"strings"
@@ -14,11 +16,11 @@ import (
 func GetCommand(helpText string) (command string) {
 	exit.OnCondition(len(os.Args) < 2, exit.InvalidInput, errors.MissingArguments, helpText)
 	command = strings.ToLower(os.Args[1])
-	exit.OnCondition((command == "--help") || (command == "-h"), 0, "help", helpText)
-	if command == "--version" {
+	exit.OnCondition((command == cliArgs.Help) || (command == cliArgs.H), 0, words.Help, helpText)
+	if command == cliArgs.Version {
 		fmt.Println(version.Version)
 		os.Exit(exit.Success)
 	}
-	list.DeleteElement(os.Args, 1)
+	list.DeleteElement(os.Args, exit.GeneralError)
 	return command
 }
