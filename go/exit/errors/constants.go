@@ -23,6 +23,7 @@ const (
 	MissingColor               = "Missing color"
 	MissingContextId           = "missing contextId (uuid)"
 	MissingField               = "missing field"
+	NotEnoughSymbols           = "too few symbols"
 	NotFound                   = "not found"
 	NotInitialized             = "not initialized"
 	OverflowError              = "overflow error"
