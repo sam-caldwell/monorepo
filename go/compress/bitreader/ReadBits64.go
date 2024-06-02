@@ -39,6 +39,7 @@ func (br *BitReader) ReadBits64(requestedNumberOfBits uint8) (bitString uint64) 
 	)
 	if requestedNumberOfBits > MaxNumberOfBitsInOutput {
 		br.err = fmt.Errorf(errors.BoundsCheckError)
+		return 0
 	}
 	for uint64(requestedNumberOfBits) > br.numberBitsInBuffer {
 		b, err := br.reader.ReadByte()
