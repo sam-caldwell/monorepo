@@ -8,6 +8,7 @@ type mockByteReader struct {
 	pos  int
 }
 
+// ReadByte - mockByteReader ReadByte method
 func (m *mockByteReader) ReadByte() (byte, error) {
 	if m.pos >= len(m.data) {
 		return 0, fmt.Errorf("end of data")
