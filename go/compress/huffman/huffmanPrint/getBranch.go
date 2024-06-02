@@ -1,4 +1,4 @@
-package huffman
+package huffmanPrint
 
 // getBranch - returns a branch character based on tree location
 //

@@ -1,4 +1,4 @@
-package huffman
+package huffmanPrint
 
 import (
 	"github.com/sam-caldwell/monorepo/go/ansi"

@@ -1,4 +1,4 @@
-package huffman
+package huffmanPrint
 
 // getNextPrefix returns prefix to be used for the next level of the tree
 //

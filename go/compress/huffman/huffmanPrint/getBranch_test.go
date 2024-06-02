@@ -1,4 +1,4 @@
-package huffman
+package huffmanPrint
 
 import (
 	"testing"
