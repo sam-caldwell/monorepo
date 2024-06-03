@@ -12,7 +12,7 @@ import "container/heap"
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func (freq *FrequencyTable) BuildHuffmanTree() *Node {
-	queue := LoadPriorityQueue(freq)
+	queue := freq.LoadPriorityQueue()
 
 	// Tree construction loop
 	for queue.Len() > 1 {

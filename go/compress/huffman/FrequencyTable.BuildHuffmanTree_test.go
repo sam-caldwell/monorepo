@@ -33,6 +33,7 @@ func TestBuildHuffmanTree(t *testing.T) {
 		}
 	})
 	t.Run("Analyze the tree structure", func(t *testing.T) {
+		frequencyTable.PrettyPrint()
 		if err := ValidateTreeStructure(root); err != nil {
 			t.Fatal(err)
 		}
