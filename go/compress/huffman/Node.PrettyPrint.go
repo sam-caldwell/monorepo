@@ -8,10 +8,9 @@ import (
 // PrettyPrint method to print the Huffman tree using ASCII art
 //
 //	(c) 2023 Sam Caldwell.  MIT License
-func (freq *FrequencyTable) PrettyPrint() {
-	root := freq.BuildHuffmanTree()
+func (node *Node) PrettyPrint() {
 	ansi.Blue().Println("(root)").Reset()
-	printTree(root, "  ", true)
+	printTree(node, "  ", true)
 }
 
 // printTree is a helper function to recursively print the tree

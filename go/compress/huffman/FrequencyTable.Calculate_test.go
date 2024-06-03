@@ -25,7 +25,7 @@ func TestFrequencyTable_Calculate(t *testing.T) {
 		frequencyTable.Calculate(input)
 
 		if !reflect.DeepEqual(frequencyTable, expected) {
-			t.Errorf("CalculateFrequencyTable(%s) returned %v, expected %v",
+			t.Fatalf("CalculateFrequencyTable(%s) returned %v, expected %v",
 				string(input), frequencyTable, expected)
 		}
 	})
@@ -46,7 +46,7 @@ func TestFrequencyTable_Calculate(t *testing.T) {
 		frequencyTable.Calculate(input)
 
 		if !reflect.DeepEqual(frequencyTable, expected) {
-			t.Errorf("CalculateFrequencyTable(%s) returned %v, expected %v",
+			t.Fatalf("CalculateFrequencyTable(%s) returned %v, expected %v",
 				string(input), frequencyTable, expected)
 		}
 	})
@@ -63,7 +63,7 @@ func TestFrequencyTable_Calculate(t *testing.T) {
 		frequencyTable.Calculate(input)
 
 		if !reflect.DeepEqual(frequencyTable, expected) {
-			t.Errorf("CalculateFrequencyTable(%s) returned %v, expected %v",
+			t.Fatalf("CalculateFrequencyTable(%s) returned %v, expected %v",
 				string(input), frequencyTable, expected)
 		}
 	})
@@ -80,7 +80,7 @@ func TestFrequencyTable_Calculate(t *testing.T) {
 		frequencyTable.Calculate(input)
 
 		if !reflect.DeepEqual(frequencyTable, expected) {
-			t.Errorf("CalculateFrequencyTable(%s) returned %v, expected %v",
+			t.Fatalf("CalculateFrequencyTable(%s) returned %v, expected %v",
 				string(input), frequencyTable, expected)
 		}
 	})
