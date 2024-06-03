@@ -1,36 +1,43 @@
 package huffman
 
 import (
-	"container/heap"
+	"reflect"
 	"testing"
 )
 
 func TestPriorityQueuePop(t *testing.T) {
-	// Create a sample priority queue
-	pq := make(PriorityQueue, 0)
+	var queue PriorityQueue
 
-	// Add some elements to the priority queue
-	heap.Push(&pq, &Node{symbol: 'a', frequency: 3})
-	heap.Push(&pq, &Node{symbol: 'b', frequency: 2})
+	node1 := Node{symbol: 'a', frequency: 3}
+	node2 := Node{symbol: 'b', frequency: 2}
+	node3 := Node{symbol: 'c', frequency: 10}
 
-	// Pop an element from the priority queue
-	item := pq.Pop().(*Node)
-
-	// Check if the correct element was popped
-	if item.symbol != 'a' || item.frequency != 3 {
-		t.Fatalf("Popped element has incorrect values, got: %v, want: %v", item, &Node{symbol: 'a', frequency: 3})
-	}
-
-	// Pop another element from the priority queue
-	item = pq.Pop().(*Node)
-
-	// Check if the correct element was popped
-	if item.symbol != 'b' || item.frequency != 2 {
-		t.Fatalf("Popped element has incorrect values, got: %v, want: %v", item, &Node{symbol: 'b', frequency: 2})
-	}
-
-	// Ensure the priority queue is empty
-	if pq.Len() != 0 {
-		t.Fatalf("Priority queue is not empty after popping all elements, got length %d", pq.Len())
-	}
+	t.Run("Add some elements to the priority queue", func(t *testing.T) {
+		queue = append(queue, &node1)
+		queue = append(queue, &node2)
+		queue = append(queue, &node3)
+	})
+	t.Run("Pop element3 from the priority queue", func(t *testing.T) {
+		item := queue.Pop().(*Node)
+		if !reflect.DeepEqual(*item, node3) {
+			t.Fatalf("Popped element has incorrect values, got: %v, want: %v", *item, node3)
+		}
+	})
+	t.Run("Pop element2 from the priority queue", func(t *testing.T) {
+		item := queue.Pop().(*Node)
+		if !reflect.DeepEqual(*item, node2) {
+			t.Fatalf("Popped element has incorrect values, got: %v, want: %v", *item, node2)
+		}
+	})
+	t.Run("Pop element1 from the priority queue", func(t *testing.T) {
+		item := queue.Pop().(*Node)
+		if !reflect.DeepEqual(*item, node1) {
+			t.Fatalf("Popped element has incorrect values, got: %v, want: %v", *item, node1)
+		}
+	})
+	t.Run("Ensure the priority queue is empty", func(t *testing.T) {
+		if sz := queue.Len(); sz != 0 {
+			t.Fatalf("Priority queue is not empty after popping all elements, got length %d", sz)
+		}
+	})
 }
