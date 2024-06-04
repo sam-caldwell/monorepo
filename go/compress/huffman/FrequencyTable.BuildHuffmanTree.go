@@ -13,7 +13,9 @@ import "container/heap"
 //	(c) 2023 Sam Caldwell.  MIT License
 func (freq *FrequencyTable) BuildHuffmanTree() *Node {
 	queue := freq.LoadPriorityQueue()
-
+	if queue.Len() == 0 {
+		return &Node{}
+	}
 	// Tree construction loop
 	for queue.Len() > 1 {
 		left := heap.Pop(&queue).(*Node)
