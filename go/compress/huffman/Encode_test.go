@@ -86,5 +86,6 @@ func TestEncode(t *testing.T) {
 				"expected %v",
 				input, codes, expectedCodes)
 		}
+		t.Logf("Encode(%v): %v", input, codes)
 	})
 }
