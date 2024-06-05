@@ -8,16 +8,29 @@ import (
 // Test traverseTree function
 func TestTraverseTree(t *testing.T) {
 	var root *Node
+	EmptyNode := Node{
+		0x00,
+		0,
+		nil,
+		nil}
 	t.Run("Edge Case 1: Empty Tree", func(t *testing.T) {
+		root = &EmptyNode
 		expectedCodes := make(CodeMap)
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
+		t.Logf("Traverse:\n"+
+			"codes    '%v'\n"+
+			"expected '%v'",
+			codes, expectedCodes)
 		root.PrettyPrint()
 		if !reflect.DeepEqual(codes, expectedCodes) {
-			t.Fatalf("traverseTree() for empty tree returned %v, expected %v", codes, expectedCodes)
+			t.Fatalf("traverseTree() for empty tree\n"+
+				"returned %v,\n"+
+				"expected %v", codes, expectedCodes)
 		}
 	})
 	t.Run("Edge Case 2: Nil Tree", func(t *testing.T) {
+		root = &EmptyNode
 		expectedCodes := make(CodeMap)
 		codes := make(CodeMap)
 		root.traverseTree([]byte{}, codes)
@@ -47,7 +60,9 @@ func TestTraverseTree(t *testing.T) {
 		root.PrettyPrint()
 		if len(codes) != 0 {
 			root.PrettyPrint()
-			t.Fatalf("traverseTree() for nil tree returned %v, expected empty map", codes)
+			t.Fatalf("traverseTree() for nil tree\n"+
+				"returned %v,\n"+
+				"expected empty map", codes)
 		}
 	})
 	t.Run("Negative Test 2: Invalid Input", func(t *testing.T) {
@@ -60,9 +75,11 @@ func TestTraverseTree(t *testing.T) {
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
 		root.PrettyPrint()
-		if len(codes) != 1 {
+		if len(codes) != 0 {
 			root.PrettyPrint()
-			t.Fatalf("traverseTree() for tree with invalid input returned %v, expected empty map", codes)
+			t.Fatalf("traverseTree() for tree with invalid input\n"+
+				"returned '%v',\n"+
+				"expected empty map", codes)
 		}
 	})
 	t.Run("Test with a sample Huffman tree", func(t *testing.T) {

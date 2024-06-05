@@ -8,10 +8,14 @@ func Encode(input []byte) CodeMap {
 	frequencyTable := NewFrequencyTable()
 
 	frequencyTable.Calculate(input)
+	frequencyTable.Dump()
 
 	root := frequencyTable.BuildHuffmanTree()
 
 	codes := make(CodeMap)
+
+	//on empty input, root is not nil...
+	root.PrettyPrint()
 
 	root.traverseTree([]byte{}, codes)
 

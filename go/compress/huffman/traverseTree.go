@@ -6,7 +6,13 @@ package huffman
 //
 // traverseTree - assigns binary codes to each symbol by traversing the Huffman tree
 func (node *Node) traverseTree(prefix []byte, codes CodeMap) {
+	//ansi.Green().Printf("codes: %v\n", codes).Reset()
 	if node == nil {
+		//ansi.Red().Println("debug node nil").Reset()
+		return
+	}
+	if node.frequency == 0 {
+		//ansi.Red().Println("frequency is zero").Reset()
 		return
 	}
 	if node.left == nil && node.right == nil {
