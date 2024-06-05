@@ -12,11 +12,21 @@ func TestTraverseTree(t *testing.T) {
 		expectedCodes := make(CodeMap)
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
+		root.PrettyPrint()
 		if !reflect.DeepEqual(codes, expectedCodes) {
 			t.Fatalf("traverseTree() for empty tree returned %v, expected %v", codes, expectedCodes)
 		}
 	})
-	t.Run("Edge Case 2: Tree with only one node", func(t *testing.T) {
+	t.Run("Edge Case 2: Nil Tree", func(t *testing.T) {
+		expectedCodes := make(CodeMap)
+		codes := make(CodeMap)
+		root.traverseTree([]byte{}, codes)
+		root.PrettyPrint()
+		if !reflect.DeepEqual(codes, expectedCodes) {
+			t.Fatalf("traverseTree() for empty tree returned %v, expected %v", codes, expectedCodes)
+		}
+	})
+	t.Run("Edge Case 3: Tree with only one node", func(t *testing.T) {
 		root = &Node{
 			frequency: 10,
 			symbol:    'a',
@@ -24,6 +34,7 @@ func TestTraverseTree(t *testing.T) {
 		expectedCodes := CodeMap{'a': []byte{}}
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
+		root.PrettyPrint()
 		if !reflect.DeepEqual(codes, expectedCodes) {
 			root.PrettyPrint()
 			t.Fatalf("traverseTree() for tree with one node returned %v, expected %v", codes, expectedCodes)
@@ -33,6 +44,7 @@ func TestTraverseTree(t *testing.T) {
 		var root *Node
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
+		root.PrettyPrint()
 		if len(codes) != 0 {
 			root.PrettyPrint()
 			t.Fatalf("traverseTree() for nil tree returned %v, expected empty map", codes)
@@ -47,6 +59,7 @@ func TestTraverseTree(t *testing.T) {
 		}
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
+		root.PrettyPrint()
 		if len(codes) != 1 {
 			root.PrettyPrint()
 			t.Fatalf("traverseTree() for tree with invalid input returned %v, expected empty map", codes)
