@@ -6,15 +6,15 @@ import (
 )
 
 func TestEncode(t *testing.T) {
-	t.Skip("disabled for debugging")
+	//t.Skip("disabled for debugging")
 	t.Run("Edge Case 1: Empty Input", func(t *testing.T) {
 		var input []byte
 		expectedCodes := make(CodeMap)
 		codes := Encode(input)
-		t.Logf("Encode('%v')\n"+
-			"codes    '%v'\n"+
-			"expected '%v'",
-			input, codes, expectedCodes)
+		//t.Logf("Encode('%v')\n"+
+		//	"codes    '%v'\n"+
+		//	"expected '%v'",
+		//	input, codes, expectedCodes)
 		if !reflect.DeepEqual(codes, expectedCodes) {
 			t.Fatalf("Encode(%v)\n"+
 				"got      %v\n"+
@@ -74,10 +74,10 @@ func TestEncode(t *testing.T) {
 		expectedCodes := CodeMap{
 			'a': []byte{1, 1},
 			'b': []byte{0, 1},
-			'c': []byte{1, 1, 1, 0},
-			'd': []byte{0, 0},
-			'e': []byte{1, 1, 0, 0, 1},
-			'f': []byte{1, 1, 0, 0, 0},
+			'c': []byte{1, 0, 0, 0},
+			'd': []byte{1, 0, 1},
+			'e': []byte{1, 0, 0, 1},
+			'f': []byte{0, 0},
 		}
 		codes := Encode(input)
 		if !reflect.DeepEqual(codes, expectedCodes) {

@@ -18,10 +18,6 @@ func TestTraverseTree(t *testing.T) {
 		expectedCodes := make(CodeMap)
 		codes := make(CodeMap)
 		root.traverseTree([]byte(""), codes)
-		t.Logf("Traverse:\n"+
-			"codes    '%v'\n"+
-			"expected '%v'",
-			codes, expectedCodes)
 		root.PrettyPrint()
 		if !reflect.DeepEqual(codes, expectedCodes) {
 			t.Fatalf("traverseTree() for empty tree\n"+
