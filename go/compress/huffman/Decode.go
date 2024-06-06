@@ -30,7 +30,8 @@ func Decode(encodedInput []byte, codeMap CodeMap) ([]byte, error) {
 		}
 	}
 
-	// If there's leftover bits in currentCode, it means the input was not valid Huffman encoded data
+	// If there's leftover bits in currentCode, it means the input
+	// was not valid Huffman encoded data
 	if currentCode.Len() > 0 {
 		return nil, fmt.Errorf("invalid Huffman encoded input")
 	}
