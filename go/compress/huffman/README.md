@@ -1,6 +1,6 @@
 Huffman Codec
 =============
-(c) 2024 Sam Caldwell.  MIT License.
+(c) 2024 Sam Caldwell. MIT License.
 
 ## Objective
 
@@ -29,111 +29,97 @@ At the heart of the Huffman coding algorithm is the Huffman tree. The Huffman tr
 binary tree.
 ---
 
-### Algorithm: Encoding (See [`Encode()`](./Encode.go))
+### Algorithm: (See [`Encode()`](./Encode.go)
 
 #### Building the Huffman Tree
 
+1. We start building the huffman tree by splitting the entire input signal into
+   tokens (e.g. bytes) we call "symbols.
+2. These symbols are compiled into a [frequency table](./FrequencyTable.go) which
+   we will use to build a frequency-sorted binary tree.
+
 ##### Frequency Table Calculation
 
-Calculate the frequency of each symbol in the input data. (See [CalculateFrequencyTable](./CalculateFrequencyTable.go))
+1. The [frequency table](./FrequencyTable.go) is a map of `byte` (symbol) and an unsigned
+   integer (`uint`) counter.
+2. The [`Calculate()`](./FrequencyTable.Calculate.go) method iterates over the symbols
+   in the input `[]byte` string and increments the counter.
 
-##### Min Heap Creation
-Create a min heap (priority queue) with a leaf node for each unique symbol based on their frequencies:
-  1. Define a Node struct to represent each leaf node. 
-      > (See [Node struct](./Node.go))
-  2.  Implement the `heap.Interface` for a priority queue.
-      >   (See [PriorityQueue heap](./PriorityQueue.go))
-  3.  Create the priority queue and insert nodes based on their frequencies.
-      >   (See [LoadPriorityQueue()](./LoadPriorityQueue.go))
+##### Min-Heap (PriorityQueue) Creation
+
+1. When [frequency table](./FrequencyTable.go) returns, the
+   [`BuildHuffmanTree()`](./FrequencyTable.BuildHuffmanTree.go) is called.
+2. This method calls [`LoadPriorityQueue()`](./FrequencyTable.LoadPriorityQueue.go) method to--
+    1. Create a [`Node`](./Node.go) object.
+    2. Set the [`Node`](./Node.go) `symbol` and `frequency` properties from the [frequency table](./FrequencyTable.go)
+    3. Push the [`Node`](./Node.go) to a `PriorityQueue` heap structure.
+3. We can then iterate over the priority queue to construct the tree.
 
 ##### Tree Construction
 
-1. Repeatedly extract the two nodes with the smallest frequencies.
-2. Create a new parent node with these two nodes as children, and its frequency as the sum of their frequencies.
-3. Insert this new parent node back into the min heap.
-4. Continue this process until there's only one node left in the heap, which becomes the root of the Huffman tree.
-    > (See [buildHuffmanTree()](./buildHuffmanTree.go))
+1. Using the `PriorityQueue`, [`BuildHuffmanTree()`](./FrequencyTable.BuildHuffmanTree.go) will--
+    1. Repeatedly extract the two nodes with the smallest frequencies.
+    2. Create a new parent node with these two nodes as children, and its frequency
+       as the sum of their frequencies.
+    3. Insert this new parent node back into the min heap.
+    4. Continue this process until there's only one node left in the heap, which
+       becomes the root of the Huffman tree.
+
+> ***NOTE:***
+>
+>  Natively, Huffman can produce more than one `huffman tree` where two nodes have the same
+> frequency. This is not an issue when compressing a signal since the `huffman codes` dictionary
+> is included with the compressed signal and decoding from that codebook eliminates any issue. BUT
+> the collisions do make testing difficult.
+>
+>  To overcome this problem, our implementation here is opinionated, and the
+> [`PriorityQueue.Less()`](./PriorityQueue.Less.go) method first compares frequency. But where the frequency
+> two nodes are equal, a tie-breaker comparing symbol values reduces the risk of a collision.
+
+The following is an example tree, produced by [`Node.PrettyPrint()`](./Node.PrettyPrint.go):
+
+```text
+
+(root)
+  │           ┌── (e:16)
+  │       ┌── (30)
+  │       │   │   ┌── (b:9)
+  │       │   └── (14)
+  │       │       └── (a:5)
+  │   ┌── (55)
+  │   │   │   ┌── (d:13)
+  │   │   └── (25)
+  │   │       └── (c:12)
+  └── (100)
+      └── (f:45)
+```
 
 #### Traversing the Tree to Assign Codes:
 
-1. Traverse the Huffman tree to assign a unique binary code to each symbol.
-2. Typically, a left edge represents a '0' and a right edge represents a '1'.
-3. The final output is a `map` of unique binary codes for each symbol, which can be used for efficient data encoding.
-    > (See [traverseTree()](./traverseTree.go))
+1. Given a `Huffman Tree` (depicted above) we can traverse the key by calling [`traverseTree()`](./traverseTree.go).
+2. This function moves from top, down and left, right, assigning the left node a `0` and right node `1`.
+3. The result is a map of symbols to unique binary codes:
 
-#### Output Codes
+```text
+ map[97:[1 1] 98:[0 1] 99:[1 0 0 0] 100:[1 0 1] 101:[1 0 0 1] 102:[0 0]]
+```
 
-The algorithm will output a `map` of symbols (e.g. bytes) and unique Prefix Codes: `map[byte][]byte]`
+or--
+
+| symbol | Huffman Code |
+|--------|--------------|
+| 97     | 11           |
+| 98     | 01           |
+| 99     | 1000         |
+| 100    | 101          |
+| 101    | 1001         |
+| 202    | 00           |
 
 ---
 
-### Algorithm: Decoding
+### Algorithm: [`Decode()`](./Decode.go))
 
-#### Summary
-
-1. Start from the root of the Huffman tree.
-2. For each bit in the encoded string, traverse the tree:
-    1. Move to the left child if the bit is '0'.
-    2. Move to the right child if the bit is '1'.
-    3. When a leaf node is reached, output the symbol and return to the root to decode the next sequence.
-    4. Repeat this process until the entire encoded string is decoded.
-
-#### Example Code
-
-```go
-package main
-
-// decodeHuffman takes the Huffman tree root and an encoded string,
-// and returns the decoded original string
-func decodeHuffman(root *Node, encodedStr string) string {
-    var decodedStr string
-    currentNode := root
-
-    for _, bit := range encodedStr {
-        if bit == '0' {
-            currentNode = currentNode.left
-        } else {
-            currentNode = currentNode.right
-        }
-
-        // If we reach a leaf node
-        if currentNode.left == nil && currentNode.right == nil {
-            decodedStr += string(currentNode.symbol)
-            currentNode = root // Go back to the root for the next symbol
-        }
-    }
-
-    return decodedStr
-}
-```
-
-#### Test Code
-
-```go
-package main
-
-func main() {
-    inputString := "my input string"
-    frequencyTable := CalculateFrequencyTable([]byte(inputString))
-    root := buildHuffmanTree(frequencyTable)
-
-    codes := make(map[byte]string)
-    traverseTree(root, "", codes)
-
-    // Encode the input string
-    var encodedStr string
-    for _, c := range s {
-        encodedStr += codes[byte(c)]
-    }
-
-    fmt.Println("Encoded String:", encodedStr)
-
-    // Decode the encoded string
-    decodedString := decodeHuffman(root, encodedStr)
-    fmt.Println("Decoded String:", decodedString)
-
-    if inputString != decodedString {
-        fmt.Println("The algorithm has failed.  input should have matched the decoded result.")
-    }
-}
-```
+1. Given an `encodedInput` (`[]byte`) and `CodeMap`, we will--
+    1. reverse the `CodeMap` order
+    2. traverse the `encodedInput` to decode it.
+2. If there are any leftover bits, we throw an error.
