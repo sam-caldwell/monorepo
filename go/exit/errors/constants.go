@@ -19,6 +19,7 @@ const (
 	InvalidLogLevel            = "invalid log level"
 	LockCheckFailed            = "lock check failed"
 	MalformedGuid              = "malformed GUID"
+	MalformedInput             = "malformed input"
 	MissingArguments           = "missing argument"
 	MissingColor               = "Missing color"
 	MissingContextId           = "missing contextId (uuid)"
