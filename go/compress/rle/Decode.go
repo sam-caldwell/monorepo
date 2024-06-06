@@ -14,19 +14,28 @@ func Decode(input []byte) ([]byte, error) {
 	if length == 0 {
 		return decoded, nil
 	}
-	if length%2 != 0 {
-		return decoded, fmt.Errorf(errors.MalformedInput)
-	}
 
-	for i := 0; i < length; i += 2 {
-		char := input[i]
-		count, err := strconv.Atoi(string(input[i+1]))
-		if err != nil {
-			return []byte{}, fmt.Errorf(errors.MalformedInput)
+	for i := 0; i < length; {
+		if i+1 >= length {
+			return nil, fmt.Errorf(errors.MalformedInput)
 		}
-		for j := 0; j < count; j++ {
+
+		char := input[i]
+		j := i + 1
+
+		// Find the end of the numeric count
+		for j < length && input[j] >= '0' && input[j] <= '9' {
+			j++
+		}
+		count, err := strconv.Atoi(string(input[i+1 : j]))
+		if err != nil {
+			return nil, fmt.Errorf(errors.MalformedInput)
+		}
+
+		for k := 0; k < count; k++ {
 			decoded = append(decoded, char)
 		}
+		i = j
 	}
 
 	return decoded, nil
