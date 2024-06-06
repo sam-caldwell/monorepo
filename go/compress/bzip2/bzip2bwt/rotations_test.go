@@ -45,7 +45,10 @@ func TestRotations(t *testing.T) {
 	for _, test := range tests {
 		result := rotations(test.input)
 		if !reflect.DeepEqual(result, test.expected) {
-			t.Fatalf("rotations(%s) = %v; want %v", test.input, result, test.expected)
+			t.Fatalf("rotations(%s)\n"+
+				"Got:  %v\n"+
+				"want: %v",
+				test.input, result, test.expected)
 		}
 	}
 }
