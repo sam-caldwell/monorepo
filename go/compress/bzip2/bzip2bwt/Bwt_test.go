@@ -7,46 +7,45 @@ import (
 
 func TestBwt(t *testing.T) {
 	tests := []struct {
-		input         []byte
-		expectedBwt   []byte
-		expectedIndex int
+		input    []byte
+		expected []byte
 	}{
 		{
-			input:         []byte("banana"),
-			expectedBwt:   []byte("nnbaaa"),
-			expectedIndex: 3,
+			input:    []byte{},
+			expected: []byte("\x04"),
 		},
 		{
-			input:         []byte("example"),
-			expectedBwt:   []byte("xlepame"), // Corrected expected BWT output
-			expectedIndex: 2,                 // Corrected expected index
+			input:    []byte(""),
+			expected: []byte("\x04"),
 		},
 		{
-			input:         []byte("abcde"),
-			expectedBwt:   []byte("eabcd"),
-			expectedIndex: 0,
+			input:    []byte("banana"),
+			expected: []byte("annb\x04aa"),
 		},
 		{
-			input:         []byte("a"),
-			expectedBwt:   []byte("a"),
-			expectedIndex: 0,
+			input:    []byte("abracadabra"),
+			expected: []byte("ard\x04rcaaaabb"),
 		},
 		{
-			input:         []byte(""),
-			expectedBwt:   []byte{},
-			expectedIndex: -1,
+			input:    []byte("mississippi"),
+			expected: []byte("ipssm\x04pissii"),
+		},
+		{
+			input:    []byte("test"),
+			expected: []byte("ttes\x04"),
+		},
+		{
+			input:    []byte("a"),
+			expected: []byte("a\x04"),
 		},
 	}
 
-	for _, test := range tests {
-		bwtResult, originalIndex := Bwt(test.input)
-		if !bytes.Equal(bwtResult, test.expectedBwt) || originalIndex != test.expectedIndex {
-			t.Errorf("Bwt(%s)\n"+
-				"Got:  (%s, %d)\n"+
-				"want: (%s, %d)",
-				test.input,
-				bwtResult, originalIndex,
-				test.expectedBwt, test.expectedIndex)
-		}
+	for _, tt := range tests {
+		t.Run(string(tt.input), func(t *testing.T) {
+			result := Bwt(tt.input)
+			if !bytes.Equal(result, tt.expected) {
+				t.Errorf("Bwt(%q) = %q, expected %q", tt.input, result, tt.expected)
+			}
+		})
 	}
 }

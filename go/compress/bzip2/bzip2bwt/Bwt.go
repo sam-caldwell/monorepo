@@ -11,31 +11,33 @@ import (
 //	 It's opposite is Ibwt()
 //
 //		(c) 2023 Sam Caldwell.  MIT License
-func Bwt(input []byte) ([]byte, int) {
-	n := len(input)
-	// Create a slice to store all rotations
-	rot := rotations(input)
+func Bwt(input []byte) []byte {
+	// Scan the input to find a unique EOF character
+	eof := findUniqueEOF(input)
 
-	// Sort the rotations
-	sort.Slice(rot, func(i, j int) bool {
-		return bytes.Compare(rot[i], rot[j]) < 0
+	// Append the EOF character to the input
+	input = append(input, eof)
+
+	length := len(input)
+
+	// Create a slice to hold all rotations
+	rotations := make([][]byte, length)
+
+	// Generate all rotations of the input string
+	for i := 0; i < length; i++ {
+		rotations[i] = append(input[i:], input[:i]...)
+	}
+
+	// Sort the rotations lexicographically
+	sort.Slice(rotations, func(i, j int) bool {
+		return bytes.Compare(rotations[i], rotations[j]) < 0
 	})
 
-	// Create the BWT result
-	bwt := make([]byte, n)
-	originalIndex := -1
-	for i, r := range rot {
-		// Find the index of the original input
-		if bytes.Equal(r, input) {
-			originalIndex = i
-			break
-		}
+	// Extract the last column
+	lastColumn := make([]byte, length)
+	for i := 0; i < length; i++ {
+		lastColumn[i] = rotations[i][length-1]
 	}
 
-	// Construct the BWT result
-	for i, r := range rot {
-		bwt[i] = r[n-1]
-	}
-
-	return bwt, originalIndex
+	return lastColumn
 }
