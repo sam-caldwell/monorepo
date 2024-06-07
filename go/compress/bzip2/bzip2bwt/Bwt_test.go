@@ -13,6 +13,16 @@ func TestBwt(t *testing.T) {
 		eof      byte
 	}{
 		{
+			input:    []byte("a"),
+			expected: []byte("a\x04"),
+			eof:      byte(file.EOF),
+		},
+		{
+			input:    []byte("a\x04"),
+			expected: []byte("a\x04\x05"),
+			eof:      byte(0x05),
+		},
+		{
 			input:    []byte{},
 			expected: []byte("\x04"),
 			eof:      byte(file.EOF),
@@ -41,16 +51,6 @@ func TestBwt(t *testing.T) {
 			input:    []byte("test"),
 			expected: []byte("ttes\x04"),
 			eof:      byte(file.EOF),
-		},
-		{
-			input:    []byte("a"),
-			expected: []byte("a\x04"),
-			eof:      byte(file.EOF),
-		},
-		{
-			input:    []byte("a\x04"),
-			expected: []byte("a\x04\x05"),
-			eof:      byte(0x05),
 		},
 	}
 
