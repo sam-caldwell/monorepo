@@ -1,14 +1,5 @@
 package bzip2mtf
 
-var commonDictionary [256]byte
-
-func init() {
-	// Initialize common dictionary with values 0 to 255
-	for i := 0; i < 256; i++ {
-		commonDictionary[i] = byte(i)
-	}
-}
-
 // Mtf - perform the move-to-front transformation on the input byte slice.
 //
 // (c) 2023 Sam Caldwell.  MIT License
