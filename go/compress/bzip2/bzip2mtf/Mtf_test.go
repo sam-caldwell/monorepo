@@ -88,5 +88,13 @@ func TestMoveToFront_Mtf(t *testing.T) {
 			fail(t, input, output, expectedOutput)
 		}
 	})
+	t.Run("Repeating dcbadcbadcba", func(t *testing.T) {
+		input := []byte("dcbadcbadcba")
+		expectedOutput := []byte{100, 100, 100, 100, 3, 3, 3, 3, 3, 3, 3, 3}
+		output := Mtf(input)
+		if !bytes.Equal(output, expectedOutput) {
+			fail(t, input, output, expectedOutput)
+		}
+	})
 
 }
