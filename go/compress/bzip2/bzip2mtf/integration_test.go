@@ -1,9 +1,9 @@
 package bzip2mtf
 
 import (
-    "bytes"
-    "math/rand"
-    "testing"
+	"bytes"
+	"github.com/sam-caldwell/monorepo/go/random"
+	"testing"
 )
 
 func TestMtfIntegration(t *testing.T) {
@@ -13,7 +13,10 @@ func TestMtfIntegration(t *testing.T) {
 
 	for i := 0; i < numTestCases; i++ {
 		// Generate a random byte slice of random length
-		input := generateRandomBytes(rand.Intn(100) + 1)
+		input, err := random.GenerateRandomBytes(random.Int(1, 1024))
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		// Perform MTF encoding
 		compressedText := Mtf(input)
@@ -29,13 +32,4 @@ func TestMtfIntegration(t *testing.T) {
 				input, decodedText, input)
 		}
 	}
-}
-
-// Function to generate a random byte slice of given length
-func generateRandomBytes(length int) []byte {
-	bytes := make([]byte, length)
-	for i := 0; i < length; i++ {
-		bytes[i] = byte(rand.Intn(256)) // Generate a random byte value
-	}
-	return bytes
 }
