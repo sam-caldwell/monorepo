@@ -14,54 +14,60 @@ func TestBwt(t *testing.T) {
 	}{
 		{
 			input:    []byte("a"),
-			expected: []byte("a\x04"),
+			expected: []byte("\x04a\x04"),
 			eof:      byte(file.EOF),
 		},
 		{
 			input:    []byte("a\x04"),
-			expected: []byte("a\x04\x05"),
+			expected: []byte("\x05a\x04\x05"),
 			eof:      byte(0x05),
 		},
 		{
 			input:    []byte{},
-			expected: []byte("\x04"),
+			expected: []byte("\x04\x04"),
 			eof:      byte(file.EOF),
 		},
 		{
 			input:    []byte(""),
-			expected: []byte("\x04"),
+			expected: []byte("\x04\x04"),
 			eof:      byte(file.EOF),
 		},
 		{
 			input:    []byte("banana"),
-			expected: []byte("annb\x04aa"),
+			expected: []byte("\x04annb\x04aa"),
 			eof:      byte(file.EOF),
 		},
 		{
 			input:    []byte("abracadabra"),
-			expected: []byte("ard\x04rcaaaabb"),
+			expected: []byte("\x04ard\x04rcaaaabb"),
 			eof:      byte(file.EOF),
 		},
 		{
 			input:    []byte("mississippi"),
-			expected: []byte("ipssm\x04pissii"),
+			expected: []byte("\x04ipssm\x04pissii"),
 			eof:      byte(file.EOF),
 		},
 		{
 			input:    []byte("test"),
-			expected: []byte("ttes\x04"),
+			expected: []byte("\x04ttes\x04"),
 			eof:      byte(file.EOF),
 		},
 	}
 
-	for _, tt := range tests {
+	for i, tt := range tests {
 		t.Run(string(tt.input), func(t *testing.T) {
-			result, eof := Bwt(tt.input)
+			result := Bwt(tt.input)
 			if !bytes.Equal(result, tt.expected) {
-				t.Errorf("Bwt(%q) = %q, expected %q", tt.input, result, tt.expected)
+				t.Fatalf("test %d:"+
+					"Bwt(%q)\n"+
+					"   got %q\n"+
+					"expected %q", i, tt.input, result, tt.expected)
 			}
-			if eof != tt.eof {
-				t.Errorf("Bwt(%q) eof = %q, expected %q", tt.input, eof, tt.eof)
+			if eof := result[0]; eof != tt.eof {
+				t.Fatalf("test %d:"+
+					"Bwt(%q)\n"+
+					"   eof = %q\n"+
+					"expected %q\n", i, tt.input, eof, tt.eof)
 			}
 		})
 	}

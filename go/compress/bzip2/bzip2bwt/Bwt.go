@@ -11,9 +11,9 @@ import (
 //	 It's opposite is Ibwt()
 //
 //		(c) 2023 Sam Caldwell.  MIT License
-func Bwt(input []byte) (codedText []byte, eof byte) {
+func Bwt(input []byte) (codedText []byte) {
 	// Scan the input to find a unique EOF character
-	eof = findUniqueEOF(input)
+	eof := findUniqueEOF(input)
 
 	// Append the EOF character to the input
 	input = append(input, eof)
@@ -39,5 +39,8 @@ func Bwt(input []byte) (codedText []byte, eof byte) {
 		lastColumn[i] = rotations[i][length-1]
 	}
 
-	return lastColumn, eof
+	// Prepend the EOF symbol to the last column
+	codedText = append([]byte{eof}, lastColumn...)
+
+	return codedText
 }

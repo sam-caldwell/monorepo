@@ -21,18 +21,24 @@ import (
 //	 4. Update the original index based on the occurrences of the character in the input.
 //
 //	    (c) 2023 Sam Caldwell.  MIT License
-func Ibwt(r []byte, eof byte) []byte {
+func Ibwt(input []byte) []byte {
+	if input == nil || len(input) == 0 {
+		return []byte{}
+	}
+	eof := input[0]
+	encodedText := input[1:]
+
 	// Initialize table with empty rows
-	table := make([][]byte, len(r))
+	table := make([][]byte, len(encodedText))
 	for i := range table {
-		table[i] = make([]byte, len(r))
+		table[i] = make([]byte, len(encodedText))
 	}
 
 	// Reconstruct the table iteratively
-	for i := 0; i < len(r); i++ {
+	for i := 0; i < len(encodedText); i++ {
 		// Prepend the input characters to each row
 		for j := range table {
-			table[j][len(r)-i-1] = r[j]
+			table[j][len(encodedText)-i-1] = encodedText[j]
 		}
 
 		// Sort the rows lexicographically
@@ -44,15 +50,15 @@ func Ibwt(r []byte, eof byte) []byte {
 	// Find the row that ends with the EOF character
 	var result []byte
 	for _, row := range table {
-		if row[len(r)-1] == eof {
+		if row[len(encodedText)-1] == eof {
 			result = row
 			break
 		}
 	}
 
 	// Remove the EOF character from the result
-	if len(result) > 0 && result[len(r)-1] == eof {
-		result = result[:len(r)-1]
+	if len(result) > 0 && result[len(encodedText)-1] == eof {
+		result = result[:len(encodedText)-1]
 	}
 
 	return result
