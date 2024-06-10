@@ -10,7 +10,7 @@ func TestEncode(t *testing.T) {
 	t.Run("Edge Case 1: Empty Input", func(t *testing.T) {
 		var input []byte
 		expectedCodes := make(CodeMap)
-		codes := Encode(input)
+		codes := *Encode(input)
 		//t.Logf("Encode('%v')\n"+
 		//	"codes    '%v'\n"+
 		//	"expected '%v'",
@@ -25,7 +25,7 @@ func TestEncode(t *testing.T) {
 	t.Run("Edge Case 2: Input with one symbol", func(t *testing.T) {
 		input := []byte{'a'}
 		expectedCodes := CodeMap{'a': []byte{}}
-		codes := Encode(input)
+		codes := *Encode(input)
 		if !reflect.DeepEqual(codes, expectedCodes) {
 			t.Fatalf("Encode(%v)\n"+
 				" actual:  %v\n"+
@@ -36,7 +36,7 @@ func TestEncode(t *testing.T) {
 	t.Run("Normal Case 1: Input with multiple symbols and equal frequency (balanced tree)", func(t *testing.T) {
 		input := []byte{'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd'}
 
-		codes := Encode(input)
+		codes := *Encode(input)
 
 		var totalLength int
 		for _, b := range input {
@@ -54,7 +54,7 @@ func TestEncode(t *testing.T) {
 	t.Run("Normal Case 1: Input with multiple symbols and equal frequency (unbalanced tree)", func(t *testing.T) {
 		input := []byte{'a', 'b', 'c', 'd', 'e', 'f', 'a', 'b', 'c', 'd', 'e', 'f'}
 
-		codes := Encode(input)
+		codes := *Encode(input)
 
 		var totalLength int
 		for _, symbol := range input {
@@ -79,7 +79,7 @@ func TestEncode(t *testing.T) {
 			'e': []byte{1, 0, 0, 1},
 			'f': []byte{0, 0},
 		}
-		codes := Encode(input)
+		codes := *Encode(input)
 		if !reflect.DeepEqual(codes, expectedCodes) {
 			t.Fatalf("Encode(%v)\n"+
 				"     got %v\n"+

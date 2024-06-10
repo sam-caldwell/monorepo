@@ -10,7 +10,7 @@ func TestHuffman_End_To_End(t *testing.T) {
 	input := []byte("this is an example for huffman encoding")
 
 	// Encode the input
-	encodedData := Encode(input)
+	encodedData := *Encode(input)
 
 	// Create a byte slice to simulate the encoded input
 	var encodedInput []byte
