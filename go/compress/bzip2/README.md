@@ -17,12 +17,12 @@ EXPECT `Decompress(input) []byte` will decompress `input` to `[]byte`.
 ---
 
 ## Algorithm (Compression)
-### [Burrows-Wheeler Transform (BWT)](./bzip2bwt/Bwt.go):
+### [Burrows-Wheeler Transform (BWT)](./bwt/Encode.go):
 The input data is transformed using the Burrows-Wheeler Transform. This 
 rearranges the data into runs of similar characters, which is easier to 
 compress.
 
-### [Move-to-Front Transform (MTF)](./bzip2mtf/Mtf.go):
+### [Move-to-Front Transform (MTF)](./mtf/Encode.go):
 The BWT output is then processed with the Move-to-Front transform. This step 
 converts repeated characters into sequences of smaller numbers, enhancing the 
 effectiveness of subsequent steps.
@@ -48,12 +48,12 @@ the Run-Length Encoded data.
 The output from the Huffman decoding is then processed to revert the 
 Run-Length Encoding, restoring the sequences of repeated characters.
 
-### Inverse Move-to-Front Transform (IMTF):
+### [Inverse Move-to-Front Transform (IMTF)](./mtf/Decode.go):
 
 The RLD output undergoes the Inverse Move-to-Front transform, converting 
 sequences of numbers back into the original character sequences.
 
-### Inverse Burrows-Wheeler Transform (IBWT):
+### [Inverse Burrows-Wheeler Transform (IBWT)](./bwt/Decode.go):
 
 Finally, the data is restored to its original form using the Inverse 
 Burrows-Wheeler Transform.
