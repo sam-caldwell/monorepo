@@ -20,7 +20,5 @@ func (c *Color) Fatal(exitCode int) *Color {
 //
 //	(c) 2023 Sam Caldwell.  MIT License
 func Fatal(exitCode int) *Color {
-	c := Color{}
-	c.Fatal(exitCode)
-	return &c
+	return (&Color{}).Fatal(exitCode)
 }

@@ -8,7 +8,5 @@ func (c *Color) EnableDebug() *Color {
 
 // EnableDebug - Turn on ANSI Debug print functionality. (This is a global setting)
 func EnableDebug() *Color {
-	c := Color{}
-	c.EnableDebug()
-	return &c
+	return (&Color{}).EnableDebug()
 }

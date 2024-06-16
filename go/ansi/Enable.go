@@ -1,14 +1,16 @@
 package ansi
 
 // Enable - Turn on ANSI Color codes. (This is a global setting)
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Enable() *Color {
 	disabled = false
 	return c
 }
 
 // Enable - Turn on ANSI Color codes. (This is a global setting)
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Enable() *Color {
-	c := Color{}
-	c.Enable()
-	return &c //return the given color object
+	return (&Color{}).Enable()
 }

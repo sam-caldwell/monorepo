@@ -6,6 +6,8 @@ import (
 )
 
 // Reset - Send Reset to stdout
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Reset() *Color {
 	defer func() { _ = os.Stdout.Sync() }()
 	if !disabled {
@@ -15,8 +17,8 @@ func (c *Color) Reset() *Color {
 }
 
 // Reset - Send Reset to stdout and return new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Reset() *Color {
-	c := Color{}
-	c.Reset()
-	return &c
+	return (&Color{}).Red()
 }

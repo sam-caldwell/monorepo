@@ -10,14 +10,16 @@ const (
 )
 
 // Time - print current time
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Time() *Color {
 	fmt.Print(time.Now().Format(timeFormat))
 	return c
 }
 
 // Time - print current time
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Time() *Color {
-	c := Color{}
-	c.Time()
-	return &c
+    return (&Color{}).Time()
 }

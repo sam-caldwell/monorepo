@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // Up - move cursor n units
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Up(n int) *Color {
 	if !disabled {
 		fmt.Printf(CodeMoveUp, n)
@@ -11,8 +13,8 @@ func (c *Color) Up(n int) *Color {
 }
 
 // Up - move cursor n units and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Up(n int) *Color {
-	c := Color{}
-	c.Up(n)
-	return &c
+	return (&Color{}).Up(n)
 }

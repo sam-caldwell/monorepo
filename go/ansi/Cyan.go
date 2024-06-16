@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // Cyan - Set color
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Cyan() *Color {
 	if !disabled {
 		fmt.Print(CodeFgCyan)
@@ -11,8 +13,8 @@ func (c *Color) Cyan() *Color {
 }
 
 // Cyan - set color and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Cyan() *Color {
-	c := Color{}
-	c.Cyan()
-	return &c
+	return (&Color{}).Cyan()
 }

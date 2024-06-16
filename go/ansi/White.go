@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // White - set color
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) White() *Color {
 	if !disabled {
 		fmt.Print(CodeFgWhite)
@@ -11,8 +13,8 @@ func (c *Color) White() *Color {
 }
 
 // White - set color and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func White() *Color {
-	c := Color{}
-	c.White()
-	return &c
+    return (&Color{}).White()
 }

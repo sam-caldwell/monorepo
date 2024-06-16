@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // Reverse - Set format attribute
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Reverse() *Color {
 	if !disabled {
 		fmt.Print(CodeReverse)
@@ -11,8 +13,8 @@ func (c *Color) Reverse() *Color {
 }
 
 // Reverse - set format attribute and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Reverse() *Color {
-	c := Color{}
-	c.Reverse()
-	return &c
+	return (&Color{}).Reverse()
 }

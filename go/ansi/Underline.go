@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // Underline - Set format attribute
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Underline() *Color {
 	if !disabled {
 		fmt.Print(CodeUnderline)
@@ -11,8 +13,8 @@ func (c *Color) Underline() *Color {
 }
 
 // Underline - set format attribute and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Underline() *Color {
-	c := Color{}
-	c.Underline()
-	return &c
+	return (&Color{}).Underline()
 }

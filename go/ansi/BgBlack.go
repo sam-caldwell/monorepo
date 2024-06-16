@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // BgBlack - Set color
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) BgBlack() *Color {
 	if !disabled {
 		fmt.Print(CodeBgBlack)
@@ -11,8 +13,8 @@ func (c *Color) BgBlack() *Color {
 }
 
 // BgBlack - set color and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func BgBlack() *Color {
-	c := Color{}
-	c.BgBlack()
-	return &c
+	return (&Color{}).BgBlack()
 }

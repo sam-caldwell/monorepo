@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // Blink - Set format attribute
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Blink() *Color {
 	if !disabled {
 		fmt.Print(CodeBlink)
@@ -11,8 +13,8 @@ func (c *Color) Blink() *Color {
 }
 
 // Blink - set format attribute and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Blink() *Color {
-	c := Color{}
-	c.Blink()
-	return &c
+	return (&Color{}).Blink()
 }

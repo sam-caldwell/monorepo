@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // Hidden - Set format attribute
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) Hidden() *Color {
 	if !disabled {
 		fmt.Print(CodeHiddenText)
@@ -11,8 +13,8 @@ func (c *Color) Hidden() *Color {
 }
 
 // Hidden - set format attribute and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func Hidden() *Color {
-	c := Color{}
-	c.Hidden()
-	return &c
+	return (&Color{}).Hidden()
 }

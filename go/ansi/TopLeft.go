@@ -3,6 +3,8 @@ package ansi
 import "fmt"
 
 // TopLeft - Move cursor to top left
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func (c *Color) TopLeft() *Color {
 	if !disabled {
 		fmt.Print(CodeSetTopLeft)
@@ -11,8 +13,8 @@ func (c *Color) TopLeft() *Color {
 }
 
 // TopLeft - Move cursor to top left and return a new color object
+//
+//	(c) 2023 Sam Caldwell.  MIT License
 func TopLeft() *Color {
-	c := Color{}
-	c.TopLeft()
-	return &c
+	return (&Color{}).TopLeft()
 }

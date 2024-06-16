@@ -1,5 +1,8 @@
 package ansi
 
+//	 Ansi Color code constants
+//
+//		(c) 2023 Sam Caldwell.  MIT License
 const (
 	LineFeed = "\n"
 	Space    = " "
