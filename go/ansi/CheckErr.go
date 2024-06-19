@@ -1,7 +1,7 @@
 package ansi
 
 import (
-	"github.com/sam-caldwell/monorepo/go/exit"
+	"github.com/sam-caldwell/monorepo/go/exit/safety"
 	"github.com/spf13/cobra"
 )
 
@@ -10,6 +10,6 @@ import (
 //	(c) 2023 Sam Caldwell.  MIT License
 func CheckErr(cmd *cobra.Command, msg interface{}) {
 	Red()
-	exit.SafeDefer(func() { Reset() })
+	safety.Defer(func() { Reset() })
 	cobra.CheckErr(msg)
 }

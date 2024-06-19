@@ -1,4 +1,4 @@
-package exit
+package safety
 
 import "sync"
 
@@ -7,10 +7,10 @@ var (
 	mu     sync.Mutex
 )
 
-// SafeDefer - registers a deferred function with our FIFO queue of functions to call
+// Defer - registers a deferred function with our FIFO queue of functions to call
 //
 //	(c) 2023 Sam Caldwell.  MIT License
-func SafeDefer(df func()) {
+func Defer(df func()) {
 	mu.Lock()
 	defer mu.Unlock()
 	defers = append(defers, df)

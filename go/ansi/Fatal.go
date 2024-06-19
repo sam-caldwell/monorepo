@@ -1,7 +1,7 @@
 package ansi
 
 import (
-	"github.com/sam-caldwell/monorepo/go/exit"
+	"github.com/sam-caldwell/monorepo/go/exit/safety"
 	"os"
 )
 
@@ -12,7 +12,7 @@ func (c *Color) Fatal(exitCode int) *Color {
 	if !disabled {
 		Reset()
 	}
-	exit.SafeDefer(func() { os.Exit(exitCode) })
+	safety.Defer(func() { os.Exit(exitCode) })
 	return c
 }
 
