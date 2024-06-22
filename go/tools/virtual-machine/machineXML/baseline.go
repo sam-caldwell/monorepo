@@ -4,14 +4,14 @@ const XmlBaseline = `<domain type='kvm'>
   <name>%s</name>
   <memory unit='MiB'>%d</memory>
   <vcpu placement='static'>%d</vcpu>
-  <os>
-    <type arch='x86_64' machine='pc-q35-5.1'>hvm</type>
+  <os firmware="efi">
+    <type arch='x86_64' machine='pc-q35-6.2'>hvm</type>
     <boot dev='hd'/>
     <boot dev='cdrom'/>
   </os>
   <devices>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2'/>
+      <driver name='qemu' type='raw'/>
       <source file='%s'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>

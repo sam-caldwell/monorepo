@@ -4,102 +4,131 @@ import (
 	"flag"
 	"fmt"
 	"github.com/sam-caldwell/monorepo/go/ansi"
+	"github.com/sam-caldwell/monorepo/go/arg"
+	"github.com/sam-caldwell/monorepo/go/environment"
 	"github.com/sam-caldwell/monorepo/go/exit"
-	"github.com/sam-caldwell/monorepo/go/fs/file"
+	"github.com/sam-caldwell/monorepo/go/exit/safety"
+	"github.com/sam-caldwell/monorepo/go/fs/directory"
 	"github.com/sam-caldwell/monorepo/go/misc/size"
-	"github.com/sam-caldwell/monorepo/go/misc/words"
 	"github.com/sam-caldwell/monorepo/go/tools/virtual-machine/machineXML"
+	"github.com/sam-caldwell/monorepo/go/virtualization/kvm"
 	"libvirt.org/go/libvirt"
 	"log"
+	"math"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"strings"
 )
 
 func main() {
 	const (
-		defaultImageFile = "ubuntu-22.04.3-desktop-amd64.iso"
-		defaultRam       = 1024
-		defaultCpuCount  = 1
-		minimumDiskSize  = 20 * size.GB
+		argVmName   = "vm-name"
+		argIsoFile  = "image-file"
+		argRamSize  = "ram"
+		argCpu      = "cpu"
+		argDiskSize = "disk-size"
+		argTemplate = "template"
+
+		defaultVmName   = "myVm"
+		defaultIsoFile  = "ubuntu-22.04-desktop-amd64.iso"
+		defaultRam      = 1024
+		defaultCpu      = 1
+		defaultDiskSize = 20
+		defaultTemplate = "baseline"
+
+		minRamValue = 1
+		maxRamValue = 128 * size.GB
+		minCpu      = 1
+		maxCpu      = 128
+		minDiskSize = 20
+		maxDiskSize = math.MaxUint64
+
 		xmlBaseline      = "baseline"
 		xmlUbuntuDesktop = "ubuntuDesktop"
+		validVmName      = `([a-zA-Z][a-zA-Z0-9\\-\\._])*[a-zA-Z0-9]+`
 	)
 	var (
-		err    error
-		conn   *libvirt.Connect
-		domain *libvirt.Domain
+		err         error
+		conn        *libvirt.Connect
+		cpuCount    *uint
+		diskPath    string
+		diskSize    *uint64
+		domain      *libvirt.Domain
+		homeDir     string
+		hostGitDir  string
+		isoFileName *string
+		ramSize     *uint
+		vmName      *string
+		vmTemplate  *string
 	)
-	homeDir := os.Getenv("HOME")
 
-	vmName := flag.String("vm-name", "", "VM name")
-	imageFileName := flag.String("image-file", defaultImageFile, "Image file name")
-	ramSize := flag.Uint("ram-size", defaultRam, "RAM size in MB")
-	cpuCount := flag.Uint("cpu-count", defaultCpuCount, "Number virtual CPU cores")
-	diskSize := flag.Uint64("disk-size", minimumDiskSize, "Disk size (in GB)")
-	vmTemplate := flag.String("vmTemplate", "vmTemplate", fmt.Sprintf("vmTemplate (%s)",
-		strings.Join([]string{xmlBaseline, xmlUbuntuDesktop}, words.Comma)))
+	if vmName, err = arg.String(argVmName, defaultVmName, "Vm name", validVmName); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+	}
+	if isoFileName, err = arg.Filename(argIsoFile, defaultIsoFile, "Image filename", arg.Exists); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+	}
+	if ramSize, err = arg.Uint(argRamSize, defaultRam, minRamValue, maxRamValue, "ram size (MB)"); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+	}
+	if cpuCount, err = arg.Uint(argCpu, defaultCpu, minCpu, maxCpu, "number vCpu"); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+	}
+	if diskSize, err = arg.Uint64(argDiskSize, defaultDiskSize, minDiskSize, maxDiskSize, "Disk Size (GB)"); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+	}
+	if vmTemplate, err = arg.Choices(argTemplate, defaultTemplate, "vm template xml file", xmlBaseline, xmlUbuntuDesktop); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+	}
+	debug := arg.Debug()
 
 	flag.Parse()
-	if *vmName == "" {
-		ansi.Red().Println("vm-name is required").Fatal(exit.MissingArg).Reset()
+
+	*diskSize = *diskSize * size.GB
+	if homeDir, err = environment.RequireString("HOME"); err != nil {
+		ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
 	}
-	if *imageFileName == "" {
-		ansi.Red().Println("image-file is required").Fatal(exit.MissingArg).Reset()
+
+	// Verify/create the image directory...
+	imageDir := filepath.Join(homeDir, "Documents/vm-images/")
+	if !directory.Existsp(&imageDir) {
+		if err = directory.Create(imageDir, 0644); err != nil {
+			ansi.Red().Println(err.Error()).Fatal(exit.InvalidInput).Reset()
+		}
 	}
-	if !file.Exists(*imageFileName) {
-		ansi.Red().Println("image file does not exist").Fatal(exit.MissingArg).Reset()
-	}
-	if *ramSize < defaultRam {
-		ansi.Red().Printf("minimum ram required is %d", defaultRam).Fatal(exit.InvalidInput).Reset()
-	}
-	if *cpuCount < defaultCpuCount {
-		ansi.Red().Printf("minimum cpu count is %d", defaultCpuCount).Fatal(exit.InvalidInput).Reset()
-	}
-	if *diskSize < minimumDiskSize {
-		ansi.Red().Printf("minimum disk size is %d", minimumDiskSize).Fatal(exit.InvalidInput).Reset()
-	}
+	// create the disk path...
+	diskPath = filepath.Join(imageDir, fmt.Sprintf("%s.qcow2", *vmName))
+	hostGitDir = filepath.Join(homeDir, "/git")
 
 	if conn, err = libvirt.NewConnect("qemu:///system"); err != nil {
 		log.Fatalf("Failed to connect to QEMU: %v", err)
 	}
-	defer func() { _, _ = conn.Close() }()
-
-	isoPath := filepath.Join(homeDir, "/Documents/iso/", *imageFileName)
-	diskPath := filepath.Join(homeDir, "Documents/vm-images/", fmt.Sprintf("%s.qcow2", *vmName))
-	hostGitDir := filepath.Join(homeDir, "/git")
+	safety.SafeDefer(func() { _, _ = conn.Close() })
 
 	// Create disk image
 	if _, err := os.Stat(diskPath); os.IsNotExist(err) {
-		createDiskImage(diskPath, *diskSize)
+		kvm.CreateDiskImage(diskPath, *diskSize)
 	}
 
 	// Define the VM XML
 	var vmXML string
 	switch *vmTemplate {
 	case xmlUbuntuDesktop:
-		vmXML = fmt.Sprintf(machineXML.XmlUbuntuDesktop, *vmName, *ramSize, *cpuCount, diskPath, isoPath, hostGitDir)
+		vmXML = fmt.Sprintf(machineXML.XmlUbuntuDesktop, *vmName, *ramSize, *cpuCount, diskPath, *isoFileName, hostGitDir)
 	default:
-		vmXML = fmt.Sprintf(machineXML.XmlBaseline, *vmName, *ramSize, *cpuCount, diskPath, isoPath, hostGitDir)
+		vmXML = fmt.Sprintf(machineXML.XmlBaseline, *vmName, *ramSize, *cpuCount, diskPath, *isoFileName, hostGitDir)
+	}
+
+	if *debug {
+		ansi.Blue().Println(vmXML).LF().Reset()
 	}
 
 	// Create the VM
 	if domain, err = conn.DomainDefineXML(vmXML); err != nil {
 		log.Fatalf("Failed to define domain: %v", err)
 	}
-	defer func() { _ = domain.Undefine() }()
-
-	// Start the VM
-	if err = domain.Create(); err != nil {
+	if err = kvm.CreateVm(domain); err != nil {
 		log.Fatalf("Failed to create domain: %v", err)
 	}
-	fmt.Printf("Virtual Machine %s created and started successfully.\n", *vmName)
-}
 
-func createDiskImage(path string, size uint64) {
-	cmd := exec.Command("qemu-img", "create", "-f", "qcow2", path, fmt.Sprintf("%d", size))
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to create disk image: %v", err)
-	}
+	fmt.Printf("Virtual Machine %s created and started successfully.\n", *vmName)
 }

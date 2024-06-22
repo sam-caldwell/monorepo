@@ -13,6 +13,8 @@ Linux From Scratch
 * We can compress the master image file to save space.
 * Ultimately the Master Image file can be written to disk,
   using `dd`.
+* Master Image file and all other image files should be created with random bytes
+  to obscure disk geometry.
 
 ### Partition Image Files
 

@@ -3,18 +3,41 @@ package machineXML
 const XmlUbuntuDesktop = `
 <domain type="kvm">
     <name>%s</name>
-    <metadata>
-        <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
-        <libosinfo:os id="http://ubuntu.com/ubuntu/22.04"/>
-        </libosinfo:libosinfo>
-    </metadata>
-    <memory unit="KiB">%d</memory>
-    <currentMemory unit="KiB">4194304</currentMemory>
+    <memory unit="MiB">%d</memory>
     <vcpu placement="static">%d</vcpu>
     <os firmware="efi">
         <type arch="x86_64" machine="pc-q35-6.2">hvm</type>
+        <smbios mode='sysinfo'/>
         <boot dev="hd"/>
     </os>
+    <sysinfo type='smbios'>
+      <bios>
+        <entry name='vendor'>LENOVO</entry>
+      </bios>
+      <system>
+        <entry name='manufacturer'>LENOVO</entry>
+        <entry name='product'>Virt-Manager</entry>
+        <entry name='version'>0.9.4</entry>
+      </system>
+      <baseBoard>
+        <entry name='manufacturer'>LENOVO</entry>
+        <entry name='product'>20BE0061MC</entry>
+        <entry name='version'>0B98401 Pro</entry>
+        <entry name='serial'>W1KS427111E</entry>
+      </baseBoard>
+      <chassis>
+        <entry name='manufacturer'>LENOVO</entry>
+        <entry name='product'>Virt-Manager</entry>
+        <entry name='version'>2.12</entry>
+        <entry name='serial'>65X0XF2</entry>
+        <entry name='asset'>40000101</entry>
+        <entry name='sku'>Type3Sku1</entry>
+      </chassis>
+      <oemStrings>
+        <entry>myappname:virtualization</entry>
+        <entry>code:https://github.com/sam-caldwell/monorepo</entry>
+      </oemStrings>
+    </sysinfo>
     <features>
         <acpi/>
         <apic/>
