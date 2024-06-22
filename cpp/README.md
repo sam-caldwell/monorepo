@@ -13,14 +13,14 @@ spans multiple projects.
 
 ## Documentation
 
-* [`Channel` ](Channel/README.md)
-* [`exceptions`](exceptions/README.md)
-* [`flags`](flags/README.md)
-* [`formatter`](formatter/README.md)
-* [`SimpleLock`](SimpleLock/README.md)
+* [`Channel` ](common/Channel/README.md)
+* [`exceptions`](common/exceptions/README.md)
+* [`flags`](common/flags/README.md)
+* [`formatter`](common/formatter/README.md)
+* [`SimpleLock`](common/SimpleLock/README.md)
 * [`SmartPointer`](../common/SmartPointer/README.md)
 * [`system`](system/README.md)
-* [`types`](types/README.md)
-* [`Validators`](Validators/README.md)
-* [`Breadcrumbs`](Breadcrumbs/README.md)
-* [`Parser`](Parsers/yaml/README.md)
+* [`types`](common/types/README.md)
+* [`Validators`](common/Validators/README.md)
+* [`Breadcrumbs`](old/Breadcrumbs/README.md)
+* [`Parser`](common/Parsers/yaml/README.md)
