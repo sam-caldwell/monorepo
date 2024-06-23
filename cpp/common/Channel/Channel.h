@@ -2,9 +2,9 @@
  * @copyright (c) 2022 Sam Caldwell.  All Rights Reserved.
  * @author Sam Caldwell <mail@samcaldwell.net>
  * @brief Implement a go-like message queue for passing data
- * between threads safely.  This implements both a
- * boundless and bounded (buffered) Channel implementation
- * with an iterator for use in looping.
+ * between threads safely.  This implements both a boundless
+ * and bounded (buffered) Channel implementation with an
+ * iterator for use in looping.
  */
 
 #ifndef Channel_H
