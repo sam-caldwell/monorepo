@@ -10,21 +10,22 @@
 #include <string>
 
 class Color {
- std::string code;
-
+private:
+    std::string code;
 public:
- Color(const std::string &code) : code(code) {}
+    Color(const std::string &code) : code(code) {}
 
- friend std::ostream& operator<<(std::ostream &os, const Color &color);
- friend std::ostream& operator<<(std::ostream &os, const Color &&color);
+    friend std::ostream &operator<<(std::ostream &os, const Color &color);
+
+    friend std::ostream &operator<<(std::ostream &os, const Color &&color);
 };
 
-std::ostream& operator<<(std::ostream &os, const Color &color) {
- return os << color.code;
+std::ostream &operator<<(std::ostream &os, const Color &color) {
+    return os << color.code;
 }
 
-std::ostream& operator<<(std::ostream &os, const Color &&color) {
- return os << color.code;
+std::ostream &operator<<(std::ostream &os, const Color &&color) {
+    return os << color.code;
 }
 
 // ANSI color codes
