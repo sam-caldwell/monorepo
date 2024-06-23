@@ -8,13 +8,7 @@
 
 #include <stack>
 #include <iostream>
-/**
- * Base tests
- */
-#include "tests/TestBasics.h"
-#include "tests/TestConcurrentUse.h"
-#include "tests/TestWriteBlocked.h"
-#include "tests/TestClosedConnectionException.h"
+
 
 using namespace std;
 

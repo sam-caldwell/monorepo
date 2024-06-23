@@ -15,7 +15,7 @@ variables for synchronization.
 ### Constructor
 Description: Constructs a new Channel instance.
 ```c++
-Channel();
+Channel(size_t sizeLimit = 0);
 ```
 
 ### Destructor
@@ -49,6 +49,13 @@ void close();
 Description: Checks if the channel is closed.
 ```c++
 bool is_closed() const;
+```
+
+#### Method: hardLimit()`
+Description: Allows user to define a hard size limit which will block any `<<` (push) operation when the queue
+size reaches this limit.
+```c++
+void HardLimit(size_t sz);
 ```
 
 ## Example Usage
