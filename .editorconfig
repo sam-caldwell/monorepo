@@ -18,13 +18,9 @@ indent_size = 4
 indent_style = tab
 indent_size = 4
 
-[{lib/**.js,*.js,*.ts,*.tsx,*.jsx}]
-indent_size = 2
-
-# Matches the exact files either package.json or .travis.yml
-[{package.json,.travis.yml}]
+[{*.cpp,*.h, *.c, *.hpp}]
 indent_style = space
-indent_size = 2
+indent_size = 4
 
 [*.md]
 indent_size = 4
@@ -33,3 +29,11 @@ trim_trailing_whitespace = false
 
 [Dockerfile]
 indent_size = 4
+
+[{lib/**.js,*.js,*.ts,*.tsx,*.jsx}]
+indent_size = 2
+
+# Matches the exact files either package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
