@@ -35,6 +35,7 @@ function(cpp_add_projects path)
                 WORKING_DIRECTORY ${CMAKE_BUILD_DIR}/${PROJECT_NAME}
                 COMMENT "Running color tests"
         )
+        add_test(NAME ${PROJECT_NAME}Test COMMAND ${PROJECT_NAME}_test)
 
         set(MAIN_CPP_FILE ${PROJECT_DIR}/main.cpp)
         logDebug("       main '${PROJECT_NAME}' (${path}/${MAIN_CPP_FILE})")

@@ -8,6 +8,7 @@ set(DEBUG TRUE)
 set(CMAKE_BUILD_DIR "${CMAKE_BINARY_DIR}/build")
 set(CPP_ENABLED TRUE)
 #set(GO_ENABLED TRUE)
+enable_testing()
 
 #
 # --------------------------------
