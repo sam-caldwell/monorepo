@@ -71,3 +71,4 @@ logs.txt
 CMakeFiles/
 CMakeCache.txt
 cmake-build-debug/
+Makefile
