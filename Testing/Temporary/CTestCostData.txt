@@ -1,5 +1,5 @@
-AnsiColorsTest 1 0.00179059
-ChannelTest 0 0
+AnsiColorsTest 18 0.000119381
+ChannelTest 17 0.0296321
 yamlTest 0 0
 SimpleLockTest 0 0
 SmartPointerTest 0 0
@@ -14,21 +14,5 @@ TcpClientTest 0 0
 TcpCommonTest 0 0
 TcpServerTest 0 0
 typesTest 0 0
-helloworldTest 0 0
+helloworldTest 17 0.000357696
 ---
-ChannelTest
-yamlTest
-SimpleLockTest
-SmartPointerTest
-ValidatorsTest
-exceptionsTest
-flagsTest
-formatterTest
-CommonTest
-LogServerTest
-LoggerTest
-TcpClientTest
-TcpCommonTest
-TcpServerTest
-typesTest
-helloworldTest

@@ -10,10 +10,6 @@
 #ifndef Channel_H
 #define Channel_H
 
-#include "../exceptions/exceptions.h"
-#include "../SimpleLock/src/SimpleLock.h"
-#include <queue>
-
 #include <queue>
 #include <mutex>
 #include <condition_variable>

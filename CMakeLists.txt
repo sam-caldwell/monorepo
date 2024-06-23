@@ -21,6 +21,7 @@ include("CMake/logger.cmake")
 include("CMake/require.cmake")
 include("CMake/include_if_exists.cmake")
 include("CMake/create_build_dir.cmake")
+include("CMake/cpp_create_documentation_header.cmake")
 include("CMake/cpp_add_projects.cmake")
 
 #
@@ -42,4 +43,5 @@ if (DEFINED CPP_ENABLED)
 endif ()
 if (DEFINED GOLANG_ENABLED)
 #    include_if_exists(go)
+    execute_process(COMMAND echo "go mod tidy")
 endif ()
