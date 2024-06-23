@@ -1,5 +1,4 @@
 # (c) 2022 Sam Caldwell.  All Rights Reserved.
-
 common/Channel/build:
 	@echo "## $@"
 	@mkdir -p "$(ARTIFACT_PATH)/$$(dirname $@)" > /dev/null | true

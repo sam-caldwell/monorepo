@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.29)
+
+function(require target)
+    if (EXISTS ${target})
+        include(${target})
+        logOK("required '${target}' added")
+    else ()
+        logFATAL("Not found '${target}' (required)")
+    endif ()
+endfunction()

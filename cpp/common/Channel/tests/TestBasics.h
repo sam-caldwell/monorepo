@@ -60,7 +60,7 @@ public:
 
     bool test_size() {
         while (!data.empty()) { data.pop(); } /*Make sure the channel is clear*/
-        for (int i = 1; i < 65535; i++) {
+        for (int i = 1; i < 65536; i++) {
             data.push(i);
             if (!expect(data.size() == i, "Expect size matches index i:" + to_string(i)))
                 return false;

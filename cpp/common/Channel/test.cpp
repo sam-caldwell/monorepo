@@ -12,11 +12,10 @@
 /**
  * Base tests
  */
-#include "tests/TestBasics.cpp"
-#include "tests/TestConcurrentUse.cpp"
-#include "tests/TestWriteBlocked.cpp"
-#include "tests/TestClosedConnectionException.cpp"
-
+#include "tests/TestBasics.h"
+#include "tests/TestConcurrentUse.h"
+#include "tests/TestWriteBlocked.h"
+#include "tests/TestClosedConnectionException.h"
 
 using namespace std;
 
