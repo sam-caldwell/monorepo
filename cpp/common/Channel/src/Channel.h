@@ -11,7 +11,7 @@
 #define Channel_H
 
 #include "../../exceptions/exceptions.h"
-#include "../../../SimpleLock/src/SimpleLock.h"
+#include "../../../common/SimpleLock/src/SimpleLock.h"
 #include <queue>
 
 using namespace std;
