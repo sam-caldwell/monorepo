@@ -7,11 +7,11 @@ function(cpp_create_documentation_header readmeFile)
             "========================="
             "(c) Sam Caldwell.  See LICENSE.txt.\n"
             ""
-            "## Objectives\n"
+            "## Objectives"
             "  This README file provides a root for all C++ project documentation"
             "  each project should be referenced (and linked if appropriate)"
             "\n"
-            "## Projects\n")
+            "## Projects")
 
     file(WRITE ${readmeFile})
     foreach (LINE ${DOC_LINES})
