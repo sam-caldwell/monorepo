@@ -6,16 +6,15 @@
 #ifndef UNEXPECTED_TYPE_ERROR_H
 #define UNEXPECTED_TYPE_ERROR_H
 
-#include <stdio.h>
-#include "../../../types/ValueTypes.h"
+#include "../../common/types/ValueTypes.h"
 #include "base.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 class UnexpectedType : public BaseException {
 public:
-    UnexpectedType() {};
+    UnexpectedType() = default;
 
-    UnexpectedType(ValueTypes t) {
+    explicit UnexpectedType(ValueTypes t) {
         message = (char *) (("UnexpectedType():" + to_string((uint)(t))).c_str());
     }
 };

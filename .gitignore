@@ -72,3 +72,5 @@ CMakeFiles/
 CMakeCache.txt
 cmake-build-debug/
 Makefile
+cmake_install.cmake
+CMakeLists.txt
