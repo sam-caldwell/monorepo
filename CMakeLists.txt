@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
+project(monorepo)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,4 +42,3 @@ endif ()
 if (DEFINED GOLANG_ENABLED)
 #    include_if_exists(go)
 endif ()
-# Add more project types here

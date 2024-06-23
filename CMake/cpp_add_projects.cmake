@@ -29,6 +29,13 @@ function(cpp_add_projects path)
         set_target_properties(${PROJECT_NAME}_test PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
+        add_custom_target(test_${PROJECT_NAME}
+                COMMAND ${PROJECT_NAME}_test
+                DEPENDS ${PROJECT_NAME}_test
+                WORKING_DIRECTORY ${CMAKE_BUILD_DIR}/${PROJECT_NAME}
+                COMMENT "Running color tests"
+        )
+
         set(MAIN_CPP_FILE ${PROJECT_DIR}/main.cpp)
         logDebug("       main '${PROJECT_NAME}' (${path}/${MAIN_CPP_FILE})")
         if (EXISTS ${path}/${MAIN_CPP_FILE})

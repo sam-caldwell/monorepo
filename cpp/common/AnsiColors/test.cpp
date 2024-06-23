@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <cassert>
+#include <functional>
 #include "color.h"
 
 // Function to capture std::cout output
@@ -48,7 +49,7 @@ void testColorOutput() {
     });
     assert(output == expectedMixed && "Mixed color test failed");
 
-    std::cout << "All tests passed!" << std::endl;
+    std::cout << green << "All tests passed!" << std::endl << reset;
 }
 
 int main() {
