@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 
-function(cpp_add_projects path)
+function(add_cpp_projects path)
     logDebug("cpp_add_projects() start")
     #
     # Note: All projects should have a test.cpp file to run the
@@ -8,7 +8,7 @@ function(cpp_add_projects path)
     #       must have a main.cpp file to contain the main() function.
     #
     file(GLOB_RECURSE CPP_FILES RELATIVE ${path} "*/test.cpp")
-    cpp_create_documentation_header(cpp/README.md)
+
     foreach (TEST_CPP_FILE ${CPP_FILES})
         if (TEST_CPP_FILE MATCHES "archive/")
             yellow("cpp_add_projects() skip archive subdirectory")
@@ -49,9 +49,12 @@ function(cpp_add_projects path)
                     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
         endif ()
 
-        cpp_create_documentation_line(cpp/README.md ${PROJECT_DIR} ${PROJECT_NAME})
-
     endforeach ()
-    cpp_create_documentation_footer(cpp/README.md)
+
+    create_documentation_header("cpp")
+    create_documentation_line("cpp" ${CPP_FILES})
+    create_documentation_footer("cpp")
+
     logDebug("cpp_add_projects() terminate")
+
 endfunction()

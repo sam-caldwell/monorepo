@@ -33,4 +33,3 @@ const Color reset("\033[0m");
 const Color red("\033[31m");
 const Color green("\033[32m");
 const Color blue("\033[34m");
-

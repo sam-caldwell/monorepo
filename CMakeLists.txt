@@ -21,9 +21,11 @@ include("CMake/logger.cmake")
 include("CMake/require.cmake")
 include("CMake/include_if_exists.cmake")
 include("CMake/create_build_dir.cmake")
-include("CMake/cpp_create_documentation_header.cmake")
-include("CMake/cpp_add_projects.cmake")
-
+include("CMake/create_documentation_header.cmake")
+include("CMake/create_documentation_line.cmake")
+include("CMake/create_documentation_footer.cmake")
+include("CMake/add_cpp_projects.cmake")
+include("CMake/add_go_projects.cmake")
 #
 # -----------------------
 # Create our build target
@@ -32,6 +34,7 @@ include("CMake/cpp_add_projects.cmake")
 
 create_build_dir()
 
+
 #
 # ---------------------------------------
 # include language-specific project files
@@ -39,9 +42,8 @@ create_build_dir()
 #
 
 if (DEFINED CPP_ENABLED)
-    cpp_add_projects(${CMAKE_SOURCE_DIR}/cpp)
+    add_cpp_projects(${CMAKE_SOURCE_DIR}/cpp)
 endif ()
 if (DEFINED GOLANG_ENABLED)
-#    include_if_exists(go)
-    execute_process(COMMAND echo "go mod tidy")
+#    add_go_projects(${CMAKE_SOURCE_DIR}/go)
 endif ()
