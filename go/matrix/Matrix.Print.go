@@ -6,7 +6,7 @@ import "github.com/sam-caldwell/monorepo/go/ansi"
 //
 // (c) 2024 Sam Caldwell.  See License.txt
 func (m *Matrix) Print() {
-	ansi.Blue().Printf("Matrix (%d, %d):\n")
+	ansi.Blue().Printf("Matrix (%d, %d):\n", m.data.Rows(), m.data.Cols())
 	if m.Empty() {
 		ansi.Println("<empty>").LF().LF()
 	}
