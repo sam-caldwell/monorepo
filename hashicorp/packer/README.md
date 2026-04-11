@@ -1,2 +1,0 @@
-Packer Image Builder
-====================

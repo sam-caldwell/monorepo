@@ -1,1 +1,0 @@
-The `objectId` is a SHA-512 hash representing a node in a block chain of related objects, extending from the "common seed"

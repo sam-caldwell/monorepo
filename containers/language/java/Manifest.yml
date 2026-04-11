@@ -4,7 +4,9 @@ header:
   email: mail@samcaldwell.net
   publish: "public"
   description: |
-    This is the JAVA container base image.
+    Java 21 container images.
+    builder: Ubuntu + OpenJDK 21 (full JDK)
+    runtime: distroless + minimal JRE via jlink
   opsys:
     - any
   arch:
@@ -16,16 +18,21 @@ clean:
   steps:
     - enabled: true
       continueOnError: true
-      command: "docker rmi -f language/java:21"
-
+      command: "docker rmi -f language/java:21-builder"
+    - enabled: true
+      continueOnError: true
+      command: "docker rmi -f language/java:21-runtime"
 build:
   enabled: true
   steps:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --compress --tag language/java:21 --file containers/language/java/21/Dockerfile .
-
+        docker build --compress --target builder --tag language/java:21-builder --file containers/language/java/21/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target runtime --tag language/java:21-runtime --file containers/language/java/21/Dockerfile .
 test:
-  comment: "ToDo: Add tests for the container image"
+  comment: "ToDo: Add tests for the container images"
   enabled: false

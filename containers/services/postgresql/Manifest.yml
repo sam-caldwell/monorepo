@@ -4,7 +4,9 @@ header:
   email: mail@samcaldwell.net
   publish: "public"
   description: |
-    This project defines a postgresql database server container
+    PostgreSQL 16, 17, and 18 container images.
+    Each version provides both an ubuntu target (full server) and a
+    distroless runtime target (minimal binaries only).
   opsys:
     - any
   arch:
@@ -17,7 +19,12 @@ clean:
     - enabled: true
       continueOnError: true
       command: |
-        kubectl delete deployment postgres-deployment
+        docker rmi -f services/postgresql:16-ubuntu
+        docker rmi -f services/postgresql:16-runtime
+        docker rmi -f services/postgresql:17-ubuntu
+        docker rmi -f services/postgresql:17-runtime
+        docker rmi -f services/postgresql:18-ubuntu
+        docker rmi -f services/postgresql:18-runtime
         docker rmi -f services/postgresql:latest
 build:
   enabled: true
@@ -25,8 +32,31 @@ build:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --compress --tag services/postgresql:latest --file containers/services/postgresql/Dockerfile .
-        kubectl apply -f go/minikube/postgresql-deployment.yaml
+        docker build --compress --target ubuntu --tag services/postgresql:16-ubuntu --file containers/services/postgresql/16/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target runtime --tag services/postgresql:16-runtime --file containers/services/postgresql/16/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target ubuntu --tag services/postgresql:17-ubuntu --file containers/services/postgresql/17/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target runtime --tag services/postgresql:17-runtime --file containers/services/postgresql/17/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target ubuntu --tag services/postgresql:18-ubuntu --file containers/services/postgresql/18/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target runtime --tag services/postgresql:18-runtime --file containers/services/postgresql/18/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker tag services/postgresql:18-ubuntu services/postgresql:latest
 test:
-  comment: "ToDo: Add tests for the container image"
+  comment: "ToDo: Add tests for the container images"
   enabled: false

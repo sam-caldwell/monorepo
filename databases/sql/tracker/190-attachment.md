@@ -1,4 +1,0 @@
-Ticket attachments
-==================
-
-no notes

@@ -1,7 +1,7 @@
 module github.com/sam-caldwell/monorepo
 
-go 1.23
-toolchain go1.24.1
+go 1.26
+toolchain go1.26.0
 
 replace github.com/sam-caldwell/monorepo => ./
 
@@ -13,7 +13,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.54.1
 	github.com/dslipak/pdf v0.0.2
 	github.com/fsnotify/fsnotify v1.7.0
-	github.com/go-git/go-git/v5 v5.13.0
+	github.com/go-git/go-git/v5 v5.16.5
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/google/uuid v1.5.0
 	github.com/holoplot/go-avahi v1.0.1
@@ -21,7 +21,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/spf13/cobra v1.8.0
 	gocv.io/x/gocv v0.40.0
-	golang.org/x/crypto v0.36.0
+	golang.org/x/crypto v0.45.0
 	golang.org/x/sys v0.31.0
 	gopkg.in/yaml.v3 v3.0.1
 	libvirt.org/go/libvirt v1.10003.0

@@ -1,4 +1,0 @@
-Ticket Comments
-===============
-
-No notes

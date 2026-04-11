@@ -4,7 +4,7 @@ header:
   email: mail@samcaldwell.net
   publish: "public"
   description: |
-    This project defines the Ubuntu linux base images
+    Base OS images: Ubuntu 24.04 and distroless (built from Ubuntu 24.04).
   opsys:
     - any
   arch:
@@ -15,35 +15,28 @@ clean:
   steps:
     - enabled: true
       continueOnError: true
+      command: "docker rmi -f opsys/ubuntu:24.04"
+    - enabled: true
+      continueOnError: true
       command: "docker rmi -f opsys/ubuntu:latest"
     - enabled: true
       continueOnError: true
-      command: "docker rmi -f opsys/ubuntu:20.04"
-    - enabled: true
-      continueOnError: true
-      command: "docker rmi -f opsys/ubuntu:22.04"
-    - enabled: true
-      continueOnError: true
-      command: "docker rmi -f opsys/ubuntu:23.04"
+      command: "docker rmi -f opsys/distroless:latest"
 build:
   enabled: true
   steps:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --compress --tag opsys/ubuntu:20.04 --file containers/opsys/ubuntu/20.04/Dockerfile .
+        docker build --compress --tag opsys/ubuntu:24.04 --file containers/opsys/ubuntu/24.04/Dockerfile .
     - enabled: true
       continueOnError: false
       command: |
-        docker build --compress --tag opsys/ubuntu:22.04 --file containers/opsys/ubuntu/22.04/Dockerfile .
+        docker tag opsys/ubuntu:24.04 opsys/ubuntu:latest
     - enabled: true
       continueOnError: false
       command: |
-        docker build --compress --tag opsys/ubuntu:23.04 --file containers/opsys/ubuntu/23.04//Dockerfile .
-    - enabled: true
-      continueOnError: false
-      command: |
-        docker tag opsys/ubuntu:23.04 opsys/ubuntu:latest
+        docker build --compress --tag opsys/distroless:latest --file containers/opsys/distroless/Dockerfile .
 test:
   comment: "ToDo: Add tests for the container images"
   enabled: false

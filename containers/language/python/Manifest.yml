@@ -4,7 +4,10 @@ header:
   email: mail@samcaldwell.net
   publish: "public"
   description: |
-    This is the Python container base image.
+    Python container images with pip3 and venv.
+    Includes Python 3.14 and latest stable.
+    builder: Ubuntu + Python from source
+    runtime: distroless + Python
   opsys:
     - any
   arch:
@@ -16,16 +19,21 @@ clean:
   steps:
     - enabled: true
       continueOnError: true
-      command: "docker rmi -f language/python:3"
-
+      command: "docker rmi -f language/python:builder"
+    - enabled: true
+      continueOnError: true
+      command: "docker rmi -f language/python:runtime"
 build:
   enabled: true
   steps:
     - enabled: true
       continueOnError: false
       command: |
-        docker build --compress --tag language/python:3 --file containers/language/python/3/Dockerfile .
-
+        docker build --compress --target builder --tag language/python:builder --file containers/language/python/Dockerfile .
+    - enabled: true
+      continueOnError: false
+      command: |
+        docker build --compress --target runtime --tag language/python:runtime --file containers/language/python/Dockerfile .
 test:
-  comment: "ToDo: Add tests for the container image"
+  comment: "ToDo: Add tests for the container images"
   enabled: false
